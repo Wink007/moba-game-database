@@ -1,0 +1,14 @@
+# Залежності для REST API сервера
+
+# Веб-фреймворк
+flask==3.0.0
+flask-cors==4.0.0
+
+# Production server
+gunicorn==21.2.0
+
+# PostgreSQL драйвер
+psycopg2-binary==2.9.9
+
+# HTTP клієнт
+requests==2.31.0

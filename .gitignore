@@ -1,0 +1,50 @@
+# Ігноруємо локальні файли
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# База даних (локальна)
+test_games.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Бекапи та експорти
+backup_*.sql
+postgres_import.sql
+
+# Environment
+.env
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node modules (для admin-panel)
+admin-panel/node_modules/
+admin-panel/build/
+admin-panel/.env.local
+
+# Тимчасові файли
+*.tmp
+*.temp

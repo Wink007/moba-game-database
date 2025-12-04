@@ -1,0 +1,190 @@
+#!/usr/bin/env python3
+"""
+Скрипт для оновлення Counter Relationship та Compatibility для героїв з API mlbb-stats
+"""
+import sqlite3
+import requests
+import time
+import json
+
+DB_FILE = 'test_games.db'
+API_COUNTER = 'https://mlbb-stats.ridwaanhall.com/api/hero-counter'
+API_COMPAT = 'https://mlbb-stats.ridwaanhall.com/api/hero-compatibility'
+
+def get_connection():
+    conn = sqlite3.connect(DB_FILE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def fetch_hero_counter(hero_name):
+    """
+    Отримує Counter Relationship з API
+    Повертає: JSON з sub_hero (Best Counters) та sub_hero_last (Most Countered by)
+    """
+    url_name = hero_name.lower().replace(' ', '-').replace("'", '').replace('.', '')
+    url = f"{API_COUNTER}/{url_name}/"
+    
+    try:
+        print(f"  Fetching counter data from {url}...")
+        response = requests.get(url, timeout=10)
+        
+        if response.status_code != 200:
+            print(f"    ❌ Error: HTTP {response.status_code}")
+            return None
+        
+        data = response.json()
+        
+        if data.get('code') != 0 or not data.get('data', {}).get('records'):
+            print(f"    ❌ No data in response")
+            return None
+        
+        record = data['data']['records'][0]['data']
+        
+        # Витягуємо потрібні дані
+        counter_data = {
+            'best_counters': [],  # sub_hero
+            'most_countered_by': []  # sub_hero_last
+        }
+        
+        # Best Counters (герої що контрять цього героя)
+        for hero in record.get('sub_hero', [])[:5]:  # топ-5
+            counter_data['best_counters'].append({
+                'heroid': hero.get('heroid'),
+                'win_rate': round(hero.get('hero_win_rate', 0) * 100, 2),
+                'increase_win_rate': round(hero.get('increase_win_rate', 0) * 100, 2),
+                'appearance_rate': round(hero.get('hero_appearance_rate', 0) * 100, 2)
+            })
+        
+        # Most Countered by (герої яких контрить цей герой)
+        for hero in record.get('sub_hero_last', [])[:5]:  # топ-5
+            counter_data['most_countered_by'].append({
+                'heroid': hero.get('heroid'),
+                'win_rate': round(hero.get('hero_win_rate', 0) * 100, 2),
+                'increase_win_rate': round(hero.get('increase_win_rate', 0) * 100, 2),
+                'appearance_rate': round(hero.get('hero_appearance_rate', 0) * 100, 2)
+            })
+        
+        print(f"    ✅ Counter: {len(counter_data['best_counters'])} counters, {len(counter_data['most_countered_by'])} countered")
+        return json.dumps(counter_data, ensure_ascii=False)
+        
+    except Exception as e:
+        print(f"    ❌ Error: {e}")
+        return None
+
+def fetch_hero_compatibility(hero_name):
+    """
+    Отримує Compatibility з API
+    Повертає: JSON з sub_hero (Compatible) та sub_hero_last (Not Compatible)
+    """
+    url_name = hero_name.lower().replace(' ', '-').replace("'", '').replace('.', '')
+    url = f"{API_COMPAT}/{url_name}/"
+    
+    try:
+        print(f"  Fetching compatibility data from {url}...")
+        response = requests.get(url, timeout=10)
+        
+        if response.status_code != 200:
+            print(f"    ❌ Error: HTTP {response.status_code}")
+            return None
+        
+        data = response.json()
+        
+        if data.get('code') != 0 or not data.get('data', {}).get('records'):
+            print(f"    ❌ No data in response")
+            return None
+        
+        record = data['data']['records'][0]['data']
+        
+        # Витягуємо потрібні дані
+        compat_data = {
+            'compatible': [],  # sub_hero
+            'not_compatible': []  # sub_hero_last
+        }
+        
+        # Compatible (герої з якими добре грати)
+        for hero in record.get('sub_hero', [])[:5]:  # топ-5
+            compat_data['compatible'].append({
+                'heroid': hero.get('heroid'),
+                'win_rate': round(hero.get('hero_win_rate', 0) * 100, 2),
+                'increase_win_rate': round(hero.get('increase_win_rate', 0) * 100, 2),
+                'appearance_rate': round(hero.get('hero_appearance_rate', 0) * 100, 2)
+            })
+        
+        # Not Compatible (герої з якими погано грати)
+        for hero in record.get('sub_hero_last', [])[:5]:  # топ-5
+            compat_data['not_compatible'].append({
+                'heroid': hero.get('heroid'),
+                'win_rate': round(hero.get('hero_win_rate', 0) * 100, 2),
+                'increase_win_rate': round(hero.get('increase_win_rate', 0) * 100, 2),
+                'appearance_rate': round(hero.get('hero_appearance_rate', 0) * 100, 2)
+            })
+        
+        print(f"    ✅ Compatibility: {len(compat_data['compatible'])} good, {len(compat_data['not_compatible'])} bad")
+        return json.dumps(compat_data, ensure_ascii=False)
+        
+    except Exception as e:
+        print(f"    ❌ Error: {e}")
+        return None
+
+def update_hero_counter_compat(hero_id, counter_data, compat_data):
+    """
+    Оновлює counter_data та compatibility_data для героя в БД
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("""
+        UPDATE heroes 
+        SET counter_data = ?, 
+            compatibility_data = ?
+        WHERE id = ?
+    """, (counter_data, compat_data, hero_id))
+    
+    conn.commit()
+    conn.close()
+
+def main():
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # Отримуємо всіх героїв з game_id = 3 (Mobile Legends)
+    cursor.execute("SELECT id, name FROM heroes WHERE game_id = 3 ORDER BY name")
+    heroes = cursor.fetchall()
+    conn.close()
+    
+    print(f"\n{'='*70}")
+    print(f"Found {len(heroes)} heroes to update")
+    print(f"{'='*70}\n")
+    
+    updated = 0
+    skipped = 0
+    
+    for hero in heroes:
+        hero_id = hero['id']
+        hero_name = hero['name']
+        
+        print(f"Processing {hero_name}...")
+        
+        counter_data = fetch_hero_counter(hero_name)
+        time.sleep(0.3)  # Пауза між запитами
+        
+        compat_data = fetch_hero_compatibility(hero_name)
+        time.sleep(0.3)  # Пауза між запитами
+        
+        if counter_data or compat_data:
+            update_hero_counter_compat(hero_id, counter_data, compat_data)
+            updated += 1
+            print(f"  ✓ Updated in DB\n")
+        else:
+            skipped += 1
+            print(f"  ⊘ Skipped (no data)\n")
+    
+    print(f"\n{'='*70}")
+    print(f"Summary:")
+    print(f"  Updated: {updated}")
+    print(f"  Skipped: {skipped}")
+    print(f"  Total: {len(heroes)}")
+    print(f"{'='*70}\n")
+
+if __name__ == '__main__':
+    main()
