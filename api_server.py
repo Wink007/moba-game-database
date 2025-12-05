@@ -1,11 +1,18 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_caching import Cache
 import json
 import os
 import database as db
 
 app = Flask(__name__)
 CORS(app)
+
+# Налаштування кешування
+cache = Cache(app, config={
+    'CACHE_TYPE': 'SimpleCache',  # In-memory кеш
+    'CACHE_DEFAULT_TIMEOUT': 300  # 5 хвилин
+})
 
 # Для Railway: використовуємо PORT з environment
 PORT = int(os.getenv('PORT', 8080))
@@ -53,6 +60,7 @@ def delete_game(game_id):
 
 # Heroes
 @app.route('/api/heroes', methods=['GET'])
+@cache.cached(timeout=300, query_string=True)
 def get_heroes():
     game_id = request.args.get('game_id')
     # Для списку героїв НЕ завантажуємо skills (швидше)
@@ -60,6 +68,7 @@ def get_heroes():
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
+@cache.cached(timeout=300)
 def get_hero(hero_id):
     hero = db.get_hero(hero_id)
     if hero:
@@ -68,6 +77,7 @@ def get_hero(hero_id):
 
 @app.route('/api/heroes', methods=['POST'])
 def create_hero():
+    cache.clear()  # Очищаємо кеш при змінах
     data = request.json
     
     # Create hero
@@ -117,6 +127,7 @@ def create_hero():
 
 @app.route('/api/heroes/<int:hero_id>', methods=['PUT'])
 def update_hero(hero_id):
+    cache.clear()  # Очищаємо кеш при змінах
     data = request.json
     
     # Update hero
@@ -188,11 +199,13 @@ def update_hero(hero_id):
 
 @app.route('/api/heroes/<int:hero_id>', methods=['DELETE'])
 def delete_hero(hero_id):
+    cache.clear()  # Очищаємо кеш при змінах
     db.delete_hero(hero_id)
     return jsonify({'success': True})
 
 # Items
 @app.route('/api/items', methods=['GET'])
+@cache.cached(timeout=300, query_string=True)
 def get_items():
     game_id = request.args.get('game_id')
     if game_id:
@@ -338,12 +351,14 @@ def delete_emblem_talent(talent_id):
 # ============== EMBLEMS ==============
 
 @app.route('/api/emblems', methods=['GET'])
+@cache.cached(timeout=300, query_string=True)
 def get_emblems_api():
     game_id = request.args.get('game_id', type=int)
     emblems = db.get_emblems(game_id=game_id)
     return jsonify(emblems)
 
 @app.route('/api/emblems/<int:emblem_id>', methods=['GET'])
+@cache.cached(timeout=300)
 def get_emblem_api(emblem_id):
     emblem = db.get_emblem(emblem_id)
     if emblem:
@@ -358,12 +373,14 @@ def update_emblem_api(emblem_id):
 
 # Battle Spells endpoints
 @app.route('/api/battle-spells', methods=['GET'])
+@cache.cached(timeout=300, query_string=True)
 def get_battle_spells_api():
     game_id = request.args.get('game_id', type=int)
     spells = db.get_battle_spells(game_id=game_id)
     return jsonify(spells)
 
 @app.route('/api/battle-spells/<int:spell_id>', methods=['GET'])
+@cache.cached(timeout=300)
 def get_battle_spell_api(spell_id):
     spell = db.get_battle_spell(spell_id)
     if spell:
