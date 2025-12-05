@@ -138,8 +138,11 @@ def get_heroes(game_id=None, include_details=False):
         cursor.execute("SELECT * FROM heroes")
     heroes = [dict_from_row(row) for row in cursor.fetchall()]
     
-    # Завантажуємо stats та skills одним запитом якщо потрібні деталі
-    if include_details and heroes:
+    # Завантажуємо stats та skills одним запитом завжди (для HP/Mana та skill icons)
+    stats_by_hero = {}
+    skills_by_hero = {}
+    
+    if heroes:
         hero_ids = [h['id'] for h in heroes]
         ph = get_placeholder()
         placeholders = ','.join([ph] * len(hero_ids))
@@ -147,7 +150,6 @@ def get_heroes(game_id=None, include_details=False):
         # Завантажуємо всі stats одним запитом
         cursor.execute(f"SELECT * FROM hero_stats WHERE hero_id IN ({placeholders})", hero_ids)
         all_stats = cursor.fetchall()
-        stats_by_hero = {}
         for stat in all_stats:
             stat_dict = dict_from_row(stat)
             hero_id = stat_dict['hero_id']
@@ -158,7 +160,6 @@ def get_heroes(game_id=None, include_details=False):
         # Завантажуємо всі skills одним запитом
         cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders})", hero_ids)
         all_skills = cursor.fetchall()
-        skills_by_hero = {}
         for skill in all_skills:
             skill_dict = dict_from_row(skill)
             hero_id = skill_dict['hero_id']
