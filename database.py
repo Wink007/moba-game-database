@@ -369,9 +369,12 @@ def get_hero(hero_id):
         # Конвертуємо use_energy з INTEGER в boolean
         hero['use_energy'] = bool(hero.get('use_energy', 0))
         
-        # Конвертуємо created_at -> createdAt для camelCase
-        if 'created_at' in hero:
-            hero['createdAt'] = hero['created_at']
+        # Видаляємо дублікати полів дати, залишаємо тільки createdAt з timestamp
+        if 'createdat' in hero:
+            # createdat містить timestamp
+            hero['createdAt'] = hero['createdat']
+        hero.pop('created_at', None)
+        hero.pop('createdat', None)
         
         # Обробка pro_builds - конвертація старого формату в новий
         if hero.get('pro_builds') and hero['pro_builds'].strip():
