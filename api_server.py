@@ -430,6 +430,66 @@ def fix_emblem_ids():
     
     return jsonify({'updated': updated_count, 'total': len(heroes)})
 
+# Fix item recipe IDs after migration
+@app.route('/api/fix-recipe-ids', methods=['POST'])
+def fix_recipe_ids():
+    """Fix recipe IDs in items - match by name instead of old IDs"""
+    conn = db.get_connection()
+    if db.DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    # Отримати всі предмети
+    cursor.execute("SELECT id, name, recipe FROM items")
+    items = cursor.fetchall()
+    
+    # Створити маппінг name -> id
+    name_to_id = {}
+    for row in items:
+        item_dict = dict(row)
+        name_to_id[item_dict['name']] = item_dict['id']
+    
+    updated_count = 0
+    for row in items:
+        item_dict = dict(row)
+        item_id = item_dict['id']
+        recipe_raw = item_dict['recipe']
+        
+        try:
+            if isinstance(recipe_raw, str):
+                recipe = json.loads(recipe_raw)
+            else:
+                recipe = recipe_raw
+            
+            if not isinstance(recipe, list) or len(recipe) == 0:
+                continue
+            
+            updated = False
+            for component in recipe:
+                comp_name = component.get('name')
+                if comp_name and comp_name in name_to_id:
+                    correct_id = name_to_id[comp_name]
+                    if component.get('id') != correct_id:
+                        component['id'] = correct_id
+                        updated = True
+            
+            if updated:
+                ph = db.get_placeholder()
+                cursor.execute(
+                    f"UPDATE items SET recipe = {ph} WHERE id = {ph}",
+                    (json.dumps(recipe), item_id)
+                )
+                updated_count += 1
+        except Exception as e:
+            print(f"Error fixing {item_dict.get('name')}: {e}")
+    
+    conn.commit()
+    conn.close()
+    
+    return jsonify({'updated': updated_count, 'total': len(items)})
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')

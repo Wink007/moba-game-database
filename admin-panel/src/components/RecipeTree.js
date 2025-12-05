@@ -1,7 +1,37 @@
 import React from 'react';
 
-function RecipeTree({ item, allItems, level = 0 }) {
+function RecipeTree({ item, allItems, level = 0, visitedIds = new Set() }) {
   if (!item) return null;
+
+  // Захист від циклічних залежностей
+  if (visitedIds.has(item.id)) {
+    return (
+      <div style={{
+        marginLeft: level > 0 ? '40px' : '0',
+        padding: '8px',
+        backgroundColor: '#fef3c7',
+        border: '2px solid #f59e0b',
+        borderRadius: '6px',
+        marginBottom: '8px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '20px' }}>⚠️</span>
+          <div>
+            <div style={{ fontWeight: '600', color: '#92400e' }}>
+              {item.name}
+            </div>
+            <div style={{ fontSize: '0.75rem', color: '#b45309' }}>
+              Циклічна залежність (вже показано вище)
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Додаємо поточний ID до відвіданих
+  const newVisitedIds = new Set(visitedIds);
+  newVisitedIds.add(item.id);
 
   const recipe = item.recipe && Array.isArray(item.recipe) ? item.recipe : [];
   
@@ -84,7 +114,8 @@ function RecipeTree({ item, allItems, level = 0 }) {
                   <RecipeTree 
                     item={componentItem} 
                     allItems={allItems} 
-                    level={level + 1} 
+                    level={level + 1}
+                    visitedIds={newVisitedIds}
                   />
                 ) : (
                   <div style={{
