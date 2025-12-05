@@ -444,13 +444,15 @@ def fix_recipe_ids():
         
         # Спробувати обидві таблиці (items в SQLite, equipment в PostgreSQL)
         try:
-            cursor.execute("SELECT id, name, recipe FROM equipment")
+            cursor.execute("SELECT id, name, recipe_components as recipe FROM equipment")
             items = cursor.fetchall()
             table_name = 'equipment'
+            recipe_column = 'recipe_components'
         except:
             cursor.execute("SELECT id, name, recipe FROM items")
             items = cursor.fetchall()
             table_name = 'items'
+            recipe_column = 'recipe'
         
         # Створити маппінг name -> id
         name_to_id = {}
@@ -495,7 +497,7 @@ def fix_recipe_ids():
                 if updated:
                     ph = db.get_placeholder()
                     cursor.execute(
-                        f"UPDATE {table_name} SET recipe = {ph} WHERE id = {ph}",
+                        f"UPDATE {table_name} SET {recipe_column} = {ph} WHERE id = {ph}",
                         (json.dumps(recipe), item_id)
                     )
                     updated_count += 1
