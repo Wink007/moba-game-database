@@ -220,13 +220,16 @@ def get_heroes(game_id=None, include_details=False):
             # Для списку - додати мінімальні stats (тільки HP та Mana)
             hero_stats_all = stats_by_hero.get(hero['id'], [])
             hero['hero_stats'] = [s for s in hero_stats_all if s.get('stat_name') in ['HP', 'Mana']]
-            # Для skills - тільки назва та іконка
+            # Для skills - тільки необхідні поля для відображення + transformation fields
             all_skills = skills_by_hero.get(hero['id'], [])
             hero['skills'] = [{
+                'id': s.get('id'),
                 'skill_name': s.get('skill_name', 'Unknown'),
                 'image': s.get('image'),
                 'preview': s.get('preview'),
-                'is_transformed': s.get('is_transformed', 0)
+                'is_transformed': s.get('is_transformed', 0),
+                'replaces_skill_id': s.get('replaces_skill_id'),
+                'transformation_order': s.get('transformation_order', 0)
             } for s in all_skills if s.get('skill_name')]
     
     # Тільки для include_details=True робимо додаткові поля
