@@ -55,19 +55,14 @@ def delete_game(game_id):
 @app.route('/api/heroes', methods=['GET'])
 def get_heroes():
     game_id = request.args.get('game_id')
-    heroes = db.get_heroes(game_id)
-    # Для кожного героя завантажуємо повні дані (з конвертацією pro_builds)
-    for i, hero in enumerate(heroes):
-        full_hero = db.get_hero(hero['id'])
-        if full_hero:
-            heroes[i] = full_hero
+    # Для списку героїв НЕ завантажуємо skills (швидше)
+    heroes = db.get_heroes(game_id, include_details=False)
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
 def get_hero(hero_id):
     hero = db.get_hero(hero_id)
     if hero:
-        hero['skills'] = db.get_hero_skills(hero_id)
         return jsonify(hero)
     return jsonify({'error': 'Hero not found'}), 404
 

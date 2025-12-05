@@ -124,7 +124,7 @@ def delete_game(game_id):
     return cursor.rowcount > 0
 
 # Heroes
-def get_heroes(game_id=None):
+def get_heroes(game_id=None, include_details=False):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -137,10 +137,53 @@ def get_heroes(game_id=None):
     else:
         cursor.execute("SELECT * FROM heroes")
     heroes = [dict_from_row(row) for row in cursor.fetchall()]
+    
+    # Завантажуємо stats та skills одним запитом якщо потрібні деталі
+    if include_details and heroes:
+        hero_ids = [h['id'] for h in heroes]
+        ph = get_placeholder()
+        placeholders = ','.join([ph] * len(hero_ids))
+        
+        # Завантажуємо всі stats одним запитом
+        cursor.execute(f"SELECT * FROM hero_stats WHERE hero_id IN ({placeholders})", hero_ids)
+        all_stats = cursor.fetchall()
+        stats_by_hero = {}
+        for stat in all_stats:
+            stat_dict = dict_from_row(stat)
+            hero_id = stat_dict['hero_id']
+            if hero_id not in stats_by_hero:
+                stats_by_hero[hero_id] = []
+            stats_by_hero[hero_id].append(stat_dict)
+        
+        # Завантажуємо всі skills одним запитом
+        cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders})", hero_ids)
+        all_skills = cursor.fetchall()
+        skills_by_hero = {}
+        for skill in all_skills:
+            skill_dict = dict_from_row(skill)
+            hero_id = skill_dict['hero_id']
+            if hero_id not in skills_by_hero:
+                skills_by_hero[hero_id] = []
+            skills_by_hero[hero_id].append(skill_dict)
+    
     conn.close()
     
+    # Мінімальна обробка для списку героїв
     for hero in heroes:
-        hero['hero_stats'] = get_hero_stats(hero['id'])
+        # Завжди конвертуємо use_energy
+        hero['use_energy'] = bool(hero.get('use_energy', 0))
+        
+        if include_details:
+            # Повна обробка тільки якщо потрібні деталі
+            hero['hero_stats'] = stats_by_hero.get(hero['id'], [])
+            hero['skills'] = skills_by_hero.get(hero['id'], [])
+        else:
+            # Для списку - тільки ID та базові поля, без stats/skills
+            continue
+    
+    # Тільки для include_details=True робимо повний parsing
+    if include_details:
+        for hero in heroes:
         if hero.get('roles') and hero['roles'].strip():
             try:
                 hero['roles'] = json.loads(hero['roles'])

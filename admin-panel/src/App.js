@@ -18,7 +18,6 @@ function App() {
   const [activeTab, setActiveTab] = useState('games');
   const [games, setGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
-  console.log('selectedGame: ', selectedGame);
   const [showGameForm, setShowGameForm] = useState(false);
   const [editingGame, setEditingGame] = useState(null);
   
@@ -701,7 +700,7 @@ function App() {
       </div>
 
       <footer className="App-footer">
-        <p>API: http://localhost:8080 • База даних: test_games.db</p>
+        <p>API: {API_URL} • База даних: Railway PostgreSQL</p>
       </footer>
     </div>
   );
