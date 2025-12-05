@@ -1,18 +1,33 @@
 #!/usr/bin/env python3
 """
 Скрипт для оновлення статистики героїв (Ban Rate, Pick Rate, Win Rate) з API mlbb-stats
+Підтримує SQLite (локально) та PostgreSQL (Railway)
 """
-import sqlite3
+import os
 import requests
 import time
 
-DB_FILE = 'test_games.db'
+# Визначаємо тип бази даних
+DATABASE_TYPE = os.getenv('DATABASE_TYPE', 'sqlite')
+DATABASE_URL = os.getenv('DATABASE_URL', 'test_games.db')
 API_BASE = 'https://mlbb-stats.ridwaanhall.com/api/hero-detail-stats'
 
 def get_connection():
-    conn = sqlite3.connect(DB_FILE)
-    conn.row_factory = sqlite3.Row
-    return conn
+    """Отримати з'єднання (SQLite або PostgreSQL)"""
+    if DATABASE_TYPE == 'postgres':
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(DATABASE_URL)
+        return conn
+    else:
+        import sqlite3
+        conn = sqlite3.connect(DATABASE_URL)
+        conn.row_factory = sqlite3.Row
+        return conn
+
+def get_placeholder():
+    """Повертає placeholder для SQL запиту"""
+    return '%s' if DATABASE_TYPE == 'postgres' else '?'
 
 def fetch_hero_stats(hero_name):
     """
@@ -68,24 +83,36 @@ def update_hero_stats(hero_id, ban_rate, pick_rate, win_rate):
     conn = get_connection()
     cursor = conn.cursor()
     
-    cursor.execute("""
+    ph = get_placeholder()
+    cursor.execute(f"""
         UPDATE heroes 
-        SET main_hero_ban_rate = ?, 
-            main_hero_appearance_rate = ?, 
-            main_hero_win_rate = ?
-        WHERE id = ?
+        SET main_hero_ban_rate = {ph}, 
+            main_hero_appearance_rate = {ph}, 
+            main_hero_win_rate = {ph}
+        WHERE id = {ph}
     """, (ban_rate, pick_rate, win_rate, hero_id))
     
     conn.commit()
     conn.close()
 
 def main():
+    print(f"\n{'='*70}")
+    print(f"Database: {DATABASE_TYPE}")
+    print(f"URL: {DATABASE_URL[:50]}..." if len(DATABASE_URL) > 50 else f"URL: {DATABASE_URL}")
+    print(f"{'='*70}\n")
+    
     conn = get_connection()
     cursor = conn.cursor()
     
-    # Отримуємо всіх героїв з game_id = 3 (Mobile Legends)
-    cursor.execute("SELECT id, name FROM heroes WHERE game_id = 3 ORDER BY name")
-    heroes = cursor.fetchall()
+    # Отримуємо всіх героїв з game_id = 2 (Mobile Legends на Railway)
+    ph = get_placeholder()
+    cursor.execute(f"SELECT id, name FROM heroes WHERE game_id = {ph} ORDER BY name", (2,))
+    
+    if DATABASE_TYPE == 'postgres':
+        heroes = cursor.fetchall()
+    else:
+        heroes = [dict(row) for row in cursor.fetchall()]
+    
     conn.close()
     
     print(f"\n{'='*70}")
@@ -96,8 +123,8 @@ def main():
     skipped = 0
     
     for hero in heroes:
-        hero_id = hero['id']
-        hero_name = hero['name']
+        hero_id = hero['id'] if isinstance(hero, dict) else hero[0]
+        hero_name = hero['name'] if isinstance(hero, dict) else hero[1]
         
         ban_rate, pick_rate, win_rate = fetch_hero_stats(hero_name)
         

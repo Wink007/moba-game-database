@@ -804,6 +804,101 @@ def add_indexes():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/update-hero-stats', methods=['POST'])
+def update_hero_stats():
+    """Оновлює статистику героїв з mlbb-stats API"""
+    import requests
+    import time
+    
+    try:
+        data = request.get_json() or {}
+        game_id = data.get('game_id', 2)  # За замовчуванням Mobile Legends
+        limit = data.get('limit', None)  # Обмеження кількості (для тестування)
+        
+        # Отримуємо героїв
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        if limit:
+            cursor.execute(f"SELECT id, name FROM heroes WHERE game_id = %s ORDER BY name LIMIT %s", (game_id, limit))
+        else:
+            cursor.execute(f"SELECT id, name FROM heroes WHERE game_id = %s ORDER BY name", (game_id,))
+        
+        heroes = cursor.fetchall()
+        
+        updated = 0
+        skipped = 0
+        errors = []
+        
+        API_BASE = 'https://mlbb-stats.ridwaanhall.com/api/hero-detail-stats'
+        
+        for hero in heroes:
+            hero_id = hero[0]
+            hero_name = hero[1]
+            
+            # Конвертуємо ім'я в URL-friendly формат
+            url_name = hero_name.lower().replace(' ', '-').replace("'", '').replace('.', '')
+            url = f"{API_BASE}/{url_name}/"
+            
+            try:
+                response = requests.get(url, timeout=10)
+                
+                if response.status_code != 200:
+                    skipped += 1
+                    continue
+                
+                api_data = response.json()
+                
+                if api_data.get('code') != 0 or not api_data.get('data', {}).get('records'):
+                    skipped += 1
+                    continue
+                
+                record = api_data['data']['records'][0]
+                stats_data = record.get('data', {})
+                
+                # Отримуємо статистику (у форматі 0.023294 тощо)
+                ban_rate = stats_data.get('main_hero_ban_rate')
+                pick_rate = stats_data.get('main_hero_appearance_rate')
+                win_rate = stats_data.get('main_hero_win_rate')
+                
+                # Множимо на 100 для відсотків
+                ban_rate_pct = round(ban_rate * 100, 2) if ban_rate is not None else None
+                pick_rate_pct = round(pick_rate * 100, 2) if pick_rate is not None else None
+                win_rate_pct = round(win_rate * 100, 2) if win_rate is not None else None
+                
+                if ban_rate_pct is not None or pick_rate_pct is not None or win_rate_pct is not None:
+                    cursor.execute("""
+                        UPDATE heroes 
+                        SET main_hero_ban_rate = %s, 
+                            main_hero_appearance_rate = %s, 
+                            main_hero_win_rate = %s
+                        WHERE id = %s
+                    """, (ban_rate_pct, pick_rate_pct, win_rate_pct, hero_id))
+                    updated += 1
+                else:
+                    skipped += 1
+                
+                # Пауза між запитами
+                time.sleep(0.3)
+                
+            except Exception as e:
+                errors.append(f"{hero_name}: {str(e)}")
+                skipped += 1
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({
+            'status': 'success',
+            'updated': updated,
+            'skipped': skipped,
+            'total': len(heroes),
+            'errors': errors[:10]  # Показуємо тільки перші 10 помилок
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
