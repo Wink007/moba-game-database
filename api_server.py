@@ -603,6 +603,64 @@ def create_indexes():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# FIX: Тимчасовий endpoint для оновлення replaces_skill_id
+@app.route('/api/fix-replaces', methods=['POST'])
+def fix_replaces():
+    """Оновлює replaces_skill_id для всіх трансформованих героїв"""
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        # Отримуємо всіх героїв з їх навичками
+        heroes_resp = db.get_heroes(2, include_details=True)
+        
+        total = 0
+        for hero in heroes_resp:
+            if hero['name'] not in ['Beatrix', 'Edith', 'Hanzo', 'Julian', 'Lapu-Lapu', 'Leomord', 'Lukas', 'Lunox', 'Popol and Kupa', 'Roger', 'Selena', 'Yin']:
+                continue
+            
+            skill_map = {s['skill_name']: s['id'] for s in hero.get('skills', [])}
+            
+            # Визначаємо заміни для кожного героя
+            replacements = {}
+            if hero['name'] == 'Roger':
+                replacements = {
+                    'Lycan Pounce': 'Open Fire',
+                    'Bloodthirsty Howl': "Hunter's Steps",
+                    'Restore Human Form': 'Wolf Transformation'
+                }
+            elif hero['name'] == 'Beatrix':
+                # Для Beatrix - трансформовані Mechanical Genius замінюють базову
+                base_mg_id = next((s['id'] for s in hero['skills'] if s['skill_name'] == 'Mechanical Genius' and s.get('is_transformed') == 0), None)
+                if base_mg_id:
+                    for s in hero['skills']:
+                        if s['skill_name'] == 'Mechanical Genius' and s.get('is_transformed') == 1:
+                            cursor.execute(f'UPDATE hero_skills SET replaces_skill_id = {ph} WHERE id = {ph}', (base_mg_id, s['id']))
+                            total += 1
+                
+                replacements = {
+                    "Bennett's Rage": "Renner's Apathy",
+                    "Wesker's Elation": "Renner's Apathy",
+                    "Nibiru's Passion": "Renner's Apathy"
+                }
+            # Додайте інших героїв за потреби...
+            
+            for trans_skill, base_skill in replacements.items():
+                if trans_skill in skill_map and base_skill in skill_map:
+                    cursor.execute(
+                        f'UPDATE hero_skills SET replaces_skill_id = {ph} WHERE id = {ph}',
+                        (skill_map[base_skill], skill_map[trans_skill])
+                    )
+                    total += 1
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({'success': True, 'updated': total})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # Статистика та очищення кешу
 @app.route('/api/cache/clear', methods=['POST'])
 def clear_cache():
