@@ -571,6 +571,22 @@ def create_indexes():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# Статистика та очищення кешу
+@app.route('/api/cache/clear', methods=['POST'])
+def clear_cache():
+    """Очистити весь кеш"""
+    cache.clear()
+    return jsonify({'success': True, 'message': 'Cache cleared'})
+
+@app.route('/api/cache/stats', methods=['GET'])
+def cache_stats():
+    """Інформація про кеш"""
+    return jsonify({
+        'type': 'SimpleCache (in-memory)',
+        'timeout': 300,
+        'description': 'Кеш на 5 хвилин для всіх GET запитів'
+    })
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
