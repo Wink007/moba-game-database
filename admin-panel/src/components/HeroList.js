@@ -212,8 +212,14 @@ function HeroList({ heroes, onEdit, onDelete }) {
               ) : '-'}
             </td>
             <td style={{ fontSize: '0.85rem' }}>
-              {getStatValue(hero, 'HP') && <div>❤️ {getStatValue(hero, 'HP')}</div>}
-              {getStatValue(hero, 'Mana') && <div>💧 {getStatValue(hero, 'Mana')}</div>}
+              {hero.hero_stats && hero.hero_stats.length > 0 ? (
+                <>
+                  {getStatValue(hero, 'HP') && <div>❤️ {getStatValue(hero, 'HP')}</div>}
+                  {getStatValue(hero, 'Mana') && <div>💧 {getStatValue(hero, 'Mana')}</div>}
+                </>
+              ) : (
+                <span style={{ color: '#9ca3af', fontSize: '0.75rem' }}>—</span>
+              )}
             </td>
             <td>
               {hero.skills && hero.skills.length > 0 ? (
