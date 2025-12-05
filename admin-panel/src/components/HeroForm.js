@@ -313,18 +313,6 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     });
   };
 
-  const handleEffectToggle = (effectType) => {
-    setNewSkill(prevSkill => {
-      const currentEffect = Array.isArray(prevSkill.effect) ? prevSkill.effect : [];
-      return {
-        ...prevSkill,
-        effect: currentEffect.includes(effectType)
-          ? currentEffect.filter(e => e !== effectType)
-          : [...currentEffect, effectType]
-      };
-    });
-  };
-
   const handleStatChange = (index, value) => {
     const updatedStats = [...heroStats];
     updatedStats[index].value = value;
@@ -420,7 +408,11 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         if (param.name) acc[param.name] = param.value;
         return acc;
       }, {}),
-      level_scaling: levelScaling
+      level_scaling: levelScaling,
+      // При редагуванні зберігаємо оригінальне is_transformed, при додаванні - беремо з showTransformed
+      is_transformed: editingSkillIndex !== null 
+        ? (skills[editingSkillIndex]?.is_transformed ?? 0)
+        : (showTransformed ? 1 : 0)
     };
 
     if (editingSkillIndex !== null) {
@@ -1244,20 +1236,38 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     fontSize: '0.9rem'
                   }}
                 >
-                  {showTransformed ? '🔄 Базові навички' : '⚡ Трансформовані навички'}
+                  {showTransformed ? '⚡ Показати базові' : '🔄 Показати трансформовані'}
                 </button>
                 <span style={{ color: '#6b7280', fontSize: '0.85rem' }}>
                   {showTransformed 
-                    ? `Трансформовані (${skills.filter(s => s.is_transformed === 1).length})`
-                    : `Базові (${skills.filter(s => s.is_transformed !== 1).length})`
+                    ? 'Відображаються трансформовані версії навичок'
+                    : 'Відображаються базові версії навичок'
                   }
                 </span>
               </div>
             )}
             {skills.length > 0 && (
               <div ref={skillsListRef} className="skills-list">
-                {skills.filter(skill => showTransformed ? skill.is_transformed === 1 : skill.is_transformed !== 1).map((skill, index) => (
-                  <div key={index} className="skill-card">
+                {skills.map((skill, skillIndex) => {
+                  const isTransformed = skill.is_transformed === 1;
+                  const transformOrder = skill.transformation_order || 0;
+                  
+                  // Показуємо навичку якщо:
+                  // 1. transformation_order = 0 - базова навичка (не трансформується) - ЗАВЖДИ показуємо
+                  // 2. transformation_order > 0 - трансформована навичка - показуємо згідно showTransformed
+                  const shouldShow = transformOrder === 0 || showTransformed;
+                  
+                  if (!shouldShow) return null;
+                  
+                  return (
+                  <div 
+                    key={skillIndex} 
+                    className="skill-card"
+                    style={{
+                      border: isTransformed ? '2px solid #8b5cf6' : '2px solid #3b82f6',
+                      backgroundColor: isTransformed ? '#faf5ff' : '#eff6ff'
+                    }}
+                  >
                     <div className="skill-header">
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         {(skill.image || skill.preview) && (
@@ -1277,17 +1287,27 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                           />
                         )}
                         <h4>{skill.skill_name}</h4>
-                        {skill.is_transformed === 1 && (
+                        {isTransformed ? (
                           <span style={{
                             fontSize: '0.7rem',
                             padding: '2px 8px',
                             background: '#8b5cf6',
                             color: 'white',
-                            borderRadius: '10px',
-                            fontWeight: '600',
-                            marginLeft: '8px'
+                            borderRadius: '4px',
+                            fontWeight: '600'
                           }}>
-                            TRANSFORMED
+                            🔄 TRANSFORMED
+                          </span>
+                        ) : (
+                          <span style={{
+                            fontSize: '0.7rem',
+                            padding: '2px 8px',
+                            background: '#3b82f6',
+                            color: 'white',
+                            borderRadius: '4px',
+                            fontWeight: '600'
+                          }}>
+                            ⚡ BASE
                           </span>
                         )}
                       </div>
@@ -1328,15 +1348,16 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                       </div>
                     )}
                     <div className="skill-actions">
-                      <button type="button" onClick={() => editSkill(index)}>
+                      <button type="button" onClick={() => editSkill(skillIndex)}>
                         Редагувати
                       </button>
-                      <button type="button" onClick={() => removeSkill(index)} className="delete-btn">
+                      <button type="button" onClick={() => removeSkill(skillIndex)} className="delete-btn">
                         Видалити
                       </button>
                     </div>
                   </div>
-                ))}
+                );
+                }).filter(Boolean)}
               </div>
             )}
 

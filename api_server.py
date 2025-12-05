@@ -130,19 +130,21 @@ def create_hero():
     # Add skills
     if 'skills' in data:
         for skill in data['skills']:
-            db.add_hero_skill(
-                hero_id,
-                skill.get('skill_name', ''),
-                skill.get('skill_description', ''),
-                skill.get('effect', ''),
-                skill.get('preview', ''),
+            add_hero_skill(
+                hero_id, 
+                skill['skill_name'], 
+                skill.get('skill_description', ''), 
+                skill.get('effect', []), 
+                skill.get('preview', ''), 
                 skill.get('skill_type', 'active'),
                 skill.get('skill_parameters', {}),
                 skill.get('level_scaling', []),
-                skill.get('passive_description', ''),
-                skill.get('active_description', ''),
+                skill.get('passive_description'),
+                skill.get('active_description'),
                 skill.get('effect_types', []),
-                skill.get('is_transformed', 0)
+                skill.get('is_transformed', 0),
+                skill.get('transformation_order', 0),
+                skill.get('display_order', 0)
             )
     
     return jsonify({'id': hero_id}), 201
@@ -213,7 +215,9 @@ def update_hero(hero_id):
                     passive_desc,
                     active_desc,
                     skill.get('effect_types', []),
-                    skill.get('is_transformed', 0)
+                    skill.get('is_transformed', 0),
+                    skill.get('transformation_order', 0),
+                    skill.get('display_order', 0)
                 )
         
         return jsonify({'success': True})
