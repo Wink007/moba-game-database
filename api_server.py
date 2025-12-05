@@ -1,15 +1,34 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_compress import Compress
 import json
 import os
+import gzip
+import io
 import database as db
 
 app = Flask(__name__)
 CORS(app)
 
-# Gzip compression для JSON відповідей (зменшує розмір на 70-80%)
-Compress(app)
+# Gzip compression middleware
+@app.after_request
+def compress_response(response):
+    """Стискає JSON відповіді за допомогою gzip"""
+    # Тільки для JSON відповідей більше 500 байт
+    if (response.status_code < 300 and 
+        'application/json' in response.content_type and
+        len(response.data) > 500 and
+        'gzip' in request.headers.get('Accept-Encoding', '')):
+        
+        # Стискаємо відповідь
+        gzip_buffer = io.BytesIO()
+        with gzip.GzipFile(mode='wb', fileobj=gzip_buffer, compresslevel=6) as gzip_file:
+            gzip_file.write(response.data)
+        
+        response.data = gzip_buffer.getvalue()
+        response.headers['Content-Encoding'] = 'gzip'
+        response.headers['Content-Length'] = len(response.data)
+    
+    return response
 
 # Для Railway: використовуємо PORT з environment
 PORT = int(os.getenv('PORT', 8080))
