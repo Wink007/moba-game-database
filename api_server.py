@@ -13,20 +13,25 @@ CORS(app)
 @app.after_request
 def compress_response(response):
     """Стискає JSON відповіді за допомогою gzip"""
-    # Тільки для JSON відповідей більше 500 байт
-    if (response.status_code < 300 and 
-        'application/json' in response.content_type and
-        len(response.data) > 500 and
+    # Тільки для успішних JSON відповідей більше 500 байт
+    if (200 <= response.status_code < 300 and 
+        response.content_type and 'application/json' in response.content_type and
+        response.data and len(response.data) > 500 and
         'gzip' in request.headers.get('Accept-Encoding', '')):
         
-        # Стискаємо відповідь
-        gzip_buffer = io.BytesIO()
-        with gzip.GzipFile(mode='wb', fileobj=gzip_buffer, compresslevel=6) as gzip_file:
-            gzip_file.write(response.data)
-        
-        response.data = gzip_buffer.getvalue()
-        response.headers['Content-Encoding'] = 'gzip'
-        response.headers['Content-Length'] = len(response.data)
+        try:
+            # Стискаємо відповідь
+            gzip_buffer = io.BytesIO()
+            with gzip.GzipFile(mode='wb', fileobj=gzip_buffer, compresslevel=6) as gzip_file:
+                gzip_file.write(response.data)
+            
+            response.data = gzip_buffer.getvalue()
+            response.headers['Content-Encoding'] = 'gzip'
+            response.headers['Content-Length'] = len(response.data)
+        except Exception as e:
+            # Якщо compression не вдався, повертаємо оригінальну відповідь
+            print(f"Compression error: {e}")
+            pass
     
     return response
 
@@ -143,75 +148,77 @@ def create_hero():
 
 @app.route('/api/heroes/<int:hero_id>', methods=['PUT'])
 def update_hero(hero_id):
-    
-    data = request.json
-    
-    # Update hero
-    db.update_hero(
-        hero_id,
-        data['name'],
-        data.get('hero_game_id', ''),
-        data.get('image', ''),
-        data.get('short_description', ''),
-        data.get('full_description', ''),
-        data.get('lane', ''),
-        data.get('roles', []),
-        data.get('use_energy', False),
-        data.get('specialty', []),
-        data.get('damage_type', ''),
-        data.get('relation', None),
-        data.get('pro_builds', None),
-        data.get('createdAt', None),
-        data.get('head', None),
-        data.get('main_hero_ban_rate', None),
-        data.get('main_hero_appearance_rate', None),
-        data.get('main_hero_win_rate', None)
-    )
-    
-    # Update stats - delete old and add new
-    db.delete_hero_stats(hero_id)
-    if 'hero_stats' in data:
-        for stat in data['hero_stats']:
-            db.add_hero_stat(hero_id, stat['stat_name'], stat['value'])
-    
-    # Update skills - delete old and add new
-    db.delete_hero_skills(hero_id)
-    if 'skills' in data:
-        for skill in data['skills']:
-            print(f"DEBUG: Adding skill: {skill.get('skill_name', '')}")
-            print(f"DEBUG: Full skill data: {skill}")
-            
-            # Ensure all string fields are strings
-            skill_name = str(skill.get('skill_name', ''))
-            skill_desc = str(skill.get('skill_description', ''))
-            # Support both 'image' and 'preview' fields
-            preview = str(skill.get('image') or skill.get('preview', ''))
-            skill_type = str(skill.get('skill_type', 'active'))
-            passive_desc = str(skill.get('passive_description', '') or '')
-            active_desc = str(skill.get('active_description', '') or '')
-            
-            # Ensure effect is a string (might be dict/list from React)
-            effect = skill.get('effect', '')
-            if isinstance(effect, (dict, list)):
-                effect = json.dumps(effect)
-            else:
-                effect = str(effect)
-            
-            db.add_hero_skill(
-                hero_id,
-                skill_name,
-                skill_desc,
-                effect,
-                preview,
-                skill_type,
-                skill.get('skill_parameters', {}),
-                skill.get('level_scaling', []),
-                passive_desc,
-                active_desc,
-                skill.get('effect_types', [])
-            )
-    
-    return jsonify({'success': True})
+    try:
+        data = request.json
+        
+        # Update hero
+        db.update_hero(
+            hero_id,
+            data['name'],
+            data.get('hero_game_id', ''),
+            data.get('image', ''),
+            data.get('short_description', ''),
+            data.get('full_description', ''),
+            data.get('lane', ''),
+            data.get('roles', []),
+            data.get('use_energy', False),
+            data.get('specialty', []),
+            data.get('damage_type', ''),
+            data.get('relation', None),
+            data.get('pro_builds', None),
+            data.get('createdAt', None),
+            data.get('head', None),
+            data.get('main_hero_ban_rate', None),
+            data.get('main_hero_appearance_rate', None),
+            data.get('main_hero_win_rate', None)
+        )
+        
+        # Update stats - delete old and add new
+        db.delete_hero_stats(hero_id)
+        if 'hero_stats' in data:
+            for stat in data['hero_stats']:
+                db.add_hero_stat(hero_id, stat['stat_name'], stat['value'])
+        
+        # Update skills - delete old and add new
+        db.delete_hero_skills(hero_id)
+        if 'skills' in data:
+            for skill in data['skills']:
+                # Ensure all string fields are strings
+                skill_name = str(skill.get('skill_name', ''))
+                skill_desc = str(skill.get('skill_description', ''))
+                # Support both 'image' and 'preview' fields
+                preview = str(skill.get('image') or skill.get('preview', ''))
+                skill_type = str(skill.get('skill_type', 'active'))
+                passive_desc = str(skill.get('passive_description', '') or '')
+                active_desc = str(skill.get('active_description', '') or '')
+                
+                # Ensure effect is a string (might be dict/list from React)
+                effect = skill.get('effect', '')
+                if isinstance(effect, (dict, list)):
+                    effect = json.dumps(effect)
+                else:
+                    effect = str(effect)
+                
+                db.add_hero_skill(
+                    hero_id,
+                    skill_name,
+                    skill_desc,
+                    effect,
+                    preview,
+                    skill_type,
+                    skill.get('skill_parameters', {}),
+                    skill.get('level_scaling', []),
+                    passive_desc,
+                    active_desc,
+                    skill.get('effect_types', [])
+                )
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"ERROR updating hero {hero_id}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/heroes/<int:hero_id>', methods=['DELETE'])
 def delete_hero(hero_id):
