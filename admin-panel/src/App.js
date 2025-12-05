@@ -52,12 +52,9 @@ function App() {
 
   const loadGames = async () => {
     try {
-      console.log('🎮 Loading games...');
       const response = await axios.get(`${API_URL}/games`);
-      console.log('✅ Games loaded:', response.data?.length || 0);
       setGames(response.data || []);
       if (response.data && response.data.length > 0 && !selectedGame) {
-        console.log('🎯 Setting default game:', response.data[0].name);
         setSelectedGame(response.data[0]);
       }
     } catch (error) {
@@ -69,15 +66,6 @@ function App() {
   const loadHeroes = async (gameId) => {
     try {
       const response = await axios.get(`${API_URL}/heroes?game_id=${gameId}`);
-      console.log('📥 Heroes loaded:', response.data?.length || 0);
-      if (response.data?.length > 0) {
-        console.log('🔍 First hero:', response.data[0].name, {
-          lane: response.data[0].lane,
-          roles: response.data[0].roles,
-          laneType: typeof response.data[0].lane,
-          rolesType: typeof response.data[0].roles
-        });
-      }
       setHeroes(response.data || []);
     } catch (error) {
       console.error('Failed to load heroes', error);

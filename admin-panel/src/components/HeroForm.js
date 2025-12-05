@@ -66,7 +66,6 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [skillParameters, setSkillParameters] = useState([]);
   const [levelScaling, setLevelScaling] = useState([]);
   const [editingSkillIndex, setEditingSkillIndex] = useState(null);
-  const [showTransformed, setShowTransformed] = useState(false);
 
   const [proBuilds, setProBuilds] = useState([]);
   const [items, setItems] = useState([]);
@@ -179,17 +178,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
       // Load pro builds
       if (hero.pro_builds && Array.isArray(hero.pro_builds)) {
-        console.log('🎯 Pro builds loaded:', hero.pro_builds.length);
-        if (hero.pro_builds.length > 0) {
-          console.log('🔍 First build:', {
-            emblem_id: hero.pro_builds[0].emblem_id,
-            emblem_talents: hero.pro_builds[0].emblem_talents,
-            battle_spell_id: hero.pro_builds[0].battle_spell_id
-          });
-        }
         setProBuilds(hero.pro_builds);
       } else {
-        console.log('⚠️ No pro_builds found');
         setProBuilds([]);
       }
     } else {
@@ -237,17 +227,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         .catch(err => console.error('Error loading items:', err));
       
       axios.get(`${API_URL}/emblems?game_id=${gameId}`)
-        .then(res => {
-          console.log('📥 Emblems loaded:', res.data?.length || 0);
-          if (res.data?.length > 0) {
-            console.log('🔍 First emblem:', res.data[0].name, {
-              tier1_talents: res.data[0].tier1_talents?.length || 0,
-              tier2_talents: res.data[0].tier2_talents?.length || 0,
-              tier3_talents: res.data[0].tier3_talents?.length || 0
-            });
-          }
-          setEmblems(res.data || []);
-        })
+        .then(res => setEmblems(res.data || []))
         .catch(err => console.error('Error loading emblems:', err));
       
       axios.get(`${API_URL}/battle-spells?game_id=${gameId}`)
@@ -409,10 +389,10 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         return acc;
       }, {}),
       level_scaling: levelScaling,
-      // При редагуванні зберігаємо оригінальне is_transformed, при додаванні - беремо з showTransformed
+      // Зберігаємо оригінальне is_transformed
       is_transformed: editingSkillIndex !== null 
         ? (skills[editingSkillIndex]?.is_transformed ?? 0)
-        : (showTransformed ? 1 : 0)
+        : 0
     };
 
     if (editingSkillIndex !== null) {
@@ -670,28 +650,18 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               </div>
             )}
 
-            <label>Created At (auto-timestamp)</label>
-            <input
-              type="text"
-              name="created_at"
-              placeholder="Automatic creation timestamp"
-              value={formData.created_at || hero?.created_at || ''}
-              readOnly
-              style={{ marginBottom: '5px', backgroundColor: '#f5f5f5' }}
-            />
-
-            <label>Created At (custom timestamp)</label>
-            <input
-              type="text"
-              name="createdAt"
-              placeholder="Custom timestamp (optional)"
-              value={formData.createdAt || ''}
-              onChange={(e) => setFormData({ ...formData, createdAt: e.target.value ? parseInt(e.target.value) : null })}
-              style={{ marginBottom: '5px' }}
-              readOnly
-            />
-            {formData.createdAt && (
-              <div style={{ fontSize: '0.9rem', color: '#2563eb', marginBottom: '10px', fontWeight: '500' }}>
+            <label>Дата створення</label>
+            {formData.createdAt ? (
+              <div style={{ 
+                padding: '8px 12px',
+                background: '#f0f9ff',
+                border: '1px solid #bfdbfe',
+                borderRadius: '6px',
+                fontSize: '0.9rem', 
+                color: '#1e40af', 
+                marginBottom: '10px', 
+                fontWeight: '500'
+              }}>
                 📅 {new Date(formData.createdAt).toLocaleString('uk-UA', { 
                   year: 'numeric', 
                   month: 'long', 
@@ -701,9 +671,21 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   second: '2-digit'
                 })}
               </div>
+            ) : (
+              <div style={{ 
+                padding: '8px 12px',
+                background: '#f9fafb',
+                border: '1px solid #e5e7eb',
+                borderRadius: '6px',
+                fontSize: '0.85rem', 
+                color: '#6b7280',
+                marginBottom: '10px'
+              }}>
+                Дата не встановлена
+              </div>
             )}
 
-            <div style={{ 
+            <div style={{
               marginTop: '20px', 
               marginBottom: '20px',
               padding: '15px',
@@ -1211,62 +1193,19 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           {/* Skills Tab */}
           {activeTab === 'skills' && (
           <div className="form-section">
-            {/* Кнопка перемикання */}
-            {skills.length > 0 && skills.some(s => s.is_transformed === 1) && (
-              <div style={{ 
-                marginBottom: '16px', 
-                padding: '12px', 
-                background: '#f3f4f6', 
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px'
-              }}>
-                <button
-                  type="button"
-                  onClick={() => setShowTransformed(!showTransformed)}
-                  style={{
-                    padding: '8px 16px',
-                    background: showTransformed ? '#8b5cf6' : '#3b82f6',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '6px',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem'
-                  }}
-                >
-                  {showTransformed ? '⚡ Показати базові' : '🔄 Показати трансформовані'}
-                </button>
-                <span style={{ color: '#6b7280', fontSize: '0.85rem' }}>
-                  {showTransformed 
-                    ? 'Відображаються трансформовані версії навичок'
-                    : 'Відображаються базові версії навичок'
-                  }
-                </span>
-              </div>
-            )}
             {skills.length > 0 && (
               <div ref={skillsListRef} className="skills-list">
-                {skills.map((skill, skillIndex) => {
-                  const isTransformed = skill.is_transformed === 1;
-                  
-                  // Перевіряємо чи ця базова навичка має трансформовану заміну
-                  const hasTransformedReplacement = skills.some(s => 
-                    s.is_transformed === 1 && s.replaces_skill_id === skill.id
-                  );
-                  
-                  // Логіка відображення:
-                  let shouldShow = false;
-                  if (showTransformed) {
-                    // Режим трансформації: показуємо трансформовані + базові які НЕ замінюються
-                    shouldShow = isTransformed || (!isTransformed && !hasTransformedReplacement);
-                  } else {
-                    // Базовий режим: показуємо тільки базові навички
-                    shouldShow = !isTransformed;
-                  }
-                  
-                  if (!shouldShow) return null;
+                {skills
+                  .sort((a, b) => {
+                    // Спочатку базові (is_transformed = 0), потім трансформовані (is_transformed = 1)
+                    if (a.is_transformed !== b.is_transformed) {
+                      return (a.is_transformed ? 1 : 0) - (b.is_transformed ? 1 : 0);
+                    }
+                    // В межах однієї групи - за display_order
+                    return (a.display_order || 0) - (b.display_order || 0);
+                  })
+                  .map((skill, skillIndex) => {
+                  const isTransformed = skill.is_transformed == 1 || skill.is_transformed === true;
                   
                   return (
                   <div 
@@ -1324,6 +1263,22 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                         {skill.skill_type === 'passive' ? 'PASSIVE' : 'ACTIVE'}
                       </span>
                     </div>
+                    {skill.replaces_skill_id && (
+                      <div style={{ 
+                        marginTop: '8px', 
+                        padding: '6px 10px', 
+                        background: '#fef3c7', 
+                        border: '1px solid #fbbf24', 
+                        borderRadius: '4px',
+                        fontSize: '0.85rem',
+                        color: '#92400e'
+                      }}>
+                        <strong>🔄 Замінює навичку ID:</strong> {skill.replaces_skill_id}
+                        {skills.find(s => s.id === skill.replaces_skill_id) && (
+                          <span> ({skills.find(s => s.id === skill.replaces_skill_id).skill_name})</span>
+                        )}
+                      </div>
+                    )}
                     {skill.skill_description && (
                       <p><strong>Опис:</strong> {skill.skill_description}</p>
                     )}
@@ -1366,7 +1321,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     </div>
                   </div>
                 );
-                }).filter(Boolean)}
+                })}
               </div>
             )}
 

@@ -223,65 +223,8 @@ function HeroList({ heroes, onEdit, onDelete }) {
             </td>
             <td>
               {hero.skills && hero.skills.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  {/* Кнопка перемикання якщо є трансформовані навички */}
-                  {hero.skills.some(s => s.is_transformed === 1) && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const transformedSkills = hero.skills.filter(s => s.is_transformed === 1);
-                        const maxTransformations = Math.max(
-                          ...hero.skills
-                            .filter(s => !s.is_transformed)
-                            .map(baseSkill => 
-                              transformedSkills.filter(t => t.replaces_skill_id === baseSkill.id).length
-                            )
-                        );
-                        
-                        const currentIndex = transformationIndex[hero.id] || 0;
-                        const nextIndex = (currentIndex + 1) % (maxTransformations + 1);
-                        
-                        setTransformationIndex(prev => ({
-                          ...prev,
-                          [hero.id]: nextIndex
-                        }));
-                        
-                        setTransformedState(prev => ({
-                          ...prev,
-                          [hero.id]: nextIndex > 0
-                        }));
-                      }}
-                      style={{
-                        padding: '3px 6px',
-                        fontSize: '0.65rem',
-                        background: transformedState[hero.id] ? '#8b5cf6' : '#3b82f6',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '3px',
-                        cursor: 'pointer',
-                        fontWeight: '600',
-                        alignSelf: 'flex-start'
-                      }}
-                    >
-                      {(() => {
-                        const currentIndex = transformationIndex[hero.id] || 0;
-                        if (currentIndex === 0) return '⚡';
-                        
-                        const transformedSkills = hero.skills.filter(s => s.is_transformed === 1);
-                        const maxTransformations = Math.max(
-                          ...hero.skills
-                            .filter(s => !s.is_transformed)
-                            .map(baseSkill => 
-                              transformedSkills.filter(t => t.replaces_skill_id === baseSkill.id).length
-                            )
-                        );
-                        
-                        return maxTransformations > 1 
-                          ? `${currentIndex}/${maxTransformations}`
-                          : '🔄';
-                      })()}
-                    </button>
-                  )}
+                <div style={{ display: 'flex', flexDirection: '', gap: '4px' }}>
+                  
                   <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
                   {(() => {
                     const currentTransformIndex = transformationIndex[hero.id] || 0;
@@ -289,18 +232,29 @@ function HeroList({ heroes, onEdit, onDelete }) {
                     // Якщо показуємо трансформовані - замінюємо базові навички на трансформовані
                     if (currentTransformIndex > 0) {
                       const baseSkills = hero.skills.filter(s => !s.is_transformed);
-                      const transformedSkills = hero.skills.filter(s => s.is_transformed === 1);
+                      const transformedSkills = hero.skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
                       
-                      // Для кожної базової навички перевіряємо чи є трансформована заміна
-                      return baseSkills.map((baseSkill, idx) => {
-                        // Знаходимо всі трансформації для цієї базової навички
-                        const replacements = transformedSkills
-                          .filter(t => t.replaces_skill_id === baseSkill.id)
-                          .sort((a, b) => a.transformation_order - b.transformation_order);
+                      // Створюємо масив навичок для відображення
+                      const skillsToShow = [];
+                      
+                      baseSkills.forEach(baseSkill => {
+                        // Знаходимо трансформовану навичку для цієї базової з потрібним transformation_order
+                        const replacement = transformedSkills.find(t => 
+                          t.replaces_skill_id === baseSkill.id && 
+                          t.transformation_order === currentTransformIndex
+                        );
                         
-                        // Використовуємо глобальний індекс трансформації
-                        const replacement = replacements[currentTransformIndex - 1];
-                        const skillToShow = replacement || baseSkill;
+                        if (replacement) {
+                          // Є трансформація - показуємо її замість базової
+                          skillsToShow.push(replacement);
+                        } else {
+                          // Немає трансформації - показуємо базову
+                          skillsToShow.push(baseSkill);
+                        }
+                      });
+                      
+                      return skillsToShow.map((skillToShow, idx) => {
+                        const isReplacement = skillToShow.is_transformed === 1 || skillToShow.is_transformed === true;
                         
                         return (
                           (skillToShow.image || skillToShow.preview) && (
@@ -316,7 +270,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
                                   width: '36px', 
                                   height: '36px', 
                                   borderRadius: '6px',
-                                  border: replacement ? '2px solid #8b5cf6' : '2px solid #cbd5e1',
+                                  border: isReplacement ? '2px solid #8b5cf6' : '2px solid #cbd5e1',
                                   backgroundColor: '#1e293b',
                                   cursor: 'help',
                                   display: 'block'
@@ -354,7 +308,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
                     } else {
                       // Показуємо тільки базові навички
                       return hero.skills
-                        .filter(skill => skill.is_transformed !== 1)
+                        .filter(skill => !(skill.is_transformed === 1 || skill.is_transformed === true))
                         .map((skill, idx) => (
                     (skill.image || skill.preview) && (
                       <div 
@@ -406,6 +360,64 @@ function HeroList({ heroes, onEdit, onDelete }) {
                     }
                   })()}
                   </div>
+                  {/* Кнопка перемикання якщо є трансформовані навички */}
+                  {hero.skills.some(s => s.is_transformed === 1 || s.is_transformed === true) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const transformedSkills = hero.skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
+                        const maxTransformations = Math.max(
+                          ...hero.skills
+                            .filter(s => !s.is_transformed)
+                            .map(baseSkill => 
+                              transformedSkills.filter(t => t.replaces_skill_id === baseSkill.id).length
+                            )
+                        );
+                        
+                        const currentIndex = transformationIndex[hero.id] || 0;
+                        const nextIndex = (currentIndex + 1) % (maxTransformations + 1);
+                        
+                        setTransformationIndex(prev => ({
+                          ...prev,
+                          [hero.id]: nextIndex
+                        }));
+                        
+                        setTransformedState(prev => ({
+                          ...prev,
+                          [hero.id]: nextIndex > 0
+                        }));
+                      }}
+                      style={{
+                        padding: '3px 6px',
+                        fontSize: '0.65rem',
+                        background: transformedState[hero.id] ? '#8b5cf6' : '#3b82f6',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '3px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        alignSelf: 'flex-start'
+                      }}
+                    >
+                      {(() => {
+                        const currentIndex = transformationIndex[hero.id] || 0;
+                        if (currentIndex === 0) return '⚡';
+                        
+                        const transformedSkills = hero.skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
+                        const maxTransformations = Math.max(
+                          ...hero.skills
+                            .filter(s => !s.is_transformed)
+                            .map(baseSkill => 
+                              transformedSkills.filter(t => t.replaces_skill_id === baseSkill.id).length
+                            )
+                        );
+                        
+                        return maxTransformations > 1 
+                          ? `${currentIndex}/${maxTransformations}`
+                          : '🔄';
+                      })()}
+                    </button>
+                  )}
                 </div>
               ) : (
                 <span style={{ color: '#9ca3af', fontSize: '0.75rem' }}>—</span>
