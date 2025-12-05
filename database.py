@@ -509,9 +509,10 @@ def add_hero_stat(hero_id, stat_name, value):
         cursor = conn.cursor(cursor_factory=RealDictCursor)
     else:
         cursor = conn.cursor()
-    cursor.execute("""
+    ph = get_placeholder()
+    cursor.execute(f"""
         INSERT INTO hero_stats (hero_id, stat_name, value)
-        VALUES (?, ?, ?)
+        VALUES ({ph}, {ph}, {ph})
     """, (hero_id, stat_name, value))
     conn.commit()
     release_connection(conn)
@@ -555,10 +556,11 @@ def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skil
     effect_types_json = json.dumps(effect_types) if effect_types else None
     effect_json = json.dumps(effect) if isinstance(effect, list) else effect
     
-    cursor.execute("""
+    ph = get_placeholder()
+    cursor.execute(f"""
         INSERT INTO hero_skills (hero_id, skill_name, skill_description, effect, preview, image,
                                 skill_type, skill_parameters, level_scaling, passive_description, active_description, effect_types)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
     """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, passive_description, active_description, effect_types_json))
     conn.commit()
     release_connection(conn)
@@ -690,9 +692,10 @@ def add_item(game_id, name, description, item_type, rarity, cost, stats):
     
     stats_json = json.dumps(stats) if stats else None
     
-    cursor.execute("""
+    ph = get_placeholder()
+    cursor.execute(f"""
         INSERT INTO items (game_id, name, description, type, rarity, cost, stats)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
     """, (game_id, name, description, item_type, rarity, cost, stats_json))
     item_id = cursor.lastrowid
     conn.commit()
@@ -887,9 +890,10 @@ def add_emblem_talent(game_id, tier, name, effect, icon_url=None):
         cursor = conn.cursor(cursor_factory=RealDictCursor)
     else:
         cursor = conn.cursor()
-    cursor.execute("""
+    ph = get_placeholder()
+    cursor.execute(f"""
         INSERT INTO emblem_talents (game_id, tier, name, effect, icon_url)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
     """, (game_id, tier, name, effect, icon_url))
     talent_id = cursor.lastrowid
     conn.commit()
