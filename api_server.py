@@ -373,8 +373,9 @@ def get_battle_spell_api(spell_id):
 # Utility endpoint to fix emblem IDs after migration
 @app.route('/api/fix-emblem-ids', methods=['POST'])
 def fix_emblem_ids():
-    """Fix emblem IDs in pro_builds (old 34-40 -> new 1-7)"""
+    """Fix emblem IDs and battle_spell IDs in pro_builds"""
     EMBLEM_MAPPING = {34: 1, 35: 2, 36: 3, 37: 7, 38: 5, 39: 7, 40: 7}
+    SPELL_MAPPING = {13: 1, 14: 2, 15: 3, 16: 4, 17: 5, 18: 6, 19: 7, 20: 8, 21: 9, 22: 10, 23: 11, 24: 12}
     
     conn = db.get_connection()
     if db.DATABASE_TYPE == 'postgres':
@@ -404,9 +405,14 @@ def fix_emblem_ids():
             
             updated = False
             for build in builds:
-                old_id = build.get('emblem_id')
-                if old_id in EMBLEM_MAPPING:
-                    build['emblem_id'] = EMBLEM_MAPPING[old_id]
+                old_emblem = build.get('emblem_id')
+                if old_emblem in EMBLEM_MAPPING:
+                    build['emblem_id'] = EMBLEM_MAPPING[old_emblem]
+                    updated = True
+                
+                old_spell = build.get('battle_spell_id')
+                if old_spell in SPELL_MAPPING:
+                    build['battle_spell_id'] = SPELL_MAPPING[old_spell]
                     updated = True
             
             if updated:
