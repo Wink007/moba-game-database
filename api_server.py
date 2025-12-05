@@ -762,6 +762,48 @@ def debug_relation(hero_id):
         return jsonify({'name': result[0], 'relation_raw': result[1], 'relation_length': len(result[1]) if result[1] else 0})
     return jsonify({'error': 'Hero not found'}), 404
 
+@app.route('/api/add-indexes', methods=['POST'])
+def add_indexes():
+    """Додає індекси для оптимізації запитів"""
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        indexes = [
+            "CREATE INDEX IF NOT EXISTS idx_heroes_game_id ON heroes(game_id)",
+            "CREATE INDEX IF NOT EXISTS idx_hero_stats_hero_id ON hero_stats(hero_id)",
+            "CREATE INDEX IF NOT EXISTS idx_hero_skills_hero_id ON hero_skills(hero_id)",
+            "CREATE INDEX IF NOT EXISTS idx_hero_skills_transformed ON hero_skills(is_transformed)",
+            "CREATE INDEX IF NOT EXISTS idx_hero_skills_replaces ON hero_skills(replaces_skill_id)",
+            "CREATE INDEX IF NOT EXISTS idx_items_game_id ON items(game_id)",
+            "CREATE INDEX IF NOT EXISTS idx_equipment_game_id ON equipment(game_id)",
+            "CREATE INDEX IF NOT EXISTS idx_emblems_game_id ON emblems(game_id)",
+            "CREATE INDEX IF NOT EXISTS idx_battle_spells_game_id ON battle_spells(game_id)",
+        ]
+        
+        created = []
+        errors = []
+        
+        for index_sql in indexes:
+            try:
+                cursor.execute(index_sql)
+                index_name = index_sql.split("idx_")[1].split(" ON")[0]
+                created.append(f"idx_{index_name}")
+            except Exception as e:
+                errors.append(str(e))
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({
+            'status': 'success',
+            'created': created,
+            'errors': errors,
+            'total': len(created)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
