@@ -11,12 +11,14 @@ import EmblemViewer from './components/EmblemViewer';
 import BattleSpellList from './components/BattleSpellList';
 import BattleSpellForm from './components/BattleSpellForm';
 
-const API_URL = 'http://localhost:8080/api';
+// Railway API URL (онлайн) або localhost для локальної розробки
+const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up.railway.app/api';
 
 function App() {
   const [activeTab, setActiveTab] = useState('games');
   const [games, setGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
+  console.log('selectedGame: ', selectedGame);
   const [showGameForm, setShowGameForm] = useState(false);
   const [editingGame, setEditingGame] = useState(null);
   
