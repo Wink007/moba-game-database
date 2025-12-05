@@ -750,6 +750,18 @@ def cache_stats():
         'description': 'Кеш на 5 хвилин для всіх GET запитів'
     })
 
+@app.route('/api/debug/relation/<int:hero_id>', methods=['GET'])
+def debug_relation(hero_id):
+    """Перевіряє RAW значення relation з бази"""
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name, relation FROM heroes WHERE id = %s", (hero_id,))
+    result = cursor.fetchone()
+    db.release_connection(conn)
+    if result:
+        return jsonify({'name': result[0], 'relation_raw': result[1], 'relation_length': len(result[1]) if result[1] else 0})
+    return jsonify({'error': 'Hero not found'}), 404
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
