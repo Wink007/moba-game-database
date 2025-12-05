@@ -236,6 +236,7 @@ def get_heroes(game_id=None, include_details=False):
             hero.pop('role', None)
             
             # Парсимо relation
+            if hero.get('relation') and hero['relation'].strip():
                 try:
                     hero['relation'] = json.loads(hero['relation'])
                 except:
