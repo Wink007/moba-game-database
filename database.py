@@ -184,109 +184,106 @@ def get_heroes(game_id=None, include_details=False):
     # Тільки для include_details=True робимо повний parsing
     if include_details:
         for hero in heroes:
-        if hero.get('roles') and hero['roles'].strip():
-            try:
-                hero['roles'] = json.loads(hero['roles'])
-            except:
+            if hero.get('roles') and hero['roles'].strip():
+                try:
+                    hero['roles'] = json.loads(hero['roles'])
+                except:
+                    hero['roles'] = []
+                # Видаляємо role поле якщо є roles
+                hero.pop('role', None)
+            else:
                 hero['roles'] = []
-            # Видаляємо role поле якщо є roles
-            hero.pop('role', None)
-        else:
-            hero['roles'] = []
-        
-        if hero.get('specialty') and hero['specialty'].strip():
-            try:
-                hero['specialty'] = json.loads(hero['specialty'])
-            except:
+            
+            if hero.get('specialty') and hero['specialty'].strip():
+                try:
+                    hero['specialty'] = json.loads(hero['specialty'])
+                except:
+                    hero['specialty'] = []
+            else:
                 hero['specialty'] = []
-        else:
-            hero['specialty'] = []
-        
-        if hero.get('lane') and hero['lane'].strip():
-            try:
-                hero['lane'] = json.loads(hero['lane'])
-            except:
+            
+            if hero.get('lane') and hero['lane'].strip():
+                try:
+                    hero['lane'] = json.loads(hero['lane'])
+                except:
+                    hero['lane'] = []
+            else:
                 hero['lane'] = []
-        else:
-            hero['lane'] = []
-        
-        if hero.get('relation') and hero['relation'].strip():
-            try:
-                hero['relation'] = json.loads(hero['relation'])
-            except:
+            
+            if hero.get('relation') and hero['relation'].strip():
+                try:
+                    hero['relation'] = json.loads(hero['relation'])
+                except:
+                    hero['relation'] = None
+            else:
                 hero['relation'] = None
-        else:
-            hero['relation'] = None
-        
-        # Конвертуємо use_energy з INTEGER в boolean
-        hero['use_energy'] = bool(hero.get('use_energy', 0))
-        
-        # Обробка pro_builds - конвертація старого формату в новий
-        if hero.get('pro_builds') and hero['pro_builds'].strip():
-            try:
-                builds_data = json.loads(hero['pro_builds'])
-                # Якщо старий формат {"builds": [...]}
-                if isinstance(builds_data, dict) and 'builds' in builds_data:
-                    old_builds = builds_data['builds']
-                    new_builds = []
-                    for old_build in old_builds[:3]:  # максимум 3 білди
-                        new_build = {
-                            'core_items': [],
-                            'optional_items': [],
-                            'emblem_id': None,
-                            'emblem_talents': []
-                        }
+            
+            # Обробка pro_builds - конвертація старого формату в новий
+            if hero.get('pro_builds') and hero['pro_builds'].strip():
+                try:
+                    builds_data = json.loads(hero['pro_builds'])
+                    # Якщо старий формат {"builds": [...]}
+                    if isinstance(builds_data, dict) and 'builds' in builds_data:
+                        old_builds = builds_data['builds']
+                        new_builds = []
+                        for old_build in old_builds[:3]:  # максимум 3 білди
+                            new_build = {
+                                'core_items': [],
+                                'optional_items': [],
+                                'emblem_id': None,
+                                'emblem_talents': []
+                            }
+                            
+                            # Конвертація equipment_build -> core_items, optional_items
+                            if 'equipment_build' in old_build:
+                                eq = old_build['equipment_build']
+                                # main_items -> core_items (тільки ID)
+                                if 'main_items' in eq and isinstance(eq['main_items'], list):
+                                    new_build['core_items'] = [item.get('id') for item in eq['main_items'] if item.get('id')][:6]
+                                # additional_items -> optional_items (тільки ID)
+                                if 'additional_items' in eq and isinstance(eq['additional_items'], list):
+                                    new_build['optional_items'] = [item.get('id') for item in eq['additional_items'] if item.get('id')][:2]
+                            
+                            # Конвертація emblem
+                            if 'emblem' in old_build and isinstance(old_build['emblem'], dict):
+                                emblem = old_build['emblem']
+                                new_build['emblem_id'] = emblem.get('emblem_id')
+                                new_build['emblem_talents'] = [
+                                    emblem.get('tier1'),
+                                    emblem.get('tier2'),
+                                    emblem.get('tier3')
+                                ]
+                            
+                            new_builds.append(new_build)
                         
-                        # Конвертація equipment_build -> core_items, optional_items
-                        if 'equipment_build' in old_build:
-                            eq = old_build['equipment_build']
-                            # main_items -> core_items (тільки ID)
-                            if 'main_items' in eq and isinstance(eq['main_items'], list):
-                                new_build['core_items'] = [item.get('id') for item in eq['main_items'] if item.get('id')][:6]
-                            # additional_items -> optional_items (тільки ID)
-                            if 'additional_items' in eq and isinstance(eq['additional_items'], list):
-                                new_build['optional_items'] = [item.get('id') for item in eq['additional_items'] if item.get('id')][:2]
-                        
-                        # Конвертація emblem
-                        if 'emblem' in old_build and isinstance(old_build['emblem'], dict):
-                            emblem = old_build['emblem']
-                            new_build['emblem_id'] = emblem.get('emblem_id')
-                            new_build['emblem_talents'] = [
-                                emblem.get('tier1'),
-                                emblem.get('tier2'),
-                                emblem.get('tier3')
-                            ]
-                        
-                        new_builds.append(new_build)
-                    
-                    hero['pro_builds'] = new_builds
-                # Якщо вже новий формат - список білдів
-                elif isinstance(builds_data, list):
-                    hero['pro_builds'] = builds_data
-                else:
+                        hero['pro_builds'] = new_builds
+                    # Якщо вже новий формат - список білдів
+                    elif isinstance(builds_data, list):
+                        hero['pro_builds'] = builds_data
+                    else:
+                        hero['pro_builds'] = []
+                except:
                     hero['pro_builds'] = []
-            except:
+            else:
                 hero['pro_builds'] = []
-        else:
-            hero['pro_builds'] = []
-        
-        # Parse counter_data
-        if hero.get('counter_data') and hero['counter_data'].strip():
-            try:
-                hero['counter_data'] = json.loads(hero['counter_data'])
-            except:
+            
+            # Parse counter_data
+            if hero.get('counter_data') and hero['counter_data'].strip():
+                try:
+                    hero['counter_data'] = json.loads(hero['counter_data'])
+                except:
+                    hero['counter_data'] = None
+            else:
                 hero['counter_data'] = None
-        else:
-            hero['counter_data'] = None
-        
-        # Parse compatibility_data
-        if hero.get('compatibility_data') and hero['compatibility_data'].strip():
-            try:
-                hero['compatibility_data'] = json.loads(hero['compatibility_data'])
-            except:
+            
+            # Parse compatibility_data
+            if hero.get('compatibility_data') and hero['compatibility_data'].strip():
+                try:
+                    hero['compatibility_data'] = json.loads(hero['compatibility_data'])
+                except:
+                    hero['compatibility_data'] = None
+            else:
                 hero['compatibility_data'] = None
-        else:
-            hero['compatibility_data'] = None
     
     return heroes
 
