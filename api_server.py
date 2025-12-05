@@ -517,6 +517,44 @@ def fix_recipe_ids():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# Оптимізація: створення індексів
+@app.route('/api/create-indexes', methods=['POST'])
+def create_indexes():
+    """Створює індекси для оптимізації запитів (тільки PostgreSQL)"""
+    try:
+        if db.DATABASE_TYPE != 'postgres':
+            return jsonify({'error': 'Індекси підтримуються тільки для PostgreSQL'}), 400
+        
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        indexes = [
+            ("idx_heroes_game_id", "CREATE INDEX IF NOT EXISTS idx_heroes_game_id ON heroes(game_id)"),
+            ("idx_hero_stats_hero_id", "CREATE INDEX IF NOT EXISTS idx_hero_stats_hero_id ON hero_stats(hero_id)"),
+            ("idx_hero_skills_hero_id", "CREATE INDEX IF NOT EXISTS idx_hero_skills_hero_id ON hero_skills(hero_id)"),
+            ("idx_equipment_game_id", "CREATE INDEX IF NOT EXISTS idx_equipment_game_id ON equipment(game_id)"),
+            ("idx_emblems_game_id", "CREATE INDEX IF NOT EXISTS idx_emblems_game_id ON emblems(game_id)"),
+            ("idx_battle_spells_game_id", "CREATE INDEX IF NOT EXISTS idx_battle_spells_game_id ON battle_spells(game_id)"),
+            ("idx_emblem_talents_emblem_id", "CREATE INDEX IF NOT EXISTS idx_emblem_talents_emblem_id ON emblem_talents(emblem_id)")
+        ]
+        
+        created = []
+        for idx_name, sql in indexes:
+            cursor.execute(sql)
+            created.append(idx_name)
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({
+            'success': True,
+            'created': created,
+            'count': len(created)
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
