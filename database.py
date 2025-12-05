@@ -366,6 +366,10 @@ def get_hero(hero_id):
         # Конвертуємо use_energy з INTEGER в boolean
         hero['use_energy'] = bool(hero.get('use_energy', 0))
         
+        # Конвертуємо created_at -> createdAt для camelCase
+        if 'created_at' in hero:
+            hero['createdAt'] = hero['created_at']
+        
         # Обробка pro_builds - конвертація старого формату в новий
         if hero.get('pro_builds') and hero['pro_builds'].strip():
             try:
@@ -462,7 +466,7 @@ def add_hero(game_id, name, hero_game_id, image, short_description, full_descrip
     release_connection(conn)
     return hero_id
 
-def update_hero(hero_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, pro_builds=None, created_at=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None):
+def update_hero(hero_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, pro_builds=None, created_at=None, createdAt=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -485,7 +489,7 @@ def update_hero(hero_id, name, hero_game_id, image, short_description, full_desc
         SET name = {ph}, hero_game_id = {ph}, image = {ph}, 
             short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}
         WHERE id = {ph}
-    """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_id))
+    """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_id))
     conn.commit()
     release_connection(conn)
 
@@ -543,7 +547,7 @@ def delete_hero_stats(hero_id):
     release_connection(conn)
 
 # Hero Skills
-def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skill_type, skill_parameters, level_scaling, passive_description=None, active_description=None, effect_types=None):
+def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skill_type, skill_parameters, level_scaling, passive_description=None, active_description=None, effect_types=None, is_transformed=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -559,9 +563,9 @@ def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skil
     ph = get_placeholder()
     cursor.execute(f"""
         INSERT INTO hero_skills (hero_id, skill_name, skill_description, effect, preview, image,
-                                skill_type, skill_parameters, level_scaling, passive_description, active_description, effect_types)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, passive_description, active_description, effect_types_json))
+                                skill_type, skill_parameters, level_scaling, passive_description, active_description, effect_types, is_transformed)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+    """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, passive_description, active_description, effect_types_json, is_transformed or 0))
     conn.commit()
     release_connection(conn)
 

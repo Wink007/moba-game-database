@@ -39,7 +39,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [activeTab, setActiveTab] = useState('basic');
 
   const [heroStats, setHeroStats] = useState([
-    { stat_name: 'HP', value: '' },
+    { вstat_name: 'HP', value: '' },
     { stat_name: 'HP Regen', value: '' },
     { stat_name: 'Mana', value: '' },
     { stat_name: 'Mana Regen', value: '' },
@@ -110,6 +110,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   }, [formData.use_energy]);
 
   // Load hero data when editing
+  // Load hero data when editing
   useEffect(() => {
     if (hero) {
       setFormData({
@@ -123,7 +124,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         use_energy: hero.use_energy || false,
         short_description: hero.short_description || '',
         full_description: hero.full_description || '',
-        createdAt: hero.createdAt || null,
+        created_at: hero.created_at || null,
+        createdAt: hero.createdAt || hero.createdat || null,
         head: hero.head || '',
         main_hero_ban_rate: hero.main_hero_ban_rate || null,
         main_hero_appearance_rate: hero.main_hero_appearance_rate || null,
@@ -676,19 +678,36 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               </div>
             )}
 
-            <label>Created At (timestamp)</label>
+            <label>Created At (auto-timestamp)</label>
+            <input
+              type="text"
+              name="created_at"
+              placeholder="Automatic creation timestamp"
+              value={formData.created_at || hero?.created_at || ''}
+              readOnly
+              style={{ marginBottom: '5px', backgroundColor: '#f5f5f5' }}
+            />
+
+            <label>Created At (custom timestamp)</label>
             <input
               type="text"
               name="createdAt"
-              placeholder="Creation timestamp (auto-filled from API)"
+              placeholder="Custom timestamp (optional)"
               value={formData.createdAt || ''}
               onChange={(e) => setFormData({ ...formData, createdAt: e.target.value ? parseInt(e.target.value) : null })}
-              style={{ marginBottom: '10px' }}
+              style={{ marginBottom: '5px' }}
               readOnly
             />
             {formData.createdAt && (
-              <div style={{ fontSize: '0.85rem', color: '#666', marginBottom: '10px' }}>
-                📅 {new Date(formData.createdAt).toLocaleString('uk-UA')}
+              <div style={{ fontSize: '0.9rem', color: '#2563eb', marginBottom: '10px', fontWeight: '500' }}>
+                📅 {new Date(formData.createdAt).toLocaleString('uk-UA', { 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric', 
+                  hour: '2-digit', 
+                  minute: '2-digit',
+                  second: '2-digit'
+                })}
               </div>
             )}
 

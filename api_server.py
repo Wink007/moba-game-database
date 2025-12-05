@@ -141,7 +141,8 @@ def create_hero():
                 skill.get('level_scaling', []),
                 skill.get('passive_description', ''),
                 skill.get('active_description', ''),
-                skill.get('effect_types', [])
+                skill.get('effect_types', []),
+                skill.get('is_transformed', 0)
             )
     
     return jsonify({'id': hero_id}), 201
@@ -166,7 +167,8 @@ def update_hero(hero_id):
             data.get('damage_type', ''),
             data.get('relation', None),
             data.get('pro_builds', None),
-            data.get('createdAt', None),
+            None,  # created_at (автоматичне поле, не змінюємо)
+            data.get('createdAt', None),  # createdAt (timestamp в мілісекундах)
             data.get('head', None),
             data.get('main_hero_ban_rate', None),
             data.get('main_hero_appearance_rate', None),
@@ -203,14 +205,15 @@ def update_hero(hero_id):
                     hero_id,
                     skill_name,
                     skill_desc,
-                    effect,
+                    skill.get('effect', ''),
                     preview,
                     skill_type,
                     skill.get('skill_parameters', {}),
                     skill.get('level_scaling', []),
                     passive_desc,
                     active_desc,
-                    skill.get('effect_types', [])
+                    skill.get('effect_types', []),
+                    skill.get('is_transformed', 0)
                 )
         
         return jsonify({'success': True})

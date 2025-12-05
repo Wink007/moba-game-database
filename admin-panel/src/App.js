@@ -598,7 +598,6 @@ function App() {
                 try {
                   // Завантажуємо повні дані героя з API
                   const response = await axios.get(`${API_URL}/heroes/${hero.id}`);
-                  console.log('📝 Editing hero with full data:', response.data);
                   setEditingHero(response.data);
                   setShowHeroForm(true);
                 } catch (error) {
