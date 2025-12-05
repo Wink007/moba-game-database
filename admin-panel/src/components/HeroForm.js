@@ -1251,33 +1251,16 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                 {skills.map((skill, skillIndex) => {
                   const isTransformed = skill.is_transformed === 1;
                   
-                  // Визначаємо які навички замінюються (по назвам для конкретних героїв)
-                  // Для правильної роботи потрібно перевірити чи існує трансформована версія
-                  const skillName = skill.skill_name;
-                  
-                  // Знаходимо трансформовану навичку що замінює цю базову
-                  const hasTransformedReplacement = skills.some(s => {
-                    if (s.is_transformed !== 1) return false;
-                    // Перевіряємо чи є replaces_skill_id
-                    if (s.replaces_skill_id === skill.id) return true;
-                    // Fallback: для Beatrix - навички з однаковою назвою
-                    if (s.skill_name === skillName && s.is_transformed === 1) return true;
-                    return false;
-                  });
-                  
-                  // Перевіряємо чи ця трансформована навичка замінює якусь базову
-                  const replacesBaseSkill = isTransformed && skills.some(s => 
-                    s.is_transformed === 0 && (
-                      s.id === skill.replaces_skill_id || 
-                      (s.skill_name === skillName && skill.replaces_skill_id)
-                    )
+                  // Перевіряємо чи ця базова навичка має трансформовану заміну
+                  const hasTransformedReplacement = skills.some(s => 
+                    s.is_transformed === 1 && s.replaces_skill_id === skill.id
                   );
                   
                   // Логіка відображення:
                   let shouldShow = false;
                   if (showTransformed) {
                     // Режим трансформації: показуємо трансформовані + базові які НЕ замінюються
-                    shouldShow = isTransformed || !hasTransformedReplacement;
+                    shouldShow = isTransformed || (!isTransformed && !hasTransformedReplacement);
                   } else {
                     // Базовий режим: показуємо тільки базові навички
                     shouldShow = !isTransformed;

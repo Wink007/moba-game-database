@@ -49,9 +49,9 @@ def release_connection(conn):
         if pool:
             pool.putconn(conn)
         else:
-            release_connection(conn)
+            conn.close()
     else:
-        release_connection(conn)
+        conn.close()
 
 def dict_from_row(row):
     """Конвертує row в dict"""
