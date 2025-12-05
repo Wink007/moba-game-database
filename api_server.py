@@ -644,7 +644,80 @@ def fix_replaces():
                     "Wesker's Elation": "Renner's Apathy",
                     "Nibiru's Passion": "Renner's Apathy"
                 }
-            # Додайте інших героїв за потреби...
+            elif hero['name'] == 'Edith':
+                replacements = {
+                    'Divine Retribution': 'Earth Shatter',
+                    'Lightning Bolt': 'Onward'
+                }
+            elif hero['name'] == 'Hanzo':
+                replacements = {
+                    'Forbidden Ninjutsu: Soul Snatch': 'Ninjutsu: Demon Feast',
+                    'Forbidden Ninjutsu: Black Mist': 'Ninjutsu: Dark Mist',
+                    'Ninjutsu Flee: Return': 'Kinjutsu: Pinnacle Ninja'
+                }
+            elif hero['name'] == 'Julian':
+                replacements = {
+                    'Enhanced Scythe': 'Scythe',
+                    'Enhanced Sword': 'Sword',
+                    'Enhanced Chain': 'Chain'
+                }
+            elif hero['name'] == 'Lapu-Lapu':
+                replacements = {
+                    'Storm Sword': 'Justice Blades',
+                    'Raging Slash': 'Jungle Warrior',
+                    'Land Shaker': 'Bravest Fighter'
+                }
+            elif hero['name'] == 'Leomord':
+                replacements = {
+                    'Phantom Stomp': 'Momentum',
+                    'Phantom Charge': 'Decimation Assault'
+                }
+            elif hero['name'] == 'Lukas':
+                # Для Lukas навички з однаковими назвами
+                for skill_name in ['Flash Combo', 'Flash Step']:
+                    base_id = next((s['id'] for s in hero['skills'] if s['skill_name'] == skill_name and s.get('is_transformed') == 0), None)
+                    if base_id:
+                        for s in hero['skills']:
+                            if s['skill_name'] == skill_name and s.get('is_transformed') == 1:
+                                cursor.execute(f'UPDATE hero_skills SET replaces_skill_id = {ph} WHERE id = {ph}', (base_id, s['id']))
+                                total += 1
+                
+                replacements = {
+                    'Shockwave Blast': 'Unleash the Beast'
+                }
+            elif hero['name'] == 'Lunox':
+                replacements = {
+                    'Power of Order: Brilliance': 'Order & Chaos',
+                    'Power of Chaos: Darkening': 'Order & Chaos'
+                }
+            elif hero['name'] == 'Popol and Kupa':
+                # Навички з однаковими назвами
+                for skill_name in ['Bite \'em, Kupa!', 'Kupa, Help!']:
+                    base_id = next((s['id'] for s in hero['skills'] if s['skill_name'] == skill_name and s.get('is_transformed') == 0), None)
+                    if base_id:
+                        for s in hero['skills']:
+                            if s['skill_name'] == skill_name and s.get('is_transformed') == 1:
+                                cursor.execute(f'UPDATE hero_skills SET replaces_skill_id = {ph} WHERE id = {ph}', (base_id, s['id']))
+                                total += 1
+                replacements = {}
+            elif hero['name'] == 'Selena':
+                replacements = {
+                    'Soul Eater': 'Abyssal Trap',
+                    'Garotte': 'Abyssal Arrow',
+                    'Blessing of the Moon Goddess': 'Primal Darkness'
+                }
+            elif hero['name'] == 'Yin':
+                # Instant Blast з однаковою назвою
+                base_id = next((s['id'] for s in hero['skills'] if s['skill_name'] == 'Instant Blast' and s.get('is_transformed') == 0), None)
+                if base_id:
+                    for s in hero['skills']:
+                        if s['skill_name'] == 'Instant Blast' and s.get('is_transformed') == 1:
+                            cursor.execute(f'UPDATE hero_skills SET replaces_skill_id = {ph} WHERE id = {ph}', (base_id, s['id']))
+                            total += 1
+                
+                replacements = {
+                    'Frenzy Strike': 'Charged Punch'
+                }
             
             for trans_skill, base_skill in replacements.items():
                 if trans_skill in skill_map and base_skill in skill_map:
