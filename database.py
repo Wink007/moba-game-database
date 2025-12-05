@@ -547,7 +547,7 @@ def delete_hero_stats(hero_id):
     release_connection(conn)
 
 # Hero Skills
-def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skill_type, skill_parameters, level_scaling, passive_description=None, active_description=None, effect_types=None, is_transformed=None, transformation_order=None, display_order=None):
+def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skill_type, skill_parameters, level_scaling, passive_description=None, active_description=None, effect_types=None, is_transformed=None, transformation_order=None, display_order=None, replaces_skill_id=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -563,9 +563,9 @@ def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skil
     ph = get_placeholder()
     cursor.execute(f"""
         INSERT INTO hero_skills (hero_id, skill_name, skill_description, effect, preview, image,
-                                skill_type, skill_parameters, level_scaling, passive_description, active_description, effect_types, is_transformed, transformation_order, display_order)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, passive_description, active_description, effect_types_json, is_transformed or 0, transformation_order or 0, display_order or 0))
+                                skill_type, skill_parameters, level_scaling, passive_description, active_description, effect_types, is_transformed, transformation_order, display_order, replaces_skill_id)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+    """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, passive_description, active_description, effect_types_json, is_transformed or 0, transformation_order or 0, display_order or 0, replaces_skill_id))
     conn.commit()
     release_connection(conn)
 

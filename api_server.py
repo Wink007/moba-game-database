@@ -144,7 +144,8 @@ def create_hero():
                 skill.get('effect_types', []),
                 skill.get('is_transformed', 0),
                 skill.get('transformation_order', 0),
-                skill.get('display_order', 0)
+                skill.get('display_order', 0),
+                skill.get('replaces_skill_id')
             )
     
     return jsonify({'id': hero_id}), 201
@@ -217,7 +218,8 @@ def update_hero(hero_id):
                     skill.get('effect_types', []),
                     skill.get('is_transformed', 0),
                     skill.get('transformation_order', 0),
-                    skill.get('display_order', 0)
+                    skill.get('display_order', 0),
+                    skill.get('replaces_skill_id')
                 )
         
         return jsonify({'success': True})
