@@ -84,8 +84,8 @@ def delete_game(game_id):
 
 def get_heroes():
     game_id = request.args.get('game_id')
-    # Для списку героїв НЕ завантажуємо skills (швидше)
-    heroes = db.get_heroes(game_id, include_details=False)
+    # Завантажуємо повні дані включно з навичками
+    heroes = db.get_heroes(game_id, include_details=True)
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
