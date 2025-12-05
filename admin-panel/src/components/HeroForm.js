@@ -177,8 +177,17 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
       // Load pro builds
       if (hero.pro_builds && Array.isArray(hero.pro_builds)) {
+        console.log('🎯 Pro builds loaded:', hero.pro_builds.length);
+        if (hero.pro_builds.length > 0) {
+          console.log('🔍 First build:', {
+            emblem_id: hero.pro_builds[0].emblem_id,
+            emblem_talents: hero.pro_builds[0].emblem_talents,
+            battle_spell_id: hero.pro_builds[0].battle_spell_id
+          });
+        }
         setProBuilds(hero.pro_builds);
       } else {
+        console.log('⚠️ No pro_builds found');
         setProBuilds([]);
       }
     } else {
@@ -226,7 +235,17 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         .catch(err => console.error('Error loading items:', err));
       
       axios.get(`${API_URL}/emblems?game_id=${gameId}`)
-        .then(res => setEmblems(res.data || []))
+        .then(res => {
+          console.log('📥 Emblems loaded:', res.data?.length || 0);
+          if (res.data?.length > 0) {
+            console.log('🔍 First emblem:', res.data[0].name, {
+              tier1_talents: res.data[0].tier1_talents?.length || 0,
+              tier2_talents: res.data[0].tier2_talents?.length || 0,
+              tier3_talents: res.data[0].tier3_talents?.length || 0
+            });
+          }
+          setEmblems(res.data || []);
+        })
         .catch(err => console.error('Error loading emblems:', err));
       
       axios.get(`${API_URL}/battle-spells?game_id=${gameId}`)

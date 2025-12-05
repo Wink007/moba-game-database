@@ -66,9 +66,18 @@ function App() {
   const loadHeroes = async (gameId) => {
     try {
       const response = await axios.get(`${API_URL}/heroes?game_id=${gameId}`);
+      console.log('📥 Heroes loaded:', response.data?.length || 0);
+      if (response.data?.length > 0) {
+        console.log('🔍 First hero:', response.data[0].name, {
+          lane: response.data[0].lane,
+          roles: response.data[0].roles,
+          laneType: typeof response.data[0].lane,
+          rolesType: typeof response.data[0].roles
+        });
+      }
       setHeroes(response.data || []);
     } catch (error) {
-      console.error('Помилка завантаження героїв:', error);
+      console.error('Failed to load heroes', error);
       setHeroes([]);
     }
   };
@@ -582,9 +591,17 @@ function App() {
 
             <HeroList
               heroes={heroes}
-              onEdit={(hero) => {
-                setEditingHero(hero);
-                setShowHeroForm(true);
+              onEdit={async (hero) => {
+                try {
+                  // Завантажуємо повні дані героя з API
+                  const response = await axios.get(`${API_URL}/heroes/${hero.id}`);
+                  console.log('📝 Editing hero with full data:', response.data);
+                  setEditingHero(response.data);
+                  setShowHeroForm(true);
+                } catch (error) {
+                  console.error('Failed to load hero details', error);
+                  alert('Не вдалося завантажити дані героя');
+                }
               }}
               onDelete={deleteHero}
             />

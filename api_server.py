@@ -370,6 +370,60 @@ def get_battle_spell_api(spell_id):
         return jsonify(spell)
     return jsonify({'error': 'Battle spell not found'}), 404
 
+# Utility endpoint to fix emblem IDs after migration
+@app.route('/api/fix-emblem-ids', methods=['POST'])
+def fix_emblem_ids():
+    """Fix emblem IDs in pro_builds (old 34-40 -> new 1-7)"""
+    EMBLEM_MAPPING = {34: 1, 35: 2, 36: 3, 37: 7, 38: 5, 39: 7, 40: 7}
+    
+    conn = db.get_connection()
+    if db.DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    cursor.execute("SELECT id, name, pro_builds FROM heroes WHERE pro_builds IS NOT NULL")
+    heroes = cursor.fetchall()
+    
+    updated_count = 0
+    for row in heroes:
+        hero_dict = dict(row)
+        hero_id = hero_dict['id']
+        name = hero_dict['name']
+        pro_builds_raw = hero_dict['pro_builds']
+        
+        try:
+            if isinstance(pro_builds_raw, str):
+                builds = json.loads(pro_builds_raw)
+            else:
+                builds = pro_builds_raw
+            
+            if not isinstance(builds, list) or len(builds) == 0:
+                continue
+            
+            updated = False
+            for build in builds:
+                old_id = build.get('emblem_id')
+                if old_id in EMBLEM_MAPPING:
+                    build['emblem_id'] = EMBLEM_MAPPING[old_id]
+                    updated = True
+            
+            if updated:
+                ph = db.get_placeholder()
+                cursor.execute(
+                    f"UPDATE heroes SET pro_builds = {ph} WHERE id = {ph}",
+                    (json.dumps(builds), hero_id)
+                )
+                updated_count += 1
+        except Exception as e:
+            print(f"Error fixing {name}: {e}")
+    
+    conn.commit()
+    conn.close()
+    
+    return jsonify({'updated': updated_count, 'total': len(heroes)})
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
