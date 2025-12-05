@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-# from flask_caching import Cache  # Тимчасово вимкнено - проблема з встановленням
+from flask_compress import Compress
 import json
 import os
 import database as db
@@ -8,11 +8,8 @@ import database as db
 app = Flask(__name__)
 CORS(app)
 
-# Налаштування кешування - ВИМКНЕНО
-# cache = Cache(app, config={
-#     'CACHE_TYPE': 'SimpleCache',
-#     'CACHE_DEFAULT_TIMEOUT': 300
-# })
+# Gzip compression для JSON відповідей (зменшує розмір на 70-80%)
+Compress(app)
 
 # Для Railway: використовуємо PORT з environment
 PORT = int(os.getenv('PORT', 8080))
