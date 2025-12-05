@@ -173,13 +173,35 @@ def get_heroes(game_id=None, include_details=False):
         # Завжди конвертуємо use_energy
         hero['use_energy'] = bool(hero.get('use_energy', 0))
         
+        # Завжди парсимо базові поля (lane, roles, specialty) - потрібні для UI
+        if hero.get('roles') and hero['roles'].strip():
+            try:
+                hero['roles'] = json.loads(hero['roles'])
+            except:
+                hero['roles'] = []
+        else:
+            hero['roles'] = []
+        
+        if hero.get('specialty') and hero['specialty'].strip():
+            try:
+                hero['specialty'] = json.loads(hero['specialty'])
+            except:
+                hero['specialty'] = []
+        else:
+            hero['specialty'] = []
+        
+        if hero.get('lane') and hero['lane'].strip():
+            try:
+                hero['lane'] = json.loads(hero['lane'])
+            except:
+                hero['lane'] = []
+        else:
+            hero['lane'] = []
+        
         if include_details:
             # Повна обробка тільки якщо потрібні деталі
             hero['hero_stats'] = stats_by_hero.get(hero['id'], [])
             hero['skills'] = skills_by_hero.get(hero['id'], [])
-        else:
-            # Для списку - тільки ID та базові поля, без stats/skills
-            continue
     
     # Тільки для include_details=True робимо повний parsing
     if include_details:
