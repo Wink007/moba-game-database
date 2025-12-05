@@ -452,9 +452,10 @@ def add_hero(game_id, name, hero_game_id, image, short_description, full_descrip
     # Convert hero_game_id to integer if it's a string
     hero_game_id_int = int(hero_game_id) if hero_game_id else None
     
-    cursor.execute("""
+    ph = get_placeholder()
+    cursor.execute(f"""
         INSERT INTO heroes (game_id, name, hero_game_id, image, short_description, full_description, lane, roles, use_energy, specialty, damage_type, relation, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
     """, (game_id, name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate))
     hero_id = cursor.lastrowid
     conn.commit()
@@ -478,11 +479,12 @@ def update_hero(hero_id, name, hero_game_id, image, short_description, full_desc
     # Convert hero_game_id to integer if it's a string
     hero_game_id_int = int(hero_game_id) if hero_game_id else None
     
-    cursor.execute("""
+    ph = get_placeholder()
+    cursor.execute(f"""
         UPDATE heroes 
-        SET name = ?, hero_game_id = ?, image = ?, 
-            short_description = ?, full_description = ?, lane = ?, roles = ?, use_energy = ?, specialty = ?, damage_type = ?, relation = ?, pro_builds = ?, createdAt = ?, head = ?, main_hero_ban_rate = ?, main_hero_appearance_rate = ?, main_hero_win_rate = ?
-        WHERE id = ?
+        SET name = {ph}, hero_game_id = {ph}, image = {ph}, 
+            short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}
+        WHERE id = {ph}
     """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_id))
     conn.commit()
     release_connection(conn)
