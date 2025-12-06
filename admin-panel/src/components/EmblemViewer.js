@@ -35,7 +35,7 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
   if (!emblems || emblems.length === 0) {
     return (
       <div style={{ padding: '40px', textAlign: 'center', color: '#9ca3af' }}>
-        Немає емблем для відображення
+        No emblems to display
       </div>
     );
   }
@@ -56,13 +56,13 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
       setEditingTalent(null);
       setEditedEffect('');
       
-      // Перезавантажуємо таланти
+      // Reload talents
       await loadTalents();
       
-      alert('Талант успішно оновлено!');
+      alert('Talent successfully updated!');
     } catch (error) {
-      console.error('Помилка при збереженні:', error);
-      alert('Помилка при збереженні таланту');
+      console.error('Error saving:', error);
+      alert('Error saving talent');
     }
   };
 
@@ -130,7 +130,7 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
                 cursor: 'pointer'
               }}
             >
-              ✏️ Редагувати
+              ✏️ Edit
             </button>
           )}
         </div>
@@ -163,7 +163,7 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
                   cursor: 'pointer'
                 }}
               >
-                ✓ Зберегти
+                ✓ Save
               </button>
               <button
                 onClick={handleCancel}
@@ -177,7 +177,7 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
                   cursor: 'pointer'
                 }}
               >
-                ✗ Скасувати
+                ✗ Cancel
               </button>
             </div>
           </div>
@@ -201,7 +201,7 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
       padding: '30px',
       minHeight: '600px'
     }}>
-      {/* Секція з емблемами */}
+      {/* Emblems Section */}
       <div style={{
         marginBottom: '30px',
         padding: '20px',
@@ -215,7 +215,7 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
           fontWeight: '700',
           color: '#1f2937'
         }}>
-          🎖️ Емблеми ({emblems.length})
+          🎖️ Emblems ({emblems.length})
         </h2>
         <div style={{
           display: 'grid',
@@ -273,7 +273,7 @@ function EmblemViewer({ emblems, gameId, onUpdate }) {
                     color: '#374151',
                     marginBottom: '6px'
                   }}>
-                    Атрибути:
+                    Attributes:
                   </div>
                   {Object.entries(emblem.base_stats).map(([stat, value]) => (
                     <div

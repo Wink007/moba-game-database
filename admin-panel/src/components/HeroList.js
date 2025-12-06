@@ -9,7 +9,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
   const [transformationIndex, setTransformationIndex] = useState({});
   const itemsPerPage = 10;
 
-  // Додати стилі для tooltip
+  // Add styles for tooltip
   React.useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
@@ -21,7 +21,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
     return () => document.head.removeChild(style);
   }, []);
 
-  // Скидання на першу сторінку при зміні фільтрів
+  // Reset to first page when filters change
   React.useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedLane, selectedRole]);
@@ -29,8 +29,8 @@ function HeroList({ heroes, onEdit, onDelete }) {
   if (heroes.length === 0) {
     return (
       <div className="empty-state">
-        <p>🦸 Немає героїв у цій грі</p>
-        <p>Натисніть "+ Додати героя" щоб створити першого</p>
+        <p>🦸 No heroes in this game</p>
+        <p>Click "+ Add Hero" to create the first one</p>
       </div>
     );
   }
@@ -41,7 +41,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
     return stat ? stat.value : null;
   };
 
-  // Фільтрація героїв
+  // Filtering heroes
   const filteredHeroes = heroes.filter(hero => {
     const matchesSearch = hero.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesLane = !selectedLane || (hero.lane && hero.lane.includes(selectedLane));
@@ -49,13 +49,13 @@ function HeroList({ heroes, onEdit, onDelete }) {
     return matchesSearch && matchesLane && matchesRole;
   });
 
-  // Пагінація
+  // Pagination
   const totalPages = Math.ceil(filteredHeroes.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentHeroes = filteredHeroes.slice(startIndex, endIndex);
 
-  // Отримати унікальні лінії та ролі
+  // Get unique lanes and roles
   const uniqueLanes = [...new Set(heroes.flatMap(h => h.lane || []))];
   const uniqueRoles = [...new Set(heroes.flatMap(h => h.roles || []))];
 
@@ -70,7 +70,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
       }}>
         <input
           type="text"
-          placeholder="🔍 Пошук за ім'ям..."
+          placeholder="🔍 Search by name..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
@@ -92,7 +92,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
             borderRadius: '6px'
           }}
         >
-          <option value="">Всі лінії</option>
+          <option value="">All Lanes</option>
           {uniqueLanes.map(lane => (
             <option key={lane} value={lane}>{lane}</option>
           ))}
@@ -108,7 +108,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
             borderRadius: '6px'
           }}
         >
-          <option value="">Всі ролі</option>
+          <option value="">All Roles</option>
           {uniqueRoles.map(role => (
             <option key={role} value={role}>{role}</option>
           ))}
@@ -130,12 +130,12 @@ function HeroList({ heroes, onEdit, onDelete }) {
               cursor: 'pointer'
             }}
           >
-            ✖️ Очистити
+            ✖️ Clear
           </button>
         )}
 
         <span style={{ fontSize: '0.85rem', color: '#6b7280', marginLeft: 'auto' }}>
-          Знайдено: {filteredHeroes.length} з {heroes.length} | Сторінка {currentPage} з {totalPages}
+          Found: {filteredHeroes.length} of {heroes.length} | Page {currentPage} of {totalPages}
         </span>
       </div>
 
@@ -143,13 +143,13 @@ function HeroList({ heroes, onEdit, onDelete }) {
       <thead>
         <tr>
           <th style={{ width: '40px' }}>ID</th>
-          <th style={{ width: '60px' }}>Фото</th>
-          <th style={{ width: '120px' }}>Ім'я</th>
-          <th style={{ width: '100px' }}>Лінія</th>
-          <th style={{ width: '120px' }}>Ролі</th>
+          <th style={{ width: '60px' }}>Preview</th>
+          <th style={{ width: '120px' }}>Name</th>
+          <th style={{ width: '100px' }}>Lane</th>
+          <th style={{ width: '120px' }}>Roles</th>
           <th style={{ width: '90px' }}>HP/MP</th>
-          <th style={{ width: '200px' }}>Здібності</th>
-          <th style={{ width: '100px' }}>Дії</th>
+          <th style={{ width: '200px' }}>Skills</th>
+          <th style={{ width: '100px' }}>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -159,14 +159,12 @@ function HeroList({ heroes, onEdit, onDelete }) {
             <td>
               {hero.image ? (
                 <img 
-                  src={hero.image} 
+                  src={hero.head} 
                   alt={hero.name} 
                   style={{ 
                     width: '40px', 
                     height: '40px', 
-                    borderRadius: '6px',
                     objectFit: 'cover',
-                    border: '1px solid #ddd'
                   }} 
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -229,26 +227,26 @@ function HeroList({ heroes, onEdit, onDelete }) {
                   {(() => {
                     const currentTransformIndex = transformationIndex[hero.id] || 0;
                     
-                    // Якщо показуємо трансформовані - замінюємо базові навички на трансформовані
+                    // If showing transformed - replace base skills with transformed ones
                     if (currentTransformIndex > 0) {
                       const baseSkills = hero.skills.filter(s => !s.is_transformed);
                       const transformedSkills = hero.skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
                       
-                      // Створюємо масив навичок для відображення
+                      // Create an array of skills to display
                       const skillsToShow = [];
                       
                       baseSkills.forEach(baseSkill => {
-                        // Знаходимо трансформовану навичку для цієї базової з потрібним transformation_order
+                        // Find the transformed skill for this base skill with the required transformation_order
                         const replacement = transformedSkills.find(t => 
                           t.replaces_skill_id === baseSkill.id && 
                           t.transformation_order === currentTransformIndex
                         );
                         
                         if (replacement) {
-                          // Є трансформація - показуємо її замість базової
+                          // There is a transformation - show it instead of the base skill
                           skillsToShow.push(replacement);
                         } else {
-                          // Немає трансформації - показуємо базову
+                          // No transformation - show the base skill
                           skillsToShow.push(baseSkill);
                         }
                       });
@@ -306,7 +304,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
                         );
                       });
                     } else {
-                      // Показуємо тільки базові навички
+                      // Show only base skills
                       return hero.skills
                         .filter(skill => !(skill.is_transformed === 1 || skill.is_transformed === true))
                         .map((skill, idx) => (
@@ -360,7 +358,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
                     }
                   })()}
                   </div>
-                  {/* Кнопка перемикання якщо є трансформовані навички */}
+                  {/* Toggle button if there are transformed skills */}
                   {hero.skills.some(s => s.is_transformed === 1 || s.is_transformed === true) && (
                     <button
                       type="button"
@@ -467,7 +465,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
             color: currentPage === 1 ? '#9ca3af' : '#374151'
           }}
         >
-          ← Попередня
+          ← Previous
         </button>
 
         <div style={{ display: 'flex', gap: '5px' }}>
@@ -504,7 +502,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
             color: currentPage === totalPages ? '#9ca3af' : '#374151'
           }}
         >
-          Наступна →
+          Next →
         </button>
       </div>
     )}

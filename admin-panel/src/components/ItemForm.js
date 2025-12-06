@@ -28,13 +28,13 @@ function ItemForm({ item, gameId, onClose, onSave }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Завантажуємо список всіх предметів для recipe
+    // Load the list of all items for recipe
     const fetchItems = async () => {
       try {
         const response = await axios.get(`${API_URL}/items?game_id=${gameId}`);
         setAllItems(response.data);
       } catch (error) {
-        console.error('Помилка завантаження предметів:', error);
+        console.error('Error loading items:', error);
       }
     };
     fetchItems();
@@ -42,18 +42,18 @@ function ItemForm({ item, gameId, onClose, onSave }) {
 
   useEffect(() => {
     if (item) {
-      // recipe вже парситься на бекенді, тому перевіряємо тип
+      // recipe is already parsed on the backend, so we check the type
       let recipeArray = [];
       if (item.recipe) {
         if (Array.isArray(item.recipe)) {
-          // Вже масив - використовуємо як є
+          // Already an array - use as is
           recipeArray = item.recipe;
         } else if (typeof item.recipe === 'string') {
           try {
-            // Спробуємо розпарсити JSON
+            // Try to parse JSON
             recipeArray = JSON.parse(item.recipe);
           } catch (e) {
-            // Якщо старий формат (string), конвертуємо в array
+            // If old format (string), convert to array
             const names = item.recipe.split(', ').filter(Boolean);
             recipeArray = names.map(name => {
               const foundItem = allItems.find(i => i.name === name);
@@ -63,7 +63,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
         }
       }
       
-      // Парсимо upgrades_to
+      // Parse upgrades_to
       let upgradesArray = [];
       if (item.upgrades_to) {
         if (Array.isArray(item.upgrades_to)) {
@@ -112,18 +112,18 @@ function ItemForm({ item, gameId, onClose, onSave }) {
       };
 
       if (item) {
-        // Редагування
+        // Editing existing item
         await axios.put(`${API_URL}/items/${item.id}`, payload);
-        alert('Предмет оновлено!');
+        alert('Item updated!');
       } else {
-        // Створення
+        // Creating new item
         await axios.post(`${API_URL}/items`, payload);
-        alert('Предмет додано!');
+        alert('Item added!');
       }
       onSave();
     } catch (error) {
-      console.error('Помилка збереження предмета:', error);
-      alert('Помилка збереження предмета: ' + (error.response?.data?.error || error.message));
+      console.error('Error saving item:', error);
+      alert('Error saving item: ' + (error.response?.data?.error || error.message));
     } finally {
       setLoading(false);
     }
@@ -132,11 +132,11 @@ function ItemForm({ item, gameId, onClose, onSave }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto'}}>
-        <h3>{item ? '✏️ Редагувати предмет' : '➕ Додати предмет'}</h3>
+        <h3>{item ? '✏️ Edit Item' : '➕ Add Item'}</h3>
         <form onSubmit={handleSubmit}>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
             <div className="form-group">
-              <label>Назва предмета*</label>
+              <label>Item Name*</label>
               <input
                 type="text"
                 value={formData.name}
@@ -147,7 +147,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             </div>
 
             <div className="form-group">
-              <label>Категорія*</label>
+              <label>Category*</label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -163,7 +163,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             </div>
 
             <div className="form-group">
-              <label>Ціна покупки</label>
+              <label>Purchase Price</label>
               <input
                 type="number"
                 min="0"
@@ -174,7 +174,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             </div>
 
             <div className="form-group">
-              <label>Ціна продажу</label>
+              <label>Sell Price</label>
               <input
                 type="number"
                 min="0"
@@ -205,7 +205,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             </div>
           </div>
 
-          <h4 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>📊 Атрибути</h4>
+          <h4 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>📊 Attributes</h4>
           <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem'}}>
             <div className="form-group">
               <label>Physical Attack</label>
@@ -403,12 +403,12 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             />
           </div>
 
-          <h4 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>🔧 Додаткова інформація</h4>
+          <h4 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>🔧 Additional Information</h4>
           <div className="form-group">
-            <label>Recipe (компоненти)</label>
+            <label>Recipe (components)</label>
             <input
               type="text"
-              placeholder="🔍 Пошук компонентів..."
+              placeholder="🔍 Search components..."
               value={recipeSearch}
               onChange={(e) => setRecipeSearch(e.target.value)}
               style={{
@@ -435,7 +435,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
                 .filter(i => i.tier && parseInt(i.tier) < 3 && i.id !== item?.id)
                 .filter(i => !recipeSearch || i.name.toLowerCase().includes(recipeSearch.toLowerCase()))
                 .sort((a, b) => {
-                  // Сортуємо спочатку по tier, потім по назві
+                  // Sort first by tier, then by name
                   if (a.tier !== b.tier) return a.tier - b.tier;
                   return a.name.localeCompare(b.name);
                 })
@@ -521,7 +521,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
                           onClick={(e) => {
                             e.stopPropagation();
                             if (selectedCount > 0) {
-                              // Видаляємо один екземпляр
+                              // Remove one instance
                               const newRecipe = [...formData.recipe];
                               const index = newRecipe.findIndex(item => item.id === availableItem.id);
                               newRecipe.splice(index, 1);
@@ -557,7 +557,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            // Додаємо один екземпляр
+                            // Add one instance
                             const newRecipe = [...formData.recipe, { id: availableItem.id, name: availableItem.name }];
                             setFormData({ ...formData, recipe: newRecipe });
                           }}
@@ -581,7 +581,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
                 })}
               {allItems.filter(i => i.tier && parseInt(i.tier) < 3).length === 0 && (
                 <p style={{color: '#9ca3af', margin: 0, padding: '20px', textAlign: 'center', gridColumn: '1 / -1'}}>
-                  Немає доступних компонентів (Tier 1-2)
+                  No available components (Tier 1-2)
                 </p>
               )}
             </div>
@@ -592,15 +592,15 @@ function ItemForm({ item, gameId, onClose, onSave }) {
               borderRadius: '4px',
               fontSize: '0.875rem'
             }}>
-              <strong>Обрано ({formData.recipe.length}):</strong>{' '}
+              <strong>Selected ({formData.recipe.length}):</strong>{' '}
               <span style={{color: '#6b7280'}}>
-                {formData.recipe.length > 0 ? formData.recipe.map(r => r.name).join(', ') : 'нічого не обрано'}
+                {formData.recipe.length > 0 ? formData.recipe.map(r => r.name).join(', ') : 'nothing selected'}
               </span>
             </div>
           </div>
           
           <div className="form-group" style={{gridColumn: '1 / -1'}}>
-            <label>Апгрейди (в які предмети можна покращити)</label>
+            <label>Upgrades (items this can be improved into)</label>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
@@ -699,11 +699,11 @@ function ItemForm({ item, gameId, onClose, onSave }) {
                           const isSelected = currentUpgrades.some(up => up.id === availableItem.id);
                           
                           if (isSelected) {
-                            // Видаляємо
+                            // Remove
                             const newUpgrades = currentUpgrades.filter(up => up.id !== availableItem.id);
                             setFormData({ ...formData, upgrades_to: newUpgrades });
                           } else {
-                            // Додаємо
+                            // Add
                             const newUpgrades = [...currentUpgrades, { id: availableItem.id, name: availableItem.name }];
                             setFormData({ ...formData, upgrades_to: newUpgrades });
                           }
@@ -731,13 +731,13 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             </div>
             {(formData.upgrades_to || []).length > 0 && (
               <div style={{marginTop: '8px', fontSize: '0.875rem', color: '#059669'}}>
-                ⬆️ Апгрейдиться в ({formData.upgrades_to.length}): {formData.upgrades_to.map(u => u.name).join(', ')}
+                ⬆️ Upgrades into ({formData.upgrades_to.length}): {formData.upgrades_to.map(u => u.name).join(', ')}
               </div>
             )}
           </div>
 
           <div className="form-group">
-            <label>Tips (поради)</label>
+            <label>Tips</label>
             <textarea
               value={formData.tips}
               onChange={(e) => setFormData({ ...formData, tips: e.target.value })}
@@ -750,7 +750,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             <textarea
               value={formData.in_depth_info}
               onChange={(e) => setFormData({ ...formData, in_depth_info: e.target.value })}
-              placeholder="Детальна інформація..."
+              placeholder="Detailed information..."
               rows="2"
             />
           </div>
@@ -764,7 +764,7 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             />
           </div>
           <div className="form-group">
-            <label>Builds (білди)</label>
+            <label>Builds</label>
             <textarea
               value={formData.builds}
               onChange={(e) => setFormData({ ...formData, builds: e.target.value })}
@@ -780,14 +780,14 @@ function ItemForm({ item, gameId, onClose, onSave }) {
               onClick={onClose}
               disabled={loading}
             >
-              Скасувати
+              Cancel
             </button>
             <button 
               type="submit" 
               className="btn btn-success"
               disabled={loading}
             >
-              {loading ? 'Збереження...' : 'Зберегти'}
+              {loading ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>

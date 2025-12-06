@@ -8,8 +8,8 @@ function ItemList({ items, onEdit, onDelete }) {
   if (items.length === 0) {
     return (
       <div className="empty-state">
-        <p>⚔️ Немає предметів у цій грі</p>
-        <p>Натисніть "+ Додати предмет" щоб створити перший</p>
+        <p>⚔️ No items in this game</p>
+        <p>Click "+ Add Item" to create the first one</p>
       </div>
     );
   }
@@ -24,12 +24,12 @@ function ItemList({ items, onEdit, onDelete }) {
       <thead>
         <tr>
           <th>ID</th>
-          <th>Іконка</th>
-          <th>Назва</th>
-          <th>Категорія</th>
-          <th>Ціна</th>
-          <th>Атрибути</th>
-          <th>Дії</th>
+          <th>Icon</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Attributes</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -103,20 +103,20 @@ function ItemList({ items, onEdit, onDelete }) {
                   className="btn btn-primary"
                   onClick={() => onEdit(item)}
                 >
-                  ✏️ Редагувати
+                  ✏️ Edit
                 </button>
                 <button
                   className="btn"
                   onClick={() => setShowRecipeTree(item)}
                   style={{ backgroundColor: '#10b981', color: 'white' }}
                 >
-                  🌳 Дерево
+                  🌳 Tree
                 </button>
                 <button
                   className="btn btn-danger"
                   onClick={() => onDelete(item.id)}
                 >
-                  🗑️ Видалити
+                  🗑️ Delete
                 </button>
               </div>
             </td>
@@ -133,7 +133,7 @@ function ItemList({ items, onEdit, onDelete }) {
           style={{ maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto' }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{ margin: 0 }}>🌳 Дерево крафту</h3>
+            <h3 style={{ margin: 0 }}>🌳 Crafting Tree</h3>
             <button 
               onClick={() => setShowRecipeTree(null)}
               style={{
@@ -154,11 +154,11 @@ function ItemList({ items, onEdit, onDelete }) {
           <RecipeTree item={showRecipeTree} allItems={items} />
           
           <div style={{ marginTop: '20px', padding: '12px', backgroundColor: '#f3f4f6', borderRadius: '6px' }}>
-            <strong>Легенда:</strong>
+            <strong>Legend:</strong>
             <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px', fontSize: '0.875rem', color: '#6b7280' }}>
-              <li>Синій фон - головний предмет</li>
-              <li>Сірий фон - компоненти</li>
-              <li>Відступ показує рівень вкладеності</li>
+              <li>Blue background - main item</li>
+              <li>Gray background - components</li>
+              <li>Indentation shows nesting level</li>
             </ul>
           </div>
         </div>

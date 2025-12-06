@@ -11,7 +11,7 @@ import EmblemViewer from './components/EmblemViewer';
 import BattleSpellList from './components/BattleSpellList';
 import BattleSpellForm from './components/BattleSpellForm';
 
-// Railway API URL (онлайн) або localhost для локальної розробки
+// Railway API URL (online) or localhost for local development
 const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up.railway.app/api';
 
 function App() {
@@ -35,12 +35,12 @@ function App() {
   const [showBattleSpellForm, setShowBattleSpellForm] = useState(false);
   const [editingBattleSpell, setEditingBattleSpell] = useState(null);
 
-  // Завантажити ігри при запуску
+  // Load games on startup
   useEffect(() => {
     loadGames();
   }, []);
 
-  // Завантажити героїв та предмети коли обрано гру
+  // Load heroes and items when a game is selected
   useEffect(() => {
     if (selectedGame) {
       loadHeroes(selectedGame.id);
@@ -58,8 +58,8 @@ function App() {
         setSelectedGame(response.data[0]);
       }
     } catch (error) {
-      console.error('❌ Помилка завантаження ігор:', error);
-      alert('Помилка завантаження ігор. Переконайтесь що API сервер запущено на порту 8080');
+      console.error('❌ Error loading games:', error);
+      alert('Error loading games. Make sure the API server is running on port 8080');
     }
   };
 
@@ -78,7 +78,7 @@ function App() {
       const response = await axios.get(`${API_URL}/items?game_id=${gameId}`);
       setItems(response.data || []);
     } catch (error) {
-      console.error('Помилка завантаження предметів:', error);
+      console.error('Error loading items:', error);
       setItems([]);
     }
   };
@@ -88,7 +88,7 @@ function App() {
       const response = await axios.get(`${API_URL}/emblems?game_id=${gameId}`);
       setEmblems(response.data || []);
     } catch (error) {
-      console.error('Помилка завантаження емблем:', error);
+      console.error('Error loading emblems:', error);
       setEmblems([]);
     }
   };
@@ -98,56 +98,56 @@ function App() {
       const response = await axios.get(`${API_URL}/battle-spells?game_id=${gameId}`);
       setBattleSpells(response.data || []);
     } catch (error) {
-      console.error('Помилка завантаження battle spells:', error);
+      console.error('Error loading battle spells:', error);
       setBattleSpells([]);
     }
   };
 
   const deleteGame = async (id) => {
-    if (!window.confirm('Видалити цю гру? Це також видалить всіх героїв та предмети!')) return;
+    if (!window.confirm('Delete this game? This will also delete all heroes and items!')) return;
     
     try {
       await axios.delete(`${API_URL}/games/${id}`);
       loadGames();
-      alert('Гру видалено!');
+      alert('Game deleted!');
     } catch (error) {
-      console.error('Помилка видалення гри:', error);
-      alert('Помилка видалення гри');
+      console.error('Error deleting game:', error);
+      alert('Error deleting game');
     }
   };
 
   const deleteHero = async (id) => {
-    if (!window.confirm('Видалити цього героя?')) return;
+    if (!window.confirm('Delete this hero?')) return;
     
     try {
       await axios.delete(`${API_URL}/heroes/${id}`);
       loadHeroes(selectedGame.id);
-      alert('Героя видалено!');
+      alert('Hero deleted!');
     } catch (error) {
-      console.error('Помилка видалення героя:', error);
-      alert('Помилка видалення героя');
+      console.error('Error deleting hero:', error);
+      alert('Error deleting hero');
     }
   };
 
   const deleteItem = async (id) => {
-    if (!window.confirm('Видалити цей предмет?')) return;
+    if (!window.confirm('Delete this item?')) return;
     
     try {
       await axios.delete(`${API_URL}/items/${id}`);
       loadItems(selectedGame.id);
-      alert('Предмет видалено!');
+      alert('Item deleted!');
     } catch (error) {
-      console.error('Помилка видалення предмета:', error);
-      alert('Помилка видалення предмета');
+      console.error('Error deleting item:', error);
+      alert('Error deleting item');
     }
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🎮 Адмін панель Game Database</h1>
+        <h1>🎮 Admin Panel Game Database</h1>
         <div className="game-selector">
-          <label>Поточна гра:</label>
+          <label>Current Game:</label>
           <select 
             value={selectedGame?.id || ''} 
             onChange={(e) => {
@@ -175,28 +175,28 @@ function App() {
           className={activeTab === 'games' ? 'active' : ''} 
           onClick={() => setActiveTab('games')}
         >
-          📖 Ігри
+          📖 Games
         </button>
         <button 
           className={activeTab === 'heroes' ? 'active' : ''} 
           onClick={() => setActiveTab('heroes')}
           disabled={!selectedGame}
         >
-          🦸 Герої
+          🦸 Heroes
         </button>
         <button 
           className={activeTab === 'items' ? 'active' : ''} 
           onClick={() => setActiveTab('items')}
           disabled={!selectedGame}
         >
-          ⚔️ Предмети
+          ⚔️ Items
         </button>
         <button 
           className={activeTab === 'emblems' ? 'active' : ''} 
           onClick={() => setActiveTab('emblems')}
           disabled={!selectedGame}
         >
-          ⚡ Емблеми
+          ⚡ Emblems
         </button>
         <button 
           className={activeTab === 'battleSpells' ? 'active' : ''} 
@@ -248,7 +248,7 @@ function App() {
               textTransform: 'uppercase',
               letterSpacing: '2px'
             }}>
-              ЛУЧШИЕ MOBA-ИГРЫ
+              BEST MOBA GAMES
             </h1>
 
             <div style={{
@@ -269,14 +269,14 @@ function App() {
                 justifyContent: 'space-between',
                 padding: '0 40px'
               }}>
-                {/* Оверлей для затемнення */}
+                {/* Overlay for darkening */}
                 <div style={{
                   position: 'absolute',
                   inset: 0,
                   background: 'linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6))'
                 }}></div>
 
-                {/* Текст поверх зображення */}
+                {/* Text over the image */}
                 <div style={{ position: 'relative', zIndex: 1 }}>
                   <h2 style={{
                     color: 'white',
@@ -296,7 +296,7 @@ function App() {
                   </p>
                 </div>
 
-                {/* Зелена кнопка */}
+                {/* Green button */}
                 <button style={{
                   position: 'relative',
                   zIndex: 1,
@@ -328,7 +328,7 @@ function App() {
                 </button>
               </div>
 
-              {/* Інформаційна панель */}
+              {/* Information panel */}
               <div style={{
                 background: 'rgba(0,0,0,0.3)',
                 padding: '30px 40px',
@@ -414,7 +414,7 @@ function App() {
               </div>
             </div>
 
-            {/* Майбутні ігри */}
+            {/* Upcoming games */}
             <div style={{
               marginTop: '50px',
               display: 'flex',
@@ -509,7 +509,7 @@ function App() {
         {activeTab === 'games' && (
           <div className="tab-content">
             <div className="tab-header">
-              <h2>Список ігор</h2>
+              <h2>List of Games</h2>
               <button 
                 className="btn btn-primary"
                 onClick={() => {
@@ -517,7 +517,7 @@ function App() {
                   setShowGameForm(true);
                 }}
               >
-                + Додати гру
+                + Add Game
               </button>
             </div>
 
@@ -552,7 +552,7 @@ function App() {
         {activeTab === 'heroes' && selectedGame && (
           <div className="tab-content">
             <div className="tab-header">
-              <h2>Герої гри: {selectedGame.name}</h2>
+              <h2>Heroes of the game: {selectedGame.name}</h2>
               <button 
                 className="btn btn-primary"
                 onClick={() => {
@@ -560,7 +560,7 @@ function App() {
                   setShowHeroForm(true);
                 }}
               >
-                + Додати героя
+                + Add Hero
               </button>
             </div>
 
@@ -584,13 +584,13 @@ function App() {
               heroes={heroes}
               onEdit={async (hero) => {
                 try {
-                  // Завантажуємо повні дані героя з API
+                  // Loading full hero data from API
                   const response = await axios.get(`${API_URL}/heroes/${hero.id}`);
                   setEditingHero(response.data);
                   setShowHeroForm(true);
                 } catch (error) {
                   console.error('Failed to load hero details', error);
-                  alert('Не вдалося завантажити дані героя');
+                  alert('Failed to load hero details');
                 }
               }}
               onDelete={deleteHero}
@@ -601,7 +601,7 @@ function App() {
         {activeTab === 'items' && selectedGame && (
           <div className="tab-content">
             <div className="tab-header">
-              <h2>Предмети гри: {selectedGame.name}</h2>
+              <h2>Items of the game: {selectedGame.name}</h2>
               <button 
                 className="btn btn-primary"
                 onClick={() => {
@@ -609,7 +609,7 @@ function App() {
                   setShowItemForm(true);
                 }}
               >
-                + Додати предмет
+                + Add Item
               </button>
             </div>
 
@@ -643,7 +643,7 @@ function App() {
         {activeTab === 'emblems' && selectedGame && (
           <div className="tab-content">
             <div className="tab-header">
-              <h2>Емблеми - {selectedGame.name}</h2>
+              <h2>Emblems - {selectedGame.name}</h2>
             </div>
             
             <EmblemViewer
@@ -665,7 +665,7 @@ function App() {
                   setShowBattleSpellForm(true);
                 }}
               >
-                + Додати Battle Spell
+                + Add Battle Spell
               </button>
             </div>
 
@@ -692,7 +692,7 @@ function App() {
                 setShowBattleSpellForm(true);
               }}
               onDelete={async (spellId) => {
-                if (window.confirm('Видалити battle spell?')) {
+                if (window.confirm('Delete battle spell?')) {
                   try {
                     await axios.delete(`${API_URL}/battle-spells/${spellId}`);
                     loadBattleSpells(selectedGame.id);
@@ -707,7 +707,7 @@ function App() {
       </div>
 
       <footer className="App-footer">
-        <p>API: {API_URL} • База даних: Railway PostgreSQL</p>
+        <p>API: {API_URL} • Database: Railway PostgreSQL</p>
       </footer>
     </div>
   );

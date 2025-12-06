@@ -39,7 +39,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [activeTab, setActiveTab] = useState('basic');
 
   const [heroStats, setHeroStats] = useState([
-    { вstat_name: 'HP', value: '' },
+    { stat_name: 'HP', value: '' },
     { stat_name: 'HP Regen', value: '' },
     { stat_name: 'Mana', value: '' },
     { stat_name: 'Mana Regen', value: '' },
@@ -73,13 +73,13 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [battleSpells, setBattleSpells] = useState([]);
   const [allHeroes, setAllHeroes] = useState([]);
 
-  // Функція для отримання head героя по heroid
+  // Function to get hero head by hero id
   const getHeroHeadById = (heroid) => {
     const foundHero = allHeroes.find(h => h.hero_game_id === heroid);
     return foundHero ? foundHero.head : null;
   };
 
-  // Завантажуємо список всіх героїв для превью
+  // Load list of all heroes for preview
   useEffect(() => {
     const fetchAllHeroes = async () => {
       try {
@@ -304,7 +304,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     const statName = updatedStats[index].stat_name;
     const value = updatedStats[index].value;
     
-    // Для Attack Speed Ratio автоматично додаємо % при виході з поля
+    // For Attack Speed Ratio, automatically add % on blur
     if (statName === 'Attack Speed Ratio' && value && !value.toString().includes('%')) {
       updatedStats[index].value = value + '%';
       setHeroStats(updatedStats);
@@ -318,7 +318,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       [name]: value
     });
 
-    // Якщо змінюється тип навички на Active, додаємо Cooldown та Mana Cost
+    // If skill type changes to Active, add Cooldown and Mana Cost
     if (name === 'skill_type' && value === 'active') {
       const hasCooldown = skillParameters.some(p => p.name === 'Cooldown');
       const hasManaCost = skillParameters.some(p => p.name === 'Mana Cost');
@@ -378,7 +378,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
   const addOrUpdateSkill = () => {
     if (!newSkill.skill_name.trim()) {
-      alert('Введіть назву навички');
+      alert('Please enter a skill name');
       return;
     }
 
@@ -389,7 +389,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         return acc;
       }, {}),
       level_scaling: levelScaling,
-      // Зберігаємо оригінальне is_transformed
+      // Preserve original is_transformed
       is_transformed: editingSkillIndex !== null 
         ? (skills[editingSkillIndex]?.is_transformed ?? 0)
         : 0
@@ -510,23 +510,23 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     try {
       if (hero) {
         await axios.put(`${API_URL}/heroes/${hero.id}`, heroData);
-        alert('Героя оновлено успішно!');
+        alert('Hero updated successfully!');
       } else {
         await axios.post(`${API_URL}/heroes`, heroData);
-        alert('Героя створено успішно!');
+        alert('Hero created successfully!');
       }
       onSave();
       onClose();
     } catch (error) {
       console.error('Error saving hero:', error);
-      alert('Помилка збереження героя: ' + (error.response?.data?.error || error.message));
+      alert('Error saving hero: ' + (error.response?.data?.error || error.message));
     }
   };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>{hero ? 'Редагувати героя' : 'Додати героя'}</h2>
+        <h2>{hero ? 'Edit Hero' : 'Add Hero'}</h2>
         
         {/* Tabs Navigation */}
         <div style={{
@@ -536,12 +536,12 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           borderBottom: '2px solid #e5e7eb'
         }}>
           {[
-            { id: 'basic', label: 'Основна інформація' },
+            { id: 'basic', label: 'Basic Information' },
             { id: 'stats', label: 'Base Statistics' },
-            { id: 'description', label: 'Опис' },
-            { id: 'skills', label: 'Навички' },
+            { id: 'description', label: 'Description' },
+            { id: 'skills', label: 'Skills' },
             { id: 'pro_builds', label: 'Pro Builds' },
-            { id: 'relations', label: 'Зв\'язки' }
+            { id: 'relations', label: 'Relations' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -578,30 +578,30 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           {/* Basic Info Tab */}
           {activeTab === 'basic' && (
           <div className="form-section">
-            <label>Ім'я героя</label>
+            <label>Hero Name</label>
             <input
               type="text"
               name="name"
-              placeholder="Ім'я героя"
+              placeholder="Hero Name"
               value={formData.name}
               onChange={handleInputChange}
               required
             />
             
-            <label>ID героя в грі</label>
+            <label>Hero Game ID</label>
             <input
               type="number"
               name="hero_game_id"
-              placeholder="ID героя в грі"
+              placeholder="Hero Game ID"
               value={formData.hero_game_id}
               onChange={handleInputChange}
             />
             
-            <label>URL зображення героя</label>
+            <label>Hero Image URL</label>
             <input
               type="text"
               name="image"
-              placeholder="URL зображення"
+              placeholder="Hero Image URL"
               value={formData.image}
               onChange={handleInputChange}
             />
@@ -650,7 +650,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               </div>
             )}
 
-            <label>Дата створення</label>
+            <label>Creation Date</label>
             {formData.createdAt ? (
               <div style={{ 
                 padding: '8px 12px',
@@ -681,7 +681,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                 color: '#6b7280',
                 marginBottom: '10px'
               }}>
-                Дата не встановлена
+                Date not set
               </div>
             )}
 
@@ -785,7 +785,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   {/* Best Counters */}
                   <div>
                     <h5 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: '#dc2626' }}>
-                      🛡️ Best Counters (хто контрить цього героя)
+                      🛡️ Best Counters (who counters this hero)
                     </h5>
                     {formData.counter_data.best_counters && formData.counter_data.best_counters.length > 0 ? (
                       <div style={{ fontSize: '0.85rem' }}>
@@ -832,7 +832,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   {/* Most Countered by */}
                   <div>
                     <h5 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: '#059669' }}>
-                      ⚡ Most Countered by (кого контрить цей герой)
+                      ⚡ Most Countered by (who this hero counters)
                     </h5>
                     {formData.counter_data.most_countered_by && formData.counter_data.most_countered_by.length > 0 ? (
                       <div style={{ fontSize: '0.85rem' }}>
@@ -1007,7 +1007,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               </div>
             )}
             
-            <label>Лінія (Lane) (можна обрати кілька)</label>
+            <label>Lane (you can select multiple)</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '5px', marginBottom: '15px' }}>
               {['Gold Lane', 'Jungle', 'Mid Lane', 'Exp Lane', 'Roam'].map(lane => (
                 <label key={lane} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
@@ -1045,7 +1045,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               </label>
             </div>
             
-            <label>Ролі (можна обрати кілька)</label>
+            <label>Roles (you can select multiple)</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '5px', marginBottom: '15px' }}>
               {['Assassin', 'Fighter', 'Marksman', 'Mage', 'Support', 'Tank'].map(role => (
                 <label key={role} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
@@ -1060,7 +1060,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               ))}
             </div>
 
-            <label>Specialty (можна обрати кілька)</label>
+            <label>Specialty (you can select multiple)</label>
             <div ref={specialtyRef} style={{ position: 'relative', marginBottom: '15px' }}>
               <div
                 onClick={() => setSpecialtyDropdownOpen(!specialtyDropdownOpen)}
@@ -1090,7 +1090,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     </span>
                   ))
                 ) : (
-                  <span style={{ color: '#9ca3af' }}>Оберіть спеціальності...</span>
+                  <span style={{ color: '#9ca3af' }}>Select specialties...</span>
                 )}
               </div>
               
@@ -1142,7 +1142,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               value={formData.damage_type}
               onChange={handleInputChange}
             >
-              <option value="">Оберіть тип шкоди</option>
+              <option value="">Select damage type</option>
               <option value="Physical">Physical</option>
               <option value="Magic">Magic</option>
               <option value="Mixed">Mixed</option>
@@ -1162,7 +1162,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     value={stat.value}
                     onChange={(e) => handleStatChange(index, e.target.value)}
                     onBlur={() => handleStatBlur(index)}
-                    placeholder="Значення"
+                    placeholder="Value"
                   />
                 </div>
               ))}
@@ -1175,14 +1175,14 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           <div className="form-section">
             <textarea
               name="short_description"
-              placeholder="Короткий опис"
+              placeholder="Short Description"
               value={formData.short_description}
               onChange={handleInputChange}
               rows="2"
             />
             <textarea
               name="full_description"
-              placeholder="Повний опис"
+              placeholder="Full Description"
               value={formData.full_description}
               onChange={handleInputChange}
               rows="4"
@@ -1197,15 +1197,15 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               <div ref={skillsListRef} className="skills-list">
                 {skills
                   .sort((a, b) => {
-                    // Спочатку базові (is_transformed = 0), потім трансформовані (is_transformed = 1)
+                    // First base (is_transformed = 0), then transformed (is_transformed = 1)
                     if (a.is_transformed !== b.is_transformed) {
                       return (a.is_transformed ? 1 : 0) - (b.is_transformed ? 1 : 0);
                     }
-                    // В межах однієї групи - за display_order
+                    // Within the same group - by display_order
                     return (a.display_order || 0) - (b.display_order || 0);
                   })
                   .map((skill, skillIndex) => {
-                  const isTransformed = skill.is_transformed == 1 || skill.is_transformed === true;
+                  const isTransformed = skill.is_transformed === 1 || skill.is_transformed === true;
                   
                   return (
                   <div 
@@ -1273,14 +1273,14 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                         fontSize: '0.85rem',
                         color: '#92400e'
                       }}>
-                        <strong>🔄 Замінює навичку ID:</strong> {skill.replaces_skill_id}
+                        <strong>🔄 Replaces Skill ID:</strong> {skill.replaces_skill_id}
                         {skills.find(s => s.id === skill.replaces_skill_id) && (
                           <span> ({skills.find(s => s.id === skill.replaces_skill_id).skill_name})</span>
                         )}
                       </div>
                     )}
                     {skill.skill_description && (
-                      <p><strong>Опис:</strong> {skill.skill_description}</p>
+                      <p><strong>Description:</strong> {skill.skill_description}</p>
                     )}
                     {skill.passive_description && (
                       <div style={{ marginTop: '8px' }}>
@@ -1294,7 +1294,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     )}
                     {skill.effect_types && Array.isArray(skill.effect_types) && skill.effect_types.length > 0 && (
                       <div className="skill-effect" style={{ marginTop: '8px' }}>
-                        <strong>Типи ефектів:</strong>
+                        <strong>Effect Types:</strong>
                         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '4px' }}>
                           {skill.effect_types.map((eff, idx) => (
                             <span key={idx} style={{ 
@@ -1313,10 +1313,10 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     )}
                     <div className="skill-actions">
                       <button type="button" onClick={() => editSkill(skillIndex)}>
-                        Редагувати
+                        Edit
                       </button>
                       <button type="button" onClick={() => removeSkill(skillIndex)} className="delete-btn">
-                        Видалити
+                        Delete
                       </button>
                     </div>
                   </div>
@@ -1327,19 +1327,19 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
             {/* Add/Edit Skill Form */}
             <div ref={skillFormRef} className="skill-form">
-              <h4>{editingSkillIndex !== null ? 'Редагувати навичку' : 'Додати навичку'}</h4>
+              <h4>{editingSkillIndex !== null ? 'Edit Skill' : 'Add Skill'}</h4>
               
               <input
                 type="text"
                 name="skill_name"
-                placeholder="Назва навички"
+                placeholder="Skill Name"
                 value={newSkill.skill_name}
                 onChange={handleSkillChange}
               />
               
               <textarea
                 name="skill_description"
-                placeholder="Загальний опис"
+                placeholder="General Description"
                 value={newSkill.skill_description}
                 onChange={handleSkillChange}
                 rows="2"
@@ -1347,7 +1347,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               
               <textarea
                 name="passive_description"
-                placeholder="Опис пасивного ефекту (якщо є)"
+                placeholder="Passive Effect Description (if any)"
                 value={newSkill.passive_description}
                 onChange={handleSkillChange}
                 rows="2"
@@ -1355,7 +1355,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               
               <textarea
                 name="active_description"
-                placeholder="Опис активного ефекту (якщо є)"
+                placeholder="Active Effect Description (if any)"
                 value={newSkill.active_description}
                 onChange={handleSkillChange}
                 rows="2"
@@ -1363,7 +1363,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               
               <div style={{ marginTop: '1rem' }}>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-                  Типи ефектів (можна вибрати кілька)
+                  Effect Types (multiple can be selected)
                 </label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '8px' }}>
                   {['Attach', 'AoE', 'Blink', 'Buff', 'Burst', 'Camouflage', 'Charge', 'Conceal', 'CC', 'CC Immune', 'Damage', 'Death Immunity', 'Debuff', 'Invincible', 'Heal', 'Mobility', 'Morph', 'Reduce DMG', 'Remove CC', 'Shield', 'Slow', 'Speed Up', 'Summon', 'Teleport'].map(effectType => {
@@ -1396,7 +1396,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               <input
                 type="text"
                 name="preview"
-                placeholder="URL превью"
+                placeholder="URL skill preview"
                 value={newSkill.preview}
                 onChange={handleSkillChange}
               />
@@ -1419,7 +1419,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                 </div>
               )}
               
-              <label>Тип навички</label>
+              <label>Skill Type</label>
               <select
                 name="skill_type"
                 value={newSkill.skill_type}
@@ -1431,18 +1431,18 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
               {/* Skill Parameters */}
               <div className="skill-parameters">
-                <h5>Параметри навички</h5>
+                <h5>Skill Parameters</h5>
                 {Array.isArray(skillParameters) && skillParameters.map((param, index) => (
                   <div key={index} className="parameter-row">
                     <input
                       type="text"
-                      placeholder="Назва (Damage, Cooldown...)"
+                      placeholder="Name (Damage, Cooldown...)"
                       value={param.name}
                       onChange={(e) => updateSkillParameter(index, 'name', e.target.value)}
                     />
                     <input
                       type="text"
-                      placeholder="Значення"
+                      placeholder="Value"
                       value={param.value}
                       onChange={(e) => updateSkillParameter(index, 'value', e.target.value)}
                     />
@@ -1452,7 +1452,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   </div>
                 ))}
                 <button type="button" onClick={addSkillParameter} className="add-param-btn">
-                  + Додати параметр
+                  + Add Parameter
                 </button>
               </div>
 
@@ -1464,7 +1464,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     <div className="scaling-header">
                       <input
                         type="text"
-                        placeholder="Назва (Cooldown, Mana Regen...)"
+                        placeholder="Name (Cooldown, Mana Regen...)"
                         value={scaling.name}
                         onChange={(e) => updateLevelScalingName(sIndex, e.target.value)}
                         className="scaling-name"
@@ -1489,12 +1489,12 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   </div>
                 ))}
                 <button type="button" onClick={addLevelScaling} className="add-scaling-btn">
-                  + Додати Scaling
+                  + Add Scaling
                 </button>
               </div>
 
               <button type="button" onClick={addOrUpdateSkill} className="add-skill-btn">
-                {editingSkillIndex !== null ? 'Оновити навичку' : 'Додати навичку'}
+                {editingSkillIndex !== null ? 'Update Skill' : 'Add Skill'}
               </button>
             </div>
           </div>
@@ -1503,12 +1503,12 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           {/* Relations Tab */}
           {activeTab === 'relations' && (
           <div className="relations-section">
-            <h4>Зв'язки з героями</h4>
+            <h4>Relations with Heroes</h4>
 
             {/* Assist */}
             <div className="relation-group">
-              <h5>💚 Assist (Синергія)</h5>
-              <label>Опис:</label>
+              <h5>💚 Assist (Synergy)</h5>
+              <label>Description:</label>
               <textarea
                 rows="3"
                 value={formData.relation?.assist?.desc || ''}
@@ -1524,9 +1524,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     }
                   });
                 }}
-                placeholder="Опис героїв, з якими добре працює..."
+                placeholder="Description of heroes that work well with..."
               />
-              <label>Hero IDs (через кому):</label>
+              <label>Hero IDs (comma separated):</label>
               <input
                 type="text"
                 value={(formData.relation?.assist?.target_hero_id || []).filter(id => id !== 0).join(', ')}
@@ -1570,8 +1570,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
             {/* Strong */}
             <div className="relation-group">
-              <h5>⚔️ Strong Against (Сильний проти)</h5>
-              <label>Опис:</label>
+              <h5>⚔️ Strong Against (Strong Against)</h5>
+              <label>Description:</label>
               <textarea
                 rows="3"
                 value={formData.relation?.strong?.desc || ''}
@@ -1587,9 +1587,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     }
                   });
                 }}
-                placeholder="Опис героїв, проти яких ефективний..."
+                placeholder="Description of heroes that are effective against..."
               />
-              <label>Hero IDs (через кому):</label>
+              <label>Hero IDs (comma separated):</label>
               <input
                 type="text"
                 value={(formData.relation?.strong?.target_hero_id || []).filter(id => id !== 0).join(', ')}
@@ -1631,8 +1631,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
             {/* Weak */}
             <div className="relation-group">
-              <h5>🛡️ Weak Against (Слабкий проти)</h5>
-              <label>Опис:</label>
+              <h5>🛡️ Weak Against (Weak Against)</h5>
+              <label>Description:</label>
               <textarea
                 rows="3"
                 value={formData.relation?.weak?.desc || ''}
@@ -1648,9 +1648,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     }
                   });
                 }}
-                placeholder="Опис героїв, проти яких слабкий..."
+                placeholder="Description of heroes that are weak against..."
               />
-              <label>Hero IDs (через кому):</label>
+              <label>Hero IDs (comma separated):</label>
               <input
                 type="text"
                 value={(formData.relation?.weak?.target_hero_id || []).filter(id => id !== 0).join(', ')}
@@ -1695,9 +1695,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           {/* Pro Builds Tab */}
           {activeTab === 'pro_builds' && (
             <div className="form-section">
-              <h3>Pro Builds (макс. 3)</h3>
+              <h3>Pro Builds (max. 3)</h3>
               <p style={{ color: '#6b7280', marginBottom: '20px', fontSize: '0.9rem' }}>
-                Кожен білд: 6 основних предметів, 2 додаткових, 1 емблема з 3 талантами та battle spell
+                Each build: 6 core items, 2 additional items, 1 emblem with 3 talents, and a battle spell
               </p>
               
               {proBuilds.map((build, buildIndex) => {
@@ -1714,19 +1714,19 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                       <h4 style={{ margin: 0, fontSize: '1rem', color: '#111827', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        ⚔️ Білд {buildIndex + 1}
+                        ⚔️ Build {buildIndex + 1}
                       </h4>
                       <button
                         type="button"
                         onClick={() => setProBuilds(proBuilds.filter((_, i) => i !== buildIndex))}
                         style={{ padding: '6px 12px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600' }}
                       >
-                        🗑️ Видалити
+                        🗑️ Delete
                       </button>
                     </div>
 
                     <div style={{ fontSize: '0.7rem', fontWeight: '700', color: '#374151', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      <span style={{ color: '#ef4444' }}>⚔️</span> Основні (6)
+                      <span style={{ color: '#ef4444' }}>⚔️</span> Core (6)
                     </div>
                     <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
                       {[0, 1, 2, 3, 4, 5].map(slotIndex => (
@@ -1750,7 +1750,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                     </div>
 
                     <div style={{ fontSize: '0.7rem', fontWeight: '700', color: '#374151', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      <span style={{ color: '#8b5cf6' }}>🛡️</span> Додаткові (2)
+                      <span style={{ color: '#8b5cf6' }}>🛡️</span> Optional (2)
                     </div>
                     <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
                       {[0, 1].map(slotIndex => (
@@ -1775,11 +1775,11 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
                     <div style={{ paddingTop: '10px', borderTop: '1px solid #e5e7eb' }}>
                       <div style={{ fontSize: '0.7rem', fontWeight: '700', color: '#374151', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                        <span style={{ color: '#f59e0b' }}>⚡</span> Емблема, таланти та spell
+                        <span style={{ color: '#f59e0b' }}>⚡</span> Emblem, Talents, and Spell
                       </div>
                       <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
                         <div style={{ position: 'relative', cursor: 'pointer', width: '56px', height: '56px', border: '2px solid #e5e7eb', borderRadius: '8px', background: build.emblem_id ? '#fef3c7' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                          title={selectedEmblem?.name || 'Виберіть емблему'}>
+                          title={selectedEmblem?.name || 'Select an emblem'}>
                           {selectedEmblem?.icon_url ? (
                             <img src={selectedEmblem.icon_url} alt={selectedEmblem.name} style={{ width: '44px', height: '44px', borderRadius: '6px', objectFit: 'cover' }} />
                           ) : (
@@ -1795,7 +1795,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                             }}
                             style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }}
                           >
-                            <option value="">Виберіть емблему</option>
+                            <option value="">Select an emblem</option>
                             {emblems.map(emblem => (
                               <option key={emblem.id} value={emblem.id}>{emblem.name}</option>
                             ))}
@@ -1845,7 +1845,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                         )}
 
                         <div style={{ position: 'relative', cursor: 'pointer', width: '56px', height: '56px', border: '2px solid #e5e7eb', borderRadius: '8px', background: build.battle_spell_id ? '#ede9fe' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                          title={selectedSpell?.name || 'Виберіть spell'}>
+                          title={selectedSpell?.name || 'Select a spell'}>
                           {selectedSpell?.icon_url ? (
                             <img src={selectedSpell.icon_url} alt={selectedSpell.name} style={{ width: '44px', height: '44px', borderRadius: '6px', objectFit: 'cover' }} />
                           ) : (
@@ -1860,7 +1860,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                             }}
                             style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }}
                           >
-                            <option value="">Виберіть spell</option>
+                            <option value="">Select a spell</option>
                             {battleSpells.map(spell => (
                               <option key={spell.id} value={spell.id}>{spell.name}</option>
                             ))}
@@ -1878,13 +1878,13 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   onClick={() => setProBuilds([...proBuilds, { core_items: [], optional_items: [], emblem_id: null, emblem_talents: [], battle_spell_id: null }])}
                   style={{ padding: '12px 20px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '0.95rem', fontWeight: '600' }}
                 >
-                  ➕ Додати білд ({proBuilds.length}/3)
+                  ➕ Add build ({proBuilds.length}/3)
                 </button>
               )}
 
               {proBuilds.length >= 3 && (
                 <div style={{ padding: '12px', background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: '6px', color: '#92400e', fontSize: '0.9rem' }}>
-                  ℹ️ Досягнуто максимум білдів (3)
+                  ℹ️ Maximum builds reached (3)
                 </div>
               )}
             </div>
@@ -1892,8 +1892,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
           {/* Form Actions */}
           <div className="form-actions">
-            <button type="submit" className="save-btn">Зберегти</button>
-            <button type="button" onClick={onClose} className="cancel-btn">Скасувати</button>
+            <button type="submit" className="save-btn">Save</button>
+            <button type="button" onClick={onClose} className="cancel-btn">Cancel</button>
           </div>
         </form>
       </div>
