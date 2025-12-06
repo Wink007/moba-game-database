@@ -855,14 +855,15 @@ def update_hero_stats():
     try:
         data = request.get_json() or {}
         game_id = data.get('game_id', 2)  # За замовчуванням Mobile Legends
-        limit = data.get('limit', None)  # Обмеження кількості (для тестування)
+        limit = data.get('limit', None)  # Обмеження кількості
+        offset = data.get('offset', 0)  # Зсув для батч-оновлення
         
         # Отримуємо героїв
         conn = db.get_connection()
         cursor = conn.cursor()
         
         if limit:
-            cursor.execute(f"SELECT id, name FROM heroes WHERE game_id = %s ORDER BY name LIMIT %s", (game_id, limit))
+            cursor.execute(f"SELECT id, name FROM heroes WHERE game_id = %s ORDER BY name LIMIT %s OFFSET %s", (game_id, limit, offset))
         else:
             cursor.execute(f"SELECT id, name FROM heroes WHERE game_id = %s ORDER BY name", (game_id,))
         

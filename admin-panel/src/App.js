@@ -22,6 +22,7 @@ function App() {
   const [editingGame, setEditingGame] = useState(null);
   
   const [heroes, setHeroes] = useState([]);
+  const [heroSkills, setHeroSkills] = useState({}); // Skills окремо
   const [showHeroForm, setShowHeroForm] = useState(false);
   const [editingHero, setEditingHero] = useState(null);
   
@@ -65,11 +66,17 @@ function App() {
 
   const loadHeroes = async (gameId) => {
     try {
-      const response = await axios.get(`${API_URL}/heroes?game_id=${gameId}`);
-      setHeroes(response.data || []);
+      // Завантажуємо heroes без skills (швидше)
+      const heroesResponse = await axios.get(`${API_URL}/heroes?game_id=${gameId}`);
+      setHeroes(heroesResponse.data || []);
+      
+      // Завантажуємо skills окремо
+      const skillsResponse = await axios.get(`${API_URL}/heroes/skills?game_id=${gameId}`);
+      setHeroSkills(skillsResponse.data || {});
     } catch (error) {
       console.error('Failed to load heroes', error);
       setHeroes([]);
+      setHeroSkills({});
     }
   };
 
@@ -582,6 +589,7 @@ function App() {
 
             <HeroList
               heroes={heroes}
+              heroSkills={heroSkills}
               onEdit={async (hero) => {
                 try {
                   // Loading full hero data from API

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function HeroList({ heroes, onEdit, onDelete }) {
+function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLane, setSelectedLane] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
@@ -8,6 +8,11 @@ function HeroList({ heroes, onEdit, onDelete }) {
   const [transformedState, setTransformedState] = useState({});
   const [transformationIndex, setTransformationIndex] = useState({});
   const itemsPerPage = 10;
+  
+  // Функція для отримання skills героя
+  const getHeroSkills = (heroId) => {
+    return heroSkills[heroId] || [];
+  };
 
   // Add styles for tooltip
   React.useEffect(() => {
@@ -220,7 +225,9 @@ function HeroList({ heroes, onEdit, onDelete }) {
               )}
             </td>
             <td>
-              {hero.skills && hero.skills.length > 0 ? (
+              {(() => {
+                const skills = getHeroSkills(hero.id);
+                return skills && skills.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: '', gap: '4px' }}>
                   
                   <div style={{ display: 'flex', gap: '3px', flexWrap: 'wrap' }}>
@@ -229,8 +236,8 @@ function HeroList({ heroes, onEdit, onDelete }) {
                     
                     // If showing transformed - replace base skills with transformed ones
                     if (currentTransformIndex > 0) {
-                      const baseSkills = hero.skills.filter(s => !s.is_transformed);
-                      const transformedSkills = hero.skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
+                      const baseSkills = skills.filter(s => !s.is_transformed);
+                      const transformedSkills = skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
                       
                       // Create an array of skills to display
                       const skillsToShow = [];
@@ -305,7 +312,7 @@ function HeroList({ heroes, onEdit, onDelete }) {
                       });
                     } else {
                       // Show only base skills
-                      return hero.skills
+                      return getHeroSkills(hero.id)
                         .filter(skill => !(skill.is_transformed === 1 || skill.is_transformed === true))
                         .map((skill, idx) => (
                     (skill.image || skill.preview) && (
@@ -359,13 +366,13 @@ function HeroList({ heroes, onEdit, onDelete }) {
                   })()}
                   </div>
                   {/* Toggle button if there are transformed skills */}
-                  {hero.skills.some(s => s.is_transformed === 1 || s.is_transformed === true) && (
+                  {getHeroSkills(hero.id).some(s => s.is_transformed === 1 || s.is_transformed === true) && (
                     <button
                       type="button"
                       onClick={() => {
-                        const transformedSkills = hero.skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
+                        const transformedSkills = getHeroSkills(hero.id).filter(s => s.is_transformed === 1 || s.is_transformed === true);
                         const maxTransformations = Math.max(
-                          ...hero.skills
+                          ...getHeroSkills(hero.id)
                             .filter(s => !s.is_transformed)
                             .map(baseSkill => 
                               transformedSkills.filter(t => t.replaces_skill_id === baseSkill.id).length
@@ -401,9 +408,9 @@ function HeroList({ heroes, onEdit, onDelete }) {
                         const currentIndex = transformationIndex[hero.id] || 0;
                         if (currentIndex === 0) return '⚡';
                         
-                        const transformedSkills = hero.skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
+                        const transformedSkills = getHeroSkills(hero.id).filter(s => s.is_transformed === 1 || s.is_transformed === true);
                         const maxTransformations = Math.max(
-                          ...hero.skills
+                          ...getHeroSkills(hero.id)
                             .filter(s => !s.is_transformed)
                             .map(baseSkill => 
                               transformedSkills.filter(t => t.replaces_skill_id === baseSkill.id).length
@@ -419,7 +426,8 @@ function HeroList({ heroes, onEdit, onDelete }) {
                 </div>
               ) : (
                 <span style={{ color: '#9ca3af', fontSize: '0.75rem' }}>—</span>
-              )}
+              );
+              })()}
             </td>
             <td>
               <div className="actions" style={{ gap: '5px' }}>
