@@ -151,7 +151,7 @@ def delete_game(game_id):
     return cursor.rowcount > 0
 
 # Heroes
-def get_heroes(game_id=None, include_details=False):
+def get_heroes(game_id=None, include_details=False, include_skills=True):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -184,15 +184,16 @@ def get_heroes(game_id=None, include_details=False):
                 stats_by_hero[hero_id] = []
             stats_by_hero[hero_id].append(stat_dict)
         
-        # Завантажуємо всі skills одним запитом
-        cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders})", hero_ids)
-        all_skills = cursor.fetchall()
-        for skill in all_skills:
-            skill_dict = dict_from_row(skill)
-            hero_id = skill_dict['hero_id']
-            if hero_id not in skills_by_hero:
-                skills_by_hero[hero_id] = []
-            skills_by_hero[hero_id].append(skill_dict)
+        # Завантажуємо skills тільки якщо потрібно
+        if include_skills:
+            cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders})", hero_ids)
+            all_skills = cursor.fetchall()
+            for skill in all_skills:
+                skill_dict = dict_from_row(skill)
+                hero_id = skill_dict['hero_id']
+                if hero_id not in skills_by_hero:
+                    skills_by_hero[hero_id] = []
+                skills_by_hero[hero_id].append(skill_dict)
     
     release_connection(conn)
     
@@ -215,22 +216,24 @@ def get_heroes(game_id=None, include_details=False):
         if include_details:
             # Повна обробка тільки якщо потрібні деталі
             hero['hero_stats'] = stats_by_hero.get(hero['id'], [])
-            hero['skills'] = skills_by_hero.get(hero['id'], [])
+            if include_skills:
+                hero['skills'] = skills_by_hero.get(hero['id'], [])
         else:
             # Для списку - додати мінімальні stats (тільки HP та Mana)
             hero_stats_all = stats_by_hero.get(hero['id'], [])
             hero['hero_stats'] = [s for s in hero_stats_all if s.get('stat_name') in ['HP', 'Mana']]
-            # Для skills - тільки необхідні поля для відображення + transformation fields
-            all_skills = skills_by_hero.get(hero['id'], [])
-            hero['skills'] = [{
-                'id': s.get('id'),
-                'skill_name': s.get('skill_name', 'Unknown'),
-                'image': s.get('image'),
-                'preview': s.get('preview'),
-                'is_transformed': s.get('is_transformed', 0),
-                'replaces_skill_id': s.get('replaces_skill_id'),
-                'transformation_order': s.get('transformation_order', 0)
-            } for s in all_skills if s.get('skill_name')]
+            # Для skills - тільки якщо потрібно
+            if include_skills:
+                all_skills = skills_by_hero.get(hero['id'], [])
+                hero['skills'] = [{
+                    'id': s.get('id'),
+                    'skill_name': s.get('skill_name', 'Unknown'),
+                    'image': s.get('image'),
+                    'preview': s.get('preview'),
+                    'is_transformed': s.get('is_transformed', 0),
+                    'replaces_skill_id': s.get('replaces_skill_id'),
+                    'transformation_order': s.get('transformation_order', 0)
+                } for s in all_skills if s.get('skill_name')]
     
     # Тільки для include_details=True робимо додаткові поля
     if include_details:

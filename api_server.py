@@ -84,8 +84,8 @@ def delete_game(game_id):
 
 def get_heroes():
     game_id = request.args.get('game_id')
-    # Завантажуємо повні дані включно з навичками
-    heroes = db.get_heroes(game_id, include_details=True)
+    # Завантажуємо без skills (вони в окремому endpoint)
+    heroes = db.get_heroes(game_id, include_details=True, include_skills=False)
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
@@ -95,6 +95,48 @@ def get_hero(hero_id):
     if hero:
         return jsonify(hero)
     return jsonify({'error': 'Hero not found'}), 404
+
+@app.route('/api/heroes/<int:hero_id>/skills', methods=['GET'])
+def get_hero_skills(hero_id):
+    """Окремий endpoint для навичок героя"""
+    skills = db.get_hero_skills(hero_id)
+    return jsonify(skills)
+
+@app.route('/api/heroes/skills', methods=['GET'])
+def get_all_heroes_skills():
+    """Навички для всіх героїв гри"""
+    game_id = request.args.get('game_id')
+    if not game_id:
+        return jsonify({'error': 'game_id required'}), 400
+    
+    # Отримуємо всіх героїв гри
+    heroes = db.get_heroes(game_id, include_details=False, include_skills=False)
+    hero_ids = [h['id'] for h in heroes]
+    
+    # Завантажуємо skills для всіх героїв
+    conn = db.get_connection()
+    if db.DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    ph = db.get_placeholder()
+    placeholders = ','.join([ph] * len(hero_ids))
+    cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders}) ORDER BY hero_id, display_order", hero_ids)
+    all_skills = cursor.fetchall()
+    db.release_connection(conn)
+    
+    # Групуємо по hero_id
+    skills_by_hero = {}
+    for skill in all_skills:
+        skill_dict = db.dict_from_row(skill)
+        hero_id = skill_dict['hero_id']
+        if hero_id not in skills_by_hero:
+            skills_by_hero[hero_id] = []
+        skills_by_hero[hero_id].append(skill_dict)
+    
+    return jsonify(skills_by_hero)
 
 @app.route('/api/heroes', methods=['POST'])
 def create_hero():
