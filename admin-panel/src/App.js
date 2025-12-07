@@ -25,6 +25,7 @@ function App() {
   const [heroSkills, setHeroSkills] = useState({}); // Skills окремо
   const [heroRelations, setHeroRelations] = useState({}); // Relations окремо
   const [heroCounterData, setHeroCounterData] = useState({}); // Counter data окремо
+  const [heroCompatibilityData, setHeroCompatibilityData] = useState({}); // Compatibility data окремо
   const [showHeroForm, setShowHeroForm] = useState(false);
   const [editingHero, setEditingHero] = useState(null);
   
@@ -68,7 +69,7 @@ function App() {
 
   const loadHeroes = async (gameId) => {
     try {
-      // Завантажуємо heroes без skills, relations та counter_data (швидше)
+      // Завантажуємо heroes без skills, relations, counter_data та compatibility_data (швидше)
       const heroesResponse = await axios.get(`${API_URL}/heroes?game_id=${gameId}`);
       setHeroes(heroesResponse.data || []);
       
@@ -83,12 +84,17 @@ function App() {
       // Завантажуємо counter_data окремо
       const counterDataResponse = await axios.get(`${API_URL}/heroes/counter-data?game_id=${gameId}`);
       setHeroCounterData(counterDataResponse.data || {});
+      
+      // Завантажуємо compatibility_data окремо
+      const compatibilityDataResponse = await axios.get(`${API_URL}/heroes/compatibility-data?game_id=${gameId}`);
+      setHeroCompatibilityData(compatibilityDataResponse.data || {});
     } catch (error) {
       console.error('Failed to load heroes', error);
       setHeroes([]);
       setHeroSkills({});
       setHeroRelations({});
       setHeroCounterData({});
+      setHeroCompatibilityData({});
     }
   };
 
@@ -616,6 +622,11 @@ function App() {
                   // Додаємо counter_data зі стейту якщо його немає
                   if (!heroData.counter_data && heroCounterData[hero.id]) {
                     heroData.counter_data = heroCounterData[hero.id];
+                  }
+                  
+                  // Додаємо compatibility_data зі стейту якщо його немає
+                  if (!heroData.compatibility_data && heroCompatibilityData[hero.id]) {
+                    heroData.compatibility_data = heroCompatibilityData[hero.id];
                   }
                   
                   setEditingHero(heroData);

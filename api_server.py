@@ -84,8 +84,8 @@ def delete_game(game_id):
 
 def get_heroes():
     game_id = request.args.get('game_id')
-    # Завантажуємо без skills, relation та counter_data (вони в окремих endpoints)
-    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=False)
+    # Завантажуємо без skills, relation, counter_data та compatibility_data (вони в окремих endpoints)
+    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=False, include_compatibility_data=False)
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
@@ -207,6 +207,41 @@ def get_all_heroes_counter_data():
                 counter_data_by_hero[hero_id] = None
     
     return jsonify(counter_data_by_hero)
+
+@app.route('/api/heroes/compatibility-data', methods=['GET'])
+def get_all_heroes_compatibility_data():
+    """Compatibility data для всіх героїв гри"""
+    game_id = request.args.get('game_id')
+    if not game_id:
+        return jsonify({'error': 'game_id required'}), 400
+    
+    # Отримуємо всіх героїв з compatibility_data
+    conn = db.get_connection()
+    if db.DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    ph = db.get_placeholder()
+    cursor.execute(f"SELECT id, compatibility_data FROM heroes WHERE game_id = {ph} AND compatibility_data IS NOT NULL", (game_id,))
+    heroes = cursor.fetchall()
+    db.release_connection(conn)
+    
+    # Групуємо по hero_id
+    compatibility_data_by_hero = {}
+    for hero in heroes:
+        hero_dict = db.dict_from_row(hero)
+        hero_id = hero_dict['id']
+        compatibility_data = hero_dict.get('compatibility_data')
+        
+        if compatibility_data and compatibility_data.strip():
+            try:
+                compatibility_data_by_hero[hero_id] = json.loads(compatibility_data)
+            except:
+                compatibility_data_by_hero[hero_id] = None
+    
+    return jsonify(compatibility_data_by_hero)
 
 @app.route('/api/heroes', methods=['POST'])
 def create_hero():
