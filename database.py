@@ -328,24 +328,19 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
                     hero['pro_builds'] = []
             else:
                 hero['pro_builds'] = []
-            
-            # Parse counter_data
-            if hero.get('counter_data') and hero['counter_data'].strip():
-                try:
-                    hero['counter_data'] = json.loads(hero['counter_data'])
-                except:
-                    hero['counter_data'] = None
-            else:
-                hero['counter_data'] = None
-            
-            # Parse compatibility_data
-            if hero.get('compatibility_data') and hero['compatibility_data'].strip():
-                try:
-                    hero['compatibility_data'] = json.loads(hero['compatibility_data'])
-                except:
-                    hero['compatibility_data'] = None
-            else:
-                hero['compatibility_data'] = None
+    
+    # Видаляємо поля які не потрібні (якщо include_details=False або параметри False)
+    if not include_details or not include_relation:
+        for hero in heroes:
+            hero.pop('relation', None)
+    
+    if not include_details or not include_counter_data:
+        for hero in heroes:
+            hero.pop('counter_data', None)
+    
+    if not include_details or not include_compatibility_data:
+        for hero in heroes:
+            hero.pop('compatibility_data', None)
     
     return heroes
 
