@@ -391,13 +391,8 @@ def get_hero(hero_id):
         else:
             hero['lane'] = []
         
-        if hero.get('relation') and hero['relation'].strip():
-            try:
-                hero['relation'] = json.loads(hero['relation'])
-            except:
-                hero['relation'] = None
-        else:
-            hero['relation'] = None
+        # Видаляємо relation - він завантажується окремо через /api/heroes/relations
+        hero.pop('relation', None)
         
         # Конвертуємо use_energy з INTEGER в boolean
         hero['use_energy'] = bool(hero.get('use_energy', 0))
@@ -458,23 +453,11 @@ def get_hero(hero_id):
         else:
             hero['pro_builds'] = []
         
-        # Parse counter_data
-        if hero.get('counter_data') and hero['counter_data'].strip():
-            try:
-                hero['counter_data'] = json.loads(hero['counter_data'])
-            except:
-                hero['counter_data'] = None
-        else:
-            hero['counter_data'] = None
+        # Видаляємо counter_data - він завантажується окремо через /api/heroes/counter-data
+        hero.pop('counter_data', None)
         
-        # Parse compatibility_data
-        if hero.get('compatibility_data') and hero['compatibility_data'].strip():
-            try:
-                hero['compatibility_data'] = json.loads(hero['compatibility_data'])
-            except:
-                hero['compatibility_data'] = None
-        else:
-            hero['compatibility_data'] = None
+        # Видаляємо compatibility_data - він завантажується окремо через /api/heroes/compatibility-data
+        hero.pop('compatibility_data', None)
         
         return hero
     return None
