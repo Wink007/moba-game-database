@@ -84,8 +84,8 @@ def delete_game(game_id):
 
 def get_heroes():
     game_id = request.args.get('game_id')
-    # Завантажуємо без skills та relation (вони в окремих endpoints)
-    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False)
+    # Завантажуємо без skills, relation та counter_data (вони в окремих endpoints)
+    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=False)
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
@@ -172,6 +172,41 @@ def get_all_heroes_relations():
                 relations_by_hero[hero_id] = None
     
     return jsonify(relations_by_hero)
+
+@app.route('/api/heroes/counter-data', methods=['GET'])
+def get_all_heroes_counter_data():
+    """Counter data для всіх героїв гри"""
+    game_id = request.args.get('game_id')
+    if not game_id:
+        return jsonify({'error': 'game_id required'}), 400
+    
+    # Отримуємо всіх героїв з counter_data
+    conn = db.get_connection()
+    if db.DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    ph = db.get_placeholder()
+    cursor.execute(f"SELECT id, counter_data FROM heroes WHERE game_id = {ph} AND counter_data IS NOT NULL", (game_id,))
+    heroes = cursor.fetchall()
+    db.release_connection(conn)
+    
+    # Групуємо по hero_id
+    counter_data_by_hero = {}
+    for hero in heroes:
+        hero_dict = db.dict_from_row(hero)
+        hero_id = hero_dict['id']
+        counter_data = hero_dict.get('counter_data')
+        
+        if counter_data and counter_data.strip():
+            try:
+                counter_data_by_hero[hero_id] = json.loads(counter_data)
+            except:
+                counter_data_by_hero[hero_id] = None
+    
+    return jsonify(counter_data_by_hero)
 
 @app.route('/api/heroes', methods=['POST'])
 def create_hero():

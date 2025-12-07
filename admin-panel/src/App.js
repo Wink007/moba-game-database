@@ -24,6 +24,7 @@ function App() {
   const [heroes, setHeroes] = useState([]);
   const [heroSkills, setHeroSkills] = useState({}); // Skills окремо
   const [heroRelations, setHeroRelations] = useState({}); // Relations окремо
+  const [heroCounterData, setHeroCounterData] = useState({}); // Counter data окремо
   const [showHeroForm, setShowHeroForm] = useState(false);
   const [editingHero, setEditingHero] = useState(null);
   
@@ -67,7 +68,7 @@ function App() {
 
   const loadHeroes = async (gameId) => {
     try {
-      // Завантажуємо heroes без skills та relations (швидше)
+      // Завантажуємо heroes без skills, relations та counter_data (швидше)
       const heroesResponse = await axios.get(`${API_URL}/heroes?game_id=${gameId}`);
       setHeroes(heroesResponse.data || []);
       
@@ -78,11 +79,16 @@ function App() {
       // Завантажуємо relations окремо
       const relationsResponse = await axios.get(`${API_URL}/heroes/relations?game_id=${gameId}`);
       setHeroRelations(relationsResponse.data || {});
+      
+      // Завантажуємо counter_data окремо
+      const counterDataResponse = await axios.get(`${API_URL}/heroes/counter-data?game_id=${gameId}`);
+      setHeroCounterData(counterDataResponse.data || {});
     } catch (error) {
       console.error('Failed to load heroes', error);
       setHeroes([]);
       setHeroSkills({});
       setHeroRelations({});
+      setHeroCounterData({});
     }
   };
 
@@ -605,6 +611,11 @@ function App() {
                   // Додаємо relation зі стейту якщо його немає
                   if (!heroData.relation && heroRelations[hero.id]) {
                     heroData.relation = heroRelations[hero.id];
+                  }
+                  
+                  // Додаємо counter_data зі стейту якщо його немає
+                  if (!heroData.counter_data && heroCounterData[hero.id]) {
+                    heroData.counter_data = heroCounterData[hero.id];
                   }
                   
                   setEditingHero(heroData);

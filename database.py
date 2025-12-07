@@ -151,7 +151,7 @@ def delete_game(game_id):
     return cursor.rowcount > 0
 
 # Heroes
-def get_heroes(game_id=None, include_details=False, include_skills=True, include_relation=True):
+def get_heroes(game_id=None, include_details=False, include_skills=True, include_relation=True, include_counter_data=True):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -253,6 +253,19 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
             else:
                 # Видаляємо relation якщо не потрібен
                 hero.pop('relation', None)
+            
+            # Парсимо counter_data тільки якщо потрібно
+            if include_counter_data:
+                if hero.get('counter_data') and hero['counter_data'].strip():
+                    try:
+                        hero['counter_data'] = json.loads(hero['counter_data'])
+                    except:
+                        hero['counter_data'] = None
+                else:
+                    hero['counter_data'] = None
+            else:
+                # Видаляємо counter_data якщо не потрібен
+                hero.pop('counter_data', None)
             
             # Обробка pro_builds - конвертація старого формату в новий
             if hero.get('pro_builds') and hero['pro_builds'].strip():
