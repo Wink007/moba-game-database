@@ -23,6 +23,7 @@ function App() {
   
   const [heroes, setHeroes] = useState([]);
   const [heroSkills, setHeroSkills] = useState({}); // Skills окремо
+  const [heroRelations, setHeroRelations] = useState({}); // Relations окремо
   const [showHeroForm, setShowHeroForm] = useState(false);
   const [editingHero, setEditingHero] = useState(null);
   
@@ -66,17 +67,22 @@ function App() {
 
   const loadHeroes = async (gameId) => {
     try {
-      // Завантажуємо heroes без skills (швидше)
+      // Завантажуємо heroes без skills та relations (швидше)
       const heroesResponse = await axios.get(`${API_URL}/heroes?game_id=${gameId}`);
       setHeroes(heroesResponse.data || []);
       
       // Завантажуємо skills окремо
       const skillsResponse = await axios.get(`${API_URL}/heroes/skills?game_id=${gameId}`);
       setHeroSkills(skillsResponse.data || {});
+      
+      // Завантажуємо relations окремо
+      const relationsResponse = await axios.get(`${API_URL}/heroes/relations?game_id=${gameId}`);
+      setHeroRelations(relationsResponse.data || {});
     } catch (error) {
       console.error('Failed to load heroes', error);
       setHeroes([]);
       setHeroSkills({});
+      setHeroRelations({});
     }
   };
 
@@ -594,7 +600,14 @@ function App() {
                 try {
                   // Loading full hero data from API
                   const response = await axios.get(`${API_URL}/heroes/${hero.id}`);
-                  setEditingHero(response.data);
+                  const heroData = response.data;
+                  
+                  // Додаємо relation зі стейту якщо його немає
+                  if (!heroData.relation && heroRelations[hero.id]) {
+                    heroData.relation = heroRelations[hero.id];
+                  }
+                  
+                  setEditingHero(heroData);
                   setShowHeroForm(true);
                 } catch (error) {
                   console.error('Failed to load hero details', error);
