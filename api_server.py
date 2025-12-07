@@ -84,8 +84,8 @@ def delete_game(game_id):
 
 def get_heroes():
     game_id = request.args.get('game_id')
-    # Завантажуємо без skills (вони в окремому endpoint)
-    heroes = db.get_heroes(game_id, include_details=True, include_skills=False)
+    # Завантажуємо без skills та relation (вони в окремих endpoints)
+    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False)
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
@@ -110,7 +110,7 @@ def get_all_heroes_skills():
         return jsonify({'error': 'game_id required'}), 400
     
     # Отримуємо всіх героїв гри
-    heroes = db.get_heroes(game_id, include_details=False, include_skills=False)
+    heroes = db.get_heroes(game_id, include_details=False, include_skills=False, include_relation=False)
     hero_ids = [h['id'] for h in heroes]
     
     # Завантажуємо skills для всіх героїв
@@ -137,6 +137,41 @@ def get_all_heroes_skills():
         skills_by_hero[hero_id].append(skill_dict)
     
     return jsonify(skills_by_hero)
+
+@app.route('/api/heroes/relations', methods=['GET'])
+def get_all_heroes_relations():
+    """Relations для всіх героїв гри"""
+    game_id = request.args.get('game_id')
+    if not game_id:
+        return jsonify({'error': 'game_id required'}), 400
+    
+    # Отримуємо всіх героїв з relation
+    conn = db.get_connection()
+    if db.DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    ph = db.get_placeholder()
+    cursor.execute(f"SELECT id, relation FROM heroes WHERE game_id = {ph} AND relation IS NOT NULL", (game_id,))
+    heroes = cursor.fetchall()
+    db.release_connection(conn)
+    
+    # Групуємо по hero_id
+    relations_by_hero = {}
+    for hero in heroes:
+        hero_dict = db.dict_from_row(hero)
+        hero_id = hero_dict['id']
+        relation = hero_dict.get('relation')
+        
+        if relation and relation.strip():
+            try:
+                relations_by_hero[hero_id] = json.loads(relation)
+            except:
+                relations_by_hero[hero_id] = None
+    
+    return jsonify(relations_by_hero)
 
 @app.route('/api/heroes', methods=['POST'])
 def create_hero():
