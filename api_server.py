@@ -977,6 +977,68 @@ def update_hero_stats():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/update-hero-relation/<hero_name>', methods=['POST'])
+def update_hero_relation_endpoint(hero_name):
+    """Оновлює relation для конкретного героя з mlbb-stats API"""
+    import requests
+    
+    try:
+        # Отримуємо relation з mlbb-stats
+        url_name = hero_name.lower().replace(' ', '-')
+        url = f'https://mlbb-stats.ridwaanhall.com/api/hero-detail/{url_name}/'
+        
+        response = requests.get(url, timeout=10)
+        if response.status_code != 200:
+            return jsonify({'error': f'Failed to fetch data: HTTP {response.status_code}'}), 500
+        
+        data = response.json()
+        if data.get('code') != 0:
+            return jsonify({'error': 'API returned error'}), 500
+        
+        relation_data = data['data']['records'][0]['data'].get('relation')
+        
+        if not relation_data:
+            return jsonify({'error': 'No relation data found'}), 404
+        
+        # Форматуємо relation
+        relations = []
+        for rel_type in ['assist', 'strong', 'weak']:
+            if rel_type in relation_data and 'target_hero' in relation_data[rel_type]:
+                for target in relation_data[rel_type]['target_hero']:
+                    if target == 0 or not isinstance(target, dict):
+                        continue
+                    if 'data' in target and 'head' in target['data']:
+                        relations.append({
+                            'type': rel_type,
+                            'hero_image': target['data']['head']
+                        })
+        
+        if not relations:
+            return jsonify({'error': 'No valid relations found'}), 404
+        
+        # Оновлюємо в БД
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        relation_json = json.dumps(relations)
+        cursor.execute(
+            f"UPDATE heroes SET relation = {ph} WHERE name = {ph}",
+            (relation_json, hero_name)
+        )
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({
+            'success': True,
+            'hero': hero_name,
+            'relations': len(relations)
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
