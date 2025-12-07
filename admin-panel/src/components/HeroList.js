@@ -236,7 +236,7 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
                     
                     // If showing transformed - replace base skills with transformed ones
                     if (currentTransformIndex > 0) {
-                      const baseSkills = skills.filter(s => !s.is_transformed);
+                      const baseSkills = skills.filter(s => !s.is_transformed).sort((a, b) => a.id - b.id);
                       const transformedSkills = skills.filter(s => s.is_transformed === 1 || s.is_transformed === true);
                       
                       // Create an array of skills to display
@@ -311,9 +311,10 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
                         );
                       });
                     } else {
-                      // Show only base skills
+                      // Show only base skills - sorted by ID
                       return getHeroSkills(hero.id)
                         .filter(skill => !(skill.is_transformed === 1 || skill.is_transformed === true))
+                        .sort((a, b) => a.id - b.id)
                         .map((skill, idx) => (
                     (skill.image || skill.preview) && (
                       <div 
