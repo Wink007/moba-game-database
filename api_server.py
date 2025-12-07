@@ -84,8 +84,23 @@ def delete_game(game_id):
 
 def get_heroes():
     game_id = request.args.get('game_id')
+    name = request.args.get('name')
+    limit = request.args.get('limit')
+    
     # Завантажуємо без skills, relation, counter_data та compatibility_data (вони в окремих endpoints)
     heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=False, include_compatibility_data=False)
+    
+    # Фільтруємо по імені якщо вказано
+    if name:
+        heroes = [h for h in heroes if h.get('name', '').lower() == name.lower()]
+    
+    # Обмежуємо кількість якщо вказано
+    if limit:
+        try:
+            heroes = heroes[:int(limit)]
+        except ValueError:
+            pass
+    
     return jsonify(heroes)
 
 @app.route('/api/heroes/<int:hero_id>', methods=['GET'])
