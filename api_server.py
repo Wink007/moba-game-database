@@ -1000,28 +1000,14 @@ def update_hero_relation_endpoint(hero_name):
         if not relation_data:
             return jsonify({'error': 'No relation data found'}), 404
         
-        # Форматуємо relation
-        relations = []
-        for rel_type in ['assist', 'strong', 'weak']:
-            if rel_type in relation_data and 'target_hero' in relation_data[rel_type]:
-                for target in relation_data[rel_type]['target_hero']:
-                    if target == 0 or not isinstance(target, dict):
-                        continue
-                    if 'data' in target and 'head' in target['data']:
-                        relations.append({
-                            'type': rel_type,
-                            'hero_image': target['data']['head']
-                        })
-        
-        if not relations:
-            return jsonify({'error': 'No valid relations found'}), 404
+        # Зберігаємо оригінальну структуру з mlbb-stats (assist/strong/weak)
         
         # Оновлюємо в БД
         conn = db.get_connection()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
-        relation_json = json.dumps(relations)
+        relation_json = json.dumps(relation_data)
         cursor.execute(
             f"UPDATE heroes SET relation = {ph} WHERE name = {ph}",
             (relation_json, hero_name)
@@ -1033,7 +1019,7 @@ def update_hero_relation_endpoint(hero_name):
         return jsonify({
             'success': True,
             'hero': hero_name,
-            'relations': len(relations)
+            'relation': relation_data
         })
         
     except Exception as e:
