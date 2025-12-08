@@ -7,7 +7,11 @@ function GameForm({ game, onClose, onSave }) {
   const [formData, setFormData] = useState({
     name: '',
     genre: '',
-    description: ''
+    description: '',
+    background_image: '',
+    video_intro: '',
+    subtitle: '',
+    preview: ''
   });
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +20,11 @@ function GameForm({ game, onClose, onSave }) {
       setFormData({
         name: game.name || '',
         genre: game.genre || '',
-        description: game.description || ''
+        description: game.description || '',
+        background_image: game.background_image || '',
+        video_intro: game.video_intro || '',
+        subtitle: game.subtitle || '',
+        preview: game.preview || ''
       });
     }
   }, [game]);
@@ -77,6 +85,46 @@ function GameForm({ game, onClose, onSave }) {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Опис гри..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Підзаголовок</label>
+            <input
+              type="text"
+              value={formData.subtitle}
+              onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+              placeholder="Jump into Mobile Legends: Bang Bang! Discover heroes..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Фонове зображення (URL)</label>
+            <input
+              type="text"
+              value={formData.background_image}
+              onChange={(e) => setFormData({ ...formData, background_image: e.target.value })}
+              placeholder="https://example.com/background.jpg"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Превʼю (URL)</label>
+            <input
+              type="text"
+              value={formData.preview}
+              onChange={(e) => setFormData({ ...formData, preview: e.target.value })}
+              placeholder="https://example.com/preview.jpg"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Відео вступ (URL)</label>
+            <input
+              type="text"
+              value={formData.video_intro}
+              onChange={(e) => setFormData({ ...formData, video_intro: e.target.value })}
+              placeholder="https://example.com/video.mp4"
             />
           </div>
 

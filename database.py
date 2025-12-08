@@ -92,7 +92,7 @@ def get_game(game_id):
     release_connection(conn)
     return dict_from_row(game) if game else None
 
-def add_game(name, description, release_date, genre):
+def add_game(name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -103,23 +103,23 @@ def add_game(name, description, release_date, genre):
     
     if DATABASE_TYPE == 'postgres':
         cursor.execute(f"""
-            INSERT INTO games (name, description, release_date, genre)
-            VALUES ({ph}, {ph}, {ph}, {ph})
+            INSERT INTO games (name, description, release_date, genre, background_image, video_intro, subtitle, preview)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
             RETURNING id
-        """, (name, description, release_date, genre))
+        """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview))
         game_id = cursor.fetchone()[0]
     else:
         cursor.execute(f"""
-            INSERT INTO games (name, description, release_date, genre)
-            VALUES ({ph}, {ph}, {ph}, {ph})
-        """, (name, description, release_date, genre))
+            INSERT INTO games (name, description, release_date, genre, background_image, video_intro, subtitle, preview)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+        """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview))
         game_id = cursor.lastrowid
     
     conn.commit()
     release_connection(conn)
     return game_id
 
-def update_game(game_id, name, description, release_date, genre):
+def update_game(game_id, name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -129,9 +129,10 @@ def update_game(game_id, name, description, release_date, genre):
     ph = get_placeholder()
     cursor.execute(f"""
         UPDATE games 
-        SET name = {ph}, description = {ph}, release_date = {ph}, genre = {ph}
+        SET name = {ph}, description = {ph}, release_date = {ph}, genre = {ph},
+            background_image = {ph}, video_intro = {ph}, subtitle = {ph}, preview = {ph}
         WHERE id = {ph}
-    """, (name, description, release_date, genre, game_id))
+    """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview, game_id))
     conn.commit()
     release_connection(conn)
     return cursor.rowcount > 0

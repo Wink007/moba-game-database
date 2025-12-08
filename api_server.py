@@ -58,7 +58,11 @@ def create_game():
         data['name'],
         data.get('description', ''),
         data.get('release_date', ''),
-        data.get('genre', '')
+        data.get('genre', ''),
+        data.get('background_image'),
+        data.get('video_intro'),
+        data.get('subtitle'),
+        data.get('preview')
     )
     return jsonify({'id': game_id}), 201
 
@@ -70,7 +74,11 @@ def update_game(game_id):
         data['name'],
         data.get('description', ''),
         data.get('release_date', ''),
-        data.get('genre', '')
+        data.get('genre', ''),
+        data.get('background_image'),
+        data.get('video_intro'),
+        data.get('subtitle'),
+        data.get('preview')
     )
     return jsonify({'success': True})
 
