@@ -69,7 +69,12 @@ def get_games():
             cursor = conn.cursor(cursor_factory=RealDictCursor)
         else:
             cursor = conn.cursor()
-    cursor.execute("SELECT * FROM games")
+    cursor.execute("""
+        SELECT * FROM games
+        ORDER BY 
+            CASE WHEN name = 'Mobile Legends' THEN 0 ELSE 1 END,
+            id
+    """)
     games = [dict_from_row(row) for row in cursor.fetchall()]
     release_connection(conn)
     return games
