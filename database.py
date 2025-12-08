@@ -72,7 +72,7 @@ def get_games():
     cursor.execute("""
         SELECT * FROM games
         ORDER BY 
-            CASE WHEN name = 'Mobile Legends' THEN 0 ELSE 1 END,
+            CASE WHEN id = 1 THEN 0 ELSE 1 END,
             id
     """)
     games = [dict_from_row(row) for row in cursor.fetchall()]
