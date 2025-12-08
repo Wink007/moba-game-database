@@ -24,7 +24,8 @@ def add_game_fields():
     for field_name, field_type in fields_to_add:
         try:
             if db.DATABASE_TYPE == 'postgres':
-                cursor.execute(f"ALTER TABLE games ADD COLUMN {field_name} {field_type}")
+                # PostgreSQL підтримує IF NOT EXISTS
+                cursor.execute(f"ALTER TABLE games ADD COLUMN IF NOT EXISTS {field_name} {field_type}")
             else:
                 cursor.execute(f"ALTER TABLE games ADD COLUMN {field_name} {field_type}")
             print(f"✅ Added column: {field_name}")
