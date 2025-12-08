@@ -1118,6 +1118,45 @@ def update_hero_relation_endpoint(hero_name):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/migrate/games-fields', methods=['POST'])
+def migrate_games_fields():
+    """Тимчасовий endpoint для додавання полів до таблиці games"""
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        fields_to_add = [
+            ('background_image', 'TEXT'),
+            ('video_intro', 'TEXT'),
+            ('subtitle', 'TEXT'),
+            ('preview', 'TEXT')
+        ]
+        
+        results = []
+        for field_name, field_type in fields_to_add:
+            try:
+                if db.DATABASE_TYPE == 'postgres':
+                    cursor.execute(f"ALTER TABLE games ADD COLUMN IF NOT EXISTS {field_name} {field_type}")
+                else:
+                    cursor.execute(f"ALTER TABLE games ADD COLUMN {field_name} {field_type}")
+                results.append(f"✅ Added {field_name}")
+            except Exception as e:
+                if 'already exists' in str(e).lower() or 'duplicate column' in str(e).lower():
+                    results.append(f"⚠️  {field_name} already exists")
+                else:
+                    results.append(f"❌ {field_name}: {str(e)}")
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({
+            'success': True,
+            'results': results
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
