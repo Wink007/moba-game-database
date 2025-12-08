@@ -94,11 +94,7 @@ def get_game(game_id):
 
 def add_game(name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    cursor = conn.cursor()
     ph = get_placeholder()
     
     if DATABASE_TYPE == 'postgres':
