@@ -1,35 +1,36 @@
 #!/usr/bin/env python3
 """
-Додає поле 'painting' до таблиці heroes та заповнює його з API mlbb-stats
+Додає поле 'abilityshow' до таблиці heroes та заповнює його з API mlbb-stats
 """
 
 import requests
 import time
+import json
 import database as db
 
-def add_painting_column():
-    """Додає колонку painting до таблиці heroes"""
+def add_abilityshow_column():
+    """Додає колонку abilityshow до таблиці heroes"""
     conn = db.get_connection()
     cursor = conn.cursor()
     
     try:
-        # Спробувати додати колонку (якщо вже є - буде помилка, ігноруємо)
+        # Додати колонку як JSON/JSONB для PostgreSQL або TEXT для SQLite
         if db.DATABASE_TYPE == 'postgres':
-            cursor.execute("ALTER TABLE heroes ADD COLUMN painting TEXT")
+            cursor.execute("ALTER TABLE heroes ADD COLUMN abilityshow JSONB")
         else:
-            cursor.execute("ALTER TABLE heroes ADD COLUMN painting TEXT")
+            cursor.execute("ALTER TABLE heroes ADD COLUMN abilityshow TEXT")
         conn.commit()
-        print("✅ Колонка 'painting' додана до таблиці heroes")
+        print("✅ Колонка 'abilityshow' додана до таблиці heroes")
     except Exception as e:
         print(f"ℹ️  Колонка вже існує або помилка: {e}")
         conn.rollback()
     finally:
         db.release_connection(conn)
 
-def fetch_painting_from_api(hero_name):
-    """Отримує painting URL з API mlbb-stats"""
+def fetch_abilityshow_from_api(hero_name):
+    """Отримує abilityshow з API mlbb-stats"""
     try:
-        # Очищуємо ім'я героя (видаляємо спеціальні символи, приводимо до нижнього регістру)
+        # Очищуємо ім'я героя
         clean_name = hero_name.lower().replace(' ', '-').replace("'", "")
         url = f"https://mlbb-stats.ridwaanhall.com/api/hero-detail/{clean_name}/"
         
@@ -38,23 +39,17 @@ def fetch_painting_from_api(hero_name):
         
         if response.status_code == 200:
             data = response.json()
-            # Поле знаходиться в data.records[0].data.hero.data.painting
+            # Поле знаходиться в data.records[0].data.hero.data.abilityshow
             records = data.get('data', {}).get('records', [])
             if records and len(records) > 0:
-                record_data = records[0].get('data', {})
-                # Шукаємо painting в data.hero.data.painting
-                hero_data = record_data.get('hero', {}).get('data', {})
-                painting = hero_data.get('painting')
+                hero_data = records[0].get('data', {}).get('hero', {}).get('data', {})
+                abilityshow = hero_data.get('abilityshow')
                 
-                # Якщо не знайшли, спробувати інші можливі шляхи
-                if not painting:
-                    painting = record_data.get('painting') or record_data.get('hero', {}).get('painting')
-                
-                if painting:
-                    print(f"  ✅ Знайдено painting для {hero_name}")
-                    return painting
+                if abilityshow and isinstance(abilityshow, list):
+                    print(f"  ✅ Знайдено abilityshow для {hero_name}: {abilityshow}")
+                    return abilityshow
                 else:
-                    print(f"  ⚠️  Поле 'painting' не знайдено для {hero_name}")
+                    print(f"  ⚠️  Поле 'abilityshow' не знайдено для {hero_name}")
             else:
                 print(f"  ⚠️  Немає записів для {hero_name}")
         else:
@@ -64,8 +59,8 @@ def fetch_painting_from_api(hero_name):
     
     return None
 
-def update_hero_paintings():
-    """Оновлює painting для всіх героїв Mobile Legends"""
+def update_hero_abilityshow():
+    """Оновлює abilityshow для всіх героїв Mobile Legends"""
     # Отримуємо всіх героїв Mobile Legends (game_id = 2)
     heroes = db.get_heroes(game_id=2, include_details=False, include_skills=False)
     
@@ -85,20 +80,27 @@ def update_hero_paintings():
         
         print(f"\n[{updated_count + skipped_count + 1}/{len(heroes)}] Обробка: {hero_name} (ID: {hero_id})")
         
-        # Отримуємо painting з API
-        painting_url = fetch_painting_from_api(hero_name)
+        # Отримуємо abilityshow з API
+        abilityshow = fetch_abilityshow_from_api(hero_name)
         
-        if painting_url:
+        if abilityshow:
             # Оновлюємо в базі
             conn = db.get_connection()
             cursor = conn.cursor()
             ph = db.get_placeholder()
             
             try:
-                cursor.execute(
-                    f"UPDATE heroes SET painting = {ph} WHERE id = {ph}",
-                    (painting_url, hero_id)
-                )
+                # Для PostgreSQL зберігаємо як JSONB, для SQLite як JSON string
+                if db.DATABASE_TYPE == 'postgres':
+                    cursor.execute(
+                        f"UPDATE heroes SET abilityshow = {ph}::jsonb WHERE id = {ph}",
+                        (json.dumps(abilityshow), hero_id)
+                    )
+                else:
+                    cursor.execute(
+                        f"UPDATE heroes SET abilityshow = {ph} WHERE id = {ph}",
+                        (json.dumps(abilityshow), hero_id)
+                    )
                 conn.commit()
                 updated_count += 1
                 print(f"  💾 Збережено в БД")
@@ -120,11 +122,11 @@ def update_hero_paintings():
     print(f"   Всього: {len(heroes)}")
 
 if __name__ == '__main__':
-    print("🎮 Додавання поля 'painting' до героїв Mobile Legends")
+    print("🎮 Додавання поля 'abilityshow' до героїв Mobile Legends")
     print("=" * 60)
     
     # Крок 1: Додати колонку
-    add_painting_column()
+    add_abilityshow_column()
     
     # Крок 2: Заповнити дані
-    update_hero_paintings()
+    update_hero_abilityshow()
