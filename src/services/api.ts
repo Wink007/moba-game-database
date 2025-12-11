@@ -28,10 +28,13 @@ export const api = {
     fetchApi(`/search/items?game_id=${gameId}&query=${query}`),
   
   // Hero Ranks
-  getHeroRanks: (gameId: number, page?: number, size?: number): Promise<HeroRank[]> => {
+  getHeroRanks: (gameId: number, page?: number, size?: number, days?: number): Promise<HeroRank[]> => {
     let url = `/hero-ranks?game_id=${gameId}`;
     if (page && size) {
       url += `&page=${page}&size=${size}`;
+    }
+    if (days) {
+      url += `&days=${days}`;
     }
     return fetchApi(url);
   },
