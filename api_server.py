@@ -62,8 +62,7 @@ def create_game():
         data.get('background_image'),
         data.get('video_intro'),
         data.get('subtitle'),
-        data.get('preview'),
-        data.get('icon')
+        data.get('preview')
     )
     return jsonify({'id': game_id}), 201
 
@@ -79,8 +78,7 @@ def update_game(game_id):
         data.get('background_image'),
         data.get('video_intro'),
         data.get('subtitle'),
-        data.get('preview'),
-        data.get('icon')
+        data.get('preview')
     )
     return jsonify({'success': True})
 

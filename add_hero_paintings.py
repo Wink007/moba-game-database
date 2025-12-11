@@ -38,25 +38,12 @@ def fetch_painting_from_api(hero_name):
         
         if response.status_code == 200:
             data = response.json()
-            # Поле знаходиться в data.records[0].data.hero.data.painting
-            records = data.get('data', {}).get('records', [])
-            if records and len(records) > 0:
-                record_data = records[0].get('data', {})
-                # Шукаємо painting в data.hero.data.painting
-                hero_data = record_data.get('hero', {}).get('data', {})
-                painting = hero_data.get('painting')
-                
-                # Якщо не знайшли, спробувати інші можливі шляхи
-                if not painting:
-                    painting = record_data.get('painting') or record_data.get('hero', {}).get('painting')
-                
-                if painting:
-                    print(f"  ✅ Знайдено painting для {hero_name}")
-                    return painting
-                else:
-                    print(f"  ⚠️  Поле 'painting' не знайдено для {hero_name}")
+            painting = data.get('painting')
+            if painting:
+                print(f"  ✅ Знайдено painting для {hero_name}")
+                return painting
             else:
-                print(f"  ⚠️  Немає записів для {hero_name}")
+                print(f"  ⚠️  Поле 'painting' не знайдено для {hero_name}")
         else:
             print(f"  ❌ Помилка API {response.status_code} для {hero_name}")
     except Exception as e:
@@ -66,8 +53,8 @@ def fetch_painting_from_api(hero_name):
 
 def update_hero_paintings():
     """Оновлює painting для всіх героїв Mobile Legends"""
-    # Отримуємо всіх героїв Mobile Legends (game_id = 2)
-    heroes = db.get_heroes(game_id=2, include_details=False, include_skills=False)
+    # Отримуємо всіх героїв Mobile Legends (game_id = 1)
+    heroes = db.get_heroes(game_id=1, include_details=False, include_skills=False)
     
     if not heroes:
         print("❌ Не знайдено героїв Mobile Legends")

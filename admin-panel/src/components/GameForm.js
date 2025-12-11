@@ -11,8 +11,7 @@ function GameForm({ game, onClose, onSave }) {
     background_image: '',
     video_intro: '',
     subtitle: '',
-    preview: '',
-    icon: ''
+    preview: ''
   });
   const [loading, setLoading] = useState(false);
 
@@ -25,8 +24,7 @@ function GameForm({ game, onClose, onSave }) {
         background_image: game.background_image || '',
         video_intro: game.video_intro || '',
         subtitle: game.subtitle || '',
-        preview: game.preview || '',
-        icon: game.icon || ''
+        preview: game.preview || ''
       });
     }
   }, [game]);
@@ -108,26 +106,6 @@ function GameForm({ game, onClose, onSave }) {
               onChange={(e) => setFormData({ ...formData, background_image: e.target.value })}
               placeholder="https://example.com/background.jpg"
             />
-          </div>
-
-          <div className="form-group">
-            <label>Іконка (URL)</label>
-            <input
-              type="text"
-              value={formData.icon}
-              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              placeholder="https://example.com/icon.png"
-            />
-            {formData.icon && (
-              <div style={{ marginTop: '8px' }}>
-                <img 
-                  src={formData.icon} 
-                  alt="Icon preview" 
-                  style={{ width: '64px', height: '64px', objectFit: 'contain', background: '#f0f0f0', borderRadius: '8px', padding: '4px' }}
-                  onError={(e) => e.target.style.display = 'none'}
-                />
-              </div>
-            )}
           </div>
 
           <div className="form-group">
