@@ -1168,10 +1168,32 @@ if __name__ == '__main__':
 # Hero Ranks
 @app.route('/api/hero-ranks', methods=['GET'])
 def get_hero_ranks_api():
-    """Отримати рейтинги всіх героїв"""
+    """Отримати рейтинги всіх героїв з підтримкою пагінації"""
     game_id = request.args.get('game_id', type=int, default=2)
-    ranks = db.get_hero_ranks(game_id=game_id)
-    return jsonify(ranks)
+    page = request.args.get('page', type=int, default=1)
+    size = request.args.get('size', type=int, default=None)
+    
+    # Отримуємо всі ранги
+    all_ranks = db.get_hero_ranks(game_id=game_id)
+    
+    # Якщо size не вказано, повертаємо всі
+    if size is None:
+        return jsonify(all_ranks)
+    
+    # Пагінація
+    start_idx = (page - 1) * size
+    end_idx = start_idx + size
+    
+    paginated_ranks = all_ranks[start_idx:end_idx]
+    
+    # Повертаємо з метаданими
+    return jsonify({
+        'data': paginated_ranks,
+        'page': page,
+        'size': size,
+        'total': len(all_ranks),
+        'total_pages': (len(all_ranks) + size - 1) // size
+    })
 
 @app.route('/api/heroes/<int:hero_id>/rank', methods=['GET'])
 def get_hero_rank_api(hero_id):
