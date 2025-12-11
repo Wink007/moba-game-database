@@ -9,45 +9,29 @@ os.environ['DATABASE_URL'] = "postgresql://postgres:AgAAUwYzsOuUEzuKvjSQIUUXaxoT
 
 def fetch_hero_ranks():
     """Отримує дані з API mlbb-stats"""
-    base_url = "https://mlbb-stats.ridwaanhall.com/api/hero-rank"
-    all_records = []
-    page = 1
+    url = "https://mlbb-stats.ridwaanhall.com/api/hero-rank?page=1&size=200"
     
     try:
-        while True:
-            url = f"{base_url}?page={page}"
-            print(f"📥 Завантажую сторінку {page}...")
-            
-            response = requests.get(url, timeout=10)
-            response.raise_for_status()
-            data = response.json()
-            
-            # Перевіряємо структуру
-            if data.get('code') == 0 and 'data' in data and 'records' in data['data']:
-                records = data['data']['records']
-                total = data['data'].get('total', 0)
-                
-                if not records:
-                    break
-                
-                all_records.extend(records)
-                print(f"   Отримано {len(records)} записів (всього: {len(all_records)}/{total})")
-                
-                # Якщо отримали всі записи
-                if len(all_records) >= total:
-                    break
-                
-                page += 1
-            else:
-                print(f"❌ Неочікувана структура даних")
-                break
+        print(f"📥 Завантажую дані з API...")
         
-        print(f"✅ Завантажено {len(all_records)} записів")
-        return all_records
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        
+        # Перевіряємо структуру
+        if data.get('code') == 0 and 'data' in data and 'records' in data['data']:
+            records = data['data']['records']
+            total = data['data'].get('total', 0)
+            
+            print(f"✅ Завантажено {len(records)} записів (total: {total})")
+            return records
+        else:
+            print(f"❌ Неочікувана структура даних")
+            return None
             
     except Exception as e:
         print(f"❌ Помилка при отриманні даних: {e}")
-        return all_records if all_records else None
+        return None
 
 def get_hero_id_by_mlbb_id(mlbb_hero_id):
     """Знаходить hero_id по mlbb hero_game_id"""
