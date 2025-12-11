@@ -7,12 +7,18 @@ import json
 os.environ['DATABASE_TYPE'] = 'postgres'
 os.environ['DATABASE_URL'] = "postgresql://postgres:AgAAUwYzsOuUEzuKvjSQIUUXaxoTfGIn@crossover.proxy.rlwy.net:34790/railway"
 
-def fetch_hero_ranks():
-    """Отримує дані з API mlbb-stats"""
+def fetch_hero_ranks(days=None):
+    """Отримує дані з API mlbb-stats
+    
+    Args:
+        days: Період для статистики (1, 3, 7, 15, 30). None = всі дані
+    """
     url = "https://mlbb-stats.ridwaanhall.com/api/hero-rank?page=1&size=200"
+    if days is not None:
+        url += f"&days={days}"
     
     try:
-        print(f"📥 Завантажую дані з API...")
+        print(f"📥 Завантажую дані з API{f' (за {days} днів)' if days else ''}...")
         
         response = requests.get(url, timeout=10)
         response.raise_for_status()

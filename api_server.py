@@ -1168,10 +1168,24 @@ if __name__ == '__main__':
 # Hero Ranks
 @app.route('/api/hero-ranks', methods=['GET'])
 def get_hero_ranks_api():
-    """Отримати рейтинги всіх героїв з підтримкою пагінації"""
+    """Отримати рейтинги всіх героїв з підтримкою пагінації
+    
+    Query Parameters:
+        game_id: ID гри (default: 2)
+        page: Номер сторінки (default: 1)
+        size: Кількість елементів на сторінку (optional)
+        days: Період статистики - 1, 3, 7, 15, 30 (optional)
+        
+    Note: days parameter currently used only for documentation.
+    Data is fetched from external API during import with specific period.
+    """
     game_id = request.args.get('game_id', type=int, default=2)
     page = request.args.get('page', type=int, default=1)
     size = request.args.get('size', type=int, default=None)
+    days = request.args.get('days', type=int, default=None)
+    
+    # TODO: В майбутньому можна зберігати дані для різних періодів
+    # і фільтрувати тут по days параметру
     
     # Отримуємо всі ранги
     all_ranks = db.get_hero_ranks(game_id=game_id)
