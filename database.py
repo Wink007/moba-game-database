@@ -652,6 +652,103 @@ def delete_hero_skills(hero_id):
     conn.commit()
     release_connection(conn)
 
+# Hero Ranks
+def get_hero_ranks(game_id=2):
+    """Отримує всі hero ranks для конкретної гри з win_rate статистикою"""
+    conn = get_connection()
+    if DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    cursor.execute("""
+        SELECT hr.*, h.name, h.painting
+        FROM hero_rank hr
+        JOIN heroes h ON hr.hero_id = h.id
+        WHERE h.game_id = %s
+        ORDER BY hr.win_rate DESC
+    """, (game_id,))
+    
+    ranks = [dict_from_row(row) for row in cursor.fetchall()]
+    release_connection(conn)
+    
+    # Parse synergy_heroes JSON
+    for rank in ranks:
+        if rank.get('synergy_heroes'):
+            try:
+                rank['synergy_heroes'] = json.loads(rank['synergy_heroes']) if isinstance(rank['synergy_heroes'], str) else rank['synergy_heroes']
+            except:
+                rank['synergy_heroes'] = []
+        else:
+            rank['synergy_heroes'] = []
+    
+    return ranks
+
+def get_hero_rank_by_hero_id(hero_id):
+    """Отримує rank конкретного героя (legacy function, use get_hero_rank instead)"""
+    return get_hero_rank(hero_id)
+
+def get_hero_rank(hero_id):
+    """Отримує rank конкретного героя з win_rate та синергіями"""
+    conn = get_connection()
+    if DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    ph = get_placeholder()
+    cursor.execute(f"""
+        SELECT hr.*, h.name as hero_name
+        FROM hero_rank hr
+        JOIN heroes h ON hr.hero_id = h.id
+        WHERE hr.hero_id = {ph}
+    """, (hero_id,))
+    
+    rank = cursor.fetchone()
+    release_connection(conn)
+    
+    if rank:
+        return dict_from_row(rank)
+    return None
+
+def update_hero_rank(hero_id, tier, percentage, position):
+    """Оновлює або створює rank для героя"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    ph = get_placeholder()
+    
+    # Перевіряємо чи існує запис
+    cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph}", (hero_id,))
+    existing = cursor.fetchone()
+    
+    if existing:
+        # Оновлюємо існуючий
+        cursor.execute(f"""
+            UPDATE hero_rank 
+            SET tier = {ph}, percentage = {ph}, position = {ph}, updated_at = CURRENT_TIMESTAMP
+            WHERE hero_id = {ph}
+        """, (tier, percentage, position, hero_id))
+    else:
+        # Створюємо новий
+        cursor.execute(f"""
+            INSERT INTO hero_rank (hero_id, tier, percentage, position)
+            VALUES ({ph}, {ph}, {ph}, {ph})
+        """, (hero_id, tier, percentage, position))
+    
+    conn.commit()
+    release_connection(conn)
+
+def delete_all_hero_ranks():
+    """Видаляє всі ranks (для повного оновлення)"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM hero_rank")
+    conn.commit()
+    release_connection(conn)
+
+
 # Items
 def get_all_items():
     conn = get_connection()
@@ -1090,3 +1187,72 @@ def get_battle_spell(spell_id):
     spell = cursor.fetchone()
     release_connection(conn)
     return dict(spell) if spell else None
+
+# Hero Rank functions
+def get_hero_ranks(game_id=2):
+    """Отримує всі hero ranks для конкретної гри з win_rate статистикою"""
+    conn = get_connection()
+    if DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    cursor.execute("""
+        SELECT hr.*, h.name, h.painting
+        FROM hero_rank hr
+        JOIN heroes h ON hr.hero_id = h.id
+        WHERE h.game_id = %s
+        ORDER BY hr.win_rate DESC
+    """, (game_id,))
+    
+    ranks = [dict_from_row(row) for row in cursor.fetchall()]
+    release_connection(conn)
+    
+    # Parse synergy_heroes JSON
+    for rank in ranks:
+        if rank.get('synergy_heroes'):
+            try:
+                rank['synergy_heroes'] = json.loads(rank['synergy_heroes']) if isinstance(rank['synergy_heroes'], str) else rank['synergy_heroes']
+            except:
+                rank['synergy_heroes'] = []
+        else:
+            rank['synergy_heroes'] = []
+    
+    return ranks
+
+def get_hero_rank_by_hero_id(hero_id):
+    """Отримує rank конкретного героя (legacy, redirects to get_hero_rank)"""
+    return get_hero_rank(hero_id)
+
+def get_hero_rank(hero_id):
+    """Отримує rank конкретного героя з win_rate та синергіями"""
+    conn = get_connection()
+    if DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+    
+    ph = get_placeholder()
+    cursor.execute(f"""
+        SELECT hr.*, h.name, h.painting
+        FROM hero_rank hr
+        JOIN heroes h ON hr.hero_id = h.id
+        WHERE hr.hero_id = {ph}
+    """, (hero_id,))
+    
+    rank = cursor.fetchone()
+    release_connection(conn)
+    
+    if rank:
+        rank = dict_from_row(rank)
+        if rank.get('synergy_heroes'):
+            try:
+                rank['synergy_heroes'] = json.loads(rank['synergy_heroes']) if isinstance(rank['synergy_heroes'], str) else rank['synergy_heroes']
+            except:
+                rank['synergy_heroes'] = []
+        else:
+            rank['synergy_heroes'] = []
+        return rank
+    return None

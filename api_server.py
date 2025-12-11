@@ -62,7 +62,8 @@ def create_game():
         data.get('background_image'),
         data.get('video_intro'),
         data.get('subtitle'),
-        data.get('preview')
+        data.get('preview'),
+        data.get('icon')
     )
     return jsonify({'id': game_id}), 201
 
@@ -78,7 +79,8 @@ def update_game(game_id):
         data.get('background_image'),
         data.get('video_intro'),
         data.get('subtitle'),
-        data.get('preview')
+        data.get('preview'),
+        data.get('icon')
     )
     return jsonify({'success': True})
 
@@ -160,6 +162,8 @@ def get_all_heroes_skills():
         skills_by_hero[hero_id].append(skill_dict)
     
     return jsonify(skills_by_hero)
+
+# Hero Ranks endpoints moved to the end of file (around line 1214)
 
 @app.route('/api/heroes/relations', methods=['GET'])
 def get_all_heroes_relations():
@@ -1160,3 +1164,19 @@ def migrate_games_fields():
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
+
+# Hero Ranks
+@app.route('/api/hero-ranks', methods=['GET'])
+def get_hero_ranks_api():
+    """Отримати рейтинги всіх героїв"""
+    game_id = request.args.get('game_id', type=int, default=2)
+    ranks = db.get_hero_ranks(game_id=game_id)
+    return jsonify(ranks)
+
+@app.route('/api/heroes/<int:hero_id>/rank', methods=['GET'])
+def get_hero_rank_api(hero_id):
+    """Отримати рейтинг конкретного героя"""
+    rank = db.get_hero_rank(hero_id)
+    if rank:
+        return jsonify(rank)
+    return jsonify({'error': 'Hero rank not found'}), 404
