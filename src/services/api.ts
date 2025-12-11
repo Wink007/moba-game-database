@@ -7,10 +7,6 @@ export const fetchApi = async (endpoint: string) => {
   if (!res.ok) throw new Error('API Error');
   const data = await res.json();
   return data.data || data;
-  
-  // Hero Ranks
-  getHeroRanks: (gameId: number): Promise<any[]> => fetchApi(`/hero-ranks?game_id=${gameId}`),
-  getHeroRank: (heroId: number): Promise<any> => fetchApi(`/heroes/${heroId}/rank`),
 };
 
 export const api = {
@@ -32,7 +28,12 @@ export const api = {
     fetchApi(`/search/items?game_id=${gameId}&query=${query}`),
   
   // Hero Ranks
-  getHeroRanks: (gameId: number): Promise<HeroRank[]> => fetchApi(`/hero-ranks?game_id=${gameId}`),
+  getHeroRanks: (gameId: number, page?: number, size?: number): Promise<HeroRank[]> => {
+    let url = `/hero-ranks?game_id=${gameId}`;
+    if (page && size) {
+      url += `&page=${page}&size=${size}`;
+    }
+    return fetchApi(url);
+  },
   getHeroRank: (heroId: number): Promise<HeroRank> => fetchApi(`/heroes/${heroId}/rank`),
-};
 };

@@ -33,10 +33,10 @@ export const useHeroSkillsById = (heroId?: number) => {
     enabled: !!heroId
   });
 };
-export const useHeroRanks = (gameId?: number) => {
+export const useHeroRanks = (gameId?: number, page?: number, size?: number) => {
   return useQuery({
-    queryKey: ['heroRanks', gameId],
-    queryFn: () => api.getHeroRanks(gameId!),
+    queryKey: ['heroRanks', gameId, page, size],
+    queryFn: () => api.getHeroRanks(gameId!, page, size),
     enabled: !!gameId
   });
 };
