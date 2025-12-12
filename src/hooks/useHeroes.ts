@@ -33,10 +33,18 @@ export const useHeroSkillsById = (heroId?: number) => {
     enabled: !!heroId
   });
 };
-export const useHeroRanks = (gameId?: number, page?: number, size?: number, days?: number) => {
+export const useHeroRanks = (
+  gameId?: number, 
+  page?: number, 
+  size?: number, 
+  days?: number,
+  rank?: string,
+  sortField?: 'pick_rate' | 'ban_rate' | 'win_rate',
+  sortOrder?: 'asc' | 'desc'
+) => {
   return useQuery({
-    queryKey: ['heroRanks', gameId, page, size, days],
-    queryFn: () => api.getHeroRanks(gameId!, page, size, days),
+    queryKey: ['heroRanks', gameId, page, size, days, rank, sortField, sortOrder],
+    queryFn: () => api.getHeroRanks(gameId!, page, size, days, rank, sortField, sortOrder),
     enabled: !!gameId
   });
 };
