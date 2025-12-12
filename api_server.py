@@ -1168,27 +1168,36 @@ if __name__ == '__main__':
 # Hero Ranks
 @app.route('/api/hero-ranks', methods=['GET'])
 def get_hero_ranks_api():
-    """Отримати рейтинги всіх героїв з підтримкою пагінації
+    """Отримати рейтинги всіх героїв з підтримкою пагінації та фільтрації
     
     Query Parameters:
         game_id: ID гри (default: 2)
         page: Номер сторінки (default: 1)
         size: Кількість елементів на сторінку (optional)
-        days: Період статистики - 1, 3, 7, 15, 30 (optional)
+        days: Період статистики - 1, 3, 7, 15, 30 (default: 1)
+        rank: Rank category - all, epic, legend, mythic, honor, glory (default: all)
+        sort_field: Field to sort by - pick_rate, ban_rate, win_rate (default: win_rate)
+        sort_order: Order of sort - asc, desc (default: desc)
         
-    Note: days parameter currently used only for documentation.
-    Data is fetched from external API during import with specific period.
+    Note: days, rank, sort_field, sort_order parameters are for documentation.
+    Data is fetched from external API during import with these filters.
+    Filtering in this endpoint will be implemented when we store historical data.
     """
     game_id = request.args.get('game_id', type=int, default=2)
     page = request.args.get('page', type=int, default=1)
     size = request.args.get('size', type=int, default=None)
     days = request.args.get('days', type=int, default=None)
-    
-    # TODO: В майбутньому можна зберігати дані для різних періодів
-    # і фільтрувати тут по days параметру
+    rank = request.args.get('rank', type=str, default=None)
+    sort_field = request.args.get('sort_field', type=str, default=None)
+    sort_order = request.args.get('sort_order', type=str, default='desc')
     
     # Отримуємо всі ранги
     all_ranks = db.get_hero_ranks(game_id=game_id)
+    
+    # Apply sorting if specified
+    if sort_field in ['win_rate', 'ban_rate', 'appearance_rate']:
+        reverse = (sort_order == 'desc')
+        all_ranks = sorted(all_ranks, key=lambda x: x.get(sort_field, 0), reverse=reverse)
     
     # Якщо size не вказано, повертаємо всі
     if size is None:

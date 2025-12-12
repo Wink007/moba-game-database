@@ -7,15 +7,27 @@ import json
 os.environ['DATABASE_TYPE'] = 'postgres'
 os.environ['DATABASE_URL'] = "postgresql://postgres:AgAAUwYzsOuUEzuKvjSQIUUXaxoTfGIn@crossover.proxy.rlwy.net:34790/railway"
 
-def fetch_hero_ranks(days=None):
+def fetch_hero_ranks(days=None, rank=None, sort_field=None, sort_order=None):
     """Отримує дані з API mlbb-stats
     
     Args:
-        days: Період для статистики (1, 3, 7, 15, 30). None = всі дані
+        days: Період для статистики (1, 3, 7, 15, 30). Default: 1
+        rank: Rank category (all, epic, legend, mythic, honor, glory). Default: all
+        sort_field: Field to sort by (pick_rate, ban_rate, win_rate). Default: win_rate
+        sort_order: Order of sort (asc, desc). Default: desc
     """
-    url = "https://mlbb-stats.ridwaanhall.com/api/hero-rank?page=1&size=200"
+    # Base URL with size parameter to get all heroes
+    url = "https://mlbb-stats.ridwaanhall.com/api/hero-rank?index=1&size=200"
+    
+    # Add optional parameters
     if days is not None:
         url += f"&days={days}"
+    if rank is not None:
+        url += f"&rank={rank}"
+    if sort_field is not None:
+        url += f"&sort_field={sort_field}"
+    if sort_order is not None:
+        url += f"&sort_order={sort_order}"
     
     try:
         print(f"📥 Завантажую дані з API{f' (за {days} днів)' if days else ''}...")
