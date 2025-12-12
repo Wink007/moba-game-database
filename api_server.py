@@ -1167,17 +1167,17 @@ def get_hero_ranks_api():
     Query Parameters:
         game_id: ID гри (default: 2)
         page: Номер сторінки (default: 1)
-        size: Кількість елементів на сторінку (optional)
-        days: Період статистики - 1, 7, 30 (optional)
-        rank: Rank category - all, glory (optional)
+        size: Кількість елементів на сторінку (default: 20)
+        days: Період статистики - 1, 3, 7, 15, 30 (default: 1)
+        rank: Rank category - all, epic, legend, mythic, honor, glory (default: all)
         sort_field: Field to sort by - pick_rate, ban_rate, win_rate (default: win_rate)
         sort_order: Order of sort - asc, desc (default: desc)
     """
     game_id = request.args.get('game_id', type=int, default=2)
     page = request.args.get('page', type=int, default=1)
-    size = request.args.get('size', type=int, default=None)
-    days = request.args.get('days', type=int, default=None)
-    rank = request.args.get('rank', type=str, default=None)
+    size = request.args.get('size', type=int, default=20)
+    days = request.args.get('days', type=int, default=1)
+    rank = request.args.get('rank', type=str, default='all')
     sort_field = request.args.get('sort_field', type=str, default='win_rate')
     sort_order = request.args.get('sort_order', type=str, default='desc')
     
@@ -1188,10 +1188,6 @@ def get_hero_ranks_api():
     if sort_field in ['win_rate', 'ban_rate', 'appearance_rate']:
         reverse = (sort_order == 'desc')
         all_ranks = sorted(all_ranks, key=lambda x: x.get(sort_field, 0), reverse=reverse)
-    
-    # Якщо size не вказано, повертаємо всі
-    if size is None:
-        return jsonify(all_ranks)
     
     # Пагінація
     start_idx = (page - 1) * size
