@@ -1168,25 +1168,21 @@ def get_hero_ranks_api():
         game_id: ID гри (default: 2)
         page: Номер сторінки (default: 1)
         size: Кількість елементів на сторінку (optional)
-        days: Період статистики - 1, 3, 7, 15, 30 (default: 1)
-        rank: Rank category - all, epic, legend, mythic, honor, glory (default: all)
+        days: Період статистики - 1, 7, 30 (optional)
+        rank: Rank category - all, glory (optional)
         sort_field: Field to sort by - pick_rate, ban_rate, win_rate (default: win_rate)
         sort_order: Order of sort - asc, desc (default: desc)
-        
-    Note: days, rank, sort_field, sort_order parameters are for documentation.
-    Data is fetched from external API during import with these filters.
-    Filtering in this endpoint will be implemented when we store historical data.
     """
     game_id = request.args.get('game_id', type=int, default=2)
     page = request.args.get('page', type=int, default=1)
     size = request.args.get('size', type=int, default=None)
     days = request.args.get('days', type=int, default=None)
     rank = request.args.get('rank', type=str, default=None)
-    sort_field = request.args.get('sort_field', type=str, default=None)
+    sort_field = request.args.get('sort_field', type=str, default='win_rate')
     sort_order = request.args.get('sort_order', type=str, default='desc')
     
-    # Отримуємо всі ранги
-    all_ranks = db.get_hero_ranks(game_id=game_id)
+    # Отримуємо ранги з бази з фільтрацією
+    all_ranks = db.get_hero_ranks(game_id=game_id, days=days, rank=rank)
     
     # Apply sorting if specified
     if sort_field in ['win_rate', 'ban_rate', 'appearance_rate']:
@@ -1265,4 +1261,51 @@ def update_hero_ranks_api():
     except Exception as e:
         print(f"Error updating hero ranks: {e}")
         return jsonify({'error': str(e)}), 500
+
+@app.route('/api/hero-ranks/migrate-constraint', methods=['POST'])
+def migrate_hero_ranks_constraint():
+    """Додає унікальний constraint для (hero_id, days, rank)"""
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        # Видаляємо старий UNIQUE constraint
+        cursor.execute("""
+            SELECT constraint_name 
+            FROM information_schema.table_constraints 
+            WHERE table_name = 'hero_rank' 
+            AND constraint_type = 'UNIQUE'
+            AND constraint_name LIKE '%hero_id%'
+        """)
+        old_constraints = cursor.fetchall()
+        
+        for constraint in old_constraints:
+            constraint_name = constraint[0]
+            cursor.execute(f"ALTER TABLE hero_rank DROP CONSTRAINT IF EXISTS {constraint_name}")
+        
+        # Додаємо новий UNIQUE constraint
+        cursor.execute("""
+            ALTER TABLE hero_rank 
+            ADD CONSTRAINT hero_rank_unique_combination 
+            UNIQUE (hero_id, days, rank)
+        """)
+        
+        # Створюємо індекс
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_hero_rank_days_rank 
+            ON hero_rank(days, rank)
+        """)
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({
+            'success': True,
+            'message': 'Constraint successfully added'
+        })
+        
+    except Exception as e:
+        print(f"Error migrating constraint: {e}")
+        return jsonify({'error': str(e)}), 500
+
 
