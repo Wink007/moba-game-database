@@ -56,8 +56,6 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [newSkill, setNewSkill] = useState({
     skill_name: '',
     skill_description: '',
-    passive_description: '',
-    active_description: '',
     effect: [],
     preview: '',
     skill_type: 'active',
@@ -408,8 +406,6 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     setNewSkill({
       skill_name: '',
       skill_description: '',
-      passive_description: '',
-      active_description: '',
       effect: [],
       preview: '',
       skill_type: 'active',
@@ -431,8 +427,6 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     setNewSkill({
       skill_name: skill.skill_name || '',
       skill_description: skill.skill_description || '',
-      passive_description: skill.passive_description || '',
-      active_description: skill.active_description || '',
       effect: Array.isArray(skill.effect) ? skill.effect : (skill.effect ? [skill.effect] : []),
       preview: skill.preview || '',
       skill_type: skill.skill_type || 'active',
@@ -1280,17 +1274,15 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                       </div>
                     )}
                     {skill.skill_description && (
-                      <p><strong>Description:</strong> {skill.skill_description}</p>
-                    )}
-                    {skill.passive_description && (
-                      <div style={{ marginTop: '8px' }}>
-                        <strong>🟡 Passive:</strong> {skill.passive_description}
-                      </div>
-                    )}
-                    {skill.active_description && (
-                      <div style={{ marginTop: '8px' }}>
-                        <strong>🔵 Active:</strong> {skill.active_description}
-                      </div>
+                      <div 
+                        style={{ marginTop: '8px' }}
+                        dangerouslySetInnerHTML={{ 
+                          __html: '<strong>Description:</strong> ' + skill.skill_description
+                            .replace(/<font color="([^"]+)">/g, '<span style="color: #$1;">')
+                            .replace(/<\/font>/g, '</span>')
+                            .replace(/\n/g, '<br />')
+                        }}
+                      />
                     )}
                     {skill.effect_types && Array.isArray(skill.effect_types) && skill.effect_types.length > 0 && (
                       <div className="skill-effect" style={{ marginTop: '8px' }}>
@@ -1339,27 +1331,14 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               
               <textarea
                 name="skill_description"
-                placeholder="General Description"
+                placeholder="Skill Description (supports HTML tags like <font color='a6aafb'>text</font>)"
                 value={newSkill.skill_description}
                 onChange={handleSkillChange}
-                rows="2"
+                rows="4"
               />
-              
-              <textarea
-                name="passive_description"
-                placeholder="Passive Effect Description (if any)"
-                value={newSkill.passive_description}
-                onChange={handleSkillChange}
-                rows="2"
-              />
-              
-              <textarea
-                name="active_description"
-                placeholder="Active Effect Description (if any)"
-                value={newSkill.active_description}
-                onChange={handleSkillChange}
-                rows="2"
-              />
+              <small style={{ color: '#666', display: 'block', marginTop: '4px' }}>
+                Supports HTML: &lt;font color="a6aafb"&gt;Passive&lt;/font&gt; for colored text, \n for new lines
+              </small>
               
               <div style={{ marginTop: '1rem' }}>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
