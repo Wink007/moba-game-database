@@ -653,8 +653,14 @@ def delete_hero_skills(hero_id):
     release_connection(conn)
 
 # Hero Ranks
-def get_hero_ranks(game_id=2):
-    """Отримує всі hero ranks для конкретної гри з win_rate статистикою"""
+def get_hero_ranks(game_id=2, days=None, rank=None):
+    """Отримує всі hero ranks для конкретної гри з win_rate статистикою
+    
+    Args:
+        game_id: ID гри (default: 2 для Mobile Legends)
+        days: Період статистики - 1, 7, 30 (optional, default: всі періоди)
+        rank: Rank category - all, glory (optional, default: всі ранги)
+    """
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -662,35 +668,50 @@ def get_hero_ranks(game_id=2):
     else:
         cursor = conn.cursor()
     
-    cursor.execute("""
+    # Базовий SQL запит
+    sql = """
         SELECT hr.*, h.name, h.painting, h.image, h.head, h.roles
         FROM hero_rank hr
         JOIN heroes h ON hr.hero_id = h.id
         WHERE h.game_id = %s
-        ORDER BY hr.win_rate DESC
-    """, (game_id,))
+    """
+    params = [game_id]
+    
+    # Додаємо фільтр по days якщо вказано
+    if days is not None:
+        sql += " AND hr.days = %s"
+        params.append(days)
+    
+    # Додаємо фільтр по rank якщо вказано
+    if rank is not None:
+        sql += " AND hr.rank = %s"
+        params.append(rank)
+    
+    sql += " ORDER BY hr.win_rate DESC"
+    
+    cursor.execute(sql, params)
     
     ranks = [dict_from_row(row) for row in cursor.fetchall()]
     release_connection(conn)
     
     # Parse synergy_heroes and roles JSON
-    for rank in ranks:
-        if rank.get('synergy_heroes'):
+    for rank_data in ranks:
+        if rank_data.get('synergy_heroes'):
             try:
-                rank['synergy_heroes'] = json.loads(rank['synergy_heroes']) if isinstance(rank['synergy_heroes'], str) else rank['synergy_heroes']
+                rank_data['synergy_heroes'] = json.loads(rank_data['synergy_heroes']) if isinstance(rank_data['synergy_heroes'], str) else rank_data['synergy_heroes']
             except:
-                rank['synergy_heroes'] = []
+                rank_data['synergy_heroes'] = []
         else:
-            rank['synergy_heroes'] = []
+            rank_data['synergy_heroes'] = []
         
         # Parse roles JSON
-        if rank.get('roles'):
+        if rank_data.get('roles'):
             try:
-                rank['roles'] = json.loads(rank['roles']) if isinstance(rank['roles'], str) else rank['roles']
+                rank_data['roles'] = json.loads(rank_data['roles']) if isinstance(rank_data['roles'], str) else rank_data['roles']
             except:
-                rank['roles'] = []
+                rank_data['roles'] = []
         else:
-            rank['roles'] = []
+            rank_data['roles'] = []
     
     return ranks
 
@@ -1197,48 +1218,7 @@ def get_battle_spell(spell_id):
     release_connection(conn)
     return dict(spell) if spell else None
 
-# Hero Rank functions
-def get_hero_ranks(game_id=2):
-    """Отримує всі hero ranks для конкретної гри з win_rate статистикою"""
-    conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    
-    cursor.execute("""
-        SELECT hr.*, h.name, h.painting
-        FROM hero_rank hr
-        JOIN heroes h ON hr.hero_id = h.id
-        WHERE h.game_id = %s
-        ORDER BY hr.win_rate DESC
-    """, (game_id,))
-    
-    ranks = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
-    
-    # Parse synergy_heroes and roles JSON
-    for rank in ranks:
-        if rank.get('synergy_heroes'):
-            try:
-                rank['synergy_heroes'] = json.loads(rank['synergy_heroes']) if isinstance(rank['synergy_heroes'], str) else rank['synergy_heroes']
-            except:
-                rank['synergy_heroes'] = []
-        else:
-            rank['synergy_heroes'] = []
-        
-        # Parse roles JSON
-        if rank.get('roles'):
-            try:
-                rank['roles'] = json.loads(rank['roles']) if isinstance(rank['roles'], str) else rank['roles']
-            except:
-                rank['roles'] = []
-        else:
-            rank['roles'] = []
-    
-    return ranks
-
+# Hero Rank legacy functions (main implementation is above around line 656)
 def get_hero_rank_by_hero_id(hero_id):
     """Отримує rank конкретного героя (legacy, redirects to get_hero_rank)"""
     return get_hero_rank(hero_id)
