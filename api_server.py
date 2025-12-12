@@ -313,8 +313,6 @@ def create_hero():
                 skill.get('skill_type', 'active'),
                 skill.get('skill_parameters', {}),
                 skill.get('level_scaling', []),
-                skill.get('passive_description'),
-                skill.get('active_description'),
                 skill.get('effect_types', []),
                 skill.get('is_transformed', 0),
                 skill.get('transformation_order', 0),
@@ -368,8 +366,6 @@ def update_hero(hero_id):
                 # Support both 'image' and 'preview' fields
                 preview = str(skill.get('image') or skill.get('preview', ''))
                 skill_type = str(skill.get('skill_type', 'active'))
-                passive_desc = str(skill.get('passive_description', '') or '')
-                active_desc = str(skill.get('active_description', '') or '')
                 
                 # Ensure effect is a string (might be dict/list from React)
                 effect = skill.get('effect', '')
@@ -387,8 +383,6 @@ def update_hero(hero_id):
                     skill_type,
                     skill.get('skill_parameters', {}),
                     skill.get('level_scaling', []),
-                    passive_desc,
-                    active_desc,
                     skill.get('effect_types', []),
                     skill.get('is_transformed', 0),
                     skill.get('transformation_order', 0),
