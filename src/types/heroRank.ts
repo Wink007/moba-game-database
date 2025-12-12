@@ -8,6 +8,9 @@ export interface HeroRank {
   hero_id: number;
   name: string;
   painting: string;
+  image?: string;
+  head?: string;
+  roles?: string[];
   win_rate: number;
   ban_rate: number;
   appearance_rate: number;
