@@ -69,8 +69,8 @@ def get_hero_id_by_mlbb_id(mlbb_hero_id):
         return result[0] if isinstance(result, tuple) else result['id']
     return None
 
-def update_hero_ranks(records):
-    """Оновлює таблицю hero_rank"""
+def update_hero_ranks(records, days=1, rank='all'):
+    """Оновлює таблицю hero_rank з урахуванням days та rank параметрів"""
     if not records:
         print("❌ Немає даних для оновлення")
         return {'inserted': 0, 'updated': 0, 'skipped': 0}
@@ -125,26 +125,28 @@ def update_hero_ranks(records):
         
         # Перевіряємо чи вже є запис
         ph = db.get_placeholder()
-        cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph}", (hero_id,))
+        cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph} AND days = {ph} AND rank = {ph}", (hero_id, days, rank))
         existing = cursor.fetchone()
         
-        # Вставляємо або оновлюємо дані
-        cursor.execute(f"""
-            INSERT INTO hero_rank (hero_id, appearance_rate, ban_rate, win_rate, synergy_heroes)
-            VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
-            ON CONFLICT (hero_id) DO UPDATE SET
-                appearance_rate = EXCLUDED.appearance_rate,
-                ban_rate = EXCLUDED.ban_rate,
-                win_rate = EXCLUDED.win_rate,
-                synergy_heroes = EXCLUDED.synergy_heroes,
-                updated_at = CURRENT_TIMESTAMP
-        """, (hero_id, appearance_rate, ban_rate, win_rate, json.dumps(synergy_heroes)))
-        
+        # Оновлюємо або вставляємо дані
         if existing:
+            cursor.execute(f"""
+                UPDATE hero_rank SET
+                    appearance_rate = {ph},
+                    ban_rate = {ph},
+                    win_rate = {ph},
+                    synergy_heroes = {ph},
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE hero_id = {ph} AND days = {ph} AND rank = {ph}
+            """, (appearance_rate, ban_rate, win_rate, json.dumps(synergy_heroes), hero_id, days, rank))
             updated += 1
         else:
+            cursor.execute(f"""
+                INSERT INTO hero_rank (hero_id, appearance_rate, ban_rate, win_rate, synergy_heroes, days, rank)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+            """, (hero_id, appearance_rate, ban_rate, win_rate, json.dumps(synergy_heroes), days, rank))
             inserted += 1
-            
+        
         hero_name = record_data.get('main_hero', {}).get('data', {}).get('name', 'Unknown')
         print(f"✅ {hero_name}: WR={win_rate:.2%}, Ban={ban_rate:.2%}, Pick={appearance_rate:.2%}")
     
@@ -162,22 +164,48 @@ def update_hero_ranks(records):
         'skipped': skipped
     }
 
-def update_hero_ranks_with_stats(records):
+def update_hero_ranks_with_stats(records, days=1, rank='all'):
     """Wrapper для update_hero_ranks що повертає статистику"""
-    return update_hero_ranks(records)
+    return update_hero_ranks(records, days, rank)
 
 def main():
     print("🔄 Завантаження hero-rank з API...")
-    # Отримуємо дані за ВСІ ранги (як на mobilelegends.com за замовчуванням)
-    # Параметр rank=all або без rank означає статистику по всіх рангах
-    records = fetch_hero_ranks(days=1, rank='all', sort_field='win_rate', sort_order='desc')
     
-    if records:
-        print(f"✅ Отримано {len(records)} героїв")
-        update_hero_ranks(records)
-        print("\n✅ Оновлення hero_rank завершено!")
-    else:
-        print("❌ Не вдалося отримати дані")
+    # Імпортуємо дані для різних комбінацій параметрів
+    configs = [
+        # (days, rank, description)
+        (1, 'all', '1 day - All ranks'),
+        (7, 'all', '7 days - All ranks'),
+        (30, 'all', '30 days - All ranks'),
+        (1, 'glory', '1 day - Mythical Glory'),
+        (7, 'glory', '7 days - Mythical Glory'),
+        (30, 'glory', '30 days - Mythical Glory'),
+    ]
+    
+    total_inserted = 0
+    total_updated = 0
+    
+    for days, rank, desc in configs:
+        print(f"\n{'='*50}")
+        print(f"📥 Завантаження: {desc}")
+        print(f"{'='*50}")
+        
+        records = fetch_hero_ranks(days=days, rank=rank, sort_field='win_rate', sort_order='desc')
+        
+        if records:
+            print(f"✅ Отримано {len(records)} героїв")
+            result = update_hero_ranks(records, days=days, rank=rank)
+            total_inserted += result['inserted']
+            total_updated += result['updated']
+        else:
+            print(f"❌ Не вдалося отримати дані для {desc}")
+    
+    print(f"\n{'='*50}")
+    print(f"📊 ЗАГАЛЬНИЙ РЕЗУЛЬТАТ:")
+    print(f"{'='*50}")
+    print(f"   Додано нових: {total_inserted}")
+    print(f"   Оновлено: {total_updated}")
+    print("\n✅ Оновлення hero_rank завершено!")
 
 if __name__ == '__main__':
     main()
