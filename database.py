@@ -663,7 +663,7 @@ def get_hero_ranks(game_id=2):
         cursor = conn.cursor()
     
     cursor.execute("""
-        SELECT hr.*, h.name, h.painting
+        SELECT hr.*, h.name, h.painting, h.image, h.head, h.roles
         FROM hero_rank hr
         JOIN heroes h ON hr.hero_id = h.id
         WHERE h.game_id = %s
@@ -673,7 +673,7 @@ def get_hero_ranks(game_id=2):
     ranks = [dict_from_row(row) for row in cursor.fetchall()]
     release_connection(conn)
     
-    # Parse synergy_heroes JSON
+    # Parse synergy_heroes and roles JSON
     for rank in ranks:
         if rank.get('synergy_heroes'):
             try:
@@ -682,6 +682,15 @@ def get_hero_ranks(game_id=2):
                 rank['synergy_heroes'] = []
         else:
             rank['synergy_heroes'] = []
+        
+        # Parse roles JSON
+        if rank.get('roles'):
+            try:
+                rank['roles'] = json.loads(rank['roles']) if isinstance(rank['roles'], str) else rank['roles']
+            except:
+                rank['roles'] = []
+        else:
+            rank['roles'] = []
     
     return ranks
 
@@ -1209,7 +1218,7 @@ def get_hero_ranks(game_id=2):
     ranks = [dict_from_row(row) for row in cursor.fetchall()]
     release_connection(conn)
     
-    # Parse synergy_heroes JSON
+    # Parse synergy_heroes and roles JSON
     for rank in ranks:
         if rank.get('synergy_heroes'):
             try:
@@ -1218,6 +1227,15 @@ def get_hero_ranks(game_id=2):
                 rank['synergy_heroes'] = []
         else:
             rank['synergy_heroes'] = []
+        
+        # Parse roles JSON
+        if rank.get('roles'):
+            try:
+                rank['roles'] = json.loads(rank['roles']) if isinstance(rank['roles'], str) else rank['roles']
+            except:
+                rank['roles'] = []
+        else:
+            rank['roles'] = []
     
     return ranks
 
