@@ -6,13 +6,13 @@ import styles from './styles.module.scss';
 export const TopHeroesRanked = () => {
   const { selectedGameId } = useGameStore();
   
-  // Get top 5 heroes for Mythical Glory rank, 30 days period, sorted by win rate
+  // Get top 5 heroes for ALL ranks, 30 days period, sorted by win rate
   const { data: heroRanks, isLoading, isError } = useHeroRanks(
     selectedGameId, 
     1, // page
     5, // size - top 5
     30, // days
-    'glory', // rank - mythical glory
+    'all', // rank - all ranks (like mobilelegends.com default)
     'win_rate', // sort by win rate
     'desc' // descending order
   );
@@ -25,8 +25,8 @@ export const TopHeroesRanked = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>🏆 Top 5 Heroes - Mythical Glory</h2>
-        <span className={styles.period}>Last 30 Days</span>
+        <h2 className={styles.title}>🏆 Top 5 Heroes Ranking</h2>
+        <span className={styles.period}>Last 30 Days - All Ranks</span>
       </div>
       
       <div className={styles.heroList}>
