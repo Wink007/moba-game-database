@@ -10,6 +10,7 @@ import ItemForm from './components/ItemForm';
 import EmblemViewer from './components/EmblemViewer';
 import BattleSpellList from './components/BattleSpellList';
 import BattleSpellForm from './components/BattleSpellForm';
+import HeroRanksManager from './components/HeroRanksManager';
 
 // Railway API URL (online) or localhost for local development
 const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up.railway.app/api';
@@ -229,6 +230,13 @@ function App() {
           disabled={!selectedGame}
         >
           🔮 Battle Spells
+        </button>
+        <button 
+          className={activeTab === 'heroRanks' ? 'active' : ''} 
+          onClick={() => setActiveTab('heroRanks')}
+          disabled={!selectedGame}
+        >
+          🏆 Hero Ranks
         </button>
       </div>
 
@@ -745,6 +753,12 @@ function App() {
                 }
               }}
             />
+          </div>
+        )}
+
+        {activeTab === 'heroRanks' && (
+          <div className="tab-content">
+            <HeroRanksManager selectedGame={selectedGame} />
           </div>
         )}
       </div>

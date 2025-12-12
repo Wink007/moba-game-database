@@ -73,15 +73,13 @@ def update_hero_ranks(records):
     """Оновлює таблицю hero_rank"""
     if not records:
         print("❌ Немає даних для оновлення")
-        return
+        return {'inserted': 0, 'updated': 0, 'skipped': 0}
     
     conn = db.get_connection()
     cursor = conn.cursor()
     
-    # НЕ очищаємо таблицю, щоб не втратити дані
-    # cursor.execute("DELETE FROM hero_rank")
-    
     inserted = 0
+    updated = 0
     skipped = 0
     processed_heroes = set()  # Відстежуємо оброблених героїв
     
@@ -125,8 +123,12 @@ def update_hero_ranks(records):
                     'increase_win_rate': sub.get('increase_win_rate')
                 })
         
-        # Вставляємо дані
+        # Перевіряємо чи вже є запис
         ph = db.get_placeholder()
+        cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph}", (hero_id,))
+        existing = cursor.fetchone()
+        
+        # Вставляємо або оновлюємо дані
         cursor.execute(f"""
             INSERT INTO hero_rank (hero_id, appearance_rate, ban_rate, win_rate, synergy_heroes)
             VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
@@ -138,7 +140,11 @@ def update_hero_ranks(records):
                 updated_at = CURRENT_TIMESTAMP
         """, (hero_id, appearance_rate, ban_rate, win_rate, json.dumps(synergy_heroes)))
         
-        inserted += 1
+        if existing:
+            updated += 1
+        else:
+            inserted += 1
+            
         hero_name = record_data.get('main_hero', {}).get('data', {}).get('name', 'Unknown')
         print(f"✅ {hero_name}: WR={win_rate:.2%}, Ban={ban_rate:.2%}, Pick={appearance_rate:.2%}")
     
@@ -146,8 +152,19 @@ def update_hero_ranks(records):
     db.release_connection(conn)
     
     print(f"\n📊 Результат:")
-    print(f"   Додано: {inserted}")
+    print(f"   Додано нових: {inserted}")
+    print(f"   Оновлено: {updated}")
     print(f"   Пропущено: {skipped}")
+    
+    return {
+        'inserted': inserted,
+        'updated': updated,
+        'skipped': skipped
+    }
+
+def update_hero_ranks_with_stats(records):
+    """Wrapper для update_hero_ranks що повертає статистику"""
+    return update_hero_ranks(records)
 
 def main():
     print("🔄 Завантаження hero-rank з API...")

@@ -1225,3 +1225,50 @@ def get_hero_rank_api(hero_id):
     if rank:
         return jsonify(rank)
     return jsonify({'error': 'Hero rank not found'}), 404
+
+@app.route('/api/hero-ranks/update', methods=['POST'])
+def update_hero_ranks_api():
+    """Оновити статистику героїв з mlbb-stats API
+    
+    Body Parameters:
+        game_id: ID гри (optional, default: 2)
+        days: Період статистики (optional, default: 7)
+        rank: Ранкова категорія (optional, default: 'all')
+        sort_field: Поле сортування (optional, default: 'win_rate')
+    """
+    try:
+        data = request.json or {}
+        game_id = data.get('game_id', 2)
+        days = data.get('days', 7)
+        rank_param = data.get('rank', 'all')
+        sort_field = data.get('sort_field', 'win_rate')
+        
+        # Import the update functions
+        import import_hero_ranks as ihr
+        
+        # Fetch data from mlbb-stats API
+        records = ihr.fetch_hero_ranks(
+            days=days,
+            rank=rank_param,
+            sort_field=sort_field,
+            sort_order='desc'
+        )
+        
+        if not records:
+            return jsonify({'error': 'Failed to fetch data from mlbb-stats API'}), 500
+        
+        # Update database
+        result = ihr.update_hero_ranks_with_stats(records)
+        
+        return jsonify({
+            'success': True,
+            'inserted': result.get('inserted', 0),
+            'updated': result.get('updated', 0),
+            'skipped': result.get('skipped', 0),
+            'message': f'Successfully updated {result.get("inserted", 0)} hero ranks'
+        })
+        
+    except Exception as e:
+        print(f"Error updating hero ranks: {e}")
+        return jsonify({'error': str(e)}), 500
+
