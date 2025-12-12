@@ -16,8 +16,8 @@ def fetch_hero_ranks(days=None, rank=None, sort_field=None, sort_order=None):
         sort_field: Field to sort by (pick_rate, ban_rate, win_rate). Default: win_rate
         sort_order: Order of sort (asc, desc). Default: desc
     """
-    # Base URL with size parameter to get all heroes
-    url = "https://mlbb-stats.ridwaanhall.com/api/hero-rank?index=1&size=200"
+    # Base URL with size parameter to get all heroes (note: trailing slash is required!)
+    url = "https://mlbb-stats.ridwaanhall.com/api/hero-rank/?index=1&size=200"
     
     # Add optional parameters
     if days is not None:
