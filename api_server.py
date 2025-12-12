@@ -1247,8 +1247,8 @@ def update_hero_ranks_api():
         if not records:
             return jsonify({'error': 'Failed to fetch data from mlbb-stats API'}), 500
         
-        # Update database
-        result = ihr.update_hero_ranks_with_stats(records)
+        # Update database with correct days and rank parameters
+        result = ihr.update_hero_ranks(records, days=days, rank=rank_param)
         
         return jsonify({
             'success': True,
