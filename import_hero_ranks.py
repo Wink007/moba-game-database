@@ -168,7 +168,9 @@ def update_hero_ranks_with_stats(records):
 
 def main():
     print("🔄 Завантаження hero-rank з API...")
-    records = fetch_hero_ranks()
+    # Отримуємо дані за ВСІ ранги (як на mobilelegends.com за замовчуванням)
+    # Параметр rank=all або без rank означає статистику по всіх рангах
+    records = fetch_hero_ranks(days=1, rank='all', sort_field='win_rate', sort_order='desc')
     
     if records:
         print(f"✅ Отримано {len(records)} героїв")
@@ -178,6 +180,4 @@ def main():
         print("❌ Не вдалося отримати дані")
 
 if __name__ == '__main__':
-    main()
-
     main()
