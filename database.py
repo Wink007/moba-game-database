@@ -295,7 +295,8 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
                                 'core_items': [],
                                 'optional_items': [],
                                 'emblem_id': None,
-                                'emblem_talents': []
+                                'emblem_talents': [],
+                                'created_at': old_build.get('created_at', hero.get('created_at'))  # Використовуємо дату героя якщо немає created_at у білді
                             }
                             
                             # Конвертація equipment_build -> core_items, optional_items
@@ -323,6 +324,10 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
                         hero['pro_builds'] = new_builds
                     # Якщо вже новий формат - список білдів
                     elif isinstance(builds_data, list):
+                        # Додаємо created_at для білдів які не мають його
+                        for build in builds_data:
+                            if 'created_at' not in build or not build['created_at']:
+                                build['created_at'] = hero.get('created_at')
                         hero['pro_builds'] = builds_data
                     else:
                         hero['pro_builds'] = []
