@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from datetime import datetime
 import json
 import os
 import gzip
@@ -371,7 +372,6 @@ def update_hero(hero_id):
         # Обробка pro_builds - додаємо created_at для нових білдів
         pro_builds = data.get('pro_builds', None)
         if pro_builds:
-            from datetime import datetime
             current_time = datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
             
             # Додаємо created_at для білдів які не мають його
