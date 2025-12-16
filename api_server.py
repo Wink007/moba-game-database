@@ -122,59 +122,45 @@ def get_hero(hero_id):
         return jsonify(hero)
     return jsonify({'error': 'Hero not found'}), 404
 
-@app.route('/api/latest-pro-build', methods=['GET'])
-def get_latest_pro_build():
-    """Отримати останній доданий про білд"""
+@app.route('/api/random-pro-build', methods=['GET'])
+def get_random_pro_build():
+    """Отримати випадковий про білд"""
     game_id = request.args.get('game_id', type=int)
     
     if not game_id:
         return jsonify({'error': 'game_id is required'}), 400
     
     try:
+        import random
+        
         # Отримуємо всіх героїв з білдами
         heroes = db.get_heroes(game_id, include_details=True, include_skills=False, 
                               include_relation=False, include_counter_data=False, 
                               include_compatibility_data=False)
         
-        latest_build = None
-        latest_hero = None
-        latest_timestamp = None
-        
+        # Збираємо всі білди з усіх героїв
+        all_builds = []
         for hero in heroes:
             if hero.get('pro_builds') and len(hero['pro_builds']) > 0:
                 for build in hero['pro_builds']:
-                    build_timestamp_str = build.get('created_at')
-                    if build_timestamp_str:
-                        try:
-                            # Перевіряємо чи це вже datetime об'єкт чи строка
-                            if isinstance(build_timestamp_str, str):
-                                build_dt = datetime.strptime(build_timestamp_str, '%a, %d %b %Y %H:%M:%S %Z')
-                            elif isinstance(build_timestamp_str, datetime):
-                                build_dt = build_timestamp_str
-                            else:
-                                continue
-                            
-                            if latest_timestamp is None or build_dt > latest_timestamp:
-                                latest_timestamp = build_dt
-                                latest_build = build
-                                latest_hero = {
-                                    'id': hero['id'],
-                                    'name': hero['name'],
-                                    'head': hero.get('head'),
-                                    'roles': hero.get('roles', []),
-                                    'lane': hero.get('lane', [])
-                                }
-                        except (ValueError, TypeError) as e:
-                            # Якщо не вдалося розпарсити дату, пропускаємо
-                            continue
+                    all_builds.append({
+                        'hero': {
+                            'id': hero['id'],
+                            'name': hero['name'],
+                            'head': hero.get('head'),
+                            'roles': hero.get('roles', []),
+                            'lane': hero.get('lane', [])
+                        },
+                        'build': build
+                    })
         
-        if latest_build and latest_hero:
-            return jsonify({
-                'hero': latest_hero,
-                'build': latest_build
-            })
+        if not all_builds:
+            return jsonify({'error': 'No pro builds found'}), 404
         
-        return jsonify({'error': 'No pro builds found'}), 404
+        # Вибираємо випадковий білд
+        random_build_data = random.choice(all_builds)
+        
+        return jsonify(random_build_data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
