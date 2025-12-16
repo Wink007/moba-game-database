@@ -130,38 +130,48 @@ def get_latest_pro_build():
     if not game_id:
         return jsonify({'error': 'game_id is required'}), 400
     
-    # Отримуємо всіх героїв з білдами
-    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, 
-                          include_relation=False, include_counter_data=False, 
-                          include_compatibility_data=False)
-    
-    latest_build = None
-    latest_hero = None
-    latest_timestamp = None
-    
-    for hero in heroes:
-        if hero.get('pro_builds') and len(hero['pro_builds']) > 0:
-            for build in hero['pro_builds']:
-                build_timestamp = build.get('created_at')
-                if build_timestamp:
-                    if latest_timestamp is None or build_timestamp > latest_timestamp:
-                        latest_timestamp = build_timestamp
-                        latest_build = build
-                        latest_hero = {
-                            'id': hero['id'],
-                            'name': hero['name'],
-                            'head': hero.get('head'),
-                            'roles': hero.get('roles', []),
-                            'lane': hero.get('lane', [])
-                        }
-    
-    if latest_build and latest_hero:
-        return jsonify({
-            'hero': latest_hero,
-            'build': latest_build
-        })
-    
-    return jsonify({'error': 'No pro builds found'}), 404
+    try:
+        # Отримуємо всіх героїв з білдами
+        heroes = db.get_heroes(game_id, include_details=True, include_skills=False, 
+                              include_relation=False, include_counter_data=False, 
+                              include_compatibility_data=False)
+        
+        latest_build = None
+        latest_hero = None
+        latest_timestamp = None
+        
+        for hero in heroes:
+            if hero.get('pro_builds') and len(hero['pro_builds']) > 0:
+                for build in hero['pro_builds']:
+                    build_timestamp_str = build.get('created_at')
+                    if build_timestamp_str:
+                        try:
+                            # Конвертуємо строку в datetime для коректного порівняння
+                            build_dt = datetime.strptime(build_timestamp_str, '%a, %d %b %Y %H:%M:%S %Z')
+                            
+                            if latest_timestamp is None or build_dt > latest_timestamp:
+                                latest_timestamp = build_dt
+                                latest_build = build
+                                latest_hero = {
+                                    'id': hero['id'],
+                                    'name': hero['name'],
+                                    'head': hero.get('head'),
+                                    'roles': hero.get('roles', []),
+                                    'lane': hero.get('lane', [])
+                                }
+                        except ValueError:
+                            # Якщо не вдалося розпарсити дату, пропускаємо
+                            continue
+        
+        if latest_build and latest_hero:
+            return jsonify({
+                'hero': latest_hero,
+                'build': latest_build
+            })
+        
+        return jsonify({'error': 'No pro builds found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/heroes/<int:hero_id>/skills', methods=['GET'])
 def get_hero_skills(hero_id):
