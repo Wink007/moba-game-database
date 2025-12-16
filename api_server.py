@@ -146,8 +146,13 @@ def get_latest_pro_build():
                     build_timestamp_str = build.get('created_at')
                     if build_timestamp_str:
                         try:
-                            # Конвертуємо строку в datetime для коректного порівняння
-                            build_dt = datetime.strptime(build_timestamp_str, '%a, %d %b %Y %H:%M:%S %Z')
+                            # Перевіряємо чи це вже datetime об'єкт чи строка
+                            if isinstance(build_timestamp_str, str):
+                                build_dt = datetime.strptime(build_timestamp_str, '%a, %d %b %Y %H:%M:%S %Z')
+                            elif isinstance(build_timestamp_str, datetime):
+                                build_dt = build_timestamp_str
+                            else:
+                                continue
                             
                             if latest_timestamp is None or build_dt > latest_timestamp:
                                 latest_timestamp = build_dt
@@ -159,7 +164,7 @@ def get_latest_pro_build():
                                     'roles': hero.get('roles', []),
                                     'lane': hero.get('lane', [])
                                 }
-                        except ValueError:
+                        except (ValueError, TypeError) as e:
                             # Якщо не вдалося розпарсити дату, пропускаємо
                             continue
         
