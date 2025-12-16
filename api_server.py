@@ -368,6 +368,17 @@ def update_hero(hero_id):
     try:
         data = request.json
         
+        # Обробка pro_builds - додаємо created_at для нових білдів
+        pro_builds = data.get('pro_builds', None)
+        if pro_builds:
+            from datetime import datetime
+            current_time = datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
+            
+            # Додаємо created_at для білдів які не мають його
+            for build in pro_builds:
+                if not build.get('created_at'):
+                    build['created_at'] = current_time
+        
         # Update hero
         db.update_hero(
             hero_id,
@@ -382,7 +393,7 @@ def update_hero(hero_id):
             data.get('specialty', []),
             data.get('damage_type', ''),
             data.get('relation', None),
-            data.get('pro_builds', None),
+            pro_builds,
             None,  # created_at (автоматичне поле, не змінюємо)
             data.get('createdAt', None),  # createdAt (timestamp в мілісекундах)
             data.get('head', None),
