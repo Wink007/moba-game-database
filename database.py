@@ -167,24 +167,15 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
         cursor.execute("SELECT * FROM heroes")
     heroes = [dict_from_row(row) for row in cursor.fetchall()]
     
-    # Завантажуємо stats та skills одним запитом завжди (для HP/Mana та skill icons)
-    stats_by_hero = {}
+    # hero_stats тепер вже в кожному hero як JSONB
+    # Не потрібно завантажувати окремо
+    stats_by_hero = {}  # Порожній для сумісності
     skills_by_hero = {}
     
     if heroes:
         hero_ids = [h['id'] for h in heroes]
         ph = get_placeholder()
         placeholders = ','.join([ph] * len(hero_ids))
-        
-        # Завантажуємо всі stats одним запитом
-        cursor.execute(f"SELECT * FROM hero_stats WHERE hero_id IN ({placeholders})", hero_ids)
-        all_stats = cursor.fetchall()
-        for stat in all_stats:
-            stat_dict = dict_from_row(stat)
-            hero_id = stat_dict['hero_id']
-            if hero_id not in stats_by_hero:
-                stats_by_hero[hero_id] = []
-            stats_by_hero[hero_id].append(stat_dict)
         
         # Завантажуємо skills тільки якщо потрібно
         if include_skills:
@@ -199,13 +190,12 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
     
     release_connection(conn)
     
-    # Мінімальна обробка для списку героїв
     # Мінімальна обробка для всіх героїв
     for hero in heroes:
         # Завжди конвертуємо use_energy
         hero['use_energy'] = bool(hero.get('use_energy', 0))
         
-        # Парсимо JSON поля один раз (roles, specialty, lane)
+        # Парсимо JSON поля (roles, specialty, lane, hero_stats)
         for field in ['roles', 'specialty', 'lane']:
             if hero.get(field) and hero[field].strip():
                 try:
@@ -215,16 +205,23 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
             else:
                 hero[field] = []
         
+        # Парсимо hero_stats якщо це строка
+        if hero.get('hero_stats'):
+            if isinstance(hero['hero_stats'], str):
+                try:
+                    hero['hero_stats'] = json.loads(hero['hero_stats'])
+                except:
+                    hero['hero_stats'] = {}
+        else:
+            hero['hero_stats'] = {}
+        
         if include_details:
             # Повна обробка тільки якщо потрібні деталі
-            hero['hero_stats'] = stats_by_hero.get(hero['id'], [])
             if include_skills:
                 hero['skills'] = skills_by_hero.get(hero['id'], [])
         else:
-            # Для списку - додати мінімальні stats (тільки HP та Mana)
-            hero_stats_all = stats_by_hero.get(hero['id'], [])
-            hero['hero_stats'] = [s for s in hero_stats_all if s.get('stat_name') in ['HP', 'Mana']]
-            # Для skills - тільки якщо потрібно
+            # Для списку - hero_stats вже є як об'єкт
+            # Для skills - тільки мінімальні дані якщо потрібно
             if include_skills:
                 all_skills = skills_by_hero.get(hero['id'], [])
                 hero['skills'] = [{
@@ -365,7 +362,17 @@ def get_hero(hero_id):
     
     if hero:
         hero = dict(hero)
-        hero['hero_stats'] = get_hero_stats(hero_id)
+        
+        # hero_stats тепер вже JSONB в БД, просто парсимо якщо це строка
+        if hero.get('hero_stats'):
+            if isinstance(hero['hero_stats'], str):
+                try:
+                    hero['hero_stats'] = json.loads(hero['hero_stats'])
+                except:
+                    hero['hero_stats'] = {}
+        else:
+            hero['hero_stats'] = {}
+        
         hero['skills'] = get_hero_skills(hero_id)
         if hero.get('roles') and hero['roles'].strip():
             try:
@@ -464,7 +471,7 @@ def get_hero(hero_id):
         return hero
     return None
 
-def add_hero(game_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, created_at=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None):
+def add_hero(game_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, created_at=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -476,21 +483,22 @@ def add_hero(game_id, name, hero_game_id, image, short_description, full_descrip
     roles_json = json.dumps(roles) if roles else None
     specialty_json = json.dumps(specialty) if specialty else None
     relation_json = json.dumps(relation, ensure_ascii=False) if relation else None
+    hero_stats_json = json.dumps(hero_stats) if hero_stats else None
     
     # Convert hero_game_id to integer if it's a string
     hero_game_id_int = int(hero_game_id) if hero_game_id else None
     
     ph = get_placeholder()
     cursor.execute(f"""
-        INSERT INTO heroes (game_id, name, hero_game_id, image, short_description, full_description, lane, roles, use_energy, specialty, damage_type, relation, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """, (game_id, name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate))
+        INSERT INTO heroes (game_id, name, hero_game_id, image, short_description, full_description, lane, roles, use_energy, specialty, damage_type, relation, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+    """, (game_id, name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json))
     hero_id = cursor.lastrowid
     conn.commit()
     release_connection(conn)
     return hero_id
 
-def update_hero(hero_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, pro_builds=None, created_at=None, createdAt=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None):
+def update_hero(hero_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, pro_builds=None, created_at=None, createdAt=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -503,6 +511,7 @@ def update_hero(hero_id, name, hero_game_id, image, short_description, full_desc
     specialty_json = json.dumps(specialty) if specialty else None
     relation_json = json.dumps(relation, ensure_ascii=False) if relation else None
     pro_builds_json = json.dumps(pro_builds, ensure_ascii=False) if pro_builds else None
+    hero_stats_json = json.dumps(hero_stats) if hero_stats else None
     
     # Convert hero_game_id to integer if it's a string
     hero_game_id_int = int(hero_game_id) if hero_game_id else None
@@ -511,9 +520,9 @@ def update_hero(hero_id, name, hero_game_id, image, short_description, full_desc
     cursor.execute(f"""
         UPDATE heroes 
         SET name = {ph}, hero_game_id = {ph}, image = {ph}, 
-            short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}
+            short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}, hero_stats = {ph}
         WHERE id = {ph}
-    """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_id))
+    """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json, hero_id))
     conn.commit()
     release_connection(conn)
 

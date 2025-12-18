@@ -10,9 +10,10 @@ function HeroRanksManager({ selectedGame }) {
   const [stats, setStats] = useState(null);
 
   // Параметри для імпорту
-  const [days, setDays] = useState(7);
+  const [days, setDays] = useState(1);
   const [rank, setRank] = useState('all');
   const [sortField, setSortField] = useState('win_rate');
+  const [bulkImport, setBulkImport] = useState(false);
 
   const updateHeroRanks = async () => {
     if (!selectedGame) {
@@ -37,6 +38,59 @@ function HeroRanksManager({ selectedGame }) {
     } catch (error) {
       console.error('Update error:', error);
       setMessage(`❌ Помилка: ${error.response?.data?.error || error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateAllCombinations = async () => {
+    if (!selectedGame) {
+      setMessage('❌ Спочатку оберіть гру');
+      return;
+    }
+
+    setLoading(true);
+    setMessage('🔄 Імпорт всіх комбінацій (30 запитів)...');
+
+    const combinations = [];
+    const daysList = [1, 3, 7, 15, 30];
+    const ranksList = ['all', 'epic', 'legend', 'mythic', 'honor', 'glory'];
+
+    for (const d of daysList) {
+      for (const r of ranksList) {
+        combinations.push({ days: d, rank: r });
+      }
+    }
+
+    let totalInserted = 0;
+    let totalUpdated = 0;
+    let completed = 0;
+
+    try {
+      for (const combo of combinations) {
+        setMessage(`🔄 Імпорт ${combo.days} days, ${combo.rank} rank... (${completed + 1}/${combinations.length})`);
+        
+        const response = await axios.post(`${API_URL}/hero-ranks/update`, {
+          game_id: selectedGame.id,
+          days: combo.days,
+          rank: combo.rank,
+          sort_field: 'win_rate'
+        });
+
+        totalInserted += response.data.inserted || 0;
+        totalUpdated += response.data.updated || 0;
+        completed++;
+
+        // Невелика затримка між запитами
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
+      setStats({ inserted: totalInserted, updated: totalUpdated, skipped: 0 });
+      setLastUpdate(new Date().toLocaleString());
+      setMessage(`✅ Імпорт завершено! Всього додано: ${totalInserted}, оновлено: ${totalUpdated} (${completed} комбінацій)`);
+    } catch (error) {
+      console.error('Bulk import error:', error);
+      setMessage(`❌ Помилка на комбінації ${completed + 1}: ${error.response?.data?.error || error.message}`);
     } finally {
       setLoading(false);
     }
@@ -139,7 +193,25 @@ function HeroRanksManager({ selectedGame }) {
             flex: 1
           }}
         >
-          {loading ? '⏳ Оновлення...' : '🔄 Оновити статистику'}
+          {loading ? '⏳ Оновлення...' : '🔄 Оновити вибране'}
+        </button>
+
+        <button
+          onClick={updateAllCombinations}
+          disabled={loading || !selectedGame}
+          style={{
+            padding: '12px 24px',
+            backgroundColor: loading ? '#ccc' : '#FF9800',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            flex: 1
+          }}
+        >
+          {loading ? '⏳ Оновлення...' : '🔥 Імпорт всіх 30 комбінацій'}
         </button>
 
         <button
@@ -155,7 +227,7 @@ function HeroRanksManager({ selectedGame }) {
             fontSize: '16px'
           }}
         >
-          📊 Перевірити поточні дані
+          📊 Перевірити дані
         </button>
       </div>
 
@@ -199,10 +271,12 @@ function HeroRanksManager({ selectedGame }) {
       }}>
         <h4>💡 Підказки:</h4>
         <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
+          <li><strong>🔄 Оновити вибране</strong> - імпортує дані для однієї комбінації (days + rank)</li>
+          <li><strong>🔥 Імпорт всіх 30 комбінацій</strong> - імпортує всі варіанти (1/3/7/15/30 днів × 6 рангів)</li>
           <li>Оновлюйте статистику <strong>щодня</strong> для актуальних даних</li>
-          <li>Параметр <strong>days</strong> впливає на період збору статистики</li>
-          <li>Різні <strong>ranks</strong> показують різну мету (Epic, Legend, Mythic)</li>
-          <li>Статистика оновлюється для гри: <strong>{selectedGame?.name || 'не обрано'}</strong></li>
+          <li>Різні <strong>ranks</strong> показують різну мету гравців (Epic, Legend, Mythic, Glory)</li>
+          <li>API за замовчуванням використовує: days=1, rank=all, size=20</li>
+          <li>Статистика для: <strong>{selectedGame?.name || 'не обрано'}</strong></li>
         </ul>
       </div>
     </div>

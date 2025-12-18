@@ -122,48 +122,6 @@ def get_hero(hero_id):
         return jsonify(hero)
     return jsonify({'error': 'Hero not found'}), 404
 
-@app.route('/api/random-pro-build', methods=['GET'])
-def get_random_pro_build():
-    """Отримати випадковий про білд"""
-    game_id = request.args.get('game_id', type=int)
-    
-    if not game_id:
-        return jsonify({'error': 'game_id is required'}), 400
-    
-    try:
-        import random
-        
-        # Отримуємо всіх героїв з білдами
-        heroes = db.get_heroes(game_id, include_details=True, include_skills=False, 
-                              include_relation=False, include_counter_data=False, 
-                              include_compatibility_data=False)
-        
-        # Збираємо всі білди з усіх героїв
-        all_builds = []
-        for hero in heroes:
-            if hero.get('pro_builds') and len(hero['pro_builds']) > 0:
-                for build in hero['pro_builds']:
-                    all_builds.append({
-                        'hero': {
-                            'id': hero['id'],
-                            'name': hero['name'],
-                            'head': hero.get('head'),
-                            'roles': hero.get('roles', []),
-                            'lane': hero.get('lane', [])
-                        },
-                        'build': build
-                    })
-        
-        if not all_builds:
-            return jsonify({'error': 'No pro builds found'}), 404
-        
-        # Вибираємо випадковий білд
-        random_build_data = random.choice(all_builds)
-        
-        return jsonify(random_build_data)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
 @app.route('/api/heroes/<int:hero_id>/skills', methods=['GET'])
 def get_hero_skills(hero_id):
     """Окремий endpoint для навичок героя"""
@@ -336,13 +294,12 @@ def create_hero():
         data.get('head', None),
         data.get('main_hero_ban_rate', None),
         data.get('main_hero_appearance_rate', None),
-        data.get('main_hero_win_rate', None)
+        data.get('main_hero_win_rate', None),
+        data.get('hero_stats', None)
     )
     
-    # Add hero stats
-    if 'hero_stats' in data:
-        for stat in data['hero_stats']:
-            db.add_hero_stat(hero_id, stat['stat_name'], stat['value'])
+    # Note: hero_stats is now a JSONB field in heroes table, no need for separate inserts
+    # It should be passed in data as an object like: {"hp": 2285, "mana": 500, ...}
     
     # Add skills
     if 'skills' in data:
@@ -400,14 +357,12 @@ def update_hero(hero_id):
             data.get('head', None),
             data.get('main_hero_ban_rate', None),
             data.get('main_hero_appearance_rate', None),
-            data.get('main_hero_win_rate', None)
+            data.get('main_hero_win_rate', None),
+            data.get('hero_stats', None)
         )
         
-        # Update stats - delete old and add new
-        db.delete_hero_stats(hero_id)
-        if 'hero_stats' in data:
-            for stat in data['hero_stats']:
-                db.add_hero_stat(hero_id, stat['stat_name'], stat['value'])
+        # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query
+        # No need for separate stats operations
         
         # Update skills - delete old and add new
         db.delete_hero_skills(hero_id)
@@ -639,66 +594,6 @@ def get_battle_spell_api(spell_id):
     if spell:
         return jsonify(spell)
     return jsonify({'error': 'Battle spell not found'}), 404
-
-# Utility endpoint to fix emblem IDs after migration
-@app.route('/api/fix-emblem-ids', methods=['POST'])
-def fix_emblem_ids():
-    """Fix emblem IDs and battle_spell IDs in pro_builds"""
-    EMBLEM_MAPPING = {34: 1, 35: 2, 36: 3, 37: 7, 38: 5, 39: 7, 40: 7}
-    SPELL_MAPPING = {13: 1, 14: 2, 15: 3, 16: 4, 17: 5, 18: 6, 19: 7, 20: 8, 21: 9, 22: 10, 23: 11, 24: 12}
-    
-    conn = db.get_connection()
-    if db.DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    
-    cursor.execute("SELECT id, name, pro_builds FROM heroes WHERE pro_builds IS NOT NULL")
-    heroes = cursor.fetchall()
-    
-    updated_count = 0
-    for row in heroes:
-        hero_dict = dict(row)
-        hero_id = hero_dict['id']
-        name = hero_dict['name']
-        pro_builds_raw = hero_dict['pro_builds']
-        
-        try:
-            if isinstance(pro_builds_raw, str):
-                builds = json.loads(pro_builds_raw)
-            else:
-                builds = pro_builds_raw
-            
-            if not isinstance(builds, list) or len(builds) == 0:
-                continue
-            
-            updated = False
-            for build in builds:
-                old_emblem = build.get('emblem_id')
-                if old_emblem in EMBLEM_MAPPING:
-                    build['emblem_id'] = EMBLEM_MAPPING[old_emblem]
-                    updated = True
-                
-                old_spell = build.get('battle_spell_id')
-                if old_spell in SPELL_MAPPING:
-                    build['battle_spell_id'] = SPELL_MAPPING[old_spell]
-                    updated = True
-            
-            if updated:
-                ph = db.get_placeholder()
-                cursor.execute(
-                    f"UPDATE heroes SET pro_builds = {ph} WHERE id = {ph}",
-                    (json.dumps(builds), hero_id)
-                )
-                updated_count += 1
-        except Exception as e:
-            print(f"Error fixing {name}: {e}")
-    
-    conn.commit()
-    conn.close()
-    
-    return jsonify({'updated': updated_count, 'total': len(heroes)})
 
 # Fix item recipe IDs after migration
 @app.route('/api/fix-recipe-ids', methods=['POST'])
