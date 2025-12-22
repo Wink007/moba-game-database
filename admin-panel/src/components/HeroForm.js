@@ -38,21 +38,21 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
   const [activeTab, setActiveTab] = useState('basic');
 
-  const [heroStats, setHeroStats] = useState([
-    { stat_name: 'HP', value: '' },
-    { stat_name: 'HP Regen', value: '' },
-    { stat_name: 'Mana', value: '' },
-    { stat_name: 'Mana Regen', value: '' },
-    { stat_name: 'Physical Attack', value: '' },
-    { stat_name: 'Magic Power', value: '' },
-    { stat_name: 'Physical Defense', value: '' },
-    { stat_name: 'Magic Defense', value: '' },
-    { stat_name: 'Attack Speed', value: '' },
-    { stat_name: 'Attack Speed Ratio', value: '' },
-    { stat_name: 'Movement Speed', value: '' }
-  ]);
+  const [heroStats, setHeroStats] = useState({
+    hp: '',
+    hp_regen: '',
+    mana: '',
+    mana_regen: '',
+    physical_attack: '',
+    magic_power: '',
+    physical_defense: '',
+    magic_defense: '',
+    attack_speed: '',
+    movement_speed: ''
+  });
 
   const [skills, setSkills] = useState([]);
+  const [updatingSkills, setUpdatingSkills] = useState(false);
   const [newSkill, setNewSkill] = useState({
     skill_name: '',
     skill_description: '',
@@ -90,21 +90,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     fetchAllHeroes();
   }, [gameId]);
 
-  // Update stat names when useEnergy changes
-  useEffect(() => {
-    setHeroStats(prevStats => prevStats.map(stat => {
-      if (stat.stat_name === 'Mana' && formData.use_energy) {
-        return { ...stat, stat_name: 'Energy' };
-      } else if (stat.stat_name === 'Energy' && !formData.use_energy) {
-        return { ...stat, stat_name: 'Mana' };
-      } else if (stat.stat_name === 'Mana Regen' && formData.use_energy) {
-        return { ...stat, stat_name: 'Energy Regen' };
-      } else if (stat.stat_name === 'Energy Regen' && !formData.use_energy) {
-        return { ...stat, stat_name: 'Mana Regen' };
-      }
-      return stat;
-    }));
-  }, [formData.use_energy]);
+  // No need to update stat names as we use snake_case keys internally
 
   // Load hero data when editing
   // Load hero data when editing
@@ -136,35 +122,33 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         }
       });
 
-      // Load stats - create fresh stat list
-      const useEnergy = hero.use_energy || false;
-      const initialStats = [
-        { stat_name: 'HP', value: '' },
-        { stat_name: 'HP Regen', value: '' },
-        { stat_name: useEnergy ? 'Energy' : 'Mana', value: '' },
-        { stat_name: useEnergy ? 'Energy Regen' : 'Mana Regen', value: '' },
-        { stat_name: 'Physical Attack', value: '' },
-        { stat_name: 'Magic Power', value: '' },
-        { stat_name: 'Physical Defense', value: '' },
-        { stat_name: 'Magic Defense', value: '' },
-        { stat_name: 'Attack Speed', value: '' },
-        { stat_name: 'Attack Speed Ratio', value: '' },
-        { stat_name: 'Movement Speed', value: '' }
-      ];
-
-      if (hero.hero_stats && Array.isArray(hero.hero_stats)) {
-        const updatedStats = initialStats.map(stat => {
-          const heroStat = hero.hero_stats.find(s => s.stat_name === stat.stat_name);
-          if (heroStat) {
-            // Convert value to string with dot (not comma)
-            const value = String(heroStat.value).replace(',', '.');
-            return { ...stat, value: value };
-          }
-          return stat;
+      // Load stats from JSONB structure
+      if (hero.hero_stats && typeof hero.hero_stats === 'object') {
+        setHeroStats({
+          hp: String(hero.hero_stats.hp || ''),
+          hp_regen: String(hero.hero_stats.hp_regen || ''),
+          mana: String(hero.hero_stats.mana || hero.hero_stats.energy || ''),
+          mana_regen: String(hero.hero_stats.mana_regen || hero.hero_stats.energy_regen || ''),
+          physical_attack: String(hero.hero_stats.physical_attack || ''),
+          magic_power: String(hero.hero_stats.magic_power || ''),
+          physical_defense: String(hero.hero_stats.physical_defense || ''),
+          magic_defense: String(hero.hero_stats.magic_defense || ''),
+          attack_speed: String(hero.hero_stats.attack_speed || ''),
+          movement_speed: String(hero.hero_stats.movement_speed || '')
         });
-        setHeroStats(updatedStats);
       } else {
-        setHeroStats(initialStats);
+        setHeroStats({
+          hp: '',
+          hp_regen: '',
+          mana: '',
+          mana_regen: '',
+          physical_attack: '',
+          magic_power: '',
+          physical_defense: '',
+          magic_defense: '',
+          attack_speed: '',
+          movement_speed: ''
+        });
       }
 
       // Load skills
@@ -199,19 +183,18 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           weak: { desc: '', target_hero_id: [] }
         }
       });
-      setHeroStats([
-        { stat_name: 'HP', value: '' },
-        { stat_name: 'HP Regen', value: '' },
-        { stat_name: 'Mana', value: '' },
-        { stat_name: 'Mana Regen', value: '' },
-        { stat_name: 'Physical Attack', value: '' },
-        { stat_name: 'Magic Power', value: '' },
-        { stat_name: 'Physical Defense', value: '' },
-        { stat_name: 'Magic Defense', value: '' },
-        { stat_name: 'Attack Speed', value: '' },
-        { stat_name: 'Attack Speed Ratio', value: '' },
-        { stat_name: 'Movement Speed', value: '' }
-      ]);
+      setHeroStats({
+        hp: '',
+        hp_regen: '',
+        mana: '',
+        mana_regen: '',
+        physical_attack: '',
+        magic_power: '',
+        physical_defense: '',
+        magic_defense: '',
+        attack_speed: '',
+        movement_speed: ''
+      });
       setSkills([]);
       setProBuilds([]);
     }
@@ -291,21 +274,22 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     });
   };
 
-  const handleStatChange = (index, value) => {
-    const updatedStats = [...heroStats];
-    updatedStats[index].value = value;
-    setHeroStats(updatedStats);
+  const handleStatChange = (key, value) => {
+    setHeroStats({
+      ...heroStats,
+      [key]: value
+    });
   };
 
-  const handleStatBlur = (index) => {
-    const updatedStats = [...heroStats];
-    const statName = updatedStats[index].stat_name;
-    const value = updatedStats[index].value;
+  const handleStatBlur = (key) => {
+    const value = String(heroStats[key]).replace(',', '.');
+    const numValue = parseFloat(value);
     
-    // For Attack Speed Ratio, automatically add % on blur
-    if (statName === 'Attack Speed Ratio' && value && !value.toString().includes('%')) {
-      updatedStats[index].value = value + '%';
-      setHeroStats(updatedStats);
+    if (!isNaN(numValue)) {
+      setHeroStats({
+        ...heroStats,
+        [key]: String(numValue)
+      });
     }
   };
 
@@ -487,16 +471,90 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     setSkills(skills.filter((_, i) => i !== index));
   };
 
+  const updateSkillsFromAPI = async () => {
+    if (!hero || !hero.name) {
+      alert('Please save the hero first before updating skills');
+      return;
+    }
+
+    const confirmUpdate = window.confirm(
+      `Update skill descriptions for ${hero.name} from external API?\n\n` +
+      'This will fetch the latest skill descriptions from mlbb-stats.ridwaanhall.com and update them in the database.'
+    );
+
+    if (!confirmUpdate) return;
+
+    setUpdatingSkills(true);
+
+    try {
+      // Use our backend proxy to fetch external skills (avoids CORS)
+      const proxyUrl = `${API_URL}/external/hero-skills/${encodeURIComponent(hero.name)}`;
+      console.log('Fetching from proxy:', proxyUrl);
+      
+      const response = await axios.get(proxyUrl);
+      
+      if (!response.data.success || !response.data.skills) {
+        throw new Error('Invalid response from API proxy');
+      }
+
+      const externalSkills = response.data.skills;
+      let updatedCount = 0;
+
+      // Update each skill that matches by name
+      for (const externalSkill of externalSkills) {
+        const skillName = externalSkill.skillname;
+        const newDescription = externalSkill.skilldesc;
+
+        // Find matching skill in our database
+        const matchingSkill = skills.find(s => s.skill_name === skillName);
+        
+        if (matchingSkill && matchingSkill.id) {
+          try {
+            await axios.put(
+              `${API_URL}/heroes/${hero.id}/skills/${matchingSkill.id}`,
+              { skill_description: newDescription }
+            );
+            updatedCount++;
+            console.log(`Updated: ${skillName}`);
+          } catch (err) {
+            console.error(`Failed to update ${skillName}:`, err);
+          }
+        }
+      }
+
+      // Reload skills to show updates
+      if (updatedCount > 0) {
+        const skillsResponse = await axios.get(`${API_URL}/heroes/${hero.id}/skills`);
+        setSkills(skillsResponse.data || []);
+        alert(`✅ Successfully updated ${updatedCount} skill(s)!`);
+      } else {
+        alert('No matching skills found to update.');
+      }
+
+    } catch (error) {
+      console.error('Error updating skills:', error);
+      alert(`Error updating skills: ${error.response?.data?.error || error.message}`);
+    } finally {
+      setUpdatingSkills(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Convert heroStats to JSONB object with numeric values
+    const statsObject = {};
+    Object.keys(heroStats).forEach(key => {
+      const value = heroStats[key];
+      if (value !== '' && value !== null && value !== undefined) {
+        statsObject[key] = parseFloat(String(value).replace(',', '.')) || 0;
+      }
+    });
 
     const heroData = {
       ...formData,
       game_id: gameId,
-      hero_stats: heroStats.filter(stat => stat.value !== '').map(stat => ({
-        stat_name: stat.stat_name,
-        value: parseFloat(String(stat.value).replace(',', '.')) || 0
-      })),
+      hero_stats: Object.keys(statsObject).length > 0 ? statsObject : null,
       skills: skills,
       pro_builds: proBuilds
     };
@@ -1148,18 +1206,106 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           {activeTab === 'stats' && (
           <div className="form-section">
             <div className="stats-grid">
-              {heroStats.map((stat, index) => (
-                <div key={index} className="stat-row">
-                  <label>{stat.stat_name}</label>
-                  <input
-                    type="text"
-                    value={stat.value}
-                    onChange={(e) => handleStatChange(index, e.target.value)}
-                    onBlur={() => handleStatBlur(index)}
-                    placeholder="Value"
-                  />
-                </div>
-              ))}
+              <div className="stat-row">
+                <label>HP</label>
+                <input
+                  type="text"
+                  value={heroStats.hp}
+                  onChange={(e) => handleStatChange('hp', e.target.value)}
+                  onBlur={() => handleStatBlur('hp')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>HP Regen</label>
+                <input
+                  type="text"
+                  value={heroStats.hp_regen}
+                  onChange={(e) => handleStatChange('hp_regen', e.target.value)}
+                  onBlur={() => handleStatBlur('hp_regen')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>{formData.use_energy ? 'Energy' : 'Mana'}</label>
+                <input
+                  type="text"
+                  value={heroStats.mana}
+                  onChange={(e) => handleStatChange('mana', e.target.value)}
+                  onBlur={() => handleStatBlur('mana')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>{formData.use_energy ? 'Energy' : 'Mana'} Regen</label>
+                <input
+                  type="text"
+                  value={heroStats.mana_regen}
+                  onChange={(e) => handleStatChange('mana_regen', e.target.value)}
+                  onBlur={() => handleStatBlur('mana_regen')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>Physical Attack</label>
+                <input
+                  type="text"
+                  value={heroStats.physical_attack}
+                  onChange={(e) => handleStatChange('physical_attack', e.target.value)}
+                  onBlur={() => handleStatBlur('physical_attack')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>Magic Power</label>
+                <input
+                  type="text"
+                  value={heroStats.magic_power}
+                  onChange={(e) => handleStatChange('magic_power', e.target.value)}
+                  onBlur={() => handleStatBlur('magic_power')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>Physical Defense</label>
+                <input
+                  type="text"
+                  value={heroStats.physical_defense}
+                  onChange={(e) => handleStatChange('physical_defense', e.target.value)}
+                  onBlur={() => handleStatBlur('physical_defense')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>Magic Defense</label>
+                <input
+                  type="text"
+                  value={heroStats.magic_defense}
+                  onChange={(e) => handleStatChange('magic_defense', e.target.value)}
+                  onBlur={() => handleStatBlur('magic_defense')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>Attack Speed</label>
+                <input
+                  type="text"
+                  value={heroStats.attack_speed}
+                  onChange={(e) => handleStatChange('attack_speed', e.target.value)}
+                  onBlur={() => handleStatBlur('attack_speed')}
+                  placeholder="Value"
+                />
+              </div>
+              <div className="stat-row">
+                <label>Movement Speed</label>
+                <input
+                  type="text"
+                  value={heroStats.movement_speed}
+                  onChange={(e) => handleStatChange('movement_speed', e.target.value)}
+                  onBlur={() => handleStatBlur('movement_speed')}
+                  placeholder="Value"
+                />
+              </div>
             </div>
           </div>
           )}
@@ -1187,6 +1333,42 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           {/* Skills Tab */}
           {activeTab === 'skills' && (
           <div className="form-section">
+            {hero && hero.id && (
+              <div style={{
+                marginBottom: '20px',
+                padding: '15px',
+                background: '#f0f9ff',
+                border: '1px solid #3b82f6',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <div>
+                  <strong>Update Skills from API</strong>
+                  <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', color: '#666' }}>
+                    Fetch latest skill descriptions from mlbb-stats.ridwaanhall.com
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={updateSkillsFromAPI}
+                  disabled={updatingSkills}
+                  style={{
+                    padding: '10px 20px',
+                    background: updatingSkills ? '#94a3b8' : '#3b82f6',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: updatingSkills ? 'not-allowed' : 'pointer',
+                    fontWeight: '600',
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  {updatingSkills ? '⏳ Updating...' : '🔄 Update from API'}
+                </button>
+              </div>
+            )}
             {skills.length > 0 && (
               <div ref={skillsListRef} className="skills-list">
                 {skills

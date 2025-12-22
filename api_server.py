@@ -1103,6 +1103,52 @@ def migrate_games_fields():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# Fetch external hero skills from MLBB API
+@app.route('/api/external/hero-skills/<hero_name>', methods=['GET'])
+def fetch_external_hero_skills(hero_name):
+    """Proxy endpoint to fetch hero skills from external MLBB API"""
+    import requests
+    
+    try:
+        # Format name for external API
+        formatted_name = hero_name.lower().replace(' ', '-').replace("'", '')
+        external_url = f"https://mlbb-stats.ridwaanhall.com/api/hero-detail/{formatted_name}/"
+        
+        # Fetch from external API
+        response = requests.get(external_url, timeout=10)
+        
+        if response.status_code != 200:
+            return jsonify({'error': f'External API returned status {response.status_code}'}), response.status_code
+        
+        data = response.json()
+        
+        if data.get('code') != 0:
+            return jsonify({'error': 'Invalid response from external API'}), 400
+        
+        # Extract skills
+        records = data.get('data', {}).get('records', [])
+        if not records:
+            return jsonify({'error': 'No hero data found'}), 404
+        
+        hero_data = records[0].get('data', {}).get('hero', {}).get('data', {})
+        skill_lists = hero_data.get('heroskilllist', [])
+        
+        if not skill_lists or not skill_lists[0].get('skilllist'):
+            return jsonify({'error': 'No skills found'}), 404
+        
+        skills = skill_lists[0]['skilllist']
+        
+        return jsonify({
+            'success': True,
+            'hero_name': hero_name,
+            'skills': skills
+        })
+        
+    except requests.RequestException as e:
+        return jsonify({'error': f'Failed to fetch from external API: {str(e)}'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
