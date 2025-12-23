@@ -32,6 +32,7 @@
       "Dreadnaught Armor",
       "Ares Belt",
       "Leather Jerkin",
+      "Leather Jerkin",
       "Vitality Crystal"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/40/Antique_Cuirass.png"
@@ -89,6 +90,7 @@
     "recipe": [
       "Silence Robe",
       "Vitality Crystal",
+      "Vitality Crystal",
       "Magic Resist Cloak"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/15/Athena%27s_Shield.png"
@@ -108,6 +110,7 @@
     ],
     "unique_active": null,
     "recipe": [
+      "Magic Necklace",
       "Magic Necklace"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/6/6d/Azure_Blade.png"
@@ -129,6 +132,8 @@
     "recipe": [
       "Legion Sword",
       "Javelin",
+      "Javelin",
+      "Dagger",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/6/6c/Berserker%27s_Fury.png"
@@ -168,6 +173,8 @@
     "unique_active": null,
     "recipe": [
       "Steel Legplates",
+      "Leather Jerkin",
+      "Leather Jerkin",
       "Leather Jerkin"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d9/Blade_Armor.png"
@@ -188,6 +195,10 @@
     "unique_active": null,
     "recipe": [
       "Legion Sword",
+      "Legion Sword",
+      "Dagger",
+      "Dagger",
+      "Dagger",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d5/Blade_of_Despair.png"
@@ -210,6 +221,7 @@
       "Fury Hammer",
       "Ogre Tomahawk",
       "Dagger",
+      "Dagger",
       "Vitality Crystal"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/ed/Blade_of_the_Heptaseas.png"
@@ -229,6 +241,8 @@
     "unique_active": null,
     "recipe": [
       "Magic Wand",
+      "Magic Wand",
+      "Mystery Codex",
       "Mystery Codex"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/44/Blood_Wings.png"
@@ -354,6 +368,7 @@
     "recipe": [
       "Elegant Gem",
       "Book of Sages",
+      "Book of Sages",
       "Power Crystal",
       "Vitality Crystal"
     ],
@@ -377,6 +392,7 @@
       "Mystic Container",
       "Magic Wand",
       "Vitality Crystal",
+      "Mystery Codex",
       "Mystery Codex"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4e/Concentrated_Energy.png"
@@ -401,6 +417,8 @@
       "Swift Crossbow",
       "Regular Spear",
       "Knife",
+      "Knife",
+      "Knife",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/f3/Corrosion_Scythe.png"
@@ -424,6 +442,7 @@
       "Molten Essence",
       "Ares Belt",
       "Magic Resist Cloak",
+      "Vitality Crystal",
       "Vitality Crystal"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/80/Cursed_Helmet.png"
@@ -460,6 +479,7 @@
     "recipe": [
       "Regular Spear",
       "Vampire Mallet",
+      "Knife",
       "Knife",
       "Dagger"
     ],
@@ -503,6 +523,8 @@
     "recipe": [
       "Black Ice Shield",
       "Leather Jerkin",
+      "Magic Resist Cloak",
+      "Leather Jerkin",
       "Magic Resist Cloak"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/e3/Dominance_Ice.png"
@@ -521,6 +543,7 @@
     ],
     "unique_active": null,
     "recipe": [
+      "Leather Jerkin",
       "Leather Jerkin"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/0f/Dreadnaught_Armor.png"
@@ -565,7 +588,8 @@
       "Tome of Evil",
       "Magic Necklace",
       "Book of Sages",
-      "Mystery Codex"
+      "Mystery Codex",
+      "Book of Sages"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/21/Enchanted_Talisman.png"
   },
@@ -590,6 +614,7 @@
       "Azure Blade",
       "Iron Hunting Bow",
       "Ogre Tomahawk",
+      "Magic Necklace",
       "Magic Necklace",
       "Dagger",
       "Vitality Crystal"
@@ -647,6 +672,7 @@
     "recipe": [
       "Swift Crossbow",
       "Book of Sages",
+      "Knife",
       "Knife"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/ed/Feather_of_Heaven.png"
@@ -703,6 +729,7 @@
     "unique_active": null,
     "recipe": [
       "Hero's Ring",
+      "Hero's Ring",
       "Expert Gloves"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/71/Fleeting_Time.png"
@@ -756,6 +783,7 @@
     "recipe": [
       "Exotic Veil",
       "Magic Wand",
+      "Mystery Codex",
       "Mystery Codex"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/20/Genius_Wand.png"
@@ -779,7 +807,8 @@
     "recipe": [
       "Exotic Veil",
       "Mystery Codex",
-      "Vitality Crystal"
+      "Vitality Crystal",
+      "Mystery Codex"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/7a/Glowing_Wand.png"
   },
@@ -801,7 +830,9 @@
     "recipe": [
       "Regular Spear",
       "Dagger",
-      "Knife"
+      "Dagger",
+      "Knife",
+      "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/80/Golden_Staff.png"
   },
@@ -824,6 +855,7 @@
       "Legion Sword",
       "Iron Hunting Bow",
       "Javelin",
+      "Dagger",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d4/Great_Dragon_Spear.png"
@@ -845,6 +877,10 @@
     "unique_active": null,
     "recipe": [
       "Ares Belt",
+      "Ares Belt",
+      "Ares Belt",
+      "Vitality Crystal",
+      "Vitality Crystal",
       "Vitality Crystal"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/a3/Guardian_Helmet.png"
@@ -893,6 +929,10 @@
     "unique_active": null,
     "recipe": [
       "Magic Wand",
+      "Magic Wand",
+      "Magic Wand",
+      "Mystery Codex",
+      "Mystery Codex",
       "Mystery Codex"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/6/64/Holy_Crystal.png"
@@ -914,6 +954,7 @@
     "recipe": [
       "Fury Hammer",
       "Iron Hunting Bow",
+      "Dagger",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/b/b9/Hunter_Strike.png"
@@ -937,6 +978,8 @@
     "recipe": [
       "Mystic Container",
       "Exotic Veil",
+      "Mystery Codex",
+      "Mystery Codex",
       "Mystery Codex"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/da/Ice_Queen_Wand.png"
@@ -970,7 +1013,8 @@
     "recipe": [
       "Ares Belt",
       "Vitality Crystal",
-      "Leather Jerkin"
+      "Leather Jerkin",
+      "Vitality Crystal"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/84/Immortality.png"
   },
@@ -1061,6 +1105,7 @@
     "unique_passive": [],
     "unique_active": null,
     "recipe": [
+      "Dagger",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/1e/Legion_Sword.png"
@@ -1184,6 +1229,7 @@
     "recipe": [
       "Fury Hammer",
       "Knife",
+      "Knife",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/72/Malefic_Gun.png"
@@ -1204,6 +1250,7 @@
     "unique_active": null,
     "recipe": [
       "Legion Sword",
+      "Dagger",
       "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/12/Malefic_Roar.png"
@@ -1293,6 +1340,7 @@
     "unique_active": null,
     "recipe": [
       "Hero's Ring",
+      "Hero's Ring",
       "Vitality Crystal"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/17/Oracle.png"
@@ -1369,7 +1417,8 @@
       "Silence Robe",
       "Magic Resist Cloak",
       "Healing Necklace",
-      "Vitality Crystal"
+      "Vitality Crystal",
+      "Magic Resist Cloak"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d8/Radiant_Armor.png"
   },
@@ -1390,6 +1439,7 @@
     "unique_active": null,
     "recipe": [
       "Boots",
+      "Healing Necklace",
       "Healing Necklace"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/a4/Rapid_Boots.png"
@@ -1487,7 +1537,9 @@
       "Legion Sword",
       "Regular Spear",
       "Dagger",
-      "Knife"
+      "Dagger",
+      "Knife",
+      "Dagger"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/83/Sea_Halberd.png"
   },
@@ -1524,6 +1576,7 @@
     ],
     "unique_active": null,
     "recipe": [
+      "Expert Gloves",
       "Expert Gloves"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4f/Sky_Piercer.png"
@@ -1549,6 +1602,8 @@
       "Mystic Container",
       "Magic Wand",
       "Magic Necklace",
+      "Magic Necklace",
+      "Mystery Codex",
       "Mystery Codex"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/26/Starlium_Scythe.png"
@@ -1602,6 +1657,7 @@
     ],
     "unique_active": null,
     "recipe": [
+      "Knife",
       "Knife"
     ],
     "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/a1/Swift_Crossbow.png"
@@ -1795,6 +1851,7 @@
     "unique_active": null,
     "recipe": [
       "Rogue Meteor",
+      "Knife",
       "Knife",
       "Javelin"
     ],

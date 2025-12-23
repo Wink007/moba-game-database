@@ -99,13 +99,11 @@ def fetch_item_data(item_name):
             recipe_val = recipe_elem.find('div', class_='pi-data-value')
             if recipe_val:
                 links = recipe_val.find_all('a')
-                seen = set()
                 # Перший лінк - це сам предмет, пропускаємо
-                # Фільтруємо дублікати, зберігаючи порядок
+                # Зберігаємо всі компоненти включно з дублікатами
                 for link in links[1:]:
                     component_name = link.get('title', link.get_text(strip=True))
-                    if component_name and component_name != item_name and component_name not in seen:
-                        seen.add(component_name)
+                    if component_name and component_name != item_name:
                         data['recipe'].append(component_name)
         
         # Шукаємо ціну в таблиці
