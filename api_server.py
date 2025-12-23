@@ -437,53 +437,59 @@ def delete_hero(hero_id):
 @app.route('/api/items', methods=['GET'])
 
 def get_items():
-    game_id = request.args.get('game_id')
-    if game_id:
-        items = db.get_equipment_by_game(game_id)
-        
-        # Створюємо мапінг name -> id для швидкого пошуку
-        name_to_id = {item['name']: item['id'] for item in items}
-        
-        # Парсимо attributes_json та recipe для кожного item
-        for item in items:
-            if item.get('attributes_json'):
-                try:
-                    item['attributes'] = json.loads(item['attributes_json'])
-                except:
+    try:
+        game_id = request.args.get('game_id')
+        if game_id:
+            items = db.get_equipment_by_game(game_id)
+            
+            # Створюємо мапінг name -> id для швидкого пошуку
+            name_to_id = {item['name']: item['id'] for item in items}
+            
+            # Парсимо attributes_json та recipe для кожного item
+            for item in items:
+                if item.get('attributes_json'):
+                    try:
+                        item['attributes'] = json.loads(item['attributes_json'])
+                    except:
+                        item['attributes'] = {}
+                else:
                     item['attributes'] = {}
-            else:
-                item['attributes'] = {}
-            
-            # Парсимо recipe з JSON та конвертуємо в формат [{id, name}, ...]
-            if item.get('recipe'):
-                try:
-                    recipe_data = json.loads(item['recipe'])
-                    if isinstance(recipe_data, list):
-                        # Якщо це масив назв, конвертуємо в масив об'єктів
-                        if recipe_data and isinstance(recipe_data[0], str):
-                            item['recipe'] = [
-                                {'id': name_to_id.get(name), 'name': name} 
-                                for name in recipe_data
-                            ]
+                
+                # Парсимо recipe з JSON та конвертуємо в формат [{id, name}, ...]
+                if item.get('recipe'):
+                    try:
+                        recipe_data = json.loads(item['recipe'])
+                        if isinstance(recipe_data, list):
+                            # Якщо це масив назв, конвертуємо в масив об'єктів
+                            if recipe_data and isinstance(recipe_data[0], str):
+                                item['recipe'] = [
+                                    {'id': name_to_id.get(name), 'name': name} 
+                                    for name in recipe_data
+                                ]
+                            else:
+                                # Вже в правильному форматі
+                                item['recipe'] = recipe_data
                         else:
-                            # Вже в правильному форматі
-                            item['recipe'] = recipe_data
-                    else:
+                            item['recipe'] = []
+                    except:
                         item['recipe'] = []
-                except:
+                else:
                     item['recipe'] = []
-            else:
-                item['recipe'] = []
-            
-            # Парсимо upgrades_to з JSON
-            if item.get('upgrades_to'):
-                try:
-                    item['upgrades_to'] = json.loads(item['upgrades_to'])
-                except:
-                    pass
-    else:
-        items = []
-    return jsonify(items)
+                
+                # Парсимо upgrades_to з JSON
+                if item.get('upgrades_to'):
+                    try:
+                        item['upgrades_to'] = json.loads(item['upgrades_to'])
+                    except:
+                        pass
+        else:
+            items = []
+        return jsonify(items)
+    except Exception as e:
+        import traceback
+        print(f"Error in get_items: {str(e)}")
+        print(traceback.format_exc())
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/items/<int:item_id>', methods=['GET'])
 def get_item(item_id):
