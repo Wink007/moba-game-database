@@ -440,6 +440,10 @@ def get_items():
     game_id = request.args.get('game_id')
     if game_id:
         items = db.get_equipment_by_game(game_id)
+        
+        # Створюємо мапінг name -> id для швидкого пошуку
+        name_to_id = {item['name']: item['id'] for item in items}
+        
         # Парсимо attributes_json та recipe для кожного item
         for item in items:
             if item.get('attributes_json'):
@@ -450,13 +454,26 @@ def get_items():
             else:
                 item['attributes'] = {}
             
-            # Парсимо recipe з JSON
+            # Парсимо recipe з JSON та конвертуємо в формат [{id, name}, ...]
             if item.get('recipe'):
                 try:
-                    item['recipe'] = json.loads(item['recipe'])
+                    recipe_data = json.loads(item['recipe'])
+                    if isinstance(recipe_data, list):
+                        # Якщо це масив назв, конвертуємо в масив об'єктів
+                        if recipe_data and isinstance(recipe_data[0], str):
+                            item['recipe'] = [
+                                {'id': name_to_id.get(name), 'name': name} 
+                                for name in recipe_data
+                            ]
+                        else:
+                            # Вже в правильному форматі
+                            item['recipe'] = recipe_data
+                    else:
+                        item['recipe'] = []
                 except:
-                    # Якщо не JSON, залишаємо як є
-                    pass
+                    item['recipe'] = []
+            else:
+                item['recipe'] = []
             
             # Парсимо upgrades_to з JSON
             if item.get('upgrades_to'):
