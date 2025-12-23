@@ -120,8 +120,6 @@ def fetch_patch_details(version):
         all_h3 = content.find_all('h3')
         
         for h3 in all_h3:
-            # Пропускаємо h3 що не в секції Hero Adjustments
-            h3_id = h3.get('id', '')
             span = h3.find('span', class_='mw-headline')
             if not span:
                 continue
@@ -141,28 +139,90 @@ def fetch_patch_details(version):
             if hero_name not in data['hero_changes']:
                 data['hero_changes'][hero_name] = {
                     'summary': '',
-                    'changes': []
+                    'skills': []
                 }
             
-            # Збираємо summary з другого div
-            content_divs = hero_div.find_next_siblings('div', limit=3)
-            for div in content_divs:
-                # Перший div з текстом - summary
-                paragraphs = div.find_all('p', recursive=False)
-                if paragraphs and not data['hero_changes'][hero_name]['summary']:
-                    summary_text = paragraphs[0].get_text(strip=True)
-                    if len(summary_text) > 20:
-                        data['hero_changes'][hero_name]['summary'] = summary_text
-                
-                # Збираємо зміни (тексти з >> або конкретні цифри)
-                all_p = div.find_all('p')
-                for p in all_p:
+            # Знаходимо всі дочірні div (не рекурсивно)
+            inner_divs = hero_div.find_all('div', recursive=False)
+            
+            # Структура: div[0] - заголовок, div[1] - summary, hr, div[2+] - скіли
+            if len(inner_divs) >= 2:
+                # div[1] містить summary
+                summary_div = inner_divs[1]
+                summary_paragraphs = []
+                for p in summary_div.find_all('p', recursive=False):
                     text = p.get_text(strip=True)
-                    # Шукаємо зміни статів
-                    if '>>' in text or 'Cooldown' in text or 'Damage' in text or 'New Effect' in text:
-                        clean_text = re.sub(r'\s+', ' ', text)
-                        if clean_text not in data['hero_changes'][hero_name]['changes']:
-                            data['hero_changes'][hero_name]['changes'].append(clean_text)
+                    if text and len(text) > 20:
+                        summary_paragraphs.append(text)
+                if summary_paragraphs:
+                    data['hero_changes'][hero_name]['summary'] = ' '.join(summary_paragraphs)
+            
+            # div[2+] містять зміни скілів (після <hr />)
+            for div_idx in range(2, len(inner_divs)):
+                div = inner_divs[div_idx]
+                
+                current_skill = None
+                skill_changes = []
+                
+                for p in div.find_all('p', recursive=False):
+                    # Якщо це заголовок скіла (містить Passive/Skill 1/Skill 2/Ultimate)
+                    if any(skill_keyword in p.get_text() for skill_keyword in ['Passive', 'Skill 1', 'Skill 2', 'Skill 3', 'Ultimate']):
+                        # Зберігаємо попередній скіл якщо є
+                        if current_skill and skill_changes:
+                            data['hero_changes'][hero_name]['skills'].append({
+                                'name': current_skill,
+                                'changes': skill_changes
+                            })
+                        
+                        # Парсимо назву скіла окремо по компонентам
+                        # Структура: <b>Passive</b> - <a>Smart Heart</a> <span>NERF</span>
+                        skill_type = ''
+                        skill_name = ''
+                        skill_badge = ''
+                        
+                        # Витягуємо тип скіла (Passive, Skill 1, etc)
+                        b_tag = p.find('b')
+                        if b_tag:
+                            skill_type = b_tag.get_text(strip=True)
+                        
+                        # Витягуємо назву скіла з посилання (друге <a> має текст)
+                        all_a_tags = p.find_all('a')
+                        for a_tag in all_a_tags:
+                            text = a_tag.get_text(strip=True)
+                            if text and text not in ['Passive', 'Skill 1', 'Skill 2', 'Skill 3', 'Ultimate']:
+                                skill_name = text
+                                break
+                        
+                        # Витягуємо badge (NERF/BUFF/ADJUST)
+                        span_tag = p.find('span', class_='white-text')
+                        if span_tag:
+                            badge_text = span_tag.get_text(strip=True)
+                            # Витягуємо тільки текст без іконок
+                            if 'NERF' in badge_text:
+                                skill_badge = 'NERF'
+                            elif 'BUFF' in badge_text:
+                                skill_badge = 'BUFF'
+                            elif 'ADJUST' in badge_text:
+                                skill_badge = 'ADJUST'
+                        
+                        # Формуємо повну назву з пробілами
+                        current_skill = f"{skill_type} {skill_name} {skill_badge}".strip()
+                        skill_changes = []
+                    
+                    # Інакше це зміна для поточного скіла
+                    else:
+                        text = p.get_text(strip=True)
+                        if text and ('>>' in text or 'New Effect' in text or 'Effect Change' in text):
+                            clean_text = re.sub(r'\s+', ' ', text)
+                            if clean_text:
+                                skill_changes.append(clean_text)
+                
+                # Не забути останній скіл
+                if current_skill and skill_changes:
+                    data['hero_changes'][hero_name]['skills'].append({
+                        'name': current_skill,
+                        'changes': skill_changes
+                    })
         
         # Парсимо Equipment Adjustments (items)
         equipment_span = content.find('span', id='Equipment_Adjustments')
@@ -185,20 +245,85 @@ def fetch_patch_details(version):
                             item_name = item_span.get_text(strip=True)
                             
                             if item_name and item_name not in data['item_changes']:
-                                data['item_changes'][item_name] = []
+                                data['item_changes'][item_name] = {
+                                    'description': '',
+                                    'sections': []
+                                }
                             
-                            # Збираємо ul/p після цього h4
+                            # Збираємо ul/p/div після цього h4
                             next_elem = current_sibling.find_next_sibling()
+                            
+                            # Якщо одразу наступний h4 - це категорія без змісту, пропускаємо
+                            if next_elem and next_elem.name == 'h4':
+                                current_sibling = next_elem
+                                continue
+                            
+                            # Парсимо структуру схожу на героїв
                             while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
-                                if next_elem.name == 'ul':
-                                    for li in next_elem.find_all('li', recursive=False):
-                                        change_text = li.get_text(strip=True)
-                                        if change_text:
-                                            data['item_changes'][item_name].append(change_text)
-                                elif next_elem.name == 'p':
-                                    text = next_elem.get_text(strip=True)
-                                    if text and '>>' in text:  # Зміна статів
-                                        data['item_changes'][item_name].append(text)
+                                if next_elem.name == 'div':
+                                    # Знаходимо всі вкладені div
+                                    inner_divs = next_elem.find_all('div', recursive=False)
+                                    
+                                    # Якщо є вкладені divs - працюємо з ними
+                                    if inner_divs:
+                                        for div_idx, div in enumerate(inner_divs):
+                                            # Перший або другий div може містити description (до <hr />)
+                                            if div_idx <= 1:
+                                                desc_paragraphs = []
+                                                for p in div.find_all('p', recursive=False):
+                                                    text = p.get_text(strip=True)
+                                                    if text and len(text) > 20 and not p.find('b'):
+                                                        desc_paragraphs.append(text)
+                                                if desc_paragraphs:
+                                                    data['item_changes'][item_name]['description'] = ' '.join(desc_paragraphs)
+                                            
+                                            # Будь-який div може містити секції (шукаємо <b> теги)
+                                            current_section = None
+                                            section_changes = []
+                                            
+                                            for p in div.find_all('p', recursive=False):
+                                                # Перевіряємо чи це заголовок секції
+                                                b_tag = p.find('b')
+                                                if b_tag:
+                                                    # Зберігаємо попередню секцію
+                                                    if current_section and section_changes:
+                                                        data['item_changes'][item_name]['sections'].append({
+                                                            'name': current_section,
+                                                            'changes': section_changes
+                                                        })
+                                                    
+                                                    # Нова секція
+                                                    section_type = b_tag.get_text(strip=True)
+                                                    section_badge = ''
+                                                    
+                                                    span_tag = p.find('span', class_='white-text')
+                                                    if span_tag:
+                                                        badge_text = span_tag.get_text(strip=True)
+                                                        if 'NERF' in badge_text:
+                                                            section_badge = 'NERF'
+                                                        elif 'BUFF' in badge_text:
+                                                            section_badge = 'BUFF'
+                                                        elif 'ADJUST' in badge_text:
+                                                            section_badge = 'ADJUST'
+                                                        elif 'REVAMP' in badge_text:
+                                                            section_badge = 'REVAMP'
+                                                    
+                                                    current_section = f"{section_type} {section_badge}".strip()
+                                                    section_changes = []
+                                                else:
+                                                    # Це зміна для поточної секції
+                                                    text = p.get_text(strip=True)
+                                                    if text and ('>>' in text or 'New Effect' in text or 'Gold' in text or 'EXP' in text or 'Removed' in text or len(text) > 30):
+                                                        clean_text = re.sub(r'\s+', ' ', text)
+                                                        if clean_text:
+                                                            section_changes.append(clean_text)
+                                            
+                                            # Не забути останню секцію
+                                            if current_section and section_changes:
+                                                data['item_changes'][item_name]['sections'].append({
+                                                    'name': current_section,
+                                                    'changes': section_changes
+                                                })
                                 
                                 next_elem = next_elem.find_next_sibling()
                                 if next_elem and next_elem.name in ['h2', 'h3', 'h4']:
@@ -207,13 +332,13 @@ def fetch_patch_details(version):
                     current_sibling = current_sibling.find_next_sibling()
         
         # Парсимо System Adjustments
-        system_h2 = content.find('span', string=re.compile('System.*Adjustment', re.I))
-        if system_h2:
-            system_section = system_h2.find_parent('h2')
+        system_span = content.find('span', id='System_Adjustments')
+        if system_span:
+            system_section = system_span.find_parent(['h2', 'h3'])
             if system_section:
-                # Збираємо ul після System Adjustments
+                # Збираємо ul/p після System Adjustments
                 for sibling in system_section.find_next_siblings():
-                    if sibling.name == 'h2':
+                    if sibling.name in ['h2', 'h3']:
                         break
                     
                     if sibling.name == 'ul':
@@ -223,8 +348,12 @@ def fetch_patch_details(version):
                                 data['system_changes'].append(change_text)
                     elif sibling.name == 'p':
                         change_text = sibling.get_text(strip=True)
-                        if change_text and len(change_text) > 20:
+                        # Шукаємо текст з заголовками в квадратних дужках або зміни
+                        if change_text and (change_text.startswith('[') or len(change_text) > 30):
                             data['system_changes'].append(change_text)
+        
+        # Видаляємо порожні item_changes (категорії без змісту або без sections)
+        data['item_changes'] = {k: v for k, v in data['item_changes'].items() if v.get('sections') or v.get('description')}
         
         print(f"  ✅ Patch {version}: OK ({data['release_date']}, {len(data['hero_changes'])} heroes, {len(data['item_changes'])} items)")
         return data
