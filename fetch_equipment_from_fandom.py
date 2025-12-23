@@ -108,32 +108,45 @@ def fetch_item_data(item_name):
                         seen.add(component_name)
                         data['recipe'].append(component_name)
         
-        # Шукаємо ціну в тексті сторінки
-        text_content = soup.get_text()
-        price_patterns = [
-            r'(?:Price|Cost)[\s:]+(\d{3,5})',
-            r'for\s+(\d{3,5})\s+gold',
-            r'costs?\s+(\d{3,5})'
-        ]
-        for pattern in price_patterns:
-            match = re.search(pattern, text_content, re.IGNORECASE)
-            if match:
-                data['price'] = int(match.group(1))
+        # Шукаємо ціну в таблиці
+        price_found = False
+        tables = soup.find_all('table')
+        for table in tables:
+            rows = table.find_all('tr')
+            for i, row in enumerate(rows):
+                headers = row.find_all('th')
+                # Шукаємо рядок з заголовком "Price"
+                if headers:
+                    header_texts = [h.get_text(strip=True).lower() for h in headers]
+                    if 'price' in header_texts:
+                        # Наступний рядок містить значення
+                        if i + 1 < len(rows):
+                            value_row = rows[i + 1]
+                            cells = value_row.find_all('td')
+                            if cells:
+                                price_text = cells[0].get_text(strip=True)
+                                # Витягуємо число
+                                match = re.search(r'(\d{3,5})', price_text)
+                                if match:
+                                    data['price'] = int(match.group(1))
+                                    price_found = True
+                                    break
+            if price_found:
                 break
         
-        # Якщо не знайшли, пробуємо першу велику цифру
+        # Якщо не знайшли в таблиці, пробуємо текстовий пошук
         if not data['price']:
-            content = soup.find('div', class_='mw-parser-output')
-            if content:
-                first_p = content.find('p')
-                if first_p:
-                    text = first_p.get_text()
-                    numbers = re.findall(r'\b(\d{3,5})\b', text)
-                    for num in numbers:
-                        val = int(num)
-                        if 100 <= val <= 99999:
-                            data['price'] = val
-                            break
+            text_content = soup.get_text()
+            price_patterns = [
+                r'(?:Price|Cost)[\s:]+(\d{3,5})',
+                r'for\s+(\d{3,5})\s+gold',
+                r'costs?\s+(\d{3,5})'
+            ]
+            for pattern in price_patterns:
+                match = re.search(pattern, text_content, re.IGNORECASE)
+                if match:
+                    data['price'] = int(match.group(1))
+                    break
         
         # Description з першого параграфа
         content = soup.find('div', class_='mw-parser-output')
