@@ -1014,14 +1014,16 @@ def update_equipment(equipment_id, **kwargs):
                      'physical_attack', 'magic_power', 'hp', 'physical_defense', 'magic_defense',
                      'movement_speed', 'attack_speed', 'cooldown_reduction', 'lifesteal', 'spell_vamp',
                      'penetration', 'stats_other', 'passive_name', 'passive_type', 'passive_description',
-                     'recipe', 'tips', 'in_depth_info', 'countered_by', 'builds', 'tier', 'attributes', 'tags']
+                     'recipe', 'tips', 'in_depth_info', 'countered_by', 'builds', 'tier', 'attributes', 'tags',
+                     'mana_regen', 'crit_chance', 'attributes_json']
     
     updates = []
     values = []
+    ph = get_placeholder()
     
     for field in allowed_fields:
         if field in kwargs:
-            updates.append(f"{field} = ?")
+            updates.append(f"{field} = {ph}")
             values.append(kwargs[field])
     
     if not updates:
@@ -1033,7 +1035,7 @@ def update_equipment(equipment_id, **kwargs):
     cursor.execute(f"""
         UPDATE equipment 
         SET {update_sql}
-        WHERE id = ?
+        WHERE id = {ph}
     """, values)
     conn.commit()
     release_connection(conn)

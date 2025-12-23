@@ -21,6 +21,8 @@ def fetch_item_data(item_name):
     
     try:
         response = requests.get(url, headers=headers, timeout=15)
+        if response.status_code == 404:
+            return None
         if response.status_code != 200:
             print(f"  ❌ {item_name}: HTTP {response.status_code}")
             return None
