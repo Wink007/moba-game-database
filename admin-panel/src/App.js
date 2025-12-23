@@ -682,11 +682,13 @@ function App() {
 
             <ItemList
               items={items}
+              gameId={selectedGame.id}
               onEdit={(item) => {
                 setEditingItem(item);
                 setShowItemForm(true);
               }}
               onDelete={deleteItem}
+              onUpdate={loadItems}
             />
           </div>
         )}

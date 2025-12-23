@@ -556,6 +556,103 @@ def delete_item(item_id):
     db.delete_equipment(item_id)
     return jsonify({'success': True})
 
+@app.route('/api/items/update-from-fandom', methods=['POST'])
+def update_items_from_fandom():
+    """Bulk update items from Fandom Wiki"""
+    import sys
+    import os
+    
+    # Додаємо шлях до скриптів
+    sys.path.insert(0, os.path.dirname(__file__))
+    
+    try:
+        from fetch_equipment_from_fandom import fetch_item_data
+        
+        game_id = request.json.get('game_id', 2)
+        
+        # Отримуємо всі предмети з бази
+        items = db.get_equipment_by_game(game_id)
+        
+        results = {
+            'total': len(items),
+            'updated': 0,
+            'failed': 0,
+            'errors': []
+        }
+        
+        for item in items:
+            try:
+                # Пропускаємо базові предмети (tier 1)
+                if item.get('tier') == '1':
+                    continue
+                
+                # Fetch data from Fandom
+                fandom_data = fetch_item_data(item['name'])
+                
+                if not fandom_data:
+                    results['errors'].append(f"{item['name']}: Not found on Fandom")
+                    results['failed'] += 1
+                    continue
+                
+                # Парсимо атрибути
+                import re
+                def parse_stat(value_str):
+                    if not value_str:
+                        return None
+                    match = re.search(r'([+\-]?\d+(?:\.\d+)?)', str(value_str))
+                    return float(match.group(1)) if match else None
+                
+                attrs = fandom_data.get('attributes', {})
+                
+                # Оптимізуємо recipe - тільки tier-2 компоненти
+                recipe_data = fandom_data.get('recipe', [])
+                optimized_recipe = []
+                if recipe_data:
+                    # Отримуємо tier для кожного компонента
+                    for comp_name in recipe_data:
+                        comp_item = next((i for i in items if i['name'] == comp_name), None)
+                        if comp_item and comp_item.get('tier') and int(comp_item['tier']) >= 2:
+                            optimized_recipe.append(comp_name)
+                
+                # Унікальні пасивки
+                passive_text = '\n'.join(fandom_data.get('unique_passive', []))
+                if fandom_data.get('unique_active'):
+                    passive_text += '\n' + fandom_data['unique_active']
+                
+                # Оновлюємо
+                update_data = {
+                    'price_total': fandom_data.get('price'),
+                    'category': fandom_data.get('type'),
+                    'icon_url': fandom_data.get('icon_url'),
+                    'physical_attack': parse_stat(attrs.get('Physical Attack')),
+                    'magic_power': parse_stat(attrs.get('Magic Power')),
+                    'attack_speed': parse_stat(attrs.get('Attack Speed')),
+                    'hp': parse_stat(attrs.get('HP')),
+                    'physical_defense': parse_stat(attrs.get('Physical Defense')),
+                    'magic_defense': parse_stat(attrs.get('Magic Defense')),
+                    'movement_speed': parse_stat(attrs.get('Movement Speed') or attrs.get('Move Speed')),
+                    'cooldown_reduction': parse_stat(attrs.get('CD Reduction') or attrs.get('Cooldown Reduction')),
+                    'lifesteal': parse_stat(attrs.get('Physical Lifesteal')),
+                    'spell_vamp': parse_stat(attrs.get('Magic Lifesteal') or attrs.get('Spell Vamp')),
+                    'mana_regen': parse_stat(attrs.get('Mana Regen')),
+                    'crit_chance': parse_stat(attrs.get('Crit Chance')),
+                    'attributes_json': json.dumps(attrs, ensure_ascii=False),
+                    'passive_description': passive_text if passive_text else None,
+                    'recipe': json.dumps(optimized_recipe, ensure_ascii=False) if optimized_recipe else None
+                }
+                
+                db.update_equipment(item['id'], **update_data)
+                results['updated'] += 1
+                
+            except Exception as e:
+                results['errors'].append(f"{item['name']}: {str(e)}")
+                results['failed'] += 1
+        
+        return jsonify(results)
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # ============== EMBLEM TALENTS ==============
 
 @app.route('/api/emblem-talents', methods=['GET'])

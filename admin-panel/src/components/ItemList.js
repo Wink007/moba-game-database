@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import RecipeTree from './RecipeTree';
 
-function ItemList({ items, onEdit, onDelete }) {
+const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up.railway.app/api';
+
+function ItemList({ items, onEdit, onDelete, gameId, onUpdate }) {
   const [imageErrors, setImageErrors] = useState({});
   const [showRecipeTree, setShowRecipeTree] = useState(null);
+  const [updating, setUpdating] = useState(false);
+  const [updateResults, setUpdateResults] = useState(null);
 
   if (items.length === 0) {
     return (
@@ -18,8 +23,103 @@ function ItemList({ items, onEdit, onDelete }) {
     setImageErrors(prev => ({ ...prev, [itemId]: true }));
   };
 
+  const handleUpdateFromFandom = async () => {
+    if (!window.confirm('Update all items from Fandom Wiki? This may take a few minutes.')) {
+      return;
+    }
+
+    setUpdating(true);
+    setUpdateResults(null);
+
+    try {
+      const response = await axios.post(`${API_URL}/items/update-from-fandom`, {
+        game_id: gameId
+      });
+
+      setUpdateResults(response.data);
+      
+      if (response.data.updated > 0) {
+        alert(`✅ Successfully updated ${response.data.updated} items!`);
+        if (onUpdate) {
+          onUpdate(); // Reload items
+        }
+      }
+    } catch (error) {
+      console.error('Error updating items:', error);
+      alert('❌ Error updating items: ' + (error.response?.data?.error || error.message));
+    } finally {
+      setUpdating(false);
+    }
+  };
+
   return (
     <>
+    {/* Bulk Update Banner */}
+    <div style={{
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '16px 20px',
+      borderRadius: '8px',
+      marginBottom: '20px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      color: 'white',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }}>
+      <div>
+        <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem' }}>🔄 Bulk Update from Fandom</h3>
+        <p style={{ margin: 0, fontSize: '0.875rem', opacity: 0.9 }}>
+          Update all tier-2 and tier-3 items with latest data from Fandom Wiki
+        </p>
+      </div>
+      <button
+        onClick={handleUpdateFromFandom}
+        disabled={updating}
+        style={{
+          padding: '10px 20px',
+          fontSize: '1rem',
+          fontWeight: 'bold',
+          backgroundColor: updating ? '#9ca3af' : 'white',
+          color: '#667eea',
+          border: 'none',
+          borderRadius: '6px',
+          cursor: updating ? 'not-allowed' : 'pointer',
+          transition: 'all 0.2s',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}
+      >
+        {updating ? '⏳ Updating...' : '🚀 Update All Items'}
+      </button>
+    </div>
+
+    {/* Update Results */}
+    {updateResults && (
+      <div style={{
+        padding: '16px',
+        borderRadius: '8px',
+        marginBottom: '20px',
+        backgroundColor: updateResults.failed > 0 ? '#fef3c7' : '#d1fae5',
+        border: `1px solid ${updateResults.failed > 0 ? '#fbbf24' : '#10b981'}`
+      }}>
+        <h4 style={{ margin: '0 0 8px 0' }}>Update Results:</h4>
+        <p style={{ margin: '4px 0' }}>✅ Updated: {updateResults.updated}</p>
+        <p style={{ margin: '4px 0' }}>❌ Failed: {updateResults.failed}</p>
+        <p style={{ margin: '4px 0' }}>📊 Total: {updateResults.total}</p>
+        {updateResults.errors && updateResults.errors.length > 0 && (
+          <details style={{ marginTop: '8px' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>
+              Show Errors ({updateResults.errors.length})
+            </summary>
+            <ul style={{ marginTop: '8px', paddingLeft: '20px' }}>
+              {updateResults.errors.map((error, idx) => (
+                <li key={idx} style={{ fontSize: '0.875rem', color: '#dc2626' }}>{error}</li>
+              ))}
+            </ul>
+          </details>
+        )}
+      </div>
+    )}
+
     <table>
       <thead>
         <tr>
