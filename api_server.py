@@ -830,6 +830,66 @@ def fix_recipe_ids():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/items/fix-json', methods=['POST'])
+def fix_items_json():
+    """Виправляє невалідні JSON в recipe та attributes_json"""
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        game_id = request.json.get('game_id', 2) if request.json else 2
+        
+        # Отримуємо всі предмети
+        cursor.execute('SELECT id, name, recipe, attributes_json FROM equipment WHERE game_id = %s', (game_id,))
+        items = cursor.fetchall()
+        
+        fixed = 0
+        for item in items:
+            item_id, name, recipe, attributes_json = item
+            needs_update = False
+            new_recipe = recipe
+            new_attributes = attributes_json
+            
+            # Перевіряємо recipe
+            if recipe:
+                try:
+                    if isinstance(recipe, str):
+                        json.loads(recipe)
+                except:
+                    print(f"Fixing recipe for item {item_id} ({name})")
+                    new_recipe = '[]'
+                    needs_update = True
+            
+            # Перевіряємо attributes_json
+            if attributes_json:
+                try:
+                    if isinstance(attributes_json, str):
+                        json.loads(attributes_json)
+                except:
+                    print(f"Fixing attributes_json for item {item_id} ({name})")
+                    new_attributes = '{}'
+                    needs_update = True
+            
+            if needs_update:
+                cursor.execute(
+                    'UPDATE equipment SET recipe = %s, attributes_json = %s WHERE id = %s',
+                    (new_recipe, new_attributes, item_id)
+                )
+                fixed += 1
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({
+            'success': True,
+            'fixed': fixed
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
 # Оптимізація: створення індексів
 @app.route('/api/create-indexes', methods=['POST'])
 def create_indexes():
