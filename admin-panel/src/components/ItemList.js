@@ -32,21 +32,44 @@ function ItemList({ items, onEdit, onDelete, gameId, onUpdate }) {
     setUpdateResults(null);
 
     try {
-      const response = await axios.post(`${API_URL}/items/update-from-fandom`, {
+      // Step 1: Fetch data from Fandom
+      alert('⏳ Fetching data from Fandom Wiki... This may take 2-3 minutes.');
+      
+      const fetchResponse = await axios.post(`${API_URL}/items/fetch-from-fandom`, {
         game_id: gameId
+      }, {
+        timeout: 180000 // 3 minutes
       });
 
-      setUpdateResults(response.data);
+      const itemsData = fetchResponse.data.items;
       
-      if (response.data.updated > 0) {
-        alert(`✅ Successfully updated ${response.data.updated} items!`);
+      if (!itemsData || itemsData.length === 0) {
+        alert('❌ No data fetched from Fandom');
+        return;
+      }
+
+      alert(`✅ Fetched ${itemsData.length} items. Now updating database...`);
+
+      // Step 2: Update database with fetched data
+      const updateResponse = await axios.post(`${API_URL}/items/update-from-fandom`, {
+        game_id: gameId,
+        items: itemsData
+      });
+
+      setUpdateResults(updateResponse.data);
+      
+      if (updateResponse.data.updated > 0) {
+        alert(`✅ Successfully updated ${updateResponse.data.updated} items!`);
         if (onUpdate) {
           onUpdate(); // Reload items
         }
+      } else {
+        alert(`⚠️ No items were updated. ${updateResponse.data.skipped} skipped, ${updateResponse.data.failed} failed.`);
       }
     } catch (error) {
       console.error('Error updating items:', error);
-      alert('❌ Error updating items: ' + (error.response?.data?.error || error.message));
+      const errorMsg = error.response?.data?.error || error.message;
+      alert('❌ Error updating items: ' + errorMsg);
     } finally {
       setUpdating(false);
     }

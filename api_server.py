@@ -568,6 +568,33 @@ def delete_item(item_id):
     db.delete_equipment(item_id)
     return jsonify({'success': True})
 
+@app.route('/api/items/fetch-from-fandom', methods=['POST'])
+def fetch_items_from_fandom():
+    """Fetch items data from Fandom (step 1)"""
+    import sys
+    import os
+    sys.path.insert(0, os.path.dirname(__file__))
+    
+    try:
+        from fetch_equipment_from_fandom import fetch_item_data
+        
+        game_id = request.json.get('game_id', 2)
+        items = db.get_equipment_by_game(game_id)
+        
+        results = []
+        for item in items:
+            if item.get('tier') != '1':  # Skip tier 1
+                try:
+                    data = fetch_item_data(item['name'])
+                    if data:
+                        results.append(data)
+                except:
+                    pass
+        
+        return jsonify({'items': results, 'count': len(results)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/items/update-from-fandom', methods=['POST'])
 def update_items_from_fandom():
     """Bulk update items from pre-fetched JSON data"""
