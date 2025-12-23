@@ -505,9 +505,24 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       console.log('External skill names:', externalSkills.map(s => s.skillname));
       console.log('Database skill names:', skills.map(s => s.skill_name));
 
+      // Remove duplicate skills (keep first occurrence)
+      const seenSkills = new Set();
+      const uniqueExternalSkills = [];
+      
+      for (const skill of externalSkills) {
+        if (!seenSkills.has(skill.skillname)) {
+          seenSkills.add(skill.skillname);
+          uniqueExternalSkills.push(skill);
+        } else {
+          console.log(`Skipping duplicate skill: "${skill.skillname}"`);
+        }
+      }
+
+      console.log('After removing duplicates:', uniqueExternalSkills.length);
+
       // Update each skill that matches by name
-      for (let i = 0; i < externalSkills.length; i++) {
-        const externalSkill = externalSkills[i];
+      for (let i = 0; i < uniqueExternalSkills.length; i++) {
+        const externalSkill = uniqueExternalSkills[i];
         const skillName = externalSkill.skillname;
         const newDescription = externalSkill.skilldesc;
         const newDisplayOrder = i; // Use position in external API as display_order
@@ -552,7 +567,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         alert(`✅ Successfully updated ${updatedCount} skill(s)!`);
       } else {
         const msg = `No matching skills found to update.\n\n` +
-          `External API returned ${externalSkills.length} skills:\n${externalSkills.map(s => '- ' + s.skillname).join('\n')}\n\n` +
+          `External API returned ${uniqueExternalSkills.length} skills:\n${uniqueExternalSkills.map(s => '- ' + s.skillname).join('\n')}\n\n` +
           `Database has ${skills.length} skills:\n${skills.map(s => '- ' + s.skill_name).join('\n')}\n\n` +
           `Check console for detailed comparison.`;
         alert(msg);
