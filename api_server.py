@@ -1548,6 +1548,43 @@ def migrate_hero_ranks_constraint():
             'success': True,
             'message': 'Constraint successfully added'
         })
+
+@app.route('/api/migrate-equipment-fields', methods=['POST'])
+def migrate_equipment_fields():
+    """Додає відсутні поля до таблиці equipment"""
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        fields_to_add = [
+            ("attributes_json", "TEXT"),
+            ("mana_regen", "REAL"),
+            ("crit_chance", "REAL"),
+        ]
+        
+        results = []
+        for field_name, field_type in fields_to_add:
+            try:
+                cursor.execute(f"ALTER TABLE equipment ADD COLUMN {field_name} {field_type}")
+                conn.commit()
+                results.append(f"✅ Added {field_name}")
+            except Exception as e:
+                if "already exists" in str(e) or "duplicate column" in str(e).lower():
+                    results.append(f"⏭️  {field_name} already exists")
+                    conn.rollback()
+                else:
+                    results.append(f"❌ Error adding {field_name}: {e}")
+                    conn.rollback()
+        
+        db.release_connection(conn)
+        
+        return jsonify({
+            'success': True,
+            'results': results
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
         
     except Exception as e:
         print(f"Error migrating constraint: {e}")
