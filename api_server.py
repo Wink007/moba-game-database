@@ -128,6 +128,27 @@ def get_hero_skills(hero_id):
     skills = db.get_hero_skills(hero_id)
     return jsonify(skills)
 
+@app.route('/api/heroes/<int:hero_id>/skills/<int:skill_id>', methods=['PUT'])
+def update_hero_skill(hero_id, skill_id):
+    """Оновлює навичку героя"""
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    
+    skill_name = data.get('skill_name')
+    skill_description = data.get('skill_description')
+    
+    if skill_name is None and skill_description is None:
+        return jsonify({'error': 'No fields to update'}), 400
+    
+    success = db.update_hero_skill(skill_id, skill_name, skill_description)
+    
+    if success:
+        return jsonify({'success': True, 'message': 'Skill updated successfully'})
+    else:
+        return jsonify({'error': 'Failed to update skill'}), 500
+
 @app.route('/api/heroes/skills', methods=['GET'])
 def get_all_heroes_skills():
     """Навички для всіх героїв гри"""

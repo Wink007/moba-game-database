@@ -654,6 +654,44 @@ def get_hero_skills(hero_id):
     release_connection(conn)
     return skills
 
+def update_hero_skill(skill_id, skill_name=None, skill_description=None):
+    """Оновлює skill_name та/або skill_description для конкретного скілу"""
+    conn = get_connection()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        
+        ph = get_placeholder()
+        updates = []
+        params = []
+        
+        if skill_name is not None:
+            updates.append(f"skill_name = {ph}")
+            params.append(skill_name)
+        
+        if skill_description is not None:
+            updates.append(f"skill_description = {ph}")
+            params.append(skill_description)
+        
+        if not updates:
+            return False
+        
+        params.append(skill_id)
+        query = f"UPDATE hero_skills SET {', '.join(updates)} WHERE id = {ph}"
+        cursor.execute(query, params)
+        conn.commit()
+        
+        return cursor.rowcount > 0
+    except Exception as e:
+        print(f"Error updating skill {skill_id}: {e}")
+        conn.rollback()
+        return False
+    finally:
+        release_connection(conn)
+
 def delete_hero_skills(hero_id):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
