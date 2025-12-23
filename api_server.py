@@ -843,7 +843,7 @@ def get_patches():
             return jsonify({'error': 'Patches data not found. Run fetch_patches_from_liquipedia.py first'}), 404
         
         with open(patches_file, 'r', encoding='utf-8') as f:
-            patches = json.load(f)
+            patches_dict = json.load(f)
         
         # Фільтруємо за параметрами
         limit = request.args.get('limit', type=int)
@@ -851,12 +851,17 @@ def get_patches():
         
         if search:
             search_lower = search.lower()
-            patches = [p for p in patches if search_lower in p['version'].lower()]
+            patches_dict = {k: v for k, v in patches_dict.items() if search_lower in k.lower()}
+        
+        # Конвертуємо в список для відповіді
+        result = []
+        for version, data in patches_dict.items():
+            result.append({'version': version, **data})
         
         if limit:
-            patches = patches[:limit]
+            result = result[:limit]
         
-        return jsonify(patches)
+        return jsonify(result)
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -873,13 +878,11 @@ def get_patch_details(version):
             return jsonify({'error': 'Patches data not found'}), 404
         
         with open(patches_file, 'r', encoding='utf-8') as f:
-            patches = json.load(f)
+            patches_dict = json.load(f)
         
-        # Шукаємо патч за версією
-        patch = next((p for p in patches if p['version'] == version), None)
-        
-        if patch:
-            return jsonify(patch)
+        # Шукаємо патч за версією (тепер це ключ)
+        if version in patches_dict:
+            return jsonify({'version': version, **patches_dict[version]})
         
         return jsonify({'error': 'Patch not found'}), 404
         

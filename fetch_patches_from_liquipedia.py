@@ -25,19 +25,28 @@ def fetch_patch_list():
             print(f"❌ Не вдалося завантажити список патчів: HTTP {response.status_code}")
             return []
         
-        # Витягуємо всі посилання на патчі
+        # Витягуємо всі посилання на патчі (включно з буквами a, b, c)
         soup = BeautifulSoup(response.text, 'html.parser')
-        patch_links = soup.find_all('a', href=re.compile(r'/mobilelegends/Patch_\d+\.\d+\.\d+'))
+        patch_links = soup.find_all('a', href=re.compile(r'/mobilelegends/Patch_\d+\.\d+\.\d+[a-z]*'))
         
         # Збираємо унікальні версії
         versions = set()
         for link in patch_links:
-            match = re.search(r'Patch_(\d+\.\d+\.\d+)', link.get('href', ''))
+            match = re.search(r'Patch_(\d+\.\d+\.\d+[a-z]*)', link.get('href', ''))
             if match:
                 versions.add(match.group(1))
         
-        # Сортуємо від найновіших до найстаріших
-        sorted_versions = sorted(versions, key=lambda v: [int(x) for x in v.split('.')], reverse=True)
+        # Сортуємо від найновіших до найстаріших (враховуючи букви)
+        def version_key(v):
+            # Розділяємо на числа та букву (якщо є)
+            match = re.match(r'(\d+)\.(\d+)\.(\d+)([a-z]?)', v)
+            if match:
+                major, minor, patch, letter = match.groups()
+                # Букви сортуються після основної версії (a < b < c)
+                return (int(major), int(minor), int(patch), letter or '')
+            return (0, 0, 0, '')
+        
+        sorted_versions = sorted(versions, key=version_key, reverse=True)
         
         patches = []
         for version in sorted_versions:
@@ -233,14 +242,14 @@ def fetch_latest_patches(limit=10):
     
     if not patches:
         print("❌ Не вдалося отримати список патчів")
-        return []
+        return {}
     
     # Беремо тільки перші limit патчів (вже відсортовані від найновіших)
     patches_to_fetch = patches[:limit]
     
     print(f"📥 Завантажую {len(patches_to_fetch)} патчів...\n")
     
-    detailed_patches = []
+    detailed_patches = {}
     
     for i, patch in enumerate(patches_to_fetch):
         # Затримка між запитами щоб уникнути 429
@@ -250,7 +259,8 @@ def fetch_latest_patches(limit=10):
         print(f"[{i+1}/{len(patches_to_fetch)}] {patch['version']}...", end=' ')
         details = fetch_patch_details(patch['version'])
         if details:
-            detailed_patches.append(details)
+            version = details.pop('version')  # Видаляємо version з даних
+            detailed_patches[version] = details  # Використовуємо version як ключ
         else:
             print(f"⚠️  Пропускаю")
     
