@@ -654,8 +654,8 @@ def get_hero_skills(hero_id):
     release_connection(conn)
     return skills
 
-def update_hero_skill(skill_id, skill_name=None, skill_description=None):
-    """Оновлює skill_name та/або skill_description для конкретного скілу"""
+def update_hero_skill(skill_id, skill_name=None, skill_description=None, display_order=None):
+    """Оновлює skill_name, skill_description та/або display_order для конкретного скілу"""
     conn = get_connection()
     try:
         if DATABASE_TYPE == 'postgres':
@@ -675,6 +675,10 @@ def update_hero_skill(skill_id, skill_name=None, skill_description=None):
         if skill_description is not None:
             updates.append(f"skill_description = {ph}")
             params.append(skill_description)
+        
+        if display_order is not None:
+            updates.append(f"display_order = {ph}")
+            params.append(display_order)
         
         if not updates:
             return False

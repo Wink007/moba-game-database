@@ -138,11 +138,12 @@ def update_hero_skill(hero_id, skill_id):
     
     skill_name = data.get('skill_name')
     skill_description = data.get('skill_description')
+    display_order = data.get('display_order')
     
-    if skill_name is None and skill_description is None:
+    if skill_name is None and skill_description is None and display_order is None:
         return jsonify({'error': 'No fields to update'}), 400
     
-    success = db.update_hero_skill(skill_id, skill_name, skill_description)
+    success = db.update_hero_skill(skill_id, skill_name, skill_description, display_order)
     
     if success:
         return jsonify({'success': True, 'message': 'Skill updated successfully'})

@@ -500,25 +500,40 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       const externalSkills = response.data.skills;
       let updatedCount = 0;
 
+      console.log('External skills found:', externalSkills.length);
+      console.log('Database skills found:', skills.length);
+      console.log('External skill names:', externalSkills.map(s => s.skillname));
+      console.log('Database skill names:', skills.map(s => s.skill_name));
+
       // Update each skill that matches by name
-      for (const externalSkill of externalSkills) {
+      for (let i = 0; i < externalSkills.length; i++) {
+        const externalSkill = externalSkills[i];
         const skillName = externalSkill.skillname;
         const newDescription = externalSkill.skilldesc;
+        const newDisplayOrder = i; // Use position in external API as display_order
+
+        console.log(`\nLooking for skill: "${skillName}"`);
 
         // Find matching skill in our database
         const matchingSkill = skills.find(s => s.skill_name === skillName);
         
         if (matchingSkill && matchingSkill.id) {
+          console.log(`  Found match! ID: ${matchingSkill.id}, updating to display_order: ${newDisplayOrder}`);
           try {
             await axios.put(
               `${API_URL}/heroes/${hero.id}/skills/${matchingSkill.id}`,
-              { skill_description: newDescription }
+              { 
+                skill_description: newDescription,
+                display_order: newDisplayOrder
+              }
             );
             updatedCount++;
-            console.log(`Updated: ${skillName}`);
+            console.log(`  ✓ Updated: ${skillName}`);
           } catch (err) {
-            console.error(`Failed to update ${skillName}:`, err);
+            console.error(`  ✗ Failed to update ${skillName}:`, err);
           }
+        } else {
+          console.log(`  ✗ No match found in database`);
         }
       }
 
@@ -528,7 +543,11 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         setSkills(skillsResponse.data || []);
         alert(`✅ Successfully updated ${updatedCount} skill(s)!`);
       } else {
-        alert('No matching skills found to update.');
+        const msg = `No matching skills found to update.\n\n` +
+          `External API returned ${externalSkills.length} skills:\n${externalSkills.map(s => '- ' + s.skillname).join('\n')}\n\n` +
+          `Database has ${skills.length} skills:\n${skills.map(s => '- ' + s.skill_name).join('\n')}\n\n` +
+          `Check console for detailed comparison.`;
+        alert(msg);
       }
 
     } catch (error) {
