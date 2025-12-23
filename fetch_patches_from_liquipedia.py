@@ -128,7 +128,69 @@ def fetch_patch_details(version):
                         if clean_text not in data['hero_changes'][hero_name]['changes']:
                             data['hero_changes'][hero_name]['changes'].append(clean_text)
         
-        print(f"  ✅ Patch {version}: OK ({data['release_date']}, {len(data['hero_changes'])} heroes)")
+        # Парсимо Equipment Adjustments (items)
+        equipment_span = content.find('span', id='Equipment_Adjustments')
+        if equipment_span:
+            equipment_h3 = equipment_span.find_parent('h3')
+            if equipment_h3:
+                # Збираємо всі h4 після Equipment Adjustments до наступного h2/h3
+                current_sibling = equipment_h3.find_next_sibling()
+                
+                while current_sibling:
+                    # Якщо h2 або h3 без Equipment - закінчилась секція
+                    if current_sibling.name in ['h2', 'h3']:
+                        if current_sibling.name == 'h3' or 'Equipment' not in current_sibling.get_text():
+                            break
+                    
+                    # h4 - це конкретний предмет
+                    if current_sibling.name == 'h4':
+                        item_span = current_sibling.find('span', class_='mw-headline')
+                        if item_span:
+                            item_name = item_span.get_text(strip=True)
+                            
+                            if item_name and item_name not in data['item_changes']:
+                                data['item_changes'][item_name] = []
+                            
+                            # Збираємо ul/p після цього h4
+                            next_elem = current_sibling.find_next_sibling()
+                            while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
+                                if next_elem.name == 'ul':
+                                    for li in next_elem.find_all('li', recursive=False):
+                                        change_text = li.get_text(strip=True)
+                                        if change_text:
+                                            data['item_changes'][item_name].append(change_text)
+                                elif next_elem.name == 'p':
+                                    text = next_elem.get_text(strip=True)
+                                    if text and '>>' in text:  # Зміна статів
+                                        data['item_changes'][item_name].append(text)
+                                
+                                next_elem = next_elem.find_next_sibling()
+                                if next_elem and next_elem.name in ['h2', 'h3', 'h4']:
+                                    break
+                    
+                    current_sibling = current_sibling.find_next_sibling()
+        
+        # Парсимо System Adjustments
+        system_h2 = content.find('span', string=re.compile('System.*Adjustment', re.I))
+        if system_h2:
+            system_section = system_h2.find_parent('h2')
+            if system_section:
+                # Збираємо ul після System Adjustments
+                for sibling in system_section.find_next_siblings():
+                    if sibling.name == 'h2':
+                        break
+                    
+                    if sibling.name == 'ul':
+                        for li in sibling.find_all('li', recursive=False):
+                            change_text = li.get_text(strip=True)
+                            if change_text:
+                                data['system_changes'].append(change_text)
+                    elif sibling.name == 'p':
+                        change_text = sibling.get_text(strip=True)
+                        if change_text and len(change_text) > 20:
+                            data['system_changes'].append(change_text)
+        
+        print(f"  ✅ Patch {version}: OK ({data['release_date']}, {len(data['hero_changes'])} heroes, {len(data['item_changes'])} items)")
         return data
         
     except Exception as e:
