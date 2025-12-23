@@ -519,13 +519,21 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         
         if (matchingSkill && matchingSkill.id) {
           console.log(`  Found match! ID: ${matchingSkill.id}, updating to display_order: ${newDisplayOrder}`);
+          
+          // Prepare update payload - only include description if it's not empty
+          const updatePayload = { display_order: newDisplayOrder };
+          
+          if (newDescription && newDescription.trim() !== '') {
+            updatePayload.skill_description = newDescription;
+            console.log(`  Will update description`);
+          } else {
+            console.log(`  Skipping description update (empty in API)`);
+          }
+          
           try {
             await axios.put(
               `${API_URL}/heroes/${hero.id}/skills/${matchingSkill.id}`,
-              { 
-                skill_description: newDescription,
-                display_order: newDisplayOrder
-              }
+              updatePayload
             );
             updatedCount++;
             console.log(`  ✓ Updated: ${skillName}`);
