@@ -80,36 +80,53 @@ def fetch_patch_details(version):
                 if highlight_text:
                     data['highlights'].append(highlight_text)
         
-        # Знаходимо всі заголовки героїв після секції "Hero Adjustments"
-        hero_section_found = False
-        current_hero = None
+        # Простіший підхід - знаходимо всі h3 в content і парсимо наступний div
+        all_h3 = content.find_all('h3')
         
-        for element in content.find_all(['h2', 'h3', 'ul', 'p']):
-            # Перевіряємо чи це секція Hero Adjustments
-            if element.name in ['h2', 'h3']:
-                section_text = element.get_text(strip=True)
-                
-                if 'Hero Adjustments' in section_text or 'Hero' in section_text and 'Adjustment' in section_text:
-                    hero_section_found = True
-                    current_hero = None
-                elif 'Battlefield' in section_text or 'System' in section_text or 'Item' in section_text or 'Equipment' in section_text:
-                    hero_section_found = False
-                    current_hero = None
-                elif hero_section_found and element.name == 'h3':
-                    # Це ім'я героя
-                    hero_name = element.get_text(strip=True)
-                    # Прибираємо іконки та зайвий текст
-                    hero_name = re.sub(r'\[\d+\]', '', hero_name).strip()
-                    current_hero = hero_name
-                    if current_hero not in data['hero_changes']:
-                        data['hero_changes'][current_hero] = []
+        for h3 in all_h3:
+            # Пропускаємо h3 що не в секції Hero Adjustments
+            h3_id = h3.get('id', '')
+            span = h3.find('span', class_='mw-headline')
+            if not span:
+                continue
             
-            # Якщо знаходимось в секції героя, збираємо зміни
-            elif element.name == 'ul' and current_hero:
-                for li in element.find_all('li', recursive=False):
-                    change_text = li.get_text(strip=True)
-                    if change_text:
-                        data['hero_changes'][current_hero].append(change_text)
+            # Шукаємо ім'я героя в наступному div
+            hero_div = h3.find_next_sibling('div')
+            if not hero_div:
+                continue
+            
+            hero_name_elem = hero_div.find('b')
+            if not hero_name_elem:
+                continue
+            
+            hero_name = hero_name_elem.get_text(strip=True)
+            
+            # Ініціалізуємо структуру для героя
+            if hero_name not in data['hero_changes']:
+                data['hero_changes'][hero_name] = {
+                    'summary': '',
+                    'changes': []
+                }
+            
+            # Збираємо summary з другого div
+            content_divs = hero_div.find_next_siblings('div', limit=3)
+            for div in content_divs:
+                # Перший div з текстом - summary
+                paragraphs = div.find_all('p', recursive=False)
+                if paragraphs and not data['hero_changes'][hero_name]['summary']:
+                    summary_text = paragraphs[0].get_text(strip=True)
+                    if len(summary_text) > 20:
+                        data['hero_changes'][hero_name]['summary'] = summary_text
+                
+                # Збираємо зміни (тексти з >> або конкретні цифри)
+                all_p = div.find_all('p')
+                for p in all_p:
+                    text = p.get_text(strip=True)
+                    # Шукаємо зміни статів
+                    if '>>' in text or 'Cooldown' in text or 'Damage' in text or 'New Effect' in text:
+                        clean_text = re.sub(r'\s+', ' ', text)
+                        if clean_text not in data['hero_changes'][hero_name]['changes']:
+                            data['hero_changes'][hero_name]['changes'].append(clean_text)
         
         print(f"  ✅ Patch {version}: OK ({data['release_date']}, {len(data['hero_changes'])} heroes)")
         return data

@@ -2,19 +2,473 @@
   {
     "version": "2.1.40",
     "url": "https://liquipedia.net/mobilelegends/Patch_2.1.40",
-    "release_date": null,
-    "highlights": [],
-    "hero_changes": [],
-    "item_changes": [],
+    "release_date": "2025-12-18",
+    "highlights": [
+      "New Hero:Sora, Shifting Cloud. Adaptable cloud warrior with multiple combat styles.",
+      "Hero Adjustments",
+      "Battlefield Adjustments",
+      "System Adjustments"
+    ],
+    "hero_changes": {
+      "Angela": {
+        "summary": "",
+        "changes": [
+          "Damage: 215-390 (+60% Total Magic Power) >> 400-600 (+100% Total Magic Power)",
+          "New Effect: Each target can be damaged only once.",
+          "New Effect: Gain 0.06s additional freezing time for every 100 Magic Power.",
+          "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%.",
+          "New Effect: If the Ultimate hits, Detona immediately gains max stacks of Big Guy.",
+          "Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled",
+          "HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP"
+        ]
+      },
+      "Atlas": {
+        "summary": "",
+        "changes": [
+          "New Effect: Gain 0.06s additional freezing time for every 100 Magic Power.",
+          "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%.",
+          "New Effect: If the Ultimate hits, Detona immediately gains max stacks of Big Guy.",
+          "Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled",
+          "HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP",
+          "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power)",
+          "Duration of Hybrid Defense Increase: 3s >> 5s",
+          "Cooldown: 11-7s >> 11-8.5s",
+          "Mana Cost: 110-210 >> 60-120"
+        ]
+      },
+      "Aurora": {
+        "summary": "",
+        "changes": [
+          "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%.",
+          "New Effect: If the Ultimate hits, Detona immediately gains max stacks of Big Guy.",
+          "Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled",
+          "HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP",
+          "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power)",
+          "Duration of Hybrid Defense Increase: 3s >> 5s",
+          "Cooldown: 11-7s >> 11-8.5s",
+          "Mana Cost: 110-210 >> 60-120",
+          "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast)"
+        ]
+      },
+      "Barats": {
+        "summary": "",
+        "changes": [
+          "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power)",
+          "Duration of Hybrid Defense Increase: 3s >> 5s",
+          "Cooldown: 11-7s >> 11-8.5s",
+          "Mana Cost: 110-210 >> 60-120",
+          "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast)",
+          "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time)",
+          "Sprint Distance: 3-4.4 >> 2.2-4.4"
+        ]
+      },
+      "Estes": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast)",
+          "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time)",
+          "Sprint Distance: 3-4.4 >> 2.2-4.4",
+          "Base Damage: 60-120 >> 60-100"
+        ]
+      },
+      "Freya": {
+        "summary": "",
+        "changes": [
+          "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time)",
+          "Sprint Distance: 3-4.4 >> 2.2-4.4",
+          "Base Damage: 60-120 >> 60-100",
+          "New Effect: The skill cannot be interrupted.",
+          "New Effect: Gains Control Immunity while charging."
+        ]
+      },
+      "Gatotkaca": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 60-120 >> 60-100",
+          "New Effect: The skill cannot be interrupted.",
+          "New Effect: Gains Control Immunity while charging.",
+          "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power)",
+          "Shield: 120-270 (+100% Total Magic Power) >> 120-270 (+120% Total Magic Power) (up to 3 stacks)."
+        ]
+      },
+      "Granger": {
+        "summary": "",
+        "changes": [
+          "New Effect: The skill cannot be interrupted.",
+          "New Effect: Gains Control Immunity while charging.",
+          "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power)",
+          "Shield: 120-270 (+100% Total Magic Power) >> 120-270 (+120% Total Magic Power) (up to 3 stacks).",
+          "Cooldown: 20-16s >> 16-14s",
+          "Cooldown: 50s >> 40s"
+        ]
+      },
+      "Grock": {
+        "summary": "",
+        "changes": [
+          "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power)",
+          "Shield: 120-270 (+100% Total Magic Power) >> 120-270 (+120% Total Magic Power) (up to 3 stacks).",
+          "Cooldown: 20-16s >> 16-14s",
+          "Cooldown: 50s >> 40s",
+          "Adjusted Johnson's Damage Bonus. Damage dealt directly by his wrench and car form now scales with Physical Defense to improve damage output for defense-build Johnson. The Sustained Damage dealt by the electrified zones left behind by Skill 2 and the Ultimate's explosion continues to scale with Magic Power.",
+          "Explosion Damage Bonus Upon Hitting Enemies: 160%-240% Total Magic Power >> 240%-360% Τοtal Physical Defense"
+        ]
+      },
+      "Harith": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 20-16s >> 16-14s",
+          "Cooldown: 50s >> 40s",
+          "Adjusted Johnson's Damage Bonus. Damage dealt directly by his wrench and car form now scales with Physical Defense to improve damage output for defense-build Johnson. The Sustained Damage dealt by the electrified zones left behind by Skill 2 and the Ultimate's explosion continues to scale with Magic Power.",
+          "Explosion Damage Bonus Upon Hitting Enemies: 160%-240% Total Magic Power >> 240%-360% Τοtal Physical Defense",
+          "Cooldown: 12s >> 8s"
+        ]
+      },
+      "Hayabusa": {
+        "summary": "",
+        "changes": [
+          "Adjusted Johnson's Damage Bonus. Damage dealt directly by his wrench and car form now scales with Physical Defense to improve damage output for defense-build Johnson. The Sustained Damage dealt by the electrified zones left behind by Skill 2 and the Ultimate's explosion continues to scale with Magic Power.",
+          "Explosion Damage Bonus Upon Hitting Enemies: 160%-240% Total Magic Power >> 240%-360% Τοtal Physical Defense",
+          "Cooldown: 12s >> 8s",
+          "Leomord's Passive relied on enemies being at low health to be effective, which didn't align with our design expectations. We want Leomord to take the initiative by gaining Oath Keeper energy through combat to deal Crit Damage while recovering HP for sustainability, making him a knight capable of charging into battle.",
+          "Leomord's Basic Attacks and skills gain 25 Oath Keeper energy for each target damaged. When the energy reaches 100, his next Basic Attack deals 200% Crit Damage and recovers 100 (+10* Hero Level) (+12% Extra Max HP) HP.",
+          "Leomord's Basic Attacks cannot normally Crit, and every 1% Crit Chance is converted to 1% Crit Damage.",
+          "New Effect: Damage against creeps increases to 200%."
+        ]
+      },
+      "Khufra": {
+        "summary": "",
+        "changes": [
+          "Leomord's Passive relied on enemies being at low health to be effective, which didn't align with our design expectations. We want Leomord to take the initiative by gaining Oath Keeper energy through combat to deal Crit Damage while recovering HP for sustainability, making him a knight capable of charging into battle.",
+          "Leomord's Basic Attacks and skills gain 25 Oath Keeper energy for each target damaged. When the energy reaches 100, his next Basic Attack deals 200% Crit Damage and recovers 100 (+10* Hero Level) (+12% Extra Max HP) HP.",
+          "Leomord's Basic Attacks cannot normally Crit, and every 1% Crit Chance is converted to 1% Crit Damage.",
+          "New Effect: Damage against creeps increases to 200%.",
+          "Shield Frequency: Every 6s >> Every 6-3s (scales with the Noumenon Blast level)",
+          "Cooldown: Fixed at 10s >> 10-8s",
+          "Base Damage: 300-550 >> 400-650",
+          "Slow Effect: 50% >> 60%",
+          "Base Damage: 500-900 >> 600-1200",
+          "Cooldown: 14-8s >> 12-8s",
+          "Lightning Storm's Damage (Extra Damage): 40 >> 50-100"
+        ]
+      },
+      "Leomord": {
+        "summary": "",
+        "changes": [
+          "Shield Frequency: Every 6s >> Every 6-3s (scales with the Noumenon Blast level)",
+          "Cooldown: Fixed at 10s >> 10-8s",
+          "Base Damage: 300-550 >> 400-650",
+          "Slow Effect: 50% >> 60%",
+          "Base Damage: 500-900 >> 600-1200",
+          "Cooldown: 14-8s >> 12-8s",
+          "Lightning Storm's Damage (Extra Damage): 40 >> 50-100",
+          "Cast Range: 7 >> 7.5",
+          "Range: 5 >> 5.5",
+          "Area of Effect After Gloom Devours Shadow Energy: 5 >> 5.5"
+        ]
+      },
+      "Lolita": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 14-8s >> 12-8s",
+          "Lightning Storm's Damage (Extra Damage): 40 >> 50-100",
+          "Cast Range: 7 >> 7.5",
+          "Range: 5 >> 5.5",
+          "Area of Effect After Gloom Devours Shadow Energy: 5 >> 5.5",
+          "Moonlight Shadow's Total Physical Attack Bonus: 20% >> 25%",
+          "Moonlight Shadow's Inherited Portion of Attack Effects: 20% >> 25%",
+          "Movement Speed Bonus: 35%-65% >> 65% at all levels"
+        ]
+      },
+      "Conceal": {
+        "summary": "",
+        "changes": [
+          "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
+          "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+          "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+          "Gold Gained Every 5s After 8 Min: 9 >> 10",
+          "EXP Gained Every 5s After 8 Min: 18 >> 20",
+          "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%"
+        ]
+      }
+    },
+    "item_changes": {},
     "system_changes": []
   },
   {
     "version": "2.1.30",
     "url": "https://liquipedia.net/mobilelegends/Patch_2.1.30",
-    "release_date": null,
-    "highlights": [],
-    "hero_changes": [],
-    "item_changes": [],
+    "release_date": "2025-11-04",
+    "highlights": [
+      "Revamped Hero:Freya, Valkyrie. A female warrior who infuses weapons with the Power of Einherjar for sustained combat.",
+      "New Equipment:Chastise Pauldron",
+      "Hero Adjustments",
+      "Battlefield Adjustments",
+      "System Adjustments"
+    ],
+    "hero_changes": {
+      "Freya, Valkyrie": {
+        "summary": "",
+        "changes": [
+          "When entering a Bush, Hilda enhances her next Basic Attack to deal 140 (+ 70% Total Physical Attack) (+ 9*hero level) Physical Damage and slow the target by 40% for 3s. Enemies behind the target take 70 (+50% Total Physical Attack) (+ 7*hero level) Physical Damage. After using this enhanced Basic Attack, it enters a 6s cooldown.",
+          "Pursuit Speed of Enhanced Basic Attack: 10 >> 13",
+          "Each stack reduces the target's Physical Defense and Magic Defense by: 4% >> 3%",
+          "Skill Width in Normal State: 0.6 >> 0.9",
+          "Immobilizing Time: 1.2s >> 0.8s",
+          "Skill Width in Normal State: 3.5 >> 4.3",
+          "Skill Width in Normal State: 2.2 >> 3.0",
+          "Skill Width in Transcendence State: 3.8 >> 3.0",
+          "Healing Range: Minotaur recovers himself and all surrounding allies >> Minotaur recovers himself and the ally with the lowest HP nerby.",
+          "Additional Lost HP Recovery: 5% >> 8%",
+          "Slow Effect: 40% >> 60%",
+          "Airborne Duration: 1s >> 0.8s"
+        ]
+      },
+      "Hilda": {
+        "summary": "",
+        "changes": [
+          "Pursuit Speed of Enhanced Basic Attack: 10 >> 13",
+          "Each stack reduces the target's Physical Defense and Magic Defense by: 4% >> 3%",
+          "Skill Width in Normal State: 0.6 >> 0.9",
+          "Immobilizing Time: 1.2s >> 0.8s",
+          "Skill Width in Normal State: 3.5 >> 4.3",
+          "Skill Width in Normal State: 2.2 >> 3.0",
+          "Skill Width in Transcendence State: 3.8 >> 3.0",
+          "Healing Range: Minotaur recovers himself and all surrounding allies >> Minotaur recovers himself and the ally with the lowest HP nerby.",
+          "Additional Lost HP Recovery: 5% >> 8%",
+          "Slow Effect: 40% >> 60%",
+          "Airborne Duration: 1s >> 0.8s",
+          "Frigid Breath Range: 2 >> 3",
+          "Physical & Magical Defense Boost: 16-30 >> 20+0.5% Extra HP",
+          "Damage and Stun Range after Atlas Returns to Mecha: 2.5 >> 3",
+          "Stun Duration after Atlas Returns to Mecha: 1s >> 0.8s",
+          "Slow Range of the First Stage: 3.5 >> 3"
+        ]
+      },
+      "Xavier": {
+        "summary": "",
+        "changes": [
+          "Healing Range: Minotaur recovers himself and all surrounding allies >> Minotaur recovers himself and the ally with the lowest HP nerby.",
+          "Additional Lost HP Recovery: 5% >> 8%",
+          "Slow Effect: 40% >> 60%",
+          "Airborne Duration: 1s >> 0.8s",
+          "Frigid Breath Range: 2 >> 3",
+          "Physical & Magical Defense Boost: 16-30 >> 20+0.5% Extra HP",
+          "Damage and Stun Range after Atlas Returns to Mecha: 2.5 >> 3",
+          "Stun Duration after Atlas Returns to Mecha: 1s >> 0.8s",
+          "Slow Range of the First Stage: 3.5 >> 3",
+          "Sword Intent Gained from Dealing Damage: 30 >> 34"
+        ]
+      },
+      "Minotaur": {
+        "summary": "",
+        "changes": [
+          "Frigid Breath Range: 2 >> 3",
+          "Physical & Magical Defense Boost: 16-30 >> 20+0.5% Extra HP",
+          "Damage and Stun Range after Atlas Returns to Mecha: 2.5 >> 3",
+          "Stun Duration after Atlas Returns to Mecha: 1s >> 0.8s",
+          "Slow Range of the First Stage: 3.5 >> 3",
+          "Sword Intent Gained from Dealing Damage: 30 >> 34",
+          "Extra Attack at Full Stacks: 6 * Hero Level >> 8 * Hero Level",
+          "Damage: 800-1000 (+100% Total Physical Attack) >> 700-1100 (+120% Total Physical Attack)",
+          "New Effect: Sky Piercer's damage will contribute to the activation of indicator effects on the target."
+        ]
+      },
+      "Atlas": {
+        "summary": "",
+        "changes": [
+          "Sword Intent Gained from Dealing Damage: 30 >> 34",
+          "Extra Attack at Full Stacks: 6 * Hero Level >> 8 * Hero Level",
+          "Damage: 800-1000 (+100% Total Physical Attack) >> 700-1100 (+120% Total Physical Attack)",
+          "New Effect: Sky Piercer's damage will contribute to the activation of indicator effects on the target.",
+          "New Effect: Hitting an enemy hero reduces their Physical Defense by 40% for 3s.",
+          "Slow Effect: 60% for 2s >> 40% for 3s",
+          "Cooldown: 8-5s >> 8-6s"
+        ]
+      },
+      "Benedetta": {
+        "summary": "",
+        "changes": [
+          "Extra Attack at Full Stacks: 6 * Hero Level >> 8 * Hero Level",
+          "Damage: 800-1000 (+100% Total Physical Attack) >> 700-1100 (+120% Total Physical Attack)",
+          "New Effect: Sky Piercer's damage will contribute to the activation of indicator effects on the target.",
+          "New Effect: Hitting an enemy hero reduces their Physical Defense by 40% for 3s.",
+          "Slow Effect: 60% for 2s >> 40% for 3s",
+          "Cooldown: 8-5s >> 8-6s",
+          "Cooldown: 11-8s >> 8-6s",
+          "New Effect: Returning to the hat's location with Skill 2 no longer cancels the Movement Speed boost.",
+          "New Effect: The ring of the fire will no longer be blocked by enemy heroes.",
+          "Foreswing: 0.4s >> 0.33s",
+          "Slow Effect: Slow enemy heroes by 40% for 1.5s >> Slow enemy heroes by 40% for 1.5s, decaying to 15% after 1.5s"
+        ]
+      },
+      "Martis": {
+        "summary": "",
+        "changes": [
+          "New Effect: Hitting an enemy hero reduces their Physical Defense by 40% for 3s.",
+          "Slow Effect: 60% for 2s >> 40% for 3s",
+          "Cooldown: 8-5s >> 8-6s",
+          "Cooldown: 11-8s >> 8-6s",
+          "New Effect: Returning to the hat's location with Skill 2 no longer cancels the Movement Speed boost.",
+          "New Effect: The ring of the fire will no longer be blocked by enemy heroes.",
+          "Foreswing: 0.4s >> 0.33s",
+          "Slow Effect: Slow enemy heroes by 40% for 1.5s >> Slow enemy heroes by 40% for 1.5s, decaying to 15% after 1.5s",
+          "Mana Cost: 75-125 >> 45-70"
+        ]
+      },
+      "Balmond": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 11-8s >> 8-6s",
+          "New Effect: Returning to the hat's location with Skill 2 no longer cancels the Movement Speed boost.",
+          "New Effect: The ring of the fire will no longer be blocked by enemy heroes.",
+          "Foreswing: 0.4s >> 0.33s",
+          "Slow Effect: Slow enemy heroes by 40% for 1.5s >> Slow enemy heroes by 40% for 1.5s, decaying to 15% after 1.5s",
+          "Mana Cost: 75-125 >> 45-70",
+          "Chang'e's tower pushing efficiency in the early-mid game is too high compared to other Mages, so we reduced her enhanced Basic Attack Damage and balanced it by reducing Skill 1's mid-late game cooldown.",
+          "Cooldown: 7s at all levels >> 7-5s",
+          "Crescent Moon Damage: 20 (+35% Total Physical Attack) (+35% Total Magic Power) >> 20 (+35% Total Magic Power)"
+        ]
+      },
+      "Harley": {
+        "summary": "",
+        "changes": [
+          "Mana Cost: 75-125 >> 45-70",
+          "Chang'e's tower pushing efficiency in the early-mid game is too high compared to other Mages, so we reduced her enhanced Basic Attack Damage and balanced it by reducing Skill 1's mid-late game cooldown.",
+          "Cooldown: 7s at all levels >> 7-5s",
+          "Crescent Moon Damage: 20 (+35% Total Physical Attack) (+35% Total Magic Power) >> 20 (+35% Total Magic Power)",
+          "Physical Attack Growth: 7.5 >> 5",
+          "New Effect: Increases Attack Speed by 30% after the Ultimate hits."
+        ]
+      },
+      "Faramis": {
+        "summary": "",
+        "changes": [
+          "Chang'e's tower pushing efficiency in the early-mid game is too high compared to other Mages, so we reduced her enhanced Basic Attack Damage and balanced it by reducing Skill 1's mid-late game cooldown.",
+          "Cooldown: 7s at all levels >> 7-5s",
+          "Crescent Moon Damage: 20 (+35% Total Physical Attack) (+35% Total Magic Power) >> 20 (+35% Total Magic Power)",
+          "Physical Attack Growth: 7.5 >> 5",
+          "New Effect: Increases Attack Speed by 30% after the Ultimate hits.",
+          "Enhanced Basic Attack's Total Physical Attack Bonus: 140% >> 125%",
+          "Total Physical Attack Bonus: 110% >> 85%"
+        ]
+      },
+      "Chang'e": {
+        "summary": "",
+        "changes": [
+          "Physical Attack Growth: 7.5 >> 5",
+          "New Effect: Increases Attack Speed by 30% after the Ultimate hits.",
+          "Enhanced Basic Attack's Total Physical Attack Bonus: 140% >> 125%",
+          "Total Physical Attack Bonus: 110% >> 85%",
+          "Control Immunity Duration: 1s >> 0.4s (matching the dash duration)",
+          "Map Vision Duration: 5s >> 2s"
+        ]
+      },
+      "Obsidia": {
+        "summary": "",
+        "changes": [
+          "Enhanced Basic Attack's Total Physical Attack Bonus: 140% >> 125%",
+          "Total Physical Attack Bonus: 110% >> 85%",
+          "Control Immunity Duration: 1s >> 0.4s (matching the dash duration)",
+          "Map Vision Duration: 5s >> 2s",
+          "Arlott's damage was too high with the defense build, so we've slightly reduced his Base Damage.",
+          "Base Damage: 135-335 >> 135-285"
+        ]
+      },
+      "Alucard": {
+        "summary": "",
+        "changes": [
+          "Control Immunity Duration: 1s >> 0.4s (matching the dash duration)",
+          "Map Vision Duration: 5s >> 2s",
+          "Arlott's damage was too high with the defense build, so we've slightly reduced his Base Damage.",
+          "Base Damage: 135-335 >> 135-285",
+          "Stack Removal: 1 stack reduced every 1s >> 1 stack reduced every 0.3s"
+        ]
+      },
+      "Yi Sun-shin": {
+        "summary": "",
+        "changes": [
+          "Arlott's damage was too high with the defense build, so we've slightly reduced his Base Damage.",
+          "Base Damage: 135-335 >> 135-285",
+          "Stack Removal: 1 stack reduced every 1s >> 1 stack reduced every 0.3s",
+          "Extra Max HP: 600 >> 800-1200",
+          "Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP"
+        ]
+      },
+      "Arlott": {
+        "summary": "",
+        "changes": [
+          "Stack Removal: 1 stack reduced every 1s >> 1 stack reduced every 0.3s",
+          "Extra Max HP: 600 >> 800-1200",
+          "Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP",
+          "Magic Power Bonus: 65% >> 60%",
+          "Attack Effect Inherited: 65% >> 60%",
+          "Movement Speed Boost per Stack of Entanglement: 7.5% >> 5%",
+          "Magic Power Bonus: 130% >> 120%",
+          "Magic Power Bonus of Attractor Detonation: 13% >> 12%"
+        ]
+      },
+      "Cici": {
+        "summary": "",
+        "changes": [
+          "Extra Max HP: 600 >> 800-1200",
+          "Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP",
+          "Magic Power Bonus: 65% >> 60%",
+          "Attack Effect Inherited: 65% >> 60%",
+          "Movement Speed Boost per Stack of Entanglement: 7.5% >> 5%",
+          "Magic Power Bonus: 130% >> 120%",
+          "Magic Power Bonus of Attractor Detonation: 13% >> 12%",
+          "Base Damage of Empowered Crossbow Shot: 120-200 >> 100-160"
+        ]
+      },
+      "Thamuz": {
+        "summary": "",
+        "changes": [
+          "Magic Power Bonus: 65% >> 60%",
+          "Attack Effect Inherited: 65% >> 60%",
+          "Movement Speed Boost per Stack of Entanglement: 7.5% >> 5%",
+          "Magic Power Bonus: 130% >> 120%",
+          "Magic Power Bonus of Attractor Detonation: 13% >> 12%",
+          "Base Damage of Empowered Crossbow Shot: 120-200 >> 100-160",
+          "Physical Attack Growth: 8.5 >> 10"
+        ]
+      },
+      "Natan": {
+        "summary": "",
+        "changes": [
+          "Base Damage of Empowered Crossbow Shot: 120-200 >> 100-160",
+          "Physical Attack Growth: 8.5 >> 10",
+          "Magic Power Bonus When Fully Charged: 250% >> 200%"
+        ]
+      },
+      "Irithel": {
+        "summary": "",
+        "changes": [
+          "Physical Attack Growth: 8.5 >> 10",
+          "Magic Power Bonus When Fully Charged: 250% >> 200%",
+          "Max HP: 250 >> 0Physical Defense: 55 >> 40Magic Defense: 0 >> 40Unique Passive - Arctic ColdREMOVED"
+        ]
+      },
+      "Layla": {
+        "summary": "",
+        "changes": [
+          "Magic Power Bonus When Fully Charged: 250% >> 200%",
+          "Max HP: 250 >> 0Physical Defense: 55 >> 40Magic Defense: 0 >> 40Unique Passive - Arctic ColdREMOVED",
+          "Max HP: 250 >> 0Physical Defense: 18 >> 20Magic Defense: 0 >> 20Unique Passive - Arctic ColdREMOVED"
+        ]
+      },
+      "Bane": {
+        "summary": "",
+        "changes": [
+          "Max HP: 250 >> 0Physical Defense: 55 >> 40Magic Defense: 0 >> 40Unique Passive - Arctic ColdREMOVED",
+          "Max HP: 250 >> 0Physical Defense: 18 >> 20Magic Defense: 0 >> 20Unique Passive - Arctic ColdREMOVED"
+        ]
+      },
+      "Chastise Pauldron": {
+        "summary": "",
+        "changes": []
+      }
+    },
+    "item_changes": {},
     "system_changes": []
   }
 ]
