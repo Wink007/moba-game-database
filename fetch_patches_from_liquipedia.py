@@ -162,23 +162,19 @@ def fetch_patch_details(version):
                 div = inner_divs[div_idx]
                 
                 current_skill = None
-                skill_changes = []
                 
                 for p in div.find_all('p', recursive=False):
                     # Якщо це заголовок скіла (містить Passive/Skill 1/Skill 2/Ultimate)
                     if any(skill_keyword in p.get_text() for skill_keyword in ['Passive', 'Skill 1', 'Skill 2', 'Skill 3', 'Ultimate']):
                         # Зберігаємо попередній скіл якщо є
-                        if current_skill and skill_changes:
-                            data['hero_changes'][hero_name]['skills'].append({
-                                'name': current_skill,
-                                'changes': skill_changes
-                            })
+                        if current_skill and current_skill['changes']:
+                            data['hero_changes'][hero_name]['skills'].append(current_skill)
                         
                         # Парсимо назву скіла окремо по компонентам
                         # Структура: <b>Passive</b> - <a>Smart Heart</a> <span>NERF</span>
                         skill_type = ''
                         skill_name = ''
-                        skill_badge = ''
+                        skill_balance = ''
                         
                         # Витягуємо тип скіла (Passive, Skill 1, etc)
                         b_tag = p.find('b')
@@ -199,30 +195,32 @@ def fetch_patch_details(version):
                             badge_text = span_tag.get_text(strip=True)
                             # Витягуємо тільки текст без іконок
                             if 'NERF' in badge_text:
-                                skill_badge = 'NERF'
+                                skill_balance = 'NERF'
                             elif 'BUFF' in badge_text:
-                                skill_badge = 'BUFF'
+                                skill_balance = 'BUFF'
                             elif 'ADJUST' in badge_text:
-                                skill_badge = 'ADJUST'
+                                skill_balance = 'ADJUST'
                         
-                        # Формуємо повну назву з пробілами
-                        current_skill = f"{skill_type} {skill_name} {skill_badge}".strip()
-                        skill_changes = []
+                        # Зберігаємо окремо type, name, balance
+                        current_skill = {
+                            'type': skill_type,
+                            'name': skill_name,
+                            'balance': skill_balance,
+                            'changes': []
+                        }
                     
                     # Інакше це зміна для поточного скіла
                     else:
-                        text = p.get_text(strip=True)
-                        if text and ('>>' in text or 'New Effect' in text or 'Effect Change' in text):
-                            clean_text = re.sub(r'\s+', ' ', text)
-                            if clean_text:
-                                skill_changes.append(clean_text)
+                        if current_skill:
+                            text = p.get_text(strip=True)
+                            if text and ('>>' in text or 'New Effect' in text or 'Effect Change' in text):
+                                clean_text = re.sub(r'\s+', ' ', text)
+                                if clean_text:
+                                    current_skill['changes'].append(clean_text)
                 
                 # Не забути останній скіл
-                if current_skill and skill_changes:
-                    data['hero_changes'][hero_name]['skills'].append({
-                        'name': current_skill,
-                        'changes': skill_changes
-                    })
+                if current_skill and current_skill['changes']:
+                    data['hero_changes'][hero_name]['skills'].append(current_skill)
         
         # Парсимо Equipment Adjustments (items)
         equipment_span = content.find('span', id='Equipment_Adjustments')
@@ -286,44 +284,42 @@ def fetch_patch_details(version):
                                                 b_tag = p.find('b')
                                                 if b_tag:
                                                     # Зберігаємо попередню секцію
-                                                    if current_section and section_changes:
-                                                        data['item_changes'][item_name]['sections'].append({
-                                                            'name': current_section,
-                                                            'changes': section_changes
-                                                        })
+                                                    if current_section and current_section['changes']:
+                                                        data['item_changes'][item_name]['sections'].append(current_section)
                                                     
                                                     # Нова секція
                                                     section_type = b_tag.get_text(strip=True)
-                                                    section_badge = ''
+                                                    section_balance = ''
                                                     
                                                     span_tag = p.find('span', class_='white-text')
                                                     if span_tag:
                                                         badge_text = span_tag.get_text(strip=True)
                                                         if 'NERF' in badge_text:
-                                                            section_badge = 'NERF'
+                                                            section_balance = 'NERF'
                                                         elif 'BUFF' in badge_text:
-                                                            section_badge = 'BUFF'
+                                                            section_balance = 'BUFF'
                                                         elif 'ADJUST' in badge_text:
-                                                            section_badge = 'ADJUST'
+                                                            section_balance = 'ADJUST'
                                                         elif 'REVAMP' in badge_text:
-                                                            section_badge = 'REVAMP'
+                                                            section_balance = 'REVAMP'
                                                     
-                                                    current_section = f"{section_type} {section_badge}".strip()
-                                                    section_changes = []
+                                                    current_section = {
+                                                        'type': section_type,
+                                                        'balance': section_balance,
+                                                        'changes': []
+                                                    }
                                                 else:
                                                     # Це зміна для поточної секції
-                                                    text = p.get_text(strip=True)
-                                                    if text and ('>>' in text or 'New Effect' in text or 'Gold' in text or 'EXP' in text or 'Removed' in text or len(text) > 30):
-                                                        clean_text = re.sub(r'\s+', ' ', text)
-                                                        if clean_text:
-                                                            section_changes.append(clean_text)
+                                                    if current_section:
+                                                        text = p.get_text(strip=True)
+                                                        if text and ('>>' in text or 'New Effect' in text or 'Gold' in text or 'EXP' in text or 'Removed' in text or len(text) > 30):
+                                                            clean_text = re.sub(r'\s+', ' ', text)
+                                                            if clean_text:
+                                                                current_section['changes'].append(clean_text)
                                             
                                             # Не забути останню секцію
-                                            if current_section and section_changes:
-                                                data['item_changes'][item_name]['sections'].append({
-                                                    'name': current_section,
-                                                    'changes': section_changes
-                                                })
+                                            if current_section and current_section['changes']:
+                                                data['item_changes'][item_name]['sections'].append(current_section)
                                 
                                 next_elem = next_elem.find_next_sibling()
                                 if next_elem and next_elem.name in ['h2', 'h3', 'h4']:

@@ -13,20 +13,26 @@
         "summary": "Increased the duration of Angela's Ultimate when attached to allies and the cast frequency of Skill 1. Additionally, the cooldown now runs while attached. To balance, we've reduced the Movement Speed boost of the Passive and increased the cooldown of the Ultimate.",
         "skills": [
           {
-            "name": "Passive Smart Heart NERF",
+            "type": "Passive",
+            "name": "Smart Heart",
+            "balance": "NERF",
             "changes": [
               "Movement Speed Boost per Stack: 7.5% >> 5%"
             ]
           },
           {
-            "name": "Skill 1 Love Waves BUFF",
+            "type": "Skill 1",
+            "name": "Love Waves",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 7s >> 8s",
               "New Effect: When attached, this skill's cooldown is reduced by 50%."
             ]
           },
           {
-            "name": "Ultimate Heartguard ADJUST",
+            "type": "Ultimate",
+            "name": "Heartguard",
+            "balance": "ADJUST",
             "changes": [
               "Cooldown: 20s >>60s",
               "Attaching State Duration: 12s >>20s",
@@ -39,7 +45,9 @@
         "summary": "Increased the stability of Atlas's Skill 1 damage.",
         "skills": [
           {
-            "name": "Skill 1 Annihilate BUFF",
+            "type": "Skill 1",
+            "name": "Annihilate",
+            "balance": "BUFF",
             "changes": [
               "Damage: 215-390 (+60% Total Magic Power) >> 400-600 (+100% Total Magic Power)",
               "New Effect: Each target can be damaged only once."
@@ -51,7 +59,9 @@
         "summary": "Aurora was slightly underperforming among Mages. Therefore, we've enhanced her overall ability scaling.",
         "skills": [
           {
-            "name": "Skill 2 Frosty Breeze BUFF",
+            "type": "Skill 2",
+            "name": "Frosty Breeze",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Gain 0.06s additional freezing time for every 100 Magic Power."
             ]
@@ -60,13 +70,25 @@
       },
       "Barats": {
         "summary": "The payoff for landing Barats' Ultimate was low, while missing it was too punishing. Therefore, we've made some adjustments to improve this.",
-        "skills": []
+        "skills": [
+          {
+            "type": "",
+            "name": "",
+            "balance": "",
+            "changes": [
+              "Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled",
+              "HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP"
+            ]
+          }
+        ]
       },
       "Estes": {
         "summary": "Enhanced Estes's sustained healing and the ability to protect fragile heroes.",
         "skills": [
           {
-            "name": "Skill 1 Moonlight Immersion BUFF",
+            "type": "Skill 1",
+            "name": "Moonlight Immersion",
+            "balance": "BUFF",
             "changes": [
               "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power)",
               "Duration of Hybrid Defense Increase: 3s >> 5s",
@@ -80,7 +102,9 @@
         "summary": "Freya's combat effectiveness was relatively weak without her Ultimate. To improve balance while preserving her highlight performance during Ultimate, we've reduced its cooldown.",
         "skills": [
           {
-            "name": "Ultimate Valkyrie Descent BUFF",
+            "type": "Ultimate",
+            "name": "Valkyrie Descent",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast)"
             ]
@@ -91,7 +115,9 @@
         "summary": "Compared to other Tank heroes, the control duration of Gatotkaca's Skill 2 was too long and easy to cast.",
         "skills": [
           {
-            "name": "Skill 2 Unbreakable NERF",
+            "type": "Skill 2",
+            "name": "Unbreakable",
+            "balance": "NERF",
             "changes": [
               "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time)",
               "Sprint Distance: 3-4.4 >> 2.2-4.4"
@@ -103,7 +129,9 @@
         "summary": "Granger has been crowding out other Marksmen in the Gold Lane. To address this, we've reduced his early to mid game scaling and damage output.",
         "skills": [
           {
-            "name": "Skill 1 Rhapsody NERF",
+            "type": "Skill 1",
+            "name": "Rhapsody",
+            "balance": "NERF",
             "changes": [
               "Base Damage: 60-120 >> 60-100"
             ]
@@ -114,13 +142,17 @@
         "summary": "Grock boasted incredible durability and could gain Control Immunity from his Passive. Therefore, we've slightly reduced his ability. Grock can still cast his skills uninterrupted, but he will be affected by control effects.",
         "skills": [
           {
-            "name": "Passive Bastion of Stone NERF",
+            "type": "Passive",
+            "name": "Bastion of Stone",
+            "balance": "NERF",
             "changes": [
               "New Effect: The skill cannot be interrupted."
             ]
           },
           {
-            "name": "Ultimate Tectonic Charge BUFF",
+            "type": "Ultimate",
+            "name": "Tectonic Charge",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Gains Control Immunity while charging."
             ]
@@ -131,7 +163,9 @@
         "summary": "Harith has been crowding out other Marksmen in the Gold Lane. To address this, his mid to late game damage has been reduced, while his survivability has been increased to adjust his power curve.",
         "skills": [
           {
-            "name": "Skill 2 Chrono Dash NERF",
+            "type": "Skill 2",
+            "name": "Chrono Dash",
+            "balance": "NERF",
             "changes": [
               "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power)",
               "Shield: 120-270 (+100% Total Magic Power) >> 120-270 (+120% Total Magic Power) (up to 3 stacks)."
@@ -143,13 +177,17 @@
         "summary": "Hayabusa's Skill 2 allowed him to reach the backline too easily. For balance, we've reduced its distance. To compensate, we've also increased his skill cast frequency.",
         "skills": [
           {
-            "name": "Skill 2 Ninjutsu Quad Shadow NERF",
+            "type": "Skill 2",
+            "name": "Ninjutsu Quad Shadow",
+            "balance": "NERF",
             "changes": [
               "Cooldown: 20-16s >> 16-14s"
             ]
           },
           {
-            "name": "Ultimate Ougi Shadow Kill BUFF",
+            "type": "Ultimate",
+            "name": "Ougi Shadow Kill",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 50s >> 40s"
             ]
@@ -160,7 +198,9 @@
         "summary": "Improved Khufra's poke capability in the early to mid game.",
         "skills": [
           {
-            "name": "Passive Spell Curse BUFF",
+            "type": "Passive",
+            "name": "Spell Curse",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 12s >> 8s"
             ]
@@ -171,7 +211,9 @@
         "summary": "Leomord's Passive relied on enemies being at low health to be effective, which didn't align with our design expectations. We want Leomord to take the initiative by gaining Oath Keeper energy through combat to deal Crit Damage while recovering HP for sustainability, making him a knight capable of charging into battle. We've also increased Skill 1's damage against creeps to improve Leomord's jungle clearing efficiency. To balance this, we've removed the shield granted in skill 1.",
         "skills": [
           {
-            "name": "Skill 1 Momentum BUFF",
+            "type": "Skill 1",
+            "name": "Momentum",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Damage against creeps increases to 200%."
             ]
@@ -182,20 +224,26 @@
         "summary": "Increased the frequency of Lolita's shield in the mid and late game, and increased the damage and slow effect of her Ultimate. To balance this, we've reduced the shield effect granted to allies.",
         "skills": [
           {
-            "name": "Passive Noumenon Energy Core ADJUST",
+            "type": "Passive",
+            "name": "Noumenon Energy Core",
+            "balance": "ADJUST",
             "changes": [
               "Shield Frequency: Every 6s >> Every 6-3s (scales with the Noumenon Blast level)"
             ]
           },
           {
-            "name": "Skill 1 Power Charge BUFF",
+            "type": "Skill 1",
+            "name": "Power Charge",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: Fixed at 10s >> 10-8s",
               "Base Damage: 300-550 >> 400-650"
             ]
           },
           {
-            "name": "Ultimate Noumenon Blast BUFF",
+            "type": "Ultimate",
+            "name": "Noumenon Blast",
+            "balance": "BUFF",
             "changes": [
               "Slow Effect: 50% >> 60%",
               "Base Damage: 500-900 >> 600-1200"
@@ -213,13 +261,15 @@
         "description": "",
         "sections": [
           {
-            "name": "Attributes BUFF",
+            "type": "Attributes",
+            "balance": "BUFF",
             "changes": [
               "Removed 8% Lifesteal."
             ]
           },
           {
-            "name": "Unique Passive - Devour REVAMP",
+            "type": "Unique Passive - Devour",
+            "balance": "REVAMP",
             "changes": [
               "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
             ]
@@ -230,19 +280,22 @@
         "description": "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
         "sections": [
           {
-            "name": "Attributes NERF",
+            "type": "Attributes",
+            "balance": "NERF",
             "changes": [
               "Physical Attack: 40 >> 30"
             ]
           },
           {
-            "name": "Unique Passive - Dragon Scale] BUFF",
+            "type": "Unique Passive - Dragon Scale]",
+            "balance": "BUFF",
             "changes": [
               "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1"
             ]
           },
           {
-            "name": "Unique Passive - Lifeline] BUFF",
+            "type": "Unique Passive - Lifeline]",
+            "balance": "BUFF",
             "changes": [
               "This effect now requires taking damage from enemy heroes to trigger."
             ]
@@ -253,7 +306,8 @@
         "description": "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
         "sections": [
           {
-            "name": "Attributes NERF",
+            "type": "Attributes",
+            "balance": "NERF",
             "changes": [
               "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
             ]
@@ -264,7 +318,8 @@
         "description": "Slightly reduced Ice Retribution's control and kiting potential.",
         "sections": [
           {
-            "name": "Attributes NERF",
+            "type": "Attributes",
+            "balance": "NERF",
             "changes": [
               "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
             ]
@@ -275,7 +330,8 @@
         "description": "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
         "sections": [
           {
-            "name": "Attributes NERF",
+            "type": "Attributes",
+            "balance": "NERF",
             "changes": [
               "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
             ]
@@ -324,7 +380,9 @@
         "summary": "We aim to increase the hero's sustained damage output in the mid to late game.",
         "skills": [
           {
-            "name": "Ultimate Grenade Bombardment BUFF",
+            "type": "Ultimate",
+            "name": "Grenade Bombardment",
+            "balance": "BUFF",
             "changes": [
               "Skill Recharge Time: 10s-6s >> 10s-5s",
               "Cooldown: 2-1s >> 1.5-0.5s"
@@ -340,7 +398,9 @@
         "summary": "Fixed an issue where Hilda's enhanced Basic Attack ignored enemy defenses. We've also increased its damage and balanced her lane clearing efficiency and combat power in the early and late game.",
         "skills": [
           {
-            "name": "Passive Blessing of Wilderness BUFF",
+            "type": "Passive",
+            "name": "Blessing of Wilderness",
+            "balance": "BUFF",
             "changes": [
               "Enhanced Basic Attack Base Damage: 140 (+ 70% Total Physical Attack) (+ 9* Hero Level) >> 110 (+ 130% Total Physical Attack) (+ 12* Hero Level)",
               "Base Damage to Enemies Behind the Target: 70 (+ 50% Total Physical Attack) (+ 7* Hero Level) >> 40 (+ 100% Total Physical Attack) (+ 10* Hero Level)"
@@ -352,7 +412,9 @@
         "summary": "Partially reverted Julian's Jungle efficiency adjustments to help him gain momentum sooner.",
         "skills": [
           {
-            "name": "Passive Smith's Legacy BUFF",
+            "type": "Passive",
+            "name": "Smith's Legacy",
+            "balance": "BUFF",
             "changes": [
               "Enhanced Basic Attack Damage Against Creeps: 75% >> 85%"
             ]
@@ -363,7 +425,9 @@
         "summary": "Slightly reduced Kimmy's dominance in the early to mid game.",
         "skills": [
           {
-            "name": "Passive  NERF",
+            "type": "Passive",
+            "name": "",
+            "balance": "NERF",
             "changes": [
               "Basic Attack Damage: 21% of Total Physical Attack + 26% of Total Magic Power >> 18% of Total Physical Attack + 24% of Total Magic Power",
               "Enhanced Basic Attack Damage: 26% of Total Physical Attack + 31% of Total Magic Power >> 22.5% of Total Physical Attack + 30% of Total Magic Power",
@@ -372,7 +436,9 @@
             ]
           },
           {
-            "name": "Skill 2 Chemical Refinement NERF",
+            "type": "Skill 2",
+            "name": "Chemical Refinement",
+            "balance": "NERF",
             "changes": [
               "Cooldown: 10-8s >> 12-10s"
             ]
@@ -383,7 +449,9 @@
         "summary": "Lancelot's Skill 2 had both high burst damage and the ability to evade enemy skills. The short cooldown made it difficult for enemies to counter. Therefore, we've increased its cooldown to reduce his margin for error.",
         "skills": [
           {
-            "name": "Skill 2 Thorned Rose NERF",
+            "type": "Skill 2",
+            "name": "Thorned Rose",
+            "balance": "NERF",
             "changes": [
               "Cooldown: 10-7s >> 11-8.5s"
             ]
@@ -394,13 +462,17 @@
         "summary": "Enhanced the hero's mobility and sustained combat capability in the mid to late game.",
         "skills": [
           {
-            "name": "Skill 1 Expansion BUFF",
+            "type": "Skill 1",
+            "name": "Expansion",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 2.5-1.5s >> 2.5-1s"
             ]
           },
           {
-            "name": "Skill 2 Gauge BUFF",
+            "type": "Skill 2",
+            "name": "Gauge",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 2.5-1.5s >> 2.5-1s"
             ]
@@ -411,20 +483,26 @@
         "summary": "Enhanced the hero's mobility and sustained combat capability in the mid to late game.",
         "skills": [
           {
-            "name": "Skill 1 Blade Surge BUFF",
+            "type": "Skill 1",
+            "name": "Blade Surge",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 8.5s >> 8s",
               "Slash Damage (Tap): 375-495 >> 375-555"
             ]
           },
           {
-            "name": "Skill 2 Soul Sever BUFF",
+            "type": "Skill 2",
+            "name": "Soul Sever",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 8.5s >> 8s"
             ]
           },
           {
-            "name": "Ultimate Evil Queller BUFF",
+            "type": "Ultimate",
+            "name": "Evil Queller",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 8.5s >> 8s"
             ]
@@ -458,7 +536,9 @@
         "summary": "Hilda's late-game minion clearing efficiency and durability are low, and she relies on Bushes to trigger her passive effect, leaving her with average performance in the Exp Lane. So this time we redesigned Hilda's passive skill, changing the enhanced Basic Attack originally obtained from Skill 1 to entering a Bush, improving her Exp Lane presence and minion clearing efficiency. Meanwhile, Skill 1 has been redesigned to grant a shield and speed boost, reducing her dependence on bushes. We've also optimized the control experience of Basic Attacks after Skill 2, improving passive stacking efficiency and combo smoothness. To balance this, we've reduced how much the Passive Wilderness Mark reduces Physical & Magic Defense.",
         "skills": [
           {
-            "name": "Passive Blessing of Wilderness",
+            "type": "Passive",
+            "name": "Blessing of Wilderness",
+            "balance": "",
             "changes": [
               "Pursuit Speed of Enhanced Basic Attack: 10 >> 13",
               "Each stack reduces the target's Physical Defense and Magic Defense by: 4% >> 3%"
@@ -470,27 +550,35 @@
         "summary": "Xavier relies on continuously hitting enemies with Skills 1 and 2 to enhance and enter the Transcendence state for stronger damage output. This doesn't align with our design expectations. Therefore, we've increased the width of all skills, changed Stage I to a permanent passive, and removed the original Stage II effect, allowing Xavier to enter the Transcendence state more quickly. To balance this change, we've reduced the duration of Skill 2's immobilization.",
         "skills": [
           {
-            "name": "Passive Transcendence ADJUST",
+            "type": "Passive",
+            "name": "Transcendence",
+            "balance": "ADJUST",
             "changes": [
               "Pursuit Speed of Enhanced Basic Attack: 10 >> 13",
               "Each stack reduces the target's Physical Defense and Magic Defense by: 4% >> 3%"
             ]
           },
           {
-            "name": "Skill 1 Infinite Extension BUFF",
+            "type": "Skill 1",
+            "name": "Infinite Extension",
+            "balance": "BUFF",
             "changes": [
               "Skill Width in Normal State: 0.6 >> 0.9"
             ]
           },
           {
-            "name": "Skill 2 Mystic Field ADJUST",
+            "type": "Skill 2",
+            "name": "Mystic Field",
+            "balance": "ADJUST",
             "changes": [
               "Immobilizing Time: 1.2s >> 0.8s",
               "Skill Width in Normal State: 3.5 >> 4.3"
             ]
           },
           {
-            "name": "Ultimate Dawning Light ADJUST",
+            "type": "Ultimate",
+            "name": "Dawning Light",
+            "balance": "ADJUST",
             "changes": [
               "Skill Width in Normal State: 2.2 >> 3.0",
               "Skill Width in Transcendence State: 3.8 >> 3.0"
@@ -502,14 +590,18 @@
         "summary": "As a tank-roaming hero, Minotaur's ability to provide healing and buffs to his team far exceeds his own survivability as a tank. We want his combat ability to better match his character. We've revamped the original Enraged Regen effect that enhanced Skill 2 as Minotaur's new passive to improve his durability in combat. We've also added Slow Effects to the first 2 hits of his Ultimate to improve the hit rate of the final hit's Airborne effect. For balance, we have reduced Minotaur's ability to provide healing and buffs to allies, though he remains a unique tank with the ability to heal teammates.",
         "skills": [
           {
-            "name": "Skill 2 Motivation Roar",
+            "type": "Skill 2",
+            "name": "Motivation Roar",
+            "balance": "",
             "changes": [
               "Healing Range: Minotaur recovers himself and all surrounding allies >> Minotaur recovers himself and the ally with the lowest HP nerby.",
               "Additional Lost HP Recovery: 5% >> 8%"
             ]
           },
           {
-            "name": "Ultimate Minoan Fury ADJUST",
+            "type": "Ultimate",
+            "name": "Minoan Fury",
+            "balance": "ADJUST",
             "changes": [
               "Slow Effect: 40% >> 60%",
               "Airborne Duration: 1s >> 0.8s"
@@ -521,21 +613,27 @@
         "summary": "Atlas's Skill 2 and Ultimate lack clear range indicators in actual combat to determine whether they can hit enemies. So we've adjusted the ranges of his passive Frigid Breath, Skill 2's stun, and the Ultimate's first-stage slow effect to be completely consistent. Players can now use the visual effect circle of Frigid Breath as a range indicator for other skills, improving overall skill hit rate. Additionally, the Physical & Magic Defense boost from Atlas's Passive cannot scale with his economic growth, so we've adjusted its numerical structure to scale based on his Extra HP. To balance this change, we've slightly reduced the stun duration after Atlas returns to Mecha in Skill 2.",
         "skills": [
           {
-            "name": "Passive Frigid Breath BUFF",
+            "type": "Passive",
+            "name": "Frigid Breath",
+            "balance": "BUFF",
             "changes": [
               "Frigid Breath Range: 2 >> 3",
               "Physical & Magical Defense Boost: 16-30 >> 20+0.5% Extra HP"
             ]
           },
           {
-            "name": "Skill 2 Perfect Match ADJUST",
+            "type": "Skill 2",
+            "name": "Perfect Match",
+            "balance": "ADJUST",
             "changes": [
               "Damage and Stun Range after Atlas Returns to Mecha: 2.5 >> 3",
               "Stun Duration after Atlas Returns to Mecha: 1s >> 0.8s"
             ]
           },
           {
-            "name": "Ultimate Fatal Links NERF",
+            "type": "Ultimate",
+            "name": "Fatal Links",
+            "balance": "NERF",
             "changes": [
               "Slow Range of the First Stage: 3.5 >> 3"
             ]
@@ -546,7 +644,9 @@
         "summary": "When Benedetta's skills hit consecutively, her Sword Intent accumulates quickly to full. However, holding the Basic Attack button to enter the Swordout state may affect the control experience of skill-combo transitions into Swordout Slash. Therefore, we've shortened the detection time for entering the Swordout state when holding the Basic Attack button, allowing Benedetta to enter the state more quickly and improving control fluidity and responsiveness. Additionally, after dealing damage 3 times with Basic Attacks or skills, Benedetta' Sword Intent gauge falls slightly short of being full, affecting the controls of her Swordout Slash combos. Therefore, we've increased the amout of Sword Intent gained from dealing damage. It now only takes 3 hits from Basic Attacks or skills to fully charge her Sword Intent. We've also fixed an issue where Benedetta would continue charging Swordout Slash after being interrupted by control effects, which could cause her to cast her it unintentionally once the control effect ended.",
         "skills": [
           {
-            "name": "Passive Elapsed Daytime BUFF",
+            "type": "Passive",
+            "name": "Elapsed Daytime",
+            "balance": "BUFF",
             "changes": [
               "Sword Intent Gained from Dealing Damage: 30 >> 34"
             ]
@@ -557,15 +657,27 @@
         "summary": "Increased Martis' damage in the mid-to-late game.",
         "skills": [
           {
-            "name": "Passive Ashura's Wrath BUFF",
+            "type": "Passive",
+            "name": "Ashura's Wrath",
+            "balance": "BUFF",
             "changes": [
               "Extra Attack at Full Stacks: 6 * Hero Level >> 8 * Hero Level"
             ]
           },
           {
-            "name": "Ultimate Decimation BUFF",
+            "type": "Ultimate",
+            "name": "Decimation",
+            "balance": "BUFF",
             "changes": [
               "Damage: 800-1000 (+100% Total Physical Attack) >> 700-1100 (+120% Total Physical Attack)"
+            ]
+          },
+          {
+            "type": "",
+            "name": "",
+            "balance": "",
+            "changes": [
+              "New Effect: Sky Piercer's damage will contribute to the activation of indicator effects on the target."
             ]
           }
         ]
@@ -574,7 +686,9 @@
         "summary": "We aim to slightly raise Balmond's control ceiling in high-level matches.",
         "skills": [
           {
-            "name": "Skill 1 Soul Lock BUFF",
+            "type": "Skill 1",
+            "name": "Soul Lock",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Hitting an enemy hero reduces their Physical Defense by 40% for 3s.",
               "Slow Effect: 60% for 2s >> 40% for 3s",
@@ -587,13 +701,17 @@
         "summary": "Enhanced his mobility and the controls of his Ultimate.",
         "skills": [
           {
-            "name": "Skill 2 Space Escape BUFF",
+            "type": "Skill 2",
+            "name": "Space Escape",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 11-8s >> 8-6s"
             ]
           },
           {
-            "name": "Ultimate Deadly Magic BUFF",
+            "type": "Ultimate",
+            "name": "Deadly Magic",
+            "balance": "BUFF",
             "changes": [
               "New Effect: The ring of the fire will no longer be blocked by enemy heroes.",
               "Foreswing: 0.4s >> 0.33s",
@@ -606,7 +724,9 @@
         "summary": "Optimized Skill 2's Mana Cost and the controls of the Ultimate to make HP support for allies more timely.",
         "skills": [
           {
-            "name": "Skill 2 Ghost Bursters BUFF",
+            "type": "Skill 2",
+            "name": "Ghost Bursters",
+            "balance": "BUFF",
             "changes": [
               "Mana Cost: 75-125 >> 45-70"
             ]
@@ -617,13 +737,17 @@
         "summary": "Chang'e's tower pushing efficiency in the early-mid game is too high compared to other Mages, so we reduced her enhanced Basic Attack Damage and balanced it by reducing Skill 1's mid-late game cooldown.",
         "skills": [
           {
-            "name": "Skill 1 Starmoon Shockwave BUFF",
+            "type": "Skill 1",
+            "name": "Starmoon Shockwave",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 7s at all levels >> 7-5s"
             ]
           },
           {
-            "name": "Skill 2 Crescent Moon NERF",
+            "type": "Skill 2",
+            "name": "Crescent Moon",
+            "balance": "NERF",
             "changes": [
               "Crescent Moon Damage: 20 (+35% Total Physical Attack) (+35% Total Magic Power) >> 20 (+35% Total Magic Power)"
             ]
@@ -638,13 +762,17 @@
         "summary": "Alucard's scaling ability is too strong in the current patch, so we've reduced his mid to late-game damage to restore balance.",
         "skills": [
           {
-            "name": "Passive Pursuit NERF",
+            "type": "Passive",
+            "name": "Pursuit",
+            "balance": "NERF",
             "changes": [
               "Enhanced Basic Attack's Total Physical Attack Bonus: 140% >> 125%"
             ]
           },
           {
-            "name": "Skill 1 Groundsplitter NERF",
+            "type": "Skill 1",
+            "name": "Groundsplitter",
+            "balance": "NERF",
             "changes": [
               "Total Physical Attack Bonus: 110% >> 85%"
             ]
@@ -655,13 +783,17 @@
         "summary": "Yi Sun-shin can trigger his Control Immunity too often and for too long, making him hard to counter. And we aim to reduce its duration while preserving his mobility.",
         "skills": [
           {
-            "name": "Skill 1 Traceless BUFF",
+            "type": "Skill 1",
+            "name": "Traceless",
+            "balance": "BUFF",
             "changes": [
               "Control Immunity Duration: 1s >> 0.4s (matching the dash duration)"
             ]
           },
           {
-            "name": "Ultimate Mountain Shocker",
+            "type": "Ultimate",
+            "name": "Mountain Shocker",
+            "balance": "",
             "changes": [
               "Map Vision Duration: 5s >> 2s"
             ]
@@ -672,7 +804,9 @@
         "summary": "Arlott's damage was too high with the defense build, so we've slightly reduced his Base Damage.",
         "skills": [
           {
-            "name": "Skill 2 Vengeance NERF",
+            "type": "Skill 2",
+            "name": "Vengeance",
+            "balance": "NERF",
             "changes": [
               "Base Damage: 135-335 >> 135-285"
             ]
@@ -683,7 +817,9 @@
         "summary": "Cici's Delight stacks decay gradually when not dealing damage, granting her Movement Speed and Spell Vamp boost most of the time, making it difficult for enemies to counter. Therefore, we have increased the decay speed.",
         "skills": [
           {
-            "name": "Passive Performer's Delight NERF",
+            "type": "Passive",
+            "name": "Performer's Delight",
+            "balance": "NERF",
             "changes": [
               "Stack Removal: 1 stack reduced every 1s >> 1 stack reduced every 0.3s"
             ]
@@ -694,7 +830,9 @@
         "summary": "Thamuz currently takes too long to scale, making him unable to fulfill the Fighter / Tank role until he has three or more equipment items. To address this, we've increased his early game survivability.",
         "skills": [
           {
-            "name": "Ultimate Cauterant Inferno BUFF",
+            "type": "Ultimate",
+            "name": "Cauterant Inferno",
+            "balance": "BUFF",
             "changes": [
               "Extra Max HP: 600 >> 800-1200",
               "Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP"
@@ -706,7 +844,9 @@
         "summary": "Decreased the hero's mid-to-late game damage potential.",
         "skills": [
           {
-            "name": "Passive Theory of Everything NERF",
+            "type": "Passive",
+            "name": "Theory of Everything",
+            "balance": "NERF",
             "changes": [
               "Magic Power Bonus: 65% >> 60%",
               "Attack Effect Inherited: 65% >> 60%",
@@ -714,13 +854,17 @@
             ]
           },
           {
-            "name": "Skill 1 Superposition NERF",
+            "type": "Skill 1",
+            "name": "Superposition",
+            "balance": "NERF",
             "changes": [
               "Magic Power Bonus: 130% >> 120%"
             ]
           },
           {
-            "name": "Skill 2 Interference! NERF",
+            "type": "Skill 2",
+            "name": "Interference!",
+            "balance": "NERF",
             "changes": [
               "Magic Power Bonus of Attractor Detonation: 13% >> 12%"
             ]
@@ -731,7 +875,9 @@
         "summary": "Decreased Irithel's mid-to-late game damage potential.",
         "skills": [
           {
-            "name": "Ultimate Heavy Crossbow NERF",
+            "type": "Ultimate",
+            "name": "Heavy Crossbow",
+            "balance": "NERF",
             "changes": [
               "Base Damage of Empowered Crossbow Shot: 120-200 >> 100-160"
             ]
@@ -746,7 +892,9 @@
         "summary": "We've noticed that Bane's fully charged Skill 2 venom deals excessive damage in Magic builds and is difficult to counter. To address this, we've reduced its Magic Power Bonus when fully charged.",
         "skills": [
           {
-            "name": "Skill 2 Ale NERF",
+            "type": "Skill 2",
+            "name": "Ale",
+            "balance": "NERF",
             "changes": [
               "Magic Power Bonus When Fully Charged: 250% >> 200%"
             ]
@@ -775,7 +923,9 @@
         "summary": "Thamuz currently takes too long to scale, making him unable to fulfill the Fighter/Tank role unti he has three or more equipment items. To address this, we've increased his early game survivability.",
         "skills": [
           {
-            "name": "Ultimate Cauterant Inferno BUFF",
+            "type": "Ultimate",
+            "name": "Cauterant Inferno",
+            "balance": "BUFF",
             "changes": [
               "Extra Max HP: 600 >> 1000-1200Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP"
             ]
@@ -790,7 +940,9 @@
         "summary": "We've noticed that Bane's fully charged Skill venom deals excessive damage in Magic builds and is difficult to counter. To address this, we've reduced its Magic Power Bonus when fully charged.",
         "skills": [
           {
-            "name": "Ultimate Ale NERF",
+            "type": "Ultimate",
+            "name": "Ale",
+            "balance": "NERF",
             "changes": [
               "Magic Power Bonus When Fully Charged: 250% >> 200%"
             ]
@@ -813,7 +965,9 @@
         "summary": "Alice's mobility in the early-mid game was too weak, so we've strengthened her mobility when her passive is activated.",
         "skills": [
           {
-            "name": "Passive Blood Ancestry BUFF",
+            "type": "Passive",
+            "name": "Blood Ancestry",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Gains 8% Movement Speed while Blood Banquet is active."
             ]
@@ -850,7 +1004,9 @@
         "summary": "Slightly enhanced Grock's durability and Physical Defense scaling.",
         "skills": [
           {
-            "name": "Passive Bastion of Stone BUFF",
+            "type": "Passive",
+            "name": "Bastion of Stone",
+            "balance": "BUFF",
             "changes": [
               "Shield: 10% of Max HP >> 14% of Max HP Extra Physical Defense: (30+4Hero Level)% >> (30+6Hero Level)%"
             ]
@@ -861,7 +1017,17 @@
         "summary": "We hope to enhance her sustained combat ability, but this would significantly increase the frequency of Enhanced Basic Attacks, so we've reduced her slow effect and Enhanced Basic Attack Damage to balance her chase ability and damage output.",
         "skills": [
           {
-            "name": "Skill 1 Energy Wave NERF",
+            "type": "",
+            "name": "",
+            "balance": "",
+            "changes": [
+              "Enhanced Magic Power Bonus: 120% >> 90%"
+            ]
+          },
+          {
+            "type": "Skill 1",
+            "name": "Energy Wave",
+            "balance": "NERF",
             "changes": [
               "Slow Effect: 50% >> 25%"
             ]
@@ -872,13 +1038,17 @@
         "summary": "Optimized Mana Cost, increased the hit rate of Eternal Guard's first strike after Ultimate hits. Meanwhile, significantly enhanced the skill's damage capability and supplemented its attribute descriptions. Removed the sight-gaining ability by Skill 2, as it was deemed unreasonable.",
         "skills": [
           {
-            "name": "Skill 2 Cursed Blast ADJUST",
+            "type": "Skill 2",
+            "name": "Cursed Blast",
+            "balance": "ADJUST",
             "changes": [
               "Mana Cost: 80-120 >> 60-90"
             ]
           },
           {
-            "name": "Ultimate Eternal Guard BUFF",
+            "type": "Ultimate",
+            "name": "Eternal Guard",
+            "balance": "BUFF",
             "changes": [
               "Damage: 500-700 >> 480-720",
               "Mana Cost: 200-400 >> 120-200",
@@ -895,19 +1065,25 @@
         "summary": "Slightly increased minion clearing ability in the early-mid game and sustained damage ability in the late game.",
         "skills": [
           {
-            "name": "Skill 1 Void Blast BUFF",
+            "type": "Skill 1",
+            "name": "Void Blast",
+            "balance": "BUFF",
             "changes": [
               "Magic Bonus: 120% >> 150%"
             ]
           },
           {
-            "name": "Skill 2 Void Crystal BUFF",
+            "type": "Skill 2",
+            "name": "Void Crystal",
+            "balance": "BUFF",
             "changes": [
               "Sustained Damage: 50-125 >> 75-125"
             ]
           },
           {
-            "name": "Ultimate Real World Manipulation ADJUST",
+            "type": "Ultimate",
+            "name": "Real World Manipulation",
+            "balance": "ADJUST",
             "changes": [
               "Damage of Swipe: 65-125 >> 85-125",
               "New Effect: Reveals the position of targets within range."
@@ -919,7 +1095,9 @@
         "summary": "As a Mage with sustained damage output but lacking burst capability, we have increased her Spell Vamp ratio.",
         "skills": [
           {
-            "name": "Skill 2 Shadow Energy BUFF",
+            "type": "Skill 2",
+            "name": "Shadow Energy",
+            "balance": "BUFF",
             "changes": [
               "Spell Vamp Ratio: 50% >> 100%"
             ]
@@ -930,13 +1108,17 @@
         "summary": "Decreased mid-to-late game burst potential.",
         "skills": [
           {
-            "name": "Skill 2 Thorned Rose NERF",
+            "type": "Skill 2",
+            "name": "Thorned Rose",
+            "balance": "NERF",
             "changes": [
               "Extra Physical Attack Bonus: 130% >> 120%"
             ]
           },
           {
-            "name": "Ultimate Phantom Execution NERF",
+            "type": "Ultimate",
+            "name": "Phantom Execution",
+            "balance": "NERF",
             "changes": [
               "Total Physical Attack Bonus: 170%-200% >> 170% at all levels"
             ]
@@ -947,7 +1129,9 @@
         "summary": "Decreased early-to-mid game HP and mid-to-late game burst potential.",
         "skills": [
           {
-            "name": "Ultimate Mountain Shocker NERF",
+            "type": "Ultimate",
+            "name": "Mountain Shocker",
+            "balance": "NERF",
             "changes": [
               "Damage: 160-320 +65% Total Physical Attack >> 160-240 +50% Total Physical Attack"
             ]
@@ -975,13 +1159,17 @@
         "summary": "We noticed that Carmilla's Skill had too much variance in the number of hits it could land. To address this, we've increased its circling speed and the number of Crimson Flowers to make the skill's performance more consistent. To balance the overall power of the adjusted Skill 1, we've reduced the effect of each individual hit. We've also optimized Carmilla's Passive and Skill 2 to help her adapt to more team compositions and combat scenarios. We hope these adjustments will make Carmilla a more viable pick.",
         "skills": [
           {
-            "name": "Passive Vampire Pact ADJUST",
+            "type": "Passive",
+            "name": "Vampire Pact",
+            "balance": "ADJUST",
             "changes": [
               "Cooldown on the Same Hero: 5s >> 3s. Now you can stack effects even in 1v1 combat."
             ]
           },
           {
-            "name": "Skill 1 Crimson Flower ADJUST",
+            "type": "Skill 1",
+            "name": "Crimson Flower",
+            "balance": "ADJUST",
             "changes": [
               "Number of Crimson Flowers: 2 >> 3",
               "Damage: 100-200 + 50% Magic Power >> 65-130 + 30% Magic Power",
@@ -995,7 +1183,9 @@
         "summary": "We aim to give Yve an effective passive skill while enhancing her sustained damage output when her Ultimate is unavailable. This should enable her with some self-protection capability. This change will greatly increase Skill 1's tap damage output, so we've reduced Skill 2's damage for balance and to make each skill's function more distinct.",
         "skills": [
           {
-            "name": "Skill 1 Void Blast BUFF",
+            "type": "Skill 1",
+            "name": "Void Blast",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 5s-2.5s >> 3s-1.5s",
               "Mana Cost: 65-90 >> 40-65",
@@ -1003,10 +1193,21 @@
             ]
           },
           {
-            "name": "Skill 2 Void Crystal BUFF",
+            "type": "Skill 2",
+            "name": "Void Crystal",
+            "balance": "BUFF",
             "changes": [
               "Second Stage Damage: 105-180 + 20% Magic Power >> 50-125 + 10% Magic Power",
               "Mana Cost: 100-150 >> 80-130"
+            ]
+          },
+          {
+            "type": "",
+            "name": "",
+            "balance": "",
+            "changes": [
+              "Number of Attacks: 15 >> 20",
+              "Slow Effect When Swipe: 50% >> 60%"
             ]
           }
         ]
@@ -1038,19 +1239,25 @@
         "summary": "Reduced Hanzo's ability to chase enemies in the air as Hanekage. If his Skill 2 in Hanekage form misses enemy heroes, Hanzo's ability to pursue targets will be greatly weakened. As compensation, Hanzo's combat ability against the Turtle/Lord in his human form has been improved.",
         "skills": [
           {
-            "name": "Skill 1 (Hanekage) Forbidden Ninjutsu Soul Snatch NERF",
+            "type": "Skill 1 (Hanekage)",
+            "name": "Forbidden Ninjutsu Soul Snatch",
+            "balance": "NERF",
             "changes": [
               "HP Recovery when used on a fully stacked target: 30% >> 20%"
             ]
           },
           {
-            "name": "Skill 2 (Hanekage) Forbidden Ninjutsu Black Mist BUFF",
+            "type": "Skill 2 (Hanekage)",
+            "name": "Forbidden Ninjutsu Black Mist",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Recovers 20 Energy upon hitting a hero."
             ]
           },
           {
-            "name": "Ultimate Kinjutsu Pinnacle Ninja NERF",
+            "type": "Ultimate",
+            "name": "Kinjutsu Pinnacle Ninja",
+            "balance": "NERF",
             "changes": [
               "Movement Speed Boost: 35% >> 50% initially, decaying to 15% over 2sEnergy Cost per second: 12.5 >> 17Cooldown: 24-18s >> 24-12s"
             ]
@@ -1061,7 +1268,9 @@
         "summary": "Reduced the burst damage of Melissa with Crit build in the mid-to-late game, but slightly decreased skill downtime.",
         "skills": [
           {
-            "name": "Skill 2 Eyes on You! NERF",
+            "type": "Skill 2",
+            "name": "Eyes on You!",
+            "balance": "NERF",
             "changes": [
               "Damage Transfer Ratio: 60%-80% >> 60% at at all levelsCooldown: 9-7s >> 9-6s"
             ]
@@ -1072,9 +1281,19 @@
         "summary": "Pharsa's Passive triggered too slowly in the mid-to-late game, so we've reduced the trigger interval in this phase to improve Pharsa's mid-to-late-game performance.Additionally, we've increased her flying speed while transformed to enhance her support efficiency.",
         "skills": [
           {
-            "name": "Skill 1 Curse of Crow BUFF",
+            "type": "Skill 1",
+            "name": "Curse of Crow",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Reveals marked enemies' position."
+            ]
+          },
+          {
+            "type": "",
+            "name": "",
+            "balance": "",
+            "changes": [
+              "Movement Speed: 135% >> 150%"
             ]
           }
         ]
@@ -1087,7 +1306,9 @@
         "summary": "We've enhanced the impact effect of the Sacred Beast's Shockwave Blast while sightly reducing its damage output.",
         "skills": [
           {
-            "name": "Ultimate Unleash the Beast ADJUST",
+            "type": "Ultimate",
+            "name": "Unleash the Beast",
+            "balance": "ADJUST",
             "changes": [
               "Shockwave Blast's explosion now damages all enemies in range (previously only damaged the first target hit).Removed Effect: Removed the aftershock damage.Explosion Damage: 250-750 + 100% of Total Physical Attack >> 450-1100 + 1556 of Total Physical Attack"
             ]
@@ -1098,13 +1319,17 @@
         "summary": "We aim to reduce Zhuxin's continuous control abilities while compensating with increased damage.",
         "skills": [
           {
-            "name": "Passive Crimson Butterflies ADJUST",
+            "type": "Passive",
+            "name": "Crimson Butterflies",
+            "balance": "ADJUST",
             "changes": [
               "Max Stacks: 20 >> 15Mana Regen per Stack: 4% >> 5%"
             ]
           },
           {
-            "name": "Skill 2 Lantern Flare NERF",
+            "type": "Skill 2",
+            "name": "Lantern Flare",
+            "balance": "NERF",
             "changes": [
               "Mana Cost: 90-120 >> 120-150Extra Damage: 270-645 + 150% of Magic Power >> 300-800 + 150% of Magic Power"
             ]
@@ -1115,7 +1340,9 @@
         "summary": "We aim to enhance Johnson's team utility, allowing him to help alles deal more damage.",
         "skills": [
           {
-            "name": "Skill 2 Electromagnetic Waves BUFF",
+            "type": "Skill 2",
+            "name": "Electromagnetic Waves",
+            "balance": "BUFF",
             "changes": [
               "Base Damage: 80-180 >> 120-220Removed Effect: 60% Extra Damage to CreepsRemoved Effect: 15% Damage Increase per hit (up to 3 times).New Effect: Each hit reduces the target's Magic Defense by 10% (up to 3 stacks, lasting for 2s).Slow Effect: 20% Slow Effect for 0.5s >> Each hit reduces the target's Movement Speed by 10% (up to 3 stacks, lasting for 2s)"
             ]
@@ -1126,7 +1353,9 @@
         "summary": "Improved Akai's damage output and control capabilities in the mid-to-late game.",
         "skills": [
           {
-            "name": "Ultimate Heavy Spin BUFF",
+            "type": "Ultimate",
+            "name": "Heavy Spin",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 55s at all levels >> 55s-45sDamage: 200-450 + 100% of Extra Physical Attack (subsequent impacts only deal 50% damage) >> 100-200 + 50% of Total Physical Attack (subsequent impacts deal full damage)"
             ]
@@ -1141,13 +1370,17 @@
         "summary": "After the Dire Hit adjustments, Natalia's effectiveness as a roamer has been affected, while her impact as a jungler in the mid-to-late game remains limited.We aim to improve this by reducing the downtime between Natalia's skills in the mid-to-late game.",
         "skills": [
           {
-            "name": "Skill 1 Claw Dash BUFF",
+            "type": "Skill 1",
+            "name": "Claw Dash",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 10-8s >> 10-6s"
             ]
           },
           {
-            "name": "Ultimate The Hunt BUFF",
+            "type": "Ultimate",
+            "name": "The Hunt",
+            "balance": "BUFF",
             "changes": [
               "Skill Recharge Time: 30-24s >> 30-18s"
             ]
@@ -1158,7 +1391,9 @@
         "summary": "Hayabusa could eliminate enemy backliners in the late game with a full-hit Ultimate, even without any Passive stacks. This straightforward burst damage reduces the skill expression expected of the ninja. To address this, we've adjusted the damage structure of his Ultimate.",
         "skills": [
           {
-            "name": "Ultimate Ougi Shadow Kill NERF",
+            "type": "Ultimate",
+            "name": "Ougi Shadow Kill",
+            "balance": "NERF",
             "changes": [
               "Slash Damage Bonus: 60% Extra Physical Attack >> 50% Extra Physical AttackExtra Damage: 45-85 + 20% of Total Physical Attack >> 70-140 + 40% of Extra Physical Attack"
             ]
@@ -1169,13 +1404,17 @@
         "summary": "Slightly reduced Badang's attack range and mobility in the mid-to-late game, but improved his dash controls.",
         "skills": [
           {
-            "name": "Skill 1 Fist Wind NERF",
+            "type": "Skill 1",
+            "name": "Fist Wind",
+            "balance": "NERF",
             "changes": [
               "Range: 6.5 >> 5.5"
             ]
           },
           {
-            "name": "Skill 2 Fist Break ADJUST",
+            "type": "Skill 2",
+            "name": "Fist Break",
+            "balance": "ADJUST",
             "changes": [
               "Cooldown: 9-7s >> 9s at all levelsDash Distance: 4.5 >> 4Dashing Speed: 9 >> 10"
             ]
@@ -1186,7 +1425,9 @@
         "summary": "Minotaur feels a bit clunky, so we hope to slightly increase his mobility.",
         "skills": [
           {
-            "name": "Skill 1 Despair Stomp BUFF",
+            "type": "Skill 1",
+            "name": "Despair Stomp",
+            "balance": "BUFF",
             "changes": [
               "Dash Distance: 3 >> 4"
             ]
@@ -1201,13 +1442,17 @@
         "summary": "As a burst-damage Mage, Eudora was experiencing significant Mana shortages. We have optimized her skills' Mana Costs to address this issue. We will also be revamping this classic hero in the future. Stay tuned!",
         "skills": [
           {
-            "name": "Skill 1 Forked Lightning BUFF",
+            "type": "Skill 1",
+            "name": "Forked Lightning",
+            "balance": "BUFF",
             "changes": [
               "Mana Cost: 65-90 >> 50-70"
             ]
           },
           {
-            "name": "Skill 2 Ball Lightning BUFF",
+            "type": "Skill 2",
+            "name": "Ball Lightning",
+            "balance": "BUFF",
             "changes": [
               "Mana Cost: 90-140 >> 70-95"
             ]
@@ -1222,7 +1467,9 @@
         "summary": "Decreased Miya's mid-to-late game damage potential.",
         "skills": [
           {
-            "name": "Passive Moon Blessing NERF",
+            "type": "Passive",
+            "name": "Moon Blessing",
+            "balance": "NERF",
             "changes": [
               "Moonlight Shadow Basic Attack's Total Physical Bonus: 30% >> 20%"
             ]
@@ -1233,7 +1480,9 @@
         "summary": "We aim to give Argus more flexibility in utilizing his Ultimate.",
         "skills": [
           {
-            "name": "Ultimate Eternal Evil BUFF",
+            "type": "Ultimate",
+            "name": "Eternal Evil",
+            "balance": "BUFF",
             "changes": [
               "Healing Effect: Damage dealt to heroes is converted to HP after the effect ends >> All damage dealt is converted to HP after the effect ends"
             ]
@@ -1274,31 +1523,41 @@
         "summary": "We've enhanced Sun's burst damage and crowd control to improve his ganking potential as a Jungler.We've also increased his early-game sustainability to strengthen his ability to farm in the EXP Lane. However, we're reducing his sustained damage output to maintain balance.",
         "skills": [
           {
-            "name": "Passive Simian God ADJUST",
+            "type": "Passive",
+            "name": "Simian God",
+            "balance": "ADJUST",
             "changes": [
               "Reduces target's Physical Defense by 496 per stack, up to 10 stacks >> Reduces target's Physical Defense by 5% per stack, up to 6 stacksHP Recovered: 50% of the Doppelganger's Physical Attack >> 75 + 25% of the Doppelganger's Physical Attack"
             ]
           },
           {
-            "name": "Skill 1 Endless Variety BUFF",
+            "type": "Skill 1",
+            "name": "Endless Variety",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 10s >> 10-8s"
             ]
           },
           {
-            "name": "Skill 2 Swift Exchange BUFF",
+            "type": "Skill 2",
+            "name": "Swift Exchange",
+            "balance": "BUFF",
             "changes": [
               "Cooldown: 10s >> 10-8sThis skill now no longer stops when hitting hero units."
             ]
           },
           {
-            "name": "Skill 3 Instantaneous Move BUFF",
+            "type": "Skill 3",
+            "name": "Instantaneous Move",
+            "balance": "BUFF",
             "changes": [
               "Base Damage. 170-320 + 40% of Total Physical Attack >> 250-320+ 40%-60% of Total Physical AttackNew Effect: Applies a 20% Slow Effect for 1.5s to target hit. The Slow Effect can stack up to 3 times with Doppelgangers.Cooldown: 4s >> 6sOptimized skill animations and visual effects to enhance the sense of power."
             ]
           },
           {
-            "name": "Ultimate Clone Techniques NERF",
+            "type": "Ultimate",
+            "name": "Clone Techniques",
+            "balance": "NERF",
             "changes": [
               "Duration of Doppelganger: 12s >> 8s"
             ]
@@ -1309,13 +1568,17 @@
         "summary": "Argus has an exceptionally high win rate in high-rank matches, mainly due to his strong 1v1 potential and corresponding split-pushing and base-taking abilities after getting core items. However, his weak early-to-mid game laning phase and awkward positioning in teamfights contradict his theme as as a powerful Fallen Angel wielding the Meteoric Sword. Therefore, we've given Argus a new Ultimate that can turn the tide in teamfights, and strengthened his early-to-mid game laning phase, while reducing his skill damage and spit-pushing power accordingly.",
         "skills": [
           {
-            "name": "Passive Warmonger ADJUST",
+            "type": "Passive",
+            "name": "Warmonger",
+            "balance": "ADJUST",
             "changes": [
               "Demonic Slash Basic Regen: 200 HP >> 150 HPDemonic Slash Damage: 150 + 100% of Total Physical Attack >> 180 + 80% of Total Physical AttackExtra Malice Energy Gained with Crit: 5 >> 10"
             ]
           },
           {
-            "name": "Skill 2 Meteoric Sword ADJUST",
+            "type": "Skill 2",
+            "name": "Meteoric Sword",
+            "balance": "ADJUST",
             "changes": [
               "Removed: Attacking Cursed targets grants 200% Malice Energy.New effect: Hitting an enemy grants 100 Malice Energy (excess Malice Energy will be kept for the next Basic Attack).Base Damage: 300-400 >> 120-240"
             ]
@@ -1326,13 +1589,17 @@
         "summary": "With these changes, we aim to improve Aulus's passive stacking mechanics and laning sustainability, while giving him more initiative in combat.Now Aulus's The Power of Axe is more powerful, able to actively slow enemies and deal more damage at full Fighting Spirit stacks.",
         "skills": [
           {
-            "name": "Skill 2 The Power of Axe BUFF",
+            "type": "Skill 2",
+            "name": "The Power of Axe",
+            "balance": "BUFF",
             "changes": [
               "New Effect: Slows the enemy on hit by 20% for 3s.New Effect: When cast with full stacks of Fighting Spirit, deals additional Physical Damage equal to 3.5-6% (scales with Skill Level) of the target's HP to enemies in range (capped at 200-900 Extra Damage against Creeps).Base Damage: 240-440 >> 200-400Enhanced Basic Attack's HP Recovery Trigger: Hitting enemy heroes or Creeps >> Hitting enemy targets (now includes enemy Minions)"
             ]
           },
           {
-            "name": "Ultimate Undying Fury BUFF",
+            "type": "Ultimate",
+            "name": "Undying Fury",
+            "balance": "BUFF",
             "changes": [
               "Blade Craft Effect: Basic Attacks deal 50 extra Physical Damage at full [Fighting Spirit] stacks >> Basic Attacks always deal 50 extra Physical Damage (can be stacked with the effect of full [Fighting Spirit] stacks)"
             ]
@@ -1343,13 +1610,17 @@
         "summary": "We've improved Zilong's early and mid-game combat ability, making it easier to reset his Skill 2.We've also slightly reduced the Attack Speed of his Ultimate for balance.",
         "skills": [
           {
-            "name": "Passive Dragon Flurry BUFF",
+            "type": "Passive",
+            "name": "Dragon Flurry",
+            "balance": "BUFF",
             "changes": [
               "Base HP Regen: 30 >> 50New Effect: When the target's HP is below 50%, Zilong's skills and Basic Attacks deal 30 extra damage."
             ]
           },
           {
-            "name": "Ultimate Supreme Warrior NERF",
+            "type": "Ultimate",
+            "name": "Supreme Warrior",
+            "balance": "NERF",
             "changes": [
               "Attack Speed Boost: 45%-75% >> 35%-55%"
             ]
@@ -1360,7 +1631,9 @@
         "summary": "Badang's Ultimate has a relatively short control duration but a long damage duration, making it difficult to maximize damage output. Therefore, we've increased its Control Duration and balanced this by increasing its cooldown. We've also shortened Skill 1's foreswing to improve the control experience.",
         "skills": [
           {
-            "name": "Ultimate Fist Crack ADJUST",
+            "type": "Ultimate",
+            "name": "Fist Crack",
+            "balance": "ADJUST",
             "changes": [
               "Control Duration: 0.6s >> 1sCooldown: 30-26s >> 45-35s"
             ]
@@ -1371,7 +1644,9 @@
         "summary": "Optimized Skill 2 control experience: Greatly increased dashing speed while slightly reducing dash distance, significantly shortening the dash duration to enhance the combo experience.Also increased Basic Attack Range to maintain the distance for following up Skill 2 with a Basic Attack.",
         "skills": [
           {
-            "name": "Skill 2 Chrono Dash BUFF",
+            "type": "Skill 2",
+            "name": "Chrono Dash",
+            "balance": "BUFF",
             "changes": [
               "Dashing Speed: 9 >> 12Dash Distance: 3.2 >> 3Enhanced Basic Attack Range: 4.1 >> 4.3"
             ]
@@ -1382,7 +1657,9 @@
         "summary": "The HP recovery from Wrath of the Abyss mostly helps Dyrroth build his advantage in the laning phase but becomes less impactful in the late game. We want Dyrroth to be able to engage in prolonged fights in the mid-to-late game! Additionally, we've improved his control experience by allowing his Skill 2 to target Minions (while still prioritizing Heroes). Now, Dyrroth synergizes better with equipment for Fighters like War Axe and Queen's Wings, enabling him to deal more damage.",
         "skills": [
           {
-            "name": "Passive Wrath of the Abyss BUFF",
+            "type": "Passive",
+            "name": "Wrath of the Abyss",
+            "balance": "BUFF",
             "changes": [
               "Removed Effect: Circle Strike recovers equal to 80 + 50% of damage dealt (halved against minions).New Effect: Circle Strike recovers HP equal to 80 + 8% of Max HP (halved against Minions)."
             ]
@@ -1397,7 +1674,9 @@
         "summary": "Slightly increased the pause after Skill and adjusted the cooldown as compensation.",
         "skills": [
           {
-            "name": "Skill 1 Groundsplitter ADJUST",
+            "type": "Skill 1",
+            "name": "Groundsplitter",
+            "balance": "ADJUST",
             "changes": [
               "Cooldown: 9.5s-7.5s >> 8.5s-6.5sAdded 1 frame to the Skill backswing to enhance hit feedback."
             ]
@@ -1408,7 +1687,9 @@
         "summary": "Enhanced Lancelot's damage output in the early-to-mid game, aiming to make him a strong contender among Assassins.",
         "skills": [
           {
-            "name": "Skill 2 Thorned Rose BUFF",
+            "type": "Skill 2",
+            "name": "Thorned Rose",
+            "balance": "BUFF",
             "changes": [
               "Damage: 170-245 + 130%-155% of Extra Physical Attack >> 220-370+ 130% of Extra Physical Attack"
             ]
@@ -1435,7 +1716,9 @@
         "summary": "After equipment adjustments, Cecilion has become a bit too dominant. We're slightly reducing his damage in the mid-to-late game.",
         "skills": [
           {
-            "name": "Skill 1 Bat Impact NERF",
+            "type": "Skill 1",
+            "name": "Bat Impact",
+            "balance": "NERF",
             "changes": [
               "Magic Power Bonus to Path Damage: 80% >> 70%Magic Power Bonus to End Damage: 160% >> 140%"
             ]
@@ -1446,7 +1729,9 @@
         "summary": "We're delighted to see the equipment adjustments revitalizing some classic Marksmen, with Layla even making an appearance at M6. However, certain Marksmen have gained benefits that slightly exceeded our expectations.We will slightly reduce the increase in Attack Range and shorten the duration of the Movement Speed boost from Basic Attacks, making this effect only achievable with sufficient Attack Sped in the mid-to-late game.",
         "skills": [
           {
-            "name": "Unique Passive - Malefic Energy  NERF",
+            "type": "Unique Passive - Malefic Energy",
+            "name": "",
+            "balance": "NERF",
             "changes": [
               "Increase Attack Range: 15% >> 12%Movement Speed Boost Duration: 1s >> 0.5s"
             ]
@@ -1459,7 +1744,8 @@
         "description": "We're delighted to see the equipment adjustments revitalizing some classic Marksmen, with Layla even making an appearance at M6. However, certain Marksmen have gained benefits that slightly exceeded our expectations.We will slightly reduce the increase in Attack Range and shorten the duration of the Movement Speed boost from Basic Attacks, making this effect only achievable with sufficient Attack Sped in the mid-to-late game.",
         "sections": [
           {
-            "name": "Unique Passive - Malefic Energy NERF",
+            "type": "Unique Passive - Malefic Energy",
+            "balance": "NERF",
             "changes": [
               "Increase Attack Range: 15% >> 12%Movement Speed Boost Duration: 1s >> 0.5s"
             ]
@@ -1470,13 +1756,15 @@
         "description": "We aim to let certain Fighters that rely on Basic Attacks have durability not significantly lower than other semi-tank Fighters, even without purchasing defensive equipment.",
         "sections": [
           {
-            "name": "Attributes NERF",
+            "type": "Attributes",
+            "balance": "NERF",
             "changes": [
               "Physical Attack: 60 >> 40Attack Speed: 0 >> 20%Removed Magic Defense (the new Passive effect will increase Hybrid Defense)."
             ]
           },
           {
-            "name": "Unique Passive - Dragon Scale",
+            "type": "Unique Passive - Dragon Scale",
+            "balance": "",
             "changes": [
               "Every 1% Lifesteal increases Hybrid Defense by 1, up to 50 (effect is halved for non-Fighter heroes).Due to the rework of Rose Gold Meteor, we hope to balance the Lifesteal attributes for equipment with Attack Speed and equipment with Crit Chance."
             ]
@@ -1487,7 +1775,8 @@
         "description": "",
         "sections": [
           {
-            "name": "Attributes ADJUST",
+            "type": "Attributes",
+            "balance": "ADJUST",
             "changes": [
               "Lifesteal: 25% >> 20%Physical Attack: 30 >> 40"
             ]
@@ -1498,13 +1787,15 @@
         "description": "",
         "sections": [
           {
-            "name": "Attributes BUFF",
+            "type": "Attributes",
+            "balance": "BUFF",
             "changes": [
               "New Effect: +8% Lifesteal"
             ]
           },
           {
-            "name": "Unique Passive - Devour BUFF",
+            "type": "Unique Passive - Devour",
+            "balance": "BUFF",
             "changes": [
               "Lifesteal Granted per Basic Attack: 3% >> 2%"
             ]
@@ -1544,7 +1835,9 @@
         "summary": "Zhuxin's wave clearing ability is weak, while her control potential in teamfights is too high. We aim to address this issue.",
         "skills": [
           {
-            "name": "Passive Crimson Butterflies",
+            "type": "Passive",
+            "name": "Crimson Butterflies",
+            "balance": "",
             "changes": [
               "Max Crimson Butterflies Stacks: 30 >>20Mana Restored per Crimson Butterflies Stack: 3% of Max Mana >>4% of Max Mana"
             ]
@@ -1555,7 +1848,9 @@
         "summary": "We hope to enhance Chip's effectiveness in teamfights while significantly reducing his support capabilities.",
         "skills": [
           {
-            "name": "Ultimate Shortcut",
+            "type": "Ultimate",
+            "name": "Shortcut",
+            "balance": "",
             "changes": [
               "Extra Effect after Delay: 50% Slow Effect >>Immobilizing Effect",
               "Cooldown: 20s >>60s"
@@ -1567,19 +1862,25 @@
         "summary": "Enhancing Nolan's killing abilities while slightly reducing his mobility for balance.",
         "skills": [
           {
-            "name": "Skill 1 Expansion",
+            "type": "Skill 1",
+            "name": "Expansion",
+            "balance": "",
             "changes": [
               "Cooldown: 2-1s >>2.5-1.5s"
             ]
           },
           {
-            "name": "Skill 2 Gauge",
+            "type": "Skill 2",
+            "name": "Gauge",
+            "balance": "",
             "changes": [
               "Cooldown: 2-1s >>2.5-1.5s"
             ]
           },
           {
-            "name": "Ultimate Fracture",
+            "type": "Ultimate",
+            "name": "Fracture",
+            "balance": "",
             "changes": [
               "New Effect: Slows the target hit by 30% for 0.5s.Cooldown: 24-18s >>21-15s"
             ]
@@ -1590,19 +1891,25 @@
         "summary": "In the current version, Terizla has a very strong presence in the early and mid game. Therefore, we have significantly reduced his early-game power but slightly increased his late-game power.",
         "skills": [
           {
-            "name": "Passive Body of Smith",
+            "type": "Passive",
+            "name": "Body of Smith",
+            "balance": "",
             "changes": [
               "Maximum Damage Reduction: 30% >>21%-35% (increases as the hero levels up)"
             ]
           },
           {
-            "name": "Skill 1 Revenge Strike",
+            "type": "Skill 1",
+            "name": "Revenge Strike",
+            "balance": "",
             "changes": [
               "Cooldown: 7s at all levels >>9s at all levels"
             ]
           },
           {
-            "name": "Skill 2 Execution Strike",
+            "type": "Skill 2",
+            "name": "Execution Strike",
+            "balance": "",
             "changes": [
               "Cooldown: 7-4.5s >>9-4sDamage of First 2 Attacks: 135-310 + 160%-185% Total Physical Attack >>90-315 + 135%-185%-185% Total Physical AttackDamage to Minions: 60%-100% >>70%-100%-100%"
             ]
@@ -1613,13 +1920,17 @@
         "summary": "After a series of optimizations, Zhask was a bit too strong. We will slightly weaken his early-game power while simplifying the attribute inheritance rules of Nightmaric Spawn and optimizing the skill description.",
         "skills": [
           {
-            "name": "Skill 1 Nightmaric Spawn",
+            "type": "Skill 1",
+            "name": "Nightmaric Spawn",
+            "balance": "",
             "changes": [
               "Nightmaric Spawn Base Damage: 60 >>55Nightmaric Spawn's HP and Hybrid Defense Inherited: 70%-100% >>55%-100%Nightmaric Spawn's Magic Power Inherited: 50%-80% >>55%-100%(removed Extra Magic Power)."
             ]
           },
           {
-            "name": "Ultimate Dominator's Descent",
+            "type": "Ultimate",
+            "name": "Dominator's Descent",
+            "balance": "",
             "changes": [
               "Enhanced Nightmaric Spawn's Magic Power Inherited: 90% >>100% (removed Extra Magic Power)."
             ]
@@ -1634,7 +1945,9 @@
         "summary": "Currently, Roger is extremely strong in terms of durability, damage output, and mobility. We want to weaken his survivability and mobility in early and mid game.",
         "skills": [
           {
-            "name": "Ultimate Wolf Transformation",
+            "type": "Ultimate",
+            "name": "Wolf Transformation",
+            "balance": "",
             "changes": [
               "Cooldown: 6-4.5s >>9-4.5sIncreased Physical & Magic Defense: 40-70 >>20-65"
             ]
@@ -1645,7 +1958,9 @@
         "summary": "Slightly nerfed Julian's burst potential in early and mid game.",
         "skills": [
           {
-            "name": "Skill 1 Enhanced Scythe",
+            "type": "Skill 1",
+            "name": "Enhanced Scythe",
+            "balance": "",
             "changes": [
               "Enhanced Scythe's Sustained Damage: 90-210 >>80-180"
             ]
@@ -1660,13 +1975,17 @@
         "summary": "",
         "skills": [
           {
-            "name": "Passive We Are Friends",
+            "type": "Passive",
+            "name": "We Are Friends",
+            "balance": "",
             "changes": [
               "Kupa's Extra Damage against Creeps: 150% >>120%"
             ]
           },
           {
-            "name": "Skill 1 Bite 'em, Kupa!",
+            "type": "Skill 1",
+            "name": "Bite 'em, Kupa!",
+            "balance": "",
             "changes": [
               "Base Damage of Kupa's Bite: 100-190 >>70-160"
             ]
@@ -1677,13 +1996,17 @@
         "summary": "Optimized the control of Skill 1, reduced the field range for Skill 2, and decreased the Mana Cost of all skills.",
         "skills": [
           {
-            "name": "Skill 1 Soul Bloom",
+            "type": "Skill 1",
+            "name": "Soul Bloom",
+            "balance": "",
             "changes": [
               "Range: 4.6 >>4.8New Effect: Casting skills will not interrupt the hero's movement.Mana Cost: 60-110 >>50-75"
             ]
           },
           {
-            "name": "Skill 2 Guiding Wind",
+            "type": "Skill 2",
+            "name": "Guiding Wind",
+            "balance": "",
             "changes": [
               "Range: 5.5 >>4.8Mana Cost: 75-100 >>60-85"
             ]
@@ -1702,7 +2025,9 @@
         "summary": "Balmond's strength is slightly lacking compared to other Junglers, so we've decided to give this old buddy some long-overdue attention.",
         "skills": [
           {
-            "name": "Skill 2 Cyclone Sweep",
+            "type": "Skill 2",
+            "name": "Cyclone Sweep",
+            "balance": "",
             "changes": [
               "Damage Increase with Each Subsequent Hit: 7.5% >>8.5%Max Damage Increase: 60% >>68%"
             ]
@@ -1713,7 +2038,9 @@
         "summary": "Removed Arlott's Mana and slightly enhanced his laning capability when his Ultimate is unavailable.",
         "skills": [
           {
-            "name": "Passive Demon Gaze",
+            "type": "Passive",
+            "name": "Demon Gaze",
+            "balance": "",
             "changes": [
               "Cooldown: 8s >>7s"
             ]
@@ -1796,7 +2123,9 @@
         "summary": "",
         "skills": [
           {
-            "name": "Skill 1 Nightmaric Spawn",
+            "type": "Skill 1",
+            "name": "Nightmaric Spawn",
+            "balance": "",
             "changes": [
               "New Effect: Every 596 extra Attack Speed will increase the damage by 1 (the same as Magic Power scaling)."
             ]
@@ -1858,7 +2187,9 @@
         "summary": "We want Chou to be able to engage other Fighters directly in the Exp Lane, instead of relying solely on kicking enemies into Turrets to gain an advantage.",
         "skills": [
           {
-            "name": "Passive Only Fast",
+            "type": "Passive",
+            "name": "Only Fast",
+            "balance": "",
             "changes": [
               "New Effect: Enhanced Basic Attack can reduce enemy's defense (effective before dealing damage) by 10 +(1*Hero Level) for 3s up to 2 stacks."
             ]
@@ -1885,7 +2216,9 @@
         "summary": "Compared to the risk Kagura takes when performing combos, her burst damage is relatively low. Therefore, we greatly increased the benefit of the Ultimate and lane-clearing ability in the early game to make her more competitive.",
         "skills": [
           {
-            "name": "Skill 1 Seimei Umbrella Open",
+            "type": "Skill 1",
+            "name": "Seimei Umbrella Open",
+            "balance": "",
             "changes": [
               "New Effect: Increased Max damage to the non-hero unit to 130%"
             ]
@@ -2062,7 +2395,9 @@
         "summary": "Lolita's passive shield took too long to stack and was not very useful in fast-paced battles. We improved the passive effects to match her other skills. Increased base Defense to match the adjustments to defensive equipment.",
         "skills": [
           {
-            "name": "Passive Noumenon Energy Core",
+            "type": "Passive",
+            "name": "Noumenon Energy Core",
+            "balance": "",
             "changes": [
               "New Effect: Now Lolita grants herself and nearby allies 1 extra stack of shield after casting skills."
             ]
@@ -2077,7 +2412,9 @@
         "summary": "Gloo has been on the bench for quite some time. While he shines in the early and mid game, Gloo struggles to deal with back line enemies in the late game (generally, Gloo has to pull their carry back to his allies to have a chance). So we want to increase Gloo's ability to kill enemies solo and survive in the team fights. Increased base Defense to match the adjustments to defensive equipment.",
         "skills": [
           {
-            "name": "Skill 1 Slam, Slam",
+            "type": "Skill 1",
+            "name": "Slam, Slam",
+            "balance": "",
             "changes": [
               "Effect Change: Touching the Goo restores 3% of Max HP to Gloo →Touching the Goo restores 6% of Max HP to Gloo if it explodes and hits an enemy hero"
             ]
@@ -2112,7 +2449,9 @@
         "summary": "Joy can cast her Ultimate after getting enough Beat Energy, and the control immunity makes it difficult for enemy heroes to counter it. We want to remove the control immunity, making Joy players to be more cautious when entering a fight. Her Ultimate damage will also be increased for balance",
         "skills": [
           {
-            "name": "Ultimate Ha, Electrifying Beats!",
+            "type": "Ultimate",
+            "name": "Ha, Electrifying Beats!",
+            "balance": "",
             "changes": [
               "New Effect: The damage doesn't decrease now."
             ]
@@ -2123,7 +2462,9 @@
         "summary": "",
         "skills": [
           {
-            "name": "Ultimate Power of Chaos Darkening",
+            "type": "Ultimate",
+            "name": "Power of Chaos Darkening",
+            "balance": "",
             "changes": [
               "New Effect: Gains 30% Movement Speed while the skill is active."
             ]
@@ -2416,7 +2757,9 @@
         "summary": "A full upgrade to Monkey King's! With new special effects",
         "skills": [
           {
-            "name": "Skill 1 Endless Variety",
+            "type": "Skill 1",
+            "name": "Endless Variety",
+            "balance": "",
             "changes": [
               "Portion of Attack Effect inherited: 50% >>40%"
             ]
@@ -2431,7 +2774,9 @@
         "summary": "We hope to keep Ixia's overall damage intact while improving her mobility.",
         "skills": [
           {
-            "name": "Skill 1 Dual Beam",
+            "type": "Skill 1",
+            "name": "Dual Beam",
+            "balance": "",
             "changes": [
               "Cooldown: 8-4s >>4s at all levels",
               "Base Damage: 175-300 >>75-300"
@@ -2443,13 +2788,17 @@
         "summary": "We want to give other heroes more chances to counter Nolan's attack while improving his own lane clearing experience.",
         "skills": [
           {
-            "name": "Passive Dimensional Rift",
+            "type": "Passive",
+            "name": "Dimensional Rift",
+            "balance": "",
             "changes": [
               "New Effect: Restores extra Energy upon hitting Minions with rift activations."
             ]
           },
           {
-            "name": "Ultimate Fracture",
+            "type": "Ultimate",
+            "name": "Fracture",
+            "balance": "",
             "changes": [
               "Cooldown: 35-25s >>24-18s"
             ]
@@ -2460,13 +2809,17 @@
         "summary": "Lunox has been dominating the Jungle since the previous adjustments, so we're nerfing her a bit for balance. Besides, she's using her Ultimate too often because of the Cooldown Reduction.",
         "skills": [
           {
-            "name": "Skill 1(Chaos) Chaos Assault",
+            "type": "Skill 1(Chaos)",
+            "name": "Chaos Assault",
+            "balance": "",
             "changes": [
               "Percentage of Extra Damage to Creeps: 2.5-5% >>1.5-3%"
             ]
           },
           {
-            "name": "Ultimate Power of Chaos Darkening",
+            "type": "Ultimate",
+            "name": "Power of Chaos Darkening",
+            "balance": "",
             "changes": [
               "Cooldown: 25-15s >>30-22s"
             ]
@@ -2477,7 +2830,9 @@
         "summary": "Wanwan still has incredible agility. We tried to reduce her jump speed to balance it out, but it really affected her control experience. This time we will reduce her jump distance to weaken her ability to chase and kite with minimal impact on her control experience.",
         "skills": [
           {
-            "name": "Passive Tiger Pace",
+            "type": "Passive",
+            "name": "Tiger Pace",
+            "balance": "",
             "changes": [
               "Basic Attack Damage and Attack Effect Ratio: 110% >>100%"
             ]
@@ -2488,7 +2843,9 @@
         "summary": "We noticed that Karrie was dealing a lot of damage even in a defensive build. A tanky, high-damage Marksman limits the opponent's ability to counter. So we lowered the base damage on her passive, so she now has to have a more offensive build to get the same damage output.",
         "skills": [
           {
-            "name": "Passive Lightwheel Mark",
+            "type": "Passive",
+            "name": "Lightwheel Mark",
+            "balance": "",
             "changes": [
               "6%-8% of the target's Max HP >>5% (+1% of Extra Physical Attack) of the target's Max HP"
             ]
@@ -2499,13 +2856,17 @@
         "summary": "Hanabi's performance shouldn't vary so much from rank to rank, so we lowered her laning ability in the early and mid game, and increased her self-defense in the late game.",
         "skills": [
           {
-            "name": "Passive Ninjutsu Equinox",
+            "type": "Passive",
+            "name": "Ninjutsu Equinox",
+            "balance": "",
             "changes": [
               "Bounce Range: 3.5 >>3"
             ]
           },
           {
-            "name": "Skill 1 Ninjutsu Petal Barrage",
+            "type": "Skill 1",
+            "name": "Ninjutsu Petal Barrage",
+            "balance": "",
             "changes": [
               "Cooldown: 14-12s >>15-10s"
             ]
@@ -2516,7 +2877,9 @@
         "summary": "Increase Arlott's gain on attack equipment.",
         "skills": [
           {
-            "name": "Skill 2 Vengeance",
+            "type": "Skill 2",
+            "name": "Vengeance",
+            "balance": "",
             "changes": [
               "HP Regen: 5%-10% Total HP >>90%-160% Total Physical Attack"
             ]
@@ -2527,7 +2890,9 @@
         "summary": "Heroes on the EXP Lane wearing the War Axe and Brute Force Breastplate have all grown in power, so we've decided to buff Edith's power in the late-game to make her more viable.",
         "skills": [
           {
-            "name": "Passive Overload",
+            "type": "Passive",
+            "name": "Overload",
+            "balance": "",
             "changes": [
               "Bonus Damage: 4% Magic Damage Based on Max HP >>4-8% (based on level) Magic Damage Based on Max HP"
             ]
@@ -2538,7 +2903,9 @@
         "summary": "Heroes on the EXP Lane wearing the War Axe and Brute Force Breastplate have all grown in power, so we've decided to buff Argus's power in the early-game to make him more viable.",
         "skills": [
           {
-            "name": "Skill 2 Meteoric Sword",
+            "type": "Skill 2",
+            "name": "Meteoric Sword",
+            "balance": "",
             "changes": [
               "New Effect: Now creeps can be Cursed."
             ]
@@ -2549,14 +2916,18 @@
         "summary": "Heroes on the EXP Lane wearing the War Axe and Brute Force Breastplate have all grown in power, so we've decided to buff Minsitthar's power on the Exp Lane to make him more powerful.",
         "skills": [
           {
-            "name": "Skill 1 Spear of Glory",
+            "type": "Skill 1",
+            "name": "Spear of Glory",
+            "balance": "",
             "changes": [
               "First Damage: 175-300 + 180% Extra Physical Attack >>175-300+200% Extra Physical Attack",
               "Second Damage: 175-300+180% Extra Physical Attack >>175-300+200% Extra Physical Attack"
             ]
           },
           {
-            "name": "Skill 2 Shield Assault",
+            "type": "Skill 2",
+            "name": "Shield Assault",
+            "balance": "",
             "changes": [
               "Damage: 300-450 + 160% Extra Physical Attack >>300-500 + 180% Extra Physical Attack"
             ]
@@ -2609,7 +2980,8 @@
         "description": "Revamped the effects of War Axe. \"Fighters need their own set!\"",
         "sections": [
           {
-            "name": "Attributes",
+            "type": "Attributes",
+            "balance": "",
             "changes": [
               "Physical Attack: 40 >> 25"
             ]
@@ -2620,7 +2992,8 @@
         "description": "Revamped the effects of Brute Force Breastplate. \"Fighters need their own set!\"",
         "sections": [
           {
-            "name": "Unique Passive - Brute Force",
+            "type": "Unique Passive - Brute Force",
+            "balance": "",
             "changes": [
               "Each second after dealing damage, gain 6 extra Physical Attack and Magic Power and 2% extra Movement Speed per second for 4s, up to 6 stacks. Gain 15% extra Control and Slow Duration Reduction at full stacks."
             ]
@@ -2643,13 +3016,17 @@
         "summary": "As the only hero with 3 HP bars, Masha lacks the appropriate skills and strength when facing other heroes. We're making her more aggressive by differentiating her 3 HP bars and making each skill cast count, while allowing her to enter and exit the fight at will under certain conditions. In the meantime, players will have to be more careful with the timing of each skill cast (especially with only one HP bar left) as she has lost some of her durability advantages. We're also adding the Jungle as her secondary position and changing her default Battle Setup. (Masha needs equipment to provide extra Attack Speed and HP Regen rather than Defense.)",
         "skills": [
           {
-            "name": "Passive Ancient Strength",
+            "type": "Passive",
+            "name": "Ancient Strength",
+            "balance": "",
             "changes": [
               "New Effect:She can't gain Defense from equipment or Emblems. Every 1 Defense she gains is converted into 0.25 Physical Attack."
             ]
           },
           {
-            "name": "Ultimate Life Recovery",
+            "type": "Ultimate",
+            "name": "Life Recovery",
+            "balance": "",
             "changes": [
               "New Effect:Slightly knocks back enemies around the target; disarms and slows the target for 2s."
             ]
@@ -2660,13 +3037,17 @@
         "summary": "Experimental Adjustments: Argus's current gameplay is a bit too bland. His Ultimate seems to be both offensive and defensive, but in fact, it's difficult to achieve the desired effect. The Curse Damage of Meteoric Sword constitutes a lot of his strength, but it doesn't match his style of spamming Basic Attack. So we decided to redesign Argus's skill set and combat experience. As well as his early to mid game laning ability.",
         "skills": [
           {
-            "name": "Passive Warmonger",
+            "type": "Passive",
+            "name": "Warmonger",
+            "balance": "",
             "changes": [
               "New Effect:Extra Attack ignores 40% of the target's Physical Defense."
             ]
           },
           {
-            "name": "Skill 2 Meteoric Sword",
+            "type": "Skill 2",
+            "name": "Meteoric Sword",
+            "balance": "",
             "changes": [
               "New Effect:The Meteoric Sword damage now counts as Basic Attack damage and can trigger Attack Effect.",
               "New Effect:The Meteoric Sword's attack interval now shortens as the Attack Speed increases.",
@@ -2674,7 +3055,9 @@
             ]
           },
           {
-            "name": "Ultimate Eternal Evil",
+            "type": "Ultimate",
+            "name": "Eternal Evil",
+            "balance": "",
             "changes": [
               "New Effect:Argus passively increases the charging speed of the Malice Energy."
             ]
@@ -2705,7 +3088,9 @@
         "summary": "Tigreal is a Tank hero with one of the best chain control combos in the game, and we tried to make it easier for his opponents to deal with his Ultimate. But it seems we made it too easy. So, we'll adjust his Ultimate - it can still be interrupted, but only by enemy heroes who are not affected by his Ultimate.",
         "skills": [
           {
-            "name": "Ultimate Implosion",
+            "type": "Ultimate",
+            "name": "Implosion",
+            "balance": "",
             "changes": [
               "New Effect:The first pull also stuns enemies, but it can't be used again immediately after interruption."
             ]
@@ -2720,7 +3105,9 @@
         "summary": "We want Minsitthar to connect his Spear of Glory to following attacks more consistently. For example, use Spear of Glory + Ultimate as a great control combo; or use Spear of Glory + Shield Assault as a quick stun combo. (Enemy heroes can easily escape after being caught by Spear of Glory.)",
         "skills": [
           {
-            "name": "Skill 1 Spear of Glory",
+            "type": "Skill 1",
+            "name": "Spear of Glory",
+            "balance": "",
             "changes": [
               "New Effect:Minsitthar can cast other skills while retracting the spear."
             ]
@@ -2731,13 +3118,17 @@
         "summary": "We'd like to make Guinevere's Skill 2 more \"reliable\" so that players can clearly see whether or not they've hit the target. We've noticed that in certain cases, the skill doesn't knock enemies airborne. We have also increased the control duration of her Ultimate to match its visual effects.",
         "skills": [
           {
-            "name": "Skill 2 Spatial Migration",
+            "type": "Skill 2",
+            "name": "Spatial Migration",
+            "balance": "",
             "changes": [
               "New Effect:The first strike now briefly stuns the target hit (to better ensure that the second strike hits and knocks the target airborne)."
             ]
           },
           {
-            "name": "Ultimate Violet Requiem",
+            "type": "Ultimate",
+            "name": "Violet Requiem",
+            "balance": "",
             "changes": [
               "New Effect:Cooldown: 45-35s → 52-40s"
             ]
@@ -2824,55 +3215,73 @@
         "summary": "We want to give some Mages good mobility by enhancing this equipment, and remove the strong binding between this equipment and the Clock of Destiny.",
         "skills": [
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
           },
           {
-            "name": "Unique Passive - Resonate",
+            "type": "Unique Passive - Resonate",
+            "name": "",
+            "balance": "",
             "changes": [
               "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s."
             ]
