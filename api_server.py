@@ -1548,6 +1548,10 @@ def migrate_hero_ranks_constraint():
             'success': True,
             'message': 'Constraint successfully added'
         })
+    
+    except Exception as e:
+        print(f"Error migrating constraint: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/migrate-equipment-fields', methods=['POST'])
 def migrate_equipment_fields():
