@@ -661,6 +661,7 @@ def update_items_from_fandom():
         results = {
             'total': len(items_data),
             'updated': 0,
+            'created': 0,
             'failed': 0,
             'skipped': 0,
             'errors': []
@@ -674,12 +675,78 @@ def update_items_from_fandom():
                 
                 # Знаходимо предмет в базі
                 item = name_to_item.get(item_name)
-                if not item:
-                    results['errors'].append(f"{item_name}: Not found in database")
-                    results['failed'] += 1
-                    continue
                 
-                # Пропускаємо базові предмети (tier 1)
+                # Визначаємо tier на основі recipe
+                tier = '1'  # Default
+                recipe_data = fandom_data.get('recipe', [])
+                if recipe_data:
+                    tier = '2'  # Має компоненти
+                
+                # Якщо предмет не існує - створюємо його
+                if not item:
+                    # Парсимо атрибути для створення
+                    import re
+                    def parse_stat(value_str):
+                        if not value_str:
+                            return None
+                        match = re.search(r'([+\-]?\d+(?:\.\d+)?)', str(value_str))
+                        return float(match.group(1)) if match else None
+                    
+                    attrs = fandom_data.get('attributes', {})
+                    
+                    # Створюємо новий предмет
+                    new_item_data = {
+                        'game_id': game_id,
+                        'name': item_name,
+                        'tier': tier,
+                        'price_total': fandom_data.get('price'),
+                        'category': fandom_data.get('type'),
+                        'icon_url': fandom_data.get('icon_url'),
+                        'physical_attack': parse_stat(attrs.get('Physical Attack')),
+                        'magic_power': parse_stat(attrs.get('Magic Power')),
+                        'attack_speed': parse_stat(attrs.get('Attack Speed')),
+                        'hp': parse_stat(attrs.get('HP')),
+                        'physical_defense': parse_stat(attrs.get('Physical Defense')),
+                        'magic_defense': parse_stat(attrs.get('Magic Defense')),
+                        'movement_speed': parse_stat(attrs.get('Movement Speed') or attrs.get('Move Speed')),
+                        'cooldown_reduction': parse_stat(attrs.get('CD Reduction') or attrs.get('Cooldown Reduction')),
+                        'lifesteal': parse_stat(attrs.get('Physical Lifesteal') or attrs.get('Lifesteal')),
+                        'spell_vamp': parse_stat(attrs.get('Magic Lifesteal') or attrs.get('Spell Vamp')),
+                        'mana_regen': parse_stat(attrs.get('Mana Regen')),
+                        'crit_chance': parse_stat(attrs.get('Crit Chance')),
+                        'attributes_json': json.dumps(attrs, ensure_ascii=False),
+                        'recipe': json.dumps([], ensure_ascii=False),  # Порожній рецепт спочатку
+                        'sellable': 1,
+                        'removed': 0
+                    }
+                    
+                    # Створюємо предмет
+                    conn = db.get_connection()
+                    cursor = conn.cursor()
+                    ph = db.get_placeholder()
+                    
+                    columns = ', '.join(new_item_data.keys())
+                    placeholders = ', '.join([ph] * len(new_item_data))
+                    values = tuple(new_item_data.values())
+                    
+                    cursor.execute(
+                        f"INSERT INTO equipment ({columns}) VALUES ({placeholders})",
+                        values
+                    )
+                    conn.commit()
+                    
+                    # Отримуємо ID нового предмета
+                    cursor.execute(f"SELECT id FROM equipment WHERE name = {ph} AND game_id = {ph}", (item_name, game_id))
+                    new_id = cursor.fetchone()[0]
+                    
+                    item = {'id': new_id, 'name': item_name, 'tier': tier}
+                    name_to_item[item_name] = item
+                    
+                    conn.close()
+                    results['created'] += 1
+                    print(f"✨ Створено новий предмет: {item_name} (ID: {new_id})")
+                
+                # Пропускаємо базові предмети (tier 1) для оновлення
                 if item.get('tier') == '1':
                     results['skipped'] += 1
                     continue
