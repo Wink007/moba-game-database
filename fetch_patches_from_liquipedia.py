@@ -7,25 +7,52 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
+import time
 from datetime import datetime
 
 def fetch_patch_list():
-    """Отримує список всіх патчів з Liquipedia"""
-    # Беремо конкретну сторінку з патчами або просто генеруємо список версій
-    # Liquipedia не має єдиної сторінки зі списком всіх патчів
-    # Тому генеруємо список останніх патчів на основі поточної версії
+    """Отримує список всіх патчів з Liquipedia Portal:Patches"""
+    print("📋 Завантажую список патчів з Portal:Patches...")
     
-    patches = []
-    
-    # Генеруємо версії від 2.1.40 до 2.1.20 (останні 20 патчів)
-    for minor in range(40, 19, -1):
-        patches.append({
-            'version': f'2.1.{minor}',
-            'name': f'Patch 2.1.{minor}',
-            'url': f'https://liquipedia.net/mobilelegends/Patch_2.1.{minor}'
-        })
-    
-    return patches
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        }
+        response = requests.get('https://liquipedia.net/mobilelegends/Portal:Patches', 
+                              headers=headers, timeout=15)
+        
+        if response.status_code != 200:
+            print(f"❌ Не вдалося завантажити список патчів: HTTP {response.status_code}")
+            return []
+        
+        # Витягуємо всі посилання на патчі
+        soup = BeautifulSoup(response.text, 'html.parser')
+        patch_links = soup.find_all('a', href=re.compile(r'/mobilelegends/Patch_\d+\.\d+\.\d+'))
+        
+        # Збираємо унікальні версії
+        versions = set()
+        for link in patch_links:
+            match = re.search(r'Patch_(\d+\.\d+\.\d+)', link.get('href', ''))
+            if match:
+                versions.add(match.group(1))
+        
+        # Сортуємо від найновіших до найстаріших
+        sorted_versions = sorted(versions, key=lambda v: [int(x) for x in v.split('.')], reverse=True)
+        
+        patches = []
+        for version in sorted_versions:
+            patches.append({
+                'version': version,
+                'name': f'Patch {version}',
+                'url': f'https://liquipedia.net/mobilelegends/Patch_{version}'
+            })
+        
+        print(f"✅ Знайдено {len(patches)} патчів на Liquipedia\n")
+        return patches
+        
+    except Exception as e:
+        print(f"❌ Помилка при завантаженні списку патчів: {e}")
+        return []
 
 
 def fetch_patch_details(version):
@@ -200,7 +227,7 @@ def fetch_patch_details(version):
 
 def fetch_latest_patches(limit=10):
     """Отримує останні N патчів"""
-    print("🔍 Отримую список патчів з Liquipedia...\n")
+    print("🔍 Завантажую патчі з Liquipedia...\n")
     
     patches = fetch_patch_list()
     
@@ -208,21 +235,24 @@ def fetch_latest_patches(limit=10):
         print("❌ Не вдалося отримати список патчів")
         return []
     
-    # Сортуємо за версією (останні спочатку)
-    patches_sorted = sorted(patches, key=lambda x: [int(n) for n in x['version'].split('.')], reverse=True)
+    # Беремо тільки перші limit патчів (вже відсортовані від найновіших)
+    patches_to_fetch = patches[:limit]
     
-    # Беремо останні N
-    latest = patches_sorted[:limit]
-    
-    print(f"📋 Знайдено {len(patches)} патчів, обробляю останні {len(latest)}...\n")
+    print(f"📥 Завантажую {len(patches_to_fetch)} патчів...\n")
     
     detailed_patches = []
     
-    for patch in latest:
-        print(f"[{len(detailed_patches)+1}/{len(latest)}] Patch {patch['version']}")
+    for i, patch in enumerate(patches_to_fetch):
+        # Затримка між запитами щоб уникнути 429
+        if i > 0:
+            time.sleep(1.5)  # 1.5 секунди між запитами
+        
+        print(f"[{i+1}/{len(patches_to_fetch)}] {patch['version']}...", end=' ')
         details = fetch_patch_details(patch['version'])
         if details:
             detailed_patches.append(details)
+        else:
+            print(f"⚠️  Пропускаю")
     
     return detailed_patches
 

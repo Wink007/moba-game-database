@@ -478,5 +478,2666 @@
     },
     "item_changes": {},
     "system_changes": []
+  },
+  {
+    "version": "2.1.18",
+    "url": "https://liquipedia.net/mobilelegends/Patch_2.1.18",
+    "release_date": "2025-09-17",
+    "highlights": [
+      "New Hero:Obsidia, Sovereign of Dark's End. An Abyss Marksman who enhances her weapon by collecting Bone Shards as she traverses the battlefield.",
+      "Revamp Hero:"
+    ],
+    "hero_changes": {},
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.9.99",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.9.99",
+    "release_date": "2025-08-05",
+    "highlights": [
+      "Revamped Hero:Grock, Fortress Titan. A relentless control-oriented tank.",
+      "Battlefield Adjustments",
+      "Other System Adjustments"
+    ],
+    "hero_changes": {
+      "Grock, Fortress Titan": {
+        "summary": "",
+        "changes": [
+          "Cooldown on the Same Hero: 5s >> 3s. Now you can stack effects even in 1v1 combat.",
+          "Number of Crimson Flowers: 2 >> 3",
+          "Damage: 100-200 + 50% Magic Power >> 65-130 + 30% Magic Power",
+          "Slow Effect: 10% >> 6%, Cap: 50% >> 30%",
+          "HP Regen: 75-150 + 35% Magic Power >> 45-90 + 21% Magic Power",
+          "Cooldown: 5s-2.5s >> 3s-1.5s",
+          "Mana Cost: 65-90 >> 40-65",
+          "Damage: 350-600 + 150% Magic Power >> 290-540 + 120% Magic Power",
+          "Second Stage Damage: 105-180 + 20% Magic Power >> 50-125 + 10% Magic Power",
+          "Mana Cost: 100-150 >> 80-130",
+          "Number of Attacks: 15 >> 20",
+          "Slow Effect When Swipe: 50% >> 60%",
+          "New Effect: Increase camera height when casting the Ultimate."
+        ]
+      },
+      "Carmilla": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 5s-2.5s >> 3s-1.5s",
+          "Mana Cost: 65-90 >> 40-65",
+          "Damage: 350-600 + 150% Magic Power >> 290-540 + 120% Magic Power",
+          "Second Stage Damage: 105-180 + 20% Magic Power >> 50-125 + 10% Magic Power",
+          "Mana Cost: 100-150 >> 80-130",
+          "Number of Attacks: 15 >> 20",
+          "Slow Effect When Swipe: 50% >> 60%",
+          "New Effect: Increase camera height when casting the Ultimate."
+        ]
+      },
+      "Yve": {
+        "summary": "",
+        "changes": []
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.9.90",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.9.90",
+    "release_date": "2025-06-18",
+    "highlights": [
+      "New Hero:Zetian.",
+      "Hero Adjustments"
+    ],
+    "hero_changes": {},
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.9.64",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.9.64",
+    "release_date": "2025-03-18",
+    "highlights": [
+      "New Hero:Kalea, Surging Wave. Descendant of the Great Serpent that swims gracefully through the Vonetis Sea with her serpent tail.",
+      "Hero Adjustments"
+    ],
+    "hero_changes": {
+      "Hanzo": {
+        "summary": "",
+        "changes": [
+          "Movement Speed: 248 >> 240",
+          "Damage Transfer Ratio: 60%-80% >> 60% at at all levelsCooldown: 9-7s >> 9-6s",
+          "New Effect: Reveals marked enemies' position.",
+          "Movement Speed: 135% >> 150%"
+        ]
+      },
+      "Melissa": {
+        "summary": "",
+        "changes": [
+          "New Effect: Reveals marked enemies' position.",
+          "Movement Speed: 135% >> 150%",
+          "Shockwave Blast's explosion now damages all enemies in range (previously only damaged the first target hit).Removed Effect: Removed the aftershock damage.Explosion Damage: 250-750 + 100% of Total Physical Attack >> 450-1100 + 1556 of Total Physical Attack"
+        ]
+      },
+      "Pharsa": {
+        "summary": "",
+        "changes": [
+          "Shockwave Blast's explosion now damages all enemies in range (previously only damaged the first target hit).Removed Effect: Removed the aftershock damage.Explosion Damage: 250-750 + 100% of Total Physical Attack >> 450-1100 + 1556 of Total Physical Attack",
+          "Base HP: 2280 >> 2480",
+          "Max Stacks: 20 >> 15Mana Regen per Stack: 4% >> 5%",
+          "Mana Cost: 90-120 >> 120-150Extra Damage: 270-645 + 150% of Magic Power >> 300-800 + 150% of Magic Power"
+        ]
+      },
+      "Brody": {
+        "summary": "",
+        "changes": [
+          "Shockwave Blast's explosion now damages all enemies in range (previously only damaged the first target hit).Removed Effect: Removed the aftershock damage.Explosion Damage: 250-750 + 100% of Total Physical Attack >> 450-1100 + 1556 of Total Physical Attack",
+          "Base HP: 2280 >> 2480",
+          "Max Stacks: 20 >> 15Mana Regen per Stack: 4% >> 5%",
+          "Mana Cost: 90-120 >> 120-150Extra Damage: 270-645 + 150% of Magic Power >> 300-800 + 150% of Magic Power",
+          "Base Damage: 80-180 >> 120-220Removed Effect: 60% Extra Damage to CreepsRemoved Effect: 15% Damage Increase per hit (up to 3 times).New Effect: Each hit reduces the target's Magic Defense by 10% (up to 3 stacks, lasting for 2s).Slow Effect: 20% Slow Effect for 0.5s >> Each hit reduces the target's Movement Speed by 10% (up to 3 stacks, lasting for 2s)"
+        ]
+      },
+      "Lukas": {
+        "summary": "",
+        "changes": [
+          "Base HP: 2280 >> 2480",
+          "Max Stacks: 20 >> 15Mana Regen per Stack: 4% >> 5%",
+          "Mana Cost: 90-120 >> 120-150Extra Damage: 270-645 + 150% of Magic Power >> 300-800 + 150% of Magic Power",
+          "Base Damage: 80-180 >> 120-220Removed Effect: 60% Extra Damage to CreepsRemoved Effect: 15% Damage Increase per hit (up to 3 times).New Effect: Each hit reduces the target's Magic Defense by 10% (up to 3 stacks, lasting for 2s).Slow Effect: 20% Slow Effect for 0.5s >> Each hit reduces the target's Movement Speed by 10% (up to 3 stacks, lasting for 2s)",
+          "Cooldown: 55s at all levels >> 55s-45sDamage: 200-450 + 100% of Extra Physical Attack (subsequent impacts only deal 50% damage) >> 100-200 + 50% of Total Physical Attack (subsequent impacts deal full damage)"
+        ]
+      },
+      "Zhuxin": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 80-180 >> 120-220Removed Effect: 60% Extra Damage to CreepsRemoved Effect: 15% Damage Increase per hit (up to 3 times).New Effect: Each hit reduces the target's Magic Defense by 10% (up to 3 stacks, lasting for 2s).Slow Effect: 20% Slow Effect for 0.5s >> Each hit reduces the target's Movement Speed by 10% (up to 3 stacks, lasting for 2s)",
+          "Cooldown: 55s at all levels >> 55s-45sDamage: 200-450 + 100% of Extra Physical Attack (subsequent impacts only deal 50% damage) >> 100-200 + 50% of Total Physical Attack (subsequent impacts deal full damage)",
+          "Bennett's Basic Attack Damage: 232%-330% of Total Physical Attack >> 230%-300% of Total Physical AttackNibiru's Attack Effect inheritance ratio per bullet: 22% >> 25%Wesker's Attack Effect inheritance ratio per bullet: 22% >> 35%Fixed an issue where some bullets of Basic Attacks with Wesker would be lost at certain distances.",
+          "Ultimate (Wesker) Cooldown: 32-24s >> 20-12s"
+        ]
+      },
+      "Johnson": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 55s at all levels >> 55s-45sDamage: 200-450 + 100% of Extra Physical Attack (subsequent impacts only deal 50% damage) >> 100-200 + 50% of Total Physical Attack (subsequent impacts deal full damage)",
+          "Bennett's Basic Attack Damage: 232%-330% of Total Physical Attack >> 230%-300% of Total Physical AttackNibiru's Attack Effect inheritance ratio per bullet: 22% >> 25%Wesker's Attack Effect inheritance ratio per bullet: 22% >> 35%Fixed an issue where some bullets of Basic Attacks with Wesker would be lost at certain distances.",
+          "Ultimate (Wesker) Cooldown: 32-24s >> 20-12s",
+          "Cooldown: 10-8s >> 10-6s",
+          "Skill Recharge Time: 30-24s >> 30-18s"
+        ]
+      },
+      "Akai": {
+        "summary": "",
+        "changes": [
+          "Bennett's Basic Attack Damage: 232%-330% of Total Physical Attack >> 230%-300% of Total Physical AttackNibiru's Attack Effect inheritance ratio per bullet: 22% >> 25%Wesker's Attack Effect inheritance ratio per bullet: 22% >> 35%Fixed an issue where some bullets of Basic Attacks with Wesker would be lost at certain distances.",
+          "Ultimate (Wesker) Cooldown: 32-24s >> 20-12s",
+          "Cooldown: 10-8s >> 10-6s",
+          "Skill Recharge Time: 30-24s >> 30-18s",
+          "Slash Damage Bonus: 60% Extra Physical Attack >> 50% Extra Physical AttackExtra Damage: 45-85 + 20% of Total Physical Attack >> 70-140 + 40% of Extra Physical Attack"
+        ]
+      },
+      "Beatrix": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 10-8s >> 10-6s",
+          "Skill Recharge Time: 30-24s >> 30-18s",
+          "Slash Damage Bonus: 60% Extra Physical Attack >> 50% Extra Physical AttackExtra Damage: 45-85 + 20% of Total Physical Attack >> 70-140 + 40% of Extra Physical Attack",
+          "Range: 6.5 >> 5.5",
+          "Cooldown: 9-7s >> 9s at all levelsDash Distance: 4.5 >> 4Dashing Speed: 9 >> 10"
+        ]
+      },
+      "Natalia": {
+        "summary": "",
+        "changes": [
+          "Slash Damage Bonus: 60% Extra Physical Attack >> 50% Extra Physical AttackExtra Damage: 45-85 + 20% of Total Physical Attack >> 70-140 + 40% of Extra Physical Attack",
+          "Range: 6.5 >> 5.5",
+          "Cooldown: 9-7s >> 9s at all levelsDash Distance: 4.5 >> 4Dashing Speed: 9 >> 10",
+          "Dash Distance: 3 >> 4"
+        ]
+      },
+      "Hayabusa": {
+        "summary": "",
+        "changes": [
+          "Range: 6.5 >> 5.5",
+          "Cooldown: 9-7s >> 9s at all levelsDash Distance: 4.5 >> 4Dashing Speed: 9 >> 10",
+          "Dash Distance: 3 >> 4",
+          "New Effect: Can now teleport to any location (only available after leaving combat)."
+        ]
+      },
+      "Badang": {
+        "summary": "",
+        "changes": [
+          "Dash Distance: 3 >> 4",
+          "New Effect: Can now teleport to any location (only available after leaving combat).",
+          "Mana Cost: 65-90 >> 50-70",
+          "Mana Cost: 90-140 >> 70-95"
+        ]
+      },
+      "Minotaur": {
+        "summary": "",
+        "changes": [
+          "New Effect: Can now teleport to any location (only available after leaving combat).",
+          "Mana Cost: 65-90 >> 50-70",
+          "Mana Cost: 90-140 >> 70-95",
+          "Fighter/Mage >> Assassin/Fighter"
+        ]
+      },
+      "Chip": {
+        "summary": "",
+        "changes": [
+          "Mana Cost: 65-90 >> 50-70",
+          "Mana Cost: 90-140 >> 70-95",
+          "Fighter/Mage >> Assassin/Fighter",
+          "Moonlight Shadow Basic Attack's Total Physical Bonus: 30% >> 20%"
+        ]
+      },
+      "Eudora": {
+        "summary": "",
+        "changes": [
+          "Fighter/Mage >> Assassin/Fighter",
+          "Moonlight Shadow Basic Attack's Total Physical Bonus: 30% >> 20%",
+          "Healing Effect: Damage dealt to heroes is converted to HP after the effect ends >> All damage dealt is converted to HP after the effect ends"
+        ]
+      },
+      "Julian": {
+        "summary": "",
+        "changes": [
+          "Moonlight Shadow Basic Attack's Total Physical Bonus: 30% >> 20%",
+          "Healing Effect: Damage dealt to heroes is converted to HP after the effect ends >> All damage dealt is converted to HP after the effect ends"
+        ]
+      },
+      "Miya": {
+        "summary": "",
+        "changes": [
+          "Healing Effect: Damage dealt to heroes is converted to HP after the effect ends >> All damage dealt is converted to HP after the effect ends",
+          "Trigger condition: After killing an enemy hero >> After dealing damage to a hero with less than 30% HPNew Effect: After killing an enemy hero, [Killing Spree] cooldown will be reset.Added cooldown: 30s"
+        ]
+      },
+      "Argus": {
+        "summary": "",
+        "changes": [
+          "Trigger condition: After killing an enemy hero >> After dealing damage to a hero with less than 30% HPNew Effect: After killing an enemy hero, [Killing Spree] cooldown will be reset.Added cooldown: 30s",
+          "New Effect: Temporal Reign's duration is extended by 2s when getting a kill or assist."
+        ]
+      },
+      "Assassin - Killing Spree": {
+        "summary": "",
+        "changes": [
+          "New Effect: Temporal Reign's duration is extended by 2s when getting a kill or assist.",
+          "After dealing damage to an enemy hero, increase their damage taken from allies by 6% >> After dealing damage to an enemy hero, increase their damage taken from allies by 6% and gain 10% Movement Speed boost",
+          "Cooldown Reduction: 15% >> Initially 12%, gain 1% extra for each kill or assist (up to 8 stacks)"
+        ]
+      },
+      "Roaming Blessing - Dire Hit": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 70s >> 90s",
+          "1820 >> 2030"
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.9.42",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.9.42",
+    "release_date": "2024-12-18",
+    "highlights": [
+      "New Hero:Lukas, Beast of Light. A Fighter who can unleash his power to transform into a Sacred Beast and dominate the battlefield.",
+      "Hero Adjustments",
+      "Battlefield Adjustments",
+      "System Adjustments"
+    ],
+    "hero_changes": {
+      "Lukas, Beast of Light": {
+        "summary": "",
+        "changes": [
+          "Base HP: 2580 >> 2500HP Growth: 235 >> 210Attack Speed Growth: 3% >> 2%",
+          "Reduces target's Physical Defense by 496 per stack, up to 10 stacks >> Reduces target's Physical Defense by 5% per stack, up to 6 stacksHP Recovered: 50% of the Doppelganger's Physical Attack >> 75 + 25% of the Doppelganger's Physical Attack",
+          "Cooldown: 10s >> 10-8s",
+          "Cooldown: 10s >> 10-8sThis skill now no longer stops when hitting hero units.",
+          "Base Damage. 170-320 + 40% of Total Physical Attack >> 250-320+ 40%-60% of Total Physical AttackNew Effect: Applies a 20% Slow Effect for 1.5s to target hit. The Slow Effect can stack up to 3 times with Doppelgangers.Cooldown: 4s >> 6sOptimized skill animations and visual effects to enhance the sense of power.",
+          "Duration of Doppelganger: 12s >> 8s",
+          "Demonic Slash Basic Regen: 200 HP >> 150 HPDemonic Slash Damage: 150 + 100% of Total Physical Attack >> 180 + 80% of Total Physical AttackExtra Malice Energy Gained with Crit: 5 >> 10",
+          "Removed: Attacking Cursed targets grants 200% Malice Energy.New effect: Hitting an enemy grants 100 Malice Energy (excess Malice Energy will be kept for the next Basic Attack).Base Damage: 300-400 >> 120-240",
+          "Argus draws his Meteoric Sword, dealing Physical Damage to nearby enemies and becoming the Fallen Angel. If this attack hits a hero, it enhances the Meteoric Sword (and Argus gains massive Malice Energy after Demonic Slash). If he takes fatal damage during the transformation, the duration of the Fallen Angel state will be immediately reset. If he doesn't take fatal damage during the transformation, the cooldown will be reduced by 50% when the Skill ends.",
+          "Max Passive Stacks: 4 >> 3Attack Speed Granted per Stack: 9-12% >> 15%Removed Effect: Each stack of [Fighting Spirit] increases Physical Penetration by 1-4.Removed Effect: At full stacks of [Fighting Spirit], gains 10% Movement Speed.",
+          "New Effect: Slows the enemy on hit by 20% for 3s.New Effect: When cast with full stacks of Fighting Spirit, deals additional Physical Damage equal to 3.5-6% (scales with Skill Level) of the target's HP to enemies in range (capped at 200-900 Extra Damage against Creeps).Base Damage: 240-440 >> 200-400Enhanced Basic Attack's HP Recovery Trigger: Hitting enemy heroes or Creeps >> Hitting enemy targets (now includes enemy Minions)",
+          "Blade Craft Effect: Basic Attacks deal 50 extra Physical Damage at full [Fighting Spirit] stacks >> Basic Attacks always deal 50 extra Physical Damage (can be stacked with the effect of full [Fighting Spirit] stacks)"
+        ]
+      },
+      "Sun": {
+        "summary": "",
+        "changes": [
+          "Demonic Slash Basic Regen: 200 HP >> 150 HPDemonic Slash Damage: 150 + 100% of Total Physical Attack >> 180 + 80% of Total Physical AttackExtra Malice Energy Gained with Crit: 5 >> 10",
+          "Removed: Attacking Cursed targets grants 200% Malice Energy.New effect: Hitting an enemy grants 100 Malice Energy (excess Malice Energy will be kept for the next Basic Attack).Base Damage: 300-400 >> 120-240",
+          "Argus draws his Meteoric Sword, dealing Physical Damage to nearby enemies and becoming the Fallen Angel. If this attack hits a hero, it enhances the Meteoric Sword (and Argus gains massive Malice Energy after Demonic Slash). If he takes fatal damage during the transformation, the duration of the Fallen Angel state will be immediately reset. If he doesn't take fatal damage during the transformation, the cooldown will be reduced by 50% when the Skill ends.",
+          "Max Passive Stacks: 4 >> 3Attack Speed Granted per Stack: 9-12% >> 15%Removed Effect: Each stack of [Fighting Spirit] increases Physical Penetration by 1-4.Removed Effect: At full stacks of [Fighting Spirit], gains 10% Movement Speed.",
+          "New Effect: Slows the enemy on hit by 20% for 3s.New Effect: When cast with full stacks of Fighting Spirit, deals additional Physical Damage equal to 3.5-6% (scales with Skill Level) of the target's HP to enemies in range (capped at 200-900 Extra Damage against Creeps).Base Damage: 240-440 >> 200-400Enhanced Basic Attack's HP Recovery Trigger: Hitting enemy heroes or Creeps >> Hitting enemy targets (now includes enemy Minions)",
+          "Blade Craft Effect: Basic Attacks deal 50 extra Physical Damage at full [Fighting Spirit] stacks >> Basic Attacks always deal 50 extra Physical Damage (can be stacked with the effect of full [Fighting Spirit] stacks)",
+          "Base HP Regen: 30 >> 50New Effect: When the target's HP is below 50%, Zilong's skills and Basic Attacks deal 30 extra damage.",
+          "Attack Speed Boost: 45%-75% >> 35%-55%"
+        ]
+      },
+      "Argus": {
+        "summary": "",
+        "changes": [
+          "Max Passive Stacks: 4 >> 3Attack Speed Granted per Stack: 9-12% >> 15%Removed Effect: Each stack of [Fighting Spirit] increases Physical Penetration by 1-4.Removed Effect: At full stacks of [Fighting Spirit], gains 10% Movement Speed.",
+          "New Effect: Slows the enemy on hit by 20% for 3s.New Effect: When cast with full stacks of Fighting Spirit, deals additional Physical Damage equal to 3.5-6% (scales with Skill Level) of the target's HP to enemies in range (capped at 200-900 Extra Damage against Creeps).Base Damage: 240-440 >> 200-400Enhanced Basic Attack's HP Recovery Trigger: Hitting enemy heroes or Creeps >> Hitting enemy targets (now includes enemy Minions)",
+          "Blade Craft Effect: Basic Attacks deal 50 extra Physical Damage at full [Fighting Spirit] stacks >> Basic Attacks always deal 50 extra Physical Damage (can be stacked with the effect of full [Fighting Spirit] stacks)",
+          "Base HP Regen: 30 >> 50New Effect: When the target's HP is below 50%, Zilong's skills and Basic Attacks deal 30 extra damage.",
+          "Attack Speed Boost: 45%-75% >> 35%-55%",
+          "Control Duration: 0.6s >> 1sCooldown: 30-26s >> 45-35s"
+        ]
+      },
+      "Aulus": {
+        "summary": "",
+        "changes": [
+          "Base HP Regen: 30 >> 50New Effect: When the target's HP is below 50%, Zilong's skills and Basic Attacks deal 30 extra damage.",
+          "Attack Speed Boost: 45%-75% >> 35%-55%",
+          "Control Duration: 0.6s >> 1sCooldown: 30-26s >> 45-35s",
+          "Basic Attack Range: 4.1 >> 4.3",
+          "Dashing Speed: 9 >> 12Dash Distance: 3.2 >> 3Enhanced Basic Attack Range: 4.1 >> 4.3"
+        ]
+      },
+      "Zilong": {
+        "summary": "",
+        "changes": [
+          "Control Duration: 0.6s >> 1sCooldown: 30-26s >> 45-35s",
+          "Basic Attack Range: 4.1 >> 4.3",
+          "Dashing Speed: 9 >> 12Dash Distance: 3.2 >> 3Enhanced Basic Attack Range: 4.1 >> 4.3",
+          "Removed Effect: Circle Strike recovers equal to 80 + 50% of damage dealt (halved against minions).New Effect: Circle Strike recovers HP equal to 80 + 8% of Max HP (halved against Minions)."
+        ]
+      },
+      "Badang": {
+        "summary": "",
+        "changes": [
+          "Basic Attack Range: 4.1 >> 4.3",
+          "Dashing Speed: 9 >> 12Dash Distance: 3.2 >> 3Enhanced Basic Attack Range: 4.1 >> 4.3",
+          "Removed Effect: Circle Strike recovers equal to 80 + 50% of damage dealt (halved against minions).New Effect: Circle Strike recovers HP equal to 80 + 8% of Max HP (halved against Minions).",
+          "Cast Range: 3 >> 3.8"
+        ]
+      },
+      "Harith": {
+        "summary": "",
+        "changes": [
+          "Removed Effect: Circle Strike recovers equal to 80 + 50% of damage dealt (halved against minions).New Effect: Circle Strike recovers HP equal to 80 + 8% of Max HP (halved against Minions).",
+          "Cast Range: 3 >> 3.8",
+          "Cooldown: 9.5s-7.5s >> 8.5s-6.5sAdded 1 frame to the Skill backswing to enhance hit feedback."
+        ]
+      },
+      "Dyrroth": {
+        "summary": "",
+        "changes": [
+          "Cast Range: 3 >> 3.8",
+          "Cooldown: 9.5s-7.5s >> 8.5s-6.5sAdded 1 frame to the Skill backswing to enhance hit feedback.",
+          "Damage: 170-245 + 130%-155% of Extra Physical Attack >> 220-370+ 130% of Extra Physical Attack"
+        ]
+      },
+      "Cici": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 9.5s-7.5s >> 8.5s-6.5sAdded 1 frame to the Skill backswing to enhance hit feedback.",
+          "Damage: 170-245 + 130%-155% of Extra Physical Attack >> 220-370+ 130% of Extra Physical Attack",
+          "As a buff-type skill, Karrie's Ultimate provides insufficient Damage Increase in the early-to-mid game."
+        ]
+      },
+      "Alucard": {
+        "summary": "",
+        "changes": [
+          "Damage: 170-245 + 130%-155% of Extra Physical Attack >> 220-370+ 130% of Extra Physical Attack",
+          "As a buff-type skill, Karrie's Ultimate provides insufficient Damage Increase in the early-to-mid game.",
+          "Basic Attack Damage with Ultimate: 120 + 60%-80% of Total Physical Attack >> 120-200 + 65% of Total Physical Attack"
+        ]
+      },
+      "Lancelot": {
+        "summary": "",
+        "changes": [
+          "As a buff-type skill, Karrie's Ultimate provides insufficient Damage Increase in the early-to-mid game.",
+          "Basic Attack Damage with Ultimate: 120 + 60%-80% of Total Physical Attack >> 120-200 + 65% of Total Physical Attack",
+          "Basic Attack Range: 5.1 >> 4.8"
+        ]
+      },
+      "Karrie": {
+        "summary": "",
+        "changes": [
+          "Basic Attack Damage with Ultimate: 120 + 60%-80% of Total Physical Attack >> 120-200 + 65% of Total Physical Attack",
+          "Basic Attack Range: 5.1 >> 4.8",
+          "Energy Regen: 5 >> 4"
+        ]
+      },
+      "Irithel": {
+        "summary": "",
+        "changes": [
+          "Basic Attack Range: 5.1 >> 4.8",
+          "Energy Regen: 5 >> 4",
+          "Magic Power Bonus to Path Damage: 80% >> 70%Magic Power Bonus to End Damage: 160% >> 140%"
+        ]
+      },
+      "Bruno": {
+        "summary": "",
+        "changes": [
+          "Energy Regen: 5 >> 4",
+          "Magic Power Bonus to Path Damage: 80% >> 70%Magic Power Bonus to End Damage: 160% >> 140%"
+        ]
+      },
+      "Fanny": {
+        "summary": "",
+        "changes": [
+          "Magic Power Bonus to Path Damage: 80% >> 70%Magic Power Bonus to End Damage: 160% >> 140%",
+          "Increase Attack Range: 15% >> 12%Movement Speed Boost Duration: 1s >> 0.5s"
+        ]
+      },
+      "Cecilion": {
+        "summary": "",
+        "changes": [
+          "Increase Attack Range: 15% >> 12%Movement Speed Boost Duration: 1s >> 0.5s",
+          "Physical Attack: 60 >> 40Attack Speed: 0 >> 20%Removed Magic Defense (the new Passive effect will increase Hybrid Defense)."
+        ]
+      },
+      "Malefic Gun": {
+        "summary": "",
+        "changes": [
+          "Physical Attack: 60 >> 40Attack Speed: 0 >> 20%Removed Magic Defense (the new Passive effect will increase Hybrid Defense).",
+          "Lifesteal: 25% >> 20%Physical Attack: 30 >> 40",
+          "New Effect: +8% Lifesteal",
+          "Lifesteal Granted per Basic Attack: 3% >> 2%"
+        ]
+      }
+    },
+    "item_changes": {
+      "Malefic Gun": [],
+      "Rose Gold Meteor": [],
+      "Haas's Claws": [],
+      "Demon Hunter Sword": []
+    },
+    "system_changes": []
+  },
+  {
+    "version": "1.9.20",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.9.20",
+    "release_date": "2024-09-18",
+    "highlights": [
+      "New Hero:Suyou, Mask of the Immortal. An exorcist from Zhu'an who has inherited the power of the Immortal Nuo.",
+      "Hero Adjustments",
+      "Battlefield Adjustments",
+      "System Adjustments",
+      "Events"
+    ],
+    "hero_changes": {
+      "Zhuxin": {
+        "summary": "",
+        "changes": [
+          "Extra Effect after Delay: 50% Slow Effect >>Immobilizing Effect",
+          "Cooldown: 20s >>60s",
+          "Cooldown: 2-1s >>2.5-1.5s",
+          "New Effect: Slows the target hit by 30% for 0.5s.Cooldown: 24-18s >>21-15s",
+          "Maximum Damage Reduction: 30% >>21%-35% (increases as the hero levels up)",
+          "Cooldown: 7s at all levels >>9s at all levels",
+          "Cooldown: 7-4.5s >>9-4sDamage of First 2 Attacks: 135-310 + 160%-185% Total Physical Attack >>90-315 + 135%-185%-185% Total Physical AttackDamage to Minions: 60%-100% >>70%-100%-100%"
+        ]
+      },
+      "Chip": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 2-1s >>2.5-1.5s",
+          "New Effect: Slows the target hit by 30% for 0.5s.Cooldown: 24-18s >>21-15s",
+          "Maximum Damage Reduction: 30% >>21%-35% (increases as the hero levels up)",
+          "Cooldown: 7s at all levels >>9s at all levels",
+          "Cooldown: 7-4.5s >>9-4sDamage of First 2 Attacks: 135-310 + 160%-185% Total Physical Attack >>90-315 + 135%-185%-185% Total Physical AttackDamage to Minions: 60%-100% >>70%-100%-100%",
+          "Nightmaric Spawn Base Damage: 60 >>55Nightmaric Spawn's HP and Hybrid Defense Inherited: 70%-100% >>55%-100%Nightmaric Spawn's Magic Power Inherited: 50%-80% >>55%-100%(removed Extra Magic Power).",
+          "Enhanced Nightmaric Spawn's Magic Power Inherited: 90% >>100% (removed Extra Magic Power)."
+        ]
+      },
+      "Nolan": {
+        "summary": "",
+        "changes": [
+          "Maximum Damage Reduction: 30% >>21%-35% (increases as the hero levels up)",
+          "Cooldown: 7s at all levels >>9s at all levels",
+          "Cooldown: 7-4.5s >>9-4sDamage of First 2 Attacks: 135-310 + 160%-185% Total Physical Attack >>90-315 + 135%-185%-185% Total Physical AttackDamage to Minions: 60%-100% >>70%-100%-100%",
+          "Nightmaric Spawn Base Damage: 60 >>55Nightmaric Spawn's HP and Hybrid Defense Inherited: 70%-100% >>55%-100%Nightmaric Spawn's Magic Power Inherited: 50%-80% >>55%-100%(removed Extra Magic Power).",
+          "Enhanced Nightmaric Spawn's Magic Power Inherited: 90% >>100% (removed Extra Magic Power).",
+          "HP Growth: 360 >>295Physical Defense Growth: 6.8 >>5.5Magic Defense Growth: 4 >>2.5Base Mana: 430 >>500Base Mana Regen: 2.4 >>4"
+        ]
+      },
+      "Terizla": {
+        "summary": "",
+        "changes": [
+          "Nightmaric Spawn Base Damage: 60 >>55Nightmaric Spawn's HP and Hybrid Defense Inherited: 70%-100% >>55%-100%Nightmaric Spawn's Magic Power Inherited: 50%-80% >>55%-100%(removed Extra Magic Power).",
+          "Enhanced Nightmaric Spawn's Magic Power Inherited: 90% >>100% (removed Extra Magic Power).",
+          "HP Growth: 360 >>295Physical Defense Growth: 6.8 >>5.5Magic Defense Growth: 4 >>2.5Base Mana: 430 >>500Base Mana Regen: 2.4 >>4",
+          "Cooldown: 6-4.5s >>9-4.5sIncreased Physical & Magic Defense: 40-70 >>20-65"
+        ]
+      },
+      "Zhask": {
+        "summary": "",
+        "changes": [
+          "HP Growth: 360 >>295Physical Defense Growth: 6.8 >>5.5Magic Defense Growth: 4 >>2.5Base Mana: 430 >>500Base Mana Regen: 2.4 >>4",
+          "Cooldown: 6-4.5s >>9-4.5sIncreased Physical & Magic Defense: 40-70 >>20-65",
+          "Enhanced Scythe's Sustained Damage: 90-210 >>80-180"
+        ]
+      },
+      "Hylos": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 6-4.5s >>9-4.5sIncreased Physical & Magic Defense: 40-70 >>20-65",
+          "Enhanced Scythe's Sustained Damage: 90-210 >>80-180",
+          "Effect Optimization: Significantly increased the striking speed of the Ultimate at Level 2 & 3 (The total duration for 9 & 12 strikes of Level 2 & 3 Ultimate is now the same as 6 strikes of Level Ultimate).Damage Bonus: 75% Extra Physical Attack >>60% Extra Physical Attack"
+        ]
+      },
+      "Roger": {
+        "summary": "",
+        "changes": [
+          "Enhanced Scythe's Sustained Damage: 90-210 >>80-180",
+          "Effect Optimization: Significantly increased the striking speed of the Ultimate at Level 2 & 3 (The total duration for 9 & 12 strikes of Level 2 & 3 Ultimate is now the same as 6 strikes of Level Ultimate).Damage Bonus: 75% Extra Physical Attack >>60% Extra Physical Attack",
+          "Kupa's Extra Damage against Creeps: 150% >>120%",
+          "Base Damage of Kupa's Bite: 100-190 >>70-160"
+        ]
+      },
+      "Julian": {
+        "summary": "",
+        "changes": [
+          "Effect Optimization: Significantly increased the striking speed of the Ultimate at Level 2 & 3 (The total duration for 9 & 12 strikes of Level 2 & 3 Ultimate is now the same as 6 strikes of Level Ultimate).Damage Bonus: 75% Extra Physical Attack >>60% Extra Physical Attack",
+          "Kupa's Extra Damage against Creeps: 150% >>120%",
+          "Base Damage of Kupa's Bite: 100-190 >>70-160",
+          "Range: 4.6 >>4.8New Effect: Casting skills will not interrupt the hero's movement.Mana Cost: 60-110 >>50-75",
+          "Range: 5.5 >>4.8Mana Cost: 75-100 >>60-85"
+        ]
+      },
+      "Hayabusa": {
+        "summary": "",
+        "changes": [
+          "Kupa's Extra Damage against Creeps: 150% >>120%",
+          "Base Damage of Kupa's Bite: 100-190 >>70-160",
+          "Range: 4.6 >>4.8New Effect: Casting skills will not interrupt the hero's movement.Mana Cost: 60-110 >>50-75",
+          "Range: 5.5 >>4.8Mana Cost: 75-100 >>60-85",
+          "Fixed an issue where the Magic Power granted by Overload was not effective during her Ultimate.Total Magic Power Bonus: 30% >>>20%Bonus Damage: 4% + 0.25% x Hero Level >>3% + 0.2% x Hero Level"
+        ]
+      },
+      "Popol and Kupa": {
+        "summary": "",
+        "changes": [
+          "Range: 4.6 >>4.8New Effect: Casting skills will not interrupt the hero's movement.Mana Cost: 60-110 >>50-75",
+          "Range: 5.5 >>4.8Mana Cost: 75-100 >>60-85",
+          "Fixed an issue where the Magic Power granted by Overload was not effective during her Ultimate.Total Magic Power Bonus: 30% >>>20%Bonus Damage: 4% + 0.25% x Hero Level >>3% + 0.2% x Hero Level",
+          "Passive Shield Trigger Interval: 5s >>6sShield of Each Stack: 80 + 16 x Hero Level 60% Total Magic Power >>20 + 2.5% Total HP + 20% Total Magic Power",
+          "Passive Shield Trigger: Before the first dash >>After the first dash"
+        ]
+      },
+      "Mathilda": {
+        "summary": "",
+        "changes": [
+          "Fixed an issue where the Magic Power granted by Overload was not effective during her Ultimate.Total Magic Power Bonus: 30% >>>20%Bonus Damage: 4% + 0.25% x Hero Level >>3% + 0.2% x Hero Level",
+          "Passive Shield Trigger Interval: 5s >>6sShield of Each Stack: 80 + 16 x Hero Level 60% Total Magic Power >>20 + 2.5% Total HP + 20% Total Magic Power",
+          "Passive Shield Trigger: Before the first dash >>After the first dash",
+          "Damage Increase with Each Subsequent Hit: 7.5% >>8.5%Max Damage Increase: 60% >>68%"
+        ]
+      },
+      "Edith": {
+        "summary": "",
+        "changes": [
+          "Passive Shield Trigger Interval: 5s >>6sShield of Each Stack: 80 + 16 x Hero Level 60% Total Magic Power >>20 + 2.5% Total HP + 20% Total Magic Power",
+          "Passive Shield Trigger: Before the first dash >>After the first dash",
+          "Damage Increase with Each Subsequent Hit: 7.5% >>8.5%Max Damage Increase: 60% >>68%",
+          "Cooldown: 8s >>7s"
+        ]
+      },
+      "Lolita": {
+        "summary": "",
+        "changes": [
+          "Damage Increase with Each Subsequent Hit: 7.5% >>8.5%Max Damage Increase: 60% >>68%",
+          "Cooldown: 8s >>7s"
+        ]
+      },
+      "Balmond": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 8s >>7s"
+        ]
+      },
+      "Arlott": {
+        "summary": "",
+        "changes": []
+      },
+      "Natalia": {
+        "summary": "",
+        "changes": [
+          "Mana Regen per Second: 3.6 >>6Mana Growth per Level: 100 >>150"
+        ]
+      },
+      "Grock": {
+        "summary": "",
+        "changes": [
+          "Mana Regen per Second: 3.6 >>6Mana Growth per Level: 100 >>150",
+          "Mana Growth per Level: 109 >>140"
+        ]
+      },
+      "Claude": {
+        "summary": "",
+        "changes": [
+          "Mana Regen per Second: 3.6 >>6Mana Growth per Level: 100 >>150",
+          "Mana Growth per Level: 109 >>140"
+        ]
+      },
+      "Alice": {
+        "summary": "",
+        "changes": [
+          "Mana Growth per Level: 109 >>140",
+          "Added 10% CD Reduction.Mana: 800 >>400",
+          "1950 >>2030"
+        ]
+      },
+      "Cecilion": {
+        "summary": "",
+        "changes": [
+          "Added 10% CD Reduction.Mana: 800 >>400",
+          "1950 >>2030",
+          "Magic Power: 70 >>75Added 400 Mana.",
+          "2160 >>2250"
+        ]
+      },
+      "Clock of Destiny": {
+        "summary": "",
+        "changes": [
+          "Magic Power: 70 >>75Added 400 Mana.",
+          "2160 >>2250",
+          "Damage: 50 + 100% Total Physical Defense + 100% Total Magic Defense >>50 + 100% Extra Physical Defense + 100% Extra Magic Defense",
+          "Excess Damage Reduction: (0.4% Total HP)% >>20% + (0.2% Total HP)%"
+        ]
+      }
+    },
+    "item_changes": {
+      "Clock of Destiny": [],
+      "Wishing Lantern": [],
+      "Thunder Belt": [],
+      "Twilight Armor": [],
+      "Glowing Wand": []
+    },
+    "system_changes": []
+  },
+  {
+    "version": "1.9.06",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.9.06",
+    "release_date": "2024-07-31",
+    "highlights": [
+      "Revamped HeroPhoveus, Chains of Sin. A Fighter that pursues those who blink or dash.",
+      "Hero Adjustments",
+      "Battlefield Adjustments",
+      "System Adjustments",
+      "Game Modes"
+    ],
+    "hero_changes": {
+      "Cici": {
+        "summary": "",
+        "changes": [
+          "Damage: 50 +110% Total Physical Attack →50-120 +100% Total Physical Attack",
+          "Cooldown: 42-32s →38-30s",
+          "Cooldown: 35s at all levels →35-29s",
+          "New Effect: Every 596 extra Attack Speed will increase the damage by 1 (the same as Magic Power scaling).",
+          "Enhanced Nightmaric Spawn Damage: 200% →180%"
+        ]
+      },
+      "Thamuz": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 35s at all levels →35-29s",
+          "New Effect: Every 596 extra Attack Speed will increase the damage by 1 (the same as Magic Power scaling).",
+          "Enhanced Nightmaric Spawn Damage: 200% →180%",
+          "Cooldown: 6-4s →4s",
+          "Active Damage: 2-4% of target's Max HP →3-6% of target's Max HP",
+          "Active Damage Bonus: 2% Extra Physical Attack →1% Extra Physical Attack",
+          "Cooldown: 40-30s →35s",
+          "Base Damage: 350-550 →400-500"
+        ]
+      },
+      "Karrie": {
+        "summary": "",
+        "changes": [
+          "New Effect: Every 596 extra Attack Speed will increase the damage by 1 (the same as Magic Power scaling).",
+          "Enhanced Nightmaric Spawn Damage: 200% →180%",
+          "Cooldown: 6-4s →4s",
+          "Active Damage: 2-4% of target's Max HP →3-6% of target's Max HP",
+          "Active Damage Bonus: 2% Extra Physical Attack →1% Extra Physical Attack",
+          "Cooldown: 40-30s →35s",
+          "Base Damage: 350-550 →400-500",
+          "Circle Strike Damage: 140% Total Physical Attack →160% Total Physical Attack"
+        ]
+      },
+      "Zhask": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 6-4s →4s",
+          "Active Damage: 2-4% of target's Max HP →3-6% of target's Max HP",
+          "Active Damage Bonus: 2% Extra Physical Attack →1% Extra Physical Attack",
+          "Cooldown: 40-30s →35s",
+          "Base Damage: 350-550 →400-500",
+          "Circle Strike Damage: 140% Total Physical Attack →160% Total Physical Attack",
+          "Crit Damage: 150% →140%"
+        ]
+      },
+      "Masha": {
+        "summary": "",
+        "changes": [
+          "Circle Strike Damage: 140% Total Physical Attack →160% Total Physical Attack",
+          "Crit Damage: 150% →140%"
+        ]
+      },
+      "Dyrroth": {
+        "summary": "",
+        "changes": [
+          "Crit Damage: 150% →140%"
+        ]
+      },
+      "Ling": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 20-14s →17-14s"
+        ]
+      },
+      "Helcurt": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 20-14s →17-14s"
+        ]
+      },
+      "Martis": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 20-14s →17-14s"
+        ]
+      },
+      "Guinevere": {
+        "summary": "",
+        "changes": []
+      },
+      "Sky Piercer": {
+        "summary": "",
+        "changes": []
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.92",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.92",
+    "release_date": "2024-06-19",
+    "highlights": [
+      "New Hero:Zhuxin, Beacon of Spirits. A Mage who guides the ember butterflies using her Lantern of Spirits, deals AOE Damage to enemies and pulls them airborne.",
+      "Hero Adjustments",
+      "Battlefield Adjustments",
+      "System Adjustments",
+      "Events"
+    ],
+    "hero_changes": {
+      "Zhuxin, Beacon of Spirits": {
+        "summary": "",
+        "changes": [
+          "Death Rays Damage: 90 +15% Magic Power →60 +20% Magic Power (damage dealt is consistent)",
+          "Enhanced Skill Damage Increase: 110-200 +35% Magic Power →55-100 +18% Magic Power",
+          "New Effect: Enhanced Basic Attack can reduce enemy's defense (effective before dealing damage) by 10 +(1*Hero Level) for 3s up to 2 stacks.",
+          "Cooldown: 11-9s →9.5-8s",
+          "Skill Cooldown reduced for Ultimate by Stage III: 12s →36s",
+          "Cooldown: 6.5s →6.5-6s",
+          "Damage: 425-625 +150% of Total Magic Power →480-650 +100% of Total Magic Power",
+          "Cooldown: 14-12s →13-11s",
+          "Barrier Damage: 125-250 +60% of Total Magic Power →200-300 +60% of Total Magic Power",
+          "Mystic Field Damage: 300-600 +120% of Total Magic Power →200-300 +60% of Total Magic Power",
+          "Cooldown: 44-36s →60-52s",
+          "Damage: 650-1050 +150% of Total Magic Power →600-1100 +180% of Total Magic Power"
+        ]
+      },
+      "Zhask": {
+        "summary": "",
+        "changes": [
+          "New Effect: Enhanced Basic Attack can reduce enemy's defense (effective before dealing damage) by 10 +(1*Hero Level) for 3s up to 2 stacks.",
+          "Cooldown: 11-9s →9.5-8s",
+          "Skill Cooldown reduced for Ultimate by Stage III: 12s →36s",
+          "Cooldown: 6.5s →6.5-6s",
+          "Damage: 425-625 +150% of Total Magic Power →480-650 +100% of Total Magic Power",
+          "Cooldown: 14-12s →13-11s",
+          "Barrier Damage: 125-250 +60% of Total Magic Power →200-300 +60% of Total Magic Power",
+          "Mystic Field Damage: 300-600 +120% of Total Magic Power →200-300 +60% of Total Magic Power",
+          "Cooldown: 44-36s →60-52s",
+          "Damage: 650-1050 +150% of Total Magic Power →600-1100 +180% of Total Magic Power",
+          "Full Stack Effect: 27-125 Basic Attack Damage →42-210 Physical Damage with Basic Attack (cannot Crit)",
+          "Cooldown: 16-14s →14-12s",
+          "Damage Reduction: 20% +1% for every 10 extra Physical Attack →30%-50% (scales with skill level)",
+          "Skill Damage: 150-550 +120% Extra Physical Attack →240-440 +70% of Total Physical Attack",
+          "Basic Attacks' Physical Damage Increased from Blade Craft: 35 →50 at full stack",
+          "New Effect: Cannot be interrupted when casting his Ultimate.",
+          "Base Damage: 210-290 →210-350",
+          "Sustained Damage: 90-130 →90-150"
+        ]
+      },
+      "Chou": {
+        "summary": "",
+        "changes": [
+          "Skill Cooldown reduced for Ultimate by Stage III: 12s →36s",
+          "Cooldown: 6.5s →6.5-6s",
+          "Damage: 425-625 +150% of Total Magic Power →480-650 +100% of Total Magic Power",
+          "Cooldown: 14-12s →13-11s",
+          "Barrier Damage: 125-250 +60% of Total Magic Power →200-300 +60% of Total Magic Power",
+          "Mystic Field Damage: 300-600 +120% of Total Magic Power →200-300 +60% of Total Magic Power",
+          "Cooldown: 44-36s →60-52s",
+          "Damage: 650-1050 +150% of Total Magic Power →600-1100 +180% of Total Magic Power",
+          "Full Stack Effect: 27-125 Basic Attack Damage →42-210 Physical Damage with Basic Attack (cannot Crit)",
+          "Cooldown: 16-14s →14-12s",
+          "Damage Reduction: 20% +1% for every 10 extra Physical Attack →30%-50% (scales with skill level)",
+          "Skill Damage: 150-550 +120% Extra Physical Attack →240-440 +70% of Total Physical Attack",
+          "Basic Attacks' Physical Damage Increased from Blade Craft: 35 →50 at full stack",
+          "New Effect: Cannot be interrupted when casting his Ultimate.",
+          "Base Damage: 210-290 →210-350",
+          "Sustained Damage: 90-130 →90-150",
+          "Cooldown: 12s at all levels →12-10s",
+          "Cooldown: 7s at all levels →7-6s",
+          "Skill Damage: 300-400 +50% of Total Physical Attack →300-500 +80% of Total Physical Attack"
+        ]
+      },
+      "Xavier": {
+        "summary": "",
+        "changes": [
+          "Full Stack Effect: 27-125 Basic Attack Damage →42-210 Physical Damage with Basic Attack (cannot Crit)",
+          "Cooldown: 16-14s →14-12s",
+          "Damage Reduction: 20% +1% for every 10 extra Physical Attack →30%-50% (scales with skill level)",
+          "Skill Damage: 150-550 +120% Extra Physical Attack →240-440 +70% of Total Physical Attack",
+          "Basic Attacks' Physical Damage Increased from Blade Craft: 35 →50 at full stack",
+          "New Effect: Cannot be interrupted when casting his Ultimate.",
+          "Base Damage: 210-290 →210-350",
+          "Sustained Damage: 90-130 →90-150",
+          "Cooldown: 12s at all levels →12-10s",
+          "Cooldown: 7s at all levels →7-6s",
+          "Skill Damage: 300-400 +50% of Total Physical Attack →300-500 +80% of Total Physical Attack",
+          "Damage: 100% of Physical Attack +3.5 (Level0.3)% of target's Max HP →95% of Physical Attack +4 (Level0.4)% of target's Max HP"
+        ]
+      },
+      "Aulus": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12s at all levels →12-10s",
+          "Cooldown: 7s at all levels →7-6s",
+          "Skill Damage: 300-400 +50% of Total Physical Attack →300-500 +80% of Total Physical Attack",
+          "Damage: 100% of Physical Attack +3.5 (Level0.3)% of target's Max HP →95% of Physical Attack +4 (Level0.4)% of target's Max HP",
+          "New Effect: Increased Max damage to the non-hero unit to 130%",
+          "Pulling Damage: 400-600 +145% of Total Magic Power →550-800 +170% of Total Magic Power"
+        ]
+      },
+      "Leomord": {
+        "summary": "",
+        "changes": [
+          "Damage: 100% of Physical Attack +3.5 (Level0.3)% of target's Max HP →95% of Physical Attack +4 (Level0.4)% of target's Max HP",
+          "New Effect: Increased Max damage to the non-hero unit to 130%",
+          "Pulling Damage: 400-600 +145% of Total Magic Power →550-800 +170% of Total Magic Power",
+          "Damage Bonus: 140% Magic Power →150% Magic Power"
+        ]
+      },
+      "Bane": {
+        "summary": "",
+        "changes": [
+          "New Effect: Increased Max damage to the non-hero unit to 130%",
+          "Pulling Damage: 400-600 +145% of Total Magic Power →550-800 +170% of Total Magic Power",
+          "Damage Bonus: 140% Magic Power →150% Magic Power",
+          "Base Damage: 350-550 →400-700",
+          "Hailstone Damage: 40-60 →40"
+        ]
+      },
+      "Kagura": {
+        "summary": "",
+        "changes": [
+          "Damage Bonus: 140% Magic Power →150% Magic Power",
+          "Base Damage: 350-550 →400-700",
+          "Hailstone Damage: 40-60 →40",
+          "Damage: 200-260 +70% Extra Physical Attack →220-280 +75% Extra Physical Attack",
+          "Multiple Shurikens Damage to Creeps: 70% →50%"
+        ]
+      },
+      "Yve": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 350-550 →400-700",
+          "Hailstone Damage: 40-60 →40",
+          "Damage: 200-260 +70% Extra Physical Attack →220-280 +75% Extra Physical Attack",
+          "Multiple Shurikens Damage to Creeps: 70% →50%"
+        ]
+      },
+      "Aurora": {
+        "summary": "",
+        "changes": [
+          "Damage: 200-260 +70% Extra Physical Attack →220-280 +75% Extra Physical Attack",
+          "Multiple Shurikens Damage to Creeps: 70% →50%",
+          "Lowered early game Damage Reduction and late game skill cooldown.",
+          "Final Damage Reduction Increased: 240% at all levels →200%-260%",
+          "Cooldown: 40-35s →40-30s"
+        ]
+      },
+      "Hayabusa": {
+        "summary": "",
+        "changes": [
+          "Lowered early game Damage Reduction and late game skill cooldown.",
+          "Final Damage Reduction Increased: 240% at all levels →200%-260%",
+          "Cooldown: 40-35s →40-30s",
+          "Cooldown: 12-9.5s →12s at all levels"
+        ]
+      },
+      "Fredrinn": {
+        "summary": "",
+        "changes": [
+          "Lowered early game Damage Reduction and late game skill cooldown.",
+          "Final Damage Reduction Increased: 240% at all levels →200%-260%",
+          "Cooldown: 40-35s →40-30s",
+          "Cooldown: 12-9.5s →12s at all levels",
+          "Knockback Damage Magic Power Bonus: 70% →65%"
+        ]
+      },
+      "Baxia": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12-9.5s →12s at all levels",
+          "Knockback Damage Magic Power Bonus: 70% →65%",
+          "Damage: 320-440 +100% of Total Magic Power →300-400 +90% of Total Magic Power",
+          "Damage to enemy hit reduced by: 20% →10%",
+          "Damage: 440-660 +160% of Total Magic Power →440-600 +140% of Total Magic Power"
+        ]
+      },
+      "Moskov": {
+        "summary": "",
+        "changes": [
+          "Knockback Damage Magic Power Bonus: 70% →65%",
+          "Damage: 320-440 +100% of Total Magic Power →300-400 +90% of Total Magic Power",
+          "Damage to enemy hit reduced by: 20% →10%",
+          "Damage: 440-660 +160% of Total Magic Power →440-600 +140% of Total Magic Power",
+          "Sustained Damage: 200-400 +80% of Total Magic Power →150 +30% of Total Magic Power",
+          "Base Damage Bonus: 300-400 +40% of Total Magic Power →400-600 +60% of Total Magic Power",
+          "Cooldown: 40-32s →44-36s",
+          "Sustained Damage: 150-300 +40% of Total Magic Power →150 +30% of Total Magic Power",
+          "Base Damage Bonus: 1000-1400 +200% of Total Magic Power →1000-1500 +240% of Total Magic Power"
+        ]
+      },
+      "Natan": {
+        "summary": "",
+        "changes": [
+          "Damage: 320-440 +100% of Total Magic Power →300-400 +90% of Total Magic Power",
+          "Damage to enemy hit reduced by: 20% →10%",
+          "Damage: 440-660 +160% of Total Magic Power →440-600 +140% of Total Magic Power",
+          "Sustained Damage: 200-400 +80% of Total Magic Power →150 +30% of Total Magic Power",
+          "Base Damage Bonus: 300-400 +40% of Total Magic Power →400-600 +60% of Total Magic Power",
+          "Cooldown: 40-32s →44-36s",
+          "Sustained Damage: 150-300 +40% of Total Magic Power →150 +30% of Total Magic Power",
+          "Base Damage Bonus: 1000-1400 +200% of Total Magic Power →1000-1500 +240% of Total Magic Power"
+        ]
+      },
+      "Nana": {
+        "summary": "",
+        "changes": [
+          "Sustained Damage: 200-400 +80% of Total Magic Power →150 +30% of Total Magic Power",
+          "Base Damage Bonus: 300-400 +40% of Total Magic Power →400-600 +60% of Total Magic Power",
+          "Cooldown: 40-32s →44-36s",
+          "Sustained Damage: 150-300 +40% of Total Magic Power →150 +30% of Total Magic Power",
+          "Base Damage Bonus: 1000-1400 +200% of Total Magic Power →1000-1500 +240% of Total Magic Power"
+        ]
+      },
+      "Vale": {
+        "summary": "",
+        "changes": []
+      },
+      "Novaria": {
+        "summary": "",
+        "changes": []
+      },
+      "Luo Yi": {
+        "summary": "",
+        "changes": []
+      },
+      "Cecilion": {
+        "summary": "",
+        "changes": []
+      },
+      "Alice": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 9s →9-7s",
+          "Cooldown: 30s →30-26s"
+        ]
+      },
+      "Esmeralda": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 9s →9-7s",
+          "Cooldown: 30s →30-26s"
+        ]
+      },
+      "Gloo": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 9s →9-7s",
+          "Cooldown: 30s →30-26s"
+        ]
+      },
+      "Badang": {
+        "summary": "",
+        "changes": []
+      },
+      "Jawhead": {
+        "summary": "",
+        "changes": [
+          "Second Shot Damage Reduction: 30-55% →50% at all levels"
+        ]
+      },
+      "Beatrix": {
+        "summary": "",
+        "changes": [
+          "Second Shot Damage Reduction: 30-55% →50% at all levels",
+          "Cooldown: 15-10s →12-10s"
+        ]
+      },
+      "Wanwan": {
+        "summary": "",
+        "changes": [
+          "Second Shot Damage Reduction: 30-55% →50% at all levels",
+          "Cooldown: 15-10s →12-10s"
+        ]
+      },
+      "Clint": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 15-10s →12-10s"
+        ]
+      },
+      "Atlas": {
+        "summary": "",
+        "changes": []
+      },
+      "Rafaela": {
+        "summary": "",
+        "changes": []
+      },
+      "Diggie": {
+        "summary": "",
+        "changes": []
+      },
+      "Lunox": {
+        "summary": "",
+        "changes": []
+      },
+      "Sky Piercer": {
+        "summary": "",
+        "changes": [
+          "Unique Passive - Butterfly Goddess:For every 800 Magic Damage dealt to an enemy hero (calculated before damage reduction), a Butterfly Goddess is summoned to attack the enemy hero, dealing Magic Damage equal to 10% of their current HP."
+        ]
+      },
+      "War Axe": {
+        "summary": "",
+        "changes": [
+          "Unique Passive - Demonize:When HP drops below 40%, gains 30% of Damage Reduction for 3s and reduces the skill cooldown by 2s. Cooldown: 60s."
+        ]
+      },
+      "Queen's Wings": {
+        "summary": "",
+        "changes": [
+          "Unique Passive - Destiny:Gains 5-12 Hybrid Defense (scales with level) each time dealing Magic Damage to hero, stacking up to 6 times for 5s (can gain 1 stack every 0.4s).",
+          "When HP drops below 50%, recovers 15% of HP over the next 3s. When Mana drops below 50%, restores 15% of Mana over the next 3s. Cooldown: 60s."
+        ]
+      },
+      "Fleeting Time": {
+        "summary": "",
+        "changes": []
+      },
+      "War Cry": {
+        "summary": "",
+        "changes": [
+          "Extra Adaptive Damage: 44-240 (scales with level) →4% of target's Max HP"
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.78",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.78",
+    "release_date": "2024-04-23",
+    "highlights": [
+      "Revamped Hero :Helcurt, Shadowbringer",
+      "Hero Adjustments",
+      "Equipment Adjustments",
+      "Talent Adjustments",
+      "Battlefield Adjustments",
+      "System Adjustments",
+      "Events",
+      "Bug Fixes"
+    ],
+    "hero_changes": {
+      "Helcurt, Shadowbringer": {
+        "summary": "",
+        "changes": [
+          "Hovercraft Ramming Damage: 150-300 +5% of target's Max HP →180-330 +6% of target's Max HP",
+          "Cooldown: 15-10s →13-10s",
+          "Cooldown: 60-50s →70-50s",
+          "Cooldown: 40s →20s (unaffected by CD Reduction)",
+          "Passive Base Damage: Physical Damage equal to 1-2% →2% of Max HP",
+          "Active Base Damage: Physical Damage equal to 3-6% →2-4% of Max HP",
+          "Active Damage Bonus: 3% Extra Physical Attack →2% Extra Physical Attack",
+          "Base Damage: 200-500 →400-600",
+          "Damage Bonus: 200% of Total Physical Attack →220% Extra Physical Attack",
+          "Base Damage: 236-376 +84% of Total Magic Power →224-344 +80% of Total Magic Power",
+          "Explosion Damage: 590-940 +210% of Total Magic Power →560-860 +200% of Total Magic Power"
+        ]
+      },
+      "Chip": {
+        "summary": "",
+        "changes": [
+          "Passive Base Damage: Physical Damage equal to 1-2% →2% of Max HP",
+          "Active Base Damage: Physical Damage equal to 3-6% →2-4% of Max HP",
+          "Active Damage Bonus: 3% Extra Physical Attack →2% Extra Physical Attack",
+          "Base Damage: 200-500 →400-600",
+          "Damage Bonus: 200% of Total Physical Attack →220% Extra Physical Attack",
+          "Base Damage: 236-376 +84% of Total Magic Power →224-344 +80% of Total Magic Power",
+          "Explosion Damage: 590-940 +210% of Total Magic Power →560-860 +200% of Total Magic Power",
+          "Damage: 250-350 +33% Total Physical Attack →300-400 +50% Total Physical Attack",
+          "Removed Effect: Crit Damage slows enemies more when he casts the skill on the wall."
+        ]
+      },
+      "Masha": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 236-376 +84% of Total Magic Power →224-344 +80% of Total Magic Power",
+          "Explosion Damage: 590-940 +210% of Total Magic Power →560-860 +200% of Total Magic Power",
+          "Damage: 250-350 +33% Total Physical Attack →300-400 +50% Total Physical Attack",
+          "Removed Effect: Crit Damage slows enemies more when he casts the skill on the wall."
+        ]
+      },
+      "Harith": {
+        "summary": "",
+        "changes": [
+          "Damage: 250-350 +33% Total Physical Attack →300-400 +50% Total Physical Attack",
+          "Removed Effect: Crit Damage slows enemies more when he casts the skill on the wall.",
+          "Base Damage: 190-260 →200-260"
+        ]
+      },
+      "Ling": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 190-260 →200-260",
+          "Cooldown: 12s →7s"
+        ]
+      },
+      "Julian": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 190-260 →200-260",
+          "Cooldown: 12s →7s",
+          "New Effect: Now Lolita grants herself and nearby allies 1 extra stack of shield after casting skills.",
+          "Cooldown: 17.5-15s →15-12.5s"
+        ]
+      },
+      "Hayabusa": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12s →7s",
+          "New Effect: Now Lolita grants herself and nearby allies 1 extra stack of shield after casting skills.",
+          "Cooldown: 17.5-15s →15-12.5s"
+        ]
+      },
+      "Saber": {
+        "summary": "",
+        "changes": [
+          "New Effect: Now Lolita grants herself and nearby allies 1 extra stack of shield after casting skills.",
+          "Cooldown: 17.5-15s →15-12.5s",
+          "Damage when Attached: 120 +50% of Total Magic Power →30-90 +50% of Total Magic Power +3% of Total HP"
+        ]
+      },
+      "Lolita": {
+        "summary": "",
+        "changes": [
+          "Damage when Attached: 120 +50% of Total Magic Power →30-90 +50% of Total Magic Power +3% of Total HP"
+        ]
+      },
+      "Jawhead": {
+        "summary": "",
+        "changes": [
+          "Damage when Attached: 120 +50% of Total Magic Power →30-90 +50% of Total Magic Power +3% of Total HP"
+        ]
+      },
+      "Gloo": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 34-26s →24-16s"
+        ]
+      },
+      "Miya": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 34-26s →24-16s",
+          "Cooldown: 4.5-2.5s →4.5-3.5s",
+          "Ratio of Basic Attack Damage and Basic Attack Special Effect from each Lightwheel: 50%-70% →50%-66%"
+        ]
+      },
+      "Layla": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 34-26s →24-16s",
+          "Cooldown: 4.5-2.5s →4.5-3.5s",
+          "Ratio of Basic Attack Damage and Basic Attack Special Effect from each Lightwheel: 50%-70% →50%-66%",
+          "HP Regen of Enraged state: Recovers HP equal to 200% of Basic Attack Damage taken →Recovers HP equal to 100% of Basic Attack(by enemy heroes) Damage taken"
+        ]
+      },
+      "Natan": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 4.5-2.5s →4.5-3.5s",
+          "Ratio of Basic Attack Damage and Basic Attack Special Effect from each Lightwheel: 50%-70% →50%-66%",
+          "HP Regen of Enraged state: Recovers HP equal to 200% of Basic Attack Damage taken →Recovers HP equal to 100% of Basic Attack(by enemy heroes) Damage taken",
+          "Cooldown: 40s →65s",
+          "New Effect: Hitting an enemy hero during her Ultimate's 2nd-stage sprint reduces the skill's cooldown by 40%."
+        ]
+      },
+      "Karrie": {
+        "summary": "",
+        "changes": [
+          "HP Regen of Enraged state: Recovers HP equal to 200% of Basic Attack Damage taken →Recovers HP equal to 100% of Basic Attack(by enemy heroes) Damage taken",
+          "Cooldown: 40s →65s",
+          "New Effect: Hitting an enemy hero during her Ultimate's 2nd-stage sprint reduces the skill's cooldown by 40%.",
+          "New Effect: The damage doesn't decrease now.",
+          "Damage Per Hit: 135-235 +50% of Total Magic Power →120-200 +40% of Total Magic Damage"
+        ]
+      },
+      "Minotaur": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 40s →65s",
+          "New Effect: Hitting an enemy hero during her Ultimate's 2nd-stage sprint reduces the skill's cooldown by 40%.",
+          "New Effect: The damage doesn't decrease now.",
+          "Damage Per Hit: 135-235 +50% of Total Magic Power →120-200 +40% of Total Magic Damage",
+          "Base Damage: 200-350 →250-350",
+          "New Effect: Gains 30% Movement Speed while the skill is active."
+        ]
+      },
+      "Mathilda": {
+        "summary": "",
+        "changes": [
+          "New Effect: The damage doesn't decrease now.",
+          "Damage Per Hit: 135-235 +50% of Total Magic Power →120-200 +40% of Total Magic Damage",
+          "Base Damage: 200-350 →250-350",
+          "New Effect: Gains 30% Movement Speed while the skill is active.",
+          "Damage: 200-400 +80% Magic Power →350-600 +140% Magic Power",
+          "Cooldown: 6s-2.5s →5s-2.5s"
+        ]
+      },
+      "Joy": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 200-350 →250-350",
+          "New Effect: Gains 30% Movement Speed while the skill is active.",
+          "Damage: 200-400 +80% Magic Power →350-600 +140% Magic Power",
+          "Cooldown: 6s-2.5s →5s-2.5s",
+          "Base Damage: 425-650 →525-700"
+        ]
+      },
+      "Lunox": {
+        "summary": "",
+        "changes": [
+          "Damage: 200-400 +80% Magic Power →350-600 +140% Magic Power",
+          "Cooldown: 6s-2.5s →5s-2.5s",
+          "Base Damage: 425-650 →525-700"
+        ]
+      },
+      "Yve": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 425-650 →525-700"
+        ]
+      },
+      "Pharsa": {
+        "summary": "",
+        "changes": []
+      },
+      "Khaleed": {
+        "summary": "",
+        "changes": []
+      },
+      "Alucard": {
+        "summary": "",
+        "changes": []
+      },
+      "Alice": {
+        "summary": "",
+        "changes": []
+      },
+      "Karina": {
+        "summary": "",
+        "changes": []
+      },
+      "Lancelot": {
+        "summary": "",
+        "changes": []
+      },
+      "Roger": {
+        "summary": "",
+        "changes": []
+      },
+      "Fanny": {
+        "summary": "",
+        "changes": []
+      },
+      "Bane": {
+        "summary": "",
+        "changes": []
+      },
+      "Aamon": {
+        "summary": "",
+        "changes": []
+      },
+      "Gusion": {
+        "summary": "",
+        "changes": []
+      },
+      "Harley": {
+        "summary": "",
+        "changes": []
+      },
+      "Yi Sun-Shin": {
+        "summary": "",
+        "changes": []
+      },
+      "Selena": {
+        "summary": "",
+        "changes": []
+      },
+      "Silvanna": {
+        "summary": "",
+        "changes": []
+      },
+      "Akai": {
+        "summary": "",
+        "changes": []
+      },
+      "Esmeralda": {
+        "summary": "",
+        "changes": []
+      },
+      "Hylos": {
+        "summary": "",
+        "changes": []
+      },
+      "Uranus": {
+        "summary": "",
+        "changes": []
+      },
+      "Tigreal": {
+        "summary": "",
+        "changes": []
+      },
+      "Johnson": {
+        "summary": "",
+        "changes": []
+      },
+      "Franco": {
+        "summary": "",
+        "changes": []
+      },
+      "Terizla": {
+        "summary": "",
+        "changes": []
+      },
+      "Carmilla": {
+        "summary": "",
+        "changes": []
+      },
+      "Hilda": {
+        "summary": "",
+        "changes": []
+      },
+      "Grock": {
+        "summary": "",
+        "changes": []
+      },
+      "Khufra": {
+        "summary": "",
+        "changes": []
+      },
+      "Atlas": {
+        "summary": "",
+        "changes": []
+      },
+      "Edith": {
+        "summary": "",
+        "changes": []
+      },
+      "Belerick": {
+        "summary": "",
+        "changes": []
+      },
+      "Gatotkaca": {
+        "summary": "",
+        "changes": []
+      },
+      "Barats": {
+        "summary": "",
+        "changes": []
+      },
+      "Fredrinn": {
+        "summary": "",
+        "changes": []
+      },
+      "Baxia": {
+        "summary": "",
+        "changes": []
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.66",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.66",
+    "release_date": "2024-03-13",
+    "highlights": [
+      "New Heroes :Chip, Phase Technician. SA Support/Tank hero who can use portals to roam the battlefield and support his allies.",
+      "Hero Adjustments",
+      "Battlefield Adjustments",
+      "Equipment Adjustments",
+      "System Adjustments",
+      "Events",
+      "Game Modes"
+    ],
+    "hero_changes": {
+      "Chip, Phase Technician": {
+        "summary": "",
+        "changes": [
+          "Passive: Masha gains Power of the Wild which causes her Basic Attacks to deal extra Physical Damage equal to a percentage of the enemy's Max HP.",
+          "Masha spends some HP to roar at enemies, dealing Physical Damage and reducing their Attack Speed.",
+          "Masha spends some HP to lunge at an enemy hero (immune to control effects during the lunge), dealing Physical Damage, slowing them, and knocking back nearby enemies. The cooldown of this skill will be reset each time Masha loses an HP bar.",
+          "Cooldown: 12-9s →11-9s",
+          "Cooldown: 9-7s, upon skill casting → 5.5-4.5s, after the skill ends",
+          "Base Damage: 150-450 →200-450",
+          "Champ Stance's Base Damage: 250-750 →350-750"
+        ]
+      },
+      "Masha": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12-9s →11-9s",
+          "Cooldown: 9-7s, upon skill casting → 5.5-4.5s, after the skill ends",
+          "Base Damage: 150-450 →200-450",
+          "Champ Stance's Base Damage: 250-750 →350-750",
+          "Max Damage Increase: 130% →115%"
+        ]
+      },
+      "Silvanna": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 150-450 →200-450",
+          "Champ Stance's Base Damage: 250-750 →350-750",
+          "Max Damage Increase: 130% →115%",
+          "Base Damage: 90-240 →270-420"
+        ]
+      },
+      "Paquito": {
+        "summary": "",
+        "changes": [
+          "Max Damage Increase: 130% →115%",
+          "Base Damage: 90-240 →270-420",
+          "Basic Attack Base Damage: 45 →30",
+          "Base Damage: 225-525 →225-400"
+        ]
+      },
+      "Layla": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 90-240 →270-420",
+          "Basic Attack Base Damage: 45 →30",
+          "Base Damage: 225-525 →225-400"
+        ]
+      },
+      "Miya": {
+        "summary": "",
+        "changes": [
+          "Basic Attack Base Damage: 45 →30",
+          "Base Damage: 225-525 →225-400"
+        ]
+      },
+      "Natan": {
+        "summary": "",
+        "changes": []
+      },
+      "Hayabusa": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 500-600 → 350-600"
+        ]
+      },
+      "Vexana": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 500-600 → 350-600"
+        ]
+      },
+      "Guinevere": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 500-600 → 350-600"
+        ]
+      },
+      "Diggie": {
+        "summary": "",
+        "changes": []
+      },
+      "Bruno": {
+        "summary": "",
+        "changes": []
+      },
+      "Clint": {
+        "summary": "",
+        "changes": []
+      },
+      "Karrie": {
+        "summary": "",
+        "changes": []
+      },
+      "Irithel": {
+        "summary": "",
+        "changes": []
+      },
+      "Lesley": {
+        "summary": "",
+        "changes": []
+      },
+      "Hanabi": {
+        "summary": "",
+        "changes": []
+      },
+      "Claude": {
+        "summary": "",
+        "changes": []
+      },
+      "Granger": {
+        "summary": "",
+        "changes": []
+      },
+      "Wanwan": {
+        "summary": "",
+        "changes": []
+      },
+      "Popol and Kupa": {
+        "summary": "",
+        "changes": []
+      },
+      "Brody": {
+        "summary": "",
+        "changes": []
+      },
+      "Beatrix": {
+        "summary": "",
+        "changes": []
+      },
+      "Melissa": {
+        "summary": "",
+        "changes": [
+          "Attack Speed Boost: 1.55 times >>1.5times"
+        ]
+      },
+      "Ixia": {
+        "summary": "",
+        "changes": [
+          "Attack Speed Boost: 1.55 times >>1.5times",
+          "The equipment is designed to counter heroes dealing sustained Magic Damage (like Lylia and Alice), not multi-stage burst heroes (like Aamon and Gusion), so we're adjusting its passive accordingly.",
+          "Revamped Effect: Taking Magic Damage grants 6-20 Magic Defense (scales with level) for 3s, up to 6 stacks (1 stack only every 0.6s).",
+          "Max HP: 700 >> 400"
+        ]
+      },
+      "Argus": {
+        "summary": "",
+        "changes": [
+          "Attack Speed Boost: 1.55 times >>1.5times",
+          "The equipment is designed to counter heroes dealing sustained Magic Damage (like Lylia and Alice), not multi-stage burst heroes (like Aamon and Gusion), so we're adjusting its passive accordingly.",
+          "Revamped Effect: Taking Magic Damage grants 6-20 Magic Defense (scales with level) for 3s, up to 6 stacks (1 stack only every 0.6s).",
+          "Max HP: 700 >> 400",
+          "Magic Defense: 42 >>25",
+          "2060 >>1860"
+        ]
+      },
+      "Inspire": {
+        "summary": "",
+        "changes": [
+          "The equipment is designed to counter heroes dealing sustained Magic Damage (like Lylia and Alice), not multi-stage burst heroes (like Aamon and Gusion), so we're adjusting its passive accordingly.",
+          "Revamped Effect: Taking Magic Damage grants 6-20 Magic Defense (scales with level) for 3s, up to 6 stacks (1 stack only every 0.6s).",
+          "Max HP: 700 >> 400",
+          "Magic Defense: 42 >>25",
+          "2060 >>1860"
+        ]
+      },
+      "Concentrated Energy": {
+        "summary": "",
+        "changes": [
+          "Magic Defense: 42 >>25",
+          "2060 >>1860",
+          "Attack Speed: 35% >>30%"
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.56",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.56",
+    "release_date": "2024-01-31",
+    "highlights": [
+      "Revamped hero :Aurora, Frost Oracle",
+      "Hero Adjustments",
+      "System Adjustments"
+    ],
+    "hero_changes": {
+      "Sun": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 8-4s >>4s at all levels",
+          "Base Damage: 175-300 >>75-300",
+          "New Effect: Restores extra Energy upon hitting Minions with rift activations.",
+          "Cooldown: 35-25s >>24-18s"
+        ]
+      },
+      "Paquito": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 8-4s >>4s at all levels",
+          "Base Damage: 175-300 >>75-300",
+          "New Effect: Restores extra Energy upon hitting Minions with rift activations.",
+          "Cooldown: 35-25s >>24-18s",
+          "Lunox has been dominating the Jungle since the previous adjustments, so we're nerfing her a bit for balance. Besides, she's using her Ultimate too often because of the Cooldown Reduction.",
+          "Percentage of Extra Damage to Creeps: 2.5-5% >>1.5-3%",
+          "Cooldown: 25-15s >>30-22s"
+        ]
+      },
+      "Ixia": {
+        "summary": "",
+        "changes": [
+          "New Effect: Restores extra Energy upon hitting Minions with rift activations.",
+          "Cooldown: 35-25s >>24-18s",
+          "Lunox has been dominating the Jungle since the previous adjustments, so we're nerfing her a bit for balance. Besides, she's using her Ultimate too often because of the Cooldown Reduction.",
+          "Percentage of Extra Damage to Creeps: 2.5-5% >>1.5-3%",
+          "Cooldown: 25-15s >>30-22s",
+          "Basic Attack Damage and Attack Effect Ratio: 110% >>100%"
+        ]
+      },
+      "Nolan": {
+        "summary": "",
+        "changes": [
+          "Lunox has been dominating the Jungle since the previous adjustments, so we're nerfing her a bit for balance. Besides, she's using her Ultimate too often because of the Cooldown Reduction.",
+          "Percentage of Extra Damage to Creeps: 2.5-5% >>1.5-3%",
+          "Cooldown: 25-15s >>30-22s",
+          "Basic Attack Damage and Attack Effect Ratio: 110% >>100%",
+          "6%-8% of the target's Max HP >>5% (+1% of Extra Physical Attack) of the target's Max HP"
+        ]
+      },
+      "Lunox": {
+        "summary": "",
+        "changes": [
+          "Basic Attack Damage and Attack Effect Ratio: 110% >>100%",
+          "6%-8% of the target's Max HP >>5% (+1% of Extra Physical Attack) of the target's Max HP",
+          "Bounce Range: 3.5 >>3",
+          "Cooldown: 14-12s >>15-10s"
+        ]
+      },
+      "Wanwan": {
+        "summary": "",
+        "changes": [
+          "6%-8% of the target's Max HP >>5% (+1% of Extra Physical Attack) of the target's Max HP",
+          "Bounce Range: 3.5 >>3",
+          "Cooldown: 14-12s >>15-10s",
+          "HP Regen: 5%-10% Total HP >>90%-160% Total Physical Attack"
+        ]
+      },
+      "Karrie": {
+        "summary": "",
+        "changes": [
+          "Bounce Range: 3.5 >>3",
+          "Cooldown: 14-12s >>15-10s",
+          "HP Regen: 5%-10% Total HP >>90%-160% Total Physical Attack",
+          "Bonus Damage: 4% Magic Damage Based on Max HP >>4-8% (based on level) Magic Damage Based on Max HP"
+        ]
+      },
+      "Hanabi": {
+        "summary": "",
+        "changes": [
+          "HP Regen: 5%-10% Total HP >>90%-160% Total Physical Attack",
+          "Bonus Damage: 4% Magic Damage Based on Max HP >>4-8% (based on level) Magic Damage Based on Max HP",
+          "Base Attack: 100 >>111",
+          "Growth of Each Attack: 4.25 >>3.5",
+          "New Effect: Now creeps can be Cursed."
+        ]
+      },
+      "Arlott": {
+        "summary": "",
+        "changes": [
+          "Bonus Damage: 4% Magic Damage Based on Max HP >>4-8% (based on level) Magic Damage Based on Max HP",
+          "Base Attack: 100 >>111",
+          "Growth of Each Attack: 4.25 >>3.5",
+          "New Effect: Now creeps can be Cursed.",
+          "First Damage: 175-300 + 180% Extra Physical Attack >>175-300+200% Extra Physical Attack",
+          "Second Damage: 175-300+180% Extra Physical Attack >>175-300+200% Extra Physical Attack",
+          "Damage: 300-450 + 160% Extra Physical Attack >>300-500 + 180% Extra Physical Attack"
+        ]
+      },
+      "Edith": {
+        "summary": "",
+        "changes": [
+          "Base Attack: 100 >>111",
+          "Growth of Each Attack: 4.25 >>3.5",
+          "New Effect: Now creeps can be Cursed.",
+          "First Damage: 175-300 + 180% Extra Physical Attack >>175-300+200% Extra Physical Attack",
+          "Second Damage: 175-300+180% Extra Physical Attack >>175-300+200% Extra Physical Attack",
+          "Damage: 300-450 + 160% Extra Physical Attack >>300-500 + 180% Extra Physical Attack"
+        ]
+      },
+      "Argus": {
+        "summary": "",
+        "changes": [
+          "First Damage: 175-300 + 180% Extra Physical Attack >>175-300+200% Extra Physical Attack",
+          "Second Damage: 175-300+180% Extra Physical Attack >>175-300+200% Extra Physical Attack",
+          "Damage: 300-450 + 160% Extra Physical Attack >>300-500 + 180% Extra Physical Attack"
+        ]
+      },
+      "Minsitthar": {
+        "summary": "",
+        "changes": [
+          "The equipment is designed to counter heroes dealing sustained Magic Damage (like Lylia and Alice), not multi-stage burst heroes (like Aamon and Gusion), so we're adjusting its passive accordingly.",
+          "Revamped Effect: Taking Magic Damage grants 6-20 Magic Defense (scales with level) for 3s, up to 6 stacks (1 stack only every 0.6s)."
+        ]
+      },
+      "Jawhead": {
+        "summary": "",
+        "changes": [
+          "The equipment is designed to counter heroes dealing sustained Magic Damage (like Lylia and Alice), not multi-stage burst heroes (like Aamon and Gusion), so we're adjusting its passive accordingly.",
+          "Revamped Effect: Taking Magic Damage grants 6-20 Magic Defense (scales with level) for 3s, up to 6 stacks (1 stack only every 0.6s).",
+          "Lower the price. With the changes to [Radiant Armor], the final Magic Damage increase effect has been removed to prevent heroes with multi-hit Magic Damage from dealing excessive damage.",
+          "Effect removed: Final Magic Damage increase.",
+          "2200 >>1950"
+        ]
+      },
+      "Radiant Armor": {
+        "summary": "",
+        "changes": [
+          "Lower the price. With the changes to [Radiant Armor], the final Magic Damage increase effect has been removed to prevent heroes with multi-hit Magic Damage from dealing excessive damage.",
+          "Effect removed: Final Magic Damage increase.",
+          "2200 >>1950"
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.47",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.47",
+    "release_date": "2023-12-27",
+    "highlights": [
+      "New Hero:Cici, Buoyant Performer. A cheerful performer who spreads fun and wonderment."
+    ],
+    "hero_changes": {
+      "Balmond": {
+        "summary": "",
+        "changes": []
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.44",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.44",
+    "release_date": "2023-12-20",
+    "highlights": [
+      "Battlefield Adjustments: Revamped Fighter equipment, Turtle and Scavenger Crab adjustments.",
+      "Draw Events: KOF and Dawning Stars collab skins return for a limited time.",
+      "Season Settlement: S30 will end at 12/23 00:00 (Server Time) and the new season S31 will begin at 12/23 02:00 (Server Time)."
+    ],
+    "hero_changes": {
+      "War Axe": {
+        "summary": "",
+        "changes": [
+          "Gain an extra 25% EXP and Gold from assists. Effective for the entire match. >> Gain an extra 45% EXP and Gold from assists. Effective for the first 8 minutes of the match only."
+        ]
+      }
+    },
+    "item_changes": {
+      "War Axe": [],
+      "Brute Force Breastplate": [],
+      "Encourage": [],
+      "Conceal": [],
+      "Favor": [],
+      "Dire Hit": []
+    },
+    "system_changes": []
+  },
+  {
+    "version": "1.8.30",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.30",
+    "release_date": "2023-11-07",
+    "highlights": [
+      "Revamped Hero:Moskov, Spear of Quiescence",
+      "Battlefield Adjustments",
+      "New Event: M5 Pass"
+    ],
+    "hero_changes": {
+      "Masha": {
+        "summary": "",
+        "changes": [
+          "Experimental Adjustments: Argus's current gameplay is a bit too bland. His Ultimate seems to be both offensive and defensive, but in fact, it's difficult to achieve the desired effect. The Curse Damage of Meteoric Sword constitutes a lot of his strength, but it doesn't match his style of spamming Basic Attack. So we decided to redesign Argus's skill set and combat experience. As well as his early to mid game laning ability.",
+          "Extra Physical Damage: 155 + 100% Total Physical Attack →200 + 100% Total Physical Attack",
+          "New Effect:Extra Attack ignores 40% of the target's Physical Defense.",
+          "Base Damage: 300-400 + 40% Total Physical Attack →300-400 + 100% Total Physical Attack",
+          "New Effect:The Meteoric Sword damage now counts as Basic Attack damage and can trigger Attack Effect.",
+          "New Effect:The Meteoric Sword's attack interval now shortens as the Attack Speed increases.",
+          "New Effect:Argus' Basic Attack against a cursed target will grant double Malice Energy charging speed.",
+          "New Effect:Argus passively increases the charging speed of the Malice Energy.",
+          "Cooldown: 12-9s →8s at all levels",
+          "New Effect:Her Ultimate with 4 Skill 2 casts on beat makes her immune to control effects during the Ultimate.",
+          "Cooldown: 40-24s →24s at all levels",
+          "Damage: 150-270 + 55% Total Magic Power →135-235 + 50% Total Magic Power",
+          "Base Damage: 300-600 →250-500"
+        ]
+      },
+      "Argus": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12-9s →8s at all levels",
+          "New Effect:Her Ultimate with 4 Skill 2 casts on beat makes her immune to control effects during the Ultimate.",
+          "Cooldown: 40-24s →24s at all levels",
+          "Damage: 150-270 + 55% Total Magic Power →135-235 + 50% Total Magic Power",
+          "Base Damage: 300-600 →250-500",
+          "Base Damage: 180-480 + 125% Physical Attack →200-525 + 140% Physical Attack",
+          "Damage on Minions: 50% →50%-75%",
+          "Damage Reduction: 50%-70% →35%-50%"
+        ]
+      },
+      "Joy": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 300-600 →250-500",
+          "Base Damage: 180-480 + 125% Physical Attack →200-525 + 140% Physical Attack",
+          "Damage on Minions: 50% →50%-75%",
+          "Damage Reduction: 50%-70% →35%-50%",
+          "Base Damage: 320-420 →345-570",
+          "Cooldown: 5s at all levels →6-4s",
+          "New Effect:His Ultimate absorbs Hybrid Defense from nearby enemy heroes."
+        ]
+      },
+      "Roger": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 180-480 + 125% Physical Attack →200-525 + 140% Physical Attack",
+          "Damage on Minions: 50% →50%-75%",
+          "Damage Reduction: 50%-70% →35%-50%",
+          "Base Damage: 320-420 →345-570",
+          "Cooldown: 5s at all levels →6-4s",
+          "New Effect:His Ultimate absorbs Hybrid Defense from nearby enemy heroes.",
+          "Damage: 300-450 + 120% Magic Power →350-500 + 130% Magic Power",
+          "Damage: 50-80 + 30% Magic Power →60-90 + 33% Magic Power"
+        ]
+      },
+      "Khaleed": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 320-420 →345-570",
+          "Cooldown: 5s at all levels →6-4s",
+          "New Effect:His Ultimate absorbs Hybrid Defense from nearby enemy heroes.",
+          "Damage: 300-450 + 120% Magic Power →350-500 + 130% Magic Power",
+          "Damage: 50-80 + 30% Magic Power →60-90 + 33% Magic Power",
+          "Cooldown: 12.5-10s →16-13s",
+          "Cooldown: 45-37s →55-45s",
+          "New Effect:The first pull also stuns enemies, but it can't be used again immediately after interruption."
+        ]
+      },
+      "Alucard": {
+        "summary": "",
+        "changes": [
+          "Damage: 300-450 + 120% Magic Power →350-500 + 130% Magic Power",
+          "Damage: 50-80 + 30% Magic Power →60-90 + 33% Magic Power",
+          "Cooldown: 12.5-10s →16-13s",
+          "Cooldown: 45-37s →55-45s",
+          "New Effect:The first pull also stuns enemies, but it can't be used again immediately after interruption.",
+          "New Effect:Harith gains 15% Resilience within the range of his Ultimate."
+        ]
+      },
+      "Chang'e": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12.5-10s →16-13s",
+          "Cooldown: 45-37s →55-45s",
+          "New Effect:The first pull also stuns enemies, but it can't be used again immediately after interruption.",
+          "New Effect:Harith gains 15% Resilience within the range of his Ultimate.",
+          "New Effect:Minsitthar can cast other skills while retracting the spear."
+        ]
+      },
+      "Tigreal": {
+        "summary": "",
+        "changes": [
+          "New Effect:Harith gains 15% Resilience within the range of his Ultimate.",
+          "New Effect:Minsitthar can cast other skills while retracting the spear.",
+          "New Effect:The first strike now briefly stuns the target hit (to better ensure that the second strike hits and knocks the target airborne).",
+          "New Effect:Cooldown: 45-35s → 52-40s"
+        ]
+      },
+      "Harith": {
+        "summary": "",
+        "changes": [
+          "New Effect:Minsitthar can cast other skills while retracting the spear.",
+          "New Effect:The first strike now briefly stuns the target hit (to better ensure that the second strike hits and knocks the target airborne).",
+          "New Effect:Cooldown: 45-35s → 52-40s"
+        ]
+      },
+      "Minsitthar": {
+        "summary": "",
+        "changes": [
+          "New Effect:The first strike now briefly stuns the target hit (to better ensure that the second strike hits and knocks the target airborne).",
+          "New Effect:Cooldown: 45-35s → 52-40s"
+        ]
+      },
+      "Guinevere": {
+        "summary": "",
+        "changes": []
+      },
+      "Yve": {
+        "summary": "",
+        "changes": [
+          "Path Damage Bonus from Max Mana: 5% →7%",
+          "End Damage Bonus from Max Mana: 10% →14%"
+        ]
+      },
+      "Gusion": {
+        "summary": "",
+        "changes": [
+          "Path Damage Bonus from Max Mana: 5% →7%",
+          "End Damage Bonus from Max Mana: 10% →14%",
+          "Base Damage: 110-310 →135-335"
+        ]
+      },
+      "Julian": {
+        "summary": "",
+        "changes": [
+          "Path Damage Bonus from Max Mana: 5% →7%",
+          "End Damage Bonus from Max Mana: 10% →14%",
+          "Base Damage: 110-310 →135-335",
+          "Cooldown: The stolen Ultimate's cooldown is 120%-100% →120% (at all levels) of the target's cooldown"
+        ]
+      },
+      "Cecilion": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 110-310 →135-335",
+          "Cooldown: The stolen Ultimate's cooldown is 120%-100% →120% (at all levels) of the target's cooldown",
+          "Cooldown: 20-16s →35-25s",
+          "Base Damage: 130-210 →120-180"
+        ]
+      },
+      "Arlott": {
+        "summary": "",
+        "changes": [
+          "Cooldown: The stolen Ultimate's cooldown is 120%-100% →120% (at all levels) of the target's cooldown",
+          "Cooldown: 20-16s →35-25s",
+          "Base Damage: 130-210 →120-180",
+          "Cooldown: 11-8s →8-6s",
+          "Cooldown: 45-37s →42-32s"
+        ]
+      },
+      "Valentina": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 20-16s →35-25s",
+          "Base Damage: 130-210 →120-180",
+          "Cooldown: 11-8s →8-6s",
+          "Cooldown: 45-37s →42-32s",
+          "Cooldown: 38-28s →34-26s"
+        ]
+      },
+      "Nolan": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 11-8s →8-6s",
+          "Cooldown: 45-37s →42-32s",
+          "Cooldown: 38-28s →34-26s",
+          "Base Damage: 75 →100",
+          "Cooldown: 4-2.5s →3.5-2.5s"
+        ]
+      },
+      "Thamuz": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 38-28s →34-26s",
+          "Base Damage: 75 →100",
+          "Cooldown: 4-2.5s →3.5-2.5s"
+        ]
+      },
+      "Natan": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 75 →100",
+          "Cooldown: 4-2.5s →3.5-2.5s"
+        ]
+      },
+      "Lesley": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12-11s →13.5-11s"
+        ]
+      },
+      "Terizla": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12-11s →13.5-11s"
+        ]
+      },
+      "Fanny": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 12-11s →13.5-11s"
+        ]
+      },
+      "Mathilda": {
+        "summary": "",
+        "changes": []
+      },
+      "Angela": {
+        "summary": "",
+        "changes": []
+      },
+      "Rafaela": {
+        "summary": "",
+        "changes": [
+          "Slightly increased Ling's Crit Damage.",
+          "Crit Damage: 140% →150%"
+        ]
+      },
+      "Irithel": {
+        "summary": "",
+        "changes": [
+          "Slightly increased Ling's Crit Damage.",
+          "Crit Damage: 140% →150%",
+          "Cooldown: 15-12s →18-15s"
+        ]
+      },
+      "Esmeralda": {
+        "summary": "",
+        "changes": [
+          "Slightly increased Ling's Crit Damage.",
+          "Crit Damage: 140% →150%",
+          "Cooldown: 15-12s →18-15s",
+          "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s.",
+          "Damage: 35% Mana - 450 → 120% Magic Power"
+        ]
+      },
+      "Ling": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 15-12s →18-15s",
+          "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s.",
+          "Damage: 35% Mana - 450 → 120% Magic Power"
+        ]
+      },
+      "Baxia": {
+        "summary": "",
+        "changes": [
+          "New Effect: When triggering the damage, increase Movement Speed by 30% for 2s.",
+          "Damage: 35% Mana - 450 → 120% Magic Power"
+        ]
+      },
+      "Lightning Truncheon": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 10s. Every Basic Attack reduces it by 1s, down to 3s"
+        ]
+      },
+      "Weakness Finder": {
+        "summary": "",
+        "changes": [
+          "Damage Increase 5% → 7%"
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.22",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.22",
+    "release_date": "2023-10-19",
+    "highlights": [
+      "Bug Fixes"
+    ],
+    "hero_changes": {},
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.20",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.20",
+    "release_date": "2023-09-19",
+    "highlights": [
+      "New Hero:Nolan, the Cosmic Wayfinder.",
+      "Revamped Hero:Lolita, the Steel Elf has returned.",
+      "New Interface: The new Main Interface is now online, with interactive content waiting for you to explore.",
+      "New Season: S30 will start on 9/23/2023 at 02:00:00 (Server Time).",
+      "7th Anniversary Celebration: The 7th Anniversary Celebration will start on 9/23/2023 at 00:00:00 (Server Time)."
+    ],
+    "hero_changes": {
+      "Nolan, Cosmic Wayfinder": {
+        "summary": "",
+        "changes": [
+          "Lolita can now adjust position using Skill 1 while Skill 2 is active. Base Damage: 200-475 →300-550 (Doubled against Minions)",
+          "Damage: 720-1280 + 200% Total Physical Attack →500-900 + 100% Total Physical Attack",
+          "Cooldown: 48s-38s →55-45s",
+          "Damage: 350-625 + 100% Magic Power →275-500 + 80% Magic Power",
+          "Following Damage Decays to 20% →40%. Damage at three wisps is the same as before. The more wisps she has the higher the damage boost.",
+          "Cooldown: 15-12s →12-11s",
+          "New Effect:Mathilda can now select an area to rush to, knocking enemies airborne in her path.",
+          "New Effect:Transfers Soul Mark to the first target knocked by the second-stage dash.",
+          "New Effect:Dew's Lantern's attributes scale with hero level.",
+          "Initial Attributes: 2% Cooldown Reduction, 5% Movement Speed →4% Movement Speed",
+          "New Effect:Every once in a while, a skill or Basic Attack deals extra Magic Damage.",
+          "Magic Power Bonus to Damage: 180% →100%",
+          "Cooldown: 8-6.5s →9-7.5s",
+          "Cooldown: 60s at all levels →70s at all levels"
+        ]
+      },
+      "Lolita, Steel Elf": {
+        "summary": "",
+        "changes": [
+          "Damage: 350-625 + 100% Magic Power →275-500 + 80% Magic Power",
+          "Following Damage Decays to 20% →40%. Damage at three wisps is the same as before. The more wisps she has the higher the damage boost.",
+          "Cooldown: 15-12s →12-11s",
+          "New Effect:Mathilda can now select an area to rush to, knocking enemies airborne in her path.",
+          "New Effect:Transfers Soul Mark to the first target knocked by the second-stage dash.",
+          "New Effect:Dew's Lantern's attributes scale with hero level.",
+          "Initial Attributes: 2% Cooldown Reduction, 5% Movement Speed →4% Movement Speed",
+          "New Effect:Every once in a while, a skill or Basic Attack deals extra Magic Damage.",
+          "Magic Power Bonus to Damage: 180% →100%",
+          "Cooldown: 8-6.5s →9-7.5s",
+          "Cooldown: 60s at all levels →70s at all levels",
+          "New Effect:Clears slow effects and becomes immune to slow effects for 1.5s"
+        ]
+      },
+      "Mathilda": {
+        "summary": "",
+        "changes": [
+          "New Effect:Dew's Lantern's attributes scale with hero level.",
+          "Initial Attributes: 2% Cooldown Reduction, 5% Movement Speed →4% Movement Speed",
+          "New Effect:Every once in a while, a skill or Basic Attack deals extra Magic Damage.",
+          "Magic Power Bonus to Damage: 180% →100%",
+          "Cooldown: 8-6.5s →9-7.5s",
+          "Cooldown: 60s at all levels →70s at all levels",
+          "New Effect:Clears slow effects and becomes immune to slow effects for 1.5s"
+        ]
+      },
+      "Floryn": {
+        "summary": "",
+        "changes": [
+          "New Effect:Clears slow effects and becomes immune to slow effects for 1.5s"
+        ]
+      },
+      "Rafaela": {
+        "summary": "",
+        "changes": []
+      },
+      "Estes": {
+        "summary": "",
+        "changes": [
+          "Sha Eruption's Extra Damage based on Target's Lost HP: 2% →2.5%",
+          "Sharpened Edge's Damage: 250% →275%",
+          "Cooldown: 14-11s →12s at all levels"
+        ]
+      },
+      "Diggie": {
+        "summary": "",
+        "changes": [
+          "Sha Eruption's Extra Damage based on Target's Lost HP: 2% →2.5%",
+          "Sharpened Edge's Damage: 250% →275%",
+          "Cooldown: 14-11s →12s at all levels",
+          "Damage: 250-500 + 100% Magic Power →300-600 + 120% Magic Power",
+          "Cooldown: 13.5s →13.5-11s",
+          "Cooldown: 50s-40s →44s-36s"
+        ]
+      },
+      "Angela": {
+        "summary": "",
+        "changes": [
+          "Sha Eruption's Extra Damage based on Target's Lost HP: 2% →2.5%",
+          "Sharpened Edge's Damage: 250% →275%",
+          "Cooldown: 14-11s →12s at all levels",
+          "Damage: 250-500 + 100% Magic Power →300-600 + 120% Magic Power",
+          "Cooldown: 13.5s →13.5-11s",
+          "Cooldown: 50s-40s →44s-36s",
+          "Cooldown: 10-6.5s →9-6s"
+        ]
+      },
+      "Yu Zhong": {
+        "summary": "",
+        "changes": [
+          "Damage: 250-500 + 100% Magic Power →300-600 + 120% Magic Power",
+          "Cooldown: 13.5s →13.5-11s",
+          "Cooldown: 50s-40s →44s-36s",
+          "Cooldown: 10-6.5s →9-6s",
+          "Slash Damage: 50-150 + 80% Physical Attack →75-200 + 100% Physical Attack",
+          "Cooldown: 10-8s →10-6.5s"
+        ]
+      },
+      "Phoveus": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 10-6.5s →9-6s",
+          "Slash Damage: 50-150 + 80% Physical Attack →75-200 + 100% Physical Attack",
+          "Cooldown: 10-8s →10-6.5s"
+        ]
+      },
+      "Julian": {
+        "summary": "",
+        "changes": [
+          "Slash Damage: 50-150 + 80% Physical Attack →75-200 + 100% Physical Attack",
+          "Cooldown: 10-8s →10-6.5s"
+        ]
+      },
+      "Benedetta": {
+        "summary": "",
+        "changes": [
+          "HP Based Basic Attack Damage Bonus: 4% →5%",
+          "Cooldown: 7-5.5s →7-4.5s"
+        ]
+      },
+      "Aamon": {
+        "summary": "",
+        "changes": [
+          "HP Based Basic Attack Damage Bonus: 4% →5%",
+          "Cooldown: 7-5.5s →7-4.5s"
+        ]
+      },
+      "Johnson": {
+        "summary": "",
+        "changes": [
+          "HP Based Basic Attack Damage Bonus: 4% →5%",
+          "Cooldown: 7-5.5s →7-4.5s",
+          "Cooldown: 14-11.5s →15-12s"
+        ]
+      },
+      "Akai": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 14-11.5s →15-12s"
+        ]
+      },
+      "Barats": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 14-11.5s →15-12s",
+          "New Effect:When at max level, Gloom's explosions that hit an enemy hero immediately grant Lylia 50% Skill Recharge Time."
+        ]
+      },
+      "Baxia": {
+        "summary": "",
+        "changes": [
+          "New Effect:When at max level, Gloom's explosions that hit an enemy hero immediately grant Lylia 50% Skill Recharge Time.",
+          "Base Damage: 210-410 + 120% Magic Power →210-510 + 135% Magic Power"
+        ]
+      },
+      "Minotaur": {
+        "summary": "",
+        "changes": [
+          "New Effect:When at max level, Gloom's explosions that hit an enemy hero immediately grant Lylia 50% Skill Recharge Time.",
+          "Base Damage: 210-410 + 120% Magic Power →210-510 + 135% Magic Power",
+          "Cooldown: 9s →8.5s"
+        ]
+      },
+      "Lylia": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 210-410 + 120% Magic Power →210-510 + 135% Magic Power",
+          "Cooldown: 9s →8.5s",
+          "Cooldown: 48-40s →54-42s"
+        ]
+      },
+      "Luo Yi": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 9s →8.5s",
+          "Cooldown: 48-40s →54-42s",
+          "Kupa's Extra Damage against Creeps: 90% →150%",
+          "Cooldown: 6.5s at all levels →7s-5.2s (scales with level)",
+          "Cooldown: 6.5s at all levels →5.5s at all levels"
+        ]
+      },
+      "Cyclops": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 48-40s →54-42s",
+          "Kupa's Extra Damage against Creeps: 90% →150%",
+          "Cooldown: 6.5s at all levels →7s-5.2s (scales with level)",
+          "Cooldown: 6.5s at all levels →5.5s at all levels"
+        ]
+      },
+      "Ixia": {
+        "summary": "",
+        "changes": [
+          "Kupa's Extra Damage against Creeps: 90% →150%",
+          "Cooldown: 6.5s at all levels →7s-5.2s (scales with level)",
+          "Cooldown: 6.5s at all levels →5.5s at all levels",
+          "Basic Attack Damage: 100% Total Physical Attack →110% Total Physical Attack (Also inherit 110% Attack Effect)",
+          "Cooldown: 18-12s →24-20s"
+        ]
+      },
+      "Popol and Kupa": {
+        "summary": "",
+        "changes": [
+          "Basic Attack Damage: 100% Total Physical Attack →110% Total Physical Attack (Also inherit 110% Attack Effect)",
+          "Cooldown: 18-12s →24-20s",
+          "Nibiru - Basic Attack Damage: 52.5%-70% Physical Attack →51%-65% Physical Attack",
+          "Wesker - Basic Attack Damage: 150%-220% Physical Attack →178%-220% Physical Attack"
+        ]
+      },
+      "Melissa": {
+        "summary": "",
+        "changes": [
+          "Basic Attack Damage: 100% Total Physical Attack →110% Total Physical Attack (Also inherit 110% Attack Effect)",
+          "Cooldown: 18-12s →24-20s",
+          "Nibiru - Basic Attack Damage: 52.5%-70% Physical Attack →51%-65% Physical Attack",
+          "Wesker - Basic Attack Damage: 150%-220% Physical Attack →178%-220% Physical Attack"
+        ]
+      },
+      "Wanwan": {
+        "summary": "",
+        "changes": [
+          "Nibiru - Basic Attack Damage: 52.5%-70% Physical Attack →51%-65% Physical Attack",
+          "Wesker - Basic Attack Damage: 150%-220% Physical Attack →178%-220% Physical Attack",
+          "Base Damage: 145-320 →120-270"
+        ]
+      },
+      "Beatrix": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 145-320 →120-270",
+          "Base Damage: 100-130 →130-180"
+        ]
+      },
+      "Miya": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 145-320 →120-270",
+          "Base Damage: 100-130 →130-180",
+          "Initial Critical Damage: 140% →130%"
+        ]
+      },
+      "Bruno": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 100-130 →130-180",
+          "Initial Critical Damage: 140% →130%",
+          "Slightly reduced Fanny's Base Damage to optimize her performance in mid and high-rank plays.",
+          "Base Damage: 320-570 →300-540"
+        ]
+      },
+      "Claude": {
+        "summary": "",
+        "changes": [
+          "Initial Critical Damage: 140% →130%",
+          "Slightly reduced Fanny's Base Damage to optimize her performance in mid and high-rank plays.",
+          "Base Damage: 320-570 →300-540",
+          "Cooldown: 8-6s →7s at all levels",
+          "Cooldown: 8-5.5s →8.5-6.5s"
+        ]
+      },
+      "Lesley": {
+        "summary": "",
+        "changes": [
+          "Slightly reduced Fanny's Base Damage to optimize her performance in mid and high-rank plays.",
+          "Base Damage: 320-570 →300-540",
+          "Cooldown: 8-6s →7s at all levels",
+          "Cooldown: 8-5.5s →8.5-6.5s",
+          "Base Damage: 300-500 →250-450",
+          "Base Damage: 300-360 →270-330",
+          "Return Waves Damage: 200-240 →180-220"
+        ]
+      },
+      "Fanny": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 8-6s →7s at all levels",
+          "Cooldown: 8-5.5s →8.5-6.5s",
+          "Base Damage: 300-500 →250-450",
+          "Base Damage: 300-360 →270-330",
+          "Return Waves Damage: 200-240 →180-220",
+          "Damage: 340-665 + 185% Magic Power →300-600 + 165% Magic Power"
+        ]
+      },
+      "Paquito": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 300-500 →250-450",
+          "Base Damage: 300-360 →270-330",
+          "Return Waves Damage: 200-240 →180-220",
+          "Damage: 340-665 + 185% Magic Power →300-600 + 165% Magic Power"
+        ]
+      },
+      "Kadita": {
+        "summary": "",
+        "changes": [
+          "Damage: 340-665 + 185% Magic Power →300-600 + 165% Magic Power",
+          "+10% Cooldown Reduction"
+        ]
+      },
+      "Valentina": {
+        "summary": "",
+        "changes": [
+          "+10% Cooldown Reduction"
+        ]
+      },
+      "Yve": {
+        "summary": "",
+        "changes": [
+          "+10% Cooldown Reduction",
+          "New Effect: Minion kills →Minion kills or assists restore Mana by 4%."
+        ]
+      },
+      "Flask of the Oasis": {
+        "summary": "",
+        "changes": [
+          "New Effect: Minion kills →Minion kills or assists restore Mana by 4%.",
+          "Gain 5 Physical Defense when struck by Basic Attacks →Gain 4 Physical Defense when taking Physical Damage"
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.8.08",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.8.08",
+    "release_date": "2023-08-08",
+    "highlights": [
+      "New Item: Great Dragon Spear",
+      "Beyond the Clouds Event Series"
+    ],
+    "hero_changes": {
+      "Natalia": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 10s at all levels →16-14s (scales with level)",
+          "New Frontal Damage Reduction Effect: Every 10 Extra Physical Attack increases Damage Reduction by 1%, up to 60%",
+          "Cooldown: 10-5s (scales with level) →5s at all levels",
+          "First Damage Bonus: 140% Extra Physical Attack →100% Extra Physical Attack",
+          "Continuous Damage Bonus: 60% Extra Physical Attack →40% Extra Physical Attack",
+          "Skill Damage Ratio Upon Hitting an Enemy Hero: 1.5x →1.3x",
+          "Enhanced Basic Attack's Damage Ratio: 1.2x →1.4x",
+          "New Effect:Gains 5%-15% Hybrid Lifesteal after unlocking the Ultimate.",
+          "New Effect:Yu Zhong gains 30% extra Movement Speed when Sha Residue erupts.",
+          "Cooldown: 7-5.5s →6-4.5s"
+        ]
+      },
+      "Aulus": {
+        "summary": "",
+        "changes": [
+          "Skill Damage Ratio Upon Hitting an Enemy Hero: 1.5x →1.3x",
+          "Enhanced Basic Attack's Damage Ratio: 1.2x →1.4x",
+          "New Effect:Gains 5%-15% Hybrid Lifesteal after unlocking the Ultimate.",
+          "New Effect:Yu Zhong gains 30% extra Movement Speed when Sha Residue erupts.",
+          "Cooldown: 7-5.5s →6-4.5s",
+          "Damage: 125-225 + 60% Total Physical Attack →175-300 + 80% Total Physical Attack",
+          "New Effect:Increases Attack Speed by 50%."
+        ]
+      },
+      "Alucard": {
+        "summary": "",
+        "changes": [
+          "New Effect:Yu Zhong gains 30% extra Movement Speed when Sha Residue erupts.",
+          "Cooldown: 7-5.5s →6-4.5s",
+          "Damage: 125-225 + 60% Total Physical Attack →175-300 + 80% Total Physical Attack",
+          "New Effect:Increases Attack Speed by 50%.",
+          "Cooldown: 45-39s →30-24s"
+        ]
+      },
+      "Yu Zhong": {
+        "summary": "",
+        "changes": [
+          "Damage: 125-225 + 60% Total Physical Attack →175-300 + 80% Total Physical Attack",
+          "New Effect:Increases Attack Speed by 50%.",
+          "Cooldown: 45-39s →30-24s",
+          "New Effect:Use again while her Ultimate is active to dash in the target direction."
+        ]
+      },
+      "Ixia": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 45-39s →30-24s",
+          "New Effect:Use again while her Ultimate is active to dash in the target direction."
+        ]
+      },
+      "Irithel": {
+        "summary": "",
+        "changes": [
+          "New Effect:Use again while her Ultimate is active to dash in the target direction.",
+          "Damage: 50% Total Physical Attack →30 + 40% Total Physical Attack"
+        ]
+      },
+      "Odette": {
+        "summary": "",
+        "changes": [
+          "Damage: 50% Total Physical Attack →30 + 40% Total Physical Attack",
+          "New Effect:Every 1% of Leomord's Crit Chance will be converted into 1 Physical Attack.",
+          "Cooldown: 45-35s →40-30s"
+        ]
+      },
+      "Lylia": {
+        "summary": "",
+        "changes": [
+          "Damage: 50% Total Physical Attack →30 + 40% Total Physical Attack",
+          "New Effect:Every 1% of Leomord's Crit Chance will be converted into 1 Physical Attack.",
+          "Cooldown: 45-35s →40-30s",
+          "Base Damage: 90-215 →90 at all levels",
+          "Cooldown: 4s at all levels →4-3s (scales with level)"
+        ]
+      },
+      "Zilong": {
+        "summary": "",
+        "changes": [
+          "New Effect:Every 1% of Leomord's Crit Chance will be converted into 1 Physical Attack.",
+          "Cooldown: 45-35s →40-30s",
+          "Base Damage: 90-215 →90 at all levels",
+          "Cooldown: 4s at all levels →4-3s (scales with level)"
+        ]
+      },
+      "Leomord": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 90-215 →90 at all levels",
+          "Cooldown: 4s at all levels →4-3s (scales with level)",
+          "Cooldown: 58-50s →60s"
+        ]
+      },
+      "Ruby": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 58-50s →60s",
+          "Base Damage: 250-500 →180-500"
+        ]
+      },
+      "Ling": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 58-50s →60s",
+          "Base Damage: 250-500 →180-500",
+          "Cooldown: 9-6s →10-8s"
+        ]
+      },
+      "Yve": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 250-500 →180-500",
+          "Cooldown: 9-6s →10-8s",
+          "Cooldown: 20-16s →30-24s"
+        ]
+      },
+      "Alpha": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 9-6s →10-8s",
+          "Cooldown: 20-16s →30-24s",
+          "Base Damage: 350-600 →425-625"
+        ]
+      },
+      "Freya": {
+        "summary": "",
+        "changes": [
+          "Cooldown: 20-16s →30-24s",
+          "Base Damage: 350-600 →425-625",
+          "Base Damage: 245-370 →320-440",
+          "Base Damage: 400-680 →440-660"
+        ]
+      },
+      "Arlott": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 350-600 →425-625",
+          "Base Damage: 245-370 →320-440",
+          "Base Damage: 400-680 →440-660",
+          "Base Damage: 220-500 →108-500",
+          "Base Damage: 450-750 →580-850"
+        ]
+      },
+      "Xavier": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 245-370 →320-440",
+          "Base Damage: 400-680 →440-660",
+          "Base Damage: 220-500 →108-500",
+          "Base Damage: 450-750 →580-850",
+          "Skill 1 Damage Increase Per Stack: 6 →5"
+        ]
+      },
+      "Nana": {
+        "summary": "",
+        "changes": [
+          "Base Damage: 220-500 →108-500",
+          "Base Damage: 450-750 →580-850",
+          "Skill 1 Damage Increase Per Stack: 6 →5"
+        ]
+      },
+      "Vexana": {
+        "summary": "",
+        "changes": [
+          "Skill 1 Damage Increase Per Stack: 6 →5"
+        ]
+      },
+      "Aldous": {
+        "summary": "",
+        "changes": []
+      },
+      "Alice": {
+        "summary": "",
+        "changes": [
+          "This piece of equipment is suitable for heroes who rely on Crit Chance and Cooldown Reduction to improve their mobility. Such as Zilong, Aulus, Natalia, Alucard and Irithel.",
+          "+10% Cooldown Reduction",
+          "Casting the Ultimate grants 15% extra Movement Speed for 7.5s. Cooldown: 15s."
+        ]
+      },
+      "Faramis": {
+        "summary": "",
+        "changes": [
+          "This piece of equipment is suitable for heroes who rely on Crit Chance and Cooldown Reduction to improve their mobility. Such as Zilong, Aulus, Natalia, Alucard and Irithel.",
+          "+10% Cooldown Reduction",
+          "Casting the Ultimate grants 15% extra Movement Speed for 7.5s. Cooldown: 15s."
+        ]
+      },
+      "Haas's Claws": {
+        "summary": "",
+        "changes": [
+          "This piece of equipment is suitable for heroes who rely on Crit Chance and Cooldown Reduction to improve their mobility. Such as Zilong, Aulus, Natalia, Alucard and Irithel.",
+          "+10% Cooldown Reduction",
+          "Casting the Ultimate grants 15% extra Movement Speed for 7.5s. Cooldown: 15s.",
+          "We want it to be more reliable against Burst Damage.",
+          "Damage Reflection: 20% Damage Before Reduction →30% Damage Before Reduction"
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
+  },
+  {
+    "version": "1.7.94",
+    "url": "https://liquipedia.net/mobilelegends/Patch_1.7.94",
+    "release_date": "2023-06-26",
+    "highlights": [
+      "New Hero:Ixia, marksman that makes her own weapon with unique trajectories.",
+      "Revamped Emblems & Hero Setup"
+    ],
+    "hero_changes": {
+      "Malefic Roar": {
+        "summary": "",
+        "changes": [
+          "After casting a skill, the next Basic Attack within 3s deals 100 + 100% Magic Power as extra True Damage and grants 10% extra Movement Speed (1.5s cooldown).",
+          "With the new Emblem system, heroes relying on Magic Damage can also equip Killing Spree to continuously finish off enemies. We changed the use of the equipment to enhance Mages' sustainability.",
+          "Revamped Effect: Dealing Magic Damage increases Magic Power by 5 (up to 6 stacks, only 1 stack every 0.4s). At full stacks, increases Magic Damage by 12% for 3s."
+        ]
+      }
+    },
+    "item_changes": {},
+    "system_changes": []
   }
 ]
