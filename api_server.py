@@ -442,8 +442,68 @@ def get_items():
         if game_id:
             items = db.get_equipment_by_game(game_id)
             
-            # Створюємо мапінг name -> id для швидкого пошуку
+            # Створюємо мапінг name -> item для швидкого пошуку
+            items_map = {item['name']: item for item in items}
             name_to_id = {item['name']: item['id'] for item in items}
+            
+            # Функція для рекурсивного розгортання рецепту
+            def expand_recipe(item_name, visited=None):
+                """Розгортає рецепт до базових компонентів tier 1"""
+                if visited is None:
+                    visited = set()
+                
+                if item_name in visited:
+                    return []
+                visited.add(item_name)
+                
+                item = items_map.get(item_name)
+                if not item:
+                    return []
+                
+                # Парсимо recipe
+                recipe_data = item.get('recipe')
+                if recipe_data:
+                    try:
+                        recipe_list = json.loads(recipe_data) if isinstance(recipe_data, str) else recipe_data
+                    except:
+                        recipe_list = []
+                else:
+                    recipe_list = []
+                
+                if not recipe_list:
+                    # Немає рецепту - це базовий компонент
+                    return [{
+                        'id': item['id'],
+                        'name': item_name,
+                        'tier': item.get('tier'),
+                        'count': 1
+                    }]
+                
+                # Рекурсивно розгортаємо кожен компонент
+                expanded = []
+                for comp in recipe_list:
+                    comp_name = comp['name'] if isinstance(comp, dict) else comp
+                    sub_components = expand_recipe(comp_name, visited.copy())
+                    expanded.extend(sub_components)
+                
+                # Підраховуємо кількість кожного компонента
+                from collections import Counter
+                counts = Counter((c['name'], c['id']) for c in expanded)
+                
+                result = []
+                seen = set()
+                for comp in expanded:
+                    key = (comp['name'], comp['id'])
+                    if key not in seen:
+                        seen.add(key)
+                        result.append({
+                            'id': comp['id'],
+                            'name': comp['name'],
+                            'tier': comp['tier'],
+                            'count': counts[key]
+                        })
+                
+                return result
             
             # Парсимо attributes_json та recipe для кожного item
             for item in items:
@@ -488,6 +548,9 @@ def get_items():
                     except Exception as e:
                         print(f"Error parsing upgrades_to for item {item.get('id')} ({item.get('name')}): {e}")
                         item['upgrades_to'] = None
+                
+                # Додаємо розгорнутий рецепт (всі базові компоненти)
+                item['recipe_full'] = expand_recipe(item['name'])
         else:
             items = []
         return jsonify(items)
