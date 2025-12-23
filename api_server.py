@@ -1584,10 +1584,7 @@ def migrate_equipment_fields():
         })
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-        
-    except Exception as e:
-        print(f"Error migrating constraint: {e}")
+        print(f"Error migrating fields: {e}")
         return jsonify({'error': str(e)}), 500
 
 
