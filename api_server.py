@@ -1171,6 +1171,119 @@ def fetch_external_hero_skills(hero_name):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/heroes/update-all-skills', methods=['POST'])
+def update_all_heroes_skills():
+    """Оновлює скіли для всіх героїв з зовнішнього API"""
+    import requests
+    
+    data = request.get_json() or {}
+    game_id = data.get('game_id', 2)  # Default to MLBB
+    
+    try:
+        # Отримуємо всіх героїв гри
+        heroes = db.get_heroes(game_id, include_details=False, include_skills=False, include_relation=False)
+        
+        results = {
+            'total': len(heroes),
+            'updated': 0,
+            'failed': 0,
+            'skipped': 0,
+            'errors': []
+        }
+        
+        for hero in heroes:
+            hero_name = hero['name']
+            hero_id = hero['id']
+            
+            try:
+                # Format name for external API
+                formatted_name = hero_name.lower().replace(' ', '-').replace("'", '')
+                external_url = f"https://mlbb-stats.ridwaanhall.com/api/hero-detail/{formatted_name}/"
+                
+                # Fetch from external API
+                response = requests.get(external_url, timeout=10)
+                
+                if response.status_code != 200:
+                    results['skipped'] += 1
+                    results['errors'].append(f"{hero_name}: External API returned {response.status_code}")
+                    continue
+                
+                api_data = response.json()
+                
+                if api_data.get('code') != 0:
+                    results['skipped'] += 1
+                    results['errors'].append(f"{hero_name}: Invalid API response")
+                    continue
+                
+                # Extract skills
+                records = api_data.get('data', {}).get('records', [])
+                if not records:
+                    results['skipped'] += 1
+                    results['errors'].append(f"{hero_name}: No hero data found")
+                    continue
+                
+                hero_data = records[0].get('data', {}).get('hero', {}).get('data', {})
+                skill_lists = hero_data.get('heroskilllist', [])
+                
+                if not skill_lists or not skill_lists[0].get('skilllist'):
+                    results['skipped'] += 1
+                    results['errors'].append(f"{hero_name}: No skills found")
+                    continue
+                
+                external_skills = skill_lists[0]['skilllist']
+                
+                # Remove duplicates
+                seen_skills = set()
+                unique_skills = []
+                for skill in external_skills:
+                    if skill['skillname'] not in seen_skills:
+                        seen_skills.add(skill['skillname'])
+                        unique_skills.append(skill)
+                
+                # Get database skills
+                db_skills = db.get_hero_skills(hero_id)
+                
+                # Update skills
+                skill_updated = False
+                for i, ext_skill in enumerate(unique_skills):
+                    skill_name = ext_skill['skillname']
+                    skill_desc = ext_skill['skilldesc']
+                    
+                    # Find matching skill in database
+                    matching_skill = next((s for s in db_skills if s['skill_name'] == skill_name), None)
+                    
+                    if matching_skill:
+                        # Prepare update
+                        update_desc = skill_desc if skill_desc and skill_desc.strip() else None
+                        
+                        # Update skill
+                        success = db.update_hero_skill(
+                            matching_skill['id'],
+                            skill_name=None,
+                            skill_description=update_desc,
+                            display_order=i
+                        )
+                        
+                        if success:
+                            skill_updated = True
+                
+                if skill_updated:
+                    results['updated'] += 1
+                else:
+                    results['skipped'] += 1
+                    
+            except Exception as e:
+                results['failed'] += 1
+                results['errors'].append(f"{hero_name}: {str(e)}")
+        
+        return jsonify({
+            'success': True,
+            'results': results
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')

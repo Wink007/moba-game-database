@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
 function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -7,6 +10,7 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [transformedState, setTransformedState] = useState({});
   const [transformationIndex, setTransformationIndex] = useState({});
+  const [isUpdatingAll, setIsUpdatingAll] = useState(false);
   const itemsPerPage = 10;
   
   // Функція для отримання skills героя
@@ -64,8 +68,95 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   const uniqueLanes = [...new Set(heroes.flatMap(h => h.lane || []))];
   const uniqueRoles = [...new Set(heroes.flatMap(h => h.roles || []))];
 
+  const handleUpdateAllSkills = async () => {
+    if (!window.confirm('Update skills for ALL heroes? This may take several minutes.')) {
+      return;
+    }
+
+    setIsUpdatingAll(true);
+    
+    try {
+      const response = await axios.post(`${API_URL}/heroes/update-all-skills`, {
+        game_id: heroes[0]?.game_id || 2
+      });
+
+      const results = response.data.results;
+      
+      let message = `✅ Update Complete!\n\n`;
+      message += `Total heroes: ${results.total}\n`;
+      message += `✓ Updated: ${results.updated}\n`;
+      message += `⊘ Skipped: ${results.skipped}\n`;
+      message += `✗ Failed: ${results.failed}\n`;
+      
+      if (results.errors && results.errors.length > 0) {
+        message += `\nErrors (first 10):\n`;
+        message += results.errors.slice(0, 10).join('\n');
+      }
+      
+      alert(message);
+      
+      // Reload page to see updated data
+      if (results.updated > 0) {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error updating all skills:', error);
+      alert(`Error: ${error.response?.data?.error || error.message}`);
+    } finally {
+      setIsUpdatingAll(false);
+    }
+  };
+
   return (
     <>
+      {/* Bulk Update Button */}
+      <div style={{
+        marginBottom: '15px',
+        padding: '15px',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        color: 'white'
+      }}>
+        <div>
+          <strong style={{ fontSize: '1.1rem' }}>🔄 Bulk Skills Update</strong>
+          <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', opacity: 0.9 }}>
+            Update skill descriptions and order for all heroes from external API
+          </p>
+        </div>
+        <button
+          onClick={handleUpdateAllSkills}
+          disabled={isUpdatingAll || heroes.length === 0}
+          style={{
+            padding: '12px 24px',
+            background: isUpdatingAll ? 'rgba(255,255,255,0.3)' : 'white',
+            color: isUpdatingAll ? 'white' : '#667eea',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: isUpdatingAll || heroes.length === 0 ? 'not-allowed' : 'pointer',
+            fontWeight: '700',
+            fontSize: '0.95rem',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            if (!isUpdatingAll && heroes.length > 0) {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 6px 8px rgba(0,0,0,0.15)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+          }}
+        >
+          {isUpdatingAll ? '⏳ Updating...' : '🚀 Update All Heroes'}
+        </button>
+      </div>
+
+      {/* Filters */}
       <div style={{ 
         marginBottom: '15px', 
         display: 'flex', 
