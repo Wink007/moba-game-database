@@ -635,10 +635,6 @@ def update_items_from_fandom():
                 if item.get('tier') == '1':
                     results['skipped'] += 1
                     continue
-                # Пропускаємо базові предмети (tier 1)
-                if item.get('tier') == '1':
-                    results['skipped'] += 1
-                    continue
                 
                 # Парсимо атрибути
                 import re
@@ -650,14 +646,14 @@ def update_items_from_fandom():
                 
                 attrs = fandom_data.get('attributes', {})
                 
-                # Оптимізуємо recipe - шукаємо ID компонентів
+                # Конвертуємо recipe - шукаємо ID компонентів
                 recipe_names = fandom_data.get('recipe', [])
-                optimized_recipe = []
+                recipe_json = []
                 if recipe_names:
                     for comp_name in recipe_names:
                         comp_item = name_to_item.get(comp_name)
-                        if comp_item and comp_item.get('tier') and int(comp_item['tier']) >= 2:
-                            optimized_recipe.append({
+                        if comp_item:
+                            recipe_json.append({
                                 'id': comp_item['id'],
                                 'name': comp_name
                             })
@@ -688,7 +684,7 @@ def update_items_from_fandom():
                     'crit_chance': parse_stat(attrs.get('Crit Chance')),
                     'attributes_json': json.dumps(attrs, ensure_ascii=False),
                     'passive_description': passive_text if passive_text else None,
-                    'recipe': json.dumps(optimized_recipe, ensure_ascii=False) if optimized_recipe else None
+                    'recipe': json.dumps(recipe_json, ensure_ascii=False) if recipe_json else None
                 }
                 
                 # Оновлюємо тільки поля які мають значення
