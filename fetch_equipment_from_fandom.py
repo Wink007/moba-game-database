@@ -98,13 +98,23 @@ def fetch_item_data(item_name):
         if recipe_elem:
             recipe_val = recipe_elem.find('div', class_='pi-data-value')
             if recipe_val:
-                links = recipe_val.find_all('a')
-                # Перший лінк - це сам предмет, пропускаємо
-                # Зберігаємо всі компоненти включно з дублікатами
-                for link in links[1:]:
-                    component_name = link.get('title', link.get_text(strip=True))
-                    if component_name and component_name != item_name:
-                        data['recipe'].append(component_name)
+                # На Fandom recipe представлений у вигляді таблиці:
+                # Row 0: сам предмет
+                # Row 1: топ-рівень компонентів (те що нам потрібно)
+                # Row 2+: під-компоненти (ігноруємо)
+                tbody = recipe_val.find('tbody')
+                if tbody:
+                    rows = tbody.find_all('tr', recursive=False)
+                    if len(rows) >= 2:
+                        # Беремо другий рядок (індекс 1) - топ-рівень компонентів
+                        component_row = rows[1]
+                        cells = component_row.find_all('td', recursive=False)
+                        for cell in cells:
+                            link = cell.find('a')
+                            if link:
+                                component_name = link.get('title', link.get_text(strip=True))
+                                if component_name and component_name != item_name:
+                                    data['recipe'].append(component_name)
         
         # Шукаємо ціну в таблиці
         price_found = False
