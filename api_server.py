@@ -483,10 +483,20 @@ def get_items():
                 # Якщо є рецепт, рекурсивно розгортаємо компоненти
                 if recipe_list:
                     for comp in recipe_list:
-                        comp_name = comp['name'] if isinstance(comp, dict) else comp
-                        sub_node = expand_recipe(comp_name, visited.copy())
-                        if sub_node:
-                            node['components'].append(sub_node)
+                        # recipe зберігається як [{id: X, name: "Y"}, ...] або просто числа [ID1, ID2, ...]
+                        if isinstance(comp, dict):
+                            comp_name = comp.get('name')
+                        elif isinstance(comp, (int, float)):
+                            # Шукаємо ім'я за ID
+                            comp_item = next((i for i in items_map.values() if i['id'] == comp), None)
+                            comp_name = comp_item['name'] if comp_item else None
+                        else:
+                            comp_name = comp
+                        
+                        if comp_name:
+                            sub_node = expand_recipe(comp_name, visited.copy())
+                            if sub_node:
+                                node['components'].append(sub_node)
                 
                 return node
             
