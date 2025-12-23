@@ -830,6 +830,92 @@ def update_items_from_fandom():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# ============== PATCHES ==============
+
+@app.route('/api/patches', methods=['GET'])
+def get_patches():
+    """Отримує список патчів з кешованого JSON файлу"""
+    try:
+        import os
+        patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
+        
+        if not os.path.exists(patches_file):
+            return jsonify({'error': 'Patches data not found. Run fetch_patches_from_liquipedia.py first'}), 404
+        
+        with open(patches_file, 'r', encoding='utf-8') as f:
+            patches = json.load(f)
+        
+        # Фільтруємо за параметрами
+        limit = request.args.get('limit', type=int)
+        search = request.args.get('search', type=str)
+        
+        if search:
+            search_lower = search.lower()
+            patches = [p for p in patches if search_lower in p['version'].lower()]
+        
+        if limit:
+            patches = patches[:limit]
+        
+        return jsonify(patches)
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/patches/<version>', methods=['GET'])
+def get_patch_details(version):
+    """Отримує деталі конкретного патчу"""
+    try:
+        import os
+        patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
+        
+        if not os.path.exists(patches_file):
+            return jsonify({'error': 'Patches data not found'}), 404
+        
+        with open(patches_file, 'r', encoding='utf-8') as f:
+            patches = json.load(f)
+        
+        # Шукаємо патч за версією
+        patch = next((p for p in patches if p['version'] == version), None)
+        
+        if patch:
+            return jsonify(patch)
+        
+        return jsonify({'error': 'Patch not found'}), 404
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/patches/refresh', methods=['POST'])
+def refresh_patches():
+    """Оновлює дані патчів з Liquipedia"""
+    try:
+        import sys
+        import os
+        sys.path.insert(0, os.path.dirname(__file__))
+        
+        from fetch_patches_from_liquipedia import fetch_latest_patches
+        
+        limit = request.json.get('limit', 20) if request.json else 20
+        
+        print(f"🔄 Оновлення патчів (limit: {limit})...")
+        patches = fetch_latest_patches(limit=limit)
+        
+        # Зберігаємо в файл
+        patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
+        with open(patches_file, 'w', encoding='utf-8') as f:
+            json.dump(patches, f, indent=2, ensure_ascii=False)
+        
+        return jsonify({
+            'success': True,
+            'count': len(patches),
+            'message': f'Successfully refreshed {len(patches)} patches'
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # ============== EMBLEM TALENTS ==============
 
 @app.route('/api/emblem-talents', methods=['GET'])
