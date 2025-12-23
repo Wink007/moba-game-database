@@ -1,0 +1,1967 @@
+[
+  {
+    "name": "Allow Throw",
+    "url": "https://mobile-legends.fandom.com/wiki/Allow_Throw",
+    "price": null,
+    "type": "Movement",
+    "description": "Allow ThrowUnique Passive - Trust: Allow allied Jawhead to fling you.RecipeAllow Throw has no recipe.Price0In-depth informationTypeMovementSellable?NoAvailable for?Jawhead's alliesTakes slot?NoAllow Throwis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {},
+    "unique_passive": [
+      "Unique Passive - Trust: Allow allied Jawhead to fling you."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/16/Allow_Throw.png"
+  },
+  {
+    "name": "Antique Cuirass",
+    "url": "https://mobile-legends.fandom.com/wiki/Antique_Cuirass",
+    "price": 920,
+    "type": "Defense",
+    "description": "Antique CuirassPhysical Attack Reduction+920 HP+40 Physical Defense+4 HP RegenUnique Passive - Deter: When hit by a skill, reduces the attacker's Physical Damage by 6% for 2 seconds (this effect stacks up to 3 times).RecipePriceUpgrade priceSell21707401302In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesAntique Cuirassis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+920",
+      "Physical Defense": "+40",
+      "HP Regen": "+4"
+    },
+    "unique_passive": [
+      "Unique Passive - Deter: When hit by a skill, reduces the attacker's Physical Damage by 6% for 2 seconds (this effect stacks up to 3 times)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Dreadnaught Armor",
+      "Ares Belt",
+      "Leather Jerkin",
+      "Leather Jerkin",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/40/Antique_Cuirass.png"
+  },
+  {
+    "name": "Arcane Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Arcane_Boots",
+    "price": 720,
+    "type": "Movement",
+    "description": "Arcane BootsMagic Penetration+40 Movement Speed+15 Magic Power+10 Magic PenetrationRecipePriceUpgrade priceSell720170432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesArcane Bootsis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Magic Power": "+15",
+      "Magic Penetration": "+10"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/15/Arcane_Boots.png"
+  },
+  {
+    "name": "Ares Belt",
+    "url": "https://mobile-legends.fandom.com/wiki/Ares_Belt",
+    "price": 600,
+    "type": "Defense",
+    "description": "Ares Belt+600 HPRecipePriceUpgrade priceSell700400420In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsAntique CuirassBrute Force BreastplateChastise PauldronCursed HelmetGuardian HelmetImmortalityQueen's WingsThunder BeltAres Beltis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+600"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/04/Ares_Belt.png"
+  },
+  {
+    "name": "Athena's Shield",
+    "url": "https://mobile-legends.fandom.com/wiki/Athena%27s_Shield",
+    "price": 900,
+    "type": "Defense",
+    "description": "Athena's ShieldResist Burst Magic Damage+900 HP+48 Magic Defense+2 HP RegenUnique Passive - Shield: Upon taking Magic Damage from enemy hero skills or Basic Attacks, reduces Magic Damage taken by 25% for 3 second (including the damage that triggers the effect)s. Regains this effect 5 seconds after leaving combat.RecipePriceUpgrade priceSell21508301290In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesVisual effectAthena's Shieldis anequipmentinMobile Legends: Bang B",
+    "attributes": {
+      "HP": "+900",
+      "Magic Defense": "+48",
+      "HP Regen": "+2"
+    },
+    "unique_passive": [
+      "Unique Passive - Shield: Upon taking Magic Damage from enemy hero skills or Basic Attacks, reduces Magic Damage taken by 25% for 3 second (including the damage that triggers the effect)s. Regains this effect 5 seconds after leaving combat."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Silence Robe",
+      "Vitality Crystal",
+      "Vitality Crystal",
+      "Magic Resist Cloak"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/15/Athena%27s_Shield.png"
+  },
+  {
+    "name": "Azure Blade",
+    "url": "https://mobile-legends.fandom.com/wiki/Azure_Blade",
+    "price": 360,
+    "type": "Magic",
+    "description": "Azure Blade+5 Mana Regen+5% Cooldown ReductionUnique Passive - Judgement: After casting a skill, the next Basic Attack within 3 seconds deals 50 extra True Damage (1.5 seconds cooldown).RecipePriceUpgrade priceSell600360360In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsEndless BattleStarlium ScytheAzure Bladeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Mana Regen": "+5",
+      "Cooldown Reduction": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Judgement: After casting a skill, the next Basic Attack within 3 seconds deals 50 extra True Damage (1.5 seconds cooldown)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Necklace",
+      "Magic Necklace"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/6/6d/Azure_Blade.png"
+  },
+  {
+    "name": "Berserker's Fury",
+    "url": "https://mobile-legends.fandom.com/wiki/Berserker%27s_Fury",
+    "price": 2390,
+    "type": "Attack",
+    "description": "Berserker's FuryCrit Chance & Damage+65 Physical Attack+25% Crit ChanceUnique Attribute: +40% Crit DamageUnique Passive - Doom: Critical strikes grant 5% extra Physical Attack for 2 seconds.RecipePriceUpgrade priceSell23908401434In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBerserker's Furyis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+65",
+      "Crit Chance": "+25%"
+    },
+    "unique_passive": [
+      "Unique Passive - Doom: Critical strikes grant 5% extra Physical Attack for 2 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Legion Sword",
+      "Javelin",
+      "Javelin",
+      "Dagger",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/6/6c/Berserker%27s_Fury.png"
+  },
+  {
+    "name": "Black Ice Shield",
+    "url": "https://mobile-legends.fandom.com/wiki/Black_Ice_Shield",
+    "price": 780,
+    "type": "Defense",
+    "description": "Black Ice Shield+20 Physical Defense+20 Magic DefenseUnique Passive - Fortress Shield: For each enemy hero within 5 units, Hybrid Defense is increased by 4, up to 20.RecipePriceUpgrade priceSell780340468In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsDominance IceBlack Ice Shieldis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Defense": "+20",
+      "Magic Defense": "+20"
+    },
+    "unique_passive": [
+      "Unique Passive - Fortress Shield: For each enemy hero within 5 units, Hybrid Defense is increased by 4, up to 20."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Leather Jerkin",
+      "Magic Resist Cloak"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/5d/Black_Ice_Shield.png"
+  },
+  {
+    "name": "Blade Armor",
+    "url": "https://mobile-legends.fandom.com/wiki/Blade_Armor",
+    "price": 1660,
+    "type": "Defense",
+    "description": "Blade ArmorDamage Reflection+80 Physical DefenseUnique Attribute: +20% Crit Damage ReductionUnique Passive - Bladed Armor: When struck by a Basic Attack, deals Physical Damage equal to 30 (+2% Total Physical Defense)% of the incoming damage (calculated before Damage Reduction) to the attacker and slows them by 15% for 1 second.RecipePriceUpgrade priceSell19108401146In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBlade Armoris anequipmentinMobile Legends: Bang Ban",
+    "attributes": {
+      "Physical Defense": "+80"
+    },
+    "unique_passive": [
+      "Unique Passive - Bladed Armor: When struck by a Basic Attack, deals Physical Damage equal to 30 (+2% Total Physical Defense)% of the incoming damage (calculated before Damage Reduction) to the attacker and slows them by 15% for 1 second."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Steel Legplates",
+      "Leather Jerkin",
+      "Leather Jerkin",
+      "Leather Jerkin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d9/Blade_Armor.png"
+  },
+  {
+    "name": "Blade of Despair",
+    "url": "https://mobile-legends.fandom.com/wiki/Blade_of_Despair",
+    "price": 160,
+    "type": "Attack",
+    "description": "Blade of DespairHighest Physical Attack+160 Physical Attack+5% Movement SpeedUnique Passive - Despair: Dealing damage to non-Minion enemies below 50% HP increases Physical Attack by 25% for 2 seconds (takes effect before the damage is dealt).RecipePriceUpgrade priceSell301011901806In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBlade of Despairis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+160",
+      "Movement Speed": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Despair: Dealing damage to non-Minion enemies below 50% HP increases Physical Attack by 25% for 2 seconds (takes effect before the damage is dealt)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Legion Sword",
+      "Legion Sword",
+      "Dagger",
+      "Dagger",
+      "Dagger",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d5/Blade_of_Despair.png"
+  },
+  {
+    "name": "Blade of the Heptaseas",
+    "url": "https://mobile-legends.fandom.com/wiki/Blade_of_the_Heptaseas",
+    "price": 250,
+    "type": "Attack",
+    "description": "Blade of the HeptaseasBest for Assassins+70 Physical Attack+250 HPUnique Attribute: +15 Physical PenetrationUnique Passive - Ambush: If no damage is taken or dealt within 5 seconds (excluding from Minions or Creeps), the next Basic Attack will deal an additional 160 (+40% Total Physical Attack) Physical Damage and slow the target by 40% for 1.5 seconds.RecipePriceUpgrade priceSell19504701170In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesVisual effectBlade of the ",
+    "attributes": {
+      "Physical Attack": "+70",
+      "HP": "+250"
+    },
+    "unique_passive": [
+      "Unique Passive - Ambush: If no damage is taken or dealt within 5 seconds (excluding from Minions or Creeps), the next Basic Attack will deal an additional 160 (+40% Total Physical Attack) Physical Damage and slow the target by 40% for 1.5 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Fury Hammer",
+      "Ogre Tomahawk",
+      "Dagger",
+      "Dagger",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/ed/Blade_of_the_Heptaseas.png"
+  },
+  {
+    "name": "Blood Wings",
+    "url": "https://mobile-legends.fandom.com/wiki/Blood_Wings",
+    "price": 2850,
+    "type": "Magic",
+    "description": "Blood WingsSpeed Boost Shield+90 Magic PowerUnique Passive - Guard: Gains a 800 (+100% Magic Power) Shield that will regenerate 20 seconds after being damaged. The Shield also grants 30 Movement Speed while it lasts and 150 Movement Speed for 1 second after it breaks.RecipePriceUpgrade priceSell21004601260In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesVisual effectBlood Wingsis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+90"
+    },
+    "unique_passive": [
+      "Unique Passive - Guard: Gains a 800 (+100% Magic Power) Shield that will regenerate 20 seconds after being damaged. The Shield also grants 30 Movement Speed while it lasts and 150 Movement Speed for 1 second after it breaks."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Wand",
+      "Magic Wand",
+      "Mystery Codex",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/44/Blood_Wings.png"
+  },
+  {
+    "name": "Bloody Retribution",
+    "url": "https://mobile-legends.fandom.com/wiki/Bloody_Retribution",
+    "price": 150,
+    "type": "Jungling",
+    "description": "Bloody RetributionUnique Active - Retribution's damage against creeps and minions is increased to 150%. When cast on an enemy hero, deals them 100 True Damage and steals HP equal to 300 plus 24% of the caster's extra HP from them for 3 seconds.Retribution is upgraded when the total number of creep kills, hero kills, and assists reaches 5.RecipeBloody Retribution has no recipe.In-depth informationTypeJunglingSellable?NoAvailable for?Heroes who equipped RetributionTakes slot?YesBloody Retributioni",
+    "attributes": {},
+    "unique_passive": [],
+    "unique_active": "Unique Active - Retribution's damage against creeps and minions is increased to 150%. When cast on an enemy hero, deals them 100 True Damage and steals HP equal to 300 plus 24% of the caster's extra HP from them for 3 seconds.",
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4c/Bloody_Retribution.png"
+  },
+  {
+    "name": "Book of Sages",
+    "url": "https://mobile-legends.fandom.com/wiki/Book_of_Sages",
+    "price": 450,
+    "type": "Magic",
+    "description": "Book of Sages+8 Magic Power+5% Cooldown ReductionRecipeBook of Sages has no recipe.PriceSell450270In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsTome of EvilClock of DestinyEnchanted TalismanFeather of HeavenFlask of the OasisLightning TruncheonWishing LanternBook of Sagesis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+8",
+      "Cooldown Reduction": "+5%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/3/35/Book_of_Sages.png"
+  },
+  {
+    "name": "Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Boots",
+    "price": 250,
+    "type": "Movement",
+    "description": "Boots+20 Movement SpeedRecipeBoots has no recipe.PriceSell250150In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesBuildsArcane BootsDemon ShoesMagic ShoesRapid BootsSwift BootsTough BootsWarrior BootsBootsis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+20"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/59/Boots.png"
+  },
+  {
+    "name": "Broken Heart",
+    "url": "https://mobile-legends.fandom.com/wiki/Broken_Heart",
+    "price": null,
+    "type": "Movement",
+    "description": "Broken HeartUnique Passive - Heart Broken: Become immune to allied Cecilion's Moonlit Waltz in this match.RecipeBroken Heart has no recipe.Price0In-depth informationTypeMovementSellable?NoAvailable for?CarmillaTakes slot?NoBroken Heartis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {},
+    "unique_passive": [
+      "Unique Passive - Heart Broken: Become immune to allied Cecilion's Moonlit Waltz in this match."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/56/Broken_Heart.png"
+  },
+  {
+    "name": "Brute Force Breastplate",
+    "url": "https://mobile-legends.fandom.com/wiki/Brute_Force_Breastplate",
+    "price": 860,
+    "type": "Defense",
+    "description": "Brute Force BreastplateAttack, Speed Up, CC Reduction+800 HP+20 Physical Defense+10% Cooldown ReductionUnique Passive - Brute Force: Each second after dealing damage, gain 8 extra Adaptive Attack and 2% extra Movement Speed for 4 seconds, up to 6 stacks. Gain 25% extra Control Duration Reduction at full stacks.RecipePriceUpgrade priceSell20707001242In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBrute Force Breastplateis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+800",
+      "Physical Defense": "+20",
+      "Cooldown Reduction": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Brute Force: Each second after dealing damage, gain 8 extra Adaptive Attack and 2% extra Movement Speed for 4 seconds, up to 6 stacks. Gain 25% extra Control Duration Reduction at full stacks."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Ares Belt",
+      "Hero's Ring",
+      "Leather Jerkin",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/f6/Brute_Force_Breastplate.png"
+  },
+  {
+    "name": "Chastise Pauldron",
+    "url": "https://mobile-legends.fandom.com/wiki/Chastise_Pauldron",
+    "price": null,
+    "type": "Defense",
+    "description": "For its predecessor, seeTwilight Armor.",
+    "attributes": {
+      "HP": "+900",
+      "Physical Defense": "+40"
+    },
+    "unique_passive": [
+      "Unique Passive - Chastise: Taking damage will reduce the Attack Speed and Attack Speed cap of the attacker to 75% of normal for 2 seconds.",
+      "Unique Passive -  Redemption: When incoming damage reduces HP below 30%, recover 20% Max HP over the next 2 seconds. This effect has a 60 seconds cooldown."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Steel Legplates",
+      "Ares Belt",
+      "Leather Jerkin",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/2f/Chastise_Pauldron.png"
+  },
+  {
+    "name": "Clock of Destiny",
+    "url": "https://mobile-legends.fandom.com/wiki/Clock_of_Destiny",
+    "price": 400,
+    "type": "Magic",
+    "description": "Clock of DestinyFor Magic Tanks+45 Magic Power+400 HP+400 Mana+10% Cooldown ReductionUnique Passive - Destiny: Gains 4.5(+0.5*Hero Level) Hybrid Defense for 5 seconds when dealing Magic Damage to enemy heroes, stacking up to 6 times (can gain 1 stack every 0.4 second).Unique Passive -  Gift: When HP drops below 50%, recovers 15% of HP over the next 3 seconds. When Mana drops below 50%, restores 15% of Mana over the next 3 seconds. Cooldown: 60 seconds.RecipePriceUpgrade priceSell20304301218In-de",
+    "attributes": {
+      "Magic Power": "+45",
+      "HP": "+400",
+      "Mana": "+400",
+      "Cooldown Reduction": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Destiny: Gains 4.5(+0.5*Hero Level) Hybrid Defense for 5 seconds when dealing Magic Damage to enemy heroes, stacking up to 6 times (can gain 1 stack every 0.4 second).",
+      "Unique Passive -  Gift: When HP drops below 50%, recovers 15% of HP over the next 3 seconds. When Mana drops below 50%, restores 15% of Mana over the next 3 seconds. Cooldown: 60 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Elegant Gem",
+      "Book of Sages",
+      "Book of Sages",
+      "Power Crystal",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4a/Clock_of_Destiny.png"
+  },
+  {
+    "name": "Concentrated Energy",
+    "url": "https://mobile-legends.fandom.com/wiki/Concentrated_Energy",
+    "price": 400,
+    "type": "Magic",
+    "description": "Concentrated EnergyContinuous Damage Boost+70 Magic Power+400 HPUnique Attribute: +20% Hybrid LifestealUnique Passive - Recharge: Increases Magic Power by 5 after dealing Magic Damage (this effect stacks up to 6 times and can only gain 1 stack every 0.4 second). When reaching full stacks, increases Magic Damage by 12% for 5 seconds.RecipePriceUpgrade priceSell20204001212In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesConcentrated Energyis anequipmentinMobile Legend",
+    "attributes": {
+      "Magic Power": "+70",
+      "HP": "+400"
+    },
+    "unique_passive": [
+      "Unique Passive - Recharge: Increases Magic Power by 5 after dealing Magic Damage (this effect stacks up to 6 times and can only gain 1 stack every 0.4 second). When reaching full stacks, increases Magic Damage by 12% for 5 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Mystic Container",
+      "Magic Wand",
+      "Vitality Crystal",
+      "Mystery Codex",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4e/Concentrated_Energy.png"
+  },
+  {
+    "name": "Corrosion Scythe",
+    "url": "https://mobile-legends.fandom.com/wiki/Corrosion_Scythe",
+    "price": null,
+    "type": "Attack",
+    "description": "For its predecessor, seeIce Force.",
+    "attributes": {
+      "Physical Attack": "+30",
+      "Attack Speed": "+30%",
+      "Movement Speed": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Corrosive: Basic Attacks gain 80 extra Physical Damage and slow the target by 8% (halved for ranged Basic Attacks) for 1.5 seconds. Stacks up to 5 times.",
+      "Unique Passive -  Impulse: Basic Attacks grant 6% extra Attack Speed for 3 seconds, capped at 5 stacks."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Swift Crossbow",
+      "Regular Spear",
+      "Knife",
+      "Knife",
+      "Knife",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/f3/Corrosion_Scythe.png"
+  },
+  {
+    "name": "Cursed Helmet",
+    "url": "https://mobile-legends.fandom.com/wiki/Cursed_Helmet",
+    "price": 1200,
+    "type": "Defense",
+    "description": "Cursed HelmetSurvivability & Lane Clearing+1200 HP+20 Magic DefenseUnique Passive - Burning Soul: Deals (1.2% Total HP) Magic Damage to nearby enemies per second. This damage is increased by 125(+15*Hero Level)% against creeps and minions.Unique Passive -  Curse: Dealing damage with Burning Soul will reduce the target's Hybrid Defense by 3 for 3 seconds. Stacks up to 3 times.RecipePriceUpgrade priceSell19101901146In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesVi",
+    "attributes": {
+      "HP": "+1200",
+      "Magic Defense": "+20"
+    },
+    "unique_passive": [
+      "Unique Passive - Burning Soul: Deals (1.2% Total HP) Magic Damage to nearby enemies per second. This damage is increased by 125(+15*Hero Level)% against creeps and minions.",
+      "Unique Passive -  Curse: Dealing damage with Burning Soul will reduce the target's Hybrid Defense by 3 for 3 seconds. Stacks up to 3 times."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Molten Essence",
+      "Ares Belt",
+      "Magic Resist Cloak",
+      "Vitality Crystal",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/80/Cursed_Helmet.png"
+  },
+  {
+    "name": "Dagger",
+    "url": "https://mobile-legends.fandom.com/wiki/Dagger",
+    "price": 250,
+    "type": "Attack",
+    "description": "Dagger+15 Physical AttackRecipeDagger has no recipe.PriceSell250150In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsFury HammerMagic BladeLegion SwordOgre TomahawkRegular SpearGolden StaffHaas' ClawsHunter StrikeDaggeris anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+15"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/45/Dagger.png"
+  },
+  {
+    "name": "Demon Hunter Sword",
+    "url": "https://mobile-legends.fandom.com/wiki/Demon_Hunter_Sword",
+    "price": 2180,
+    "type": "Attack",
+    "description": "Demon Hunter SwordTank Killer+35 Physical Attack+20% Attack SpeedUnique Passive - Engulf: Basic Attacks deal 8% of the target's current HP as extra Physical Damage (capped at 60 against minions).Unique Passive -  Devour: Each Basic Attack recovers 20(+4*Hero Level) HP. This effect is halved against minions.RecipePriceUpgrade priceSell21809001308In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesDemon Hunter Swordis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+35",
+      "Attack Speed": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Engulf: Basic Attacks deal 8% of the target's current HP as extra Physical Damage (capped at 60 against minions).",
+      "Unique Passive -  Devour: Each Basic Attack recovers 20(+4*Hero Level) HP. This effect is halved against minions."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Regular Spear",
+      "Vampire Mallet",
+      "Knife",
+      "Knife",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/1a/Demon_Hunter_Sword.png"
+  },
+  {
+    "name": "Divine Glaive",
+    "url": "https://mobile-legends.fandom.com/wiki/Divine_Glaive",
+    "price": null,
+    "type": "Magic",
+    "description": "For its predecessor, seeAstral Wand.",
+    "attributes": {
+      "Magic Power": "+65"
+    },
+    "unique_passive": [
+      "Unique Passive - Spellbreaker: When attacking an enemy, gains 0.1% extra Magic Penetration for each point of the enemy's Magic Defense, capped at 20%."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Wand",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/9/9a/Divine_Glaive.png"
+  },
+  {
+    "name": "Dominance Ice",
+    "url": "https://mobile-legends.fandom.com/wiki/Dominance_Ice",
+    "price": 2010,
+    "type": "Defense",
+    "description": "Dominance IceHealing Reduction+40 Physical Defense+40 Magic Defense+5% Movement SpeedUnique Passive - Fortress Shield: For each enemy hero within 5 units, Hybrid Defense is increased by 8, up to 40.Unique Passive -  Lifebane: Taking damage will reduce the Shield and HP Regen effects of the attacker to 60% of normal for 1 second.RecipePriceUpgrade priceSell20107901206In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesDominance Iceis anequipmentinMobile Legends: Bang ",
+    "attributes": {
+      "Physical Defense": "+40",
+      "Magic Defense": "+40",
+      "Movement Speed": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Fortress Shield: For each enemy hero within 5 units, Hybrid Defense is increased by 8, up to 40.",
+      "Unique Passive -  Lifebane: Taking damage will reduce the Shield and HP Regen effects of the attacker to 60% of normal for 1 second."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Black Ice Shield",
+      "Leather Jerkin",
+      "Magic Resist Cloak",
+      "Leather Jerkin",
+      "Magic Resist Cloak"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/e3/Dominance_Ice.png"
+  },
+  {
+    "name": "Dreadnaught Armor",
+    "url": "https://mobile-legends.fandom.com/wiki/Dreadnaught_Armor",
+    "price": 730,
+    "type": "Defense",
+    "description": "Dreadnaught Armor+30 Physical DefenseUnique Passive - Deter: When hit by a skill, reduces the attacker's Physical Damage by 4% for 2 seconds (this effect stacks up to 3 times).RecipePriceUpgrade priceSell730290438In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsAntique CuirassDreadnaught Armoris anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Defense": "+30"
+    },
+    "unique_passive": [
+      "Unique Passive - Deter: When hit by a skill, reduces the attacker's Physical Damage by 4% for 2 seconds (this effect stacks up to 3 times)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Leather Jerkin",
+      "Leather Jerkin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/0f/Dreadnaught_Armor.png"
+  },
+  {
+    "name": "Elegant Gem",
+    "url": "https://mobile-legends.fandom.com/wiki/Elegant_Gem",
+    "price": 300,
+    "type": "Magic",
+    "description": "Elegant Gem+300 HP+380 ManaUnique Passive - Gift: When HP drops below 50%, recovers 15% of HP over the next 3 seconds. When Mana drops below 50%, restores 15% of Mana over the next 3 seconds. Cooldown: 60 seconds.RecipePriceUpgrade priceSell700180420In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsClock of DestinyElegant Gemis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+300",
+      "Mana": "+380"
+    },
+    "unique_passive": [
+      "Unique Passive - Gift: When HP drops below 50%, recovers 15% of HP over the next 3 seconds. When Mana drops below 50%, restores 15% of Mana over the next 3 seconds. Cooldown: 60 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Power Crystal",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d4/Elegant_Gem.png"
+  },
+  {
+    "name": "Enchanted Talisman",
+    "url": "https://mobile-legends.fandom.com/wiki/Enchanted_Talisman",
+    "price": 250,
+    "type": "Magic",
+    "description": "Enchanted TalismanMana Regen & CD Reduction+50 Magic Power+250 HP+20% Cooldown ReductionUnique Passive - Mana Spring: Regenerates 15% of Max Mana every 10 seconds.Unique Passive -  Magic Mastery: Max Cooldown Reduction is increased by 5%.RecipePriceUpgrade priceSell18703501122In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesEnchanted Talismanis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+50",
+      "HP": "+250",
+      "Cooldown Reduction": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Mana Spring: Regenerates 15% of Max Mana every 10 seconds.",
+      "Unique Passive -  Magic Mastery: Max Cooldown Reduction is increased by 5%."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Tome of Evil",
+      "Magic Necklace",
+      "Book of Sages",
+      "Mystery Codex",
+      "Book of Sages"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/21/Enchanted_Talisman.png"
+  },
+  {
+    "name": "Endless Battle",
+    "url": "https://mobile-legends.fandom.com/wiki/Endless_Battle",
+    "price": 250,
+    "type": "Attack",
+    "description": "Endless BattleEnhanced Basic Attacks+60 Physical Attack+250 HP+10% Cooldown Reduction+5% Movement Speed+5 Mana RegenUnique Passive - Divine Justice: After casting a skill, the next Basic Attack within 3 seconds deals (60% Total Physical Attack) extra True Damage and recovers 80 (+40% of Total Physical Attack) HP (1.5 seconds cooldown).RecipePriceUpgrade priceSell23306301398In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesVisual effectEndless Battleis anequipmentinM",
+    "attributes": {
+      "Physical Attack": "+60",
+      "HP": "+250",
+      "Cooldown Reduction": "+10%",
+      "Movement Speed": "+5%",
+      "Mana Regen": "+5"
+    },
+    "unique_passive": [
+      "Unique Passive - Divine Justice: After casting a skill, the next Basic Attack within 3 seconds deals (60% Total Physical Attack) extra True Damage and recovers 80 (+40% of Total Physical Attack) HP (1.5 seconds cooldown)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Azure Blade",
+      "Iron Hunting Bow",
+      "Ogre Tomahawk",
+      "Magic Necklace",
+      "Magic Necklace",
+      "Dagger",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/2b/Endless_Battle.png"
+  },
+  {
+    "name": "Exotic Veil",
+    "url": "https://mobile-legends.fandom.com/wiki/Exotic_Veil",
+    "price": 600,
+    "type": "Magic",
+    "description": "Exotic Veil+30 Magic Power+5% Movement SpeedRecipePriceUpgrade priceSell600300360In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsGenius WandGlowing WandIce Queen WandExotic Veilis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+30",
+      "Movement Speed": "+5%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/e9/Exotic_Veil.png"
+  },
+  {
+    "name": "Expert Gloves",
+    "url": "https://mobile-legends.fandom.com/wiki/Expert_Gloves",
+    "price": 500,
+    "type": "Attack & Magic",
+    "description": "Expert Gloves+30 Adaptive AttackRecipeExpert Gloves has no recipe.PriceSell500300In-depth informationTypeAttack & MagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsFleeting TimeSky PiercerQueen's WingsWinter CrownExpert Glovesis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Adaptive Attack": "+30"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/13/Expert_Gloves.png"
+  },
+  {
+    "name": "Feather of Heaven",
+    "url": "https://mobile-legends.fandom.com/wiki/Feather_of_Heaven",
+    "price": 2030,
+    "type": "Magic",
+    "description": "Feather of HeavenMagic Basic Attacks+55 Magic Power+20% Attack Speed+10% Lifesteal+5% Cooldown ReductionUnique Passive - Affliction: Each Basic Attack deals extra 50 (+30% Total Magic Power) Magic Damage.Unique Passive -  Impulse: Basic Attacks grant 6% extra Attack Speed for 3 seconds, capped at 5 stacks.RecipePriceUpgrade priceSell20305801218In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesFeather of Heavenis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+55",
+      "Attack Speed": "+20%",
+      "Lifesteal": "+10%",
+      "Cooldown Reduction": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Affliction: Each Basic Attack deals extra 50 (+30% Total Magic Power) Magic Damage.",
+      "Unique Passive -  Impulse: Basic Attacks grant 6% extra Attack Speed for 3 seconds, capped at 5 stacks."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Swift Crossbow",
+      "Book of Sages",
+      "Knife",
+      "Knife"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/ed/Feather_of_Heaven.png"
+  },
+  {
+    "name": "Flame Retribution",
+    "url": "https://mobile-legends.fandom.com/wiki/Flame_Retribution",
+    "price": 150,
+    "type": "Jungling",
+    "description": "Flame RetributionUnique Active - Retribution's damage against creeps and minions is increased to 150%. When cast on an enemy hero, deals them 100 True Damage and steals 71-120 Physical Attack and Magic Power (scales with level) from them for 3 seconds.Retribution is upgraded when the total number of creep kills, hero kills, and assists reaches 5.RecipeFlame Retribution has no recipe.In-depth informationTypeJunglingSellable?NoAvailable for?Heroes who equipped RetributionTakes slot?YesFlame Retrib",
+    "attributes": {},
+    "unique_passive": [],
+    "unique_active": "Unique Active - Retribution's damage against creeps and minions is increased to 150%. When cast on an enemy hero, deals them 100 True Damage and steals 71-120 Physical Attack and Magic Power (scales with level) from them for 3 seconds.",
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/9/9f/Flame_Retribution.png"
+  },
+  {
+    "name": "Flask of the Oasis",
+    "url": "https://mobile-legends.fandom.com/wiki/Flask_of_the_Oasis",
+    "price": 300,
+    "type": "Magic",
+    "description": "Flask of the OasisProtect Teammates+60 Magic Power+300 HP+10% Cooldown ReductionUnique Attribute: +12% Healing EffectUnique Passive - Blessing: When casting a healing or shield skill, if the target's HP is below 35%, or falls below 35% within 3 seconds, they will get a (100*Hero Level) shield that lasts 3 seconds. When this effect triggers, it also reduces the cooldown of the caster's skills by 2 seconds. (This effect can only trigger once every 60 seconds on the same target, and will not trigge",
+    "attributes": {
+      "Magic Power": "+60",
+      "HP": "+300",
+      "Cooldown Reduction": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Blessing: When casting a healing or shield skill, if the target's HP is below 35%, or falls below 35% within 3 seconds, they will get a (100*Hero Level) shield that lasts 3 seconds. When this effect triggers, it also reduces the cooldown of the caster's skills by 2 seconds. (This effect can only trigger once every 60 seconds on the same target, and will not trigger on self-only healing and shield skills.)"
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Wand",
+      "Book of Sages",
+      "Vitality Crystal",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/c/c5/Flask_of_the_Oasis.png"
+  },
+  {
+    "name": "Fleeting Time",
+    "url": "https://mobile-legends.fandom.com/wiki/Fleeting_Time",
+    "price": 2350,
+    "type": "Attack, Magic & Defense",
+    "description": "Fleeting TimeUltimate CD Reduction+30 Adaptive Attack+600 HP+15% Cooldown ReductionUnique Passive - Timestream: Hero kills or assists reduce the Ultimate's current cooldown by 30%.RecipePriceUpgrade priceSell20506501230In-depth informationTypeAttack, Magic & DefenseSellable?YesAvailable for?All heroesTakes slot?YesFleeting Timeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Adaptive Attack": "+30",
+      "HP": "+600",
+      "Cooldown Reduction": "+15%"
+    },
+    "unique_passive": [
+      "Unique Passive - Timestream: Hero kills or assists reduce the Ultimate's current cooldown by 30%."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Hero's Ring",
+      "Hero's Ring",
+      "Expert Gloves"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/71/Fleeting_Time.png"
+  },
+  {
+    "name": "Flower of Hope",
+    "url": "https://mobile-legends.fandom.com/wiki/Flower_of_Hope",
+    "price": null,
+    "type": "Magic",
+    "description": "Flower of Hope+5% Adaptive AttackUnique Passive - Flower of Hope: Every 6 seconds, the next skill or Basic Attack deals an additional 60 (+30% Total Physical Attack) (+30% Total Magic Power) Magic Damage.RecipeFlower of Hope has no recipe.In-depth informationTypeMagicSellable?NoAvailable for?Floryn's alliesTakes slot?NoFlower of Hopeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Adaptive Attack": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Flower of Hope: Every 6 seconds, the next skill or Basic Attack deals an additional 60 (+30% Total Physical Attack) (+30% Total Magic Power) Magic Damage."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/20/Flower_of_Hope.png"
+  },
+  {
+    "name": "Fury Hammer",
+    "url": "https://mobile-legends.fandom.com/wiki/Fury_Hammer",
+    "price": 730,
+    "type": "Attack",
+    "description": "Fury Hammer+35 Physical AttackUnique Attribute: +12 Physical PenetrationRecipePriceUpgrade priceSell830580498In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsBlade of the HeptaseasHunter StrikeMalefic GunFury Hammeris anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+35"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/52/Fury_Hammer.png"
+  },
+  {
+    "name": "Genius Wand",
+    "url": "https://mobile-legends.fandom.com/wiki/Genius_Wand",
+    "price": null,
+    "type": "Magic",
+    "description": "For its predecessor, seeDisaster Truncheon.",
+    "attributes": {
+      "Magic Power": "+75",
+      "Movement Speed": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Magic: Dealing Magic Damage to enemy heroes will reduce their Magic Defense by 3+(0.3*Hero Level) for 2 seconds. Stacks up to 3 times."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Exotic Veil",
+      "Magic Wand",
+      "Mystery Codex",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/20/Genius_Wand.png"
+  },
+  {
+    "name": "Glowing Wand",
+    "url": "https://mobile-legends.fandom.com/wiki/Glowing_Wand",
+    "price": 2200,
+    "type": "Magic",
+    "description": "For its predecessor, seeNecklace of Durance.",
+    "attributes": {
+      "Magic Power": "+75",
+      "HP": "+400",
+      "Movement Speed": "+5%"
+    },
+    "unique_passive": [
+      "Unique Passive - Scorch: Dealing Magic Damage burns the targets for 3 seconds, also dealing extra Magic Damage equal to 1% of the target's Max HP per second.",
+      "Unique Passive -  Lifebane: Dealing damage to the target will reduce the Shield and HP Regen effects on them to 60% of normal for 3 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Exotic Veil",
+      "Mystery Codex",
+      "Vitality Crystal",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/7a/Glowing_Wand.png"
+  },
+  {
+    "name": "Golden Staff",
+    "url": "https://mobile-legends.fandom.com/wiki/Golden_Staff",
+    "price": 2300,
+    "type": "Attack",
+    "description": "Golden StaffEnhance Attack Effects+55 Physical Attack+15% Attack SpeedUnique Passive - Swift: Every 1% extra Crit Chance gained is converted into 1% extra Attack Speed.Unique Passive -  Endless Strike: After every 2 non-Crit Basic Attacks, the Attack Speed of the next Basic Attack is increased by 80% (and Attack Speed cap is increased to 500%) and triggers Attack Effects an additional 2 time(s).RecipePriceUpgrade priceSell20009001200In-depth informationTypeAttackSellable?YesAvailable for?All her",
+    "attributes": {
+      "Physical Attack": "+55",
+      "Attack Speed": "+15%"
+    },
+    "unique_passive": [
+      "Unique Passive - Swift: Every 1% extra Crit Chance gained is converted into 1% extra Attack Speed.",
+      "Unique Passive -  Endless Strike: After every 2 non-Crit Basic Attacks, the Attack Speed of the next Basic Attack is increased by 80% (and Attack Speed cap is increased to 500%) and triggers Attack Effects an additional 2 time(s)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Regular Spear",
+      "Dagger",
+      "Dagger",
+      "Knife",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/80/Golden_Staff.png"
+  },
+  {
+    "name": "Great Dragon Spear",
+    "url": "https://mobile-legends.fandom.com/wiki/Great_Dragon_Spear",
+    "price": null,
+    "type": "Attack",
+    "description": "For its predecessor, seeScarlet Phantom.",
+    "attributes": {
+      "Physical Attack": "+70",
+      "Cooldown Reduction": "+10%",
+      "Crit Chance": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Supreme Warrior: After casting an Ultimate, increase Movement Speed by 30% for 7.5 seconds. This effect has a 15 seconds cooldown."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Legion Sword",
+      "Iron Hunting Bow",
+      "Javelin",
+      "Dagger",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d4/Great_Dragon_Spear.png"
+  },
+  {
+    "name": "Guardian Helmet",
+    "url": "https://mobile-legends.fandom.com/wiki/Guardian_Helmet",
+    "price": 1800,
+    "type": "Defense",
+    "description": "Guardian HelmetConstant HP Regen+1800 HP+20 HP RegenUnique Passive - Recovery: After 5 seconds out of combat, recover (2.5% Total HP) HP per second.Unique Passive -  Defender: Upon taking more than 500 damage in a single instance, recover 20 (+0.3% Total HP)% HP from the excess damage beyond that amount.RecipePriceUpgrade priceSell25004001500In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesGuardian Helmetis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+1800",
+      "HP Regen": "+20"
+    },
+    "unique_passive": [
+      "Unique Passive - Recovery: After 5 seconds out of combat, recover (2.5% Total HP) HP per second.",
+      "Unique Passive -  Defender: Upon taking more than 500 damage in a single instance, recover 20 (+0.3% Total HP)% HP from the excess damage beyond that amount."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Ares Belt",
+      "Ares Belt",
+      "Ares Belt",
+      "Vitality Crystal",
+      "Vitality Crystal",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/a3/Guardian_Helmet.png"
+  },
+  {
+    "name": "Healing Necklace",
+    "url": "https://mobile-legends.fandom.com/wiki/Healing_Necklace",
+    "price": 140,
+    "type": "Defense",
+    "description": "Healing Necklace+4 HP RegenRecipeHealing Necklace has no recipe.PriceSell14084In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsRadiant ArmorRapid BootsHealing Necklaceis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP Regen": "+4"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d7/Healing_Necklace.png"
+  },
+  {
+    "name": "Hero's Ring",
+    "url": "https://mobile-legends.fandom.com/wiki/Hero%27s_Ring",
+    "price": 150,
+    "type": "Defense",
+    "description": "Hero's Ring+150 HP+5% Cooldown ReductionRecipeHero's Ring has no recipe.PriceSell450270In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsMagic ShoesBrute Force BreastplateFleeting TimeOracleQueen's WingsWar AxeWinter CrownHero's Ringis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+150",
+      "Cooldown Reduction": "+5%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/9/91/Hero%27s_Ring.png"
+  },
+  {
+    "name": "Holy Crystal",
+    "url": "https://mobile-legends.fandom.com/wiki/Holy_Crystal",
+    "price": 185,
+    "type": "Magic",
+    "description": "Holy CrystalMax Magic Power+185 Magic PowerUnique Passive - Mystery: Gains 21%-35% extra Magic Power (scales with level).RecipePriceUpgrade priceSell30005401800In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesHoly Crystalis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+185"
+    },
+    "unique_passive": [
+      "Unique Passive - Mystery: Gains 21%-35% extra Magic Power (scales with level)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Wand",
+      "Magic Wand",
+      "Magic Wand",
+      "Mystery Codex",
+      "Mystery Codex",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/6/64/Holy_Crystal.png"
+  },
+  {
+    "name": "Hunter Strike",
+    "url": "https://mobile-legends.fandom.com/wiki/Hunter_Strike",
+    "price": 900,
+    "type": "Attack",
+    "description": "Hunter StrikeBrief Speed-Up+80 Physical Attack+10% Cooldown ReductionUnique Attribute: +15 Physical PenetrationUnique Passive - Retribution: Dealing damage to the same enemy hero or creep 5 times in a row grants 50% extra Movement Speed that decays over 3 seconds (8 seconds cooldown).RecipePriceUpgrade priceSell20104801206In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesVisual effectHunter Strikeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+80",
+      "Cooldown Reduction": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Retribution: Dealing damage to the same enemy hero or creep 5 times in a row grants 50% extra Movement Speed that decays over 3 seconds (8 seconds cooldown)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Fury Hammer",
+      "Iron Hunting Bow",
+      "Dagger",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/b/b9/Hunter_Strike.png"
+  },
+  {
+    "name": "Ice Queen Wand",
+    "url": "https://mobile-legends.fandom.com/wiki/Ice_Queen_Wand",
+    "price": 2040,
+    "type": "Magic",
+    "description": "Ice Queen WandSlow on Skill Hit+75 Magic Power+10% Spell Vamp+300 HP+7% Movement SpeedUnique Passive - Ice Bound: When a skill deals damage to an enemy hero, it will also slow them by 10% for 2 seconds (stacks up to 3 times). This effect has a 1 second cooldown.RecipePriceUpgrade priceSell20406401224In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesVisual effectIce Queen Wandis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+75",
+      "Spell Vamp": "+10%",
+      "HP": "+300",
+      "Movement Speed": "+7%"
+    },
+    "unique_passive": [
+      "Unique Passive - Ice Bound: When a skill deals damage to an enemy hero, it will also slow them by 10% for 2 seconds (stacks up to 3 times). This effect has a 1 second cooldown."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Mystic Container",
+      "Exotic Veil",
+      "Mystery Codex",
+      "Mystery Codex",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/da/Ice_Queen_Wand.png"
+  },
+  {
+    "name": "Ice Retribution",
+    "url": "https://mobile-legends.fandom.com/wiki/Ice_Retribution",
+    "price": 150,
+    "type": "Jungling",
+    "description": "Ice RetributionUnique Active - Retribution's damage against creeps and minions is increased to 150%. When cast on an enemy hero, deals them 100 True Damage and steals 52-80 Movement Speed (scales with level) from them for 3 seconds.Retribution is upgraded when the total number of creep kills, hero kills, and assists reaches 5.RecipeIce Retribution has no recipe.In-depth informationTypeJunglingSellable?NoAvailable for?Heroes who equipped RetributionTakes slot?YesIce Retributionis anequipmentinMob",
+    "attributes": {},
+    "unique_passive": [],
+    "unique_active": "Unique Active - Retribution's damage against creeps and minions is increased to 150%. When cast on an enemy hero, deals them 100 True Damage and steals 52-80 Movement Speed (scales with level) from them for 3 seconds.",
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/b/bd/Ice_Retribution.png"
+  },
+  {
+    "name": "Immortality",
+    "url": "https://mobile-legends.fandom.com/wiki/Immortality",
+    "price": 850,
+    "type": "Defense",
+    "description": "ImmortalitySelf-Resurrection+850 HP+15 Physical DefenseUnique Passive - Immortal: Resurrect 2.5 seconds upon death and gets 16% Max HP and a shield that can absorb 150(+70*Hero Level）damage. Shield lasts 3 seconds. This effect has a 210 seconds cooldown.RecipePriceUpgrade priceSell21209001272In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesVisual effectImmortalityis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+850",
+      "Physical Defense": "+15"
+    },
+    "unique_passive": [
+      "Unique Passive - Immortal: Resurrect 2.5 seconds upon death and gets 16% Max HP and a shield that can absorb 150(+70*Hero Level）damage. Shield lasts 3 seconds. This effect has a 210 seconds cooldown."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Ares Belt",
+      "Vitality Crystal",
+      "Leather Jerkin",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/84/Immortality.png"
+  },
+  {
+    "name": "Iron Hunting Bow",
+    "url": "https://mobile-legends.fandom.com/wiki/Iron_Hunting_Bow",
+    "price": 450,
+    "type": "Attack",
+    "description": "Iron Hunting Bow+10 Physical Attack+5% Cooldown ReductionRecipeIron Hunting Bow has no recipe.PriceSell450270In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsEndless BattleGreat Dragon SpearHunter StrikeWar AxeIron Hunting Bowis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+10",
+      "Cooldown Reduction": "+5%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/b/be/Iron_Hunting_Bow.png"
+  },
+  {
+    "name": "Javelin",
+    "url": "https://mobile-legends.fandom.com/wiki/Javelin",
+    "price": 320,
+    "type": "Attack",
+    "description": "Javelin+8% Crit ChanceRecipeJavelin has no recipe.PriceSell320192In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsRogue MeteorBerserker's FuryGreat Dragon SpearJavelinis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Crit Chance": "+8%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/1d/Javelin.png"
+  },
+  {
+    "name": "Knife",
+    "url": "https://mobile-legends.fandom.com/wiki/Knife",
+    "price": 280,
+    "type": "Attack",
+    "description": "Knife+10% Attack SpeedRecipeKnife has no recipe.PriceSell280168In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsRegular SpearRogue MeteorSwift BootsSwift CrossbowMalefic GunRose Gold MeteorKnifeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Attack Speed": "+10%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/58/Knife.png"
+  },
+  {
+    "name": "Lantern of Hope",
+    "url": "https://mobile-legends.fandom.com/wiki/Lantern_of_Hope",
+    "price": null,
+    "type": "Magic",
+    "description": "Lantern of Hope+20 Magic Power+4% Movement Speed+2% Cooldown ReductionUnique Passive - Lantern of Hope: The equipment's attributes scale with hero level.RecipeLantern of Hope has no recipe.In-depth informationTypeMagicSellable?NoAvailable for?FlorynTakes slot?YesLantern of Hopeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+20",
+      "Movement Speed": "+4%",
+      "Cooldown Reduction": "+2%"
+    },
+    "unique_passive": [
+      "Unique Passive - Lantern of Hope: The equipment's attributes scale with hero level."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/79/Lantern_of_Hope.png"
+  },
+  {
+    "name": "Leather Jerkin",
+    "url": "https://mobile-legends.fandom.com/wiki/Leather_Jerkin",
+    "price": 440,
+    "type": "Defense",
+    "description": "Leather Jerkin+14 Physical DefenseRecipeLeather Jerkin has no recipe.PriceSell220132In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsBlack Ice ShieldDreadnaught ArmorSteel LegplatesWarrior BootsBlade ArmorBrute Force BreastplateDominance IceImmortalityThunder BeltLeather Jerkinis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Defense": "+14"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/58/Leather_Jerkin.png"
+  },
+  {
+    "name": "Legion Sword",
+    "url": "https://mobile-legends.fandom.com/wiki/Legion_Sword",
+    "price": 910,
+    "type": "Attack",
+    "description": "Legion Sword+60 Physical AttackRecipePriceUpgrade priceSell910410546In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsBerserker's FuryBlade of DespairGreat Dragon SpearMalefic RoarSea HalberdLegion Swordis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+60"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Dagger",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/1e/Legion_Sword.png"
+  },
+  {
+    "name": "Lightning Truncheon",
+    "url": "https://mobile-legends.fandom.com/wiki/Lightning_Truncheon",
+    "price": 2050,
+    "type": "Magic",
+    "description": "Lightning TruncheonSplash Damage+75 Magic Power+400 Mana+10% Cooldown ReductionUnique Passive - Resonate: Every 6 seconds, the next skill echoes, dealing 170 (+85% Magic Power) extra Magic Damage to all enemies in range.RecipePriceUpgrade priceSell22507601350In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesVisual effectLightning Truncheonis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+75",
+      "Mana": "+400",
+      "Cooldown Reduction": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Resonate: Every 6 seconds, the next skill echoes, dealing 170 (+85% Magic Power) extra Magic Damage to all enemies in range."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Wand",
+      "Book of Sages",
+      "Power Crystal",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/ee/Lightning_Truncheon.png"
+  },
+  {
+    "name": "Magic Blade",
+    "url": "https://mobile-legends.fandom.com/wiki/Magic_Blade",
+    "price": 1050,
+    "type": "Attack",
+    "description": "Magic Blade+35 Physical Attack+10% LifestealUnique Passive - Lifeline: When taking damage that reduces HP below 30%, gains a (+60*Hero Level) shield (increases with level) and 50% Movement Speed that rapidly decays over 3 seconds. This effect has a 60 seconds cooldown.RecipePriceUpgrade priceSell1050400630In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsRose Gold MeteorVisual effectMagic Bladeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+35",
+      "Lifesteal": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Lifeline: When taking damage that reduces HP below 30%, gains a (+60*Hero Level) shield (increases with level) and 50% Movement Speed that rapidly decays over 3 seconds. This effect has a 60 seconds cooldown."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Dagger",
+      "Vampire Mallet"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/ae/Magic_Blade.png"
+  },
+  {
+    "name": "Magic Necklace",
+    "url": "https://mobile-legends.fandom.com/wiki/Magic_Necklace",
+    "price": 120,
+    "type": "Magic",
+    "description": "Magic Necklace+2 Mana RegenRecipeMagic Necklace has no recipe.PriceSell12072In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsAzure BladeDemon ShoesEnchanted TalismanMagic Necklaceis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Mana Regen": "+2"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/c/cd/Magic_Necklace.png"
+  },
+  {
+    "name": "Magic Potion",
+    "url": "https://mobile-legends.fandom.com/wiki/Magic_Potion",
+    "price": 1500,
+    "type": "Magic",
+    "description": "Magic PotionUnique Passive - Increase Power: Automatically used after purchasing, increases Magic Power by 30 and Cooldown Reduction by 10% for 120s. Can only have one potion effect at a time.RecipeMagic Potion has no recipe.Price1500In-depth informationTypeMagicSellable?NoAvailable for?All heroesTakes slot?NoVisual effectMagic Potionis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {},
+    "unique_passive": [
+      "Unique Passive - Increase Power: Automatically used after purchasing, increases Magic Power by 30 and Cooldown Reduction by 10% for 120s. Can only have one potion effect at a time."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/58/Magic_Potion.png"
+  },
+  {
+    "name": "Magic Resist Cloak",
+    "url": "https://mobile-legends.fandom.com/wiki/Magic_Resist_Cloak",
+    "price": 220,
+    "type": "Defense",
+    "description": "Magic Resist Cloak+14 Magic DefenseRecipeMagic Resist Cloak has no recipe.PriceSell220132In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsBlack Ice ShieldSilence RobeTough BootsCursed HelmetDominance IceRadiant ArmorThunder BeltMagic Resist Cloakis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Defense": "+14"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4c/Magic_Resist_Cloak.png"
+  },
+  {
+    "name": "Magic Wand",
+    "url": "https://mobile-legends.fandom.com/wiki/Magic_Wand",
+    "price": 820,
+    "type": "Magic",
+    "description": "Magic Wand+45 Magic PowerRecipePriceUpgrade priceSell820520492In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsBlood WingsConcentrated EnergyDivine GlaiveFlask of the OasisGenius WandHoly CrystalLightning TruncheonStarlium ScytheWishing LanternMagic Wandis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+45"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/b/bc/Magic_Wand.png"
+  },
+  {
+    "name": "Malefic Gun",
+    "url": "https://mobile-legends.fandom.com/wiki/Malefic_Gun",
+    "price": 2120,
+    "type": "Attack",
+    "description": "Malefic GunAttack Range Increase+40 Physical Attack+20% Attack SpeedUnique Passive - Armor Buster: Increase Physical Penetration by 30%.Unique Passive -  Malefic Energy: Increases Basic Attack range by 12%. When hitting a target, gains 10% Movement Speed for 0.5 seconds.RecipePriceUpgrade priceSell21207301272In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesVisual effectMalefic Gunis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+40",
+      "Attack Speed": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Armor Buster: Increase Physical Penetration by 30%.",
+      "Unique Passive -  Malefic Energy: Increases Basic Attack range by 12%. When hitting a target, gains 10% Movement Speed for 0.5 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Fury Hammer",
+      "Knife",
+      "Knife",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/72/Malefic_Gun.png"
+  },
+  {
+    "name": "Malefic Roar",
+    "url": "https://mobile-legends.fandom.com/wiki/Malefic_Roar",
+    "price": 2060,
+    "type": "Attack",
+    "description": "Malefic RoarHigh Physical Penetration+60 Physical AttackUnique Passive - Armor Buster: Increase Physical Penetration by 30%.Unique Passive -  Breaker: When attacking an enemy, gains 0.1% extra Physical Penetration for each point of the enemy's Physical Defense, capped at 30%.RecipePriceUpgrade priceSell206011501236In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesMalefic Roaris anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+60"
+    },
+    "unique_passive": [
+      "Unique Passive - Armor Buster: Increase Physical Penetration by 30%.",
+      "Unique Passive -  Breaker: When attacking an enemy, gains 0.1% extra Physical Penetration for each point of the enemy's Physical Defense, capped at 30%."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Legion Sword",
+      "Dagger",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/12/Malefic_Roar.png"
+  },
+  {
+    "name": "Molten Essence",
+    "url": "https://mobile-legends.fandom.com/wiki/Molten_Essence",
+    "price": 540,
+    "type": "Defense",
+    "description": "Molten Essence+540 HPUnique Passive - Burning Soul: Deals (0.6% Total HP) Magic Damage to nearby enemies per second. This damage is increased by 125(+15*Hero Level)% against creeps and minions.RecipePriceUpgrade priceSell800500480In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsCursed HelmetVisual effectMolten Essenceis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+540"
+    },
+    "unique_passive": [
+      "Unique Passive - Burning Soul: Deals (0.6% Total HP) Magic Damage to nearby enemies per second. This damage is increased by 125(+15*Hero Level)% against creeps and minions."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/8c/Molten_Essence.png"
+  },
+  {
+    "name": "Mystery Codex",
+    "url": "https://mobile-legends.fandom.com/wiki/Mystery_Codex",
+    "price": 300,
+    "type": "Magic",
+    "description": "Mystery Codex+15 Magic PowerRecipeMystery Codex has no recipe.PriceSell300180In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsArcane BootsExotic VeilMagic WandMystic ContainerTome of EvilGlowing WandIce Queen WandMystery Codexis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+15"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/2c/Mystery_Codex.png"
+  },
+  {
+    "name": "Mystic Container",
+    "url": "https://mobile-legends.fandom.com/wiki/Mystic_Container",
+    "price": 500,
+    "type": "Magic",
+    "description": "Mystic Container+15 Magic Power+8% Spell VampRecipePriceUpgrade priceSell500200300In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsConcentrated EnergyIce Queen WandStarlium ScytheMystic Containeris anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+15",
+      "Spell Vamp": "+8%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/23/Mystic_Container.png"
+  },
+  {
+    "name": "Ogre Tomahawk",
+    "url": "https://mobile-legends.fandom.com/wiki/Ogre_Tomahawk",
+    "price": 230,
+    "type": "Attack",
+    "description": "Ogre Tomahawk+25 Physical Attack+230 HPRecipePriceUpgrade priceSell650100390In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsBlade of the HeptaseasEndless BattleWar AxeOgre Tomahawkis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+25",
+      "HP": "+230"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Dagger",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/3/3d/Ogre_Tomahawk.png"
+  },
+  {
+    "name": "Oracle",
+    "url": "https://mobile-legends.fandom.com/wiki/Oracle",
+    "price": 850,
+    "type": "Defense",
+    "description": "OracleEnhanced Regen+850 HP+20 Physical Defense+20 Magic Defense+10% Cooldown ReductionUnique Passive - Bless: Received Shield and HP Regen effects are increased by 30%.RecipePriceUpgrade priceSell18606601116In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesOracleis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+850",
+      "Physical Defense": "+20",
+      "Magic Defense": "+20",
+      "Cooldown Reduction": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Bless: Received Shield and HP Regen effects are increased by 30%."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Hero's Ring",
+      "Hero's Ring",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/17/Oracle.png"
+  },
+  {
+    "name": "Power Crystal",
+    "url": "https://mobile-legends.fandom.com/wiki/Power_Crystal",
+    "price": 280,
+    "type": "Magic",
+    "description": "Power Crystal+280 ManaRecipePower Crystal has no recipe.PriceSell220132In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsElegant GemLightning TruncheonWishing LanternPower Crystalis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Mana": "+280"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/fd/Power_Crystal.png"
+  },
+  {
+    "name": "Power Potion",
+    "url": "https://mobile-legends.fandom.com/wiki/Power_Potion",
+    "price": 1500,
+    "type": "Attack",
+    "description": "Power PotionUnique Passive - Increase Power: Automatically used after purchasing, giving 30 Physical Attack and 15% of Lifesteal for 120s. Can only have one potion effect at a time.RecipePower Potion has no recipe.Price1500In-depth informationTypeAttackSellable?NoAvailable for?All heroesTakes slot?NoVisual effectPower Potionis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {},
+    "unique_passive": [
+      "Unique Passive - Increase Power: Automatically used after purchasing, giving 30 Physical Attack and 15% of Lifesteal for 120s. Can only have one potion effect at a time."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/06/Power_Potion.png"
+  },
+  {
+    "name": "Queen's Wings",
+    "url": "https://mobile-legends.fandom.com/wiki/Queen%27s_Wings",
+    "price": 750,
+    "type": "Defense",
+    "description": "Queen's WingsLow-HP Retaliation+750 HP+30 Adaptive Attack+10% Cooldown Reduction+10% Spell VampUnique Passive - Demonize: When HP drops below 40%, gains 30% Damage Reduction for 3 seconds and reduces skill cooldowns by 2 seconds. This effect has a 60 seconds cooldown.Unique Passive -  Defiance: For every 1% HP lost, damage is increased by 0.25%, up to 15%.RecipePriceUpgrade priceSell22506001350In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesVisual effectQueen's W",
+    "attributes": {
+      "HP": "+750",
+      "Adaptive Attack": "+30",
+      "Cooldown Reduction": "+10%",
+      "Spell Vamp": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Demonize: When HP drops below 40%, gains 30% Damage Reduction for 3 seconds and reduces skill cooldowns by 2 seconds. This effect has a 60 seconds cooldown.",
+      "Unique Passive -  Defiance: For every 1% HP lost, damage is increased by 0.25%, up to 15%."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Ares Belt",
+      "Hero's Ring",
+      "Expert Gloves",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/f4/Queen%27s_Wings.png"
+  },
+  {
+    "name": "Radiant Armor",
+    "url": "https://mobile-legends.fandom.com/wiki/Radiant_Armor",
+    "price": 950,
+    "type": "Defense",
+    "description": "Radiant ArmorMagic Damage Reduction+950 HP+40 Magic Defense+12 HP RegenUnique Passive - Holy Blessing: Taking Magic Damage grants 5(+1*Hero Level) Magic Defense for 5 seconds, up to 6 stacks (can only gain 1 stack(s) every 0.4 seconds).RecipePriceUpgrade priceSell18805001128In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesRadiant Armoris anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+950",
+      "Magic Defense": "+40",
+      "HP Regen": "+12"
+    },
+    "unique_passive": [
+      "Unique Passive - Holy Blessing: Taking Magic Damage grants 5(+1*Hero Level) Magic Defense for 5 seconds, up to 6 stacks (can only gain 1 stack(s) every 0.4 seconds)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Silence Robe",
+      "Magic Resist Cloak",
+      "Healing Necklace",
+      "Vitality Crystal",
+      "Magic Resist Cloak"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/d8/Radiant_Armor.png"
+  },
+  {
+    "name": "Rapid Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Rapid_Boots",
+    "price": 720,
+    "type": "Movement",
+    "description": "Rapid BootsMovement Speed+65 Movement Speed+35% Slow Reduction+12 HP RegenUnique Passive - Side Effect: Loses 20 Movement Speed for 5 seconds upon dealing or taking damage.RecipePriceUpgrade priceSell720190432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesRapid Bootsis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+65",
+      "Slow Reduction": "+35%",
+      "HP Regen": "+12"
+    },
+    "unique_passive": [
+      "Unique Passive - Side Effect: Loses 20 Movement Speed for 5 seconds upon dealing or taking damage."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Healing Necklace",
+      "Healing Necklace"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/a4/Rapid_Boots.png"
+  },
+  {
+    "name": "Regular Spear",
+    "url": "https://mobile-legends.fandom.com/wiki/Regular_Spear",
+    "price": 600,
+    "type": "Attack",
+    "description": "Regular Spear+20 Physical Attack+10% Attack SpeedRecipePriceUpgrade priceSell60070360In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsCorrosion ScytheDemon Hunter SwordGolden StaffSea HalberdWind of NatureRegular Spearis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+20",
+      "Attack Speed": "+10%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Knife",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/3/32/Regular_Spear.png"
+  },
+  {
+    "name": "Rock Potion",
+    "url": "https://mobile-legends.fandom.com/wiki/Rock_Potion",
+    "price": 1500,
+    "type": "Defense",
+    "description": "Rock PotionUnique Passive - Increase Power: Upon purchase, grants 500 Max HP and 5% Damage Reduction for 120 seconds. Can only have one potion effect at a time.RecipeRock Potion has no recipe.Price1500In-depth informationTypeDefenseSellable?NoAvailable for?All heroesTakes slot?NoVisual effectRock Potionis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {},
+    "unique_passive": [
+      "Unique Passive - Increase Power: Upon purchase, grants 500 Max HP and 5% Damage Reduction for 120 seconds. Can only have one potion effect at a time."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/03/Rock_Potion.png"
+  },
+  {
+    "name": "Rogue Meteor",
+    "url": "https://mobile-legends.fandom.com/wiki/Rogue_Meteor",
+    "price": null,
+    "type": "Attack",
+    "description": "For its predecessor, seeWild Sword.",
+    "attributes": {
+      "Attack Speed": "+15%",
+      "Crit Chance": "+10%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Knife",
+      "Javelin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/75/Rogue_Meteor.png"
+  },
+  {
+    "name": "Rose Gold Meteor",
+    "url": "https://mobile-legends.fandom.com/wiki/Rose_Gold_Meteor",
+    "price": 120,
+    "type": "Attack",
+    "description": "Rose Gold MeteorLow-HP Shield+30 Physical Attack+20% Attack Speed+10% LifestealUnique Passive - Dragon Scale: Every 4 extra Physical Attack increases Hybrid Defense by 1, up to 50 (effect is halved if Main Role is not Fighter).Unique Passive -  Lifeline: When taking damage that reduces HP below 30%, gains a (120*Hero Level) shield (increases with level) and 50% Movement Speed that rapidly decays over 3 seconds. This effect has a 60 seconds cooldown.RecipePriceUpgrade priceSell20307001218In-depth",
+    "attributes": {
+      "Physical Attack": "+30",
+      "Attack Speed": "+20%",
+      "Lifesteal": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Dragon Scale: Every 4 extra Physical Attack increases Hybrid Defense by 1, up to 50 (effect is halved if Main Role is not Fighter).",
+      "Unique Passive -  Lifeline: When taking damage that reduces HP below 30%, gains a (120*Hero Level) shield (increases with level) and 50% Movement Speed that rapidly decays over 3 seconds. This effect has a 60 seconds cooldown."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Blade",
+      "Knife",
+      "Dagger",
+      "Vampire Mallet"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/2b/Rose_Gold_Meteor.png"
+  },
+  {
+    "name": "Sea Halberd",
+    "url": "https://mobile-legends.fandom.com/wiki/Sea_Halberd",
+    "price": 2350,
+    "type": "Attack",
+    "description": "Sea HalberdHealing Reduction+80 Physical Attack+20% Attack SpeedUnique Passive - Lifebane: Dealing damage to a target will reduce the Shield and HP Regen effects on them to 60% of normal for 3 seconds.Unique Passive -  Punish: Increase damage by 8% against enemy heroes with higher extra HP.RecipePriceUpgrade priceSell20505401230In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesVisual effectSea Halberdis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+80",
+      "Attack Speed": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Lifebane: Dealing damage to a target will reduce the Shield and HP Regen effects on them to 60% of normal for 3 seconds.",
+      "Unique Passive -  Punish: Increase damage by 8% against enemy heroes with higher extra HP."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Legion Sword",
+      "Regular Spear",
+      "Dagger",
+      "Dagger",
+      "Knife",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/83/Sea_Halberd.png"
+  },
+  {
+    "name": "Silence Robe",
+    "url": "https://mobile-legends.fandom.com/wiki/Silence_Robe",
+    "price": 540,
+    "type": "Defense",
+    "description": "Silence Robe+540 HP+23 Magic DefenseRecipePriceUpgrade priceSell1020500612In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsAthena's ShieldRadiant ArmorSilence Robeis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+540",
+      "Magic Defense": "+23"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Vitality Crystal",
+      "Magic Resist Cloak"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/a4/Silence_Robe.png"
+  },
+  {
+    "name": "Sky Piercer",
+    "url": "https://mobile-legends.fandom.com/wiki/Sky_Piercer",
+    "price": 1500,
+    "type": "Attack & Magic",
+    "description": "Sky PiercerBest for Finishers+60 Adaptive Attack+15 Movement SpeedUnique Passive - Lethality: After dealing damage to an enemy hero, executes the hero if their HP is lower than 4%. Gains 10 stack(s) of Lethality for each kill and loses 30% current stack(s) for each death. Each stack of Lethality increases the HP threshold of the execute effect by 0.1%, stacking up 80 times.RecipePriceUpgrade priceSell1500500900In-depth informationTypeAttack & MagicSellable?YesAvailable for?All heroesTakes slot?Y",
+    "attributes": {
+      "Adaptive Attack": "+60",
+      "Movement Speed": "+15"
+    },
+    "unique_passive": [
+      "Unique Passive - Lethality: After dealing damage to an enemy hero, executes the hero if their HP is lower than 4%. Gains 10 stack(s) of Lethality for each kill and loses 30% current stack(s) for each death. Each stack of Lethality increases the HP threshold of the execute effect by 0.1%, stacking up 80 times."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Expert Gloves",
+      "Expert Gloves"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4f/Sky_Piercer.png"
+  },
+  {
+    "name": "Starlium Scythe",
+    "url": "https://mobile-legends.fandom.com/wiki/Starlium_Scythe",
+    "price": null,
+    "type": "Magic",
+    "description": "For its predecessors, seeShadow TwinbladesandCalamity Reaper.",
+    "attributes": {
+      "Magic Power": "+70",
+      "Cooldown Reduction": "+10%",
+      "Hybrid Lifesteal": "+8%",
+      "Mana Regen": "+6"
+    },
+    "unique_passive": [
+      "Unique Passive - Crisis: After casting a skill, the next Basic Attack within 3 seconds deals 100 (+100% Total Magic Power) extra True Damage and reduces the target's Movement Speed by 40% for 1.5 seconds (5 seconds cooldown)."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Azure Blade",
+      "Mystic Container",
+      "Magic Wand",
+      "Magic Necklace",
+      "Magic Necklace",
+      "Mystery Codex",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/2/26/Starlium_Scythe.png"
+  },
+  {
+    "name": "Steel Legplates",
+    "url": "https://mobile-legends.fandom.com/wiki/Steel_Legplates",
+    "price": 530,
+    "type": "Defense",
+    "description": "Steel Legplates+35 Physical DefenseRecipePriceUpgrade priceSell630410378In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsBlade ArmorChastise PauldronSteel Legplatesis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Defense": "+35"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Leather Jerkin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/3/3c/Steel_Legplates.png"
+  },
+  {
+    "name": "Swift Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Swift_Boots",
+    "price": 720,
+    "type": "Movement",
+    "description": "Swift BootsAttack Speed+40 Movement Speed+15% Attack SpeedRecipePriceUpgrade priceSell720190432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesSwift Bootsis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Attack Speed": "+15%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Knife"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/07/Swift_Boots.png"
+  },
+  {
+    "name": "Swift Crossbow",
+    "url": "https://mobile-legends.fandom.com/wiki/Swift_Crossbow",
+    "price": 1000,
+    "type": "Attack",
+    "description": "Swift Crossbow+20% Attack SpeedUnique Passive - Crossbow: Each Basic Attack deals 40 extra Adaptive Damage.Unique Passive -  Impulse: Basic Attacks grant 3% extra Attack Speed for 3 seconds, capped at 5 stacks.RecipePriceUpgrade priceSell1000440600In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsCorrosion ScytheFeather of HeavenSwift Crossbowis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Attack Speed": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Crossbow: Each Basic Attack deals 40 extra Adaptive Damage.",
+      "Unique Passive -  Impulse: Basic Attacks grant 3% extra Attack Speed for 3 seconds, capped at 5 stacks."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Knife",
+      "Knife"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/a/a1/Swift_Crossbow.png"
+  },
+  {
+    "name": "Throw Forbidden",
+    "url": "https://mobile-legends.fandom.com/wiki/Throw_Forbidden",
+    "price": null,
+    "type": "Movement",
+    "description": "Throw ForbiddenUnique Passive - Heavy Mountain: Become immune to allied Jawhead's Ejector in this match.RecipeThrow Forbidden has no recipe.Price0In-depth informationTypeMovementSellable?NoAvailable for?Jawhead's alliesTakes slot?NoThrow Forbiddenis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {},
+    "unique_passive": [
+      "Unique Passive - Heavy Mountain: Become immune to allied Jawhead's Ejector in this match."
+    ],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/70/Throw_Forbidden.png"
+  },
+  {
+    "name": "Thunder Belt",
+    "url": "https://mobile-legends.fandom.com/wiki/Thunder_Belt",
+    "price": 2290,
+    "type": "Defense",
+    "description": "Thunder BeltDamage for Tanks+600 HP+15 Physical Defense+15 Magic Defense+20 Movement SpeedUnique Passive - Thunderbolt: Every 4 seconds, the next Basic Attack deals 50 (+100% Extra Physical Defense) (+100% Extra Magic Defense) extra True Damage to the target and enemies around them, and briefly slows them by 99%. Hybrid Defense permanently increases by 1 each time the attack hits an enemy hero. (This effect is reduced to 50% for Marksmen and Mages)RecipePriceUpgrade priceSell18206801092In-depth ",
+    "attributes": {
+      "HP": "+600",
+      "Physical Defense": "+15",
+      "Magic Defense": "+15",
+      "Movement Speed": "+20"
+    },
+    "unique_passive": [
+      "Unique Passive - Thunderbolt: Every 4 seconds, the next Basic Attack deals 50 (+100% Extra Physical Defense) (+100% Extra Magic Defense) extra True Damage to the target and enemies around them, and briefly slows them by 99%. Hybrid Defense permanently increases by 1 each time the attack hits an enemy hero. (This effect is reduced to 50% for Marksmen and Mages)"
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Ares Belt",
+      "Leather Jerkin",
+      "Magic Resist Cloak",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/d/dd/Thunder_Belt.png"
+  },
+  {
+    "name": "Tome of Evil",
+    "url": "https://mobile-legends.fandom.com/wiki/Tome_of_Evil",
+    "price": 950,
+    "type": "Magic",
+    "description": "Tome of Evil+35 Magic Power+4 Mana Regen+8% Cooldown ReductionRecipePriceUpgrade priceSell950200570In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesBuildsEnchanted TalismanTome of Evilis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+35",
+      "Mana Regen": "+4",
+      "Cooldown Reduction": "+8%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Mystery Codex",
+      "Book of Sages"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/0a/Tome_of_Evil.png"
+  },
+  {
+    "name": "Tough Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Tough_Boots",
+    "price": 720,
+    "type": "Movement",
+    "description": "Tough BootsCC Duration Reduction+40 Movement Speed+18 Magic DefenseUnique Passive - Fortitude: CC and Slow Duration reduced by 25%.RecipePriceUpgrade priceSell720250432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesTough Bootsis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Magic Defense": "+18"
+    },
+    "unique_passive": [
+      "Unique Passive - Fortitude: CC and Slow Duration reduced by 25%."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Magic Resist Cloak"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/8/89/Tough_Boots.png"
+  },
+  {
+    "name": "Vampire Mallet",
+    "url": "https://mobile-legends.fandom.com/wiki/Vampire_Mallet",
+    "price": 400,
+    "type": "Attack",
+    "description": "Vampire Mallet+8 Physical Attack+8% LifestealRecipeVampire Mallet has no recipe.PriceSell400240In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesBuildsMagic BladeDemon Hunter SwordHaas' ClawsWind of NatureVampire Malletis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+8",
+      "Lifesteal": "+8%"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/f9/Vampire_Mallet.png"
+  },
+  {
+    "name": "Vitality Crystal",
+    "url": "https://mobile-legends.fandom.com/wiki/Vitality_Crystal",
+    "price": 230,
+    "type": "Defense",
+    "description": "Vitality Crystal+230 HPRecipeVitality Crystal has no recipe.PriceSell300180In-depth informationTypeDefenseSellable?YesAvailable for?All heroesTakes slot?YesBuildsAres BeltElegant GemMolten EssenceOgre TomahawkSilence RobeAthena's ShieldConcentrated EnergyCursed HelmetFlask of the OasisGlowing WandImmortalityOracleWinter CrownVitality Crystalis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "HP": "+230"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/ea/Vitality_Crystal.png"
+  },
+  {
+    "name": "War Axe",
+    "url": "https://mobile-legends.fandom.com/wiki/War_Axe",
+    "price": 1980,
+    "type": "Attack",
+    "description": "For its predecessor, seeBloodlust Axe.",
+    "attributes": {
+      "Physical Attack": "+35",
+      "HP": "+400",
+      "Cooldown Reduction": "+10%",
+      "Spell Vamp": "+12%"
+    },
+    "unique_passive": [
+      "Unique Passive - Fighting Spirit: Attacks grants 12 extra Physical Attack per second for 4 seconds, up to 6 stacks. Deals 10% extra True Damage based on the damage dealt (no damage reduction counted) at full stacks. (Marksmen, Mages, and Supports only receive 50% of these stacked effects.)"
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Ogre Tomahawk",
+      "Iron Hunting Bow",
+      "Hero's Ring",
+      "Dagger",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/7/70/War_Axe.png"
+  },
+  {
+    "name": "Warrior Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Warrior_Boots",
+    "price": 720,
+    "type": "Movement",
+    "description": "Warrior BootsStackable Physical Defense+40 Movement Speed+18 Physical DefenseUnique Passive - Valor: Gains 4 extra Physical Defense for 3 seconds when taking Physical Damage, up to 20.RecipePriceUpgrade priceSell720250432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesWarrior Bootsis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Physical Defense": "+18"
+    },
+    "unique_passive": [
+      "Unique Passive - Valor: Gains 4 extra Physical Defense for 3 seconds when taking Physical Damage, up to 20."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Leather Jerkin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/4b/Warrior_Boots.png"
+  },
+  {
+    "name": "Wind of Nature",
+    "url": "https://mobile-legends.fandom.com/wiki/Wind_of_Nature",
+    "price": 1910,
+    "type": "Attack",
+    "description": "Wind of NaturePhysical Damage Immunity+30 Physical Attack+20% Attack Speed+10% LifestealUnique Active - Wind Chant: Become immune to all Physical Damage for 2 seconds (duration is halved if Main Role is not Marksman; 90 seconds cooldown).RecipePriceUpgrade priceSell19109101146In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesVisual effectWind of Natureis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Physical Attack": "+30",
+      "Attack Speed": "+20%",
+      "Lifesteal": "+10%"
+    },
+    "unique_passive": [],
+    "unique_active": "Unique Active - Wind Chant: Become immune to all Physical Damage for 2 seconds (duration is halved if Main Role is not Marksman; 90 seconds cooldown).",
+    "recipe": [
+      "Regular Spear",
+      "Vampire Mallet",
+      "Knife",
+      "Dagger"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/e/e3/Wind_of_Nature.png"
+  },
+  {
+    "name": "Windtalker",
+    "url": "https://mobile-legends.fandom.com/wiki/Windtalker",
+    "price": 150,
+    "type": "Attack",
+    "description": "WindtalkerSplash Damage+35% Attack Speed+20% Crit Chance+20 Movement SpeedUnique Passive - Typhoon: Every 5–2 seconds (reduced by 0.2 seconds for each Basic Attack), the next Basic Attack will hit up to 3 enemy units for 150–362 Magic Damage. (This attack can Crit and the damage increases to 200% against Minions.)RecipePriceUpgrade priceSell18807001128In-depth informationTypeAttackSellable?YesAvailable for?All heroesTakes slot?YesVisual effectWindtalkeris anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Attack Speed": "+35%",
+      "Crit Chance": "+20%",
+      "Movement Speed": "+20"
+    },
+    "unique_passive": [
+      "Unique Passive - Typhoon: Every 5–2 seconds (reduced by 0.2 seconds for each Basic Attack), the next Basic Attack will hit up to 3 enemy units for 150–362 Magic Damage. (This attack can Crit and the damage increases to 200% against Minions.)"
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Rogue Meteor",
+      "Knife",
+      "Knife",
+      "Javelin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/4/45/Windtalker.png"
+  },
+  {
+    "name": "Winter Crown",
+    "url": "https://mobile-legends.fandom.com/wiki/Winter_Crown",
+    "price": 400,
+    "type": "Attack & Magic",
+    "description": "Winter CrownTemporary Invincibility+45 Adaptive Attack+400 HP+5% Cooldown ReductionUnique Active - Frozen: Becomes frozen, untarge, and immune to damage for 2 seconds (100 seconds cooldown). Cannot move or cast skills while frozen, but skills already cast won't be interrupted.RecipePriceUpgrade priceSell19106601146In-depth informationTypeAttack & MagicSellable?YesAvailable for?All heroesTakes slot?YesVisual effectWinter Crownis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Adaptive Attack": "+45",
+      "HP": "+400",
+      "Cooldown Reduction": "+5%"
+    },
+    "unique_passive": [],
+    "unique_active": "Unique Active - Frozen: Becomes frozen, untarge, and immune to damage for 2 seconds (100 seconds cooldown). Cannot move or cast skills while frozen, but skills already cast won't be interrupted.",
+    "recipe": [
+      "Expert Gloves",
+      "Hero's Ring",
+      "Vitality Crystal"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/9/9d/Winter_Crown.png"
+  },
+  {
+    "name": "Wishing Lantern",
+    "url": "https://mobile-legends.fandom.com/wiki/Wishing_Lantern",
+    "price": 2160,
+    "type": "Magic",
+    "description": "Wishing LanternCounter High HP+75 Magic Power+400 Mana+10% Cooldown ReductionUnique Passive - Butterfly Goddess: For every 800 Magic Damage dealt to an enemy hero (calculated before Damage Reduction), a Butterfly Goddess is summoned to attack the enemy hero, dealing Magic Damage equal to 8% of their Current HP.RecipePriceUpgrade priceSell22507601350In-depth informationTypeMagicSellable?YesAvailable for?All heroesTakes slot?YesVisual effectWishing Lanternis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Magic Power": "+75",
+      "Mana": "+400",
+      "Cooldown Reduction": "+10%"
+    },
+    "unique_passive": [
+      "Unique Passive - Butterfly Goddess: For every 800 Magic Damage dealt to an enemy hero (calculated before Damage Reduction), a Butterfly Goddess is summoned to attack the enemy hero, dealing Magic Damage equal to 8% of their Current HP."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Magic Wand",
+      "Book of Sages",
+      "Power Crystal",
+      "Mystery Codex"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/0/07/Wishing_Lantern.png"
+  },
+  {
+    "name": "Demon Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Demon_Shoes",
+    "price": 720,
+    "type": "Movement",
+    "description": "Demon ShoesQuick Mana Regen+40 Movement Speed+10 Mana RegenUnique Passive - Mysticism: Getting a kill or assist on an enemy Minion will restore 4% Mana. (An assist occurs when a Minion dies within 2 seconds after taking damage from the hero.)RecipePriceUpgrade priceSell720230432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesDemon Shoesis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Mana Regen": "+10"
+    },
+    "unique_passive": [
+      "Unique Passive - Mysticism: Getting a kill or assist on an enemy Minion will restore 4% Mana. (An assist occurs when a Minion dies within 2 seconds after taking damage from the hero.)"
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Magic Necklace",
+      "Magic Necklace"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/17/Demon_Shoes.png"
+  },
+  {
+    "name": "Magic Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Magic_Shoes",
+    "price": 150,
+    "type": "Movement",
+    "description": "Magic ShoesCD Reduction+40 Movement Speed+10% Cooldown Reduction+150 HPRecipePriceUpgrade priceSell72020432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesMagic Shoesis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Cooldown Reduction": "+10%",
+      "HP": "+150"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Hero's Ring"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/5a/Magic_Shoes.png"
+  },
+  {
+    "name": "Haas' Claws",
+    "url": "https://mobile-legends.fandom.com/wiki/Haas%27_Claws",
+    "price": 1810,
+    "type": "Attack",
+    "description": "For its predecessor, seeTooth of GreedandScarlet Phantom.",
+    "attributes": {
+      "Physical Attack": "+40",
+      "Attack Speed": "+15%",
+      "Crit Chance": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Frenzy: Critical strikes grant 20% extra Attack Speed for 2 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Vampire Mallet",
+      "Rogue Meteor",
+      "Dagger",
+      "Knife",
+      "Javelin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/fd/Haas%27_Claws.png"
+  }
+]

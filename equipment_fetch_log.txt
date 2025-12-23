@@ -1,0 +1,217 @@
+/Users/alexwink/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🔍 Починаємо парсинг 104 предметів з Fandom Wiki...
+
+[1/104] Allow Throw
+  ✅ Allow Throw: OK ($None)
+[2/104] Antique Cuirass
+  ✅ Antique Cuirass: OK ($920)
+[3/104] Arcane Boots
+  ✅ Arcane Boots: OK ($720)
+[4/104] Ares Belt
+  ✅ Ares Belt: OK ($600)
+[5/104] Athena's Shield
+  ✅ Athena's Shield: OK ($900)
+[6/104] Azure Blade
+  ✅ Azure Blade: OK ($360)
+[7/104] Berserker's Fury
+  ✅ Berserker's Fury: OK ($2390)
+[8/104] Black Ice Shield
+  ✅ Black Ice Shield: OK ($780)
+[9/104] Blade Armor
+  ✅ Blade Armor: OK ($1660)
+[10/104] Blade of Despair
+  ✅ Blade of Despair: OK ($160)
+[11/104] Blade of the Heptaseas
+  ✅ Blade of the Heptaseas: OK ($250)
+[12/104] Blood Wings
+  ✅ Blood Wings: OK ($2850)
+[13/104] Bloody Retribution
+  ✅ Bloody Retribution: OK ($150)
+[14/104] Book of Sages
+  ✅ Book of Sages: OK ($450)
+[15/104] Boots
+  ✅ Boots: OK ($250)
+[16/104] Broken Heart
+  ✅ Broken Heart: OK ($None)
+[17/104] Brute Force Breastplate
+  ✅ Brute Force Breastplate: OK ($860)
+[18/104] Chastise Pauldron
+  ✅ Chastise Pauldron: OK ($None)
+[19/104] Clock of Destiny
+  ✅ Clock of Destiny: OK ($400)
+[20/104] Conceal
+  ⚠️  Conceal: No infobox found
+[21/104] Concentrated Energy
+  ✅ Concentrated Energy: OK ($400)
+[22/104] Corrosion Scythe
+  ✅ Corrosion Scythe: OK ($None)
+[23/104] Cursed Helmet
+  ✅ Cursed Helmet: OK ($1200)
+[24/104] Dagger
+  ✅ Dagger: OK ($250)
+[25/104] Demon Boots
+  ❌ Demon Boots: HTTP 404
+[26/104] Demon Hunter Sword
+  ✅ Demon Hunter Sword: OK ($2180)
+[27/104] Dire Hit
+  ❌ Dire Hit: HTTP 404
+[28/104] Divine Glaive
+  ✅ Divine Glaive: OK ($None)
+[29/104] Dominance Ice
+  ✅ Dominance Ice: OK ($2010)
+[30/104] Dreadnaught Armor
+  ✅ Dreadnaught Armor: OK ($730)
+[31/104] Elegant Gem
+  ✅ Elegant Gem: OK ($300)
+[32/104] Enchanted Talisman
+  ✅ Enchanted Talisman: OK ($250)
+[33/104] Encourage
+  ❌ Encourage: HTTP 404
+[34/104] Endless Battle
+  ✅ Endless Battle: OK ($250)
+[35/104] Exotic Veil
+  ✅ Exotic Veil: OK ($600)
+[36/104] Expert Gloves
+  ✅ Expert Gloves: OK ($500)
+[37/104] Favor
+  ❌ Favor: HTTP 404
+[38/104] Feather of Heaven
+  ✅ Feather of Heaven: OK ($2030)
+[39/104] Flame Retribution
+  ✅ Flame Retribution: OK ($150)
+[40/104] Flask of the Oasis
+  ✅ Flask of the Oasis: OK ($300)
+[41/104] Fleeting Time
+  ✅ Fleeting Time: OK ($2350)
+[42/104] Flower of Hope
+  ✅ Flower of Hope: OK ($None)
+[43/104] Fury Hammer
+  ✅ Fury Hammer: OK ($730)
+[44/104] Genius Wand
+  ✅ Genius Wand: OK ($None)
+[45/104] Glowing Wand
+  ✅ Glowing Wand: OK ($2200)
+[46/104] Golden Staff
+  ✅ Golden Staff: OK ($2300)
+[47/104] Great Dragon Spear
+  ✅ Great Dragon Spear: OK ($None)
+[48/104] Guardian Helmet
+  ✅ Guardian Helmet: OK ($1800)
+[49/104] Haas's Claws
+  ❌ Haas's Claws: HTTP 404
+[50/104] Healing Necklace
+  ✅ Healing Necklace: OK ($140)
+[51/104] Hero's Ring
+  ✅ Hero's Ring: OK ($150)
+[52/104] Holy Crystal
+  ✅ Holy Crystal: OK ($185)
+[53/104] Hunter Strike
+  ✅ Hunter Strike: OK ($900)
+[54/104] Ice Queen Wand
+  ✅ Ice Queen Wand: OK ($2040)
+[55/104] Ice Retribution
+  ✅ Ice Retribution: OK ($150)
+[56/104] Immortality
+  ✅ Immortality: OK ($850)
+[57/104] Iron Hunting Bow
+  ✅ Iron Hunting Bow: OK ($450)
+[58/104] Javelin
+  ✅ Javelin: OK ($320)
+[59/104] Knife
+  ✅ Knife: OK ($280)
+[60/104] Lantern of Hope
+  ✅ Lantern of Hope: OK ($None)
+[61/104] Leather Jerkin
+  ✅ Leather Jerkin: OK ($440)
+[62/104] Legion Sword
+  ✅ Legion Sword: OK ($910)
+[63/104] Lightning Truncheon
+  ✅ Lightning Truncheon: OK ($2050)
+[64/104] Magic Blade
+  ✅ Magic Blade: OK ($1050)
+[65/104] Magic Boots
+  ❌ Magic Boots: HTTP 404
+[66/104] Magic Necklace
+  ✅ Magic Necklace: OK ($120)
+[67/104] Magic Potion
+  ✅ Magic Potion: OK ($1500)
+[68/104] Magic Resist Cloak
+  ✅ Magic Resist Cloak: OK ($220)
+[69/104] Magic Wand
+  ✅ Magic Wand: OK ($820)
+[70/104] Malefic Gun
+  ✅ Malefic Gun: OK ($2120)
+[71/104] Malefic Roar
+  ✅ Malefic Roar: OK ($2060)
+[72/104] Molten Essence
+  ✅ Molten Essence: OK ($540)
+[73/104] Mystery Codex
+  ✅ Mystery Codex: OK ($300)
+[74/104] Mystic Container
+  ✅ Mystic Container: OK ($500)
+[75/104] Ogre Tomahawk
+  ✅ Ogre Tomahawk: OK ($230)
+[76/104] Oracle
+  ✅ Oracle: OK ($850)
+[77/104] Power Crystal
+  ✅ Power Crystal: OK ($280)
+[78/104] Power Potion
+  ✅ Power Potion: OK ($1500)
+[79/104] Queen's Wings
+  ✅ Queen's Wings: OK ($750)
+[80/104] Radiant Armor
+  ✅ Radiant Armor: OK ($950)
+[81/104] Rapid Boots
+  ✅ Rapid Boots: OK ($720)
+[82/104] Regular Spear
+  ✅ Regular Spear: OK ($600)
+[83/104] Rock Potion
+  ✅ Rock Potion: OK ($1500)
+[84/104] Rogue Meteor
+  ✅ Rogue Meteor: OK ($None)
+[85/104] Rose Gold Meteor
+  ✅ Rose Gold Meteor: OK ($120)
+[86/104] Sea Halberd
+  ✅ Sea Halberd: OK ($2350)
+[87/104] Silence Robe
+  ✅ Silence Robe: OK ($540)
+[88/104] Sky Piercer
+  ✅ Sky Piercer: OK ($1500)
+[89/104] Starlium Scythe
+  ✅ Starlium Scythe: OK ($None)
+[90/104] Steel Legplates
+  ✅ Steel Legplates: OK ($530)
+[91/104] Swift Boots
+  ✅ Swift Boots: OK ($720)
+[92/104] Swift Crossbow
+  ✅ Swift Crossbow: OK ($1000)
+[93/104] Throw Forbidden
+  ✅ Throw Forbidden: OK ($None)
+[94/104] Thunder Belt
+  ✅ Thunder Belt: OK ($2290)
+[95/104] Tome of Evil
+  ✅ Tome of Evil: OK ($950)
+[96/104] Tough Boots
+  ✅ Tough Boots: OK ($720)
+[97/104] Vampire Mallet
+  ✅ Vampire Mallet: OK ($400)
+[98/104] Vitality Crystal
+  ✅ Vitality Crystal: OK ($230)
+[99/104] War Axe
+  ✅ War Axe: OK ($1980)
+[100/104] Warrior Boots
+  ✅ Warrior Boots: OK ($720)
+[101/104] Wind of Nature
+  ✅ Wind of Nature: OK ($1910)
+[102/104] Windtalker
+  ✅ Windtalker: OK ($150)
+[103/104] Winter Crown
+  ✅ Winter Crown: OK ($400)
+[104/104] Wishing Lantern
+  ✅ Wishing Lantern: OK ($2160)
+
+============================================================
+✅ Завершено! Оброблено 97 з 104 предметів
+📄 Дані збережено в equipment_data_fandom.json
+============================================================

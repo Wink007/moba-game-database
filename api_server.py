@@ -570,40 +570,47 @@ def delete_item(item_id):
 
 @app.route('/api/items/update-from-fandom', methods=['POST'])
 def update_items_from_fandom():
-    """Bulk update items from Fandom Wiki"""
-    import sys
-    import os
-    
-    # Додаємо шлях до скриптів
-    sys.path.insert(0, os.path.dirname(__file__))
-    
+    """Bulk update items from pre-fetched JSON data"""
     try:
-        from fetch_equipment_from_fandom import fetch_item_data
+        data = request.json
+        game_id = data.get('game_id', 2)
+        items_data = data.get('items', [])
         
-        game_id = request.json.get('game_id', 2)
+        if not items_data:
+            return jsonify({'error': 'No items data provided'}), 400
         
-        # Отримуємо всі предмети з бази
-        items = db.get_equipment_by_game(game_id)
+        # Отримуємо всі предмети з бази для маппінгу name -> id
+        db_items = db.get_equipment_by_game(game_id)
+        name_to_item = {item['name']: item for item in db_items}
         
         results = {
-            'total': len(items),
+            'total': len(items_data),
             'updated': 0,
             'failed': 0,
+            'skipped': 0,
             'errors': []
         }
         
-        for item in items:
+        for fandom_data in items_data:
             try:
-                # Пропускаємо базові предмети (tier 1)
-                if item.get('tier') == '1':
+                item_name = fandom_data.get('name')
+                if not item_name:
                     continue
                 
-                # Fetch data from Fandom
-                fandom_data = fetch_item_data(item['name'])
-                
-                if not fandom_data:
-                    results['errors'].append(f"{item['name']}: Not found on Fandom")
+                # Знаходимо предмет в базі
+                item = name_to_item.get(item_name)
+                if not item:
+                    results['errors'].append(f"{item_name}: Not found in database")
                     results['failed'] += 1
+                    continue
+                
+                # Пропускаємо базові предмети (tier 1)
+                if item.get('tier') == '1':
+                    results['skipped'] += 1
+                    continue
+                # Пропускаємо базові предмети (tier 1)
+                if item.get('tier') == '1':
+                    results['skipped'] += 1
                     continue
                 
                 # Парсимо атрибути
@@ -616,22 +623,26 @@ def update_items_from_fandom():
                 
                 attrs = fandom_data.get('attributes', {})
                 
-                # Оптимізуємо recipe - тільки tier-2 компоненти
-                recipe_data = fandom_data.get('recipe', [])
+                # Оптимізуємо recipe - шукаємо ID компонентів
+                recipe_names = fandom_data.get('recipe', [])
                 optimized_recipe = []
-                if recipe_data:
-                    # Отримуємо tier для кожного компонента
-                    for comp_name in recipe_data:
-                        comp_item = next((i for i in items if i['name'] == comp_name), None)
+                if recipe_names:
+                    for comp_name in recipe_names:
+                        comp_item = name_to_item.get(comp_name)
                         if comp_item and comp_item.get('tier') and int(comp_item['tier']) >= 2:
-                            optimized_recipe.append(comp_name)
+                            optimized_recipe.append({
+                                'id': comp_item['id'],
+                                'name': comp_name
+                            })
                 
                 # Унікальні пасивки
-                passive_text = '\n'.join(fandom_data.get('unique_passive', []))
-                if fandom_data.get('unique_active'):
-                    passive_text += '\n' + fandom_data['unique_active']
+                unique_passive = fandom_data.get('unique_passive', [])
+                unique_active = fandom_data.get('unique_active')
+                passive_text = '\n'.join(unique_passive) if isinstance(unique_passive, list) else str(unique_passive or '')
+                if unique_active:
+                    passive_text += '\n' + unique_active
                 
-                # Оновлюємо
+                # Готуємо дані для оновлення
                 update_data = {
                     'price_total': fandom_data.get('price'),
                     'category': fandom_data.get('type'),
@@ -644,7 +655,7 @@ def update_items_from_fandom():
                     'magic_defense': parse_stat(attrs.get('Magic Defense')),
                     'movement_speed': parse_stat(attrs.get('Movement Speed') or attrs.get('Move Speed')),
                     'cooldown_reduction': parse_stat(attrs.get('CD Reduction') or attrs.get('Cooldown Reduction')),
-                    'lifesteal': parse_stat(attrs.get('Physical Lifesteal')),
+                    'lifesteal': parse_stat(attrs.get('Physical Lifesteal') or attrs.get('Lifesteal')),
                     'spell_vamp': parse_stat(attrs.get('Magic Lifesteal') or attrs.get('Spell Vamp')),
                     'mana_regen': parse_stat(attrs.get('Mana Regen')),
                     'crit_chance': parse_stat(attrs.get('Crit Chance')),
@@ -653,11 +664,17 @@ def update_items_from_fandom():
                     'recipe': json.dumps(optimized_recipe, ensure_ascii=False) if optimized_recipe else None
                 }
                 
-                db.update_equipment(item['id'], **update_data)
-                results['updated'] += 1
+                # Оновлюємо тільки поля які мають значення
+                filtered_data = {k: v for k, v in update_data.items() if v is not None}
+                
+                if filtered_data:
+                    db.update_equipment(item['id'], **filtered_data)
+                    results['updated'] += 1
+                else:
+                    results['skipped'] += 1
                 
             except Exception as e:
-                results['errors'].append(f"{item['name']}: {str(e)}")
+                results['errors'].append(f"{item_name}: {str(e)}")
                 results['failed'] += 1
         
         return jsonify(results)

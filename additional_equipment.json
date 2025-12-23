@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Demon Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Demon_Shoes",
+    "price": 720,
+    "type": "Movement",
+    "description": "Demon ShoesQuick Mana Regen+40 Movement Speed+10 Mana RegenUnique Passive - Mysticism: Getting a kill or assist on an enemy Minion will restore 4% Mana. (An assist occurs when a Minion dies within 2 seconds after taking damage from the hero.)RecipePriceUpgrade priceSell720230432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesDemon Shoesis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Mana Regen": "+10"
+    },
+    "unique_passive": [
+      "Unique Passive - Mysticism: Getting a kill or assist on an enemy Minion will restore 4% Mana. (An assist occurs when a Minion dies within 2 seconds after taking damage from the hero.)"
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Magic Necklace",
+      "Magic Necklace"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/1/17/Demon_Shoes.png/revision/latest"
+  },
+  {
+    "name": "Magic Boots",
+    "url": "https://mobile-legends.fandom.com/wiki/Magic_Shoes",
+    "price": 150,
+    "type": "Movement",
+    "description": "Magic ShoesCD Reduction+40 Movement Speed+10% Cooldown Reduction+150 HPRecipePriceUpgrade priceSell72020432In-depth informationTypeMovementSellable?YesAvailable for?All heroesTakes slot?YesMagic Shoesis anequipmentinMobile Legends: Bang Bang.",
+    "attributes": {
+      "Movement Speed": "+40",
+      "Cooldown Reduction": "+10%",
+      "HP": "+150"
+    },
+    "unique_passive": [],
+    "unique_active": null,
+    "recipe": [
+      "Boots",
+      "Hero's Ring"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/5/5a/Magic_Shoes.png/revision/latest"
+  },
+  {
+    "name": "Haas' Claws",
+    "url": "https://mobile-legends.fandom.com/wiki/Haas%27_Claws",
+    "price": 1810,
+    "type": "Attack",
+    "description": "For its predecessor, seeTooth of GreedandScarlet Phantom.",
+    "attributes": {
+      "Physical Attack": "+40",
+      "Attack Speed": "+15%",
+      "Crit Chance": "+20%"
+    },
+    "unique_passive": [
+      "Unique Passive - Frenzy: Critical strikes grant 20% extra Attack Speed for 2 seconds."
+    ],
+    "unique_active": null,
+    "recipe": [
+      "Vampire Mallet",
+      "Rogue Meteor",
+      "Dagger",
+      "Knife",
+      "Javelin"
+    ],
+    "icon_url": "https://static.wikia.nocookie.net/mobile-legends/images/f/fd/Haas%27_Claws.png/revision/latest"
+  }
+]
