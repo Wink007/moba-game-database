@@ -12,3 +12,6 @@ psycopg2-binary==2.9.9
 
 # HTTP клієнт
 requests==2.31.0
+
+# HTML парсинг
+beautifulsoup4==4.12.2
