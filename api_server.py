@@ -447,10 +447,13 @@ def get_items():
             
             # Парсимо attributes_json та recipe для кожного item
             for item in items:
+                # Парсимо attributes_json
                 if item.get('attributes_json'):
                     try:
-                        item['attributes'] = json.loads(item['attributes_json'])
-                    except:
+                        item['attributes'] = json.loads(item['attributes_json']) if isinstance(item['attributes_json'], str) else item['attributes_json']
+                    except Exception as e:
+                        print(f"Error parsing attributes_json for item {item.get('id')} ({item.get('name')}): {e}")
+                        print(f"Raw attributes_json: {repr(item.get('attributes_json'))}")
                         item['attributes'] = {}
                 else:
                     item['attributes'] = {}
@@ -458,7 +461,7 @@ def get_items():
                 # Парсимо recipe з JSON та конвертуємо в формат [{id, name}, ...]
                 if item.get('recipe'):
                     try:
-                        recipe_data = json.loads(item['recipe'])
+                        recipe_data = json.loads(item['recipe']) if isinstance(item['recipe'], str) else item['recipe']
                         if isinstance(recipe_data, list):
                             # Якщо це масив назв, конвертуємо в масив об'єктів
                             if recipe_data and isinstance(recipe_data[0], str):
@@ -471,7 +474,9 @@ def get_items():
                                 item['recipe'] = recipe_data
                         else:
                             item['recipe'] = []
-                    except:
+                    except Exception as e:
+                        print(f"Error parsing recipe for item {item.get('id')} ({item.get('name')}): {e}")
+                        print(f"Raw recipe value: {repr(item.get('recipe'))}")
                         item['recipe'] = []
                 else:
                     item['recipe'] = []
@@ -479,9 +484,10 @@ def get_items():
                 # Парсимо upgrades_to з JSON
                 if item.get('upgrades_to'):
                     try:
-                        item['upgrades_to'] = json.loads(item['upgrades_to'])
-                    except:
-                        pass
+                        item['upgrades_to'] = json.loads(item['upgrades_to']) if isinstance(item['upgrades_to'], str) else item['upgrades_to']
+                    except Exception as e:
+                        print(f"Error parsing upgrades_to for item {item.get('id')} ({item.get('name')}): {e}")
+                        item['upgrades_to'] = None
         else:
             items = []
         return jsonify(items)
