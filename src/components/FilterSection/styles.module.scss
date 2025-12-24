@@ -1,0 +1,158 @@
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+}
+
+// Collapsible filters
+.filtersWrapper {
+  margin-bottom: 2rem;
+  // border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 12px;
+}
+
+.filtersToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  // background: rgba(15, 23, 42, 0.4);
+  // border: 1px solid rgba(148, 163, 184, 0.1);
+  // border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  // &:hover {
+  //   background: rgba(15, 23, 42, 0.6);
+  //   border-color: rgba(148, 163, 184, 0.2);
+  //   color: #f1f5f9;
+  // }
+}
+
+.filtersToggleText {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.toggleIcon {
+  transition: transform 0.3s ease;
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.7);
+  transform: rotate(90deg);
+}
+
+.toggleIconExpanded {
+  transform: rotate(-90deg);
+}
+
+.filtersActiveBadge {
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  color: #60a5fa;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.filtersContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  margin-top: -1px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              padding 0.4s ease;
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+}
+
+.filtersExpanded {
+  max-height: 1000px;
+  opacity: 1;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filterLabel {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(203, 213, 225, 0.9);
+
+  span {
+    margin-right: 0.5rem;
+  }
+}
+
+.tabGroup {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 0.65rem 1.25rem;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 8px;
+  color: rgba(203, 213, 225, 0.7);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(96, 165, 250, 0.3);
+    color: rgba(203, 213, 225, 0.9);
+  }
+}
+
+.tabActive {
+  background: rgba(96, 165, 250, 0.15);
+  border-color: rgba(96, 165, 250, 0.4);
+  color: #60a5fa;
+  font-weight: 600;
+
+  &:hover {
+    background: rgba(96, 165, 250, 0.2);
+    border-color: rgba(96, 165, 250, 0.5);
+  }
+}

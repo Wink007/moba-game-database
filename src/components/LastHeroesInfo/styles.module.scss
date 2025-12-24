@@ -1,0 +1,490 @@
+.last-heroes-info-wrapper {
+    padding: var(--spacing-md);
+
+    > h2 {
+        position: relative;
+        padding: var(--spacing-md);
+        margin: 0;
+        width: 55%;
+        background: linear-gradient(90deg, rgba(74, 158, 255, 0.2) 0%, rgba(74, 158, 255, 0.01) 90%);
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #4A90E2 0%, #50C9F0 100%);
+        }
+    }
+
+    & .info {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: var(--spacing-sm);
+    }
+
+    & .hero-name-lane-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    & .hero-roles {
+        display: flex;
+        margin-left: var(--spacing-md);
+        gap: var(--spacing-sm);
+        padding: var(--spacing-sm);
+        color: var(--color-text-secondary);
+    }
+
+    & .hero-role {
+        padding: var(--spacing-sm);
+        margin: 0;
+        border-color: var(--color-text-secondary);
+        background-color: var(--color-bg-primary);
+        border-style: solid;
+        border-width: 1px;
+        font-weight: 600;
+    }
+
+    & .hero-list-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-2xl);
+    }
+
+    & .hero-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        filter: grayscale(100%);
+        opacity: 0.3;
+
+        &--active {
+            opacity: 0.8;
+            filter: grayscale(0);
+        }
+    }
+
+    & .hero-item {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.hero-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    & .hero-name-lane {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .hero-name {
+        font-size: 40px;
+        font-weight: 600;
+        margin: 0 0 0 var(--spacing-sm);
+    }
+}
+
+.hero-detail {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    & .hero-preview-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .lane-icon-wrapper {
+        position: absolute;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+
+    .lane-icon {
+        width: var(--spacing-3xl);
+        height: var(--spacing-3xl);
+    }
+
+    & .hero-preview {
+        // width: 100%;
+        filter: drop-shadow(2px 8px 46px rgb(25, 13, 55));
+    }
+
+    & .prev-button, .next-button {
+        position: absolute;
+        top: 25%;
+        background-color: transparent;
+        padding: 10px;
+        border: 0;
+        user-select: auto;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    & .prev-button {
+        left: var(--spacing-md);
+    }
+
+    & .next-button {
+        right: var(--spacing-md);
+        > img {
+            transform: rotate(180deg);
+        }
+    }
+
+    & .hero-skills {
+        position: relative;
+        display: flex;
+        gap: var(--spacing-xl);
+        margin: var(--spacing-xl) 0 var(--spacing-xl);
+    }
+
+    & .skill-item {
+        position: relative;
+        width: 90px;
+        height: 90px;
+        cursor: pointer;
+    }
+
+    & .tooltip-wrapper {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 10px;
+        z-index: 1000;
+        pointer-events: none;
+        width: 500px;
+    }
+
+    & .skill-item-skeleton {
+        width: 80px;
+        height: 80px;
+        background: rgba(74, 158, 255, 0.2);
+        border-radius: 50%;
+        animation: pulse 1.5s ease-in-out infinite;
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    }
+
+    & .ability-label {
+        margin-bottom: var(--spacing-md);
+        font-size: 24px;
+        font-weight: 600;
+    } 
+
+    & .abilities-list {
+        display: flex;display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: var(--spacing-2xl);
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    & .ability-row {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        padding: 2px;
+    }
+    
+    & .ability-row-skeleton {
+        width: 100%;
+        height: 66px;
+        background: rgba(74, 158, 255, 0.2);
+        border-radius: 4px;
+        animation: pulse 1.5s ease-in-out infinite;
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    }
+
+    & .ability-item {
+        display: flex;
+        align-items: center;
+        width: 98%;
+        height: 10px;
+        padding: 0 2px;
+        outline: 2px solid var(--color-text-secondary);
+
+    }
+
+    & .ability-bar {
+        display: block;
+        height: 4px;
+        background-color: var(--color-text-secondary);
+    }
+
+    & .transform-button {
+        position: absolute;
+        right: 0;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 1440px) {
+    .hero-detail {
+        margin-top: var(--spacing-lg);
+        flex-wrap: nowrap;
+
+        & .prev-button, .next-button {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        & .skill-item, & .skill-item-skeleton {
+            width: 100px;
+            height: 100px;
+            
+            .skill-icon {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+    }
+
+    .hero-info {
+        & .more-info-link {
+            order: 0;
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-detail {
+        flex-direction: column;
+
+        & .hero-preview-wrapper {
+            width: 100%;
+        }
+
+        & .hero-preview {
+            width: 100%;
+        }
+
+        & .hero-skills {
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            justify-content: space-around;
+        }
+
+        & .skill-item, & .skill-item-skeleton {
+            width: 80px;
+            height: 80px;
+            
+            .skill-icon {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        & .hero-info {
+            width: auto;
+            margin: var(--spacing-lg) var(--spacing-md);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .last-heroes-info-wrapper {
+        padding: var(--spacing-md);
+
+        & h2 {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        & .hero-list-wrapper {
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-2xl);
+        }
+
+        & .hero-list, .hero-item  {
+            width: 65px;
+            height: 65px;
+            cursor: pointer;
+        }
+    }
+
+    .hero-info {
+        margin: 0;
+        width: 100%;
+
+        & .hero-name-lane {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero-name {
+            font-size: 1.75rem;
+            margin: 0;
+        }
+
+        .hero-role {
+            font-size: 0.875rem;
+        }
+    }
+
+    .hero-detail {
+        flex-direction: column;
+        padding-bottom: 0;
+
+        & .hero-preview-wrapper {
+            width: 100%;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .lane-icon-wrapper {
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+        }
+
+        .lane-icon {
+            width: var(--spacing-xl);
+            height: var(--spacing-xl);
+        }
+
+        & .hero-preview {
+            width: 100%;
+        }
+
+        & .prev-button, .next-button {
+            top: 15%;
+            padding: var(--spacing-xs);
+        }
+
+        & .prev-button {
+            left: var(--spacing-xs);
+        }
+
+        & .next-button {
+            right: var(--spacing-xs);
+        }
+
+        & .hero-skills {
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        & .skill-item {
+            position: static;
+        }
+
+        & .skill-item, & .skill-item-skeleton {
+            width: 80px;
+            height: 80px;
+            
+            .skill-icon {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        & .ability-label {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        & .abilities-list {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        & .ability-row-skeleton {
+            height: 45px;
+        }
+
+        & .transform-button {
+            position: static;
+            width: 60px;
+            height: 60px;
+        }
+
+        & .more-info-link {
+            font-size: 1.125rem;
+            width: auto;
+            justify-content: center;
+            margin: var(--spacing-lg) auto 0;
+        }
+
+        .more-info-icon {
+            width: 8px;
+            height: 16px;
+            margin-left: var(--spacing-sm);
+        }
+
+        & .hero-list-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        & .hero-list  {
+            display: flex;
+            justify-content: center;
+            width: auto;
+            height: auto;
+        }
+
+        & .hero-item {
+            width: 65px;
+            height: 65px;
+        }
+
+        & .tooltip-wrapper {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    .hero-detail {
+
+        & .skill-item, & .skill-item-skeleton {
+            width: 60px;
+            height: 60px;
+            
+            .skill-icon {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    }
+}

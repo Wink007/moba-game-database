@@ -1,0 +1,60 @@
+import { Link } from 'react-router-dom';
+import type { Hero } from '../../../types';
+import { Lanes, LanesIcons } from '../../../enum';
+import styles from '../styles.module.scss';
+
+interface HeroCardProps {
+  hero: Hero;
+  gameId: number;
+}
+
+export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
+  const getLaneIcon = (lane: string): string | undefined => {
+    const laneKey = Object.values(Lanes).find(l => l === lane);
+    return laneKey ? LanesIcons[laneKey as Lanes] : undefined;
+  };
+
+  return (
+    <Link to={`/${gameId}/heroes/${hero.id}`} className={styles.heroCard}>
+      <div className={styles.heroImageWrapper}>
+        {hero.image ? (
+          <img src={hero.image} alt={hero.name} className={styles.heroImage} />
+        ) : (
+          <div className={styles.heroImagePlaceholder}>
+            <span>{hero.name.charAt(0)}</span>
+          </div>
+        )}
+        <div className={styles.heroImageOverlay} />
+        
+        {/* Lane icons in top left corner */}
+        {hero.lane && hero.lane.length > 0 && (
+          <div className={styles.heroLanes}>
+            {hero.lane.slice(0, 2).map(lane => {
+              const icon = getLaneIcon(lane);
+              return icon ? (
+                <img 
+                  key={lane} 
+                  src={icon} 
+                  alt={lane}
+                  className={styles.laneIcon}
+                  title={lane}
+                />
+              ) : null;
+            })}
+          </div>
+        )}
+      </div>
+      
+      <div className={styles.heroContent}>
+        <h3 className={styles.heroName}>{hero.name}</h3>
+        <div className={styles.heroFooter} />
+        {hero.roles && hero.roles.length > 0 && (
+          <p className={styles.heroRoles}>
+            {hero.roles.slice(0, 2).join(' • ')}
+          </p>
+        )}
+        
+      </div>
+    </Link>
+  );
+};

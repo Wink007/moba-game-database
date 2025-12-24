@@ -1,0 +1,32 @@
+.more-info-link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: var(--spacing-xl);
+    font-size: 24px;
+    font-weight: 600;
+    text-decoration: none;
+    flex-wrap: nowrap;
+    width: 150px;
+    transition: all 0.3s ease; 
+
+    &:hover {
+        transform: translateX(5px);
+    }
+
+    p {
+     margin: 0;
+    }
+}
+
+.more-info-icon {
+    margin-left: var(--spacing-md);
+    width: 10px;
+    height: 20px;
+}
+
+@media (max-width: 768px) {
+    .more-info-link {
+       align-self: center;
+    }
+}

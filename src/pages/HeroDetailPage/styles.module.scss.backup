@@ -1,0 +1,526 @@
+.container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+
+// Breadcrumbs
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+}
+
+.breadcrumb {
+  color: #60a5fa;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #93c5fd;
+  }
+}
+
+.separator {
+  color: #64748b;
+}
+
+.breadcrumbActive {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+}
+
+// Hero Card (Dota 2 style)
+.heroCard {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 0;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1d3a 100%);
+  border-radius: 0;
+  border: 2px solid #2d3b5f;
+  overflow: hidden;
+  margin-bottom: 2rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Left Side - Hero Image
+.heroImageSection {
+  background: linear-gradient(180deg, #0f1429 0%, #1a1d3a 100%);
+  padding: 2rem;
+  border-right: 2px solid #2d3b5f;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 1200px) {
+    border-right: none;
+    border-bottom: 2px solid #2d3b5f;
+  }
+}
+
+.heroImageWrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(51, 65, 85, 0.4) 100%);
+  border: 2px solid #2d3b5f;
+}
+
+.heroPainting,
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroPortrait {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ffd700;
+  background: #1a1d3a;
+  margin: 0 auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.heroAbility {
+  background: rgba(15, 20, 41, 0.6);
+  border: 1px solid #2d3b5f;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.abilityIcon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #2d3b5f 0%, #1a1d3a 100%);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.abilityInfo {
+  flex: 1;
+}
+
+.abilityTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.abilityDescription {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #94a3b8;
+  margin: 0;
+}
+
+// Right Side - Stats Section
+.statsSection {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// Attributes Section
+.attributesSection {
+  .sectionTitle {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .titleIcon {
+    color: #ffd700;
+    font-size: 1.25rem;
+  }
+}
+
+.primaryAttributes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.attributeCard {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.15) 0%, rgba(220, 38, 38, 0.05) 100%);
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  border-radius: 8px;
+  padding: 1.25rem;
+  text-align: center;
+
+  &[data-type="strength"] {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.15) 0%, rgba(220, 38, 38, 0.05) 100%);
+    border-color: rgba(220, 38, 38, 0.3);
+  }
+
+  &[data-type="agility"] {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+
+  &[data-type="intelligence"] {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+}
+
+.attrIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.attrValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 0.25rem;
+}
+
+.attrGrowth {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+// Stats Groups
+.statsGroup {
+  .groupTitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .groupIcon {
+    font-size: 1rem;
+  }
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.statItem {
+  background: rgba(15, 20, 41, 0.4);
+  border: 1px solid #2d3b5f;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(15, 20, 41, 0.6);
+    border-color: #3d4b6f;
+  }
+}
+
+.statIcon {
+  font-size: 1.5rem;
+}
+
+.statInfo {
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.statValue {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+// Basic Information
+.basicInfo {
+  .groupTitle {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .titleIcon {
+    color: #ffd700;
+    font-size: 1.25rem;
+  }
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoItem {
+  background: rgba(15, 20, 41, 0.4);
+  border: 1px solid #2d3b5f;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.infoIcon {
+  font-size: 1.5rem;
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.infoLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.infoValue {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+// Skills Section
+.skillsSection {
+  margin-bottom: 3rem;
+}
+
+.subsectionTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 3rem 0 1.5rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(45, 59, 95, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::before {
+    content: "⚔️";
+    font-size: 1.25rem;
+  }
+}
+
+.skillsGrid {
+  display: grid;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skillCard {
+  background: linear-gradient(135deg, rgba(15, 20, 41, 0.6) 0%, rgba(26, 29, 58, 0.4) 100%);
+  border: 2px solid #2d3b5f;
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+  display: flex;
+  gap: 1rem;
+
+  &:hover {
+    border-color: rgba(96, 165, 250, 0.5);
+    background: linear-gradient(135deg, rgba(15, 20, 41, 0.8) 0%, rgba(26, 29, 58, 0.6) 100%);
+  }
+
+  &.transformed {
+    border-color: rgba(139, 92, 246, 0.4);
+
+    &:hover {
+      border-color: rgba(139, 92, 246, 0.6);
+    }
+
+    .skillType {
+      background: rgba(139, 92, 246, 0.2);
+      border-color: rgba(139, 92, 246, 0.4);
+      color: #c4b5fd;
+    }
+  }
+}
+
+.skillIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid rgba(96, 165, 250, 0.3);
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.skillInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.skillHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.skillName {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: 0.025em;
+}
+
+.skillType {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: 4px;
+  color: #86efac;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.075em;
+  white-space: nowrap;
+}
+
+.skillDescription {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.skillEffect {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(45, 59, 95, 0.4);
+}
+
+.effectLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.effectList {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+
+  li {
+    margin-bottom: 0.375rem;
+    line-height: 1.5;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      color: #fbbf24;
+      font-weight: 600;
+    }
+  }
+}
+
+.skillPreview {
+  margin-top: 0.75rem;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(45, 59, 95, 0.5);
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}

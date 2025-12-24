@@ -1,22 +1,16 @@
 import { useGames } from '../../hooks/useGames';
-import { useHeroes } from '../../hooks/useHeroes';
 import { useGameStore } from '../../store/gameStore';
 import styles from './styles.module.scss';
-import type { Game } from '../../types';
 import { Loader } from '../../components/Loader';
 import { LastHeroesInfo } from '../../components/LastHeroesInfo';
 import { TopHeroesRanked } from '../../components/TopHeroesRanked';
+import { MoreInfoLink } from '../../components/MoreInfoLink';
+import { RandomHeroStats } from '../../components/RandomHeroStats';
 
 export const HomePage = () => {
   const { data: games, isLoading, isError } = useGames();
   const { selectedGameId } = useGameStore();
-  const { data: heroes } = useHeroes(selectedGameId);
   const defaultGame = games?.find(g => g.id === selectedGameId);
-
-  // Get latest 6 heroes
-  const latestHeroes = heroes?.sort((a, b) => b.id - a.id).slice(0, 6);
-
-  console.log(latestHeroes);
 
   if (isLoading) return <Loader />;
   if (isError) return <div className={styles.error}>Помилка завантаження ігор</div>;    
@@ -36,10 +30,14 @@ export const HomePage = () => {
             />
             <div className={styles['video-content']}>
                 <h2>{defaultGame?.subtitle}</h2>
+                <div className={styles['heroe-rank']}>
+                    <TopHeroesRanked />
+                    <MoreInfoLink linkTo={`${selectedGameId}/hero-ranks`} />
+                </div>
             </div>
             <div className={styles['video-overlay']} />
         </div>
-        <TopHeroesRanked />
+        <RandomHeroStats />
         <LastHeroesInfo />
         {/* <div className={styles['games-list']}>
             <div className={`${styles['video-overlay']} ${styles['list-overlay']}`} />

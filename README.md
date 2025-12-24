@@ -1,8 +1,40 @@
-# Getting Started with Create React App
+# Mobile Legends Wiki (Unofficial)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **⚠️ DISCLAIMER**: This is an **UNOFFICIAL** fan-made project. Not affiliated with, endorsed, sponsored, or approved by Moonton Technology Co., Ltd.
 
-## Available Scripts
+An unofficial, community-driven information resource for Mobile Legends and other MOBA games.
+
+## 🎮 About
+
+This web application provides:
+- Hero statistics and information
+- Item databases and build guides
+- Hero rankings and meta analysis
+- Community pro builds
+- Game tips and strategies
+
+## ⚖️ Legal Notice
+
+### Intellectual Property
+- **Mobile Legends**, all related characters, images, and game assets are © **Moonton Technology Co., Ltd.**
+- **Dota 2** content © Valve Corporation
+- **League of Legends** content © Riot Games, Inc.
+
+All game content is used for **informational and educational purposes only** under Fair Use principles.
+
+### Disclaimer
+- This is a **fan-made, non-commercial project**
+- We do **NOT** claim ownership of any game content
+- We are **NOT** affiliated with any game publisher
+- All trademarks belong to their respective owners
+- Information provided "as-is" without warranties
+
+### Privacy
+- No personal data collection
+- No user accounts required
+- See [Privacy Policy](public/PRIVACY_POLICY.md) for details
+
+## 🚀 Getting Started
 
 In the project directory, you can run:
 

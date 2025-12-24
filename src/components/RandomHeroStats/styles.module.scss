@@ -1,0 +1,182 @@
+.container {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.7) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 968px) {
+    padding: 1rem;
+    gap: 1rem;
+  }
+}
+
+// Hero Section
+.heroSection {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  text-decoration: none;
+  padding: 1.25rem;
+  border-radius: 12px;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.heroImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(148, 163, 184, 0.3);
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+
+  .heroSection:hover & {
+    border-color: rgba(148, 163, 184, 0.5);
+  }
+}
+
+.heroInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.heroName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.heroRoles {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+// Charts Container
+.chartsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chartCard {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0.5;
+  }
+
+  &:first-child::before {
+    color: #22c55e;
+  }
+
+  &:last-child::before {
+    color: #ef4444;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border-color: rgba(148, 163, 184, 0.3);
+  }
+}
+
+.chartHeader {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.chartTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.chartTrend {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.trendUp {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #22c55e;
+  padding: 0.25rem 0.75rem;
+  background: rgba(34, 197, 94, 0.15);
+  border-radius: 6px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.trendDown {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ef4444;
+  padding: 0.25rem 0.75rem;
+  background: rgba(239, 68, 68, 0.15);
+  border-radius: 6px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.chartSubtitle {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.chartValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 8px currentColor;
+  
+  .chartCard:first-child & {
+    color: #22c55e;
+  }
+  
+  .chartCard:last-child & {
+    color: #ef4444;
+  }
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}

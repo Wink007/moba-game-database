@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ML Wiki",
+  "name": "Wiki for Mobile Legends (Unofficial)",
+  "description": "Unofficial fan-made guide app for Mobile Legends. Not affiliated with or endorsed by Moonton.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#1a1f36",
+  "background_color": "#0f1729"
 }
