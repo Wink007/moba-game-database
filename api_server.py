@@ -167,19 +167,27 @@ def create_hero_skill(hero_id):
         return jsonify({'error': 'skill_name is required'}), 400
     
     try:
-        conn = db.get_db_connection()
+        conn = db.get_connection()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
-        cursor.execute(f'''
-            INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
-            VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
-        ''', (hero_id, skill_name, skill_description, skill_icon, display_order))
+        if db.DATABASE_TYPE == 'postgres':
+            cursor.execute(f'''
+                INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
+                RETURNING id
+            ''', (hero_id, skill_name, skill_description, skill_icon, display_order))
+            skill_id = cursor.fetchone()[0]
+        else:
+            cursor.execute(f'''
+                INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
+            ''', (hero_id, skill_name, skill_description, skill_icon, display_order))
+            skill_id = cursor.lastrowid
         
         conn.commit()
-        skill_id = cursor.lastrowid if db.DATABASE_TYPE == 'sqlite' else cursor.fetchone()[0]
         cursor.close()
-        conn.close()
+        db.release_connection(conn)
         
         return jsonify({'success': True, 'message': 'Skill created successfully', 'id': skill_id}), 201
     except Exception as e:
@@ -189,7 +197,7 @@ def create_hero_skill(hero_id):
 def delete_hero_skill(hero_id, skill_id):
     """Видаляє навичку героя"""
     try:
-        conn = db.get_db_connection()
+        conn = db.get_connection()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -198,7 +206,7 @@ def delete_hero_skill(hero_id, skill_id):
         conn.commit()
         deleted = cursor.rowcount > 0
         cursor.close()
-        conn.close()
+        db.release_connection(conn)
         
         if deleted:
             return jsonify({'success': True, 'message': 'Skill deleted successfully'})
