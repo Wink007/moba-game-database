@@ -654,8 +654,8 @@ def get_hero_skills(hero_id):
     release_connection(conn)
     return skills
 
-def update_hero_skill(skill_id, skill_name=None, skill_description=None, display_order=None, replaces_skill_id=None, is_transformed=None):
-    """Оновлює skill_name, skill_description, display_order, replaces_skill_id та/або is_transformed для конкретного скілу"""
+def update_hero_skill(skill_id, skill_name=None, skill_description=None, display_order=None, replaces_skill_id=None, is_transformed=None, transformation_order=None):
+    """Оновлює skill_name, skill_description, display_order, replaces_skill_id, is_transformed та/або transformation_order для конкретного скілу"""
     conn = get_connection()
     try:
         if DATABASE_TYPE == 'postgres':
@@ -687,6 +687,10 @@ def update_hero_skill(skill_id, skill_name=None, skill_description=None, display
         if is_transformed is not None:
             updates.append(f"is_transformed = {ph}")
             params.append(is_transformed)
+        
+        if transformation_order is not None:
+            updates.append(f"transformation_order = {ph}")
+            params.append(transformation_order)
         
         if not updates:
             return False
