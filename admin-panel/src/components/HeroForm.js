@@ -1495,7 +1495,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                         {(skill.image || skill.preview) && (
                           <img 
                             src={skill.image || skill.preview} 
-                            alt={skill.skill_name} 
+                            alt={skill.skill_name}
+                            referrerPolicy="no-referrer"
+                            crossOrigin="anonymous"
                             style={{ 
                               width: '50px', 
                               height: '50px', 
