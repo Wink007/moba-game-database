@@ -1692,7 +1692,8 @@ def update_all_heroes_skills():
                     # Delete all old skills
                     conn = db.get_db_connection()
                     cursor = conn.cursor()
-                    cursor.execute(f'DELETE FROM hero_skills WHERE hero_id = {db.placeholder()}', (hero_id,))
+                    ph = db.get_placeholder()
+                    cursor.execute(f'DELETE FROM hero_skills WHERE hero_id = {ph}', (hero_id,))
                     
                     # Insert new skills
                     for i, ext_skill in enumerate(unique_skills):
@@ -1702,7 +1703,7 @@ def update_all_heroes_skills():
                         
                         cursor.execute(f'''
                             INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
-                            VALUES ({db.placeholder()}, {db.placeholder()}, {db.placeholder()}, {db.placeholder()}, {db.placeholder()})
+                            VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
                         ''', (hero_id, skill_name, skill_desc, skill_icon, i))
                     
                     conn.commit()
