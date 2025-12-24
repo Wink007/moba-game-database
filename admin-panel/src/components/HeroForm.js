@@ -374,11 +374,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         if (param.name) acc[param.name] = param.value;
         return acc;
       }, {}),
-      level_scaling: levelScaling,
-      // Preserve original is_transformed
-      is_transformed: editingSkillIndex !== null 
-        ? (skills[editingSkillIndex]?.is_transformed ?? 0)
-        : 0
+      level_scaling: levelScaling
+      // is_transformed is already in newSkill, no need to override
     };
 
     if (editingSkillIndex !== null) {
