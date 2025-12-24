@@ -86,6 +86,7 @@ def fetch_patch_details(version):
             'url': url,
             'release_date': None,
             'highlights': [],
+            'new_hero': None,
             'hero_changes': {},
             'item_changes': {},
             'system_changes': []
@@ -115,6 +116,103 @@ def fetch_patch_details(version):
                 highlight_text = li.get_text(strip=True)
                 if highlight_text:
                     data['highlights'].append(highlight_text)
+        
+        # Парсимо секцію New Hero якщо є
+        new_hero_span = content.find('span', id=lambda x: x and 'New_Hero' in x)
+        if new_hero_span:
+            parent_h2 = new_hero_span.find_parent('h2')
+            if parent_h2:
+                hero_data = {
+                    'name': '',
+                    'title': '',
+                    'description': '',
+                    'skills': []
+                }
+                
+                # Дивимось div після h2
+                hero_main_div = parent_h2.find_next_sibling('div')
+                if hero_main_div:
+                    inner_divs = hero_main_div.find_all('div', recursive=False)
+                    
+                    for idx, div in enumerate(inner_divs):
+                        # Перший div - має ім'я героя (може бути в nested p)
+                        if idx == 0:
+                            # Шукаємо bold tag рекурсивно
+                            b_tag = div.find('b')
+                            if b_tag:
+                                full_name = b_tag.get_text(strip=True)
+                                # Розділяємо "Sora, Shifting Cloud" на ім'я і title
+                                if ',' in full_name:
+                                    parts = full_name.split(',', 1)
+                                    hero_data['name'] = parts[0].strip()
+                                    hero_data['title'] = parts[1].strip()
+                                else:
+                                    hero_data['name'] = full_name
+                        
+                        # Другий div - опис (Hero Feature)
+                        elif idx == 1:
+                            paragraphs = div.find_all('p', recursive=False)
+                            for p in paragraphs:
+                                text = p.get_text(strip=True)
+                                if 'Hero Feature:' in text:
+                                    hero_data['description'] = text.replace('Hero Feature:', '').strip()
+                        
+                        # Наступні divs - скіли
+                        elif idx >= 2:
+                            current_skill = None
+                            # Шукаємо всі параграфи рекурсивно, бо скіли можуть бути nested
+                            all_paragraphs = div.find_all('p')
+                            
+                            for p in all_paragraphs:
+                                # Перевіряємо чи це заголовок скіла (має <b> tag)
+                                b_tag = p.find('b')
+                                if b_tag:
+                                    # Зберігаємо попередній скіл
+                                    if current_skill and current_skill['description']:
+                                        hero_data['skills'].append(current_skill)
+                                    
+                                    # Новий скіл - структура: "<b>Passive - </b>Mystic Surge Mystic Surge"
+                                    # або "<b>Skill 1 - </b>Sundering Strike Sundering Strike"
+                                    skill_header = b_tag.get_text(strip=True).rstrip('-').strip()
+                                    
+                                    # Витягуємо решту тексту після bold (назва скіла)
+                                    full_text = p.get_text(strip=True)
+                                    skill_name = full_text.replace(b_tag.get_text(), '').strip()
+                                    
+                                    # Прибираємо дефіс на початку якщо є
+                                    skill_name = skill_name.lstrip('-').strip()
+                                    
+                                    # Назва скіла дублюється: "Mystic SurgeMystic Surge" або "SkyfallSkyfall"
+                                    # Якщо довжина парна, перевіряємо чи перша половина == друга половина
+                                    if len(skill_name) >= 4 and len(skill_name) % 2 == 0:
+                                        mid = len(skill_name) // 2
+                                        first_half = skill_name[:mid]
+                                        second_half = skill_name[mid:]
+                                        if first_half == second_half:
+                                            skill_name = first_half
+                                    
+                                    current_skill = {
+                                        'type': skill_header,
+                                        'name': skill_name,
+                                        'description': ''
+                                    }
+                                else:
+                                    # Це опис скіла
+                                    if current_skill:
+                                        text = p.get_text(strip=True)
+                                        if text:
+                                            if current_skill['description']:
+                                                current_skill['description'] += '\n\n' + text
+                                            else:
+                                                current_skill['description'] = text
+                            
+                            # Не забути останній скіл
+                            if current_skill and current_skill['description']:
+                                hero_data['skills'].append(current_skill)
+                
+                # Зберігаємо якщо є хоч якісь дані
+                if hero_data['name'] or hero_data['skills']:
+                    data['new_hero'] = hero_data
         
         # Простіший підхід - знаходимо всі h3 в content і парсимо наступний div
         all_h3 = content.find_all('h3')

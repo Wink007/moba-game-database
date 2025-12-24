@@ -8,6 +8,33 @@
       "Battlefield Adjustments",
       "System Adjustments"
     ],
+    "new_hero": {
+      "name": "Sora",
+      "title": "Shifting Cloud",
+      "description": "Adaptable cloud warrior with multiple combat styles.",
+      "skills": [
+        {
+          "type": "Passive",
+          "name": "Mystic Surge",
+          "description": "Sora can use his Ultimate to switch between Tank and Assassin styles. After ascending, dealing damage to heroes grants Cloudstep stacks that unlock different Ultimate effects.\n\nTank Style: Physical Attack converts to Max HP proportionally.\n\nAssassin Style: Converts a portion of Max HP into Physical Attack."
+        },
+        {
+          "type": "Skill 1",
+          "name": "Sundering Strike",
+          "description": "Sora strikes twice, dealing Physical Damage, then lunges forward and follows up with a straight punch.\n\nTank Style: Cannot move freely during the skill. Stuns the target when lunging forward.\n\nAssassin Style: Can move freely during the skill. Deals 2 additional strikes and extends the range of the lunge."
+        },
+        {
+          "type": "Skill 2",
+          "name": "Skyfall",
+          "description": "Sora leaps forward, stops when hitting an enemy hero or reaching max range to deal Physical Damage and slow the enemy.\n\nTank Style: The leap knocks enemies Airborne and knocks them back to the landing point. Landing at max range also knocks nearby enemies Airborne.\n\nAssassin Style: The leap passes through the enemy hero and deals large AOE Damage and slows the enemies when reaching max range, and can be cast again within a short duration on hit."
+        },
+        {
+          "type": "Ultimate",
+          "name": "Shifting Skies",
+          "description": "When fully stacked, swipe right to ascend into Tank Style. And after a brief delay, deals Physical Damage to all nearby enemies and pulls them in with a spinning vortex.\n\nWhen fully stacked, swipe left to ascend into Assassin style. Gains a brief bonus Movement Speed and becomes untargetable, then continuously deals Physical Damage to all nearby enemies.\n\nStormbind (Tank Style Ultimate): Sora leaps and strikes the target area 5 times, stunning enemies. He can move freely during this skill.\n\nHeaven's Wrath (Assassin Style Ultimate): Sora leaps and strikes the target area 15 times. He can move freely during this skill."
+        }
+      ]
+    },
     "hero_changes": {
       "Angela": {
         "summary": "Increased the duration of Angela's Ultimate when attached to allies and the cast frequency of Skill 1. Additionally, the cooldown now runs while attached. To balance, we've reduced the Movement Speed boost of the Passive and increased the cooldown of the Ultimate.",
@@ -367,6 +394,7 @@
       "Hero Adjustments",
       "Emblem Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Cecilion": {
         "summary": "Optimized Cecilion's early-game skill casting experience, allowing him to cast skills more frequently.",
@@ -527,6 +555,7 @@
       "Battlefield Adjustments",
       "System Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Freya, Valkyrie": {
         "summary": "Hero Feature: A female warrior who infuses weapons with the Power of Einherjar for sustained combat..",
@@ -918,6 +947,7 @@
     "highlights": [
       "Hero Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Thamuz": {
         "summary": "Thamuz currently takes too long to scale, making him unable to fulfill the Fighter/Tank role unti he has three or more equipment items. To address this, we've increased his early game survivability.",
@@ -960,6 +990,7 @@
       "Hero Adjustments",
       "Equipment Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Alice": {
         "summary": "Alice's mobility in the early-mid game was too weak, so we've strengthened her mobility when her passive is activated.",
@@ -989,6 +1020,33 @@
       "New Hero:Obsidia, Sovereign of Dark's End. An Abyss Marksman who enhances her weapon by collecting Bone Shards as she traverses the battlefield.",
       "Revamp Hero:"
     ],
+    "new_hero": {
+      "name": "Obsidia",
+      "title": "Sovereign of Dark's End",
+      "description": "An Abyss Marksman who enhances her weapon by collecting Bone Shards as she traverses the battlefield.",
+      "skills": [
+        {
+          "type": "Passive",
+          "name": "Return to Bone",
+          "description": "Obsidia accumulates Bone Shards by attacking enemy heroes or minions. Each Bone Shard assists her attacks to deal extra damage."
+        },
+        {
+          "type": "Skill 1",
+          "name": "Abyssal Bone Needle",
+          "description": "Obsidia fires an Abyssal Bone Needle, triggering Return to Bone on the first enemy hero hit."
+        },
+        {
+          "type": "Skill 2",
+          "name": "Phantom Shadowmeld",
+          "description": "Obsidia enters Shadowmeld Form, gaining 500% Movement Speed for a short time."
+        },
+        {
+          "type": "Ultimate",
+          "name": "Hunt of Bone",
+          "description": "Obsidia launches Bones of Wrath and pulls herself near the enemy hit. Afterward, she cannot move away from the enemy, and the enemy cannot use displacement skills. Enemy's movement will also drag Obsidia along. During her Ultimate, Obsidia ignores Obstacles and gains access to an enhanced Skill 2 with a longer duration and shorter cooldown."
+        }
+      ]
+    },
     "hero_changes": {},
     "item_changes": {},
     "system_changes": []
@@ -999,6 +1057,7 @@
     "highlights": [
       "Hero Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Grock": {
         "summary": "Slightly enhanced Grock's durability and Physical Defense scaling.",
@@ -1150,6 +1209,7 @@
       "Battlefield Adjustments",
       "Other System Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Grock, Fortress Titan": {
         "summary": "Hero Feature: The slumbering giant has awakened new powers! Grock's body size now scales with his Physical Defense. His original \"Power of Nature\" has been upgraded to a passive trigger - now Grock gains Control Immunity when casting the skill, instead of using Power of Nature near a wall.",
@@ -1223,6 +1283,7 @@
       "New Hero:Zetian.",
       "Hero Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {},
     "item_changes": {},
     "system_changes": []
@@ -1234,6 +1295,33 @@
       "New Hero:Kalea, Surging Wave. Descendant of the Great Serpent that swims gracefully through the Vonetis Sea with her serpent tail.",
       "Hero Adjustments"
     ],
+    "new_hero": {
+      "name": "Kalea",
+      "title": "Surging Wave",
+      "description": "Descendant of the Great Serpent that swims gracefully through the Vonetis Sea with her serpent tail.",
+      "skills": [
+        {
+          "type": "Passive",
+          "name": "Surge of Life",
+          "description": "After casting a skill, Kalea creates a Water Zonel on the ground. When Kalea casts a skill within Water Zone], she absorbs the [Water Zone] to enhance her next three Basic Attacks. The enhanced attacks will heal Kalea and the nearby ally with the lowest HP."
+        },
+        {
+          "type": "Skill 1",
+          "name": "Wavebreaker",
+          "description": "Kalea slams her fist into the ground, creating a wave that deals Physical Damage to nearby enemies and slows them."
+        },
+        {
+          "type": "Skill 2",
+          "name": "Tidal Strike",
+          "description": "Kalea charges forward and body slams the first enemy hero she encounters, knocking them airborne for a short duration while dealing Physical Damage. If she collides with an obstacle or touches the edge of a [Water Zone] during her charge, Kalea will leap into the air. Cast the skill again to slam down at a target location, dealing Physical Damage and knocking enemies airborne."
+        },
+        {
+          "type": "Ultimate",
+          "name": "Tsunami Slam",
+          "description": "Kalea grabs an enemy hero with her tail and slams them down in the Joystick's direction (drag the Joystick to change landing spot). She gains Control Immunity during this process. Upon landing, deals Physical Damage to nearby enemies."
+        }
+      ]
+    },
     "hero_changes": {
       "Hanzo": {
         "summary": "Reduced Hanzo's ability to chase enemies in the air as Hanekage. If his Skill 2 in Hanekage form misses enemy heroes, Hanzo's ability to pursue targets will be greatly weakened. As compensation, Hanzo's combat ability against the Turtle/Lord in his human form has been improved.",
@@ -1514,6 +1602,18 @@
       "Battlefield Adjustments",
       "System Adjustments"
     ],
+    "new_hero": {
+      "name": "Lukas",
+      "title": "Beast of Light",
+      "description": "A Fighter who can unleash his power to transform into a Sacred Beast and dominate the battlefield.This hero will be available on 12/21 (Server Time).",
+      "skills": [
+        {
+          "type": "Skill 1",
+          "name": "Flash Combo",
+          "description": "Lukas can enhance Flash Combo with his Basic Attacks. When casting the Skill, Lukas unleashes Pulverize and consumes all Vigor to deliver additional attacks, stunning and damaging enemies in range. He recovers HP when hitting an enemy hero."
+        }
+      ]
+    },
     "hero_changes": {
       "Lukas, Beast of Light": {
         "summary": "Hero Feature: A Fighter who can unleash his power to transform into a Sacred Beast and dominate the battlefield.This hero will be available on 12/21 (Server Time).",
@@ -1830,6 +1930,12 @@
       "System Adjustments",
       "Events"
     ],
+    "new_hero": {
+      "name": "Suyou",
+      "title": "Mask of the Immortal",
+      "description": "An exorcist from Zhu'an who has inherited the power of the Immortal Nuo. (Assassin/Fighter)This hero will be available on 09/21 (Server Time).",
+      "skills": []
+    },
     "hero_changes": {
       "Zhuxin": {
         "summary": "Zhuxin's wave clearing ability is weak, while her control potential in teamfights is too high. We aim to address this issue.",
@@ -2106,6 +2212,7 @@
       "System Adjustments",
       "Game Modes"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Cici": {
         "summary": "Slightly increased her power in the early game.",
@@ -2174,6 +2281,33 @@
       "System Adjustments",
       "Events"
     ],
+    "new_hero": {
+      "name": "Zhuxin",
+      "title": "Beacon of Spirits",
+      "description": "",
+      "skills": [
+        {
+          "type": "Passive",
+          "name": "Crimson Butterflies",
+          "description": "While channeling Lantern Flare, Zhuxin converts the Mana spent into Crimson Butterflies to follow her Spirit Lantern. After Zhuxin stops channeling Lantern Flare, the Crimson Butterflies will gradually disappear and restore her Mana."
+        },
+        {
+          "type": "Skill 1",
+          "name": "Fluttering Grace",
+          "description": "Zhuxin deals Magic Damage to all enemies in a fan-shaped area and applies 1 stack of Soul Snare.\n\nZhuxin also steals Movement Speed from all enemy heroes hit."
+        },
+        {
+          "type": "Skill 2",
+          "name": "Lantern Flare",
+          "description": "Hold:Zhuxin continuously consumes Mana while the Spirit Lantern can be moved with the skill button, dealing Magic Damage to all enemies within range and applying Soul Snare to enemy heroes hit.\n\nWhen an enemy hero has certain stacks of Soul Snare, the Crimson Butterflies will capture them, pulling them airborne.\n\nRelease:Throws all captured enemies to the target location, dealing Magic Damage to all enemies in the area."
+        },
+        {
+          "type": "Ultimate",
+          "name": "Crimson Beacon",
+          "description": "Zhuxin blinks to the target location while gaining a shield. While flying, she creates a field around her.\n\nThe field deals Magic Damage and applies Soul Snare stacks to enemies."
+        }
+      ]
+    },
     "hero_changes": {
       "Zhuxin, Beacon of Spirits": {
         "summary": "Hero Features: A Mage who guides the ember butterflies using her Lantern of Spirits, deals AOE Damage to enemies and pulls them airborne.\n\nThis hero will be available on 06/29 (Server Time).",
@@ -2358,6 +2492,7 @@
       "Events",
       "Bug Fixes"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Helcurt, Shadowbringer": {
         "summary": "Hero Feature: A hunter that strikes from the shadows.\n\nWe have kept Helcurt's stinger stacks and sight range reduction as they are his core skills and made optimizations for the revamp.\n\nWe also plan to completely redesign his passive to allow him to prepare quickly before being spotted, so he can deal deadly damage the moment he enters the enemy's line of sight.\n\nHelcurt's model and VFXs will also be updated, and we'll be making adjustments to his model and special effects.",
@@ -2627,6 +2762,38 @@
       "Events",
       "Game Modes"
     ],
+    "new_hero": {
+      "name": "Chip",
+      "title": "Phase Technician",
+      "description": "",
+      "skills": [
+        {
+          "type": "Passive",
+          "name": "Snack Time!",
+          "description": "Chip starts eating potato chips when out of combat, regenerating lost HP after finishing a whole bag."
+        },
+        {
+          "type": "Skill 1",
+          "name": "Crash Course",
+          "description": "Chip rams his hovercraft into the ground, dealing damage and applying marks on enemy heroes while gaining a shield.\n\nChip's next Basic Attack will become ranged, hitting all nearby enemies with marks and stunning them."
+        },
+        {
+          "type": "Skill 2",
+          "name": "Overtime",
+          "description": "Chip rushes forward, gaining increased Movement Speed and causing his next Basic Attack to charge at the target, dealing damage and knocking them back."
+        },
+        {
+          "type": "Ultimate",
+          "name": "Shortcut",
+          "description": "Chip drops the Main Portal on an enemy hero, and also creates Connecting Portals near allied heroes and behind the allied Base.\n\nConnecting Portal: Heroes can teleport from Connecting Portals to the Main Portal and gain Burst Movement Speed, or stand on the Main Portal for a period of time to return to the Connecting Portal they came from.\n\nMain Portal: Deals damage to nearby targets after a delay and slows them. Main Portal inherits a portion of Chip's Attributes."
+        },
+        {
+          "type": "Spesial Skill",
+          "name": "Why Walk?",
+          "description": "Chip has 4 Beacons on the map.\n\nChip can stand on a Beacon to enable this skill and then use it to teleport to any other Beacon."
+        }
+      ]
+    },
     "hero_changes": {
       "Chip, Phase Technician": {
         "summary": "SA Support/Tank hero who can use portals to roam the battlefield and support his allies. Available on 3/16 (Server Time).\nChip is a carefree, genetically enhanced fox from Laboratory 1718. He got his name from his love of snacking on chips while lying on his hovercraft. Chip is a Support/Tank hero. He can utilize his hovercraft to teleport around (and to slack off). His Special Skill allows him to quickly traverse the map, and his Ultimate allows him to gather all his teammates in one spot.",
@@ -2752,6 +2919,7 @@
       "Hero Adjustments",
       "System Adjustments"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Sun": {
         "summary": "A full upgrade to Monkey King's! With new special effects",
@@ -2952,6 +3120,33 @@
     "highlights": [
       "New Hero:Cici, Buoyant Performer. A cheerful performer who spreads fun and wonderment."
     ],
+    "new_hero": {
+      "name": "Cici",
+      "title": "the Buoyant Performer",
+      "description": "",
+      "skills": [
+        {
+          "type": "Passive",
+          "name": "Performer's Delight",
+          "description": "Cici generates Delight after dealing damage, gaining Movement Speed and Spell Vamp which will be doubled at full stacks."
+        },
+        {
+          "type": "Skill 1",
+          "name": "Yo-Yo Blitz",
+          "description": "Cici throws Yoyo at the nearest enemy within range and locks onto them. Cici can move and use other skills during this attack."
+        },
+        {
+          "type": "Skill 2",
+          "name": "Buoyant Bounce",
+          "description": "Cici leaps to a target location. If she lands on an enemy, she deals Physical Damage to them and leaps again in the Joystick direction."
+        },
+        {
+          "type": "Ultimate",
+          "name": "Curtain Call",
+          "description": "Cici throws Yoyo at a target enemy hero and links them with another nearby enemy hero, slowing them and forcing them to stay within a certain distance of one another.\n\nDuring this time, Cici can use Yo-Yo Blitz to attack both linked targets at the same time. If only one target is within the range of Yo-Yo Blitz, Cici will attack the target twice."
+        }
+      ]
+    },
     "hero_changes": {
       "Balmond": {
         "summary": "We are glad to see Balmond has more chances to shine in battles. However, in recent data, Balmond's damage in team fights has become too high due to the increased Movement Speed and the uninterrupted effect of skill 2 along with the War Axe, leaving other Jungle Heroes less used in the higher Ranks. So we decided to revert the damage increase for his skill 2.",
@@ -2969,6 +3164,7 @@
       "Draw Events: KOF and Dawning Stars collab skins return for a limited time.",
       "Season Settlement: S30 will end at 12/23 00:00 (Server Time) and the new season S31 will begin at 12/23 02:00 (Server Time)."
     ],
+    "new_hero": null,
     "hero_changes": {
       "War Axe": {
         "summary": "Revamped the effects of War Axe. \"Fighters need their own set!\"",
@@ -3011,6 +3207,7 @@
       "Battlefield Adjustments",
       "New Event: M5 Pass"
     ],
+    "new_hero": null,
     "hero_changes": {
       "Masha": {
         "summary": "As the only hero with 3 HP bars, Masha lacks the appropriate skills and strength when facing other heroes. We're making her more aggressive by differentiating her 3 HP bars and making each skill cast count, while allowing her to enter and exit the fight at will under certain conditions. In the meantime, players will have to be more careful with the timing of each skill cast (especially with only one HP bar left) as she has lost some of her durability advantages. We're also adding the Jungle as her secondary position and changing her default Battle Setup. (Masha needs equipment to provide extra Attack Speed and HP Regen rather than Defense.)",
