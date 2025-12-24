@@ -646,10 +646,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       pro_builds: proBuilds
     };
 
-    // Include skills only if they were manually modified in the Skills tab
-    if (skillsModified) {
-      heroData.skills = skills;
-    }
+    // NEVER include skills in PUT/POST - they are managed via separate endpoints
+    // This prevents accidental data loss
 
     try {
       if (hero) {
@@ -657,8 +655,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         alert('Hero updated successfully!');
         setSkillsModified(false); // Reset flag after successful save
       } else {
-        // For new heroes, include skills
-        heroData.skills = skills;
+        // For new heroes, also don't include skills
         await axios.post(`${API_URL}/heroes`, heroData);
         alert('Hero created successfully!');
       }

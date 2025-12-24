@@ -451,9 +451,12 @@ def update_hero(hero_id):
         # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query
         # No need for separate stats operations
         
-        # Update skills only if explicitly provided in request
-        # This prevents accidental deletion when editing hero info without touching skills
-        if 'skills' in data and data['skills'] is not None:
+        # IMPORTANT: Skills are NOT updated via PUT /heroes/{id}
+        # Use dedicated endpoints: POST/PUT/DELETE /heroes/{id}/skills/{skill_id}
+        # This prevents accidental skill deletion when editing hero basic info
+        
+        # Intentionally skip skills processing here
+        if False and 'skills' in data and data['skills'] is not None:
             # Delete old skills and add new ones
             db.delete_hero_skills(hero_id)
             for skill in data['skills']:
