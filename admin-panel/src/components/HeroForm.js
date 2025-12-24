@@ -61,7 +61,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     effect: [],
     preview: '',
     skill_type: 'active',
-    effect_types: []
+    effect_types: [],
+    is_transformed: 0
   });
   const [skillParameters, setSkillParameters] = useState([]);
   const [levelScaling, setLevelScaling] = useState([]);
@@ -398,7 +399,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       effect: [],
       preview: '',
       skill_type: 'active',
-      effect_types: []
+      effect_types: [],
+      is_transformed: 0
     });
     setSkillParameters([]);
     setLevelScaling([]);
@@ -419,7 +421,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       effect: Array.isArray(skill.effect) ? skill.effect : (skill.effect ? [skill.effect] : []),
       preview: skill.preview || '',
       skill_type: skill.skill_type || 'active',
-      effect_types: Array.isArray(skill.effect_types) ? skill.effect_types : []
+      effect_types: Array.isArray(skill.effect_types) ? skill.effect_types : [],
+      is_transformed: skill.is_transformed || 0
     });
 
     // Load parameters
@@ -1699,26 +1702,22 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
                     type="checkbox"
-                    checked={editingSkillIndex !== null ? (skills[editingSkillIndex]?.is_transformed === 1 || skills[editingSkillIndex]?.is_transformed === true) : false}
+                    checked={newSkill.is_transformed === 1 || newSkill.is_transformed === true}
                     onChange={(e) => {
-                      if (editingSkillIndex !== null) {
-                        const updatedSkills = [...skills];
-                        updatedSkills[editingSkillIndex] = {
-                          ...updatedSkills[editingSkillIndex],
-                          is_transformed: e.target.checked ? 1 : 0
-                        };
-                        setSkills(updatedSkills);
-                        setSkillsModified(true);
-                      }
+                      setNewSkill({
+                        ...newSkill,
+                        is_transformed: e.target.checked ? 1 : 0
+                      });
                     }}
-                    disabled={editingSkillIndex === null}
                     style={{ width: '18px', height: '18px' }}
                   />
                   <span style={{ fontSize: '0.95rem', fontWeight: '500' }}>
                     Is Transformed Skill 
-                    <span style={{ fontSize: '0.85rem', color: '#666', marginLeft: '4px' }}>
-                      (Only for editing existing skills)
-                    </span>
+                    {editingSkillIndex !== null && (
+                      <span style={{ fontSize: '0.85rem', color: '#8b5cf6', marginLeft: '4px' }}>
+                        (currently editing)
+                      </span>
+                    )}
                   </span>
                 </label>
               </div>
