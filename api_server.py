@@ -160,7 +160,6 @@ def create_hero_skill(hero_id):
     
     skill_name = data.get('skill_name')
     skill_description = data.get('skill_description', '')
-    skill_icon = data.get('skill_icon', '')
     display_order = data.get('display_order', 0)
     
     if not skill_name:
@@ -173,16 +172,16 @@ def create_hero_skill(hero_id):
         
         if db.DATABASE_TYPE == 'postgres':
             cursor.execute(f'''
-                INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
-                VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
+                INSERT INTO hero_skills (hero_id, skill_name, skill_description, display_order)
+                VALUES ({ph}, {ph}, {ph}, {ph})
                 RETURNING id
-            ''', (hero_id, skill_name, skill_description, skill_icon, display_order))
+            ''', (hero_id, skill_name, skill_description, display_order))
             skill_id = cursor.fetchone()[0]
         else:
             cursor.execute(f'''
-                INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
-                VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
-            ''', (hero_id, skill_name, skill_description, skill_icon, display_order))
+                INSERT INTO hero_skills (hero_id, skill_name, skill_description, display_order)
+                VALUES ({ph}, {ph}, {ph}, {ph})
+            ''', (hero_id, skill_name, skill_description, display_order))
             skill_id = cursor.lastrowid
         
         conn.commit()

@@ -548,7 +548,6 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
             await axios.post(`${API_URL}/heroes/${hero.id}/skills`, {
               skill_name: externalSkill.skillname,
               skill_description: externalSkill.skilldesc || '',
-              skill_icon: externalSkill.skillicon || '',
               display_order: i
             });
             console.log(`Inserted skill: ${externalSkill.skillname}`);
