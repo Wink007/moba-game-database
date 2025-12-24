@@ -520,6 +520,46 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
       console.log('After removing duplicates:', uniqueExternalSkills.length);
 
+      // Compare skill names
+      const extSkillNames = new Set(uniqueExternalSkills.map(s => s.skillname));
+      const dbSkillNames = new Set(skills.map(s => s.skill_name));
+      
+      // Check if skills are different
+      const skillsMatch = extSkillNames.size === dbSkillNames.size && 
+        [...extSkillNames].every(name => dbSkillNames.has(name));
+      
+      if (!skillsMatch) {
+        console.log('Skill sets are different - will delete old and insert new skills');
+        
+        // Delete all old skills
+        for (const skill of skills) {
+          try {
+            await axios.delete(`${API_URL}/heroes/${hero.id}/skills/${skill.id}`);
+            console.log(`Deleted skill: ${skill.skill_name}`);
+          } catch (err) {
+            console.error(`Failed to delete skill ${skill.skill_name}:`, err);
+          }
+        }
+        
+        // Insert new skills
+        for (let i = 0; i < uniqueExternalSkills.length; i++) {
+          const externalSkill = uniqueExternalSkills[i];
+          try {
+            await axios.post(`${API_URL}/heroes/${hero.id}/skills`, {
+              skill_name: externalSkill.skillname,
+              skill_description: externalSkill.skilldesc || '',
+              skill_icon: externalSkill.skillicon || '',
+              display_order: i
+            });
+            console.log(`Inserted skill: ${externalSkill.skillname}`);
+            updatedCount++;
+          } catch (err) {
+            console.error(`Failed to insert skill ${externalSkill.skillname}:`, err);
+          }
+        }
+      } else {
+        console.log('Skill sets match - will update descriptions only');
+
       // Update each skill that matches by name
       for (let i = 0; i < uniqueExternalSkills.length; i++) {
         const externalSkill = uniqueExternalSkills[i];
@@ -559,6 +599,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           console.log(`  ✗ No match found in database`);
         }
       }
+      } // close else block
 
       // Reload skills to show updates
       if (updatedCount > 0) {
