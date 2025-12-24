@@ -646,8 +646,10 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       pro_builds: proBuilds
     };
 
-    // NEVER include skills in PUT/POST - they are managed via separate endpoints
-    // This prevents accidental data loss
+    // Include skills ONLY if they were manually modified
+    if (skillsModified) {
+      heroData.skills = skills;
+    }
 
     try {
       if (hero) {
