@@ -1683,34 +1683,61 @@ def update_all_heroes_skills():
                 # Get database skills
                 db_skills = db.get_hero_skills(hero_id)
                 
-                # Update skills
-                skill_updated = False
-                for i, ext_skill in enumerate(unique_skills):
-                    skill_name = ext_skill['skillname']
-                    skill_desc = ext_skill['skilldesc']
-                    
-                    # Find matching skill in database
-                    matching_skill = next((s for s in db_skills if s['skill_name'] == skill_name), None)
-                    
-                    if matching_skill:
-                        # Prepare update
-                        update_desc = skill_desc if skill_desc and skill_desc.strip() else None
-                        
-                        # Update skill
-                        success = db.update_hero_skill(
-                            matching_skill['id'],
-                            skill_name=None,
-                            skill_description=update_desc,
-                            display_order=i
-                        )
-                        
-                        if success:
-                            skill_updated = True
+                # Compare external skills with database
+                ext_skill_names = set(skill['skillname'] for skill in unique_skills)
+                db_skill_names = set(skill['skill_name'] for skill in db_skills)
                 
-                if skill_updated:
+                # If skill sets are different, delete old skills and insert new ones
+                if ext_skill_names != db_skill_names:
+                    # Delete all old skills
+                    conn = db.get_db_connection()
+                    cursor = conn.cursor()
+                    cursor.execute(f'DELETE FROM hero_skills WHERE hero_id = {db.placeholder()}', (hero_id,))
+                    
+                    # Insert new skills
+                    for i, ext_skill in enumerate(unique_skills):
+                        skill_name = ext_skill['skillname']
+                        skill_desc = ext_skill.get('skilldesc', '')
+                        skill_icon = ext_skill.get('skillicon', '')
+                        
+                        cursor.execute(f'''
+                            INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
+                            VALUES ({db.placeholder()}, {db.placeholder()}, {db.placeholder()}, {db.placeholder()}, {db.placeholder()})
+                        ''', (hero_id, skill_name, skill_desc, skill_icon, i))
+                    
+                    conn.commit()
+                    cursor.close()
+                    conn.close()
                     results['updated'] += 1
                 else:
-                    results['skipped'] += 1
+                    # Skills match, just update descriptions
+                    skill_updated = False
+                    for i, ext_skill in enumerate(unique_skills):
+                        skill_name = ext_skill['skillname']
+                        skill_desc = ext_skill['skilldesc']
+                        
+                        # Find matching skill in database
+                        matching_skill = next((s for s in db_skills if s['skill_name'] == skill_name), None)
+                        
+                        if matching_skill:
+                            # Prepare update
+                            update_desc = skill_desc if skill_desc and skill_desc.strip() else None
+                            
+                            # Update skill
+                            success = db.update_hero_skill(
+                                matching_skill['id'],
+                                skill_name=None,
+                                skill_description=update_desc,
+                                display_order=i
+                            )
+                            
+                            if success:
+                                skill_updated = True
+                    
+                    if skill_updated:
+                        results['updated'] += 1
+                    else:
+                        results['skipped'] += 1
                     
             except Exception as e:
                 results['failed'] += 1
