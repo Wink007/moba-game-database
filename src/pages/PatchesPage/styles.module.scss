@@ -133,6 +133,17 @@
   }
 }
 
+.newHeroLink {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+
+  &:hover h3 {
+    color: #4ecdc4;
+    text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+  }
+}
+
 .newHeroBadge {
   padding: 6px 14px;
   background: linear-gradient(135deg, #9c27b0 0%, #e91e63 100%);
@@ -219,6 +230,17 @@
     margin: 0;
     font-size: 1.4rem;
     color: #fff;
+  }
+}
+
+.heroLink, .itemLink {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+
+  &:hover h3 {
+    color: #4ecdc4;
+    text-shadow: 0 0 8px rgba(78, 205, 196, 0.4);
   }
 }
 

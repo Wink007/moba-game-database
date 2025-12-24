@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Loader } from '../../components/Loader';
 import styles from './styles.module.scss';
 
@@ -54,15 +54,18 @@ export const PatchesPage: React.FC = () => {
   const [patches, setPatches] = useState<Patch[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPatch, setSelectedPatch] = useState<string | null>(null);
+  const [heroNameToId, setHeroNameToId] = useState<Record<string, number>>({});
+  const [itemNameToId, setItemNameToId] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    const fetchPatches = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`https://web-production-8570.up.railway.app/api/patches`);
-        const data = await response.json();
+        // Fetch patches
+        const patchesResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches`);
+        const patchesData = await patchesResponse.json();
         
         // Convert object to array and sort by version
-        const patchesArray = Object.entries(data).map(([version, patchData]: [string, any]) => ({
+        const patchesArray = Object.entries(patchesData).map(([version, patchData]: [string, any]) => ({
           version,
           ...patchData
         }));
@@ -71,14 +74,33 @@ export const PatchesPage: React.FC = () => {
         if (patchesArray.length > 0) {
           setSelectedPatch(patchesArray[0].version);
         }
+
+        // Fetch heroes to build name -> id mapping
+        const heroesResponse = await fetch(`https://web-production-8570.up.railway.app/api/heroes?game_id=2`);
+        const heroesData = await heroesResponse.json();
+        const heroMapping: Record<string, number> = {};
+        heroesData.forEach((hero: any) => {
+          heroMapping[hero.name] = hero.id;
+        });
+        setHeroNameToId(heroMapping);
+
+        // Fetch items to build name -> id mapping
+        const itemsResponse = await fetch(`https://web-production-8570.up.railway.app/api/items?game_id=2`);
+        const itemsData = await itemsResponse.json();
+        const itemMapping: Record<string, number> = {};
+        itemsData.forEach((item: any) => {
+          itemMapping[item.name] = item.id;
+        });
+        setItemNameToId(itemMapping);
+
       } catch (error) {
-        console.error('Error fetching patches:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPatches();
+    fetchData();
   }, [gameId]);
 
   const getBalanceBadgeClass = (balance: string) => {
@@ -139,7 +161,13 @@ export const PatchesPage: React.FC = () => {
                 <h2>New Hero</h2>
                 <div className={styles.newHeroCard}>
                   <div className={styles.newHeroHeader}>
-                    <h3>{currentPatch.new_hero.name}</h3>
+                    {heroNameToId[currentPatch.new_hero.name] ? (
+                      <Link to={`/${gameId}/heroes/${heroNameToId[currentPatch.new_hero.name]}`} className={styles.newHeroLink}>
+                        <h3>{currentPatch.new_hero.name}</h3>
+                      </Link>
+                    ) : (
+                      <h3>{currentPatch.new_hero.name}</h3>
+                    )}
                     <span className={styles.newHeroBadge}>NEW</span>
                   </div>
                   <p className={styles.newHeroTitle}>{currentPatch.new_hero.title}</p>
@@ -172,7 +200,13 @@ export const PatchesPage: React.FC = () => {
                 {Object.entries(currentPatch.hero_changes).map(([heroName, heroData]) => (
                   <div key={heroName} className={styles.heroCard}>
                     <div className={styles.heroHeader}>
-                      <h3>{heroName}</h3>
+                      {heroNameToId[heroName] ? (
+                        <Link to={`/${gameId}/heroes/${heroNameToId[heroName]}`} className={styles.heroLink}>
+                          <h3>{heroName}</h3>
+                        </Link>
+                      ) : (
+                        <h3>{heroName}</h3>
+                      )}
                       {heroData.summary && (
                         <span className={`${styles.badge} ${getBalanceBadgeClass(
                           heroData.skills.length > 0 ? heroData.skills[0].balance : ''
@@ -215,7 +249,13 @@ export const PatchesPage: React.FC = () => {
                 {Object.entries(currentPatch.item_changes).map(([itemName, itemData]) => (
                   <div key={itemName} className={styles.itemCard}>
                     <div className={styles.itemHeader}>
-                      <h3>{itemName}</h3>
+                      {itemNameToId[itemName] ? (
+                        <Link to={`/${gameId}/items/${itemNameToId[itemName]}`} className={styles.itemLink}>
+                          <h3>{itemName}</h3>
+                        </Link>
+                      ) : (
+                        <h3>{itemName}</h3>
+                      )}
                       {itemData.sections.length > 0 && itemData.sections[0].balance && (
                         <span className={`${styles.badge} ${getBalanceBadgeClass(itemData.sections[0].balance)}`}>
                           {itemData.sections[0].balance}
