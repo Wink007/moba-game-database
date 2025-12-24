@@ -150,6 +150,63 @@ def update_hero_skill(hero_id, skill_id):
     else:
         return jsonify({'error': 'Failed to update skill'}), 500
 
+@app.route('/api/heroes/<int:hero_id>/skills', methods=['POST'])
+def create_hero_skill(hero_id):
+    """Створює нову навичку героя"""
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    
+    skill_name = data.get('skill_name')
+    skill_description = data.get('skill_description', '')
+    skill_icon = data.get('skill_icon', '')
+    display_order = data.get('display_order', 0)
+    
+    if not skill_name:
+        return jsonify({'error': 'skill_name is required'}), 400
+    
+    try:
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        cursor.execute(f'''
+            INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
+        ''', (hero_id, skill_name, skill_description, skill_icon, display_order))
+        
+        conn.commit()
+        skill_id = cursor.lastrowid if db.DATABASE_TYPE == 'sqlite' else cursor.fetchone()[0]
+        cursor.close()
+        conn.close()
+        
+        return jsonify({'success': True, 'message': 'Skill created successfully', 'id': skill_id}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/heroes/<int:hero_id>/skills/<int:skill_id>', methods=['DELETE'])
+def delete_hero_skill(hero_id, skill_id):
+    """Видаляє навичку героя"""
+    try:
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        cursor.execute(f'DELETE FROM hero_skills WHERE id = {ph} AND hero_id = {ph}', (skill_id, hero_id))
+        
+        conn.commit()
+        deleted = cursor.rowcount > 0
+        cursor.close()
+        conn.close()
+        
+        if deleted:
+            return jsonify({'success': True, 'message': 'Skill deleted successfully'})
+        else:
+            return jsonify({'error': 'Skill not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/heroes/skills', methods=['GET'])
 def get_all_heroes_skills():
     """Навички для всіх героїв гри"""
