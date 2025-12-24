@@ -451,9 +451,11 @@ def update_hero(hero_id):
         # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query
         # No need for separate stats operations
         
-        # Update skills - delete old and add new
-        db.delete_hero_skills(hero_id)
-        if 'skills' in data:
+        # Update skills only if explicitly provided in request
+        # This prevents accidental deletion when editing hero info without touching skills
+        if 'skills' in data and data['skills'] is not None:
+            # Delete old skills and add new ones
+            db.delete_hero_skills(hero_id)
             for skill in data['skills']:
                 # Ensure all string fields are strings
                 skill_name = str(skill.get('skill_name', ''))

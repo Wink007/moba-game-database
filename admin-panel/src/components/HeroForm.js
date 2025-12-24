@@ -639,8 +639,11 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       ...formData,
       game_id: gameId,
       hero_stats: Object.keys(statsObject).length > 0 ? statsObject : null,
-      skills: skills,
       pro_builds: proBuilds
+      // Note: skills are NOT included here to avoid accidental deletion
+      // Skills should only be updated through:
+      // 1. "Update Skills from API" button (uses separate API endpoints)
+      // 2. Manual skill editing in Skills tab (uses separate API endpoints)
     };
 
     try {
@@ -648,6 +651,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         await axios.put(`${API_URL}/heroes/${hero.id}`, heroData);
         alert('Hero updated successfully!');
       } else {
+        // For new heroes, include skills
+        heroData.skills = skills;
         await axios.post(`${API_URL}/heroes`, heroData);
         alert('Hero created successfully!');
       }
