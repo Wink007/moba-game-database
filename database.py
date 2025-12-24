@@ -400,8 +400,13 @@ def get_hero(hero_id):
         else:
             hero['lane'] = []
         
-        # Видаляємо relation - він завантажується окремо через /api/heroes/relations
-        hero.pop('relation', None)
+        # Parse relation JSONB field
+        if hero.get('relation'):
+            if isinstance(hero['relation'], str):
+                try:
+                    hero['relation'] = json.loads(hero['relation'])
+                except:
+                    hero['relation'] = None
         
         # Конвертуємо use_energy з INTEGER в boolean
         hero['use_energy'] = bool(hero.get('use_energy', 0))
