@@ -1691,7 +1691,37 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               >
                 <option value="active">Active</option>
                 <option value="passive">Passive</option>
+                <option value="ultimate">Ultimate</option>
               </select>
+
+              {/* Is Transformed Checkbox */}
+              <div style={{ marginTop: '15px', marginBottom: '15px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={editingSkillIndex !== null ? (skills[editingSkillIndex]?.is_transformed === 1 || skills[editingSkillIndex]?.is_transformed === true) : false}
+                    onChange={(e) => {
+                      if (editingSkillIndex !== null) {
+                        const updatedSkills = [...skills];
+                        updatedSkills[editingSkillIndex] = {
+                          ...updatedSkills[editingSkillIndex],
+                          is_transformed: e.target.checked ? 1 : 0
+                        };
+                        setSkills(updatedSkills);
+                        setSkillsModified(true);
+                      }
+                    }}
+                    disabled={editingSkillIndex === null}
+                    style={{ width: '18px', height: '18px' }}
+                  />
+                  <span style={{ fontSize: '0.95rem', fontWeight: '500' }}>
+                    Is Transformed Skill 
+                    <span style={{ fontSize: '0.85rem', color: '#666', marginLeft: '4px' }}>
+                      (Only for editing existing skills)
+                    </span>
+                  </span>
+                </label>
+              </div>
 
               {/* Skill Parameters */}
               <div className="skill-parameters">
