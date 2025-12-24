@@ -54,6 +54,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
   const [skills, setSkills] = useState([]);
   const [updatingSkills, setUpdatingSkills] = useState(false);
+  const [skillsModified, setSkillsModified] = useState(false);
   const [newSkill, setNewSkill] = useState({
     skill_name: '',
     skill_description: '',
@@ -388,6 +389,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       setSkills([...skills, skillData]);
     }
 
+    setSkillsModified(true);
+
     // Reset form
     setNewSkill({
       skill_name: '',
@@ -471,6 +474,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
 
   const removeSkill = (index) => {
     setSkills(skills.filter((_, i) => i !== index));
+    setSkillsModified(true);
   };
 
   const updateSkillsFromAPI = async () => {
@@ -640,16 +644,18 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       game_id: gameId,
       hero_stats: Object.keys(statsObject).length > 0 ? statsObject : null,
       pro_builds: proBuilds
-      // Note: skills are NOT included here to avoid accidental deletion
-      // Skills should only be updated through:
-      // 1. "Update Skills from API" button (uses separate API endpoints)
-      // 2. Manual skill editing in Skills tab (uses separate API endpoints)
     };
+
+    // Include skills only if they were manually modified in the Skills tab
+    if (skillsModified) {
+      heroData.skills = skills;
+    }
 
     try {
       if (hero) {
         await axios.put(`${API_URL}/heroes/${hero.id}`, heroData);
         alert('Hero updated successfully!');
+        setSkillsModified(false); // Reset flag after successful save
       } else {
         // For new heroes, include skills
         heroData.skills = skills;
