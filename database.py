@@ -498,7 +498,7 @@ def add_hero(game_id, name, hero_game_id, image, short_description, full_descrip
     release_connection(conn)
     return hero_id
 
-def update_hero(hero_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, pro_builds=None, created_at=None, createdAt=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None):
+def update_hero(hero_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, pro_builds=None, created_at=None, createdAt=None, head=None, painting=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -520,9 +520,9 @@ def update_hero(hero_id, name, hero_game_id, image, short_description, full_desc
     cursor.execute(f"""
         UPDATE heroes 
         SET name = {ph}, hero_game_id = {ph}, image = {ph}, 
-            short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}, hero_stats = {ph}
+            short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, painting = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}, hero_stats = {ph}
         WHERE id = {ph}
-    """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json, hero_id))
+    """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, createdAt, head, painting, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json, hero_id))
     conn.commit()
     release_connection(conn)
 

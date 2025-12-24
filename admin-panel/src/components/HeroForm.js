@@ -10,6 +10,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     name: '',
     hero_game_id: '',
     image: '',
+    painting: '',
     lane: [],
     roles: [],
     specialty: [],
@@ -100,6 +101,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         name: hero.name || '',
         hero_game_id: hero.hero_game_id || '',
         image: hero.image || '',
+        painting: hero.painting || '',
         lane: Array.isArray(hero.lane) ? hero.lane : (hero.lane ? [hero.lane] : []),
         roles: Array.isArray(hero.roles) ? hero.roles : [],
         specialty: Array.isArray(hero.specialty) ? hero.specialty : [],
@@ -784,40 +786,46 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               </div>
             )}
 
-            <label>Creation Date</label>
-            {formData.createdAt ? (
-              <div style={{ 
-                padding: '8px 12px',
-                background: '#f0f9ff',
-                border: '1px solid #bfdbfe',
-                borderRadius: '6px',
-                fontSize: '0.9rem', 
-                color: '#1e40af', 
-                marginBottom: '10px', 
-                fontWeight: '500'
-              }}>
-                📅 {new Date(formData.createdAt).toLocaleString('uk-UA', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric', 
-                  hour: '2-digit', 
-                  minute: '2-digit',
-                  second: '2-digit'
-                })}
-              </div>
-            ) : (
-              <div style={{ 
-                padding: '8px 12px',
-                background: '#f9fafb',
-                border: '1px solid #e5e7eb',
-                borderRadius: '6px',
-                fontSize: '0.85rem', 
-                color: '#6b7280',
-                marginBottom: '10px'
-              }}>
-                Date not set
+            <label>Painting Image URL (Large Portrait)</label>
+            <input
+              type="text"
+              name="painting"
+              placeholder="https://example.com/hero-painting.jpg"
+              value={formData.painting}
+              onChange={handleInputChange}
+              style={{ marginBottom: '10px' }}
+            />
+            {formData.painting && (
+              <div style={{ marginTop: '10px', marginBottom: '20px' }}>
+                <img 
+                  src={formData.painting} 
+                  alt="Painting preview" 
+                  style={{ 
+                    maxWidth: '200px', 
+                    maxHeight: '300px', 
+                    borderRadius: '8px',
+                    border: '2px solid #ddd',
+                    objectFit: 'cover'
+                  }} 
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
               </div>
             )}
+
+            <label>Creation Date</label>
+            <input
+              type="datetime-local"
+              name="createdAt"
+              value={formData.createdAt ? new Date(formData.createdAt).toISOString().slice(0, 16) : ''}
+              onChange={(e) => {
+                const dateValue = e.target.value ? new Date(e.target.value).toISOString() : null;
+                setFormData({ ...formData, createdAt: dateValue });
+              }}
+              style={{ marginBottom: '10px' }}
+            />
+
 
             <div style={{
               marginTop: '20px', 

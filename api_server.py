@@ -441,6 +441,7 @@ def update_hero(hero_id):
             None,  # created_at (автоматичне поле, не змінюємо)
             data.get('createdAt', None),  # createdAt (timestamp в мілісекундах)
             data.get('head', None),
+            data.get('painting', None),
             data.get('main_hero_ban_rate', None),
             data.get('main_hero_appearance_rate', None),
             data.get('main_hero_win_rate', None),
