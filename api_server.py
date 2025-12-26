@@ -2033,12 +2033,12 @@ def background_counter_data_update(game_id):
             hero_id = hero_dict['id']
             hero_name = hero_dict['name']
             
-            print(f"Processing {hero_name}...")
+            print(f"Processing [{hero_id}] {hero_name}...")
             
-            counter_data = fhcc.fetch_hero_counter(hero_name)
+            counter_data = fhcc.fetch_hero_counter(hero_id, hero_name)
             time.sleep(0.3)
             
-            compat_data = fhcc.fetch_hero_compatibility(hero_name)
+            compat_data = fhcc.fetch_hero_compatibility(hero_id, hero_name)
             time.sleep(0.3)
             
             if counter_data or compat_data:
