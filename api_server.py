@@ -1990,6 +1990,44 @@ def update_heroes_counter_data_api():
     try:
         data = request.json or {}
         game_id = data.get('game_id', 2)
+        hero_id = data.get('hero_id')  # Опціонально: оновити тільки одного героя
+        
+        if hero_id:
+            # Синхронне оновлення для одного героя
+            import fetch_hero_counter_compatibility as fhcc
+            
+            conn = db.get_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT id, name, hero_game_id FROM heroes WHERE id = %s", (hero_id,))
+            hero = cursor.fetchone()
+            db.release_connection(conn)
+            
+            if not hero:
+                return jsonify({'error': 'Hero not found'}), 404
+            
+            hero_dict = db.dict_from_row(hero)
+            hero_local_id = hero_dict['id']
+            hero_name = hero_dict['name']
+            hero_game_id = hero_dict.get('hero_game_id')
+            
+            if not hero_game_id:
+                return jsonify({'error': 'Hero has no hero_game_id'}), 400
+            
+            print(f"Updating [{hero_local_id}] {hero_name} (game_id={hero_game_id})...")
+            
+            counter_data = fhcc.fetch_hero_counter(hero_game_id)
+            compat_data = fhcc.fetch_hero_compatibility(hero_game_id)
+            
+            if counter_data or compat_data:
+                fhcc.update_hero_counter_compat(hero_local_id, counter_data, compat_data)
+                return jsonify({
+                    'success': True,
+                    'message': f'Updated {hero_name}',
+                    'hero_id': hero_local_id,
+                    'counter_data': counter_data[:100] if counter_data else None
+                })
+            else:
+                return jsonify({'error': 'Failed to fetch data'}), 500
         
         # Запускаємо оновлення в окремому потоці
         import threading
