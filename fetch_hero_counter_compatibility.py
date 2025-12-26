@@ -35,6 +35,7 @@ def fetch_hero_counter(hero_game_id):
         
         # Витягуємо потрібні дані
         counter_data = {
+            'main_hero_win_rate': round(record.get('main_hero_win_rate', 0) * 100, 2),
             'best_counters': [],  # sub_hero
             'most_countered_by': []  # sub_hero_last
         }
@@ -89,6 +90,7 @@ def fetch_hero_compatibility(hero_game_id):
         
         # Витягуємо потрібні дані
         compat_data = {
+            'main_hero_win_rate': round(record.get('main_hero_win_rate', 0) * 100, 2),
             'compatible': [],  # sub_hero
             'not_compatible': []  # sub_hero_last
         }
