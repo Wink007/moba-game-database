@@ -1759,10 +1759,24 @@ def update_all_heroes_skills():
                 
                 # If skill sets are different, delete old skills and insert new ones
                 if ext_skill_names != db_skill_names:
-                    # Delete all old skills
                     conn = db.get_db_connection()
                     cursor = conn.cursor()
                     ph = db.get_placeholder()
+                    
+                    # Save transformation data before deleting (with skill names, not IDs)
+                    cursor.execute(f'''
+                        SELECT s1.skill_name, s1.is_transformed, s2.skill_name, s1.transformation_order
+                        FROM hero_skills s1
+                        LEFT JOIN hero_skills s2 ON s1.replaces_skill_id = s2.id
+                        WHERE s1.hero_id = {ph} AND (s1.is_transformed IS NOT NULL OR s1.replaces_skill_id IS NOT NULL OR s1.transformation_order IS NOT NULL)
+                    ''', (hero_id,))
+                    transformation_data = {row[0]: {
+                        'is_transformed': row[1], 
+                        'replaces_skill_name': row[2],  # Зберігаємо назву, не ID
+                        'transformation_order': row[3]
+                    } for row in cursor.fetchall()}
+                    
+                    # Delete all old skills
                     cursor.execute(f'DELETE FROM hero_skills WHERE hero_id = {ph}', (hero_id,))
                     
                     # Insert new skills
@@ -1775,6 +1789,26 @@ def update_all_heroes_skills():
                             INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
                             VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
                         ''', (hero_id, skill_name, skill_desc, skill_icon, i))
+                    
+                    # Restore transformation data for matching skill names
+                    if transformation_data:
+                        # Отримуємо нові ID скілів
+                        cursor.execute(f'SELECT id, skill_name FROM hero_skills WHERE hero_id = {ph}', (hero_id,))
+                        new_skill_ids = {row[1]: row[0] for row in cursor.fetchall()}
+                        
+                        for skill_name, trans_data in transformation_data.items():
+                            # Якщо скіл ще існує
+                            if skill_name in new_skill_ids:
+                                # Знаходимо новий ID скіла, який замінюється
+                                replaces_skill_name = trans_data['replaces_skill_name']
+                                new_replaces_id = new_skill_ids.get(replaces_skill_name) if replaces_skill_name else None
+                                
+                                cursor.execute(f'''
+                                    UPDATE hero_skills 
+                                    SET is_transformed = {ph}, replaces_skill_id = {ph}, transformation_order = {ph}
+                                    WHERE hero_id = {ph} AND skill_name = {ph}
+                                ''', (trans_data['is_transformed'], new_replaces_id, 
+                                      trans_data['transformation_order'], hero_id, skill_name))
                     
                     conn.commit()
                     cursor.close()
@@ -1881,7 +1915,7 @@ def get_hero_rank_api(hero_id):
 
 @app.route('/api/hero-ranks/update', methods=['POST'])
 def update_hero_ranks_api():
-    """Оновити статистику героїв з mlbb-stats API
+    """Оновити статистику героїв з mlbb-stats API (асинхронно)
     
     Body Parameters:
         game_id: ID гри (optional, default: 2)
@@ -1896,8 +1930,36 @@ def update_hero_ranks_api():
         rank_param = data.get('rank', 'all')
         sort_field = data.get('sort_field', 'win_rate')
         
-        # Import the update functions
+        # Запускаємо оновлення в окремому потоці
+        import threading
+        thread = threading.Thread(
+            target=background_hero_ranks_update,
+            args=(game_id, days, rank_param, sort_field)
+        )
+        thread.daemon = True
+        thread.start()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Hero ranks update started in background',
+            'parameters': {
+                'game_id': game_id,
+                'days': days,
+                'rank': rank_param,
+                'sort_field': sort_field
+            }
+        }), 202  # 202 Accepted
+        
+    except Exception as e:
+        print(f"Error starting hero ranks update: {e}")
+        return jsonify({'error': str(e)}), 500
+
+def background_hero_ranks_update(game_id, days, rank_param, sort_field):
+    """Фонова функція для оновлення hero ranks без timeout"""
+    try:
         import import_hero_ranks as ihr
+        
+        print(f"Starting background update: days={days}, rank={rank_param}")
         
         # Fetch data from mlbb-stats API
         records = ihr.fetch_hero_ranks(
@@ -1908,22 +1970,20 @@ def update_hero_ranks_api():
         )
         
         if not records:
-            return jsonify({'error': 'Failed to fetch data from mlbb-stats API'}), 500
+            print("Failed to fetch data from mlbb-stats API")
+            return
         
-        # Update database with correct days and rank parameters
+        # Update database
         result = ihr.update_hero_ranks(records, days=days, rank=rank_param)
         
-        return jsonify({
-            'success': True,
-            'inserted': result.get('inserted', 0),
-            'updated': result.get('updated', 0),
-            'skipped': result.get('skipped', 0),
-            'message': f'Successfully updated {result.get("inserted", 0)} hero ranks'
-        })
+        print(f"Background update completed: inserted={result.get('inserted', 0)}, "
+              f"updated={result.get('updated', 0)}, skipped={result.get('skipped', 0)}")
         
     except Exception as e:
-        print(f"Error updating hero ranks: {e}")
-        return jsonify({'error': str(e)}), 500
+        print(f"Error in background update: {e}")
+        import traceback
+        traceback.print_exc()
+
 
 @app.route('/api/hero-ranks/migrate-constraint', methods=['POST'])
 def migrate_hero_ranks_constraint():
