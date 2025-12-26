@@ -140,7 +140,11 @@ def update_hero_counter_compat(hero_id, counter_data, compat_data):
 
 def main():
     conn = db.get_connection()
-    cursor = conn.cursor()
+    if db.DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
     
     # Отримуємо всіх героїв з game_id = 2 (Mobile Legends)
     cursor.execute("SELECT id, name FROM heroes WHERE game_id = 2 ORDER BY name")
