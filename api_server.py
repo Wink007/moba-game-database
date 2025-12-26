@@ -1984,6 +1984,78 @@ def background_hero_ranks_update(game_id, days, rank_param, sort_field):
         import traceback
         traceback.print_exc()
 
+@app.route('/api/heroes/update-counter-data', methods=['POST'])
+def update_heroes_counter_data_api():
+    """Оновити counter та compatibility data для всіх героїв (асинхронно)"""
+    try:
+        data = request.json or {}
+        game_id = data.get('game_id', 2)
+        
+        # Запускаємо оновлення в окремому потоці
+        import threading
+        thread = threading.Thread(
+            target=background_counter_data_update,
+            args=(game_id,)
+        )
+        thread.daemon = True
+        thread.start()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Counter and compatibility data update started in background',
+            'game_id': game_id
+        }), 202  # 202 Accepted
+        
+    except Exception as e:
+        print(f"Error starting counter data update: {e}")
+        return jsonify({'error': str(e)}), 500
+
+def background_counter_data_update(game_id):
+    """Фонова функція для оновлення counter/compatibility data"""
+    try:
+        import fetch_hero_counter_compatibility as fhcc
+        import time
+        
+        print(f"Starting background counter data update for game_id={game_id}")
+        
+        # Отримуємо всіх героїв гри
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, name FROM heroes WHERE game_id = %s ORDER BY id", (game_id,))
+        heroes = cursor.fetchall()
+        db.release_connection(conn)
+        
+        updated = 0
+        skipped = 0
+        
+        for hero in heroes:
+            hero_dict = db.dict_from_row(hero)
+            hero_id = hero_dict['id']
+            hero_name = hero_dict['name']
+            
+            print(f"Processing {hero_name}...")
+            
+            counter_data = fhcc.fetch_hero_counter(hero_name)
+            time.sleep(0.3)
+            
+            compat_data = fhcc.fetch_hero_compatibility(hero_name)
+            time.sleep(0.3)
+            
+            if counter_data or compat_data:
+                fhcc.update_hero_counter_compat(hero_id, counter_data, compat_data)
+                updated += 1
+                print(f"  ✓ Updated: {hero_name}")
+            else:
+                skipped += 1
+                print(f"  ⊘ Skipped: {hero_name}")
+        
+        print(f"Background counter data update completed: updated={updated}, skipped={skipped}")
+        
+    except Exception as e:
+        print(f"Error in background counter data update: {e}")
+        import traceback
+        traceback.print_exc()
+
 
 @app.route('/api/hero-ranks/migrate-constraint', methods=['POST'])
 def migrate_hero_ranks_constraint():

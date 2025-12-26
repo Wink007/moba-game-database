@@ -1,0 +1,50 @@
+name: Update Counter Data Daily
+
+on:
+  schedule:
+    # Runs every day at 4:00 AM UTC (7:00 AM Kyiv time) - після hero ranks
+    - cron: '0 4 * * *'
+  
+  # Allows manual trigger
+  workflow_dispatch:
+
+jobs:
+  update-counter-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🎯 Update Counter & Compatibility Data
+        id: update
+        run: |
+          echo "🔄 Updating counter and compatibility data..."
+          
+          RESPONSE=$(curl -X POST https://web-production-8570.up.railway.app/api/heroes/update-counter-data \
+            -H "Content-Type: application/json" \
+            -d '{"game_id": 2}' \
+            -s -w "\n%{http_code}")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          
+          echo "response=$BODY" >> $GITHUB_OUTPUT
+          echo "http_code=$HTTP_CODE" >> $GITHUB_OUTPUT
+          
+          if [ "$HTTP_CODE" != "202" ]; then
+            echo "❌ Update failed with status $HTTP_CODE"
+            echo "$BODY"
+            exit 1
+          fi
+          
+          echo "$BODY" | jq '.'
+          echo ""
+          echo "✅ Update started in background!"
+          echo "   Data will be updated in a few minutes."
+
+      - name: ⏰ Update Timestamp
+        if: success()
+        run: |
+          echo "Counter data update started: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" > .github/last-counter-update.txt
+          cat .github/last-counter-update.txt

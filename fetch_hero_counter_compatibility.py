@@ -2,19 +2,13 @@
 """
 Скрипт для оновлення Counter Relationship та Compatibility для героїв з API mlbb-stats
 """
-import sqlite3
 import requests
 import time
 import json
+import database as db
 
-DB_FILE = 'test_games.db'
 API_COUNTER = 'https://mlbb-stats.ridwaanhall.com/api/hero-counter'
 API_COMPAT = 'https://mlbb-stats.ridwaanhall.com/api/hero-compatibility'
-
-def get_connection():
-    conn = sqlite3.connect(DB_FILE)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 def fetch_hero_counter(hero_name):
     """
@@ -130,27 +124,28 @@ def update_hero_counter_compat(hero_id, counter_data, compat_data):
     """
     Оновлює counter_data та compatibility_data для героя в БД
     """
-    conn = get_connection()
+    conn = db.get_connection()
     cursor = conn.cursor()
     
-    cursor.execute("""
+    ph = db.get_placeholder()
+    cursor.execute(f"""
         UPDATE heroes 
-        SET counter_data = ?, 
-            compatibility_data = ?
-        WHERE id = ?
+        SET counter_data = {ph}, 
+            compatibility_data = {ph}
+        WHERE id = {ph}
     """, (counter_data, compat_data, hero_id))
     
     conn.commit()
-    conn.close()
+    db.release_connection(conn)
 
 def main():
-    conn = get_connection()
+    conn = db.get_connection()
     cursor = conn.cursor()
     
-    # Отримуємо всіх героїв з game_id = 3 (Mobile Legends)
-    cursor.execute("SELECT id, name FROM heroes WHERE game_id = 3 ORDER BY name")
+    # Отримуємо всіх героїв з game_id = 2 (Mobile Legends)
+    cursor.execute("SELECT id, name FROM heroes WHERE game_id = 2 ORDER BY name")
     heroes = cursor.fetchall()
-    conn.close()
+    db.release_connection(conn)
     
     print(f"\n{'='*70}")
     print(f"Found {len(heroes)} heroes to update")
@@ -160,8 +155,9 @@ def main():
     skipped = 0
     
     for hero in heroes:
-        hero_id = hero['id']
-        hero_name = hero['name']
+        hero_dict = db.dict_from_row(hero)
+        hero_id = hero_dict['id']
+        hero_name = hero_dict['name']
         
         print(f"Processing {hero_name}...")
         
