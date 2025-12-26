@@ -306,22 +306,22 @@ def get_all_heroes_counter_data():
         cursor = conn.cursor()
     
     ph = db.get_placeholder()
-    cursor.execute(f"SELECT id, counter_data FROM heroes WHERE game_id = {ph} AND counter_data IS NOT NULL", (game_id,))
+    cursor.execute(f"SELECT id, hero_game_id, counter_data FROM heroes WHERE game_id = {ph} AND counter_data IS NOT NULL", (game_id,))
     heroes = cursor.fetchall()
     db.release_connection(conn)
     
-    # Групуємо по hero_id
+    # Групуємо по hero_game_id
     counter_data_by_hero = {}
     for hero in heroes:
         hero_dict = db.dict_from_row(hero)
-        hero_id = hero_dict['id']
+        hero_game_id = hero_dict.get('hero_game_id')
         counter_data = hero_dict.get('counter_data')
         
-        if counter_data and counter_data.strip():
+        if hero_game_id and counter_data and counter_data.strip():
             try:
-                counter_data_by_hero[hero_id] = json.loads(counter_data)
+                counter_data_by_hero[hero_game_id] = json.loads(counter_data)
             except:
-                counter_data_by_hero[hero_id] = None
+                counter_data_by_hero[hero_game_id] = None
     
     return jsonify(counter_data_by_hero)
 
@@ -341,22 +341,22 @@ def get_all_heroes_compatibility_data():
         cursor = conn.cursor()
     
     ph = db.get_placeholder()
-    cursor.execute(f"SELECT id, compatibility_data FROM heroes WHERE game_id = {ph} AND compatibility_data IS NOT NULL", (game_id,))
+    cursor.execute(f"SELECT id, hero_game_id, compatibility_data FROM heroes WHERE game_id = {ph} AND compatibility_data IS NOT NULL", (game_id,))
     heroes = cursor.fetchall()
     db.release_connection(conn)
     
-    # Групуємо по hero_id
+    # Групуємо по hero_game_id
     compatibility_data_by_hero = {}
     for hero in heroes:
         hero_dict = db.dict_from_row(hero)
-        hero_id = hero_dict['id']
+        hero_game_id = hero_dict.get('hero_game_id')
         compatibility_data = hero_dict.get('compatibility_data')
         
-        if compatibility_data and compatibility_data.strip():
+        if hero_game_id and compatibility_data and compatibility_data.strip():
             try:
-                compatibility_data_by_hero[hero_id] = json.loads(compatibility_data)
+                compatibility_data_by_hero[hero_game_id] = json.loads(compatibility_data)
             except:
-                compatibility_data_by_hero[hero_id] = None
+                compatibility_data_by_hero[hero_game_id] = None
     
     return jsonify(compatibility_data_by_hero)
 
