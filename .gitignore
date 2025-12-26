@@ -48,3 +48,4 @@ admin-panel/.env.local
 # Тимчасові файли
 *.tmp
 *.temp
+logs/

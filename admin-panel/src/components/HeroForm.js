@@ -73,6 +73,11 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [emblems, setEmblems] = useState([]);
   const [battleSpells, setBattleSpells] = useState([]);
   const [allHeroes, setAllHeroes] = useState([]);
+  
+  // Raw input strings for relation hero IDs
+  const [assistIdsInput, setAssistIdsInput] = useState('');
+  const [strongIdsInput, setStrongIdsInput] = useState('');
+  const [weakIdsInput, setWeakIdsInput] = useState('');
 
   // Function to get hero head by hero id
   const getHeroHeadById = (heroid) => {
@@ -168,6 +173,11 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       } else {
         setProBuilds([]);
       }
+      
+      // Initialize relation IDs input strings from loaded hero data
+      setAssistIdsInput((hero.relation?.assist?.target_hero_id || []).filter(id => id !== 0).join(', '));
+      setStrongIdsInput((hero.relation?.strong?.target_hero_id || []).filter(id => id !== 0).join(', '));
+      setWeakIdsInput((hero.relation?.weak?.target_hero_id || []).filter(id => id !== 0).join(', '));
     } else {
       // Reset form when no hero (creating new)
       setFormData({
@@ -201,6 +211,11 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       });
       setSkills([]);
       setProBuilds([]);
+      
+      // Initialize empty relation IDs input strings for new hero
+      setAssistIdsInput('');
+      setStrongIdsInput('');
+      setWeakIdsInput('');
     }
   }, [hero]);
 
@@ -650,6 +665,12 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     if (skillsModified) {
       heroData.skills = skills;
     }
+
+    // DEBUG: Log what we're sending
+    console.log('=== SAVING HERO ===');
+    console.log('formData.relation:', formData.relation);
+    console.log('heroData.relation:', heroData.relation);
+    console.log('Full heroData:', JSON.stringify(heroData, null, 2));
 
     try {
       if (hero) {
@@ -1806,9 +1827,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   setFormData({
                     ...formData,
                     relation: {
-                      ...formData.relation,
+                      ...(formData.relation || {}),
                       assist: {
-                        ...formData.relation.assist,
+                        ...(formData.relation?.assist || {}),
                         desc: e.target.value
                       }
                     }
@@ -1819,15 +1840,16 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               <label>Hero IDs (comma separated):</label>
               <input
                 type="text"
-                value={(formData.relation?.assist?.target_hero_id || []).filter(id => id !== 0).join(', ')}
-                onChange={(e) => {
-                  const ids = e.target.value.split(',').map(id => id.trim()).filter(id => id).map(id => parseInt(id)).filter(id => !isNaN(id) && id !== 0);
+                value={assistIdsInput}
+                onChange={(e) => setAssistIdsInput(e.target.value)}
+                onBlur={() => {
+                  const ids = assistIdsInput.split(',').map(id => id.trim()).filter(id => id).map(id => parseInt(id)).filter(id => !isNaN(id) && id !== 0);
                   setFormData({
                     ...formData,
                     relation: {
-                      ...formData.relation,
+                      ...(formData.relation || {}),
                       assist: {
-                        ...formData.relation.assist,
+                        ...(formData.relation?.assist || {}),
                         target_hero_id: ids
                       }
                     }
@@ -1869,9 +1891,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   setFormData({
                     ...formData,
                     relation: {
-                      ...formData.relation,
+                      ...(formData.relation || {}),
                       strong: {
-                        ...formData.relation.strong,
+                        ...(formData.relation?.strong || {}),
                         desc: e.target.value
                       }
                     }
@@ -1882,15 +1904,16 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               <label>Hero IDs (comma separated):</label>
               <input
                 type="text"
-                value={(formData.relation?.strong?.target_hero_id || []).filter(id => id !== 0).join(', ')}
-                onChange={(e) => {
-                  const ids = e.target.value.split(',').map(id => id.trim()).filter(id => id).map(id => parseInt(id)).filter(id => !isNaN(id) && id !== 0);
+                value={strongIdsInput}
+                onChange={(e) => setStrongIdsInput(e.target.value)}
+                onBlur={() => {
+                  const ids = strongIdsInput.split(',').map(id => id.trim()).filter(id => id).map(id => parseInt(id)).filter(id => !isNaN(id) && id !== 0);
                   setFormData({
                     ...formData,
                     relation: {
-                      ...formData.relation,
+                      ...(formData.relation || {}),
                       strong: {
-                        ...formData.relation.strong,
+                        ...(formData.relation?.strong || {}),
                         target_hero_id: ids
                       }
                     }
@@ -1930,9 +1953,9 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
                   setFormData({
                     ...formData,
                     relation: {
-                      ...formData.relation,
+                      ...(formData.relation || {}),
                       weak: {
-                        ...formData.relation.weak,
+                        ...(formData.relation?.weak || {}),
                         desc: e.target.value
                       }
                     }
@@ -1943,15 +1966,16 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               <label>Hero IDs (comma separated):</label>
               <input
                 type="text"
-                value={(formData.relation?.weak?.target_hero_id || []).filter(id => id !== 0).join(', ')}
-                onChange={(e) => {
-                  const ids = e.target.value.split(',').map(id => id.trim()).filter(id => id).map(id => parseInt(id)).filter(id => !isNaN(id) && id !== 0);
+                value={weakIdsInput}
+                onChange={(e) => setWeakIdsInput(e.target.value)}
+                onBlur={() => {
+                  const ids = weakIdsInput.split(',').map(id => id.trim()).filter(id => id).map(id => parseInt(id)).filter(id => !isNaN(id) && id !== 0);
                   setFormData({
                     ...formData,
                     relation: {
-                      ...formData.relation,
+                      ...(formData.relation || {}),
                       weak: {
-                        ...formData.relation.weak,
+                        ...(formData.relation?.weak || {}),
                         target_hero_id: ids
                       }
                     }

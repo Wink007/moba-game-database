@@ -32,9 +32,16 @@ function HeroRanksManager({ selectedGame }) {
         sort_field: sortField
       });
 
-      setStats(response.data);
-      setLastUpdate(new Date().toLocaleString());
-      setMessage(`✅ Успішно оновлено! Додано: ${response.data.inserted}, Оновлено: ${response.data.updated}, Пропущено: ${response.data.skipped}`);
+      // Асинхронне оновлення - показуємо що процес запущено
+      if (response.status === 202) {
+        setMessage(`✅ Оновлення запущено в фоні! Параметри: ${days} днів, ранг: ${rank}`);
+        setLastUpdate(new Date().toLocaleString());
+      } else {
+        // Старий синхронний формат
+        setStats(response.data);
+        setLastUpdate(new Date().toLocaleString());
+        setMessage(`✅ Успішно оновлено! Додано: ${response.data.inserted}, Оновлено: ${response.data.updated}, Пропущено: ${response.data.skipped}`);
+      }
     } catch (error) {
       console.error('Update error:', error);
       setMessage(`❌ Помилка: ${error.response?.data?.error || error.message}`);
@@ -77,15 +84,27 @@ function HeroRanksManager({ selectedGame }) {
           sort_field: 'win_rate'
         });
 
-        totalInserted += response.data.inserted || 0;
-        totalUpdated += response.data.updated || 0;
-        completed++;
+        // Асинхронне оновлення - не отримуємо результати одразу
+        if (response.status === 202) {
+          completed++;
+        } else {
+          // Старий синхронний формат
+          totalInserted += response.data.inserted || 0;
+          totalUpdated += response.data.updated || 0;
+          completed++;
+        }
 
         // Невелика затримка між запитами
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 500));
       }
 
-      setStats({ inserted: totalInserted, updated: totalUpdated, skipped: 0 });
+      if (completed > 0) {
+        setMessage(`✅ Запущено ${completed} оновлень в фоні! Результати будуть через кілька хвилин.`);
+      } else {
+        setStats({ inserted: totalInserted, updated: totalUpdated, skipped: 0 });
+      }
+      
+      setLastUpdate(new Date().toLocaleString());
       setLastUpdate(new Date().toLocaleString());
       setMessage(`✅ Імпорт завершено! Всього додано: ${totalInserted}, оновлено: ${totalUpdated} (${completed} комбінацій)`);
     } catch (error) {

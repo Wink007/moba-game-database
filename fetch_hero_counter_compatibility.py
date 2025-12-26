@@ -10,13 +10,12 @@ import database as db
 API_COUNTER = 'https://mlbb-stats.ridwaanhall.com/api/hero-counter'
 API_COMPAT = 'https://mlbb-stats.ridwaanhall.com/api/hero-compatibility'
 
-def fetch_hero_counter(hero_name):
+def fetch_hero_counter(hero_game_id):
     """
-    Отримує Counter Relationship з API через hero_name
+    Отримує Counter Relationship з API через hero_game_id
     Повертає: JSON з sub_hero (Best Counters) та sub_hero_last (Most Countered by)
     """
-    url_name = hero_name.lower().replace(' ', '-').replace("'", '').replace('.', '')
-    url = f"{API_COUNTER}/{url_name}/"
+    url = f"{API_COUNTER}/{hero_game_id}/"
     
     try:
         print(f"  Fetching counter data from {url}...")
@@ -65,13 +64,12 @@ def fetch_hero_counter(hero_name):
         print(f"    ❌ Error: {e}")
         return None
 
-def fetch_hero_compatibility(hero_name):
+def fetch_hero_compatibility(hero_game_id):
     """
-    Отримує Compatibility з API через hero_name
+    Отримує Compatibility з API через hero_game_id
     Повертає: JSON з sub_hero (Compatible) та sub_hero_last (Not Compatible)
     """
-    url_name = hero_name.lower().replace(' ', '-').replace("'", '').replace('.', '')
-    url = f"{API_COMPAT}/{url_name}/"
+    url = f"{API_COMPAT}/{hero_game_id}/"
     
     try:
         print(f"  Fetching compatibility data from {url}...")
@@ -147,7 +145,7 @@ def main():
         cursor = conn.cursor()
     
     # Отримуємо всіх героїв з game_id = 2 (Mobile Legends)
-    cursor.execute("SELECT id, name FROM heroes WHERE game_id = 2 ORDER BY name")
+    cursor.execute("SELECT id, name, hero_game_id FROM heroes WHERE game_id = 2 ORDER BY name")
     heroes = cursor.fetchall()
     db.release_connection(conn)
     
@@ -162,13 +160,19 @@ def main():
         hero_dict = db.dict_from_row(hero)
         hero_id = hero_dict['id']
         hero_name = hero_dict['name']
+        hero_game_id = hero_dict.get('hero_game_id')
         
-        print(f"Processing [{hero_id}] {hero_name}...")
+        if not hero_game_id:
+            print(f"Processing [{hero_id}] {hero_name}... ⊘ Skipped (no hero_game_id)\n")
+            skipped += 1
+            continue
         
-        counter_data = fetch_hero_counter(hero_name)
+        print(f"Processing [{hero_id}] {hero_name} (game_id={hero_game_id})...")
+        
+        counter_data = fetch_hero_counter(hero_game_id)
         time.sleep(0.3)  # Пауза між запитами
         
-        compat_data = fetch_hero_compatibility(hero_name)
+        compat_data = fetch_hero_compatibility(hero_game_id)
         time.sleep(0.3)  # Пауза між запитами
         
         if counter_data or compat_data:

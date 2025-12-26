@@ -2021,7 +2021,7 @@ def background_counter_data_update(game_id):
         # Отримуємо всіх героїв гри
         conn = db.get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, name FROM heroes WHERE game_id = %s ORDER BY id", (game_id,))
+        cursor.execute("SELECT id, name, hero_game_id FROM heroes WHERE game_id = %s ORDER BY id", (game_id,))
         heroes = cursor.fetchall()
         db.release_connection(conn)
         
@@ -2032,13 +2032,19 @@ def background_counter_data_update(game_id):
             hero_dict = db.dict_from_row(hero)
             hero_id = hero_dict['id']
             hero_name = hero_dict['name']
+            hero_game_id = hero_dict.get('hero_game_id')
             
-            print(f"Processing [{hero_id}] {hero_name}...")
+            if not hero_game_id:
+                print(f"Processing [{hero_id}] {hero_name}... ⊘ Skipped (no hero_game_id)")
+                skipped += 1
+                continue
             
-            counter_data = fhcc.fetch_hero_counter(hero_name)
+            print(f"Processing [{hero_id}] {hero_name} (game_id={hero_game_id})...")
+            
+            counter_data = fhcc.fetch_hero_counter(hero_game_id)
             time.sleep(0.3)
             
-            compat_data = fhcc.fetch_hero_compatibility(hero_name)
+            compat_data = fhcc.fetch_hero_compatibility(hero_game_id)
             time.sleep(0.3)
             
             if counter_data or compat_data:
