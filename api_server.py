@@ -1997,8 +1997,14 @@ def update_heroes_counter_data_api():
             import fetch_hero_counter_compatibility as fhcc
             
             conn = db.get_connection()
-            cursor = conn.cursor()
-            cursor.execute("SELECT id, name, hero_game_id FROM heroes WHERE id = %s", (hero_id,))
+            if db.DATABASE_TYPE == 'postgres':
+                from psycopg2.extras import RealDictCursor
+                cursor = conn.cursor(cursor_factory=RealDictCursor)
+            else:
+                cursor = conn.cursor()
+            
+            ph = db.get_placeholder()
+            cursor.execute(f"SELECT id, name, hero_game_id FROM heroes WHERE id = {ph}", (hero_id,))
             hero = cursor.fetchone()
             db.release_connection(conn)
             
@@ -2058,8 +2064,14 @@ def background_counter_data_update(game_id):
         
         # Отримуємо всіх героїв гри
         conn = db.get_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, name, hero_game_id FROM heroes WHERE game_id = %s ORDER BY id", (game_id,))
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        
+        ph = db.get_placeholder()
+        cursor.execute(f"SELECT id, name, hero_game_id FROM heroes WHERE game_id = {ph} ORDER BY id", (game_id,))
         heroes = cursor.fetchall()
         db.release_connection(conn)
         
