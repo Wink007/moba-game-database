@@ -2011,7 +2011,12 @@ def update_heroes_counter_data_api():
             if not hero:
                 return jsonify({'error': 'Hero not found'}), 404
             
-            hero_dict = db.dict_from_row(hero)
+            # RealDictCursor вже повертає dict
+            if db.DATABASE_TYPE == 'postgres':
+                hero_dict = hero
+            else:
+                hero_dict = db.dict_from_row(hero)
+            
             hero_local_id = hero_dict['id']
             hero_name = hero_dict['name']
             hero_game_id = hero_dict.get('hero_game_id')
@@ -2079,7 +2084,12 @@ def background_counter_data_update(game_id):
         skipped = 0
         
         for hero in heroes:
-            hero_dict = db.dict_from_row(hero)
+            # RealDictCursor вже повертає dict
+            if db.DATABASE_TYPE == 'postgres':
+                hero_dict = hero
+            else:
+                hero_dict = db.dict_from_row(hero)
+            
             hero_id = hero_dict['id']
             hero_name = hero_dict['name']
             hero_game_id = hero_dict.get('hero_game_id')
