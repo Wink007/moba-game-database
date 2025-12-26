@@ -5,6 +5,11 @@
   min-height: 100vh;
   max-width: 1536px;
   margin: 0 auto;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 }
 
 
@@ -96,6 +101,10 @@
 
     @media (max-width: 768px) {
       font-size: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.75rem;
     }
   }
 }
@@ -298,6 +307,15 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    border-radius: 12px;
+  }
 
   &::before {
     content: '';
@@ -645,6 +663,16 @@
   text-align: center;
   gap: 1rem;
 
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
   &::after {
     content: '';
     position: absolute;
@@ -672,12 +700,28 @@
   font-size: 2.5rem;
   filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.6));
   z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.75rem;
+  }
 }
 
 .infoIcon {
   font-size: 2.5rem;
   filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.6));
   z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.75rem;
+  }
 }
 
 .infoLabel {
@@ -964,6 +1008,17 @@
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+  }
 }
 
 .summaryTitle {
@@ -973,6 +1028,14 @@
   margin-bottom: 1.5rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.9375rem;
+  }
 }
 
 .summaryContent {
@@ -992,6 +1055,17 @@
   transition: all 0.2s ease;
   font-size: 0.95rem;
   color: #cbd5e1;
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8125rem;
+    padding: 0.75rem;
+  }
 
   &:hover {
     background: rgba(255, 215, 0, 0.05);
@@ -1099,6 +1173,14 @@
   border-radius: 12px;
   padding: 2rem;
   position: relative;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
 }
 
 .skillDetailHeader {
@@ -1139,6 +1221,14 @@
   margin: 0 0 0.75rem 0;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+  }
 }
 
 .skillDetailDescription {
