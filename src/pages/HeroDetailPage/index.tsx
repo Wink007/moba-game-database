@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import React from 'react';
-import { useHero, useHeroSkillsById } from '../../hooks/useHeroes';
+import { useHero, useHeroSkillsById, useHeroCounterData, useHeroCompatibilityData, useHeroes } from '../../hooks/useHeroes';
 import { Loader } from '../../components/Loader';
 import styles from './styles.module.scss';
 
@@ -9,8 +9,18 @@ function HeroDetailPage() {
   const { data: hero, isLoading: heroLoading, isError: heroError } = useHero(Number(heroId));
   console.log('hero: ', hero);
   const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsById(Number(heroId));
+  const { data: allHeroes = [] } = useHeroes(hero?.game_id);
+  // const { data: relations } = useHeroRelations(hero?.game_id);
+  const { data: counterData } = useHeroCounterData(hero?.game_id);
+  const { data: compatibilityData } = useHeroCompatibilityData(hero?.game_id);
+  
+  console.log('counterData:', counterData);
+  console.log('compatibilityData:', compatibilityData);
+  console.log('hero.id:', hero?.id);
   const [selectedSkillId, setSelectedSkillId] = React.useState<number | null>(null);
-  const [activeTab, setActiveTab] = React.useState<'info' | 'ratings' | 'counter' | 'relations'>('info');
+  const [activeTab, setActiveTab] = React.useState<'info' | 'about' | 'ratings' | 'counter' | 'synergy'>('info');
+  const [counterSubTab, setCounterSubTab] = React.useState<'best' | 'worst'>('best');
+  const [synergySubTab, setSynergySubTab] = React.useState<'compatible' | 'incompatible'>('compatible');
 
   // Helper function to get rating level
   const getRatingLevel = (rate: number): { level: string; color: string } => {
@@ -65,7 +75,7 @@ function HeroDetailPage() {
                 <div className={styles.vitalGrowth}>+{hero.hero_stats?.hp_regen || '0'}</div>
               </div>
             )}
-            {hero.hero_stats && (
+            {!!hero.hero_stats?.mana && (
               <div className={styles.vitalBar} data-type="mana">
                 <div className={styles.vitalValue}>
                   {hero.hero_stats?.mana} MP
@@ -171,6 +181,12 @@ function HeroDetailPage() {
               Base Information
             </button>
             <button 
+              className={`${styles.tabButton} ${activeTab === 'about' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('about')}
+            >
+              About
+            </button>
+            <button 
               className={`${styles.tabButton} ${activeTab === 'ratings' ? styles.tabButtonActive : ''}`}
               onClick={() => setActiveTab('ratings')}
             >
@@ -180,13 +196,13 @@ function HeroDetailPage() {
               className={`${styles.tabButton} ${activeTab === 'counter' ? styles.tabButtonActive : ''}`}
               onClick={() => setActiveTab('counter')}
             >
-              Counter Data
+              Counters
             </button>
             <button 
-              className={`${styles.tabButton} ${activeTab === 'relations' ? styles.tabButtonActive : ''}`}
-              onClick={() => setActiveTab('relations')}
+              className={`${styles.tabButton} ${activeTab === 'synergy' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('synergy')}
             >
-              Relations
+              Best With
             </button>
           </div>
 
@@ -200,33 +216,49 @@ function HeroDetailPage() {
                   <div className={styles.statsTableRow}>
                     <div className={styles.statsTableCell}>
                       <span className={styles.statName}>Physical Attack</span>
-                      <span className={styles.statValueLarge}>{hero.hero_stats?.physical_attack || 'N/A'}</span>
+                      <span className={styles.statValueLarge}>{hero.hero_stats?.physical_attack || '0'}</span>
                     </div>
                     <div className={styles.statsTableCell}>
                       <span className={styles.statName}>Physical Defense</span>
-                      <span className={styles.statValueLarge}>{hero.hero_stats?.physical_defense || 'N/A'}</span>
+                      <span className={styles.statValueLarge}>{hero.hero_stats?.physical_defense || '0'}</span>
                     </div>
                   </div>
                   <div className={styles.statsTableRow}>
                     <div className={styles.statsTableCell}>
                       <span className={styles.statName}>Magic Power</span>
-                      <span className={styles.statValueLarge}>{hero.hero_stats?.magic_power ?? 'N/A'}</span>
+                      <span className={styles.statValueLarge}>{hero.hero_stats?.magic_power ?? '0'}</span>
                     </div>
                     <div className={styles.statsTableCell}>
                       <span className={styles.statName}>Magic Defense</span>
-                      <span className={styles.statValueLarge}>{hero.hero_stats?.magic_defense || 'N/A'}</span>
+                      <span className={styles.statValueLarge}>{hero.hero_stats?.magic_defense || '0'}</span>
                     </div>
                   </div>
                   <div className={styles.statsTableRow}>
                     <div className={styles.statsTableCell}>
                       <span className={styles.statName}>Attack Speed</span>
-                      <span className={styles.statValueLarge}>{hero.hero_stats?.attack_speed || 'N/A'}</span>
+                      <span className={styles.statValueLarge}>{hero.hero_stats?.attack_speed || '0'}</span>
                     </div>
                     <div className={styles.statsTableCell}>
                       <span className={styles.statName}>Movement Speed</span>
-                      <span className={styles.statValueLarge}>{hero.hero_stats?.movement_speed || 'N/A'}</span>
+                      <span className={styles.statValueLarge}>{hero.hero_stats?.movement_speed || '0'}</span>
                     </div>
                   </div>
+                  {hero.hero_stats?.attack_speed_ratio && (
+                    <div className={styles.statsTableRow}>
+                      <div className={styles.statsTableCell}>
+                        <span className={styles.statName}>Attack Speed Ratio</span>
+                        <span className={styles.statValueLarge}>{hero.hero_stats.attack_speed_ratio}</span>
+                      </div>
+                      <div className={styles.statsTableCell}>
+                        {hero.damage_type && (
+                          <>
+                            <span className={styles.statName}>Damage Type</span>
+                            <span className={styles.statValueLarge}>{hero.damage_type}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Hero Details */}
@@ -255,9 +287,42 @@ function HeroDetailPage() {
               </div>
             )}
 
+            {/* About Tab */}
+            {activeTab === 'about' && (
+              <div className={styles.contentSection}>
+                {/* Full Description */}
+                {hero.full_description && (
+                  <div className={styles.descriptionSection}>
+                    <h3 className={styles.descriptionTitle}>About {hero.name}</h3>
+                    <p className={styles.descriptionText}>{hero.full_description}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Ratings Tab */}
             {activeTab === 'ratings' && (
               <div className={styles.contentSection}>
+                {/* Ability Show */}
+                {hero.abilityshow && hero.abilityshow.length > 0 && (
+                  <div className={styles.abilityShow}>
+                    <h3 className={styles.abilityShowTitle}>Ability Ratings</h3>
+                    <div className={styles.abilityShowGrid}>
+                      {hero.abilityshow.map((rating, idx) => (
+                        <div key={idx} className={styles.abilityShowItem}>
+                          <div className={styles.abilityShowBar}>
+                            <div 
+                              className={styles.abilityShowFill} 
+                              style={{ width: `${rating}%` }}
+                            />
+                          </div>
+                          <span className={styles.abilityShowValue}>{rating}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className={styles.ratingsContainer}>
                   <div className={styles.ratingsTable}>
                     {/* Appearance Rate */}
@@ -324,19 +389,283 @@ function HeroDetailPage() {
               </div>
             )}
 
-            {/* Counter Data Tab */}
+            {/* Counter Tab */}
             {activeTab === 'counter' && (
               <div className={styles.contentSection}>
-                <h2 className={styles.sectionTitle}>Counter Information</h2>
-                <p className={styles.comingSoon}>Counter data will be displayed here</p>
+                {counterData && hero.hero_game_id && counterData[hero.hero_game_id] && (() => {
+                  const heroCounterData = counterData[hero.hero_game_id];
+                  return (
+                  <div className={styles.relationshipSection}>
+                    <h2 className={styles.relationshipMainTitle}>Counter Relationship</h2>
+                    
+                    {/* Counter Tabs */}
+                    <div className={styles.relationshipTabs}>
+                      <button 
+                        className={`${styles.relationshipTab} ${counterSubTab === 'best' ? styles.relationshipTabActive : ''}`}
+                        onClick={() => setCounterSubTab('best')}
+                      >
+                        Best Counters
+                      </button>
+                      <button 
+                        className={`${styles.relationshipTab} ${counterSubTab === 'worst' ? styles.relationshipTabActive : ''}`}
+                        onClick={() => setCounterSubTab('worst')}
+                      >
+                        Most Countered by
+                      </button>
+                    </div>
+
+                    <div className={styles.relationshipContent}>
+                      {/* Left Side - Visual Comparison */}
+                      <div className={styles.comparisonBlock}>
+                        {counterSubTab === 'best' && heroCounterData.best_counters && heroCounterData.best_counters.length > 0 && (() => {
+                          const topCounter = heroCounterData.best_counters[0];
+                          const counterHero = allHeroes.find(h => h.hero_game_id === topCounter.heroid);
+                          if (!counterHero) return null;
+                          
+                          const heroWinRate = heroCounterData.main_hero_win_rate || 50;
+                          const counterWinRate = topCounter.win_rate;
+                          
+                          return (
+                            <>
+                              <div className={styles.heroComparison}>
+                                <div className={`${styles.heroComparisonSide} ${styles.left}`}>
+                                  <img src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                                <div className={styles.heroComparisonDivider}></div>
+                                <div className={`${styles.heroComparisonSide} ${styles.right}`}>
+                                  <img src={counterHero.head || counterHero.image} alt={counterHero.name} className={styles.rightAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{counterWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <p className={styles.comparisonDesc}>
+                                The following displays the hero's overall win rate. The higher the Counter Score, the more the selected hero is countered.
+                              </p>
+                            </>
+                          );
+                        })()}
+                        {counterSubTab === 'worst' && heroCounterData.most_countered_by && heroCounterData.most_countered_by.length > 0 && (() => {
+                          const topCounter = heroCounterData.most_countered_by[0];
+                          const counterHero = allHeroes.find(h => h.hero_game_id === topCounter.heroid);
+                          if (!counterHero) return null;
+                          
+                          const heroWinRate = heroCounterData.main_hero_win_rate || 50;
+                          const counterWinRate = topCounter.win_rate;
+                          
+                          return (
+                            <>
+                              <div className={styles.heroComparison}>
+                                <div className={`${styles.heroComparisonSide} ${styles.left}`}>
+                                  <img src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                                <div className={styles.heroComparisonDivider}></div>
+                                <div className={`${styles.heroComparisonSide} ${styles.right}`}>
+                                  <img src={counterHero.head || counterHero.image} alt={counterHero.name} className={styles.rightAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{counterWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <p className={styles.comparisonDesc}>
+                                Heroes that {hero.name} struggles against. Lower win rate indicates stronger counter effect.
+                              </p>
+                            </>
+                          );
+                        })()}
+                      </div>
+
+                      {/* Right Side - Counter List */}
+                      <div className={styles.counterList}>
+                        <div className={styles.counterListHeader}>
+                          <span>{counterSubTab === 'best' ? 'Best Counters' : 'Countered By'}</span>
+                          <span>Counter Score</span>
+                        </div>
+                        {counterSubTab === 'best' && heroCounterData.best_counters && heroCounterData.best_counters.slice(0, 5).map((counter, idx) => {
+                          const counterHero = allHeroes.find(h => h.hero_game_id === counter.heroid);
+                          if (!counterHero) return null;
+                          return (
+                            <a 
+                              key={counter.heroid}
+                              href={`/heroes/${counterHero.id}`}
+                              className={styles.counterListItem}
+                            >
+                              <div className={styles.counterListRank}>{idx + 1}</div>
+                              <img src={counterHero.head || counterHero.image} alt={counterHero.name} className={styles.counterListImage} />
+                              <span className={styles.counterListScore}>{counter.increase_win_rate.toFixed(2)}</span>
+                            </a>
+                          );
+                        })}
+                        {counterSubTab === 'worst' && heroCounterData.most_countered_by && heroCounterData.most_countered_by.slice(0, 5).map((counter, idx) => {
+                          const counterHero = allHeroes.find(h => h.hero_game_id === counter.heroid);
+                          if (!counterHero) return null;
+                          return (
+                            <a 
+                              key={counter.heroid}
+                              href={`/heroes/${counterHero.id}`}
+                              className={styles.counterListItem}
+                            >
+                              <div className={styles.counterListRank}>{idx + 1}</div>
+                              <img src={counterHero.head || counterHero.image} alt={counterHero.name} className={styles.counterListImage} />
+                              <span className={styles.counterListScore}>{Math.abs(counter.increase_win_rate).toFixed(2)}</span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  );
+                })()}
               </div>
             )}
 
-            {/* Relations Tab */}
-            {activeTab === 'relations' && (
+            {/* Synergy Tab (Best With) */}
+            {activeTab === 'synergy' && (
               <div className={styles.contentSection}>
-                <h2 className={styles.sectionTitle}>Hero Relations</h2>
-                <p className={styles.comingSoon}>Relations data will be displayed here</p>
+                {compatibilityData && hero.hero_game_id && compatibilityData[hero.hero_game_id] && (() => {
+                  const heroCompatibilityData = compatibilityData[hero.hero_game_id];
+                  return (
+                  <div className={styles.relationshipSection}>
+                    <h2 className={styles.relationshipMainTitle}>Compatibility</h2>
+                    
+                    {/* Compatibility Tabs */}
+                    <div className={styles.relationshipTabs}>
+                      <button 
+                        className={`${styles.relationshipTab} ${synergySubTab === 'compatible' ? styles.relationshipTabActive : ''}`}
+                        onClick={() => setSynergySubTab('compatible')}
+                      >
+                        Compatibility
+                      </button>
+                      <button 
+                        className={`${styles.relationshipTab} ${synergySubTab === 'incompatible' ? styles.relationshipTabActive : ''}`}
+                        onClick={() => setSynergySubTab('incompatible')}
+                      >
+                        Not Compatible
+                      </button>
+                    </div>
+
+                    <div className={styles.relationshipContent}>
+                      {/* Left Side - Visual Comparison */}
+                      <div className={styles.comparisonBlock}>
+                        {synergySubTab === 'compatible' && heroCompatibilityData.compatible && heroCompatibilityData.compatible.length > 0 && (() => {
+                          const topMate = heroCompatibilityData.compatible[0];
+                          const mateHero = allHeroes.find(h => h.hero_game_id === topMate.heroid);
+                          if (!mateHero) return null;
+                          
+                          const heroWinRate = heroCompatibilityData.main_hero_win_rate || 50;
+                          const teamWinRate = topMate.win_rate;
+                          
+                          return (
+                            <>
+                              <div className={styles.heroComparison}>
+                                <div className={`${styles.heroComparisonSide} ${styles.left}`}>
+                                  <img src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                                <div className={styles.heroComparisonDivider}></div>
+                                <div className={`${styles.heroComparisonSide} ${styles.right}`}>
+                                  <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.rightAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{teamWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <p className={styles.comparisonDesc}>
+                                The higher the Teammate Score, the better they fit on the same team.
+                              </p>
+                            </>
+                          );
+                        })()}
+                        {synergySubTab === 'incompatible' && heroCompatibilityData.not_compatible && heroCompatibilityData.not_compatible.length > 0 && (() => {
+                          const topMate = heroCompatibilityData.not_compatible[0];
+                          const mateHero = allHeroes.find(h => h.hero_game_id === topMate.heroid);
+                          if (!mateHero) return null;
+                          
+                          const heroWinRate = heroCompatibilityData.main_hero_win_rate || 50;
+                          const teamWinRate = topMate.win_rate;
+                          
+                          return (
+                            <>
+                              <div className={styles.heroComparison}>
+                                <div className={`${styles.heroComparisonSide} ${styles.left}`}>
+                                  <img src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                                <div className={styles.heroComparisonDivider}></div>
+                                <div className={`${styles.heroComparisonSide} ${styles.right}`}>
+                                  <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.rightAvatar} />
+                                  <div className={styles.comparisonWinRate}>
+                                    <span className={styles.winRateNumber}>{teamWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateLabel}>Win Rate</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <p className={styles.comparisonDesc}>
+                                The lower the Teammate Score, the worse they fit on the same team.
+                              </p>
+                            </>
+                          );
+                        })()}
+                      </div>
+
+                      {/* Right Side - Teammate List */}
+                      <div className={styles.counterList}>
+                        <div className={styles.counterListHeader}>
+                          <span>{synergySubTab === 'compatible' ? 'Best Teammates' : 'Worst Teammates'}</span>
+                          <span>Teammate Score</span>
+                        </div>
+                        {synergySubTab === 'compatible' && heroCompatibilityData.compatible && heroCompatibilityData.compatible.slice(0, 5).map((mate, idx) => {
+                          const mateHero = allHeroes.find(h => h.hero_game_id === mate.heroid);
+                          if (!mateHero) return null;
+                          return (
+                            <a 
+                              key={mate.heroid}
+                              href={`/heroes/${mateHero.id}`}
+                              className={styles.counterListItem}
+                            >
+                              <div className={styles.counterListRank}>{idx + 1}</div>
+                              <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} />
+                              <span className={styles.counterListScore}>{mate.increase_win_rate.toFixed(2)}</span>
+                            </a>
+                          );
+                        })}
+                        {synergySubTab === 'incompatible' && heroCompatibilityData.not_compatible && heroCompatibilityData.not_compatible.slice(0, 5).map((mate, idx) => {
+                          const mateHero = allHeroes.find(h => h.hero_game_id === mate.heroid);
+                          if (!mateHero) return null;
+                          return (
+                            <a 
+                              key={mate.heroid}
+                              href={`/heroes/${mateHero.id}`}
+                              className={styles.counterListItem}
+                            >
+                              <div className={styles.counterListRank}>{idx + 1}</div>
+                              <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} />
+                              <span className={styles.counterListScore}>{Math.abs(mate.increase_win_rate).toFixed(2)}</span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  );
+                })()}
               </div>
             )}
           </div>

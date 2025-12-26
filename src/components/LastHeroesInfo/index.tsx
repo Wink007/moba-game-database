@@ -173,7 +173,7 @@ export const LastHeroesInfo = () => {
                             {isLoading && [0,1,2,3].map((_, index) => (
                                 <div key={index} className={style['ability-row-skeleton']} />
                             ))}
-                            {!isLoading && latestHeroes?.[currentHeroIndex]?.abilityshow.map((ability, index) => (
+                            {!isLoading && latestHeroes?.[currentHeroIndex]?.abilityshow?.map((ability, index) => (
                                 <div key={`${ability}-${index}`} className={style['ability-row']}>
                                     <div className={style['ability-label']}>{abilitiesLabel[index]}</div>
                                     <div className={style['ability-item']}>

@@ -1,67 +1,51 @@
 .patchesPage {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px 20px;
   min-height: calc(100vh - 200px);
 }
 
-.sidebar {
-  width: 250px;
+.patchSelector {
+  width: 200px;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 20px;
-  height: fit-content;
+}
+
+.patchVersions {
   position: sticky;
   top: 20px;
-
-  h2 {
-    margin: 0 0 15px 0;
-    font-size: 1.3rem;
-    color: #fff;
-  }
-}
-
-.patchList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
-.patchItem {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.patchButton {
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
   border-radius: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   text-align: left;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   &.active {
-    background: rgba(78, 205, 196, 0.2);
-    border-color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.12);
+    color: #4ecdc4;
+    font-weight: 600;
   }
 }
 
-.version {
-  font-weight: 600;
-  color: #fff;
-  font-size: 0.95rem;
-}
-
-.date {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
+.selectorLabel, .patchDropdown, .patchTabs, .sidebar {
+  display: none;
 }
 
 .content {
@@ -70,30 +54,35 @@
 }
 
 .header {
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 
   h1 {
     margin: 0 0 10px 0;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: #fff;
+    font-weight: 700;
+    letter-spacing: -1px;
   }
 }
 
 .releaseDate {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
   margin: 0;
+  font-weight: 400;
 }
 
 .section {
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 
   h2 {
-    font-size: 1.8rem;
-    color: #4ecdc4;
-    margin: 0 0 20px 0;
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 24px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
   }
 }
 
@@ -101,77 +90,89 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
   li {
-    padding: 12px 16px;
-    background: rgba(78, 205, 196, 0.1);
-    border-left: 3px solid #4ecdc4;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    color: #fff;
+    padding: 18px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+    line-height: 1.7;
+    transition: all 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
   }
 }
 
 .newHeroCard {
-  background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
-  border: 2px solid rgba(156, 39, 176, 0.4);
+  padding: 30px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .newHeroHeader {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 
   h3 {
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: #fff;
+    font-weight: 700;
   }
 }
 
 .newHeroLink {
   text-decoration: none;
   color: inherit;
-  transition: all 0.2s;
+  transition: color 0.2s;
 
   &:hover h3 {
-    color: #4ecdc4;
-    text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+    color: #ba68c8;
   }
 }
 
 .newHeroBadge {
   padding: 6px 14px;
-  background: linear-gradient(135deg, #9c27b0 0%, #e91e63 100%);
-  color: #fff;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  background: rgba(233, 30, 99, 0.2);
+  color: #e91e63;
+  border-radius: 16px;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 1px;
-  box-shadow: 0 2px 8px rgba(156, 39, 176, 0.4);
+  text-transform: uppercase;
 }
 
 .newHeroTitle {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
   font-style: italic;
-  margin: 0 0 16px 0;
+  margin: 0 0 14px 0;
 }
 
 .newHeroDescription {
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
-  padding: 14px;
-  background: rgba(78, 205, 196, 0.08);
-  border-radius: 6px;
-  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  margin-bottom: 24px;
+  border-left: none;
+  font-size: 1rem;
 
   strong {
-    color: #4ecdc4;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
   }
 }
 
@@ -182,22 +183,41 @@
 }
 
 .newHeroSkill {
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 3px solid rgba(156, 39, 176, 0.5);
-  border-radius: 6px;
-  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 18px;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
 }
 
 .newHeroSkillHeader {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: baseline;
+  gap: 12px;
   margin-bottom: 12px;
+
+  .skillType {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .skillName {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #fff;
+  }
 }
 
 .newHeroSkillDescription {
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.7;
+  font-size: 1rem;
 
   p {
     margin: 8px 0;
@@ -213,101 +233,107 @@
 }
 
 .heroCard, .itemCard {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .heroHeader, .itemHeader {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
+  gap: 14px;
+  margin-bottom: 16px;
 
   h3 {
     margin: 0;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     color: #fff;
+    font-weight: 700;
   }
 }
 
 .heroLink, .itemLink {
   text-decoration: none;
   color: inherit;
-  transition: all 0.2s;
+  transition: color 0.2s;
 
   &:hover h3 {
     color: #4ecdc4;
-    text-shadow: 0 0 8px rgba(78, 205, 196, 0.4);
   }
 }
 
 .summary, .description {
   color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin-bottom: 15px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 4px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  border-left: none;
+  font-size: 0.95rem;
 }
 
 .skillBlock, .sectionBlock {
-  margin: 15px 0;
-  padding-left: 15px;
-  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  margin: 14px 0;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
 }
 
 .skillHeader, .sectionHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
 }
 
 .skillType, .sectionType {
   font-weight: 600;
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .skillName {
   color: #4ecdc4;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .badge {
   padding: 4px 10px;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 
   &.buff {
-    background: rgba(76, 175, 80, 0.3);
-    color: #4caf50;
-    border: 1px solid #4caf50;
+    background: rgba(76, 175, 80, 0.15);
+    color: #81c784;
   }
 
   &.nerf {
-    background: rgba(244, 67, 54, 0.3);
-    color: #f44336;
-    border: 1px solid #f44336;
+    background: rgba(244, 67, 54, 0.15);
+    color: #e57373;
   }
 
   &.adjust {
-    background: rgba(255, 152, 0, 0.3);
-    color: #ff9800;
-    border: 1px solid #ff9800;
+    background: rgba(255, 152, 0, 0.15);
+    color: #ffb74d;
   }
 
   &.revamp {
-    background: rgba(156, 39, 176, 0.3);
-    color: #9c27b0;
-    border: 1px solid #9c27b0;
+    background: rgba(156, 39, 176, 0.15);
+    color: #ba68c8;
   }
 }
 
@@ -315,20 +341,20 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
   li {
-    padding: 8px 12px;
-    color: rgba(255, 255, 255, 0.9);
-    line-height: 1.5;
-    margin-bottom: 6px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 4px;
+    padding: 8px 0;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    font-size: 0.9rem;
 
     &:before {
-      content: "→";
-      margin-right: 8px;
-      color: #4ecdc4;
-      font-weight: bold;
+      content: "•";
+      margin-right: 10px;
+      color: rgba(78, 205, 196, 0.6);
     }
   }
 }
@@ -337,39 +363,61 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
   li {
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 3px solid rgba(78, 205, 196, 0.5);
-    margin-bottom: 10px;
-    border-radius: 4px;
-    color: #fff;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 768px) {
   .patchesPage {
     flex-direction: column;
-    padding: 10px;
+    gap: 20px;
+    padding: 20px 15px;
   }
 
-  .sidebar {
+  .patchSelector {
     width: 100%;
-    position: static;
-    margin-bottom: 20px;
   }
 
-  .patchList {
-    max-height: 200px;
-    overflow-y: auto;
+  .patchVersions {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 8px;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(78, 205, 196, 0.3);
+      border-radius: 2px;
+    }
+  }
+
+  .patchButton {
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .header h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   .section h2 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 }

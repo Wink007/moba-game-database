@@ -121,17 +121,15 @@ export const PatchesPage: React.FC = () => {
 
   return (
     <div className={styles.patchesPage}>
-      <div className={styles.sidebar}>
-        <h2>Patch Notes</h2>
-        <div className={styles.patchList}>
+      <div className={styles.patchSelector}>
+        <div className={styles.patchVersions}>
           {patches.map(patch => (
             <button
               key={patch.version}
-              className={`${styles.patchItem} ${selectedPatch === patch.version ? styles.active : ''}`}
+              className={`${styles.patchButton} ${selectedPatch === patch.version ? styles.active : ''}`}
               onClick={() => setSelectedPatch(patch.version)}
             >
-              <span className={styles.version}>Patch {patch.version}</span>
-              <span className={styles.date}>{patch.release_date}</span>
+              {patch.version}
             </button>
           ))}
         </div>

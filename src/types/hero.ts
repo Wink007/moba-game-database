@@ -30,6 +30,55 @@ export interface HeroStatsObject {
   [key: string]: number | undefined;
 }
 
+export interface HeroRelationTarget {
+  data: {
+    head: string;
+    heroid: number;
+    name: string;
+  };
+}
+
+export interface HeroRelation {
+  assist?: {
+    desc: string;
+    target_hero: HeroRelationTarget[];
+  };
+  strong?: {
+    desc: string;
+    target_hero: HeroRelationTarget[];
+  };
+  weak?: {
+    desc: string;
+    target_hero: HeroRelationTarget[];
+  };
+}
+
+export interface CounterHero {
+  heroid: number;
+  win_rate: number;
+  increase_win_rate: number;
+  appearance_rate: number;
+}
+
+export interface HeroCounterData {
+  main_hero_win_rate?: number;
+  best_counters: CounterHero[];
+  most_countered_by: CounterHero[];
+}
+
+export interface CompatibilityHero {
+  heroid: number;
+  win_rate: number;
+  increase_win_rate: number;
+  appearance_rate: number;
+}
+
+export interface HeroCompatibilityData {
+  main_hero_win_rate?: number;
+  compatible: CompatibilityHero[];
+  not_compatible: CompatibilityHero[];
+}
+
 export interface Hero {
   id: number;
   game_id: number;

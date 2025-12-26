@@ -49,6 +49,30 @@ export const useHeroRanks = (
   });
 };
 
+export const useHeroRelations = (gameId?: number) => {
+  return useQuery({
+    queryKey: ['heroRelations', gameId],
+    queryFn: () => api.getHeroRelations(gameId!),
+    enabled: !!gameId
+  });
+};
+
+export const useHeroCounterData = (gameId?: number) => {
+  return useQuery({
+    queryKey: ['heroCounterData', gameId],
+    queryFn: () => api.getHeroCounterData(gameId!),
+    enabled: !!gameId
+  });
+};
+
+export const useHeroCompatibilityData = (gameId?: number) => {
+  return useQuery({
+    queryKey: ['heroCompatibilityData', gameId],
+    queryFn: () => api.getHeroCompatibilityData(gameId!),
+    enabled: !!gameId
+  });
+};
+
 export const useHeroRank = (heroId?: number) => {
   return useQuery({
     queryKey: ['heroRank', heroId],

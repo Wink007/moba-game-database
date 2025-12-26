@@ -322,24 +322,38 @@
 
 @media (max-width: 768px) {
     .last-heroes-info-wrapper {
-        padding: var(--spacing-md);
+        padding: var(--spacing-sm);
 
-        & h2 {
+        > h2 {
             font-size: 1.5rem;
             margin-bottom: var(--spacing-md);
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
         }
 
         & .hero-list-wrapper {
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: var(--spacing-2xl);
-            margin-top: var(--spacing-2xl);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+            padding: 0 var(--spacing-xs);
         }
 
-        & .hero-list, .hero-item  {
-            width: 65px;
-            height: 65px;
+        & .hero-list {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1;
             cursor: pointer;
+            transition: all 0.3s ease;
+
+            &--active {
+                transform: scale(1.05);
+            }
+        }
+
+        & .hero-item {
+            width: 100%;
+            height: 100%;
         }
     }
 
@@ -348,45 +362,66 @@
         width: 100%;
 
         & .hero-name-lane {
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        & .hero-name-lane-wrapper {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .hero-name {
             font-size: 1.75rem;
-            margin: 0;
+            margin: 0 0 var(--spacing-xs) 0;
+        }
+
+        & .hero-roles {
+            margin-left: 0;
+            padding: var(--spacing-xs) 0;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
         }
 
         .hero-role {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+            padding: var(--spacing-xs) var(--spacing-sm);
         }
     }
 
     .hero-detail {
         flex-direction: column;
+        gap: var(--spacing-lg);
         padding-bottom: 0;
 
         & .hero-preview-wrapper {
             width: 100%;
-            margin-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
         }
 
         .lane-icon-wrapper {
-            top: var(--spacing-sm);
-            right: var(--spacing-sm);
+            top: var(--spacing-xs);
+            right: var(--spacing-xs);
         }
 
         .lane-icon {
-            width: var(--spacing-xl);
-            height: var(--spacing-xl);
+            width: var(--spacing-2xl);
+            height: var(--spacing-2xl);
         }
 
         & .hero-preview {
             width: 100%;
+            max-width: 400px;
         }
 
         & .prev-button, .next-button {
-            top: 15%;
+            top: 50%;
+            transform: translateY(-50%);
             padding: var(--spacing-xs);
+            
+            img {
+                width: 24px;
+                height: 24px;
+            }
         }
 
         & .prev-button {
@@ -398,8 +433,10 @@
         }
 
         & .hero-skills {
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
+            gap: var(--spacing-sm);
+            margin: var(--spacing-md) 0;
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
 
         & .skill-item {
@@ -407,8 +444,9 @@
         }
 
         & .skill-item, & .skill-item-skeleton {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
             
             .skill-icon {
                 width: 60px;
@@ -416,74 +454,166 @@
             }
         }
 
+        & .tooltip-wrapper {
+            width: 90vw;
+            max-width: 400px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
         & .ability-label {
-            font-size: 1rem;
-            margin-bottom: var(--spacing-xs);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-sm);
         }
 
         & .abilities-list {
             grid-template-columns: 1fr;
             grid-template-rows: auto;
-            gap: var(--spacing-lg);
+            gap: var(--spacing-md);
             margin-bottom: var(--spacing-lg);
         }
 
+        & .ability-row {
+            padding: var(--spacing-xs);
+        }
+
         & .ability-row-skeleton {
-            height: 45px;
+            height: 40px;
         }
 
         & .transform-button {
             position: static;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
+            margin: var(--spacing-md) auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            img {
+                width: 100%;
+                height: 100%;
+            }
         }
 
         & .more-info-link {
-            font-size: 1.125rem;
+            font-size: 1rem;
             width: auto;
             justify-content: center;
             margin: var(--spacing-lg) auto 0;
+            padding: var(--spacing-sm) var(--spacing-lg);
         }
 
         .more-info-icon {
             width: 8px;
-            height: 16px;
+            height: 14px;
             margin-left: var(--spacing-sm);
-        }
-
-        & .hero-list-wrapper {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        & .hero-list  {
-            display: flex;
-            justify-content: center;
-            width: auto;
-            height: auto;
-        }
-
-        & .hero-item {
-            width: 65px;
-            height: 65px;
-        }
-
-        & .tooltip-wrapper {
-            width: 100%;
         }
     }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 480px) {
+    .last-heroes-info-wrapper {
+        > h2 {
+            font-size: 1.25rem;
+            padding: var(--spacing-xs) var(--spacing-sm);
+        }
+
+        & .hero-list-wrapper {
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-sm);
+        }
+    }
+
+    .hero-info {
+        .hero-name {
+            font-size: 1.5rem;
+        }
+
+        .hero-role {
+            font-size: 0.7rem;
+            padding: 4px var(--spacing-xs);
+        }
+    }
+
     .hero-detail {
+        gap: var(--spacing-md);
+
+        .lane-icon {
+            width: var(--spacing-lg);
+            height: var(--spacing-lg);
+        }
+
+        & .prev-button, .next-button {
+            padding: 4px;
+            
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        & .hero-skills {
+            gap: var(--spacing-xs);
+        }
 
         & .skill-item, & .skill-item-skeleton {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             
             .skill-icon {
-                width: 60px;
-                height: 60px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        & .ability-label {
+            font-size: 1rem;
+        }
+
+        & .abilities-list {
+            gap: var(--spacing-sm);
+        }
+
+        & .ability-row-skeleton {
+            height: 35px;
+        }
+
+        & .transform-button {
+            width: 45px;
+            height: 45px;
+            margin-top: var(--spacing-sm);
+        }
+
+        & .more-info-link {
+            font-size: 0.9rem;
+            padding: var(--spacing-xs) var(--spacing-md);
+        }
+    }
+}
+
+@media (max-width: 360px) {
+    .last-heroes-info-wrapper {
+        padding: var(--spacing-xs);
+
+        & .hero-list-wrapper {
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-xs);
+        }
+    }
+
+    .hero-detail {
+        & .hero-skills {
+            gap: 4px;
+        }
+
+        & .skill-item, & .skill-item-skeleton {
+            width: 45px;
+            height: 45px;
+            
+            .skill-icon {
+                width: 45px;
+                height: 45px;
             }
         }
     }

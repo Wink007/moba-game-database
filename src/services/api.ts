@@ -1,5 +1,5 @@
 import { API_URL } from '../config';
-import type { Game, GameStats, Hero, HeroSkill, Item } from '../types';
+import type { Game, GameStats, Hero, HeroSkill, Item, HeroRelation, HeroCounterData, HeroCompatibilityData } from '../types';
 import type { HeroRank } from '../types/heroRank';
 
 export const fetchApi = async (endpoint: string) => {
@@ -56,4 +56,16 @@ export const api = {
     return fetchApi(url);
   },
   getHeroRank: (heroId: number): Promise<HeroRank> => fetchApi(`/heroes/${heroId}/rank`),
+  
+  // Hero Relations
+  getHeroRelations: (gameId: number): Promise<Record<number, HeroRelation>> => 
+    fetchApi(`/heroes/relations?game_id=${gameId}`),
+  
+  // Hero Counter Data
+  getHeroCounterData: (gameId: number): Promise<Record<number, HeroCounterData>> => 
+    fetchApi(`/heroes/counter-data?game_id=${gameId}`),
+  
+  // Hero Compatibility Data
+  getHeroCompatibilityData: (gameId: number): Promise<Record<number, HeroCompatibilityData>> => 
+    fetchApi(`/heroes/compatibility-data?game_id=${gameId}`),
 };
