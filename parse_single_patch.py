@@ -374,7 +374,7 @@ def parse_patch_2_1_40():
                             
                             data['battlefield_adjustments'][current_section]['items'][item_name] = {
                                 'description': [],
-                                'subcategories': [],
+                                'sections': [],  # Attributes (BUFF), Unique Passive (REVAMP), Conceal, Dire Hit, etc.
                                 'changes': []
                             }
                             
@@ -391,43 +391,46 @@ def parse_patch_2_1_40():
                                         if text:
                                             data['battlefield_adjustments'][current_section]['items'][item_name]['changes'].append(text)
                                 elif next_elem.name == 'div':
-                                    # Підкатегорії (Conceal, Dire Hit для Roaming Blessings)
-                                    bold_tags = next_elem.find_all('b')
-                                    if bold_tags:
-                                        subcategory_name = bold_tags[0].get_text(strip=True)
+                                    # Кожен DIV може бути окремою секцією (Roaming Blessings має 4 DIV)
+                                    # або DIV з кількома секціями всередині (Demon Hunter Sword має 1 DIV з 2 секціями)
+                                    
+                                    current_section_data = None
+                                    
+                                    for child in next_elem.descendants:
+                                        # Знаходимо <b> теги як початок нової секції
+                                        if child.name == 'b':
+                                            section_name = child.get_text(strip=True)
+                                            
+                                            # Пропускаємо якщо це назва самого item'а
+                                            if section_name != item_name:
+                                                # Зберігаємо попередню секцію
+                                                if current_section_data and (current_section_data.get('changes') or current_section_data.get('balance')):
+                                                    data['battlefield_adjustments'][current_section]['items'][item_name]['sections'].append(current_section_data)
+                                                
+                                                # Починаємо нову секцію
+                                                current_section_data = {
+                                                    'name': section_name,
+                                                    'balance': None,
+                                                    'changes': []
+                                                }
                                         
-                                        # Перевіряємо чи це справді підкатегорія (інша назва), а не просто DIV обгортка
-                                        if subcategory_name != item_name:
-                                            subcategory_changes = []
-                                            
-                                            for p in next_elem.find_all('p'):
-                                                text = p.get_text(strip=True)
-                                                if text and text != subcategory_name:
-                                                    subcategory_changes.append(text)
-                                            
-                                            for ul in next_elem.find_all('ul'):
-                                                for li in ul.find_all('li'):
-                                                    text = li.get_text(strip=True)
-                                                    if text:
-                                                        subcategory_changes.append(text)
-                                            
-                                            if subcategory_changes:
-                                                data['battlefield_adjustments'][current_section]['items'][item_name]['subcategories'].append({
-                                                    'name': subcategory_name,
-                                                    'changes': subcategory_changes
-                                                })
-                                        else:
-                                            # Якщо назва співпадає - це просто обгортка, беремо зміни напряму
-                                            for p in next_elem.find_all('p'):
-                                                text = p.get_text(strip=True)
-                                                if text and text != subcategory_name:
-                                                    data['battlefield_adjustments'][current_section]['items'][item_name]['changes'].append(text)
-                                            
-                                            for ul in next_elem.find_all('ul'):
-                                                for li in ul.find_all('li'):
-                                                    text = li.get_text(strip=True)
-                                                    if text:
-                                                        data['battlefield_adjustments'][current_section]['items'][item_name]['changes'].append(text)
+                                        # Знаходимо <span> з балансом після <b>
+                                        elif child.name == 'span' and current_section_data and not current_section_data['balance']:
+                                            balance_text = child.get_text(strip=True)
+                                            if balance_text in ['BUFF', 'NERF', 'ADJUST', 'REVAMP']:
+                                                current_section_data['balance'] = balance_text
+                                        
+                                        # Збираємо текстові зміни (включаючи після <p>, <ul>, <li>)
+                                        elif isinstance(child, str) and current_section_data:
+                                            text = child.strip()
+                                            # Пропускаємо назву секції, баланс і порожні рядки
+                                            if text and text not in ['BUFF', 'NERF', 'ADJUST', 'REVAMP', current_section_data['name']]:
+                                                current_section_data['changes'].append(text)
+                                    
+                                    # Зберігаємо останню секцію з цього DIV
+                                    if current_section_data and (current_section_data.get('changes') or current_section_data.get('balance')):
+                                        data['battlefield_adjustments'][current_section]['items'][item_name]['sections'].append(current_section_data)
+                                
                                 next_elem = next_elem.find_next_sibling()
                         
                         # Якщо немає current_section - це окрема H4 секція (Mythic Battlefield тощо)

@@ -589,9 +589,10 @@
               "Different types of Roaming heroes have different playstyles, so we've reworked how some Roaming Blessings gain extra Gold and EXP.",
               "As match time increases, Gold from minions and creeps rises, while vision reveals and damage opportunities for roamers decrease in the late game. Therefore, we've adjusted the reward values for Roaming heroes' different actions to balance the Gold income of different Roaming styles."
             ],
-            "subcategories": [
+            "sections": [
               {
                 "name": "Conceal",
+                "balance": "ADJUST",
                 "changes": [
                   "No longer gains income from minions and creeps killed by nearby allies.",
                   "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
@@ -603,6 +604,7 @@
               },
               {
                 "name": "Dire Hit",
+                "balance": "ADJUST",
                 "changes": [
                   "No longer gains income from minions and creeps killed by nearby allies.",
                   "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
@@ -614,6 +616,7 @@
               },
               {
                 "name": "Encourage",
+                "balance": "ADJUST",
                 "changes": [
                   "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
                   "Grants nearby allied heroes 20 Hybrid Defense.",
@@ -625,6 +628,7 @@
               },
               {
                 "name": "Favor",
+                "balance": "NERF",
                 "changes": [
                   "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
                   "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
@@ -638,35 +642,63 @@
           },
           "Demon Hunter Sword": {
             "description": [],
-            "subcategories": [],
-            "changes": [
-              "AttributesBUFF",
-              "Removed 8% Lifesteal.",
-              "Unique Passive - DevourREVAMP",
-              "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
-            ]
+            "sections": [
+              {
+                "name": "Attributes",
+                "balance": "BUFF",
+                "changes": [
+                  "Removed 8% Lifesteal."
+                ]
+              },
+              {
+                "name": "Unique Passive - Devour",
+                "balance": "REVAMP",
+                "changes": [
+                  "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
+                ]
+              }
+            ],
+            "changes": []
           },
           "Rose Gold Meteor": {
             "description": [],
-            "subcategories": [],
-            "changes": [
-              "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-              "AttributesNERF",
-              "Physical Attack: 40 >> 30",
-              "Unique Passive - Dragon Scale]BUFF",
-              "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1",
-              "Unique Passive - Lifeline]BUFF",
-              "This effect now requires taking damage from enemy heroes to trigger."
-            ]
+            "sections": [
+              {
+                "name": "Attributes",
+                "balance": "NERF",
+                "changes": [
+                  "Physical Attack: 40 >> 30"
+                ]
+              },
+              {
+                "name": "Unique Passive - Dragon Scale]",
+                "balance": "BUFF",
+                "changes": [
+                  "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1"
+                ]
+              },
+              {
+                "name": "Unique Passive - Lifeline]",
+                "balance": "BUFF",
+                "changes": [
+                  "This effect now requires taking damage from enemy heroes to trigger."
+                ]
+              }
+            ],
+            "changes": []
           },
           "Queen's Wings": {
             "description": [],
-            "subcategories": [],
-            "changes": [
-              "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-              "AttributesNERF",
-              "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
-            ]
+            "sections": [
+              {
+                "name": "Attributes",
+                "balance": "NERF",
+                "changes": [
+                  "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
+                ]
+              }
+            ],
+            "changes": []
           }
         },
         "changes": []
@@ -677,21 +709,29 @@
         "items": {
           "Ice Retribution": {
             "description": [],
-            "subcategories": [],
-            "changes": [
-              "Slightly reduced Ice Retribution's control and kiting potential.",
-              "AttributesNERF",
-              "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
-            ]
+            "sections": [
+              {
+                "name": "Attributes",
+                "balance": "NERF",
+                "changes": [
+                  "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
+                ]
+              }
+            ],
+            "changes": []
           },
           "Vengeance": {
             "description": [],
-            "subcategories": [],
-            "changes": [
-              "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
-              "AttributesNERF",
-              "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
-            ]
+            "sections": [
+              {
+                "name": "Attributes",
+                "balance": "NERF",
+                "changes": [
+                  "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
+                ]
+              }
+            ],
+            "changes": []
           }
         },
         "changes": []
