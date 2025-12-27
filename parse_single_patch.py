@@ -420,8 +420,12 @@ def parse_patch_2_1_40():
                                             if balance_text in ['BUFF', 'NERF', 'ADJUST', 'REVAMP']:
                                                 current_section_data['balance'] = balance_text
                                         
-                                        # Збираємо текстові зміни (включаючи після <p>, <ul>, <li>)
+                                        # Збираємо текстові зміни (пропускаємо текст всередині <b> і <span>)
                                         elif isinstance(child, str) and current_section_data:
+                                            # Пропускаємо якщо текст всередині <b> або <span> тегу
+                                            if child.parent and child.parent.name in ['b', 'span']:
+                                                continue
+                                            
                                             text = child.strip()
                                             # Пропускаємо назву секції, баланс і порожні рядки
                                             if text and text not in ['BUFF', 'NERF', 'ADJUST', 'REVAMP', current_section_data['name']]:
