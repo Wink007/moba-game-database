@@ -299,15 +299,15 @@ export const PatchesPage: React.FC = () => {
                             {itemData.sections && itemData.sections.length > 0 && (
                               <div className={styles.sections}>
                                 {itemData.sections.map((section, sectionIdx) => (
-                                  <div key={sectionIdx} className={styles.section}>
-                                    <h5>
-                                      {section.name}
+                                  <div key={sectionIdx} className={styles.skillBlock}>
+                                    <div className={styles.skillHeader}>
+                                      {section.name && <span className={styles.skillName}>{section.name}</span>}
                                       {section.balance && (
                                         <span className={`${styles.badge} ${getBalanceBadgeClass(section.balance)}`}>
                                           {section.balance}
                                         </span>
                                       )}
-                                    </h5>
+                                    </div>
                                     <ul className={styles.changesList}>
                                       {section.changes.map((change, changeIdx) => (
                                         <li key={changeIdx}>{change}</li>
