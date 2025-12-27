@@ -80,3 +80,19 @@ export const useHeroRank = (heroId?: number) => {
     enabled: !!heroId
   });
 };
+
+export const useHeroRankHistory = (gameId?: number, heroGameId?: number) => {
+  return useQuery({
+    queryKey: ['heroRankHistory', gameId, heroGameId],
+    queryFn: () => api.getHeroRankHistory(gameId!, heroGameId!),
+    enabled: !!gameId && !!heroGameId
+  });
+};
+
+// Patches - історія змін героїв
+export const usePatches = () => {
+  return useQuery({
+    queryKey: ['patches'],
+    queryFn: () => api.getPatches(),
+  });
+};

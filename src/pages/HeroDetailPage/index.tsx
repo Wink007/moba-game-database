@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom';
 import React from 'react';
-import { useHero, useHeroSkillsById, useHeroCounterData, useHeroCompatibilityData, useHeroes } from '../../hooks/useHeroes';
+import { useHero, useHeroSkillsById, useHeroCounterData, useHeroCompatibilityData, useHeroes, usePatches } from '../../hooks/useHeroes';
 import { Loader } from '../../components/Loader';
 import styles from './styles.module.scss';
+import type { Patch } from '../../types';
 
 function HeroDetailPage() {
   const { heroId } = useParams();
@@ -13,14 +14,25 @@ function HeroDetailPage() {
   // const { data: relations } = useHeroRelations(hero?.game_id);
   const { data: counterData } = useHeroCounterData(hero?.game_id);
   const { data: compatibilityData } = useHeroCompatibilityData(hero?.game_id);
+  const { data: patches = [] } = usePatches();
   
-  console.log('counterData:', counterData);
-  console.log('compatibilityData:', compatibilityData);
-  console.log('hero.id:', hero?.id);
+  // Фільтруємо патчі, що містять зміни для цього героя
+  const heroPatches = React.useMemo(() => {
+    if (!hero || !patches) return [];
+    return patches.filter((patch: Patch) => 
+      patch.hero_changes && patch.hero_changes[hero.name]
+    );
+  }, [patches, hero]);
+  
+  console.log('heroPatches:', heroPatches);
+  
   const [selectedSkillId, setSelectedSkillId] = React.useState<number | null>(null);
-  const [activeTab, setActiveTab] = React.useState<'info' | 'about' | 'ratings' | 'counter' | 'synergy'>('info');
+  const [activeTab, setActiveTab] = React.useState<'info' | 'about' | 'counter' | 'synergy' | 'history'>('info');
   const [counterSubTab, setCounterSubTab] = React.useState<'best' | 'worst'>('best');
   const [synergySubTab, setSynergySubTab] = React.useState<'compatible' | 'incompatible'>('compatible');
+
+  // Ability labels
+  const abilitiesLabel = ['Durability', 'Offense', 'Ability Effects', 'Difficulty'];
 
   // Helper function to get rating level
   const getRatingLevel = (rate: number): { level: string; color: string } => {
@@ -59,6 +71,14 @@ function HeroDetailPage() {
       {/* Hero Header */}
       <div className={styles.heroHeader}>
         <div className={styles.heroSidebar}>
+          {/* Hero Name in Sidebar */}
+          <div className={styles.sidebarHeroName}>
+            <h2>{hero.name}</h2>
+            {hero.roles && hero.roles.length > 0 && (
+              <p className={styles.sidebarHeroRole}>{hero.roles.join(' • ')}</p>
+            )}
+          </div>
+
           {hero.image && (
             <div className={styles.heroPortrait}>
               <img src={hero.image} alt={hero.name} />
@@ -151,17 +171,44 @@ function HeroDetailPage() {
               </div>
             </div>
           )}
+
+          {/* Short Description */}
+          {hero.short_description && (
+            <div className={styles.sidebarDescription}>
+              <p>{hero.short_description}</p>
+            </div>
+          )}
+
+          {/* Specialty Tags */}
+          {hero.specialty && hero.specialty.length > 0 && (
+            <div className={styles.sidebarSpecialty}>
+              <div className={styles.sidebarSpecialtyLabel}>Specialty:</div>
+              <div className={styles.specialtyTags}>
+                {hero.specialty.map((spec, idx) => (
+                  <span key={idx} className={styles.specialtyTag}>{spec}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Damage Type */}
+          {hero.damage_type && (
+            <div className={styles.sidebarInfo}>
+              <span className={styles.sidebarInfoLabel}>Damage Type:</span>
+              <span className={styles.sidebarInfoValue}>{hero.damage_type}</span>
+            </div>
+          )}
+
+          {/* Lane */}
+          {hero.lane && hero.lane.length > 0 && (
+            <div className={styles.sidebarInfo}>
+              <span className={styles.sidebarInfoLabel}>Lane:</span>
+              <span className={styles.sidebarInfoValue}>{hero.lane.join(', ')}</span>
+            </div>
+          )}
         </div>
 
         <div className={styles.heroMainContent}>
-          {/* Hero Title */}
-          <div className={styles.heroTitleSection}>
-            <h1 className={styles.heroName}>{hero.name}</h1>
-            {hero.short_description && (
-              <p className={styles.heroDescription}>{hero.short_description}</p>
-            )}
-          </div>
-
           {/* Hero Background Image */}
           {(hero.painting || hero.image) && (
             <div className={styles.heroBackgroundImage}>
@@ -187,12 +234,6 @@ function HeroDetailPage() {
               About
             </button>
             <button 
-              className={`${styles.tabButton} ${activeTab === 'ratings' ? styles.tabButtonActive : ''}`}
-              onClick={() => setActiveTab('ratings')}
-            >
-              Ratings
-            </button>
-            <button 
               className={`${styles.tabButton} ${activeTab === 'counter' ? styles.tabButtonActive : ''}`}
               onClick={() => setActiveTab('counter')}
             >
@@ -203,6 +244,12 @@ function HeroDetailPage() {
               onClick={() => setActiveTab('synergy')}
             >
               Best With
+            </button>
+            <button 
+              className={`${styles.tabButton} ${activeTab === 'history' ? styles.tabButtonActive : ''}`}
+              onClick={() => setActiveTab('history')}
+            >
+              Stats History
             </button>
           </div>
 
@@ -250,39 +297,33 @@ function HeroDetailPage() {
                         <span className={styles.statValueLarge}>{hero.hero_stats.attack_speed_ratio}</span>
                       </div>
                       <div className={styles.statsTableCell}>
-                        {hero.damage_type && (
-                          <>
-                            <span className={styles.statName}>Damage Type</span>
-                            <span className={styles.statValueLarge}>{hero.damage_type}</span>
-                          </>
-                        )}
+                        {/* Порожня клітинка */}
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Hero Details */}
-                {(hero.roles || hero.specialty || hero.lane) && (
-                  <div className={styles.heroDetailsGrid}>
-                      {hero.roles && hero.roles.length > 0 && (
-                        <div className={styles.detailItem}>
-                          <span className={styles.detailLabel}>ROLE</span>
-                          <span className={styles.detailValue}>{hero.roles.join(', ')}</span>
+                {/* Ability Ratings */}
+                {hero.abilityshow && hero.abilityshow.length > 0 && (
+                  <div className={styles.abilityShow}>
+                    <h3 className={styles.abilityShowTitle}>Ability Ratings</h3>
+                    <div className={styles.abilityShowGrid}>
+                      {hero.abilityshow.map((rating, idx) => (
+                        <div key={idx} className={styles.abilityShowItem}>
+                          <div className={styles.abilityShowLabel}>{abilitiesLabel[idx]}</div>
+                          <div className={styles.abilityShowBarWrapper}>
+                            <div className={styles.abilityShowBar}>
+                              <div 
+                                className={styles.abilityShowFill} 
+                                style={{ width: `${rating}%` }}
+                              />
+                            </div>
+                            <span className={styles.abilityShowValue}>{rating}</span>
+                          </div>
                         </div>
-                      )}
-                      {hero.specialty && hero.specialty.length > 0 && (
-                        <div className={styles.detailItem}>
-                          <span className={styles.detailLabel}>SPECIALTY</span>
-                          <span className={styles.detailValue}>{hero.specialty.join(', ')}</span>
-                        </div>
-                      )}
-                      {hero.lane && hero.lane.length > 0 && (
-                        <div className={styles.detailItem}>
-                          <span className={styles.detailLabel}>LANE</span>
-                          <span className={styles.detailValue}>{hero.lane.join(', ')}</span>
-                        </div>
-                      )}
+                      ))}
                     </div>
+                  </div>
                 )}
               </div>
             )}
@@ -297,95 +338,6 @@ function HeroDetailPage() {
                     <p className={styles.descriptionText}>{hero.full_description}</p>
                   </div>
                 )}
-              </div>
-            )}
-
-            {/* Ratings Tab */}
-            {activeTab === 'ratings' && (
-              <div className={styles.contentSection}>
-                {/* Ability Show */}
-                {hero.abilityshow && hero.abilityshow.length > 0 && (
-                  <div className={styles.abilityShow}>
-                    <h3 className={styles.abilityShowTitle}>Ability Ratings</h3>
-                    <div className={styles.abilityShowGrid}>
-                      {hero.abilityshow.map((rating, idx) => (
-                        <div key={idx} className={styles.abilityShowItem}>
-                          <div className={styles.abilityShowBar}>
-                            <div 
-                              className={styles.abilityShowFill} 
-                              style={{ width: `${rating}%` }}
-                            />
-                          </div>
-                          <span className={styles.abilityShowValue}>{rating}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className={styles.ratingsContainer}>
-                  <div className={styles.ratingsTable}>
-                    {/* Appearance Rate */}
-                    {hero.main_hero_appearance_rate && (
-                      <div className={styles.ratingRow}>
-                        <div className={styles.ratingInfo}>
-                          <span className={styles.ratingName}>Appearance Rate</span>
-                          <span className={styles.ratingDescription}>Pick frequency in matches</span>
-                        </div>
-                        <div className={styles.ratingData}>
-                          <span className={styles.ratingPercentage}>{hero.main_hero_appearance_rate.toFixed(1)}%</span>
-                          <div className={styles.ratingBar}>
-                            <div 
-                              className={styles.ratingBarFill}
-                              style={{ width: `${Math.min(hero.main_hero_appearance_rate, 100)}%` }}
-                              data-level={getRatingLevel(hero.main_hero_appearance_rate).color}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Ban Rate */}
-                    {hero.main_hero_ban_rate && (
-                      <div className={styles.ratingRow}>
-                        <div className={styles.ratingInfo}>
-                          <span className={styles.ratingName}>Ban Rate</span>
-                          <span className={styles.ratingDescription}>How often banned</span>
-                        </div>
-                        <div className={styles.ratingData}>
-                          <span className={styles.ratingPercentage}>{hero.main_hero_ban_rate.toFixed(1)}%</span>
-                          <div className={styles.ratingBar}>
-                            <div 
-                              className={styles.ratingBarFill}
-                              style={{ width: `${Math.min(hero.main_hero_ban_rate, 100)}%` }}
-                              data-level={getRatingLevel(hero.main_hero_ban_rate).color}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Win Rate */}
-                    {hero.main_hero_win_rate && (
-                      <div className={styles.ratingRow}>
-                        <div className={styles.ratingInfo}>
-                          <span className={styles.ratingName}>Win Rate</span>
-                          <span className={styles.ratingDescription}>Games won percentage</span>
-                        </div>
-                        <div className={styles.ratingData}>
-                          <span className={styles.ratingPercentage}>{hero.main_hero_win_rate.toFixed(1)}%</span>
-                          <div className={styles.ratingBar}>
-                            <div 
-                              className={styles.ratingBarFill}
-                              style={{ width: `${Math.min(hero.main_hero_win_rate, 100)}%` }}
-                              data-level={getRatingLevel(hero.main_hero_win_rate).color}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
               </div>
             )}
 
@@ -668,6 +620,98 @@ function HeroDetailPage() {
                 })()}
               </div>
             )}
+
+            {/* History Tab - Patch History */}
+            {activeTab === 'history' && (
+              <div className={styles.contentSection}>
+                <div className={styles.historySection}>
+                  <div className={styles.historyHeader}>
+                    <div>
+                      <h2 className={styles.historySectionTitle}>Balance History</h2>
+                      <p className={styles.historySectionDesc}>
+                        Track all balance changes and adjustments for {hero.name} across game patches
+                      </p>
+                    </div>
+                    <a href={`/${hero.game_id}/patches`} className={styles.viewAllPatchesBtn}>
+                      View All Patches
+                    </a>
+                  </div>
+
+                  {heroPatches.length > 0 ? (
+                    <div className={styles.patchesTimeline}>
+                      {heroPatches.map((patch: Patch) => {
+                        const heroChange = patch.hero_changes![hero.name];
+                        return (
+                          <div key={patch.version} className={styles.patchCard}>
+                            <div className={styles.patchHeader}>
+                              <div className={styles.patchVersion}>
+                                <span className={styles.patchVersionLabel}>Version</span>
+                                <span className={styles.patchVersionNumber}>{patch.version}</span>
+                              </div>
+                              <div className={styles.patchDate}>
+                                {new Date(patch.release_date).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric'
+                                })}
+                              </div>
+                            </div>
+
+                            {heroChange.summary && (
+                              <div className={styles.patchSummary}>
+                                <p>{heroChange.summary}</p>
+                              </div>
+                            )}
+
+                            {heroChange.skills && heroChange.skills.length > 0 && (
+                              <div className={styles.skillChanges}>
+                                {heroChange.skills.map((skill, idx) => (
+                                  <div key={idx} className={styles.skillChange}>
+                                    <div className={styles.skillHeader}>
+                                      <div className={styles.skillName}>
+                                        <span className={styles.skillType}>{skill.type}</span>
+                                        {skill.name && (
+                                          <span className={styles.skillNameText}>{skill.name}</span>
+                                        )}
+                                      </div>
+                                      <span 
+                                        className={styles.balanceBadge} 
+                                        data-balance={skill.balance.toLowerCase()}
+                                      >
+                                        {skill.balance}
+                                      </span>
+                                    </div>
+                                    {skill.changes && skill.changes.length > 0 && (
+                                      <ul className={styles.changesList}>
+                                        {skill.changes.map((change, changeIdx) => (
+                                          <li key={changeIdx} className={styles.changeItem}>
+                                            {change}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            <div className={styles.patchLink}>
+                              <a href={`/${hero.game_id}/patches/patch_${patch.version}#${hero.name}`}>
+                                View in Full Patch Notes →
+                              </a>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className={styles.noHistoryData}>
+                      <p>No balance history available for this hero</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -688,6 +732,11 @@ function HeroDetailPage() {
                 {skill.image && (
                   <img src={skill.image} alt={skill.skill_name} />
                 )}
+                {skill.skill_type && (
+                  <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
+                    {skill.skill_type === 'passive' ? 'P' : 'A'}
+                  </div>
+                )}
               </div>
             ))}
             {transformedSkills.map((skill) => (
@@ -699,6 +748,11 @@ function HeroDetailPage() {
                 {skill.image && (
                   <img src={skill.image} alt={skill.skill_name} />
                 )}
+                {skill.skill_type && (
+                  <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
+                    {skill.skill_type === 'passive' ? 'P' : 'A'}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -707,72 +761,164 @@ function HeroDetailPage() {
             {selectedSkill && (
               <div className={styles.skillDetail}>
                 <div className={styles.skillDetailHeader}>
-                  {selectedSkill.image && (
-                    <div className={styles.skillDetailIcon}>
-                      <img src={selectedSkill.image} alt={selectedSkill.skill_name} />
-                    </div>
-                  )}
                   <div className={styles.skillDetailInfo}>
                     <h3 className={styles.skillDetailName}>{selectedSkill.skill_name}</h3>
+                    
+                    {/* Effect Types badges under title */}
+                    <div className={styles.skillBadges}>
+                      {selectedSkill.effect_types && selectedSkill.effect_types.length > 0 && (
+                        selectedSkill.effect_types.map((effectType, idx) => {
+                          const displayType = typeof effectType === 'string' 
+                            ? effectType 
+                            : ((effectType as any)?.name || JSON.stringify(effectType));
+                          return (
+                            <div key={idx} className={styles.effectTypeBadge}>
+                              {displayType}
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                    
+                    {/* Skill Parameters (CD, Mana Cost, etc.) */}
+                    <div className={styles.skillStatsInline}>
+                      {selectedSkill.cooldown && (
+                        <span className={styles.skillStatInline}>
+                          CD: {typeof selectedSkill.cooldown === 'object' ? JSON.stringify(selectedSkill.cooldown) : selectedSkill.cooldown}
+                        </span>
+                      )}
+                      {selectedSkill.mana_cost && (
+                        <span className={styles.skillStatInline}>
+                          Mana Cost: {typeof selectedSkill.mana_cost === 'object' ? JSON.stringify(selectedSkill.mana_cost) : selectedSkill.mana_cost}
+                        </span>
+                      )}
+                      {selectedSkill.cast_range && (
+                        <span className={styles.skillStatInline}>
+                          Cast Range: {typeof selectedSkill.cast_range === 'object' ? JSON.stringify(selectedSkill.cast_range) : selectedSkill.cast_range}
+                        </span>
+                      )}
+                      {selectedSkill.damage && (
+                        <span className={styles.skillStatInline}>
+                          Damage: {typeof selectedSkill.damage === 'object' ? JSON.stringify(selectedSkill.damage) : selectedSkill.damage}
+                        </span>
+                      )}
+                      {selectedSkill.duration && (
+                        <span className={styles.skillStatInline}>
+                          Duration: {typeof selectedSkill.duration === 'object' ? JSON.stringify(selectedSkill.duration) : selectedSkill.duration}
+                        </span>
+                      )}
+                      {/* Additional skill parameters */}
+                      {selectedSkill.skill_parameters && typeof selectedSkill.skill_parameters === 'object' && 
+                       Object.entries(selectedSkill.skill_parameters).map(([key, value]) => {
+                        if (typeof value === 'object' && value !== null && 'name' in value) {
+                          return null; // Skip objects with name (they go in level scaling)
+                        }
+                        
+                        let displayValue: string;
+                        if (typeof value === 'object' && value !== null && 'levels' in value && Array.isArray((value as any).levels)) {
+                          displayValue = (value as any).levels.join(' / ');
+                        } else {
+                          displayValue = String(value);
+                        }
+                        
+                        return (
+                          <span key={key} className={styles.skillStatInline}>
+                            {key}: {displayValue}
+                          </span>
+                        );
+                      })}
+                    </div>
+
                     {selectedSkill.skill_description && (
-                      <p className={styles.skillDetailDescription}>{selectedSkill.skill_description}</p>
+                      <div 
+                        className={styles.skillDetailDescription}
+                        dangerouslySetInnerHTML={{ __html: selectedSkill.skill_description }}
+                      />
                     )}
                   </div>
                 </div>
 
-                {/* Skill Stats Grid */}
-                <div className={styles.skillStatsGrid}>
-                  {selectedSkill.cooldown && (
-                    <div className={styles.skillStatItem}>
-                      <div className={styles.skillStatLabel}>COOLDOWN</div>
-                      <div className={styles.skillStatValue}>{selectedSkill.cooldown}</div>
-                    </div>
-                  )}
-                  {selectedSkill.mana_cost && (
-                    <div className={styles.skillStatItem}>
-                      <div className={styles.skillStatLabel}>MANA COST</div>
-                      <div className={styles.skillStatValue}>{selectedSkill.mana_cost}</div>
-                    </div>
-                  )}
-                  {selectedSkill.cast_range && (
-                    <div className={styles.skillStatItem}>
-                      <div className={styles.skillStatLabel}>CAST RANGE</div>
-                      <div className={styles.skillStatValue}>{selectedSkill.cast_range}</div>
-                    </div>
-                  )}
-                  {selectedSkill.damage && (
-                    <div className={styles.skillStatItem}>
-                      <div className={styles.skillStatLabel}>DAMAGE</div>
-                      <div className={styles.skillStatValue}>{selectedSkill.damage}</div>
-                    </div>
-                  )}
-                  {selectedSkill.duration && (
-                    <div className={styles.skillStatItem}>
-                      <div className={styles.skillStatLabel}>DURATION</div>
-                      <div className={styles.skillStatValue}>{selectedSkill.duration}</div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Ability Details */}
-                {selectedSkill.effect && selectedSkill.effect.length > 0 && (
-                  <div className={styles.abilityDetails}>
-                    <div className={styles.abilityDetailsTitle}>ABILITY DETAILS:</div>
-                    <div className={styles.abilityDetailsGrid}>
-                      {selectedSkill.effect.map((effect, idx) => (
-                        <div key={idx} className={styles.abilityDetailItem}>
-                          {typeof effect === 'string' ? effect : JSON.stringify(effect)}
-                        </div>
-                      ))}
-                    </div>
+                {/* Skill Parameters - Additional parameters not in level scaling */}
+                {selectedSkill.skill_parameters && typeof selectedSkill.skill_parameters === 'object' && 
+                 Object.keys(selectedSkill.skill_parameters).length > 0 && (
+                  <div className={styles.skillParameters}>
+                    {Object.entries(selectedSkill.skill_parameters).map(([key, value]) => {
+                      let displayValue: string;
+                      
+                      if (typeof value === 'object' && value !== null) {
+                        // Handle objects like {levels: [...], name: "..."}
+                        if ('levels' in value && Array.isArray(value.levels)) {
+                          displayValue = value.levels.join(' / ');
+                        } else if ('name' in value) {
+                          return null; // Skip objects with name (they go in level scaling)
+                        } else {
+                          displayValue = JSON.stringify(value);
+                        }
+                      } else {
+                        displayValue = String(value);
+                      }
+                      
+                      return (
+                        <span key={key} className={styles.skillParamInline}>
+                          {key}: {displayValue}
+                        </span>
+                      );
+                    })}
                   </div>
                 )}
 
-                {selectedSkill.skill_type && (
-                  <div className={styles.skillTypeBadge}>
-                    {selectedSkill.skill_type}
-                  </div>
-                )}
+                {/* Level Scaling */}
+                {selectedSkill.level_scaling && (() => {
+                  // Parse level_scaling if it's a string or use directly if it's an array
+                  let scalingData: Array<{ levels: any[]; name: string }> = [];
+                  
+                  if (typeof selectedSkill.level_scaling === 'string') {
+                    try {
+                      scalingData = JSON.parse(selectedSkill.level_scaling);
+                    } catch {
+                      return null;
+                    }
+                  } else if (Array.isArray(selectedSkill.level_scaling)) {
+                    scalingData = selectedSkill.level_scaling;
+                  } else {
+                    return null;
+                  }
+
+                  if (!scalingData.length || !scalingData[0]?.levels || scalingData[0].levels.length === 0) {
+                    return null;
+                  }
+
+                  const maxLevels = Math.max(...scalingData.map(item => item.levels?.length || 0));
+
+                  return (
+                    <div className={styles.levelScaling}>
+                      <div className={styles.levelScalingTable}>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th></th>
+                              {Array.from({ length: maxLevels }, (_, i) => (
+                                <th key={i}>Lv.{i + 1}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {scalingData.map((param, idx) => (
+                              <tr key={idx}>
+                                <td className={styles.paramName}>{param.name}</td>
+                                {param.levels?.map((value: any, levelIdx: number) => (
+                                  <td key={levelIdx}>{value}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Ability Details - hidden as usually empty */}
               </div>
             )}
           </div>

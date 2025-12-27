@@ -57,6 +57,26 @@ export const api = {
   },
   getHeroRank: (heroId: number): Promise<HeroRank> => fetchApi(`/heroes/${heroId}/rank`),
   
+  // Hero Rank History - отримати статистику за різні періоди
+  getHeroRankHistory: async (gameId: number, heroGameId: number): Promise<HeroRank[]> => {
+    const periods = [1, 3, 7, 15, 30];
+    const results = await Promise.all(
+      periods.map(days => 
+        fetch(`${API_URL}/hero-ranks?game_id=${gameId}&days=${days}`)
+          .then(res => res.json())
+          .then(data => data.data || data)
+      )
+    );
+    
+    // Фільтруємо для конкретного героя
+    return periods.map((days, idx) => {
+      const ranks = results[idx] as HeroRank[];
+      const heroRank = ranks.find(r => r.hero_game_id === heroGameId || r.hero_id === heroGameId);
+      if (!heroRank) return null;
+      return { ...heroRank, days };
+    }).filter((r): r is HeroRank => r !== null && r.win_rate !== undefined);
+  },
+  
   // Hero Relations
   getHeroRelations: (gameId: number): Promise<Record<number, HeroRelation>> => 
     fetchApi(`/heroes/relations?game_id=${gameId}`),
@@ -68,4 +88,7 @@ export const api = {
   // Hero Compatibility Data
   getHeroCompatibilityData: (gameId: number): Promise<Record<number, HeroCompatibilityData>> => 
     fetchApi(`/heroes/compatibility-data?game_id=${gameId}`),
+  
+  // Patches - історія змін
+  getPatches: (): Promise<any[]> => fetchApi('/patches'),
 };

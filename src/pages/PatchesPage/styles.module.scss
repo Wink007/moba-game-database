@@ -238,11 +238,19 @@
   background: rgba(255, 255, 255, 0.02);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  scroll-margin-top: 80px; // Відступ для скролу з урахуванням header
 
   &:hover {
     background: rgba(255, 255, 255, 0.03);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  // Підсвічуємо карту, якщо вона є target з якоря
+  &:target {
+    background: rgba(78, 205, 196, 0.08);
+    border: 2px solid rgba(78, 205, 196, 0.3);
+    box-shadow: 0 4px 20px rgba(78, 205, 196, 0.2);
   }
 }
 
@@ -356,6 +364,46 @@
       margin-right: 10px;
       color: rgba(78, 205, 196, 0.6);
     }
+  }
+}
+
+.description {
+  margin-bottom: 20px;
+  
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin: 8px 0;
+    
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.subcategories {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subcategory {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border-left: 3px solid rgba(78, 205, 196, 0.4);
+  
+  h4 {
+    margin: 0 0 12px 0;
+    color: #4ecdc4;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  
+  .changesList {
+    margin: 0;
   }
 }
 

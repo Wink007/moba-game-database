@@ -6,6 +6,7 @@ export interface HeroSynergy {
 export interface HeroRank {
   id: number;
   hero_id: number;
+  hero_game_id?: number;
   name: string;
   painting?: string;
   image?: string;
@@ -13,7 +14,9 @@ export interface HeroRank {
   roles?: string[];
   win_rate: number;
   ban_rate: number;
+  pick_rate?: number;
   appearance_rate: number;
+  rank_position?: number;
   synergy_heroes: HeroSynergy[];
   days: number; // Період статистики: 1, 3, 7, 15, 30
   rank: string; // Rank category: 'all', 'epic', 'legend', 'mythic', 'honor', 'glory'
