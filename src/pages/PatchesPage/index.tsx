@@ -52,6 +52,7 @@ interface Patch {
   release_date: string;
   new_hero: NewHero | null;
   hero_adjustments: Record<string, PatchHeroChanges>;
+  emblem_adjustments: Record<string, { sections: BattlefieldSection[] }>;
   battlefield_adjustments: Record<string, BattlefieldAdjustment>;
   system_adjustments: string[];
 }
@@ -267,6 +268,41 @@ export const PatchesPage: React.FC = () => {
                         </ul>
                       </div>
                     ))}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {currentPatch.emblem_adjustments && Object.keys(currentPatch.emblem_adjustments).length > 0 && (
+              <div className={styles.section}>
+                <h2>Emblem Adjustments</h2>
+                {Object.entries(currentPatch.emblem_adjustments).map(([emblemName, emblemData]) => (
+                  <div key={emblemName} className={styles.itemCard}>
+                    <div className={styles.itemHeader}>
+                      <h4>{emblemName}</h4>
+                    </div>
+                    
+                    {emblemData.sections && emblemData.sections.length > 0 && (
+                      <div className={styles.sections}>
+                        {emblemData.sections.map((section, sectionIdx) => (
+                          <div key={sectionIdx} className={styles.skillBlock}>
+                            <div className={styles.skillHeader}>
+                              {section.name && <span className={styles.skillName}>{section.name}</span>}
+                              {section.balance && (
+                                <span className={`${styles.badge} ${getBalanceBadgeClass(section.balance)}`}>
+                                  {section.balance}
+                                </span>
+                              )}
+                            </div>
+                            <ul className={styles.changesList}>
+                              {section.changes.map((change, changeIdx) => (
+                                <li key={changeIdx}>{change}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
