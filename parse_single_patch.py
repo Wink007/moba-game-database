@@ -400,6 +400,8 @@ def parse_patch_2_1_40():
                                         # Знаходимо <b> теги як початок нової секції
                                         if child.name == 'b':
                                             section_name = child.get_text(strip=True)
+                                            # Очищуємо зайві символи (наприклад ] в кінці)
+                                            section_name = section_name.rstrip(']')
                                             
                                             # Пропускаємо якщо це назва самого item'а
                                             if section_name != item_name:

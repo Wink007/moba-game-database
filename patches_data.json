@@ -671,14 +671,14 @@
                 ]
               },
               {
-                "name": "Unique Passive - Dragon Scale]",
+                "name": "Unique Passive - Dragon Scale",
                 "balance": "BUFF",
                 "changes": [
                   "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1"
                 ]
               },
               {
-                "name": "Unique Passive - Lifeline]",
+                "name": "Unique Passive - Lifeline",
                 "balance": "BUFF",
                 "changes": [
                   "This effect now requires taking damage from enemy heroes to trigger."
