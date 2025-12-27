@@ -211,6 +211,96 @@ def parse_patch_2_1_40():
                                         if text and len(text) > 3:
                                             current_skill['changes'].append(text)
                 
+                # ТАКОЖ обробляємо героїв в DIV елементах (без H3)
+                elif current.name == 'div':
+                    # Перевіряємо чи є це hero div
+                    bold_tags = current.find_all('b')
+                    if bold_tags:
+                        first_bold = bold_tags[0].get_text(strip=True)
+                        
+                        # Якщо перший bold - це НЕ skill keyword, то це ім'я героя
+                        if first_bold and not any(keyword in first_bold for keyword in ['Skill 1', 'Skill 2', 'Passive', 'Ultimate', 'Attribute', 'Attributes']):
+                            hero_name = first_bold
+                            
+                            # Перевіряємо чи цей герой вже був доданий (уникаємо дублікатів)
+                            if hero_name not in data['hero_adjustments']:
+                                print(f"    - {hero_name} (from DIV)")
+                                
+                                # Ініціалізуємо дані героя
+                                data['hero_adjustments'][hero_name] = {
+                                    'summary': '',
+                                    'skills': []
+                                }
+                                
+                                # Знаходимо всі вкладені div в батьківському div
+                                parent_div = current
+                                inner_divs = parent_div.find_all('div', recursive=False)
+                                
+                                # Перший div після row містить summary
+                                for div in inner_divs:
+                                    if 'padding-left: 2rem' in div.get('style', ''):
+                                        paragraphs = div.find_all('p', recursive=False)
+                                        summary_texts = []
+                                        for p in paragraphs:
+                                            # Пропускаємо параграфи з skills
+                                            if not p.find('b'):
+                                                text = p.get_text(strip=True)
+                                                if text:
+                                                    summary_texts.append(text)
+                                        if summary_texts:
+                                            data['hero_adjustments'][hero_name]['summary'] = ' '.join(summary_texts)
+                                            break
+                                
+                                # Шукаємо skills в div після <hr/>
+                                # Знаходимо всі <p> що містять <b>Skill
+                                all_paragraphs = parent_div.find_all('p')
+                                
+                                current_skill = None
+                                for p in all_paragraphs:
+                                    bold = p.find('b')
+                                    
+                                    if bold:
+                                        bold_text = bold.get_text(strip=True)
+                                        
+                                        # Перевіряємо чи це skill keyword
+                                        if any(keyword in bold_text for keyword in ['Skill 1', 'Skill 2', 'Passive', 'Ultimate', 'Attribute', 'Attributes']):
+                                            # Зберігаємо попередній скіл
+                                            if current_skill:
+                                                data['hero_adjustments'][hero_name]['skills'].append(current_skill)
+                                            
+                                            # Витягуємо balance
+                                            balance = None
+                                            balance_span = p.find('span', class_=lambda c: c and 'theme-dark-bg' in c)
+                                            if balance_span:
+                                                span_text = balance_span.get_text(strip=True)
+                                                for badge_text in ['BUFF', 'NERF', 'ADJUST', 'REVAMP']:
+                                                    if badge_text in span_text:
+                                                        balance = badge_text
+                                                        break
+                                            
+                                            # Витягуємо назву скілу (з <a> tag)
+                                            skill_name = bold_text
+                                            a_tags = p.find_all('a')
+                                            if a_tags:
+                                                # Другий a tag - назва скіла (перший - іконка)
+                                                skill_name = a_tags[-1].get_text(strip=True) if len(a_tags) > 1 else a_tags[0].get_text(strip=True)
+                                            
+                                            current_skill = {
+                                                'name': skill_name,
+                                                'balance': balance,
+                                                'changes': []
+                                            }
+                                    
+                                    elif current_skill:
+                                        # Це change для поточного скіла
+                                        text = p.get_text(strip=True)
+                                        if text and len(text) > 3:
+                                            current_skill['changes'].append(text)
+                                
+                                # Зберігаємо останній скіл
+                                if current_skill:
+                                    data['hero_adjustments'][hero_name]['skills'].append(current_skill)
+                
                 current = current.find_next_sibling()
         
         # III. Battlefield Adjustments  

@@ -218,6 +218,18 @@
           }
         ]
       },
+      "Johnson": {
+        "summary": "Adjusted Johnson's Damage Bonus. Damage dealt directly by his wrench and car form now scales with Physical Defense to improve damage output for defense-build Johnson.\nThe Sustained Damage dealt by the electrified zones left behind by Skill 2 and the Ultimate's explosion continues to scale with Magic Power.",
+        "skills": [
+          {
+            "name": "Full Throttle",
+            "balance": "BUFF",
+            "changes": [
+              "Explosion Damage Bonus Upon Hitting Enemies: 160%-240% Total Magic Power >> 240%-360% Τοtal Physical Defense"
+            ]
+          }
+        ]
+      },
       "Khufra": {
         "summary": "Improved Khufra's poke capability in the early to mid game.",
         "skills": [
@@ -278,6 +290,212 @@
               "Slow Effect: 50% >> 60%",
               "Base Damage: 500-900 >> 600-1200",
               "New Passive: Each level-up reduces the interval of the shield granted by the Noumenon Energy Core by 1s."
+            ]
+          }
+        ]
+      },
+      "Lukas": {
+        "summary": "To improve Sacred Beast's viability in the current meta, we've increased his sustained damage capability.",
+        "skills": [
+          {
+            "name": "Flash Step",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 14-8s >> 12-8s",
+              "Lightning Storm's Damage (Extra Damage): 40 >> 50-100"
+            ]
+          }
+        ]
+      },
+      "Lylia": {
+        "summary": "Due to Lylia's Skill 2 short casting range and Gloom's small area of effect after devouring Shadow Energy, she has struggled in the current meta. Therefore, we've increased the cast range of her Skills 1 and 2, and increased the area of effect after Gloom devours Shadow Energy.",
+        "skills": [
+          {
+            "name": "Magic Shockwave",
+            "balance": "BUFF",
+            "changes": [
+              "Cast Range: 7 >> 7.5"
+            ]
+          },
+          {
+            "name": "Shadow Energy",
+            "balance": "BUFF",
+            "changes": [
+              "Range: 5 >> 5.5",
+              "Area of Effect After Gloom Devours Shadow Energy: 5 >> 5.5"
+            ]
+          }
+        ]
+      },
+      "Miya": {
+        "summary": "Increased her early to mid game mobility and mid to late game damage.",
+        "skills": [
+          {
+            "name": "Moon Blessing",
+            "balance": "BUFF",
+            "changes": [
+              "Moonlight Shadow's Total Physical Attack Bonus: 20% >> 25%",
+              "Moonlight Shadow's Inherited Portion of Attack Effects: 20% >> 25%"
+            ]
+          },
+          {
+            "name": "Hidden Moonlight",
+            "balance": "BUFF",
+            "changes": [
+              "Movement Speed Bonus: 35%-65% >> 65% at all levels",
+              "Area of Effect After Gloom Devours Shadow Energy: 5 >> 5.5"
+            ]
+          }
+        ]
+      },
+      "Nana": {
+        "summary": "Adjusted Nana's skill damage distribution by increasing Skill 1 (damage skill) and decreasing Skill 2 (control skill).",
+        "skills": [
+          {
+            "name": "Magic Boomerang",
+            "balance": "BUFF",
+            "changes": [
+              "Damage: 300-400 (+90% Total Magic Power) >> 300-500 (+100% Total Magic Power)"
+            ]
+          },
+          {
+            "name": "Molina Smooch",
+            "balance": "NERF",
+            "changes": [
+              "Damage: 250-375 (+50% Total Magic Power) >> 150-275 (+30% Total Magic Power)"
+            ]
+          }
+        ]
+      },
+      "Paquito": {
+        "summary": "To let this skill-based Fighter unleash combos more frequently, we've made adjustments.",
+        "skills": [
+          {
+            "name": "Jab",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 8-6s >> 7-5.5s"
+            ]
+          },
+          {
+            "name": "Knockout Strike",
+            "balance": "NERF",
+            "changes": [
+              "Cooldown: 17-13s >> 15-12s"
+            ]
+          }
+        ]
+      },
+      "Rafaela": {
+        "summary": "Increased Rafaela's healing and speed-up effects as a Support.",
+        "skills": [
+          {
+            "name": "Holy Healing",
+            "balance": "BUFF",
+            "changes": [
+              "Magic Bonus on the Additional Healing for Self and the Most Injured Allied Hero: 45% >> 65%",
+              "The Movement Speed bonus increases by 1% for every 20 Magic Power >> The Movement Speed bonus increases by 1% for every 10 Magic Power"
+            ]
+          },
+          {
+            "name": "Holy Baptism",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 42-34s >> 38-30s"
+            ]
+          }
+        ]
+      },
+      "Tigreal": {
+        "summary": "Slightly increased the hero's ability to secure kills and Ultimate damage.",
+        "skills": [
+          {
+            "name": "Sacred Hammer",
+            "balance": "BUFF",
+            "changes": [
+              "Charge Speed: 6 >> 8"
+            ]
+          },
+          {
+            "name": "Implosion",
+            "balance": "BUFF",
+            "changes": [
+              "Base Damage: 270-430 >> 600-1000"
+            ]
+          }
+        ]
+      },
+      "Wu Zetian": {
+        "summary": "Adjusted Zetian's damage curve and Mana Cost to improve her late-game damage output.",
+        "skills": [
+          {
+            "name": "Phoenix Strike",
+            "balance": "BUFF",
+            "changes": [
+              "Damage for First Two Waves: 200-275 (+30% Total Magic Power) >> 150-275 (+50% Total Magic Power)",
+              "Damage for the Third Wave: 385-660 (+120% Total Magic Power) >> 360-660 (+120% Total Magic Power)",
+              "Mana Cost: 70-120 >> 50-75",
+              "Cooldown: 6s >> 5s"
+            ]
+          }
+        ]
+      },
+      "Zhuxin": {
+        "summary": "Reduced Zhuxin's excessive sustained control capabilities, but increased her damage.",
+        "skills": [
+          {
+            "name": "Crimson Butterflies",
+            "balance": "NERF",
+            "changes": [
+              "Mana Regen from Each Crimson Butterfly: 5% >> 3%",
+              "Mana Regen Interval: 0.25s >> 0.33s"
+            ]
+          },
+          {
+            "name": "Lantern Flare",
+            "balance": "ADJUST",
+            "changes": [
+              "Base Damage: 33-88 (+28% Total Magic Power) >> 45-95 (+30% Total Magic Power) (Magic Power Bonus increased to 60% against minions)",
+              "Base Smash Damage: 300-800 >> 200-300 (+10%-15% of the captured target's Max HP) (Can now capture Tigreal and throw him onto Layla, dealing damage to Layla based on Tigreal's Max HP)",
+              "Soul Snare Stacking Interval: 0.25s >> 0.33s",
+              "New Effect: After successfully knocking enemy heroes airborne, the target cannot be marked with Soul Snare again for 4s. During this time, this skill deals 15%-25% increased damage to that target.",
+              "Mana Cost Adjustment: Applying Soul Snare to enemy heroes costs 120-150 Mana >> Activating Skill 2 costs 90 Mana every 0.33s"
+            ]
+          },
+          {
+            "name": "Crimson Beacon",
+            "balance": "BUFF",
+            "changes": [
+              "Soul Snare Stacking Interval: 1s >> 0.5s"
+            ]
+          }
+        ]
+      },
+      "Zilong": {
+        "summary": "Improved Zilong's early and mid game combat ability.",
+        "skills": [
+          {
+            "name": "Attribute",
+            "balance": "NERF",
+            "changes": [
+              "Basic Attack Speed: 1.2 >> 1.05",
+              "Physical Attack Growth: 6.65 >> 9"
+            ]
+          },
+          {
+            "name": "Dragon Flurry",
+            "balance": "ADJUST",
+            "changes": [
+              "Basic Attack Damage: 100% Total Physical Attack >> 100 (+80% Total Physical Attack)",
+              "Dragon Flurry Damage: 30 (+40% Total Physical Attack) >> 80 (+30% Total Physical Attack)",
+              "Dragon Flurry Trigger Condition: Deals damage 3 times with Basic Attacks >> Deals damage 3 times with Basic Attacks or skills"
+            ]
+          },
+          {
+            "name": "Spear Strike",
+            "balance": "BUFF",
+            "changes": [
+              "Removed Effect: Launches a Basic Attack after casting the skill."
             ]
           }
         ]
