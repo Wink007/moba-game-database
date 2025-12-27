@@ -33,10 +33,17 @@ interface BattlefieldSubcategory {
   changes: string[];
 }
 
-interface BattlefieldAdjustment {
+interface BattlefieldItem {
   description: string[];
   subcategories: BattlefieldSubcategory[];
   changes: string[];
+}
+
+interface BattlefieldAdjustment {
+  type: 'section' | 'item';
+  description?: string[];
+  items?: Record<string, BattlefieldItem>;
+  changes?: string[];
 }
 
 interface Patch {
@@ -267,50 +274,86 @@ export const PatchesPage: React.FC = () => {
             {currentPatch.battlefield_adjustments && Object.keys(currentPatch.battlefield_adjustments).length > 0 && (
               <div className={styles.section}>
                 <h2>Battlefield Adjustments</h2>
-                {Object.entries(currentPatch.battlefield_adjustments)
-                  .filter(([name, data]) => 
-                    (data.description && data.description.length > 0) ||
-                    (data.subcategories && data.subcategories.length > 0) ||
-                    (data.changes && data.changes.length > 0)
-                  )
-                  .map(([itemName, itemData]) => (
-                  <div key={itemName} className={styles.itemCard}>
-                    <div className={styles.itemHeader}>
-                      <h3>{itemName}</h3>
-                    </div>
-                    
-                    {itemData.description && itemData.description.length > 0 && (
-                      <div className={styles.description}>
-                        {itemData.description.map((desc, idx) => (
-                          <p key={idx}>{desc}</p>
-                        ))}
-                      </div>
-                    )}
-                    
-                    {itemData.subcategories && itemData.subcategories.length > 0 && (
-                      <div className={styles.subcategories}>
-                        {itemData.subcategories.map((sub, subIdx) => (
-                          <div key={subIdx} className={styles.subcategory}>
-                            <h4>{sub.name}</h4>
-                            <ul className={styles.changesList}>
-                              {sub.changes.map((change, changeIdx) => (
-                                <li key={changeIdx}>{change}</li>
-                              ))}
-                            </ul>
+                {Object.entries(currentPatch.battlefield_adjustments).map(([sectionName, sectionData]) => {
+                  // Якщо це секція з вкладеними items (Equipment Adjustments, Battle Spells)
+                  if (sectionData.type === 'section' && sectionData.items && Object.keys(sectionData.items).length > 0) {
+                    return (
+                      <div key={sectionName} className={styles.battlefieldSection}>
+                        <h3 className={styles.sectionTitle}>{sectionName}</h3>
+                        
+                        {Object.entries(sectionData.items).map(([itemName, itemData]) => (
+                          <div key={itemName} className={styles.itemCard}>
+                            <div className={styles.itemHeader}>
+                              <h4>{itemName}</h4>
+                            </div>
+                            
+                            {itemData.description && itemData.description.length > 0 && (
+                              <div className={styles.description}>
+                                {itemData.description.map((desc, idx) => (
+                                  <p key={idx}>{desc}</p>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {itemData.subcategories && itemData.subcategories.length > 0 && (
+                              <div className={styles.subcategories}>
+                                {itemData.subcategories.map((sub, subIdx) => (
+                                  <div key={subIdx} className={styles.subcategory}>
+                                    <h5>{sub.name}</h5>
+                                    <ul className={styles.changesList}>
+                                      {sub.changes.map((change, changeIdx) => (
+                                        <li key={changeIdx}>{change}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {itemData.changes && itemData.changes.length > 0 && (
+                              <ul className={styles.changesList}>
+                                {itemData.changes.map((change, changeIdx) => (
+                                  <li key={changeIdx}>{change}</li>
+                                ))}
+                              </ul>
+                            )}
                           </div>
                         ))}
                       </div>
-                    )}
-                    
-                    {itemData.changes && itemData.changes.length > 0 && (
-                      <ul className={styles.changesList}>
-                        {itemData.changes.map((change, changeIdx) => (
-                          <li key={changeIdx}>{change}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
+                    );
+                  }
+                  
+                  // Якщо це окремий item (Mythic Battlefield, Stat Adjustments)
+                  if (sectionData.type === 'item' && 
+                      ((sectionData.description && sectionData.description.length > 0) || 
+                       (sectionData.changes && sectionData.changes.length > 0))) {
+                    return (
+                      <div key={sectionName} className={styles.itemCard}>
+                        <div className={styles.itemHeader}>
+                          <h3>{sectionName}</h3>
+                        </div>
+                        
+                        {sectionData.description && sectionData.description.length > 0 && (
+                          <div className={styles.description}>
+                            {sectionData.description.map((desc, idx) => (
+                              <p key={idx}>{desc}</p>
+                            ))}
+                          </div>
+                        )}
+                        
+                        {sectionData.changes && sectionData.changes.length > 0 && (
+                          <ul className={styles.changesList}>
+                            {sectionData.changes.map((change, changeIdx) => (
+                              <li key={changeIdx}>{change}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    );
+                  }
+                  
+                  return null;
+                })}
               </div>
             )}
 

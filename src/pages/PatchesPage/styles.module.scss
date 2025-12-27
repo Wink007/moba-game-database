@@ -395,7 +395,7 @@
   border-radius: 8px;
   border-left: 3px solid rgba(78, 205, 196, 0.4);
   
-  h4 {
+  h4, h5 {
     margin: 0 0 12px 0;
     color: #4ecdc4;
     font-size: 1.05rem;
@@ -405,6 +405,23 @@
   .changesList {
     margin: 0;
   }
+}
+
+.battlefieldSection {
+  margin-bottom: 40px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  margin: 0 0 24px 0;
+  color: #ba68c8;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(186, 104, 200, 0.3);
 }
 
 .systemChanges {
