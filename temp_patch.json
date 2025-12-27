@@ -33,14 +33,16 @@
       "summary": "Increased the duration of Angela's Ultimate when attached to allies and the cast frequency of Skill 1. Additionally, the cooldown now runs while attached. To balance, we've reduced the Movement Speed boost of the Passive and increased the cooldown of the Ultimate.",
       "skills": [
         {
-          "name": "Passive-Smart Heart",
+          "type": "Passive",
+          "name": "Smart Heart",
           "balance": "NERF",
           "changes": [
             "Movement Speed Boost per Stack: 7.5% >> 5%"
           ]
         },
         {
-          "name": "Skill 1-Love Waves",
+          "type": "Skill 1",
+          "name": "Love Waves",
           "balance": "BUFF",
           "changes": [
             "Cooldown: 7s >> 8s",
@@ -48,7 +50,8 @@
           ]
         },
         {
-          "name": "Ultimate-Heartguard",
+          "type": "Ultimate",
+          "name": "Heartguard",
           "balance": "ADJUST",
           "changes": [
             "Cooldown: 20s >>60s",
@@ -63,7 +66,8 @@
       "summary": "Increased the stability of Atlas's Skill 1 damage.",
       "skills": [
         {
-          "name": "Skill 1-Annihilate",
+          "type": "Skill 1",
+          "name": "Annihilate",
           "balance": "BUFF",
           "changes": [
             "Damage: 215-390 (+60% Total Magic Power) >> 400-600 (+100% Total Magic Power)",
@@ -76,7 +80,8 @@
       "summary": "Aurora was slightly underperforming among Mages. Therefore, we've enhanced her overall ability scaling.",
       "skills": [
         {
-          "name": "Skill 2-Frosty Breeze",
+          "type": "Skill 2",
+          "name": "Frosty Breeze",
           "balance": "BUFF",
           "changes": [
             "New Effect: Gain 0.06s additional freezing time for every 100 Magic Power."
@@ -88,7 +93,8 @@
       "summary": "The payoff for landing Barats' Ultimate was low, while missing it was too punishing. Therefore, we've made some adjustments to improve this.",
       "skills": [
         {
-          "name": "Ultimate-Detona's Welcome",
+          "type": "Ultimate",
+          "name": "Detona's Welcome",
           "balance": "BUFF",
           "changes": [
             "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%.",
@@ -104,7 +110,8 @@
       "summary": "Enhanced Estes's sustained healing and the ability to protect fragile heroes.",
       "skills": [
         {
-          "name": "Skill 1-Moonlight Immersion",
+          "type": "Skill 1",
+          "name": "Moonlight Immersion",
           "balance": "BUFF",
           "changes": [
             "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power)",
@@ -114,7 +121,8 @@
           ]
         },
         {
-          "name": "Ultimate-Blessing of Moon Goddess",
+          "type": "Ultimate",
+          "name": "Blessing of Moon Goddess",
           "balance": "BUFF",
           "changes": [
             "Enhanced Moonlight Immersion doubles the Hybrid Defense increase.",
@@ -127,7 +135,8 @@
       "summary": "Freya's combat effectiveness was relatively weak without her Ultimate. To improve balance while preserving her highlight performance during Ultimate, we've reduced its cooldown.",
       "skills": [
         {
-          "name": "Ultimate-Valkyrie Descent",
+          "type": "Ultimate",
+          "name": "Valkyrie Descent",
           "balance": "BUFF",
           "changes": [
             "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast)",
@@ -141,7 +150,8 @@
       "summary": "Compared to other Tank heroes, the control duration of Gatotkaca's Skill 2 was too long and easy to cast.",
       "skills": [
         {
-          "name": "Skill 2-Unbreakable",
+          "type": "Skill 2",
+          "name": "Unbreakable",
           "balance": "NERF",
           "changes": [
             "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time)",
@@ -154,7 +164,8 @@
       "summary": "Granger has been crowding out other Marksmen in the Gold Lane. To address this, we've reduced his early to mid game scaling and damage output.",
       "skills": [
         {
-          "name": "Skill 1-Rhapsody",
+          "type": "Skill 1",
+          "name": "Rhapsody",
           "balance": "NERF",
           "changes": [
             "Base Damage: 60-120 >> 60-100",
@@ -167,7 +178,8 @@
       "summary": "Grock boasted incredible durability and could gain Control Immunity from his Passive. Therefore, we've slightly reduced his ability. Grock can still cast his skills uninterrupted, but he will be affected by control effects.",
       "skills": [
         {
-          "name": "Passive-Bastion of StoneBastion of Stone",
+          "type": "Passive",
+          "name": "Bastion of StoneBastion of Stone",
           "balance": "NERF",
           "changes": [
             "Removed Effect: Gains Control Immunity while casting skills.",
@@ -175,7 +187,8 @@
           ]
         },
         {
-          "name": "Ultimate-Tectonic ChargeTectonic Charge",
+          "type": "Ultimate",
+          "name": "Tectonic ChargeTectonic Charge",
           "balance": "BUFF",
           "changes": [
             "New Effect: Gains Control Immunity while charging."
@@ -187,7 +200,8 @@
       "summary": "Harith has been crowding out other Marksmen in the Gold Lane. To address this, his mid to late game damage has been reduced, while his survivability has been increased to adjust his power curve.",
       "skills": [
         {
-          "name": "Skill 2-Chrono Dash",
+          "type": "Skill 2",
+          "name": "Chrono Dash",
           "balance": "NERF",
           "changes": [
             "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power)",
@@ -201,7 +215,8 @@
       "summary": "Hayabusa's Skill 2 allowed him to reach the backline too easily. For balance, we've reduced its distance. To compensate, we've also increased his skill cast frequency.",
       "skills": [
         {
-          "name": "Skill 2-Ninjutsu Quad Shadow",
+          "type": "Skill 2",
+          "name": "Ninjutsu Quad Shadow",
           "balance": "NERF",
           "changes": [
             "Reduced Hayabusa's and his phantoms' travel distance by 20%.",
@@ -209,7 +224,8 @@
           ]
         },
         {
-          "name": "Ultimate-Ougi Shadow Kill",
+          "type": "Ultimate",
+          "name": "Ougi Shadow Kill",
           "balance": "BUFF",
           "changes": [
             "Cooldown: 50s >> 40s"
@@ -221,6 +237,7 @@
       "summary": "Adjusted Johnson's Damage Bonus. Damage dealt directly by his wrench and car form now scales with Physical Defense to improve damage output for defense-build Johnson.\nThe Sustained Damage dealt by the electrified zones left behind by Skill 2 and the Ultimate's explosion continues to scale with Magic Power.",
       "skills": [
         {
+          "type": "Ultimate",
           "name": "Full Throttle",
           "balance": "BUFF",
           "changes": [
@@ -233,7 +250,8 @@
       "summary": "Improved Khufra's poke capability in the early to mid game.",
       "skills": [
         {
-          "name": "Passive-Spell Curse",
+          "type": "Passive",
+          "name": "Spell Curse",
           "balance": "BUFF",
           "changes": [
             "Cooldown: 12s >> 8s"
@@ -245,7 +263,8 @@
       "summary": "Leomord's Passive relied on enemies being at low health to be effective, which didn't align with our design expectations. We want Leomord to take the initiative by gaining Oath Keeper energy through combat to deal Crit Damage while recovering HP for sustainability, making him a knight capable of charging into battle. We've also increased Skill 1's damage against creeps to improve Leomord's jungle clearing efficiency. To balance this, we've removed the shield granted in skill 1.",
       "skills": [
         {
-          "name": "Passive-The Oath Keeper",
+          "type": "Passive",
+          "name": "The Oath Keeper",
           "balance": "REVAMP",
           "changes": [
             "Leomord's Basic Attacks and skills gain 25 Oath Keeper energy for each target damaged. When the energy reaches 100, his next Basic Attack deals 200% Crit Damage and recovers 100 (+10* Hero Level) (+12% Extra Max HP) HP.",
@@ -254,7 +273,8 @@
           ]
         },
         {
-          "name": "Skill 1-Momentum",
+          "type": "Skill 1",
+          "name": "Momentum",
           "balance": "BUFF",
           "changes": [
             "Removed the effect of gaining a shield.",
@@ -267,7 +287,8 @@
       "summary": "Increased the frequency of Lolita's shield in the mid and late game, and increased the damage and slow effect of her Ultimate. To balance this, we've reduced the shield effect granted to allies.",
       "skills": [
         {
-          "name": "Passive-Noumenon Energy Core",
+          "type": "Passive",
+          "name": "Noumenon Energy Core",
           "balance": "ADJUST",
           "changes": [
             "Removed the effect where the shield is periodically granted to nearby allied heroes. Shield can still be granted to nearby allied heroes when using skills.",
@@ -275,7 +296,8 @@
           ]
         },
         {
-          "name": "Skill 1-Power Charge",
+          "type": "Skill 1",
+          "name": "Power Charge",
           "balance": "BUFF",
           "changes": [
             "Cooldown: Fixed at 10s >> 10-8s",
@@ -283,7 +305,8 @@
           ]
         },
         {
-          "name": "Ultimate-Noumenon Blast",
+          "type": "Ultimate",
+          "name": "Noumenon Blast",
           "balance": "BUFF",
           "changes": [
             "Slow Effect: 50% >> 60%",
@@ -297,6 +320,7 @@
       "summary": "To improve Sacred Beast's viability in the current meta, we've increased his sustained damage capability.",
       "skills": [
         {
+          "type": "Skill 2",
           "name": "Flash Step",
           "balance": "BUFF",
           "changes": [
@@ -310,6 +334,7 @@
       "summary": "Due to Lylia's Skill 2 short casting range and Gloom's small area of effect after devouring Shadow Energy, she has struggled in the current meta. Therefore, we've increased the cast range of her Skills 1 and 2, and increased the area of effect after Gloom devours Shadow Energy.",
       "skills": [
         {
+          "type": "Skill 1",
           "name": "Magic Shockwave",
           "balance": "BUFF",
           "changes": [
@@ -317,6 +342,7 @@
           ]
         },
         {
+          "type": "Skill 2",
           "name": "Shadow Energy",
           "balance": "BUFF",
           "changes": [
@@ -330,6 +356,7 @@
       "summary": "Increased her early to mid game mobility and mid to late game damage.",
       "skills": [
         {
+          "type": "Passive",
           "name": "Moon Blessing",
           "balance": "BUFF",
           "changes": [
@@ -338,6 +365,7 @@
           ]
         },
         {
+          "type": "Ultimate",
           "name": "Hidden Moonlight",
           "balance": "BUFF",
           "changes": [
@@ -351,6 +379,7 @@
       "summary": "Adjusted Nana's skill damage distribution by increasing Skill 1 (damage skill) and decreasing Skill 2 (control skill).",
       "skills": [
         {
+          "type": "Skill 1",
           "name": "Magic Boomerang",
           "balance": "BUFF",
           "changes": [
@@ -358,6 +387,7 @@
           ]
         },
         {
+          "type": "Skill 2",
           "name": "Molina Smooch",
           "balance": "NERF",
           "changes": [
@@ -370,6 +400,7 @@
       "summary": "To let this skill-based Fighter unleash combos more frequently, we've made adjustments.",
       "skills": [
         {
+          "type": "Skill 2",
           "name": "Jab",
           "balance": "BUFF",
           "changes": [
@@ -377,6 +408,7 @@
           ]
         },
         {
+          "type": "Ultimate",
           "name": "Knockout Strike",
           "balance": "NERF",
           "changes": [
@@ -389,6 +421,7 @@
       "summary": "Increased Rafaela's healing and speed-up effects as a Support.",
       "skills": [
         {
+          "type": "Skill 2",
           "name": "Holy Healing",
           "balance": "BUFF",
           "changes": [
@@ -397,6 +430,7 @@
           ]
         },
         {
+          "type": "Ultimate",
           "name": "Holy Baptism",
           "balance": "BUFF",
           "changes": [
@@ -409,6 +443,7 @@
       "summary": "Slightly increased the hero's ability to secure kills and Ultimate damage.",
       "skills": [
         {
+          "type": "Skill 2",
           "name": "Sacred Hammer",
           "balance": "BUFF",
           "changes": [
@@ -416,6 +451,7 @@
           ]
         },
         {
+          "type": "Ultimate",
           "name": "Implosion",
           "balance": "BUFF",
           "changes": [
@@ -428,6 +464,7 @@
       "summary": "Adjusted Zetian's damage curve and Mana Cost to improve her late-game damage output.",
       "skills": [
         {
+          "type": "Skill 1",
           "name": "Phoenix Strike",
           "balance": "BUFF",
           "changes": [
@@ -443,6 +480,7 @@
       "summary": "Reduced Zhuxin's excessive sustained control capabilities, but increased her damage.",
       "skills": [
         {
+          "type": "Passive",
           "name": "Crimson Butterflies",
           "balance": "NERF",
           "changes": [
@@ -451,6 +489,7 @@
           ]
         },
         {
+          "type": "Skill 2",
           "name": "Lantern Flare",
           "balance": "ADJUST",
           "changes": [
@@ -462,6 +501,7 @@
           ]
         },
         {
+          "type": "Ultimate",
           "name": "Crimson Beacon",
           "balance": "BUFF",
           "changes": [
@@ -474,6 +514,7 @@
       "summary": "Improved Zilong's early and mid game combat ability.",
       "skills": [
         {
+          "type": "Attribute",
           "name": "Attribute",
           "balance": "NERF",
           "changes": [
@@ -482,6 +523,7 @@
           ]
         },
         {
+          "type": "Passive",
           "name": "Dragon Flurry",
           "balance": "ADJUST",
           "changes": [
@@ -491,6 +533,7 @@
           ]
         },
         {
+          "type": "Skill 2",
           "name": "Spear Strike",
           "balance": "BUFF",
           "changes": [
@@ -502,119 +545,184 @@
   },
   "battlefield_adjustments": {
     "Mythic Battlefield": {
-      "changes": [
+      "description": [
         "Changed to [Mythical Honor Battlefield]. Mythic Battlefield's exclusive stat adjustments now only take effect after reaching Mythical Honor."
-      ]
+      ],
+      "subcategories": [],
+      "changes": []
     },
     "Stat Adjustments": {
-      "changes": [
+      "description": [
         "We've noticed that in high-rank matches, more Fighters are taking the Gold Lane, severely limiting the viability of Marksmen. Therefore, we've made Mythic Honor Battlefield adjustments to address this."
-      ]
+      ],
+      "subcategories": [],
+      "changes": []
     },
     "Gold Lane Siege Minion": {
-      "changes": [
+      "description": [
         "Extra Gold: 30% >> 40%"
-      ]
+      ],
+      "subcategories": [],
+      "changes": []
     },
     "Base Turret": {
-      "changes": [
+      "description": [
         "HP: 7300 >> 8200"
-      ]
+      ],
+      "subcategories": [],
+      "changes": []
     },
     "Base": {
-      "changes": [
+      "description": [
         "HP: 7900 >> 9000"
-      ]
+      ],
+      "subcategories": [],
+      "changes": []
     },
     "Equipment Adjustments": {
+      "description": [],
+      "subcategories": [],
       "changes": []
     },
     "Roaming Blessings": {
-      "changes": [
+      "description": [
         "Different types of Roaming heroes have different playstyles, so we've reworked how some Roaming Blessings gain extra Gold and EXP.",
-        "As match time increases, Gold from minions and creeps rises, while vision reveals and damage opportunities for roamers decrease in the late game. Therefore, we've adjusted the reward values for Roaming heroes' different actions to balance the Gold income of different Roaming styles.",
-        "[Conceal]",
-        "No longer gains income from minions and creeps killed by nearby allies.",
-        "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
-        "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-        "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-        "Gold Gained Every 5s After 8 Min: 9 >> 10",
-        "EXP Gained Every 5s After 8 Min: 18 >> 20",
-        "[Dire Hit]",
-        "No longer gains income from minions and creeps killed by nearby allies.",
-        "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
-        "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-        "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-        "Gold Gained Every 5s After 8 Min: 9 >> 10",
-        "EXP Gained Every 5s After 8 Min: 18 >> 20",
-        "[Encourage]",
-        "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
-        "Grants nearby allied heroes 20 Hybrid Defense.",
-        "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-        "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-        "Gold Gained Every 5s After 8 Min: 9 >> 10",
-        "EXP Gained Every 5s After 8 Min: 18 >> 20",
-        "[Favor]",
-        "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
-        "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-        "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-        "Gold Gained Every 5s After 8 Min: 9 >> 10",
-        "EXP Gained Every 5s After 8 Min: 18 >> 20"
-      ]
+        "As match time increases, Gold from minions and creeps rises, while vision reveals and damage opportunities for roamers decrease in the late game. Therefore, we've adjusted the reward values for Roaming heroes' different actions to balance the Gold income of different Roaming styles."
+      ],
+      "subcategories": [
+        {
+          "name": "Conceal",
+          "changes": [
+            "No longer gains income from minions and creeps killed by nearby allies.",
+            "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
+            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+            "Gold Gained Every 5s After 8 Min: 9 >> 10",
+            "EXP Gained Every 5s After 8 Min: 18 >> 20"
+          ]
+        },
+        {
+          "name": "Dire Hit",
+          "changes": [
+            "No longer gains income from minions and creeps killed by nearby allies.",
+            "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
+            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+            "Gold Gained Every 5s After 8 Min: 9 >> 10",
+            "EXP Gained Every 5s After 8 Min: 18 >> 20"
+          ]
+        },
+        {
+          "name": "Encourage",
+          "changes": [
+            "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
+            "Grants nearby allied heroes 20 Hybrid Defense.",
+            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+            "Gold Gained Every 5s After 8 Min: 9 >> 10",
+            "EXP Gained Every 5s After 8 Min: 18 >> 20"
+          ]
+        },
+        {
+          "name": "Favor",
+          "changes": [
+            "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
+            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+            "Gold Gained Every 5s After 8 Min: 9 >> 10",
+            "EXP Gained Every 5s After 8 Min: 18 >> 20"
+          ]
+        }
+      ],
+      "changes": []
     },
     "Demon Hunter Sword": {
-      "changes": [
-        "[Demon Hunter Sword]",
-        "AttributesBUFF",
-        "Removed 8% Lifesteal.",
-        "Unique Passive - DevourREVAMP",
-        "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
-      ]
+      "description": [],
+      "subcategories": [
+        {
+          "name": "Demon Hunter Sword",
+          "changes": [
+            "AttributesBUFF",
+            "Removed 8% Lifesteal.",
+            "Unique Passive - DevourREVAMP",
+            "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
+          ]
+        }
+      ],
+      "changes": []
     },
     "Rose Gold Meteor": {
-      "changes": [
-        "[Rose Gold Meteor]",
-        "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-        "AttributesNERF",
-        "Physical Attack: 40 >> 30",
-        "Unique Passive - Dragon Scale]BUFF",
-        "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1",
-        "Unique Passive - Lifeline]BUFF",
-        "This effect now requires taking damage from enemy heroes to trigger."
-      ]
+      "description": [],
+      "subcategories": [
+        {
+          "name": "Rose Gold Meteor",
+          "changes": [
+            "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
+            "AttributesNERF",
+            "Physical Attack: 40 >> 30",
+            "Unique Passive - Dragon Scale]BUFF",
+            "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1",
+            "Unique Passive - Lifeline]BUFF",
+            "This effect now requires taking damage from enemy heroes to trigger."
+          ]
+        }
+      ],
+      "changes": []
     },
     "Queen's Wings": {
-      "changes": [
-        "[Queen's Wings]",
-        "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-        "AttributesNERF",
-        "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
-      ]
+      "description": [],
+      "subcategories": [
+        {
+          "name": "Queen's Wings",
+          "changes": [
+            "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
+            "AttributesNERF",
+            "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
+          ]
+        }
+      ],
+      "changes": []
     },
     "Battle Spells": {
+      "description": [],
+      "subcategories": [],
       "changes": []
     },
     "Ice Retribution": {
-      "changes": [
-        "[Ice Retribution]",
-        "Slightly reduced Ice Retribution's control and kiting potential.",
-        "AttributesNERF",
-        "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
-      ]
+      "description": [],
+      "subcategories": [
+        {
+          "name": "Ice Retribution",
+          "changes": [
+            "Slightly reduced Ice Retribution's control and kiting potential.",
+            "AttributesNERF",
+            "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
+          ]
+        }
+      ],
+      "changes": []
     },
     "Vengeance": {
-      "changes": [
-        "[Vengeance]",
-        "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
-        "AttributesNERF",
-        "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
-      ]
+      "description": [],
+      "subcategories": [
+        {
+          "name": "Vengeance",
+          "changes": [
+            "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
+            "AttributesNERF",
+            "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
+          ]
+        }
+      ],
+      "changes": []
     },
     "Battlefield Adjustments": {
-      "changes": [
+      "description": [
         "cIn-match Quick Communication",
         "Optimized signal trigger timing and added 4 new signals: Enemy No Ultimate, Enemy Invading Jungle, Enemy No Battle Spell, and Enemy No Active Equipment."
-      ]
+      ],
+      "subcategories": [],
+      "changes": []
     }
   },
   "system_adjustments": [

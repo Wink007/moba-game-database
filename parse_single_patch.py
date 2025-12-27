@@ -193,13 +193,34 @@ def parse_patch_2_1_40():
                                                     balance = badge_text
                                                     break
                                         
-                                        # Видаляємо badge text з назви
+                                        # Розділяємо на type і name
+                                        skill_type = None
                                         skill_name = text
+                                        
+                                        # Видаляємо badge text
                                         for badge_text in ['BUFF', 'NERF', 'ADJUST', 'REVAMP']:
                                             skill_name = skill_name.replace(badge_text, '')
                                         skill_name = skill_name.strip()
                                         
+                                        # Витягуємо тип
+                                        if 'Passive-' in skill_name:
+                                            skill_type = 'Passive'
+                                            skill_name = skill_name.replace('Passive-', '').strip()
+                                        elif 'Skill 1-' in skill_name:
+                                            skill_type = 'Skill 1'
+                                            skill_name = skill_name.replace('Skill 1-', '').strip()
+                                        elif 'Skill 2-' in skill_name:
+                                            skill_type = 'Skill 2'
+                                            skill_name = skill_name.replace('Skill 2-', '').strip()
+                                        elif 'Ultimate-' in skill_name:
+                                            skill_type = 'Ultimate'
+                                            skill_name = skill_name.replace('Ultimate-', '').strip()
+                                        elif 'Attributes' in skill_name:
+                                            skill_type = 'Attributes'
+                                            skill_name = 'Base Stats'
+                                        
                                         current_skill = {
+                                            'type': skill_type,
                                             'name': skill_name,
                                             'balance': balance,
                                             'changes': []
@@ -278,7 +299,8 @@ def parse_patch_2_1_40():
                                                         balance = badge_text
                                                         break
                                             
-                                            # Витягуємо назву скілу (з <a> tag)
+                                            # Витягуємо тип і назву скілу
+                                            skill_type = bold_text
                                             skill_name = bold_text
                                             a_tags = p.find_all('a')
                                             if a_tags:
@@ -286,6 +308,7 @@ def parse_patch_2_1_40():
                                                 skill_name = a_tags[-1].get_text(strip=True) if len(a_tags) > 1 else a_tags[0].get_text(strip=True)
                                             
                                             current_skill = {
+                                                'type': skill_type,
                                                 'name': skill_name,
                                                 'balance': balance,
                                                 'changes': []
@@ -316,6 +339,8 @@ def parse_patch_2_1_40():
                         print(f"    - {item_name}")
                         
                         data['battlefield_adjustments'][item_name] = {
+                            'description': [],
+                            'subcategories': [],
                             'changes': []
                         }
                         
@@ -325,7 +350,7 @@ def parse_patch_2_1_40():
                             if next_elem.name == 'p':
                                 text = next_elem.get_text(strip=True)
                                 if text:
-                                    data['battlefield_adjustments'][item_name]['changes'].append(text)
+                                    data['battlefield_adjustments'][item_name]['description'].append(text)
                             elif next_elem.name == 'ul':
                                 for li in next_elem.find_all('li', recursive=False):
                                     text = li.get_text(strip=True)
@@ -336,22 +361,28 @@ def parse_patch_2_1_40():
                                 bold_tags = next_elem.find_all('b')
                                 if bold_tags:
                                     subcategory_name = bold_tags[0].get_text(strip=True)
-                                    # Додаємо назву підкатегорії
-                                    data['battlefield_adjustments'][item_name]['changes'].append(f"[{subcategory_name}]")
-                                
-                                # Збираємо параграфи з DIV
-                                for p in next_elem.find_all('p'):
-                                    text = p.get_text(strip=True)
-                                    # Пропускаємо параграф з назвою підкатегорії
-                                    if text and bold_tags and text != bold_tags[0].get_text(strip=True):
-                                        data['battlefield_adjustments'][item_name]['changes'].append(text)
-                                
-                                # Збираємо UL списки з DIV
-                                for ul in next_elem.find_all('ul'):
-                                    for li in ul.find_all('li'):
-                                        text = li.get_text(strip=True)
-                                        if text:
-                                            data['battlefield_adjustments'][item_name]['changes'].append(text)
+                                    subcategory_changes = []
+                                    
+                                    # Збираємо параграфи з DIV
+                                    for p in next_elem.find_all('p'):
+                                        text = p.get_text(strip=True)
+                                        # Пропускаємо параграф з назвою підкатегорії
+                                        if text and text != subcategory_name:
+                                            subcategory_changes.append(text)
+                                    
+                                    # Збираємо UL списки з DIV
+                                    for ul in next_elem.find_all('ul'):
+                                        for li in ul.find_all('li'):
+                                            text = li.get_text(strip=True)
+                                            if text:
+                                                subcategory_changes.append(text)
+                                    
+                                    # Додаємо підкатегорію
+                                    if subcategory_changes:
+                                        data['battlefield_adjustments'][item_name]['subcategories'].append({
+                                            'name': subcategory_name,
+                                            'changes': subcategory_changes
+                                        })
                             next_elem = next_elem.find_next_sibling()
                 
                 current = current.find_next_sibling()
