@@ -243,21 +243,49 @@ def fetch_patch_details(version):
             # Знаходимо всі дочірні div (не рекурсивно)
             inner_divs = hero_div.find_all('div', recursive=False)
             
-            # Структура: div[0] - заголовок, div[1] - summary, hr, div[2+] - скіли
+            # Структура: div[0] - заголовок, div[1] - summary, hr, div[2+] - скіли або атрибути
+            summary_parts = []
+            
             if len(inner_divs) >= 2:
-                # div[1] містить summary
+                # div[1] містить summary або може бути порожнім
                 summary_div = inner_divs[1]
-                summary_paragraphs = []
                 for p in summary_div.find_all('p', recursive=False):
                     text = p.get_text(strip=True)
                     if text and len(text) > 20:
-                        summary_paragraphs.append(text)
-                if summary_paragraphs:
-                    data['hero_changes'][hero_name]['summary'] = ' '.join(summary_paragraphs)
+                        summary_parts.append(text)
             
-            # div[2+] містять зміни скілів (після <hr />)
+            # div[2+] містять зміни скілів або атрибутів (після <hr />)
             for div_idx in range(2, len(inner_divs)):
                 div = inner_divs[div_idx]
+                
+                # Перевіряємо чи це Attributes (Base Physical Attack, Base HP, etc)
+                first_p = div.find('p', recursive=False)
+                if first_p:
+                    first_text = first_p.get_text(strip=True)
+                    if first_text in ['Atributes', 'Attributes', 'Base Stats']:
+                        # Це зміни атрибутів, додаємо до summary
+                        attr_changes = []
+                        for p in div.find_all('p', recursive=False):
+                            text = p.get_text(strip=True)
+                            if text and text not in ['Atributes', 'Attributes', 'Base Stats']:
+                                # Форматуємо зміни атрибутів
+                                attr_changes.append(text)
+                        if attr_changes:
+                            summary_parts.append('Attributes: ' + ', '.join(attr_changes))
+                        continue
+            
+            # Зберігаємо summary якщо є
+            if summary_parts:
+                data['hero_changes'][hero_name]['summary'] = ' '.join(summary_parts)
+            
+            # Парсимо скіли (залишилась стара логіка для скілів)
+            for div_idx in range(2, len(inner_divs)):
+                div = inner_divs[div_idx]
+                
+                # Пропускаємо div з Attributes (вже оброблені вище)
+                first_p = div.find('p', recursive=False)
+                if first_p and first_p.get_text(strip=True) in ['Atributes', 'Attributes', 'Base Stats']:
+                    continue
                 
                 current_skill = None
                 

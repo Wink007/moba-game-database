@@ -1938,17 +1938,8 @@
     },
     "hero_changes": {
       "Zhuxin": {
-        "summary": "Zhuxin's wave clearing ability is weak, while her control potential in teamfights is too high. We aim to address this issue.",
-        "skills": [
-          {
-            "type": "Passive",
-            "name": "Crimson Butterflies",
-            "balance": "",
-            "changes": [
-              "Max Crimson Butterflies Stacks: 30 >>20Mana Restored per Crimson Butterflies Stack: 3% of Max Mana >>4% of Max Mana"
-            ]
-          }
-        ]
+        "summary": "Zhuxin's wave clearing ability is weak, while her control potential in teamfights is too high. We aim to address this issue. Attributes: Base Mana Regen: 28 >>10, Passive-Crimson Butterflies, Max Crimson Butterflies Stacks: 30 >>20Mana Restored per Crimson Butterflies Stack: 3% of Max Mana >>4% of Max Mana, Skill 1-Fluttering Grace, Casting no longer consumes Mana., Skill 2-Lantern Flare, Casting no longer consumes Mana. Each time applying Soul Snare consumes 90-150 Mana, which means no Mana will be consumed if no hero or summoned unit is hit., Ultimate-Crimson Beacon, Casting no longer consumes Mana.Removed the effect where Skill 2 does not consume Mana during the Ultimate.",
+        "skills": []
       },
       "Chip": {
         "summary": "We hope to enhance Chip's effectiveness in teamfights while significantly reducing his support capabilities.",
@@ -2044,7 +2035,7 @@
         ]
       },
       "Hylos": {
-        "summary": "Benefiting from the adjustments to some equipment, Hylos has gradually shown dominance in Ranked matches. We hope to maintain Hylos's strong early-game performance, so this adjustment reduces his durability in the late game.",
+        "summary": "Benefiting from the adjustments to some equipment, Hylos has gradually shown dominance in Ranked matches. We hope to maintain Hylos's strong early-game performance, so this adjustment reduces his durability in the late game. Attributes: HP Growth: 360 >>295Physical Defense Growth: 6.8 >>5.5Magic Defense Growth: 4 >>2.5Base Mana: 430 >>500Base Mana Regen: 2.4 >>4",
         "skills": []
       },
       "Roger": {
@@ -2166,15 +2157,15 @@
         "skills": []
       },
       "Alice": {
-        "summary": "Increased Alice's Max Mana in conjunction with equipment adjustments.",
+        "summary": "Increased Alice's Max Mana in conjunction with equipment adjustments. Attributes: Mana Regen per Second: 3.6 >>6Mana Growth per Level: 100 >>150",
         "skills": []
       },
       "Cecilion": {
-        "summary": "Increased Cecilion's Max Mana in conjunction with equipment adjustments.",
+        "summary": "Increased Cecilion's Max Mana in conjunction with equipment adjustments. Attributes: Mana Growth per Level: 109 >>140",
         "skills": []
       },
       "Clock of Destiny": {
-        "summary": "Currently, this equipment has a somewhat narrow range of applications. We hope that some magic tanks and fighters, such as Esmeralda and Silvanna, will also consider this equipment.",
+        "summary": "Currently, this equipment has a somewhat narrow range of applications. We hope that some magic tanks and fighters, such as Esmeralda and Silvanna, will also consider this equipment. Attributes: Added 10% CD Reduction.Mana: 800 >>400, Price, 1950 >>2030",
         "skills": []
       }
     },
@@ -2215,7 +2206,7 @@
     "new_hero": null,
     "hero_changes": {
       "Cici": {
-        "summary": "Slightly increased her power in the early game.",
+        "summary": "Slightly increased her power in the early game. Attributes: Base Physical Defense: 18 →23, Base Magic Defense: 10 →15, Skill 1-Yo-Yo Blitz, Base Damage: 60-85 →70-95",
         "skills": []
       },
       "Thamuz": {
@@ -2227,17 +2218,8 @@
         "skills": []
       },
       "Zhask": {
-        "summary": "",
-        "skills": [
-          {
-            "type": "Skill 1",
-            "name": "Nightmaric Spawn",
-            "balance": "",
-            "changes": [
-              "New Effect: Every 596 extra Attack Speed will increase the damage by 1 (the same as Magic Power scaling)."
-            ]
-          }
-        ]
+        "summary": "Attributes: Attack Speed Growth: 1% →0, Attack Speed Inherited by Nightmaric Spawn: 70% →100%, Skill 1-Nightmaric Spawn, New Effect: Every 596 extra Attack Speed will increase the damage by 1 (the same as Magic Power scaling)., Nightmaric Spawn's Extra Magic Power: 20-50 →15-30, Enhanced Nightmaric Spawn Damage: 200% →180%, Fixed an issue where the Nightmaric Spawn would not follow Zhask's attack when selecting a target to attack., The disable duration of Skill after the enhanced Nightmaric Spawn dies or disappears: 3.5s →2s, Ultimate-Dominator's Descent, Enhanced Nightmaric Spawn's Extra Magic Power: 50-100 →40-80, Fixed an issue where the Ultimate would be briefly disabled after the Nightmaric Spawn died or disappeared.",
+        "skills": []
       },
       "Masha": {
         "summary": "Masha is currently extremely weak in the early game and overly strong in the late game. We decided to keep her strength in the late game while adjusting the experience slightly.",
@@ -2408,11 +2390,11 @@
         "skills": []
       },
       "Alice": {
-        "summary": "As one of Alice's core equipment, the revamp of Clock of Destiny slightly reduced her damage but greatly increased her survivability. We recognize this change. This time, we slightly increased her Max Mana in the early game.",
+        "summary": "As one of Alice's core equipment, the revamp of Clock of Destiny slightly reduced her damage but greatly increased her survivability. We recognize this change. This time, we slightly increased her Max Mana in the early game. Attributes: Base Mana: 493 →750",
         "skills": []
       },
       "Esmeralda": {
-        "summary": "Esmeralda's new equipment, the Thunder Belt and the Clock of Destiny, fit her perfectly, which would make her late game defense attributes too high. As a result, we have lowered her defense growth attributes slightly.",
+        "summary": "Esmeralda's new equipment, the Thunder Belt and the Clock of Destiny, fit her perfectly, which would make her late game defense attributes too high. As a result, we have lowered her defense growth attributes slightly. Attributes: Role: Mage/Tank →Tank/Mage, Physical Defense Growth: 7.3 →5.8, Magic Defense Growth: 4 →2.5",
         "skills": []
       },
       "Gloo": {
@@ -2432,7 +2414,7 @@
         "skills": []
       },
       "Wanwan": {
-        "summary": "Due to Wanwan's unique \"move after each attack\" mechanic, her sustained damage is weaker than most Marksmen. We have increased her Attack Speed to compensate for this.",
+        "summary": "Due to Wanwan's unique \"move after each attack\" mechanic, her sustained damage is weaker than most Marksmen. We have increased her Attack Speed to compensate for this. Attributes: Basic Attack Speed: 0.98 →1.08, Attack Speed Growth: 1% →2%",
         "skills": []
       },
       "Clint": {
@@ -2499,7 +2481,7 @@
         "skills": []
       },
       "Chip": {
-        "summary": "Chip's mechanics are unique, and the difficulty of mastering him exceeded our expectations. Some of his skills also lacked a satisfying experience. As a result, we have optimized the following aspects to help Chip players have a better experience when playing solo. Increased base Defense to match the adjustments to defensive equipment",
+        "summary": "Chip's mechanics are unique, and the difficulty of mastering him exceeded our expectations. Some of his skills also lacked a satisfying experience. As a result, we have optimized the following aspects to help Chip players have a better experience when playing solo. Increased base Defense to match the adjustments to defensive equipment Attributes: Physical Defense Growth: 4.2 →7.2, Magic Defense Growth: 2.5 →4, Passive-Snack Time!, HP Regen: 300 +15% of Lost HP →300+45% of Lost HP, Skill 1-Crash Course, Hovercraft Ramming Damage: 150-300 +5% of target's Max HP →180-330 +6% of target's Max HP, Reduced the foreswing of enhanced basic attacks by 50%, Skill 2-Overtime, Cooldown: 15-10s →13-10s, Ultimate-Shortcut, Cooldown: 60-50s →70-50s, Special Skill-Why Walk?, Cooldown: 40s →20s (unaffected by CD Reduction), Others (Removed Chip's Camera Overlay Feature), When teammates approach the Connecting Portal placed by Chip, a camera overlay will appear on the screen. This feature has some issues and may cause lag for the player in certain situations., Therefore, we have decided to temporarily remove this feature from his skill set (including Ultimate and Special Skill). We will optimize this feature and bring it back in a future update.",
         "skills": []
       },
       "Masha": {
@@ -2511,7 +2493,7 @@
         "skills": []
       },
       "Ling": {
-        "summary": "Ling is weak in the early and mid game and can't get instant kills in the late game, so we adjusted the damage ratio of his skills and his Basic Attack, which hopefully will help him deal more damage in the early game but reduce his sustained damage in the late game. Now, Ling needs offensive and Crit equipment more, and given his Attack Speed is less rewarding, so we have reset his recommended builds. Also reduced the Energy Cost of some skills to match the purple Buff adjustment",
+        "summary": "Ling is weak in the early and mid game and can't get instant kills in the late game, so we adjusted the damage ratio of his skills and his Basic Attack, which hopefully will help him deal more damage in the early game but reduce his sustained damage in the late game. Now, Ling needs offensive and Crit equipment more, and given his Attack Speed is less rewarding, so we have reset his recommended builds. Also reduced the Energy Cost of some skills to match the purple Buff adjustment Attributes: Attack Speed:80% →40%, Passive-Cloud Walker, Crit Chance Gained: 1.5 Times →1.6 Times, Skill 1-Finch Poise, Crit Chance Provided: 2.5%-10% →2.5%-12.5%, Skill 2-Defiant Sword, Damage: 250-350 +33% Total Physical Attack →300-400 +50% Total Physical Attack, Energy Cost: 40 →35, Using this skill on the wall doesn't cost Energy., Skill 2's normal version and the version used from walls now share a cooldown., Removed Effect: Recovers HP upon hitting enemies., Removed Effect: Crit Damage slows enemies more when he casts the skill on the wall.",
         "skills": []
       },
       "Julian": {
@@ -2527,37 +2509,19 @@
         "skills": []
       },
       "Lolita": {
-        "summary": "Lolita's passive shield took too long to stack and was not very useful in fast-paced battles. We improved the passive effects to match her other skills. Increased base Defense to match the adjustments to defensive equipment.",
-        "skills": [
-          {
-            "type": "Passive",
-            "name": "Noumenon Energy Core",
-            "balance": "",
-            "changes": [
-              "New Effect: Now Lolita grants herself and nearby allies 1 extra stack of shield after casting skills."
-            ]
-          }
-        ]
+        "summary": "Lolita's passive shield took too long to stack and was not very useful in fast-paced battles. We improved the passive effects to match her other skills. Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 3.7 →6.7, Magic Defense Growth: 2.5 →4, Passive-Noumenon Energy Core, New Effect: Now Lolita grants herself and nearby allies 1 extra stack of shield after casting skills., Shield of Each Stack: 50 +10* Hero Level →80 +16* Hero Level +60% of Total Magic Power, Max Shield Stacks: 6 →3, Passive Trigger Interval: 2.5s →5s, Skill 1-Power Charge, Mana Cost: 70-120 →70-95, Skill 2-Guardian's Reflection, Cooldown: 17.5-15s →15-12.5s, Shield Base Value: 1500-3000 →1000-2000",
+        "skills": []
       },
       "Jawhead": {
         "summary": "Jawhead is currently active in Exp Lane, Jungle, and Roaming, and his passive only benefits himself. Considering that Jawhead's Basic Attack is a large part of his overall damage, we want to improve Jawhead's ability to help the team without affecting his overall damage.",
         "skills": []
       },
       "Gloo": {
-        "summary": "Gloo has been on the bench for quite some time. While he shines in the early and mid game, Gloo struggles to deal with back line enemies in the late game (generally, Gloo has to pull their carry back to his allies to have a chance). So we want to increase Gloo's ability to kill enemies solo and survive in the team fights. Increased base Defense to match the adjustments to defensive equipment.",
-        "skills": [
-          {
-            "type": "Skill 1",
-            "name": "Slam, Slam",
-            "balance": "",
-            "changes": [
-              "Effect Change: Touching the Goo restores 3% of Max HP to Gloo →Touching the Goo restores 6% of Max HP to Gloo if it explodes and hits an enemy hero"
-            ]
-          }
-        ]
+        "summary": "Gloo has been on the bench for quite some time. While he shines in the early and mid game, Gloo struggles to deal with back line enemies in the late game (generally, Gloo has to pull their carry back to his allies to have a chance). So we want to increase Gloo's ability to kill enemies solo and survive in the team fights. Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.2 →7.2, Magic Defense Growth: 2.5 →4, Skill 1-Slam, Slam, Effect Change: Touching the Goo restores 3% of Max HP to Gloo →Touching the Goo restores 6% of Max HP to Gloo if it explodes and hits an enemy hero, Mana Cost: 40-60 →25-50, Ultimate-Split, Split, Damage when Attached: 120 +50% of Total Magic Power →30-90 +50% of Total Magic Power +3% of Total HP",
+        "skills": []
       },
       "Miya": {
-        "summary": "Without Blink skills, Miya needs a greater range",
+        "summary": "Without Blink skills, Miya needs a greater range Attributes: Basic Attack Range: 4.6 →4.8",
         "skills": []
       },
       "Layla": {
@@ -2573,7 +2537,7 @@
         "skills": []
       },
       "Minotaur": {
-        "summary": "Minotaur needs to cool down a bit after his recent overpowering performance. Increased base Defense to match the adjustments to defensive equipment",
+        "summary": "Minotaur needs to cool down a bit after his recent overpowering performance. Increased base Defense to match the adjustments to defensive equipment Attributes: Physical Defense Growth: 4 →5.5, Skill 2-Motivation Roar, Basic Regen: 260-360 +100% of Total Magic Power →220 -320+60% of Total Magic Power, HP Regen of Enraged state: Recovers HP equal to 200% of Basic Attack Damage taken →Recovers HP equal to 100% of Basic Attack(by enemy heroes) Damage taken, Ultimate-Minoan Fury, First 2 Smashes' Slow Effect: 70% →40%",
         "skills": []
       },
       "Mathilda": {
@@ -2671,31 +2635,31 @@
         "skills": []
       },
       "Akai": {
-        "summary": "Reduced the Mana Cost of some skills to match the purple Buff adjustment. Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Reduced the Mana Cost of some skills to match the purple Buff adjustment. Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 3.7 →6.7, Magic Defense Growth: 2.5 →4, Skill 1-Headbutt, Mana Cost: 70-120 →50-100, Skill 2-Body Slam, Mana Cost: 70-95 →50-75",
         "skills": []
       },
       "Esmeralda": {
-        "summary": "Reduced the Mana Cost of some skills to match the purple Buff adjustment. Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Reduced the Mana Cost of some skills to match the purple Buff adjustment. Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.3 →7.3, Magic Defense Growth: 2.5 →4, Skill 1-Frostmoon Shield, Skill Cost: 60-110 →40-80, Skill 2-Stardust Dance, Skill Cost: 75-100 →35-70, Reduced the foreswing time of the Ultimate's first stage by 50%.",
         "skills": []
       },
       "Hylos": {
-        "summary": "Reduced the Mana Cost of some skills to match the purple Buff adjustment. Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Reduced the Mana Cost of some skills to match the purple Buff adjustment. Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 3.8 →6.8, Magic Defense Growth: 2.5 →4, Skill 2-Ring of Punishment, Mana Cost: 30-150 →30-80",
         "skills": []
       },
       "Uranus": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 3.2 →6.2, Magic Defense Growth: 1.5 →2.5",
         "skills": []
       },
       "Tigreal": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 5.3 →8.3, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Johnson": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 5 →8, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Franco": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.8 →7.8, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Terizla": {
@@ -2703,47 +2667,47 @@
         "skills": []
       },
       "Carmilla": {
-        "summary": "Carmilla's enemy can escape easily despite being linked by her Ultimate, so we increased its slow effect. Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Carmilla's enemy can escape easily despite being linked by her Ultimate, so we increased its slow effect. Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.4 →7.4, Magic Defense Growth: 2.5 →4, UltimateCurse of Blood, Slow Effect on Linked Enemies: 15% →30%, Others, Adjusted the sizes of Carmilla's Crimson Flower skill and her Basic Attacks so that Crimson Flower will always hit when basic attacks can.",
         "skills": []
       },
       "Hilda": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.2 →7.2, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Grock": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.2 →7.2, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Khufra": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.2 →7.2, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Atlas": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.2 →7.2, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Edith": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment. The defensive equipment nerf slightly affects Edith's Ultimate damage, so the percentage of Hybrid Defense converted to Magic Power has been increased.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. The defensive equipment nerf slightly affects Edith's Ultimate damage, so the percentage of Hybrid Defense converted to Magic Power has been increased. Attributes: Physical Defense Growth: 3.8 →6.8, Magic Defense Growth: 2.5 →4, Ultimate-Primal Wrath, Percentage of Hybrid Defense Converted to Magic Power: 3.2 →3.5",
         "skills": []
       },
       "Belerick": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 3.6 →6.6, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Gatotkaca": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 3.4 →6.4, Magic Defense Growth: 2.5 →4",
         "skills": []
       },
       "Barats": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.5 →6",
         "skills": []
       },
       "Fredrinn": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.5 →6",
         "skills": []
       },
       "Baxia": {
-        "summary": "Increased base Defense to match the adjustments to defensive equipment.",
+        "summary": "Increased base Defense to match the adjustments to defensive equipment. Attributes: Physical Defense Growth: 4.3 →5.8",
         "skills": []
       }
     },
@@ -2812,15 +2776,15 @@
         "skills": []
       },
       "Layla": {
-        "summary": "Due to her Passive, Layla can only deal a lot of damage to enemies from a distance, but her lack of mobility makes it difficult for her to get away from enemies. So we'll lower the damage bonus and increase her attack instead.",
+        "summary": "Due to her Passive, Layla can only deal a lot of damage to enemies from a distance, but her lack of mobility makes it difficult for her to get away from enemies. So we'll lower the damage bonus and increase her attack instead. Attributes: Base Physical Attack: 125 →133, Physical Attack Growth: 7.5 →10, Base HP: 2500 →2250, HP Growth: 133.5 →152, Passive-Malefic Gun, Max Damage Increase: 130% →115%",
         "skills": []
       },
       "Miya": {
-        "summary": "Miya is too weak in early-game 1v1 fights, so we want to increase her Skill 2 hit rate and balance her early and late game damage",
+        "summary": "Miya is too weak in early-game 1v1 fights, so we want to increase her Skill 2 hit rate and balance her early and late game damage Attributes: Base Physical Attack: 100 →115, Physical Attack Growth: 14 →10, Base HP: 2524 →2225, HP Growth: 138.5 →153, Skill 2-Arrow of Eclipse, Base Damage: 90-240 →270-420, Reduced delay time by 25%.",
         "skills": []
       },
       "Natan": {
-        "summary": "Natan is too powerful with the new Radiant Armor, so we've lowered his late-game damage abilities while shortening his Ultimate's foreswing to make him easier and more flexible to use.",
+        "summary": "Natan is too powerful with the new Radiant Armor, so we've lowered his late-game damage abilities while shortening his Ultimate's foreswing to make him easier and more flexible to use. Attributes: Base HP: 2530 →2285, HP Growth: 142.4 →160, PassiveTheory of Everything, Attack Speed Boost: 7.5%-15% →  7.5% at all levels, Basic Attack Base Damage: 45 →30, Skill 1Superposition, Base Damage: 225-525 →225-400, UltimateEntropy?, Reduced foreswing time by 50%.",
         "skills": []
       },
       "Hayabusa": {
@@ -2840,63 +2804,63 @@
         "skills": []
       },
       "Bruno": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 140 →145, Base HP: 2522 →2270, HP Growth: 142.5 →160",
         "skills": []
       },
       "Clint": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 115 →120, Physical Attack Growth: 14.5 →14, Base HP: 2530 →2285, HP Growth: 152.8 →170",
         "skills": []
       },
       "Karrie": {
-        "summary": "",
+        "summary": "Attributes: Base HP: 2578 →2278, HP Growth: 155.5 →165",
         "skills": []
       },
       "Irithel": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 118 →125, Base HP: 2540 →2300, HP Growth: 142.7 →160",
         "skills": []
       },
       "Lesley": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 140 →145, Base HP: 2490 →2280, HP Growth: 125.5 →140",
         "skills": []
       },
       "Hanabi": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 105 →111, Physical Attack Growth: 8 →7, Base HP: 2510 →2260, HP Growth: 110.5 →128",
         "skills": []
       },
       "Claude": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 97 →100, Base HP: 2370 →2250, HP Growth: 127.5 →133",
         "skills": []
       },
       "Granger": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 100 →116, Base HP: 2450 →2260, HP Growth: 133.5 →140",
         "skills": []
       },
       "Wanwan": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 95 →110, Physical Attack Growth: 10.5 →9, Base HP: 2540 →2300, HP Growth: 133.5 →150",
         "skills": []
       },
       "Popol and Kupa": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 95 →100, Base HP: 2425 →2300",
         "skills": []
       },
       "Brody": {
-        "summary": "",
+        "summary": "Attributes: Base HP: 2490 →2290, HP Growth: 150.5 →165",
         "skills": []
       },
       "Beatrix": {
-        "summary": "",
+        "summary": "Attributes: Base Physical Attack: 102 →110, Physical Attack Growth: 10 →9.5', Base HP: 2550 →2280, HP Growth: 153.5 →170",
         "skills": []
       },
       "Melissa": {
-        "summary": "",
+        "summary": "Attributes: Physical Attack Growth: 6.6 →7, Base HP: 2460 →2288, HP Growth: 148 →160",
         "skills": []
       },
       "Ixia": {
-        "summary": "",
+        "summary": "Attributes: Physical Attack Growth: 7.5 →8.5, Base HP: 2620 →2320, HP Growth: 148.5 →170",
         "skills": []
       },
       "Argus": {
-        "summary": "As a Basic Attack Fighter with no skill to boost his Attack Speed, Argus needs more Attack now that Attack Speed equipment has been nerfed.",
+        "summary": "As a Basic Attack Fighter with no skill to boost his Attack Speed, Argus needs more Attack now that Attack Speed equipment has been nerfed. Attributes: Physical Attack Growth: 3.5 →6",
         "skills": []
       },
       "Inspire": {
@@ -2904,7 +2868,7 @@
         "skills": []
       },
       "Concentrated Energy": {
-        "summary": "The equipment is designed to counter heroes dealing sustained Magic Damage (like Lylia and Alice), not multi-stage burst heroes (like Aamon and Gusion), so we're adjusting its passive accordingly.",
+        "summary": "The equipment is designed to counter heroes dealing sustained Magic Damage (like Lylia and Alice), not multi-stage burst heroes (like Aamon and Gusion), so we're adjusting its passive accordingly. Attributes: Revamped Effect: Taking Magic Damage grants 6-20 Magic Defense (scales with level) for 3s, up to 6 stacks (1 stack only every 0.6s)., Max HP: 700 >> 400",
         "skills": []
       }
     },
@@ -3068,17 +3032,8 @@
         ]
       },
       "Argus": {
-        "summary": "Heroes on the EXP Lane wearing the War Axe and Brute Force Breastplate have all grown in power, so we've decided to buff Argus's power in the early-game to make him more viable.",
-        "skills": [
-          {
-            "type": "Skill 2",
-            "name": "Meteoric Sword",
-            "balance": "",
-            "changes": [
-              "New Effect: Now creeps can be Cursed."
-            ]
-          }
-        ]
+        "summary": "Heroes on the EXP Lane wearing the War Axe and Brute Force Breastplate have all grown in power, so we've decided to buff Argus's power in the early-game to make him more viable. Attributes: Base Attack: 100 >>111, Growth of Each Attack: 4.25 >>3.5, Attack on the Max level remains unchanged., Skill 2-Meteoric Sword, New Effect: Now creeps can be Cursed.",
+        "skills": []
       },
       "Minsitthar": {
         "summary": "Heroes on the EXP Lane wearing the War Axe and Brute Force Breastplate have all grown in power, so we've decided to buff Minsitthar's power on the Exp Lane to make him more powerful.",
@@ -3167,7 +3122,7 @@
     "new_hero": null,
     "hero_changes": {
       "War Axe": {
-        "summary": "Revamped the effects of War Axe. \"Fighters need their own set!\"",
+        "summary": "Revamped the effects of War Axe. \"Fighters need their own set!\" Attributes: Physical Attack: 40 >> 25",
         "skills": []
       }
     },
@@ -3210,25 +3165,8 @@
     "new_hero": null,
     "hero_changes": {
       "Masha": {
-        "summary": "As the only hero with 3 HP bars, Masha lacks the appropriate skills and strength when facing other heroes. We're making her more aggressive by differentiating her 3 HP bars and making each skill cast count, while allowing her to enter and exit the fight at will under certain conditions. In the meantime, players will have to be more careful with the timing of each skill cast (especially with only one HP bar left) as she has lost some of her durability advantages. We're also adding the Jungle as her secondary position and changing her default Battle Setup. (Masha needs equipment to provide extra Attack Speed and HP Regen rather than Defense.)",
-        "skills": [
-          {
-            "type": "Passive",
-            "name": "Ancient Strength",
-            "balance": "",
-            "changes": [
-              "New Effect:She can't gain Defense from equipment or Emblems. Every 1 Defense she gains is converted into 0.25 Physical Attack."
-            ]
-          },
-          {
-            "type": "Ultimate",
-            "name": "Life Recovery",
-            "balance": "",
-            "changes": [
-              "New Effect:Slightly knocks back enemies around the target; disarms and slows the target for 2s."
-            ]
-          }
-        ]
+        "summary": "As the only hero with 3 HP bars, Masha lacks the appropriate skills and strength when facing other heroes. We're making her more aggressive by differentiating her 3 HP bars and making each skill cast count, while allowing her to enter and exit the fight at will under certain conditions. In the meantime, players will have to be more careful with the timing of each skill cast (especially with only one HP bar left) as she has lost some of her durability advantages. We're also adding the Jungle as her secondary position and changing her default Battle Setup. (Masha needs equipment to provide extra Attack Speed and HP Regen rather than Defense.) Attributes: Basic Attack Speed: 1.05 →0.96, Attack Speed Growth/Level: 1% →3.5%, Base Hybrid Defense: 10 →15, Passive-Ancient Strength, Removed Effect: Attack Speed increases with HP loss., New Effect:She can't gain Defense from equipment or Emblems. Every 1 Defense she gains is converted into 0.25 Physical Attack., When losing the 1st HP bar, gains extra Lifesteal →extra Base Hybrid Defense, Healing Received and Resilience., When losing the 2nd HP bar, gains extra Lifesteal and Resilience →extra Base Hybrid Defense, Healing Received and full Control Immunity., Adjusted how Masha recovers HP at the fountain. Now you don't need to press any buttons to fully recover all her HP bars., Skill 1-Wild Power, Use Again to Stop Casting →One-Time Cast, Revamped Effect: Masha consumes 25% of an HP bar to cast it, gaining Attack Speed and Movement Speed and enhancing her Basic Attack for 4s. Her Enhanced, Basic Attack deals extra damage based on the target's Max HP and restores her HP. Continuously hitting heroes or Creeps reduces the cooldown of her 1st skill., Skill 2-Howl Shock, Removed Effect: Disarm., Requirements: No Cost →10% of an HP Bar The projectiles now hit all enemies in the target area and can no longer be blocked by enemy heroes., Ultimate-Life Recovery, Removed Effect: Control Immunity and Damage Reduction after charging., New Effect:Slightly knocks back enemies around the target; disarms and slows the target for 2s., Requirements: 50% of Current HP →40% of an HP Bar, Damage Adjustments: Percentage of Masha's Extra Max HP →Percentage of the Target's Current HP",
+        "skills": []
       },
       "Argus": {
         "summary": "Experimental Adjustments: Argus's current gameplay is a bit too bland. His Ultimate seems to be both offensive and defensive, but in fact, it's difficult to achieve the desired effect. The Curse Damage of Meteoric Sword constitutes a lot of his strength, but it doesn't match his style of spamming Basic Attack. So we decided to redesign Argus's skill set and combat experience. As well as his early to mid game laning ability.",
@@ -3393,7 +3331,7 @@
         "skills": []
       },
       "Irithel": {
-        "summary": "Slightly nerfed Irithel's damage in mid-to-late game.",
+        "summary": "Slightly nerfed Irithel's damage in mid-to-late game. Attributes: Physical Attack Growth: 11 →8.5",
         "skills": []
       },
       "Esmeralda": {
