@@ -28,14 +28,15 @@ interface NewHero {
   skills: NewHeroSkill[];
 }
 
-interface BattlefieldSubcategory {
+interface BattlefieldSection {
   name: string;
+  balance: string | null;
   changes: string[];
 }
 
 interface BattlefieldItem {
   description: string[];
-  subcategories: BattlefieldSubcategory[];
+  sections: BattlefieldSection[];
   changes: string[];
 }
 
@@ -295,13 +296,20 @@ export const PatchesPage: React.FC = () => {
                               </div>
                             )}
                             
-                            {itemData.subcategories && itemData.subcategories.length > 0 && (
-                              <div className={styles.subcategories}>
-                                {itemData.subcategories.map((sub, subIdx) => (
-                                  <div key={subIdx} className={styles.subcategory}>
-                                    <h5>{sub.name}</h5>
+                            {itemData.sections && itemData.sections.length > 0 && (
+                              <div className={styles.sections}>
+                                {itemData.sections.map((section, sectionIdx) => (
+                                  <div key={sectionIdx} className={styles.section}>
+                                    <h5>
+                                      {section.name}
+                                      {section.balance && (
+                                        <span className={`${styles.balanceBadge} ${styles[section.balance.toLowerCase()]}`}>
+                                          {section.balance}
+                                        </span>
+                                      )}
+                                    </h5>
                                     <ul className={styles.changesList}>
-                                      {sub.changes.map((change, changeIdx) => (
+                                      {section.changes.map((change, changeIdx) => (
                                         <li key={changeIdx}>{change}</li>
                                       ))}
                                     </ul>

@@ -382,14 +382,14 @@
   }
 }
 
-.subcategories {
+.sections {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.subcategory {
+.section {
   padding: 16px 20px;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
@@ -400,6 +400,9 @@
     color: #4ecdc4;
     font-size: 1.05rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   
   .changesList {
