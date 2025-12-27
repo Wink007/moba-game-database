@@ -319,7 +319,7 @@ def parse_patch_2_1_40():
                             'changes': []
                         }
                         
-                        # Збираємо всі параграфи після цього заголовка
+                        # Збираємо всі параграфи та DIV після цього заголовка
                         next_elem = current.find_next_sibling()
                         while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
                             if next_elem.name == 'p':
@@ -331,6 +331,27 @@ def parse_patch_2_1_40():
                                     text = li.get_text(strip=True)
                                     if text:
                                         data['battlefield_adjustments'][item_name]['changes'].append(text)
+                            elif next_elem.name == 'div':
+                                # Перевіряємо чи є підкатегорії (bold імена)
+                                bold_tags = next_elem.find_all('b')
+                                if bold_tags:
+                                    subcategory_name = bold_tags[0].get_text(strip=True)
+                                    # Додаємо назву підкатегорії
+                                    data['battlefield_adjustments'][item_name]['changes'].append(f"[{subcategory_name}]")
+                                
+                                # Збираємо параграфи з DIV
+                                for p in next_elem.find_all('p'):
+                                    text = p.get_text(strip=True)
+                                    # Пропускаємо параграф з назвою підкатегорії
+                                    if text and bold_tags and text != bold_tags[0].get_text(strip=True):
+                                        data['battlefield_adjustments'][item_name]['changes'].append(text)
+                                
+                                # Збираємо UL списки з DIV
+                                for ul in next_elem.find_all('ul'):
+                                    for li in ul.find_all('li'):
+                                        text = li.get_text(strip=True)
+                                        if text:
+                                            data['battlefield_adjustments'][item_name]['changes'].append(text)
                             next_elem = next_elem.find_next_sibling()
                 
                 current = current.find_next_sibling()

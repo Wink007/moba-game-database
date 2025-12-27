@@ -354,104 +354,177 @@ def fetch_patch_details(version):
             equipment_h3 = equipment_span.find_parent('h3')
             if equipment_h3:
                 # Збираємо всі h4 після Equipment Adjustments до наступного h2/h3
+                # АБО просто <p> теги якщо немає h4 структури
                 current_sibling = equipment_h3.find_next_sibling()
                 
-                while current_sibling:
-                    # Якщо h2 або h3 без Equipment - закінчилась секція
-                    if current_sibling.name in ['h2', 'h3']:
-                        if current_sibling.name == 'h3' or 'Equipment' not in current_sibling.get_text():
-                            break
-                    
-                    # h4 - це конкретний предмет
-                    if current_sibling.name == 'h4':
-                        item_span = current_sibling.find('span', class_='mw-headline')
-                        if item_span:
-                            item_name = item_span.get_text(strip=True)
+                # Перевіряємо чи є h4 структура або просто <p> теги
+                has_h4_structure = False
+                temp_sibling = current_sibling
+                while temp_sibling and temp_sibling.name not in ['h2', 'h3']:
+                    if temp_sibling.name == 'h4':
+                        has_h4_structure = True
+                        break
+                    temp_sibling = temp_sibling.find_next_sibling()
+                
+                # Якщо немає h4 структури, парсимо прості <p> теги
+                if not has_h4_structure:
+                    current_item = None
+                    while current_sibling and current_sibling.name not in ['h2', 'h3']:
+                        if current_sibling.name == 'p':
+                            text = current_sibling.get_text(strip=True)
                             
-                            if item_name and item_name not in data['item_changes']:
-                                data['item_changes'][item_name] = {
-                                    'description': '',
-                                    'sections': []
-                                }
-                            
-                            # Збираємо ul/p/div після цього h4
-                            next_elem = current_sibling.find_next_sibling()
-                            
-                            # Якщо одразу наступний h4 - це категорія без змісту, пропускаємо
-                            if next_elem and next_elem.name == 'h4':
-                                current_sibling = next_elem
-                                continue
-                            
-                            # Парсимо структуру схожу на героїв
-                            while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
-                                if next_elem.name == 'div':
-                                    # Знаходимо всі вкладені div
-                                    inner_divs = next_elem.find_all('div', recursive=False)
-                                    
-                                    # Якщо є вкладені divs - працюємо з ними
-                                    if inner_divs:
-                                        for div_idx, div in enumerate(inner_divs):
-                                            # Перший або другий div може містити description (до <hr />)
-                                            if div_idx <= 1:
-                                                desc_paragraphs = []
-                                                for p in div.find_all('p', recursive=False):
-                                                    text = p.get_text(strip=True)
-                                                    if text and len(text) > 20 and not p.find('b'):
-                                                        desc_paragraphs.append(text)
-                                                if desc_paragraphs:
-                                                    data['item_changes'][item_name]['description'] = ' '.join(desc_paragraphs)
-                                            
-                                            # Будь-який div може містити секції (шукаємо <b> теги)
-                                            current_section = None
-                                            section_changes = []
-                                            
-                                            for p in div.find_all('p', recursive=False):
-                                                # Перевіряємо чи це заголовок секції
-                                                b_tag = p.find('b')
-                                                if b_tag:
-                                                    # Зберігаємо попередню секцію
-                                                    if current_section and current_section['changes']:
-                                                        data['item_changes'][item_name]['sections'].append(current_section)
-                                                    
-                                                    # Нова секція
-                                                    section_type = b_tag.get_text(strip=True)
-                                                    section_balance = ''
-                                                    
-                                                    span_tag = p.find('span', class_='white-text')
-                                                    if span_tag:
-                                                        badge_text = span_tag.get_text(strip=True)
-                                                        if 'NERF' in badge_text:
-                                                            section_balance = 'NERF'
-                                                        elif 'BUFF' in badge_text:
-                                                            section_balance = 'BUFF'
-                                                        elif 'ADJUST' in badge_text:
-                                                            section_balance = 'ADJUST'
-                                                        elif 'REVAMP' in badge_text:
-                                                            section_balance = 'REVAMP'
-                                                    
-                                                    current_section = {
-                                                        'type': section_type,
-                                                        'balance': section_balance,
-                                                        'changes': []
-                                                    }
-                                                else:
-                                                    # Це зміна для поточної секції
-                                                    if current_section:
-                                                        text = p.get_text(strip=True)
-                                                        if text and ('>>' in text or 'New Effect' in text or 'Gold' in text or 'EXP' in text or 'Removed' in text or len(text) > 30):
-                                                            clean_text = re.sub(r'\s+', ' ', text)
-                                                            if clean_text:
-                                                                current_section['changes'].append(clean_text)
-                                            
-                                            # Не забути останню секцію
-                                            if current_section and current_section['changes']:
-                                                data['item_changes'][item_name]['sections'].append(current_section)
+                            # Якщо текст містить >> це зміна
+                            if '>>' in text:
+                                # Перша частина до >> це назва item/skill
+                                parts = text.split('>>', 1)
+                                item_info = parts[0].strip()
+                                change_info = parts[1].strip() if len(parts) > 1 else ''
                                 
-                                next_elem = next_elem.find_next_sibling()
-                                if next_elem and next_elem.name in ['h2', 'h3', 'h4']:
-                                    break
-                    
-                    current_sibling = current_sibling.find_next_sibling()
+                                # Витягуємо назву - це перше слово або фраза до двокрапки/Grant/etc
+                                # Приклад: "AegisGrants a Shield..." -> "Aegis"
+                                # Приклад: "[Quartermaster] AegisGrants..." -> "[Quartermaster] Aegis"
+                                
+                                item_name = item_info
+                                
+                                # Якщо є [modifier], витягуємо його та наступне слово
+                                if item_name.startswith('[') and ']' in item_name:
+                                    bracket_end = item_name.index(']')
+                                    modifier = item_name[1:bracket_end]
+                                    rest = item_name[bracket_end+1:].strip()
+                                    # Беремо тільки перше слово після модифікатора
+                                    first_word = rest.split()[0] if rest.split() else ''
+                                    # Видаляємо все після великої букви всередині слова (Grants, Creates, etc)
+                                    match = re.match(r'^([A-Z][a-z]+(?:[A-Z][a-z]+)*?)([A-Z][a-z]+.*)?', first_word)
+                                    if match:
+                                        first_word = match.group(1)
+                                    item_name = f"[{modifier}] {first_word}"
+                                else:
+                                    # Без модифікатора - беремо перше слово
+                                    first_word = item_name.split()[0] if item_name.split() else item_name
+                                    # Видаляємо все після великої букви всередині слова
+                                    match = re.match(r'^([A-Z][a-z]+(?:[A-Z][a-z]+)*?)([A-Z][a-z]+.*)?', first_word)
+                                    if match:
+                                        item_name = match.group(1)
+                                    else:
+                                        item_name = first_word
+                                
+                                # Створюємо або оновлюємо item
+                                if item_name and item_name not in data['item_changes']:
+                                    data['item_changes'][item_name] = {
+                                        'description': '',
+                                        'sections': [{
+                                            'type': 'Base Stats',
+                                            'balance': 'ADJUST',
+                                            'changes': []
+                                        }]
+                                    }
+                                
+                                if item_name:
+                                    # Додаємо повний текст як зміну
+                                    full_change = f"{item_info} >> {change_info}".strip()
+                                    if data['item_changes'][item_name]['sections']:
+                                        data['item_changes'][item_name]['sections'][0]['changes'].append(full_change)
+                        
+                        current_sibling = current_sibling.find_next_sibling()
+                
+                # Якщо є h4 структура, використовуємо старий код
+                else:
+                    while current_sibling:
+                        # Якщо h2 або h3 без Equipment - закінчилась секція
+                        if current_sibling.name in ['h2', 'h3']:
+                            if current_sibling.name == 'h3' or 'Equipment' not in current_sibling.get_text():
+                                break
+                        
+                        # h4 - це конкретний предмет
+                        if current_sibling.name == 'h4':
+                            item_span = current_sibling.find('span', class_='mw-headline')
+                            if item_span:
+                                item_name = item_span.get_text(strip=True)
+                                
+                                if item_name and item_name not in data['item_changes']:
+                                    data['item_changes'][item_name] = {
+                                        'description': '',
+                                        'sections': []
+                                    }
+                                
+                                # Збираємо ul/p/div після цього h4
+                                next_elem = current_sibling.find_next_sibling()
+                                
+                                # Якщо одразу наступний h4 - це категорія без змісту, пропускаємо
+                                if next_elem and next_elem.name == 'h4':
+                                    current_sibling = next_elem
+                                    continue
+                                
+                                # Парсимо структуру схожу на героїв
+                                while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
+                                    if next_elem.name == 'div':
+                                        # Знаходимо всі вкладені div
+                                        inner_divs = next_elem.find_all('div', recursive=False)
+                                        
+                                        # Якщо є вкладені divs - працюємо з ними
+                                        if inner_divs:
+                                            for div_idx, div in enumerate(inner_divs):
+                                                # Перший або другий div може містити description (до <hr />)
+                                                if div_idx <= 1:
+                                                    desc_paragraphs = []
+                                                    for p in div.find_all('p', recursive=False):
+                                                        text = p.get_text(strip=True)
+                                                        if text and len(text) > 20 and not p.find('b'):
+                                                            desc_paragraphs.append(text)
+                                                    if desc_paragraphs:
+                                                        data['item_changes'][item_name]['description'] = ' '.join(desc_paragraphs)
+                                                
+                                                # Будь-який div може містити секції (шукаємо <b> теги)
+                                                current_section = None
+                                                section_changes = []
+                                                
+                                                for p in div.find_all('p', recursive=False):
+                                                    # Перевіряємо чи це заголовок секції
+                                                    b_tag = p.find('b')
+                                                    if b_tag:
+                                                        # Зберігаємо попередню секцію
+                                                        if current_section and current_section['changes']:
+                                                            data['item_changes'][item_name]['sections'].append(current_section)
+                                                        
+                                                        # Нова секція
+                                                        section_type = b_tag.get_text(strip=True)
+                                                        section_balance = ''
+                                                        
+                                                        span_tag = p.find('span', class_='white-text')
+                                                        if span_tag:
+                                                            badge_text = span_tag.get_text(strip=True)
+                                                            if 'NERF' in badge_text:
+                                                                section_balance = 'NERF'
+                                                            elif 'BUFF' in badge_text:
+                                                                section_balance = 'BUFF'
+                                                            elif 'ADJUST' in badge_text:
+                                                                section_balance = 'ADJUST'
+                                                            elif 'REVAMP' in badge_text:
+                                                                section_balance = 'REVAMP'
+                                                        
+                                                        current_section = {
+                                                            'type': section_type,
+                                                            'balance': section_balance,
+                                                            'changes': []
+                                                        }
+                                                    else:
+                                                        # Це зміна для поточної секції
+                                                        if current_section:
+                                                            text = p.get_text(strip=True)
+                                                            if text and ('>>' in text or 'New Effect' in text or 'Gold' in text or 'EXP' in text or 'Removed' in text or len(text) > 30):
+                                                                clean_text = re.sub(r'\s+', ' ', text)
+                                                                if clean_text:
+                                                                    current_section['changes'].append(clean_text)
+                                                
+                                                # Не забути останню секцію
+                                                if current_section and current_section['changes']:
+                                                    data['item_changes'][item_name]['sections'].append(current_section)
+                                    
+                                    next_elem = next_elem.find_next_sibling()
+                                    if next_elem and next_elem.name in ['h2', 'h3', 'h4']:
+                                        break
+                        
+                        current_sibling = current_sibling.find_next_sibling()
         
         # Парсимо System Adjustments
         system_span = content.find('span', id='System_Adjustments')

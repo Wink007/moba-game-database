@@ -129,6 +129,31 @@ function App() {
     }
   };
 
+  const updateCounterData = async (gameId, heroId = null) => {
+    const confirmMsg = heroId 
+      ? 'Update counter/compatibility data for this hero? This will fetch fresh data from official API.'
+      : 'Update counter/compatibility data for ALL heroes? This will take 5-7 minutes.';
+    
+    if (!window.confirm(confirmMsg)) return;
+    
+    try {
+      const payload = { game_id: gameId };
+      if (heroId) payload.hero_id = heroId;
+      
+      const response = await axios.post(`${API_URL}/heroes/update-counter-data`, payload);
+      
+      if (heroId) {
+        alert(`✅ ${response.data.message || 'Hero updated successfully!'}`);
+        loadHeroes(gameId); // Reload heroes to show updated data
+      } else {
+        alert(`✅ Update started in background! This will take ~5-7 minutes for all heroes.`);
+      }
+    } catch (error) {
+      console.error('Error updating counter data:', error);
+      alert('❌ Error updating counter data: ' + (error.response?.data?.error || error.message));
+    }
+  };
+
   const deleteGame = async (id) => {
     if (!window.confirm('Delete this game? This will also delete all heroes and items!')) return;
     
@@ -586,15 +611,24 @@ function App() {
           <div className="tab-content">
             <div className="tab-header">
               <h2>Heroes of the game: {selectedGame.name}</h2>
-              <button 
-                className="btn btn-primary"
-                onClick={() => {
-                  setEditingHero(null);
-                  setShowHeroForm(true);
-                }}
-              >
-                + Add Hero
-              </button>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button 
+                  className="btn btn-secondary"
+                  onClick={() => updateCounterData(selectedGame.id)}
+                  title="Update counter/compatibility data for all heroes from official API"
+                >
+                  🔄 Update Counter Data
+                </button>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => {
+                    setEditingHero(null);
+                    setShowHeroForm(true);
+                  }}
+                >
+                  + Add Hero
+                </button>
+              </div>
             </div>
 
             {showHeroForm && (
