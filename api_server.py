@@ -913,7 +913,10 @@ def get_patches():
             return jsonify({'error': 'Patches data not found. Run fetch_patches_from_liquipedia.py first'}), 404
         
         with open(patches_file, 'r', encoding='utf-8') as f:
-            patches_dict = json.load(f)
+            patches_data = json.load(f)
+        
+        # patches_data тепер це масив патчів
+        result = patches_data if isinstance(patches_data, list) else []
         
         # Фільтруємо за параметрами
         limit = request.args.get('limit', type=int)
@@ -921,12 +924,7 @@ def get_patches():
         
         if search:
             search_lower = search.lower()
-            patches_dict = {k: v for k, v in patches_dict.items() if search_lower in k.lower()}
-        
-        # Конвертуємо в список для відповіді
-        result = []
-        for version, data in patches_dict.items():
-            result.append({'version': version, **data})
+            result = [p for p in result if search_lower in p.get('version', '').lower()]
         
         if limit:
             result = result[:limit]
