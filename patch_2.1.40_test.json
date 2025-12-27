@@ -637,50 +637,35 @@
         },
         "Demon Hunter Sword": {
           "description": [],
-          "subcategories": [
-            {
-              "name": "Demon Hunter Sword",
-              "changes": [
-                "AttributesBUFF",
-                "Removed 8% Lifesteal.",
-                "Unique Passive - DevourREVAMP",
-                "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
-              ]
-            }
-          ],
-          "changes": []
+          "subcategories": [],
+          "changes": [
+            "AttributesBUFF",
+            "Removed 8% Lifesteal.",
+            "Unique Passive - DevourREVAMP",
+            "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
+          ]
         },
         "Rose Gold Meteor": {
           "description": [],
-          "subcategories": [
-            {
-              "name": "Rose Gold Meteor",
-              "changes": [
-                "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-                "AttributesNERF",
-                "Physical Attack: 40 >> 30",
-                "Unique Passive - Dragon Scale]BUFF",
-                "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1",
-                "Unique Passive - Lifeline]BUFF",
-                "This effect now requires taking damage from enemy heroes to trigger."
-              ]
-            }
-          ],
-          "changes": []
+          "subcategories": [],
+          "changes": [
+            "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
+            "AttributesNERF",
+            "Physical Attack: 40 >> 30",
+            "Unique Passive - Dragon Scale]BUFF",
+            "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1",
+            "Unique Passive - Lifeline]BUFF",
+            "This effect now requires taking damage from enemy heroes to trigger."
+          ]
         },
         "Queen's Wings": {
           "description": [],
-          "subcategories": [
-            {
-              "name": "Queen's Wings",
-              "changes": [
-                "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-                "AttributesNERF",
-                "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
-              ]
-            }
-          ],
-          "changes": []
+          "subcategories": [],
+          "changes": [
+            "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
+            "AttributesNERF",
+            "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
+          ]
         }
       },
       "changes": []
@@ -691,31 +676,21 @@
       "items": {
         "Ice Retribution": {
           "description": [],
-          "subcategories": [
-            {
-              "name": "Ice Retribution",
-              "changes": [
-                "Slightly reduced Ice Retribution's control and kiting potential.",
-                "AttributesNERF",
-                "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
-              ]
-            }
-          ],
-          "changes": []
+          "subcategories": [],
+          "changes": [
+            "Slightly reduced Ice Retribution's control and kiting potential.",
+            "AttributesNERF",
+            "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
+          ]
         },
         "Vengeance": {
           "description": [],
-          "subcategories": [
-            {
-              "name": "Vengeance",
-              "changes": [
-                "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
-                "AttributesNERF",
-                "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
-              ]
-            }
-          ],
-          "changes": []
+          "subcategories": [],
+          "changes": [
+            "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
+            "AttributesNERF",
+            "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
+          ]
         }
       },
       "changes": []

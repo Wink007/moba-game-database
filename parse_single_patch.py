@@ -395,24 +395,39 @@ def parse_patch_2_1_40():
                                     bold_tags = next_elem.find_all('b')
                                     if bold_tags:
                                         subcategory_name = bold_tags[0].get_text(strip=True)
-                                        subcategory_changes = []
                                         
-                                        for p in next_elem.find_all('p'):
-                                            text = p.get_text(strip=True)
-                                            if text and text != subcategory_name:
-                                                subcategory_changes.append(text)
-                                        
-                                        for ul in next_elem.find_all('ul'):
-                                            for li in ul.find_all('li'):
-                                                text = li.get_text(strip=True)
-                                                if text:
+                                        # Перевіряємо чи це справді підкатегорія (інша назва), а не просто DIV обгортка
+                                        if subcategory_name != item_name:
+                                            subcategory_changes = []
+                                            
+                                            for p in next_elem.find_all('p'):
+                                                text = p.get_text(strip=True)
+                                                if text and text != subcategory_name:
                                                     subcategory_changes.append(text)
-                                        
-                                        if subcategory_changes:
-                                            data['battlefield_adjustments'][current_section]['items'][item_name]['subcategories'].append({
-                                                'name': subcategory_name,
-                                                'changes': subcategory_changes
-                                            })
+                                            
+                                            for ul in next_elem.find_all('ul'):
+                                                for li in ul.find_all('li'):
+                                                    text = li.get_text(strip=True)
+                                                    if text:
+                                                        subcategory_changes.append(text)
+                                            
+                                            if subcategory_changes:
+                                                data['battlefield_adjustments'][current_section]['items'][item_name]['subcategories'].append({
+                                                    'name': subcategory_name,
+                                                    'changes': subcategory_changes
+                                                })
+                                        else:
+                                            # Якщо назва співпадає - це просто обгортка, беремо зміни напряму
+                                            for p in next_elem.find_all('p'):
+                                                text = p.get_text(strip=True)
+                                                if text and text != subcategory_name:
+                                                    data['battlefield_adjustments'][current_section]['items'][item_name]['changes'].append(text)
+                                            
+                                            for ul in next_elem.find_all('ul'):
+                                                for li in ul.find_all('li'):
+                                                    text = li.get_text(strip=True)
+                                                    if text:
+                                                        data['battlefield_adjustments'][current_section]['items'][item_name]['changes'].append(text)
                                 next_elem = next_elem.find_next_sibling()
                         
                         # Якщо немає current_section - це окрема H4 секція (Mythic Battlefield тощо)
