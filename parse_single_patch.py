@@ -28,6 +28,7 @@ def parse_patch_2_1_30a():
         'release_date': None,
         'new_hero': None,
         'hero_adjustments': {},
+        'emblem_adjustments': {},
         'battlefield_adjustments': {},
         'system_adjustments': []
     }
@@ -326,6 +327,66 @@ def parse_patch_2_1_30a():
                 
                 current = current.find_next_sibling()
         
+        # II. Emblem Adjustments
+        elif 'Emblem' in section_title:
+            print("  Парсимо Emblem Adjustments...")
+            
+            # Пропускаємо порожній h3
+            h3 = h2.find_next_sibling('h3')
+            
+            # Шукаємо div після h3 (або після h2 якщо h3 немає)
+            current = h3.find_next_sibling() if h3 else h2.find_next_sibling()
+            
+            while current and current.name not in ['h2', 'h3']:
+                if current.name == 'div':
+                    # Парсимо emblem item (аналогічно equipment)
+                    bold_tags = current.find_all('b')
+                    if bold_tags:
+                        emblem_name = bold_tags[0].get_text(strip=True)
+                        print(f"    - {emblem_name}")
+                        
+                        data['emblem_adjustments'][emblem_name] = {
+                            'sections': []
+                        }
+                        
+                        # Парсимо секції всередині (Attributes, тощо)
+                        current_section_data = None
+                        
+                        for child in current.descendants:
+                            if child.name == 'b':
+                                section_name = child.get_text(strip=True).rstrip(']')
+                                
+                                if section_name != emblem_name:
+                                    # Зберігаємо попередню секцію
+                                    if current_section_data and (current_section_data.get('changes') or current_section_data.get('balance')):
+                                        data['emblem_adjustments'][emblem_name]['sections'].append(current_section_data)
+                                    
+                                    # Нова секція
+                                    current_section_data = {
+                                        'name': section_name,
+                                        'balance': None,
+                                        'changes': []
+                                    }
+                            
+                            elif child.name == 'span' and current_section_data and not current_section_data['balance']:
+                                balance_text = child.get_text(strip=True)
+                                if balance_text in ['BUFF', 'NERF', 'ADJUST', 'REVAMP']:
+                                    current_section_data['balance'] = balance_text
+                            
+                            elif isinstance(child, str) and current_section_data:
+                                if child.parent and child.parent.name in ['b', 'span']:
+                                    continue
+                                
+                                text = child.strip()
+                                if text and text not in ['BUFF', 'NERF', 'ADJUST', 'REVAMP', current_section_data['name']]:
+                                    current_section_data['changes'].append(text)
+                        
+                        # Зберігаємо останню секцію
+                        if current_section_data and (current_section_data.get('changes') or current_section_data.get('balance')):
+                            data['emblem_adjustments'][emblem_name]['sections'].append(current_section_data)
+                
+                current = current.find_next_sibling()
+        
         # III. Battlefield Adjustments  
         elif 'Battlefield' in section_title or 'Equipment' in section_title:
             print("  Парсимо Battlefield/Equipment Adjustments...")
@@ -504,6 +565,7 @@ if __name__ == "__main__":
     print(f"Дата: {data['release_date']}")
     print(f"New Hero: {'Так' if data['new_hero'] else 'Ні'}")
     print(f"Hero Adjustments: {len(data['hero_adjustments'])} героїв")
+    print(f"Emblem Adjustments: {len(data['emblem_adjustments'])} емблем")
     print(f"Battlefield Adjustments: {len(data['battlefield_adjustments'])} предметів")
     print(f"System Adjustments: {len(data['system_adjustments'])} пунктів")
     

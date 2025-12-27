@@ -958,6 +958,19 @@
         ]
       }
     },
+    "emblem_adjustments": {
+      "Fighter Emblem": {
+        "sections": [
+          {
+            "name": "Attributes",
+            "balance": "ADJUST",
+            "changes": [
+              "12% Spell Vamp >> 10% Hybrid Lifesteal"
+            ]
+          }
+        ]
+      }
+    },
     "battlefield_adjustments": {},
     "system_adjustments": []
   }
