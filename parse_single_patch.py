@@ -82,22 +82,59 @@ def parse_patch_2_1_40():
                 
                 # Шукаємо всі параграфи з описом
                 paragraphs = hero_div.find_all('p')  # Без recursive=False
-                descriptions = []
+                
+                # Знаходимо Hero Feature
                 for p in paragraphs:
                     text = p.get_text(strip=True)
-                    # Беремо тільки параграф з "Hero Feature:"
                     if 'Hero Feature:' in text:
-                        descriptions.append(text)
+                        new_hero_data['description'] = text
                         break
                 
-                if descriptions:
-                    new_hero_data['description'] = descriptions[0]
+                # Парсимо скіли нового героя
+                current_skill = None
+                current_skill_descriptions = []
                 
-                # Шукаємо скіли (якщо є)
-                # TODO: парсинг скілів нового героя
+                for p in paragraphs:
+                    text = p.get_text(strip=True)
+                    bold = p.find('b')
+                    
+                    # Перевіряємо чи це заголовок скіла
+                    if bold and any(keyword in text for keyword in ['Passive-', 'Skill 1-', 'Skill 2-', 'Ultimate-']):
+                        # Зберігаємо попередній скіл якщо був
+                        if current_skill:
+                            current_skill['description'] = '\n\n'.join(current_skill_descriptions)
+                            new_hero_data['skills'].append(current_skill)
+                        
+                        # Витягуємо тип та назву скіла
+                        skill_type = bold.get_text(strip=True)  # "Passive", "Skill 1", etc.
+                        
+                        # Назва скіла - з другого a tag (перший - іконка, другий - назва)
+                        skill_name = ''
+                        a_tags = p.find_all('a')
+                        if len(a_tags) >= 2:
+                            skill_name = a_tags[1].get_text(strip=True)
+                        else:
+                            # Fallback - якщо немає a tags
+                            skill_name = text.replace(bold.get_text(strip=True), '').replace('-', '').strip()
+                        
+                        current_skill = {
+                            'type': skill_type,
+                            'name': skill_name,
+                            'description': ''
+                        }
+                        current_skill_descriptions = []
+                    
+                    elif current_skill and len(text) > 20 and 'Hero Feature' not in text and text != new_hero_data['name']:
+                        # Це опис скіла
+                        current_skill_descriptions.append(text)
+                
+                # Зберігаємо останній скіл
+                if current_skill:
+                    current_skill['description'] = '\n\n'.join(current_skill_descriptions)
+                    new_hero_data['skills'].append(current_skill)
                 
                 data['new_hero'] = new_hero_data
-                print(f"    ✅ New Hero: {new_hero_data['name']}")
+                print(f"    ✅ New Hero: {new_hero_data['name']} з {len(new_hero_data['skills'])} скілами")
             
         # II. Hero Adjustments
         elif 'Hero Adjustments' in section_title:

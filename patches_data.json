@@ -6,7 +6,28 @@
       "name": "Sora",
       "title": "Shifting Cloud",
       "description": "Hero Feature: Adaptable cloud warrior with multiple combat styles.",
-      "skills": []
+      "skills": [
+        {
+          "type": "Passive",
+          "name": "Mystic Surge",
+          "description": "Sora can use his Ultimate to switch between Tank and Assassin styles. After ascending, dealing damage to heroes grants Cloudstep stacks that unlock different Ultimate effects.\n\nTank Style: Physical Attack converts to Max HP proportionally.\n\nAssassin Style: Converts a portion of Max HP into Physical Attack."
+        },
+        {
+          "type": "Skill 1",
+          "name": "Sundering Strike",
+          "description": "Sora strikes twice, dealing Physical Damage, then lunges forward and follows up with a straight punch.\n\nTank Style: Cannot move freely during the skill. Stuns the target when lunging forward.\n\nAssassin Style: Can move freely during the skill. Deals 2 additional strikes and extends the range of the lunge."
+        },
+        {
+          "type": "Skill 2",
+          "name": "Skyfall",
+          "description": "Sora leaps forward, stops when hitting an enemy hero or reaching max range to deal Physical Damage and slow the enemy.\n\nTank Style: The leap knocks enemies Airborne and knocks them back to the landing point. Landing at max range also knocks nearby enemies Airborne.\n\nAssassin Style: The leap passes through the enemy hero and deals large AOE Damage and slows the enemies when reaching max range, and can be cast again within a short duration on hit."
+        },
+        {
+          "type": "Ultimate",
+          "name": "Shifting Skies",
+          "description": "When fully stacked, swipe right to ascend into Tank Style. And after a brief delay, deals Physical Damage to all nearby enemies and pulls them in with a spinning vortex.\n\nWhen fully stacked, swipe left to ascend into Assassin style. Gains a brief bonus Movement Speed and becomes untargetable, then continuously deals Physical Damage to all nearby enemies.\n\nStormbind (Tank Style Ultimate): Sora leaps and strikes the target area 5 times, stunning enemies. He can move freely during this skill.\n\nHeaven's Wrath (Assassin Style Ultimate): Sora leaps and strikes the target area 15 times. He can move freely during this skill."
+        }
+      ]
     },
     "hero_adjustments": {
       "Angela": {
