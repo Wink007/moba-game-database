@@ -303,7 +303,7 @@ export const PatchesPage: React.FC = () => {
                                     <h5>
                                       {section.name}
                                       {section.balance && (
-                                        <span className={`${styles.balanceBadge} ${styles[section.balance.toLowerCase()]}`}>
+                                        <span className={`${styles.badge} ${getBalanceBadgeClass(section.balance)}`}>
                                           {section.balance}
                                         </span>
                                       )}
