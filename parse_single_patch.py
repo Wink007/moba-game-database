@@ -8,9 +8,9 @@ from bs4 import BeautifulSoup
 import json
 import re
 
-def parse_patch_2_1_40():
-    """Парсить патч 2.1.40"""
-    url = "https://liquipedia.net/mobilelegends/Patch_2.1.40"
+def parse_patch_2_1_30a():
+    """Парсить патч 2.1.30a"""
+    url = "https://liquipedia.net/mobilelegends/Patch_2.1.30a"
     
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
@@ -494,7 +494,7 @@ def parse_patch_2_1_40():
 
 
 if __name__ == "__main__":
-    data = parse_patch_2_1_40()
+    data = parse_patch_2_1_30a()
     
     # Виводимо статистику
     print("\n" + "="*60)
@@ -520,7 +520,7 @@ if __name__ == "__main__":
                 print(f"   Перша зміна: {first_skill['changes'][0][:80]}...")
     
     # Зберігаємо в JSON
-    output_file = 'patch_2.1.40_test.json'
+    output_file = 'patch_2.1.30a_test.json'
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     

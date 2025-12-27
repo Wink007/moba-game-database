@@ -766,5 +766,199 @@
       "[Other]",
       "To avoid confusion regarding the seasonal squad verification badges, we have optimized the display of the squad verification badge for the Top 20 squads of each season."
     ]
+  },
+  {
+    "version": "2.1.30a",
+    "release_date": "2025-11-27",
+    "new_hero": null,
+    "hero_adjustments": {
+      "Cecilion": {
+        "summary": "Optimized Cecilion's early-game skill casting experience, allowing him to cast skills more frequently.",
+        "skills": [
+          {
+            "type": "Skill 1",
+            "name": "Bat Impact",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 18-8s →12-8s"
+            ]
+          }
+        ]
+      },
+      "Cici": {
+        "summary": "Cici's Passive Delight granted her higher mobility than other Fighters. With the optimized decays, she could maintain high Movement Speed to support teammates. This posed too great a threat to backline heroes, so we've reduced her mobility and Skill 1 damage.",
+        "skills": [
+          {
+            "type": "Attributes",
+            "name": "Base Stats",
+            "balance": "NERF",
+            "changes": [
+              "Movement Speed: 260 >> 250"
+            ]
+          }
+        ]
+      },
+      "Clint": {
+        "summary": "We aim to increase the hero's sustained damage output in the mid to late game.",
+        "skills": [
+          {
+            "type": "Ultimate",
+            "name": "Grenade Bombardment",
+            "balance": "BUFF",
+            "changes": [
+              "Skill Recharge Time: 10s-6s >> 10s-5s",
+              "Cooldown: 2-1s >> 1.5-0.5s"
+            ]
+          }
+        ]
+      },
+      "Freya": {
+        "summary": "After the revamp, Freya shifts from burst to sustained fights. She's now better suited for the following Equipment: Corrosion Scythe, Endless Battle, Sea Halberd, Malefic Roar, and Oracle. This build improves Freya's durability and consistent damage in team fights.",
+        "skills": [
+          {
+            "type": "Skill 1",
+            "name": "Valkyrie ShieldbindValkyrie Shieldbind",
+            "balance": "BUFF",
+            "changes": [
+              "Fixed an issue where Skill 1's damage did not scale with skill level."
+            ]
+          },
+          {
+            "type": "Skill 2",
+            "name": "Valkyrie SlashValkyrie Slash",
+            "balance": "BUFF",
+            "changes": [
+              "Optimized Skill 2's control handling. It no longer hits targets behind the caster, which could cause the charge to fail."
+            ]
+          }
+        ]
+      },
+      "Hilda": {
+        "summary": "Fixed an issue where Hilda's enhanced Basic Attack ignored enemy defenses. We've also increased its damage and balanced her lane clearing efficiency and combat power in the early and late game.",
+        "skills": [
+          {
+            "type": "Passive",
+            "name": "Blessing of Wilderness",
+            "balance": "BUFF",
+            "changes": [
+              "Fixed an issue where the enhanced Basic Attack could ignore enemy defenses.",
+              "Enhanced Basic Attack Base Damage: 140 (+ 70% Total Physical Attack) (+ 9* Hero Level) >> 110 (+ 130% Total Physical Attack) (+ 12* Hero Level)",
+              "Base Damage to Enemies Behind the Target: 70 (+ 50% Total Physical Attack) (+ 7* Hero Level) >> 40 (+ 100% Total Physical Attack) (+ 10* Hero Level)"
+            ]
+          },
+          {
+            "type": "Ultimate",
+            "name": "Power of Wildness",
+            "balance": "ADJUST",
+            "changes": [
+              "Improved the description by adding a [Target's HP Percentage] row to the Ultimate's stats table, showing the extra damage per Wilderness Mark stack at each level."
+            ]
+          }
+        ]
+      },
+      "Julian": {
+        "summary": "Partially reverted Julian's Jungle efficiency adjustments to help him gain momentum sooner.",
+        "skills": [
+          {
+            "type": "Passive",
+            "name": "Smith's Legacy",
+            "balance": "BUFF",
+            "changes": [
+              "Enhanced Basic Attack Damage Against Creeps: 75% >> 85%"
+            ]
+          }
+        ]
+      },
+      "Kimmy": {
+        "summary": "Slightly reduced Kimmy's dominance in the early to mid game.",
+        "skills": [
+          {
+            "type": "Passive",
+            "name": "",
+            "balance": "NERF",
+            "changes": [
+              "Basic Attack Damage: 21% of Total Physical Attack + 26% of Total Magic Power >> 18% of Total Physical Attack + 24% of Total Magic Power",
+              "Enhanced Basic Attack Damage: 26% of Total Physical Attack + 31% of Total Magic Power >> 22.5% of Total Physical Attack + 30% of Total Magic Power",
+              "Attack Effects: 21% >> 24%",
+              "Enhanced Basic Attack Effects: 26% >> 30%"
+            ]
+          },
+          {
+            "type": "Skill 2",
+            "name": "Chemical Refinement",
+            "balance": "NERF",
+            "changes": [
+              "Cooldown: 10-8s >> 12-10s"
+            ]
+          }
+        ]
+      },
+      "Lancelot": {
+        "summary": "Lancelot's Skill 2 had both high burst damage and the ability to evade enemy skills. The short cooldown made it difficult for enemies to counter. Therefore, we've increased its cooldown to reduce his margin for error.",
+        "skills": [
+          {
+            "type": "Skill 2",
+            "name": "Thorned Rose",
+            "balance": "NERF",
+            "changes": [
+              "Cooldown: 10-7s >> 11-8.5s"
+            ]
+          }
+        ]
+      },
+      "Nolan": {
+        "summary": "Enhanced the hero's mobility and sustained combat capability in the mid to late game.",
+        "skills": [
+          {
+            "type": "Skill 1",
+            "name": "Expansion",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 2.5-1.5s >> 2.5-1s"
+            ]
+          },
+          {
+            "type": "Skill 2",
+            "name": "Gauge",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 2.5-1.5s >> 2.5-1s"
+            ]
+          }
+        ]
+      },
+      "Suyou": {
+        "summary": "Enhanced the hero's mobility and sustained combat capability in the mid to late game.",
+        "skills": [
+          {
+            "type": "Skill 1",
+            "name": "Blade Surge",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 8.5s >> 8s",
+              "Slash Damage (Tap): 375-495 >> 375-555"
+            ]
+          },
+          {
+            "type": "Skill 2",
+            "name": "Soul Sever",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 8.5s >> 8s"
+            ]
+          },
+          {
+            "type": "Ultimate",
+            "name": "Evil Queller",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 8.5s >> 8s"
+            ]
+          }
+        ]
+      }
+    },
+    "battlefield_adjustments": {},
+    "system_adjustments": []
   }
 ]
