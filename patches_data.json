@@ -10,133 +10,255 @@
     },
     "hero_adjustments": {
       "Angela": {
-        "summary": "Movement Speed Boost per Stack: 7.5% >> 5% New Effect: When attached, this skill's cooldown is reduced by 50%. Attaching State Duration: 12s >>20s Shield Duration: 6s >> the shield remains until detached Adjusted the cooldown mechanics to start immediately after casting the Ultimate.",
-        "changes": [
-          "Increased the duration of Angela's Ultimate when attached to allies and the cast frequency of Skill 1. Additionally, the cooldown now runs while attached.",
-          "To balance, we've reduced the Movement Speed boost of the Passive and increased the cooldown of the Ultimate.",
-          "Movement Speed Boost per Stack: 7.5% >> 5%",
-          "Cooldown: 7s >> 8s",
-          "New Effect: When attached, this skill's cooldown is reduced by 50%.",
-          "Cooldown: 20s >>60s",
-          "Attaching State Duration: 12s >>20s",
-          "Shield Duration: 6s >> the shield remains until detached",
-          "Adjusted the cooldown mechanics to start immediately after casting the Ultimate."
+        "summary": "Increased the duration of Angela's Ultimate when attached to allies and the cast frequency of Skill 1. Additionally, the cooldown now runs while attached. To balance, we've reduced the Movement Speed boost of the Passive and increased the cooldown of the Ultimate.",
+        "skills": [
+          {
+            "name": "Passive-Smart Heart",
+            "balance": "NERF",
+            "changes": [
+              "Movement Speed Boost per Stack: 7.5% >> 5%"
+            ]
+          },
+          {
+            "name": "Skill 1-Love Waves",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 7s >> 8s",
+              "New Effect: When attached, this skill's cooldown is reduced by 50%."
+            ]
+          },
+          {
+            "name": "Ultimate-Heartguard",
+            "balance": "ADJUST",
+            "changes": [
+              "Cooldown: 20s >>60s",
+              "Attaching State Duration: 12s >>20s",
+              "Shield Duration: 6s >> the shield remains until detached",
+              "Adjusted the cooldown mechanics to start immediately after casting the Ultimate."
+            ]
+          }
         ]
       },
       "Atlas": {
-        "summary": "Damage: 215-390 (+60% Total Magic Power) >> 400-600 (+100% Total Magic Power) New Effect: Each target can be damaged only once.",
-        "changes": [
-          "Damage: 215-390 (+60% Total Magic Power) >> 400-600 (+100% Total Magic Power)"
+        "summary": "Increased the stability of Atlas's Skill 1 damage.",
+        "skills": [
+          {
+            "name": "Skill 1-Annihilate",
+            "balance": "BUFF",
+            "changes": [
+              "Damage: 215-390 (+60% Total Magic Power) >> 400-600 (+100% Total Magic Power)",
+              "New Effect: Each target can be damaged only once."
+            ]
+          }
         ]
       },
       "Aurora": {
-        "summary": "New Effect: Gain 0.06s additional freezing time for every 100 Magic Power.",
-        "changes": [
-          "Aurora was slightly underperforming among Mages. Therefore, we've enhanced her overall ability scaling.",
-          "New Effect: Gain 0.06s additional freezing time for every 100 Magic Power."
+        "summary": "Aurora was slightly underperforming among Mages. Therefore, we've enhanced her overall ability scaling.",
+        "skills": [
+          {
+            "name": "Skill 2-Frosty Breeze",
+            "balance": "BUFF",
+            "changes": [
+              "New Effect: Gain 0.06s additional freezing time for every 100 Magic Power."
+            ]
+          }
         ]
       },
       "Barats": {
-        "summary": "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%. New Effect: If the Ultimate hits, Detona immediately gains max stacks of Big Guy. Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled Removed Effect: Detona gains Big Guy stacks upon respawn. HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP",
-        "changes": [
-          "The payoff for landing Barats' Ultimate was low, while missing it was too punishing. Therefore, we've made some adjustments to improve this.",
-          "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%.",
-          "New Effect: If the Ultimate hits, Detona immediately gains max stacks of Big Guy.",
-          "Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled",
-          "Removed Effect: Detona gains Big Guy stacks upon respawn.",
-          "HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP"
+        "summary": "The payoff for landing Barats' Ultimate was low, while missing it was too punishing. Therefore, we've made some adjustments to improve this.",
+        "skills": [
+          {
+            "name": "Ultimate-Detona's Welcome",
+            "balance": "BUFF",
+            "changes": [
+              "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%.",
+              "New Effect: If the Ultimate hits, Detona immediately gains max stacks of Big Guy.",
+              "Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled",
+              "Removed Effect: Detona gains Big Guy stacks upon respawn.",
+              "HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP"
+            ]
+          }
         ]
       },
       "Estes": {
-        "summary": "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power) Duration of Hybrid Defense Increase: 3s >> 5s Enhanced Moonlight Immersion doubles the Hybrid Defense increase. Optimized the skill description.",
-        "changes": [
-          "Enhanced Estes's sustained healing and the ability to protect fragile heroes.",
-          "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power)",
-          "Duration of Hybrid Defense Increase: 3s >> 5s",
-          "Cooldown: 11-7s >> 11-8.5s",
-          "Mana Cost: 110-210 >> 60-120",
-          "Enhanced Moonlight Immersion doubles the Hybrid Defense increase."
+        "summary": "Enhanced Estes's sustained healing and the ability to protect fragile heroes.",
+        "skills": [
+          {
+            "name": "Skill 1-Moonlight Immersion",
+            "balance": "BUFF",
+            "changes": [
+              "Sustained Healing: 250-400 (+60% Total Magic Power) >> 360-585 (+90% Total Magic Power)",
+              "Duration of Hybrid Defense Increase: 3s >> 5s",
+              "Cooldown: 11-7s >> 11-8.5s",
+              "Mana Cost: 110-210 >> 60-120"
+            ]
+          },
+          {
+            "name": "Ultimate-Blessing of Moon Goddess",
+            "balance": "BUFF",
+            "changes": [
+              "Enhanced Moonlight Immersion doubles the Hybrid Defense increase.",
+              "Optimized the skill description."
+            ]
+          }
         ]
       },
       "Freya": {
-        "summary": "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast) Gains 50% damage reduction while diving down. Slightly increased the speed when diving down.",
-        "changes": [
-          "Freya's combat effectiveness was relatively weak without her Ultimate. To improve balance while preserving her highlight performance during Ultimate, we've reduced its cooldown.",
-          "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast)"
+        "summary": "Freya's combat effectiveness was relatively weak without her Ultimate. To improve balance while preserving her highlight performance during Ultimate, we've reduced its cooldown.",
+        "skills": [
+          {
+            "name": "Ultimate-Valkyrie Descent",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 54-46s (Starts on cast) >> 34-26s (Starts after cast)",
+              "Gains 50% damage reduction while diving down.",
+              "Slightly increased the speed when diving down."
+            ]
+          }
         ]
       },
       "Gatotkaca": {
-        "summary": "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time) Sprint Distance: 3-4.4 >> 2.2-4.4",
-        "changes": [
-          "Compared to other Tank heroes, the control duration of Gatotkaca's Skill 2 was too long and easy to cast.",
-          "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time)",
-          "Sprint Distance: 3-4.4 >> 2.2-4.4"
+        "summary": "Compared to other Tank heroes, the control duration of Gatotkaca's Skill 2 was too long and easy to cast.",
+        "skills": [
+          {
+            "name": "Skill 2-Unbreakable",
+            "balance": "NERF",
+            "changes": [
+              "Taunt Duration: Fixed 1.5s >> 0.9-1.5s (scales with channel time)",
+              "Sprint Distance: 3-4.4 >> 2.2-4.4"
+            ]
+          }
         ]
       },
       "Granger": {
-        "summary": "No longer deals additional damage to minions and creeps.",
-        "changes": [
-          "Granger has been crowding out other Marksmen in the Gold Lane. To address this, we've reduced his early to mid game scaling and damage output.",
-          "Base Damage: 60-120 >> 60-100",
-          "No longer deals additional damage to minions and creeps."
+        "summary": "Granger has been crowding out other Marksmen in the Gold Lane. To address this, we've reduced his early to mid game scaling and damage output.",
+        "skills": [
+          {
+            "name": "Skill 1-Rhapsody",
+            "balance": "NERF",
+            "changes": [
+              "Base Damage: 60-120 >> 60-100",
+              "No longer deals additional damage to minions and creeps."
+            ]
+          }
         ]
       },
       "Grock": {
-        "summary": "Removed Effect: Gains Control Immunity while casting skills. New Effect: The skill cannot be interrupted. New Effect: Gains Control Immunity while charging.",
-        "changes": [
-          "Grock boasted incredible durability and could gain Control Immunity from his Passive. Therefore, we've slightly reduced his ability. Grock can still cast his skills uninterrupted, but he will be affected by control effects.",
-          "Removed Effect: Gains Control Immunity while casting skills."
+        "summary": "Grock boasted incredible durability and could gain Control Immunity from his Passive. Therefore, we've slightly reduced his ability. Grock can still cast his skills uninterrupted, but he will be affected by control effects.",
+        "skills": [
+          {
+            "name": "Passive-Bastion of StoneBastion of Stone",
+            "balance": "NERF",
+            "changes": [
+              "Removed Effect: Gains Control Immunity while casting skills.",
+              "New Effect: The skill cannot be interrupted."
+            ]
+          },
+          {
+            "name": "Ultimate-Tectonic ChargeTectonic Charge",
+            "balance": "BUFF",
+            "changes": [
+              "New Effect: Gains Control Immunity while charging."
+            ]
+          }
         ]
       },
       "Harith": {
-        "summary": "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power) Shield: 120-270 (+100% Total Magic Power) >> 120-270 (+120% Total Magic Power) (up to 3 stacks). Enhanced Basic Attacks only deal 50-100 and normal Basic Attack damage to Turrets.",
-        "changes": [
-          "Harith has been crowding out other Marksmen in the Gold Lane. To address this, his mid to late game damage has been reduced, while his survivability has been increased to adjust his power curve.",
-          "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power)",
-          "Shield: 120-270 (+100% Total Magic Power) >> 120-270 (+120% Total Magic Power) (up to 3 stacks).",
-          "Enhanced Basic Attacks only deal 50-100 and normal Basic Attack damage to Turrets."
+        "summary": "Harith has been crowding out other Marksmen in the Gold Lane. To address this, his mid to late game damage has been reduced, while his survivability has been increased to adjust his power curve.",
+        "skills": [
+          {
+            "name": "Skill 2-Chrono Dash",
+            "balance": "NERF",
+            "changes": [
+              "Enhanced Basic Attack Damage Bonus: 90% Total Physical Attack (+90% Total Magic Power) >> 100% Total Physical Attack (+60% Total Magic Power)",
+              "Shield: 120-270 (+100% Total Magic Power) >> 120-270 (+120% Total Magic Power) (up to 3 stacks).",
+              "Enhanced Basic Attacks only deal 50-100 and normal Basic Attack damage to Turrets."
+            ]
+          }
         ]
       },
       "Hayabusa": {
-        "summary": "Reduced Hayabusa's and his phantoms' travel distance by 20%.",
-        "changes": [
-          "Hayabusa's Skill 2 allowed him to reach the backline too easily. For balance, we've reduced its distance. To compensate, we've also increased his skill cast frequency.",
-          "Reduced Hayabusa's and his phantoms' travel distance by 20%.",
-          "Cooldown: 20-16s >> 16-14s",
-          "Cooldown: 50s >> 40s"
+        "summary": "Hayabusa's Skill 2 allowed him to reach the backline too easily. For balance, we've reduced its distance. To compensate, we've also increased his skill cast frequency.",
+        "skills": [
+          {
+            "name": "Skill 2-Ninjutsu Quad Shadow",
+            "balance": "NERF",
+            "changes": [
+              "Reduced Hayabusa's and his phantoms' travel distance by 20%.",
+              "Cooldown: 20-16s >> 16-14s"
+            ]
+          },
+          {
+            "name": "Ultimate-Ougi Shadow Kill",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 50s >> 40s"
+            ]
+          }
         ]
       },
       "Khufra": {
         "summary": "Improved Khufra's poke capability in the early to mid game.",
-        "changes": [
-          "Improved Khufra's poke capability in the early to mid game.",
-          "Cooldown: 12s >> 8s"
+        "skills": [
+          {
+            "name": "Passive-Spell Curse",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 12s >> 8s"
+            ]
+          }
         ]
       },
       "Leomord": {
-        "summary": "Leomord's Basic Attacks and skills gain 25 Oath Keeper energy for each target damaged. When the energy reaches 100, his next Basic Attack deals 200% Crit Damage and recovers 100 (+10* Hero Level) (+12% Extra Max HP) HP. Leomord's Basic Attacks cannot normally Crit, and every 1% Crit Chance is converted to 1% Crit Damage. Mounted State: Each Oath Keeper energy gain is increased by 200%. Removed the effect of gaining a shield. New Effect: Damage against creeps increases to 200%.",
-        "changes": [
-          "Leomord's Passive relied on enemies being at low health to be effective, which didn't align with our design expectations. We want Leomord to take the initiative by gaining Oath Keeper energy through combat to deal Crit Damage while recovering HP for sustainability, making him a knight capable of charging into battle.",
-          "We've also increased Skill 1's damage against creeps to improve Leomord's jungle clearing efficiency.",
-          "To balance this, we've removed the shield granted in skill 1.",
-          "Leomord's Basic Attacks and skills gain 25 Oath Keeper energy for each target damaged. When the energy reaches 100, his next Basic Attack deals 200% Crit Damage and recovers 100 (+10* Hero Level) (+12% Extra Max HP) HP.",
-          "Leomord's Basic Attacks cannot normally Crit, and every 1% Crit Chance is converted to 1% Crit Damage.",
-          "Mounted State: Each Oath Keeper energy gain is increased by 200%.",
-          "New Effect: Damage against creeps increases to 200%."
+        "summary": "Leomord's Passive relied on enemies being at low health to be effective, which didn't align with our design expectations. We want Leomord to take the initiative by gaining Oath Keeper energy through combat to deal Crit Damage while recovering HP for sustainability, making him a knight capable of charging into battle. We've also increased Skill 1's damage against creeps to improve Leomord's jungle clearing efficiency. To balance this, we've removed the shield granted in skill 1.",
+        "skills": [
+          {
+            "name": "Passive-The Oath Keeper",
+            "balance": "REVAMP",
+            "changes": [
+              "Leomord's Basic Attacks and skills gain 25 Oath Keeper energy for each target damaged. When the energy reaches 100, his next Basic Attack deals 200% Crit Damage and recovers 100 (+10* Hero Level) (+12% Extra Max HP) HP.",
+              "Leomord's Basic Attacks cannot normally Crit, and every 1% Crit Chance is converted to 1% Crit Damage.",
+              "Mounted State: Each Oath Keeper energy gain is increased by 200%."
+            ]
+          },
+          {
+            "name": "Skill 1-Momentum",
+            "balance": "BUFF",
+            "changes": [
+              "Removed the effect of gaining a shield.",
+              "New Effect: Damage against creeps increases to 200%."
+            ]
+          }
         ]
       },
       "Lolita": {
-        "summary": "Removed the effect where the shield is periodically granted to nearby allied heroes. Shield can still be granted to nearby allied heroes when using skills. Shield Frequency: Every 6s >> Every 6-3s (scales with the Noumenon Blast level) Cooldown: Fixed at 10s >> 10-8s Base Damage: 300-550 >> 400-650 Base Damage: 500-900 >> 600-1200 New Passive: Each level-up reduces the interval of the shield granted by the Noumenon Energy Core by 1s.",
-        "changes": [
-          "Increased the frequency of Lolita's shield in the mid and late game, and increased the damage and slow effect of her Ultimate.",
-          "To balance this, we've reduced the shield effect granted to allies.",
-          "Removed the effect where the shield is periodically granted to nearby allied heroes. Shield can still be granted to nearby allied heroes when using skills.",
-          "Shield Frequency: Every 6s >> Every 6-3s (scales with the Noumenon Blast level)",
-          "Cooldown: Fixed at 10s >> 10-8s",
-          "Base Damage: 300-550 >> 400-650",
-          "Slow Effect: 50% >> 60%",
-          "Base Damage: 500-900 >> 600-1200",
-          "New Passive: Each level-up reduces the interval of the shield granted by the Noumenon Energy Core by 1s."
+        "summary": "Increased the frequency of Lolita's shield in the mid and late game, and increased the damage and slow effect of her Ultimate. To balance this, we've reduced the shield effect granted to allies.",
+        "skills": [
+          {
+            "name": "Passive-Noumenon Energy Core",
+            "balance": "ADJUST",
+            "changes": [
+              "Removed the effect where the shield is periodically granted to nearby allied heroes. Shield can still be granted to nearby allied heroes when using skills.",
+              "Shield Frequency: Every 6s >> Every 6-3s (scales with the Noumenon Blast level)"
+            ]
+          },
+          {
+            "name": "Skill 1-Power Charge",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: Fixed at 10s >> 10-8s",
+              "Base Damage: 300-550 >> 400-650"
+            ]
+          },
+          {
+            "name": "Ultimate-Noumenon Blast",
+            "balance": "BUFF",
+            "changes": [
+              "Slow Effect: 50% >> 60%",
+              "Base Damage: 500-900 >> 600-1200",
+              "New Passive: Each level-up reduces the interval of the shield granted by the Noumenon Energy Core by 1s."
+            ]
+          }
         ]
       }
     },

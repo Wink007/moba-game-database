@@ -111,40 +111,68 @@ def parse_patch_2_1_40():
                         hero_name = hero_span.get_text(strip=True)
                         print(f"    - {hero_name}")
                         
-                        # Ініціалізуємо дані героя
+                        # Ініціалізуємо дані героя з skills
                         data['hero_adjustments'][hero_name] = {
                             'summary': '',
-                            'changes': []
+                            'skills': []
                         }
                         
-                        # Збираємо всі div після h3 до наступного h3/h2
+                        # Шукаємо div з змінами після h3
                         hero_div = current.find_next_sibling('div')
                         if hero_div:
-                            # Перший div містить іконку та ім'я
-                            # Другий div може містити summary
-                            # Третій div (після hr) містить зміни
+                            nested_divs = hero_div.find_all('div', recursive=False)
                             
-                            inner_divs = hero_div.find_all('div', recursive=False)
+                            # DIV 1: має summary text (загальний опис змін)
+                            if len(nested_divs) >= 2:
+                                summary_paragraphs = nested_divs[1].find_all('p', recursive=False)
+                                summary_texts = []
+                                for p in summary_paragraphs:
+                                    text = p.get_text(strip=True)
+                                    if text:
+                                        summary_texts.append(text)
+                                if summary_texts:
+                                    data['hero_adjustments'][hero_name]['summary'] = ' '.join(summary_texts)
                             
-                            # Шукаємо summary (якщо є текст до <hr>)
-                            for idx, div in enumerate(inner_divs):
-                                # Якщо в div є параграфи з текстом (не тільки заголовок)
-                                paragraphs = div.find_all('p', recursive=False)
-                                summary_text = []
+                            # DIV 2: має детальні зміни по скілам
+                            if len(nested_divs) >= 3:
+                                skills_div = nested_divs[2]
+                                paragraphs = skills_div.find_all('p', recursive=False)
+                                
+                                current_skill = None
                                 for p in paragraphs:
                                     text = p.get_text(strip=True)
-                                    # Пропускаємо короткі тексти та заголовки
-                                    if text and len(text) > 30 and not p.find('b'):
-                                        summary_text.append(text)
-                                
-                                if summary_text:
-                                    data['hero_adjustments'][hero_name]['summary'] = ' '.join(summary_text)
-                                
-                                # Шукаємо зміни (параграфи з >>)
-                                for p in paragraphs:
-                                    text = p.get_text(strip=True)
-                                    if '>>' in text or 'Attributes' in text or len(text) > 50:
-                                        data['hero_adjustments'][hero_name]['changes'].append(text)
+                                    
+                                    # Перевіряємо чи це заголовок скіла
+                                    if any(keyword in text for keyword in ['Passive-', 'Skill 1-', 'Skill 2-', 'Ultimate-', 'Attributes']):
+                                        # Витягуємо balance type (BUFF/NERF/ADJUST)
+                                        balance = None
+                                        # Шукаємо span з класом що містить balance text
+                                        span = p.find('span', class_=lambda x: x and ('theme-dark-bg' in x if x else False))
+                                        if span:
+                                            span_text = span.get_text(strip=True)
+                                            # Витягуємо перше слово (BUFF/NERF/ADJUST)
+                                            for badge_text in ['BUFF', 'NERF', 'ADJUST', 'REVAMP']:
+                                                if badge_text in span_text:
+                                                    balance = badge_text
+                                                    break
+                                        
+                                        # Видаляємо badge text з назви
+                                        skill_name = text
+                                        for badge_text in ['BUFF', 'NERF', 'ADJUST', 'REVAMP']:
+                                            skill_name = skill_name.replace(badge_text, '')
+                                        skill_name = skill_name.strip()
+                                        
+                                        current_skill = {
+                                            'name': skill_name,
+                                            'balance': balance,
+                                            'changes': []
+                                        }
+                                        data['hero_adjustments'][hero_name]['skills'].append(current_skill)
+                                    
+                                    elif current_skill is not None:
+                                        # Це зміна для поточного скіла
+                                        if text and len(text) > 3:
+                                            current_skill['changes'].append(text)
                 
                 current = current.find_next_sibling()
         
@@ -227,9 +255,12 @@ if __name__ == "__main__":
     for idx, (hero_name, hero_data) in enumerate(list(data['hero_adjustments'].items())[:3]):
         print(f"\n{idx+1}. {hero_name}")
         print(f"   Summary: {hero_data['summary'][:100] if hero_data['summary'] else 'Немає'}...")
-        print(f"   Changes: {len(hero_data['changes'])} змін")
-        if hero_data['changes']:
-            print(f"   Перша зміна: {hero_data['changes'][0][:80]}...")
+        print(f"   Skills: {len(hero_data['skills'])} скілів")
+        if hero_data['skills']:
+            first_skill = hero_data['skills'][0]
+            print(f"   Перший скіл: {first_skill['name']} ({first_skill.get('balance', 'N/A')})")
+            if first_skill['changes']:
+                print(f"   Перша зміна: {first_skill['changes'][0][:80]}...")
     
     # Зберігаємо в JSON
     output_file = 'patch_2.1.40_test.json'
