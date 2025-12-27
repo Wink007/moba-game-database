@@ -329,61 +329,115 @@ def parse_patch_2_1_40():
         # III. Battlefield Adjustments  
         elif 'Battlefield' in section_title or 'Equipment' in section_title:
             print("  Парсимо Battlefield/Equipment Adjustments...")
-            # Шукаємо всі h3 та h4 після цього h2
+            
+            # Нова структура з вкладеністю
             current = h2.find_next_sibling()
+            current_section = None  # H3 секція (Equipment Adjustments, Battle Spells)
+            
             while current and current.name != 'h2':
-                if current.name in ['h3', 'h4']:
-                    item_span = current.find('span', class_='mw-headline')
-                    if item_span:
-                        item_name = item_span.get_text(strip=True)
-                        print(f"    - {item_name}")
+                # H3 - це батьківська секція
+                if current.name == 'h3':
+                    h3_span = current.find('span', class_='mw-headline')
+                    if h3_span:
+                        section_name = h3_span.get_text(strip=True)
+                        print(f"    📁 {section_name}")
+                        current_section = section_name
                         
-                        data['battlefield_adjustments'][item_name] = {
+                        data['battlefield_adjustments'][section_name] = {
+                            'type': 'section',
                             'description': [],
-                            'subcategories': [],
+                            'items': {},
                             'changes': []
                         }
+                
+                # H4 - це або підсекція (якщо є current_section), або окрема секція
+                elif current.name == 'h4':
+                    h4_span = current.find('span', class_='mw-headline')
+                    if h4_span:
+                        item_name = h4_span.get_text(strip=True)
                         
-                        # Збираємо всі параграфи та DIV після цього заголовка
-                        next_elem = current.find_next_sibling()
-                        while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
-                            if next_elem.name == 'p':
-                                text = next_elem.get_text(strip=True)
-                                if text:
-                                    data['battlefield_adjustments'][item_name]['description'].append(text)
-                            elif next_elem.name == 'ul':
-                                for li in next_elem.find_all('li', recursive=False):
-                                    text = li.get_text(strip=True)
+                        # Спеціальна обробка для "Battle Spells" - це нова секція, а не підсекція Equipment
+                        if item_name == 'Battle Spells':
+                            print(f"    📁 {item_name}")
+                            current_section = item_name
+                            
+                            data['battlefield_adjustments'][item_name] = {
+                                'type': 'section',
+                                'description': [],
+                                'items': {},
+                                'changes': []
+                            }
+                        
+                        # Якщо є current_section (наприклад Equipment Adjustments)
+                        elif current_section and current_section in data['battlefield_adjustments']:
+                            print(f"      └─ {item_name}")
+                            
+                            data['battlefield_adjustments'][current_section]['items'][item_name] = {
+                                'description': [],
+                                'subcategories': [],
+                                'changes': []
+                            }
+                            
+                            # Збираємо дані для цього H4
+                            next_elem = current.find_next_sibling()
+                            while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
+                                if next_elem.name == 'p':
+                                    text = next_elem.get_text(strip=True)
                                     if text:
-                                        data['battlefield_adjustments'][item_name]['changes'].append(text)
-                            elif next_elem.name == 'div':
-                                # Перевіряємо чи є підкатегорії (bold імена)
-                                bold_tags = next_elem.find_all('b')
-                                if bold_tags:
-                                    subcategory_name = bold_tags[0].get_text(strip=True)
-                                    subcategory_changes = []
-                                    
-                                    # Збираємо параграфи з DIV
-                                    for p in next_elem.find_all('p'):
-                                        text = p.get_text(strip=True)
-                                        # Пропускаємо параграф з назвою підкатегорії
-                                        if text and text != subcategory_name:
-                                            subcategory_changes.append(text)
-                                    
-                                    # Збираємо UL списки з DIV
-                                    for ul in next_elem.find_all('ul'):
-                                        for li in ul.find_all('li'):
-                                            text = li.get_text(strip=True)
-                                            if text:
+                                        data['battlefield_adjustments'][current_section]['items'][item_name]['description'].append(text)
+                                elif next_elem.name == 'ul':
+                                    for li in next_elem.find_all('li', recursive=False):
+                                        text = li.get_text(strip=True)
+                                        if text:
+                                            data['battlefield_adjustments'][current_section]['items'][item_name]['changes'].append(text)
+                                elif next_elem.name == 'div':
+                                    # Підкатегорії (Conceal, Dire Hit для Roaming Blessings)
+                                    bold_tags = next_elem.find_all('b')
+                                    if bold_tags:
+                                        subcategory_name = bold_tags[0].get_text(strip=True)
+                                        subcategory_changes = []
+                                        
+                                        for p in next_elem.find_all('p'):
+                                            text = p.get_text(strip=True)
+                                            if text and text != subcategory_name:
                                                 subcategory_changes.append(text)
-                                    
-                                    # Додаємо підкатегорію
-                                    if subcategory_changes:
-                                        data['battlefield_adjustments'][item_name]['subcategories'].append({
-                                            'name': subcategory_name,
-                                            'changes': subcategory_changes
-                                        })
-                            next_elem = next_elem.find_next_sibling()
+                                        
+                                        for ul in next_elem.find_all('ul'):
+                                            for li in ul.find_all('li'):
+                                                text = li.get_text(strip=True)
+                                                if text:
+                                                    subcategory_changes.append(text)
+                                        
+                                        if subcategory_changes:
+                                            data['battlefield_adjustments'][current_section]['items'][item_name]['subcategories'].append({
+                                                'name': subcategory_name,
+                                                'changes': subcategory_changes
+                                            })
+                                next_elem = next_elem.find_next_sibling()
+                        
+                        # Якщо немає current_section - це окрема H4 секція (Mythic Battlefield тощо)
+                        else:
+                            print(f"    - {item_name}")
+                            
+                            data['battlefield_adjustments'][item_name] = {
+                                'type': 'item',
+                                'description': [],
+                                'changes': []
+                            }
+                            
+                            # Збираємо дані
+                            next_elem = current.find_next_sibling()
+                            while next_elem and next_elem.name not in ['h2', 'h3', 'h4']:
+                                if next_elem.name == 'p':
+                                    text = next_elem.get_text(strip=True)
+                                    if text:
+                                        data['battlefield_adjustments'][item_name]['description'].append(text)
+                                elif next_elem.name == 'ul':
+                                    for li in next_elem.find_all('li', recursive=False):
+                                        text = li.get_text(strip=True)
+                                        if text:
+                                            data['battlefield_adjustments'][item_name]['changes'].append(text)
+                                next_elem = next_elem.find_next_sibling()
                 
                 current = current.find_next_sibling()
             

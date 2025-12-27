@@ -545,183 +545,185 @@
   },
   "battlefield_adjustments": {
     "Mythic Battlefield": {
+      "type": "item",
       "description": [
         "Changed to [Mythical Honor Battlefield]. Mythic Battlefield's exclusive stat adjustments now only take effect after reaching Mythical Honor."
       ],
-      "subcategories": [],
       "changes": []
     },
     "Stat Adjustments": {
+      "type": "item",
       "description": [
         "We've noticed that in high-rank matches, more Fighters are taking the Gold Lane, severely limiting the viability of Marksmen. Therefore, we've made Mythic Honor Battlefield adjustments to address this."
       ],
-      "subcategories": [],
       "changes": []
     },
     "Gold Lane Siege Minion": {
+      "type": "item",
       "description": [
         "Extra Gold: 30% >> 40%"
       ],
-      "subcategories": [],
       "changes": []
     },
     "Base Turret": {
+      "type": "item",
       "description": [
         "HP: 7300 >> 8200"
       ],
-      "subcategories": [],
       "changes": []
     },
     "Base": {
+      "type": "item",
       "description": [
         "HP: 7900 >> 9000"
       ],
-      "subcategories": [],
       "changes": []
     },
     "Equipment Adjustments": {
+      "type": "section",
       "description": [],
-      "subcategories": [],
-      "changes": []
-    },
-    "Roaming Blessings": {
-      "description": [
-        "Different types of Roaming heroes have different playstyles, so we've reworked how some Roaming Blessings gain extra Gold and EXP.",
-        "As match time increases, Gold from minions and creeps rises, while vision reveals and damage opportunities for roamers decrease in the late game. Therefore, we've adjusted the reward values for Roaming heroes' different actions to balance the Gold income of different Roaming styles."
-      ],
-      "subcategories": [
-        {
-          "name": "Conceal",
-          "changes": [
-            "No longer gains income from minions and creeps killed by nearby allies.",
-            "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
-            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-            "Gold Gained Every 5s After 8 Min: 9 >> 10",
-            "EXP Gained Every 5s After 8 Min: 18 >> 20"
-          ]
+      "items": {
+        "Roaming Blessings": {
+          "description": [
+            "Different types of Roaming heroes have different playstyles, so we've reworked how some Roaming Blessings gain extra Gold and EXP.",
+            "As match time increases, Gold from minions and creeps rises, while vision reveals and damage opportunities for roamers decrease in the late game. Therefore, we've adjusted the reward values for Roaming heroes' different actions to balance the Gold income of different Roaming styles."
+          ],
+          "subcategories": [
+            {
+              "name": "Conceal",
+              "changes": [
+                "No longer gains income from minions and creeps killed by nearby allies.",
+                "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
+                "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+                "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+                "Gold Gained Every 5s After 8 Min: 9 >> 10",
+                "EXP Gained Every 5s After 8 Min: 18 >> 20"
+              ]
+            },
+            {
+              "name": "Dire Hit",
+              "changes": [
+                "No longer gains income from minions and creeps killed by nearby allies.",
+                "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
+                "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+                "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+                "Gold Gained Every 5s After 8 Min: 9 >> 10",
+                "EXP Gained Every 5s After 8 Min: 18 >> 20"
+              ]
+            },
+            {
+              "name": "Encourage",
+              "changes": [
+                "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
+                "Grants nearby allied heroes 20 Hybrid Defense.",
+                "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+                "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+                "Gold Gained Every 5s After 8 Min: 9 >> 10",
+                "EXP Gained Every 5s After 8 Min: 18 >> 20"
+              ]
+            },
+            {
+              "name": "Favor",
+              "changes": [
+                "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
+                "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
+                "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
+                "Gold Gained Every 5s After 8 Min: 9 >> 10",
+                "EXP Gained Every 5s After 8 Min: 18 >> 20"
+              ]
+            }
+          ],
+          "changes": []
         },
-        {
-          "name": "Dire Hit",
-          "changes": [
-            "No longer gains income from minions and creeps killed by nearby allies.",
-            "New Effect: Gain (30 + 2* Hero Level) Gold and (20 + 8* Hero Level) EXP after dealing damage to enemy heroes. Cooldown: 15s.",
-            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-            "Gold Gained Every 5s After 8 Min: 9 >> 10",
-            "EXP Gained Every 5s After 8 Min: 18 >> 20"
-          ]
+        "Demon Hunter Sword": {
+          "description": [],
+          "subcategories": [
+            {
+              "name": "Demon Hunter Sword",
+              "changes": [
+                "AttributesBUFF",
+                "Removed 8% Lifesteal.",
+                "Unique Passive - DevourREVAMP",
+                "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
+              ]
+            }
+          ],
+          "changes": []
         },
-        {
-          "name": "Encourage",
-          "changes": [
-            "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
-            "Grants nearby allied heroes 20 Hybrid Defense.",
-            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-            "Gold Gained Every 5s After 8 Min: 9 >> 10",
-            "EXP Gained Every 5s After 8 Min: 18 >> 20"
-          ]
+        "Rose Gold Meteor": {
+          "description": [],
+          "subcategories": [
+            {
+              "name": "Rose Gold Meteor",
+              "changes": [
+                "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
+                "AttributesNERF",
+                "Physical Attack: 40 >> 30",
+                "Unique Passive - Dragon Scale]BUFF",
+                "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1",
+                "Unique Passive - Lifeline]BUFF",
+                "This effect now requires taking damage from enemy heroes to trigger."
+              ]
+            }
+          ],
+          "changes": []
         },
-        {
-          "name": "Favor",
-          "changes": [
-            "Income from Minions and Creeps Killed by Nearby Allies: 40% >> 35%",
-            "Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)",
-            "EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25 + (5* Hero Level)",
-            "Gold Gained Every 5s After 8 Min: 9 >> 10",
-            "EXP Gained Every 5s After 8 Min: 18 >> 20"
-          ]
+        "Queen's Wings": {
+          "description": [],
+          "subcategories": [
+            {
+              "name": "Queen's Wings",
+              "changes": [
+                "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
+                "AttributesNERF",
+                "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
+              ]
+            }
+          ],
+          "changes": []
         }
-      ],
-      "changes": []
-    },
-    "Demon Hunter Sword": {
-      "description": [],
-      "subcategories": [
-        {
-          "name": "Demon Hunter Sword",
-          "changes": [
-            "AttributesBUFF",
-            "Removed 8% Lifesteal.",
-            "Unique Passive - DevourREVAMP",
-            "Basic Attacks grant 2% Lifesteal >> Each Basic Attack recovers (20+4* Hero Level) HP, and counts as an Attack Effect"
-          ]
-        }
-      ],
-      "changes": []
-    },
-    "Rose Gold Meteor": {
-      "description": [],
-      "subcategories": [
-        {
-          "name": "Rose Gold Meteor",
-          "changes": [
-            "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-            "AttributesNERF",
-            "Physical Attack: 40 >> 30",
-            "Unique Passive - Dragon Scale]BUFF",
-            "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1",
-            "Unique Passive - Lifeline]BUFF",
-            "This effect now requires taking damage from enemy heroes to trigger."
-          ]
-        }
-      ],
-      "changes": []
-    },
-    "Queen's Wings": {
-      "description": [],
-      "subcategories": [
-        {
-          "name": "Queen's Wings",
-          "changes": [
-            "Adjusted the equipment scaling to make it easier to reach the max Hybrid Defense from equipment. Removed the dependency on Lifesteal from Basic Attacks to improve flexibility, and slightly reduced Physical Attack for balance.",
-            "AttributesNERF",
-            "Optimized Queen's Wings' Passive - Demonize. This effect now requires taking damage from enemy heroes to trigger."
-          ]
-        }
-      ],
+      },
       "changes": []
     },
     "Battle Spells": {
+      "type": "section",
       "description": [],
-      "subcategories": [],
-      "changes": []
-    },
-    "Ice Retribution": {
-      "description": [],
-      "subcategories": [
-        {
-          "name": "Ice Retribution",
-          "changes": [
-            "Slightly reduced Ice Retribution's control and kiting potential.",
-            "AttributesNERF",
-            "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
-          ]
+      "items": {
+        "Ice Retribution": {
+          "description": [],
+          "subcategories": [
+            {
+              "name": "Ice Retribution",
+              "changes": [
+                "Slightly reduced Ice Retribution's control and kiting potential.",
+                "AttributesNERF",
+                "Movement Speed Stolen: 70 (+2* Hero Level) >> 50 (+2* Hero Level)"
+              ]
+            }
+          ],
+          "changes": []
+        },
+        "Vengeance": {
+          "description": [],
+          "subcategories": [
+            {
+              "name": "Vengeance",
+              "changes": [
+                "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
+                "AttributesNERF",
+                "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
+              ]
+            }
+          ],
+          "changes": []
         }
-      ],
-      "changes": []
-    },
-    "Vengeance": {
-      "description": [],
-      "subcategories": [
-        {
-          "name": "Vengeance",
-          "changes": [
-            "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.",
-            "AttributesNERF",
-            "Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
-          ]
-        }
-      ],
+      },
       "changes": []
     },
     "Battlefield Adjustments": {
-      "description": [
-        "cIn-match Quick Communication",
-        "Optimized signal trigger timing and added 4 new signals: Enemy No Ultimate, Enemy Invading Jungle, Enemy No Battle Spell, and Enemy No Active Equipment."
-      ],
-      "subcategories": [],
+      "type": "section",
+      "description": [],
+      "items": {},
       "changes": []
     }
   },
