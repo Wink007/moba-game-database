@@ -9,8 +9,8 @@ import json
 import re
 
 def parse_patch_2_1_30a():
-    """Парсить патч 2.1.30a"""
-    url = "https://liquipedia.net/mobilelegends/Patch_2.1.30a"
+    """Парсить патч 2.1.30"""
+    url = "https://liquipedia.net/mobilelegends/Patch_2.1.30"
     
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
@@ -582,7 +582,7 @@ if __name__ == "__main__":
                 print(f"   Перша зміна: {first_skill['changes'][0][:80]}...")
     
     # Зберігаємо в JSON
-    output_file = 'patch_2.1.30a_test.json'
+    output_file = 'patch_2.1.30_test.json'
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     
