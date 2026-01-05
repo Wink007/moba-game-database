@@ -66,7 +66,7 @@ jobs:
           echo "response=$BODY" >> $GITHUB_OUTPUT
           echo "http_code=$HTTP_CODE" >> $GITHUB_OUTPUT
           
-          if [ "$HTTP_CODE" != "200" ]; then
+          if [ "$HTTP_CODE" != "200" ] && [ "$HTTP_CODE" != "202" ]; then
             echo "❌ Update failed with status $HTTP_CODE"
             echo "$BODY"
             exit 1
@@ -74,15 +74,22 @@ jobs:
           
           echo "$BODY" | jq '.'
           
-          INSERTED=$(echo "$BODY" | jq -r '.inserted')
-          UPDATED=$(echo "$BODY" | jq -r '.updated')
-          SKIPPED=$(echo "$BODY" | jq -r '.skipped')
-          
-          echo ""
-          echo "✅ Update successful!"
-          echo "   Inserted: $INSERTED"
-          echo "   Updated: $UPDATED"
-          echo "   Skipped: $SKIPPED"
+          if [ "$HTTP_CODE" == "202" ]; then
+            echo ""
+            echo "✅ Update request accepted and processing in background!"
+            MESSAGE=$(echo "$BODY" | jq -r '.message')
+            echo "   $MESSAGE"
+          else
+            INSERTED=$(echo "$BODY" | jq -r '.inserted // 0')
+            UPDATED=$(echo "$BODY" | jq -r '.updated // 0')
+            SKIPPED=$(echo "$BODY" | jq -r '.skipped // 0')
+            
+            echo ""
+            echo "✅ Update successful!"
+            echo "   Inserted: $INSERTED"
+            echo "   Updated: $UPDATED"
+            echo "   Skipped: $SKIPPED"
+          fi
 
       - name: 📊 Verify Current Stats
         if: success()
