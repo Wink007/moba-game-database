@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
+const BADGE_OPTIONS = ['BUFF', 'NERF', 'ADJUST', 'REVAMP', 'NEW'];
+const SKILL_TYPES = ['Passive', 'Skill 1', 'Skill 2', 'Ultimate'];
+
 const PATCH_TEMPLATE = {
   version: "",
   release_date: "",
@@ -123,6 +126,31 @@ function PatchForm({ patch, onClose, onSave }) {
   });
 
   const [jsonMode, setJsonMode] = useState(false);
+  
+  // For dropdowns
+  const [heroes, setHeroes] = useState([]);
+  const [items, setItems] = useState([]);
+  const [emblems, setEmblems] = useState([]);
+  const [activeSection, setActiveSection] = useState('basic');
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [heroesRes, itemsRes, emblemsRes] = await Promise.all([
+        axios.get(`${API_URL}/heroes?game_id=2`),
+        axios.get(`${API_URL}/items?game_id=2`),
+        axios.get(`${API_URL}/emblems?game_id=2`)
+      ]);
+      setHeroes(heroesRes.data || []);
+      setItems(itemsRes.data || []);
+      setEmblems(emblemsRes.data || []);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
   const [jsonText, setJsonText] = useState('');
   const [jsonError, setJsonError] = useState('');
   const [showTemplate, setShowTemplate] = useState(false);
@@ -134,21 +162,102 @@ function PatchForm({ patch, onClose, onSave }) {
     } else {
       // For new patch, set template
       const newPatch = { ...PATCH_TEMPLATE, version: formData.version || '', release_date: formData.release_date || '' };
-      setJsonText(JSON.stringify(newPatch, null, 2));
-    }
-  }, [patch]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  // Helper functions for managing arrays
+  const addHeroAdjustment = () => {
+    const heroName = heroes[0]?.name || '';
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      hero_adjustments: {
+        ...prev.hero_adjustments,
+        [heroName]: {
+          badge: 'ADJUST',
+          description: '',
+          skills: []
+        }
+      }
     }));
   };
 
-  const handleJsonChange = (e) => {
-    const text = e.target.value;
-    setJsonText(text);
+  const removeHeroAdjustment = (heroName) => {
+    const { [heroName]: removed, ...rest } = formData.hero_adjustments;
+    setFormData(prev => ({ ...prev, hero_adjustments: rest }));
+  };
+
+  const updateHeroAdjustment = (oldName, field, value) => {
+    if (field === 'name' && value !== oldName) {
+      const adj = formData.hero_adjustments[oldName];
+      const { [oldName]: removed, ...rest } = formData.hero_adjustments;
+      setFormData(prev => ({
+        ...prev,
+        hero_adjustments: { ...rest, [value]: adj }
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        hero_adjustments: {
+          ...prev.hero_adjustments,
+          [oldName]: {
+            ...prev.hero_adjustments[oldName],
+            [field]: value
+          }
+        }
+      }));
+    }
+  };
+
+  const addSkillToHero = (heroName) => {
+    setFormData(prev => ({
+      ...prev,
+      hero_adjustments: {
+        ...prev.hero_adjustments,
+        [heroName]: {
+          ...prev.hero_adjustments[heroName],
+          skills: [
+            ...(prev.hero_adjustments[heroName].skills || []),
+            {
+              skill_type: 'Skill 1',
+              name: '',
+              badge: 'ADJUST',
+              changes: ['']
+            }
+          ]
+        }
+      }
+    }));
+  };
+
+  const addSystemAdjustment = () => {
+    setFormData(prev => ({
+      ...prev,
+      system_adjustments: [...prev.system_adjustments, '']
+    }));
+  };
+
+  const addBattlefieldAdjustment = () => {
+    setFormData(prev => ({
+      ...prev,
+      battlefield_adjustments: {
+        ...prev.battlefield_adjustments,
+        'New Adjustment': { changes: [''] }
+      }
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (jsonMode && jsonError) {
+      alert('Please fix JSON errors before saving');
+      return;
+    }
+
+    try {
+      const dataToSave = jsonMode ? JSON.parse(jsonText) : formData;
+      
+      if (patch) {
+        await axios.put(`${API_URL}/patches/${patch.version}`, dataToSave);
+      } else {
+        await axios.post(`${API_URL}/patches`, dataToSave
     setJsonError('');
     
     try {
@@ -287,6 +396,467 @@ function PatchForm({ patch, onClose, onSave }) {
         <form onSubmit={handleSubmit}>
           {!jsonMode ? (
             <>
+              {/* Navigation Tabs */}
+              <div style={{ 
+                display: 'flex', 
+                gap: '5px', 
+                marginBottom: '20px',
+                borderBottom: '2px solid #e5e7eb',
+                overflowX: 'auto'
+              }}>
+                {[
+                  { id: 'basic', label: '📝 Basic Info', emoji: '📝' },
+                  { id: 'designers', label: '✍️ Designers Note', emoji: '✍️' },
+                  { id: 'new_hero', label: '🆕 New Hero', emoji: '🆕' },
+                  { id: 'hero_adj', label: '🦸 Hero Adjustments', emoji: '🦸' },
+                  { id: 'equipment', label: '⚔️ Equipment', emoji: '⚔️' },
+                  { id: 'battlefield', label: '🏰 Battlefield', emoji: '🏰' },
+                  { id: 'system', label: '⚙️ System', emoji: '⚙️' },
+                  { id: 'emblems', label: '⚡ Emblems', emoji: '⚡' },
+                  { id: 'revamped', label: '🔄 Revamped', emoji: '🔄' }
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveSection(tab.id)}
+                    style={{
+                      padding: '10px 15px',
+                      fontSize: '0.9rem',
+                      border: 'none',
+                      borderBottom: activeSection === tab.id ? '3px solid #3b82f6' : '3px solid transparent',
+                      background: activeSection === tab.id ? '#eff6ff' : 'transparent',
+                      cursor: 'pointer',
+                      fontWeight: activeSection === tab.id ? '600' : '400',
+                      color: activeSection === tab.id ? '#1e40af' : '#6b7280',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {tab.emoji} {tab.label.replace(tab.emoji + ' ', '')}
+                  </button>
+                ))}
+              </div>
+
+              {/* Basic Info */}
+              {activeSection === 'basic' && (
+                <div>
+                  <h3 style={{ marginTop: 0 }}>📝 Basic Information</h3>
+                  
+                  <div style={{ marginBottom: '15px' }}>
+                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600' }}>
+                      Version * <span style={{ color: '#ef4444' }}>required</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.version}
+                      onChange={(e) => setFormData({...formData, version: e.target.value})}
+                      required
+                      disabled={!!patch}
+                      placeholder="e.g., 2.1.40"
+                      style={{
+                        width: '100%',
+                        padding: '10px',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                        fontSize: '1rem',
+                        background: patch ? '#f3f4f6' : 'white'
+                      }}
+                    />
+                    {patch && (
+                      <small style={{ color: '#6b7280' }}>Version cannot be changed when editing</small>
+                    )}
+                  </div>
+
+                  <div style={{ marginBottom: '15px' }}>
+                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600' }}>
+                      Release Date
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.release_date}
+                      onChange={(e) => setFormData({...formData, release_date: e.target.value})}
+                      style={{
+                        width: '100%',
+                        padding: '10px',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Designers Note */}
+              {activeSection === 'designers' && (
+                <div>
+                  <h3 style={{ marginTop: 0 }}>✍️ From The Designers</h3>
+                  <textarea
+                    value={formData.designers_note || ''}
+                    onChange={(e) => setFormData({...formData, designers_note: e.target.value})}
+                    placeholder="In this patch, we continue to optimize the experience for Roaming heroes..."
+                    style={{
+                      width: '100%',
+                      minHeight: '150px',
+                      padding: '10px',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '6px',
+                      fontSize: '0.95rem',
+                      fontFamily: 'inherit',
+                      resize: 'vertical'
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* Hero Adjustments */}
+              {activeSection === 'hero_adj' && (
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                    <h3 style={{ margin: 0 }}>🦸 Hero Adjustments</h3>
+                    <button
+                      type="button"
+                      onClick={addHeroAdjustment}
+                      style={{
+                        padding: '8px 16px',
+                        background: '#10b981',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: '600'
+                      }}
+                    >
+                      + Add Hero
+                    </button>
+                  </div>
+
+                  {Object.entries(formData.hero_adjustments || {}).map(([heroName, heroData]) => (
+                    <div key={heroName} style={{
+                      background: '#f9fafb',
+                      padding: '15px',
+                      borderRadius: '8px',
+                      marginBottom: '15px',
+                      border: '1px solid #e5e7eb'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '10px' }}>
+                        <div style={{ flex: 1, marginRight: '10px' }}>
+                          <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600', fontSize: '0.9rem' }}>
+                            Hero Name
+                          </label>
+                          <select
+                            value={heroName}
+                            onChange={(e) => updateHeroAdjustment(heroName, 'name', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px',
+                              border: '1px solid #d1d5db',
+                              borderRadius: '4px'
+                            }}
+                          >
+                            <option value={heroName}>{heroName}</option>
+                            {heroes.map(h => (
+                              <option key={h.id} value={h.name}>{h.name}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div style={{ width: '150px', marginRight: '10px' }}>
+                          <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600', fontSize: '0.9rem' }}>
+                            Badge
+                          </label>
+                          <select
+                            value={heroData.badge}
+                            onChange={(e) => updateHeroAdjustment(heroName, 'badge', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px',
+                              border: '1px solid #d1d5db',
+                              borderRadius: '4px'
+                            }}
+                          >
+                            {BADGE_OPTIONS.map(badge => (
+                              <option key={badge} value={badge}>{badge}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => removeHeroAdjustment(heroName)}
+                          style={{
+                            padding: '8px 12px',
+                            background: '#ef4444',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            marginTop: '23px'
+                          }}
+                        >
+                          🗑️
+                        </button>
+                      </div>
+
+                      <div style={{ marginBottom: '10px' }}>
+                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600', fontSize: '0.9rem' }}>
+                          Description
+                        </label>
+                        <textarea
+                          value={heroData.description}
+                          onChange={(e) => updateHeroAdjustment(heroName, 'description', e.target.value)}
+                          placeholder="Overall hero changes description..."
+                          style={{
+                            width: '100%',
+                            minHeight: '60px',
+                            padding: '8px',
+                            border: '1px solid #d1d5db',
+                            borderRadius: '4px',
+                            fontSize: '0.9rem',
+                            fontFamily: 'inherit'
+                          }}
+                        />
+                      </div>
+
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                          <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>Skills</label>
+                          <button
+                            type="button"
+                            onClick={() => addSkillToHero(heroName)}
+                            style={{
+                              padding: '5px 12px',
+                              background: '#3b82f6',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontSize: '0.85rem'
+                            }}
+                          >
+                            + Add Skill
+                          </button>
+                        </div>
+
+                        {(heroData.skills || []).map((skill, skillIdx) => (
+                          <div key={skillIdx} style={{
+                            background: 'white',
+                            padding: '10px',
+                            borderRadius: '6px',
+                            marginBottom: '8px',
+                            border: '1px solid #d1d5db'
+                          }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 150px', gap: '10px', marginBottom: '8px' }}>
+                              <div>
+                                <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Skill Type</label>
+                                <select
+                                  value={skill.skill_type}
+                                  onChange={(e) => {
+                                    const newSkills = [...heroData.skills];
+                                    newSkills[skillIdx].skill_type = e.target.value;
+                                    updateHeroAdjustment(heroName, 'skills', newSkills);
+                                  }}
+                                  style={{ width: '100%', padding: '6px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                                >
+                                  {SKILL_TYPES.map(type => (
+                                    <option key={type} value={type}>{type}</option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              <div>
+                                <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Skill Name</label>
+                                <input
+                                  type="text"
+                                  value={skill.name}
+                                  onChange={(e) => {
+                                    const newSkills = [...heroData.skills];
+                                    newSkills[skillIdx].name = e.target.value;
+                                    updateHeroAdjustment(heroName, 'skills', newSkills);
+                                  }}
+                                  placeholder="Skill name"
+                                  style={{ width: '100%', padding: '6px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                                />
+                              </div>
+
+                              <div>
+                                <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Badge</label>
+                                <select
+                                  value={skill.badge}
+                                  onChange={(e) => {
+                                    const newSkills = [...heroData.skills];
+                                    newSkills[skillIdx].badge = e.target.value;
+                                    updateHeroAdjustment(heroName, 'skills', newSkills);
+                                  }}
+                                  style={{ width: '100%', padding: '6px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                                >
+                                  {BADGE_OPTIONS.map(badge => (
+                                    <option key={badge} value={badge}>{badge}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+
+                            <div>
+                              <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Changes (one per line)</label>
+                              <textarea
+                                value={(skill.changes || []).join('\n')}
+                                onChange={(e) => {
+                                  const newSkills = [...heroData.skills];
+                                  newSkills[skillIdx].changes = e.target.value.split('\n');
+                                  updateHeroAdjustment(heroName, 'skills', newSkills);
+                                }}
+                                placeholder="Damage: 200 >> 250&#10;Cooldown: 10s >> 8s"
+                                style={{
+                                  width: '100%',
+                                  minHeight: '60px',
+                                  padding: '6px',
+                                  border: '1px solid #d1d5db',
+                                  borderRadius: '4px',
+                                  fontSize: '0.9rem',
+                                  fontFamily: 'monospace'
+                                }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+
+                  {Object.keys(formData.hero_adjustments || {}).length === 0 && (
+                    <div style={{
+                      padding: '40px',
+                      textAlign: 'center',
+                      color: '#9ca3af',
+                      background: '#f9fafb',
+                      borderRadius: '8px',
+                      border: '2px dashed #d1d5db'
+                    }}>
+                      <p style={{ margin: 0, fontSize: '1.1rem' }}>No hero adjustments yet</p>
+                      <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem' }}>Click "+ Add Hero" to add hero changes</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* System Adjustments */}
+              {activeSection === 'system' && (
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                    <h3 style={{ margin: 0 }}>⚙️ System Adjustments</h3>
+                    <button
+                      type="button"
+                      onClick={addSystemAdjustment}
+                      style={{
+                        padding: '8px 16px',
+                        background: '#10b981',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: '600'
+                      }}
+                    >
+                      + Add
+                    </button>
+                  </div>
+
+                  {(formData.system_adjustments || []).map((adjustment, idx) => (
+                    <div key={idx} style={{
+                      display: 'flex',
+                      gap: '10px',
+                      marginBottom: '10px'
+                    }}>
+                      <input
+                        type="text"
+                        value={adjustment}
+                        onChange={(e) => {
+                          const newAdjustments = [...formData.system_adjustments];
+                          newAdjustments[idx] = e.target.value;
+                          setFormData({...formData, system_adjustments: newAdjustments});
+                        }}
+                        placeholder="System adjustment description"
+                        style={{
+                          flex: 1,
+                          padding: '10px',
+                          border: '1px solid #d1d5db',
+                          borderRadius: '6px'
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newAdjustments = formData.system_adjustments.filter((_, i) => i !== idx);
+                          setFormData({...formData, system_adjustments: newAdjustments});
+                        }}
+                        style={{
+                          padding: '10px 15px',
+                          background: '#ef4444',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '6px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  ))}
+
+                  {(formData.system_adjustments || []).length === 0 && (
+                    <div style={{
+                      padding: '40px',
+                      textAlign: 'center',
+                      color: '#9ca3af',
+                      background: '#f9fafb',
+                      borderRadius: '8px',
+                      border: '2px dashed #d1d5db'
+                    }}>
+                      <p style={{ margin: 0 }}>No system adjustments yet</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Other sections placeholders */}
+              {['new_hero', 'equipment', 'battlefield', 'emblems', 'revamped'].includes(activeSection) && (
+                <div style={{
+                  padding: '40px',
+                  textAlign: 'center',
+                  background: '#fffbeb',
+                  borderRadius: '8px',
+                  border: '1px solid #fcd34d'
+                }}>
+                  <p style={{ margin: 0, color: '#92400e', fontSize: '1.1rem', fontWeight: '600' }}>
+                    {activeSection === 'new_hero' && '🆕 New Hero'}
+                    {activeSection === 'equipment' && '⚔️ Equipment Adjustments'}
+                    {activeSection === 'battlefield' && '🏰 Battlefield Adjustments'}
+                    {activeSection === 'emblems' && '⚡ Emblem Adjustments'}
+                    {activeSection === 'revamped' && '🔄 Revamped Heroes'}
+                  </p>
+                  <p style={{ margin: '10px 0 0 0', color: '#92400e' }}>
+                    This section is under development. Please use JSON Mode for now.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={toggleMode}
+                    style={{
+                      marginTop: '15px',
+                      padding: '10px 20px',
+                      background: '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontWeight: '600'
+                    }}
+                  >
+                    Switch to JSON Mode
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151' }}>
                   Version *
