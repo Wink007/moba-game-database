@@ -3,25 +3,138 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
+const PATCH_TEMPLATE = {
+  version: "",
+  release_date: "",
+  designers_note: "In this patch, we continue to optimize...",
+  new_hero: {
+    name: "Sora",
+    title: "Shifting Cloud",
+    badge: "NEW",
+    hero_feature: "Adaptable cloud warrior with multiple combat styles.",
+    skills: [
+      {
+        skill_type: "Passive",
+        name: "Skill Name",
+        description: "Skill description"
+      }
+    ]
+  },
+  hero_adjustments: {
+    "Aurora": {
+      badge: "BUFF",
+      description: "Overall improvements description",
+      skills: [
+        {
+          skill_type: "Skill 1",
+          name: "Frost Shock",
+          badge: "BUFF",
+          changes: [
+            "Damage: 200 >> 250",
+            "Cooldown: 10s >> 8s"
+          ]
+        }
+      ]
+    }
+  },
+  equipment_adjustments: {
+    "Demon Hunter Sword": {
+      badge: "NERF",
+      description: "Item description",
+      sections: [
+        {
+          title: "Attributes",
+          badge: "NERF",
+          changes: [
+            "Physical Attack: 40 >> 30"
+          ]
+        },
+        {
+          title: "Unique Passive - Dragon Scale",
+          badge: "BUFF",
+          changes: [
+            "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1"
+          ]
+        }
+      ]
+    }
+  },
+  battlefield_adjustments: {
+    "Turret": {
+      changes: [
+        "HP: 7300 >> 8000",
+        "Physical Defense: 150 >> 170"
+      ]
+    }
+  },
+  system_adjustments: [
+    "Bug fixes",
+    "Performance improvements"
+  ],
+  emblem_adjustments: {
+    "Fighter Emblem": {
+      badge: "NERF",
+      description: "We found that some Basic Attack-based Fighters don't have perfectly suited Emblems",
+      sections: [
+        {
+          title: "Attributes",
+          badge: "ADJUST",
+          changes: [
+            "12% Spell Vamp >> 10% Hybrid Lifesteal"
+          ]
+        }
+      ]
+    }
+  },
+  revamped_heroes: [
+    {
+      name: "Freya",
+      title: "Valkyrie",
+      badge: "REVAMP",
+      hero_feature: "A female warrior who infuses weapons with the Power of Einherjar for sustained combat.",
+      skills: [
+        {
+          skill_type: "Passive",
+          name: "Power of Einherjar",
+          description: "Freya can store up to 6 Sacred Orbs. Each Basic Attack grants 1 Sacred Orb..."
+        },
+        {
+          skill_type: "Skill 1",
+          name: "Valkyrie Shieldbind",
+          description: "Freya leaps to the target area and strikes the ground with her shield..."
+        }
+      ]
+    }
+  ]
+};
+
 function PatchForm({ patch, onClose, onSave }) {
   const [formData, setFormData] = useState({
     version: '',
     release_date: '',
+    designers_note: '',
     new_hero: null,
     hero_adjustments: {},
+    equipment_adjustments: {},
     emblem_adjustments: {},
     battlefield_adjustments: {},
-    system_adjustments: []
+    system_adjustments: [],
+    revamped_heroes: []
   });
 
   const [jsonMode, setJsonMode] = useState(false);
   const [jsonText, setJsonText] = useState('');
   const [jsonError, setJsonError] = useState('');
+  const [showTemplate, setShowTemplate] = useState(false);
 
   useEffect(() => {
     if (patch) {
       setFormData(patch);
       setJsonText(JSON.stringify(patch, null, 2));
+    } else {
+      // For new patch, set template
+      const newPatch = { ...PATCH_TEMPLATE, version: formData.version || '', release_date: formData.release_date || '' };
+      setJsonText(JSON.stringify(newPatch, null, 2));
     }
   }, [patch]);
 
@@ -86,6 +199,21 @@ function PatchForm({ patch, onClose, onSave }) {
     setJsonMode(!jsonMode);
   };
 
+  const useTemplate = () => {
+    const template = {
+      ...PATCH_TEMPLATE,
+      version: formData.version || "2.1.40",
+      release_date: formData.release_date || new Date().toISOString().split('T')[0]
+    };
+    setJsonText(JSON.stringify(template, null, 2));
+    try {
+      setFormData(template);
+      setJsonError('');
+    } catch (error) {
+      setJsonError('Error applying template');
+    }
+  };
+
   return (
     <div style={{
       position: 'fixed',
@@ -118,21 +246,42 @@ function PatchForm({ patch, onClose, onSave }) {
           <h2 style={{ margin: 0, color: '#1f2937' }}>
             {patch ? 'Edit Patch' : 'Add Patch'}
           </h2>
-          <button
-            onClick={toggleMode}
-            style={{
-              padding: '8px 16px',
-              fontSize: '0.9rem',
-              background: '#6b7280',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: '500'
-            }}
-          >
-            {jsonMode ? '📝 Form Mode' : '🔧 JSON Mode'}
-          </button>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {jsonMode && !patch && (
+              <button
+                type="button"
+                onClick={useTemplate}
+                style={{
+                  padding: '8px 16px',
+                  fontSize: '0.9rem',
+                  background: '#10b981',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: '500'
+                }}
+              >
+                📋 Use Template
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={toggleMode}
+              style={{
+                padding: '8px 16px',
+                fontSize: '0.9rem',
+                background: '#6b7280',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
+            >
+              {jsonMode ? '📝 Form Mode' : '🔧 JSON Mode'}
+            </button>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -185,6 +334,27 @@ function PatchForm({ patch, onClose, onSave }) {
                 />
               </div>
 
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151' }}>
+                  From The Designers
+                </label>
+                <textarea
+                  value={formData.designers_note || ''}
+                  onChange={(e) => setFormData({...formData, designers_note: e.target.value})}
+                  placeholder="In this patch, we continue to optimize the experience for Roaming heroes..."
+                  style={{
+                    width: '100%',
+                    minHeight: '100px',
+                    padding: '8px 12px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    fontSize: '0.9rem',
+                    fontFamily: 'inherit',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
               <div style={{
                 padding: '16px',
                 background: '#f9fafb',
@@ -192,13 +362,41 @@ function PatchForm({ patch, onClose, onSave }) {
                 marginBottom: '16px'
               }}>
                 <p style={{ margin: 0, color: '#6b7280', fontSize: '0.9rem' }}>
-                  💡 <strong>Tip:</strong> For advanced editing (hero adjustments, new hero, emblems, etc.), 
-                  switch to JSON Mode using the button above. The form mode only supports basic fields.
+                  💡 <strong>Tip:</strong> For advanced editing (hero adjustments, new hero, equipment changes, emblems, etc.), 
+                  switch to JSON Mode using the button above. Click "📋 Use Template" to see the full structure with examples.
                 </p>
               </div>
             </>
           ) : (
             <>
+              <div style={{
+                padding: '16px',
+                background: '#eff6ff',
+                borderRadius: '6px',
+                marginBottom: '16px',
+                fontSize: '0.85rem',
+                color: '#1e40af'
+              }}>
+                <details>
+                  <summary style={{ cursor: 'pointer', fontWeight: '600', marginBottom: '10px' }}>
+                    📚 Patch Structure Guide
+                  </summary>
+                  <div style={{ paddingLeft: '15px', lineHeight: '1.8' }}>
+                    <p><strong>designers_note:</strong> Overall patch description from designers</p>
+                    <p><strong>new_hero:</strong> Object with name, title, badge ("NEW"), hero_feature, skills[]</p>
+                    <p><strong>hero_adjustments:</strong> Object where key = hero name, value = badge, description, skills[]</p>
+                    <p><strong>equipment_adjustments:</strong> Object where key = item name, value = badge, description, sections[]</p>
+                    <p><strong>emblem_adjustments:</strong> Object where key = emblem name, value = badge, description, sections[]</p>
+                    <p><strong>battlefield_adjustments:</strong> Object where key = name, value = changes[]</p>
+                    <p><strong>system_adjustments:</strong> Array of strings</p>
+                    <p><strong>revamped_heroes:</strong> Array of objects (name, title, badge, hero_feature, skills[])</p>
+                    <hr style={{ margin: '10px 0' }} />
+                    <p><strong>Badges:</strong> "BUFF", "NERF", "ADJUST", "REVAMP", "NEW"</p>
+                    <p><strong>Skill Types:</strong> "Passive", "Skill 1", "Skill 2", "Ultimate"</p>
+                  </div>
+                </details>
+              </div>
+              
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151' }}>
                   JSON Data
@@ -208,14 +406,16 @@ function PatchForm({ patch, onClose, onSave }) {
                   onChange={handleJsonChange}
                   style={{
                     width: '100%',
-                    minHeight: '400px',
+                    minHeight: '500px',
                     padding: '12px',
                     border: jsonError ? '2px solid #ef4444' : '1px solid #d1d5db',
                     borderRadius: '4px',
-                    fontSize: '0.9rem',
-                    fontFamily: 'monospace',
-                    resize: 'vertical'
+                    fontSize: '0.85rem',
+                    fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+                    resize: 'vertical',
+                    lineHeight: '1.5'
                   }}
+                  spellCheck="false"
                 />
                 {jsonError && (
                   <div style={{ 
