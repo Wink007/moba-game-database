@@ -987,6 +987,104 @@ def refresh_patches():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+@app.route('/api/patches', methods=['POST'])
+def create_patch():
+    """Створює новий патч"""
+    try:
+        import os
+        data = request.json
+        
+        if not data.get('version'):
+            return jsonify({'error': 'Version is required'}), 400
+        
+        patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
+        
+        # Читаємо існуючі патчі
+        patches = []
+        if os.path.exists(patches_file):
+            with open(patches_file, 'r', encoding='utf-8') as f:
+                patches = json.load(f)
+        
+        # Перевіряємо чи не існує вже такий патч
+        if any(p.get('version') == data['version'] for p in patches):
+            return jsonify({'error': 'Patch with this version already exists'}), 400
+        
+        # Додаємо новий патч
+        patches.insert(0, data)  # Додаємо на початок списку (найновіші спочатку)
+        
+        # Зберігаємо
+        with open(patches_file, 'w', encoding='utf-8') as f:
+            json.dump(patches, f, indent=2, ensure_ascii=False)
+        
+        return jsonify({'success': True, 'patch': data}), 201
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/patches/<version>', methods=['PUT'])
+def update_patch(version):
+    """Оновлює патч"""
+    try:
+        import os
+        data = request.json
+        
+        patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
+        
+        if not os.path.exists(patches_file):
+            return jsonify({'error': 'Patches data not found'}), 404
+        
+        # Читаємо існуючі патчі
+        with open(patches_file, 'r', encoding='utf-8') as f:
+            patches = json.load(f)
+        
+        # Шукаємо патч за версією
+        patch_index = next((i for i, p in enumerate(patches) if p.get('version') == version), None)
+        
+        if patch_index is None:
+            return jsonify({'error': 'Patch not found'}), 404
+        
+        # Оновлюємо патч, зберігаючи version
+        data['version'] = version
+        patches[patch_index] = data
+        
+        # Зберігаємо
+        with open(patches_file, 'w', encoding='utf-8') as f:
+            json.dump(patches, f, indent=2, ensure_ascii=False)
+        
+        return jsonify({'success': True, 'patch': data})
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/patches/<version>', methods=['DELETE'])
+def delete_patch(version):
+    """Видаляє патч"""
+    try:
+        import os
+        patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
+        
+        if not os.path.exists(patches_file):
+            return jsonify({'error': 'Patches data not found'}), 404
+        
+        # Читаємо існуючі патчі
+        with open(patches_file, 'r', encoding='utf-8') as f:
+            patches = json.load(f)
+        
+        # Видаляємо патч
+        patches = [p for p in patches if p.get('version') != version]
+        
+        # Зберігаємо
+        with open(patches_file, 'w', encoding='utf-8') as f:
+            json.dump(patches, f, indent=2, ensure_ascii=False)
+        
+        return jsonify({'success': True})
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # ============== EMBLEM TALENTS ==============
 
 @app.route('/api/emblem-talents', methods=['GET'])

@@ -11,6 +11,8 @@ import EmblemViewer from './components/EmblemViewer';
 import BattleSpellList from './components/BattleSpellList';
 import BattleSpellForm from './components/BattleSpellForm';
 import HeroRanksManager from './components/HeroRanksManager';
+import PatchList from './components/PatchList';
+import PatchForm from './components/PatchForm';
 
 // Railway API URL (online) or localhost for local development
 const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up.railway.app/api';
@@ -40,9 +42,14 @@ function App() {
   const [showBattleSpellForm, setShowBattleSpellForm] = useState(false);
   const [editingBattleSpell, setEditingBattleSpell] = useState(null);
 
+  const [patches, setPatches] = useState([]);
+  const [showPatchForm, setShowPatchForm] = useState(false);
+  const [editingPatch, setEditingPatch] = useState(null);
+
   // Load games on startup
   useEffect(() => {
     loadGames();
+    loadPatches();
   }, []);
 
   // Load heroes and items when a game is selected
@@ -129,6 +136,16 @@ function App() {
     }
   };
 
+  const loadPatches = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/patches`);
+      setPatches(response.data || []);
+    } catch (error) {
+      console.error('Error loading patches:', error);
+      setPatches([]);
+    }
+  };
+
   const updateCounterData = async (gameId, heroId = null) => {
     const confirmMsg = heroId 
       ? 'Update counter/compatibility data for this hero? This will fetch fresh data from official API.'
@@ -190,6 +207,19 @@ function App() {
     } catch (error) {
       console.error('Error deleting item:', error);
       alert('Error deleting item');
+    }
+  };
+
+  const deletePatch = async (version) => {
+    if (!window.confirm(`Delete patch ${version}?`)) return;
+    
+    try {
+      await axios.delete(`${API_URL}/patches/${version}`);
+      loadPatches();
+      alert('Patch deleted!');
+    } catch (error) {
+      console.error('Error deleting patch:', error);
+      alert('Error deleting patch');
     }
   };
 
@@ -262,6 +292,12 @@ function App() {
           disabled={!selectedGame}
         >
           🏆 Hero Ranks
+        </button>
+        <button 
+          className={activeTab === 'patches' ? 'active' : ''} 
+          onClick={() => setActiveTab('patches')}
+        >
+          📋 Patches
         </button>
       </div>
 
@@ -795,6 +831,48 @@ function App() {
         {activeTab === 'heroRanks' && (
           <div className="tab-content">
             <HeroRanksManager selectedGame={selectedGame} />
+          </div>
+        )}
+
+        {activeTab === 'patches' && (
+          <div className="tab-content">
+            <div className="tab-header">
+              <h2>Patches</h2>
+              <button 
+                className="btn btn-primary"
+                onClick={() => {
+                  setEditingPatch(null);
+                  setShowPatchForm(true);
+                }}
+              >
+                + Add Patch
+              </button>
+            </div>
+
+            {showPatchForm && (
+              <PatchForm
+                patch={editingPatch}
+                onClose={() => {
+                  setShowPatchForm(false);
+                  setEditingPatch(null);
+                }}
+                onSave={() => {
+                  setShowPatchForm(false);
+                  setEditingPatch(null);
+                  loadPatches();
+                }}
+              />
+            )}
+
+            <PatchList
+              patches={patches}
+              onEdit={(patch) => {
+                setEditingPatch(patch);
+                setShowPatchForm(true);
+              }}
+              onDelete={deletePatch}
+              onRefresh={loadPatches}
+            />
           </div>
         )}
       </div>
