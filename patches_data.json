@@ -1660,26 +1660,27 @@
     ],
     "revamped_heroes_data": {
       "Freya": {
+        "badge": "REVAMP",
         "description": "Hero Feature: A female warrior who infuses weapons with the Power of Einherjar for sustained combat..",
-        "skills": [
+        "adjustments": [
           {
-            "name": "Power of Einherjar",
-            "type": "Passive",
+            "skill_name": "Power of Einherjar",
+            "skill_type": "Passive",
             "description": "Freya can store up to 6 Sacred Orbs. Each Basic Attack grants 1 Sacred Orb, and they gradually recover when out of combat. Consuming 1 Sacred Orb grants Freya 100% Attack Speed Bonus for her next Basic Attack."
           },
           {
-            "name": "Valkyrie Shieldbind",
-            "type": "Skill 1",
+            "skill_name": "Valkyrie Shieldbind",
+            "skill_type": "Skill 1",
             "description": "Freya leaps to the target area and strikes the ground with her shield, gaining a shield and dealing Physical Damage to enemies within and knocking them airborne."
           },
           {
-            "name": "Valkyrie Slash",
-            "type": "Skill 2",
+            "skill_name": "Valkyrie Slash",
+            "skill_type": "Skill 2",
             "description": "Freya charges forward and slashes, dealing Physical Damage. This skill has no base cooldown but consumes 2 Sacred Orbs per cast."
           },
           {
-            "name": "Valkyrie Descent",
-            "type": "Ultimate",
+            "skill_name": "Valkyrie Descent",
+            "skill_type": "Ultimate",
             "description": "Freya selects a target area and dives down, dealing Physical Damage and slowing enemies along the path and at the landing point. Upon landing, Freya enters the Valkyrie state, during which her Basic Attacks deal increased damage, recover HP, and deal splash damage."
           }
         ]
