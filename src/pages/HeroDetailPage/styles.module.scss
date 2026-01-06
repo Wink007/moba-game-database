@@ -4,9 +4,14 @@
   max-width: 1536px;
   margin: 0 auto;
   overflow-x: hidden;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     padding: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem;
   }
 }
 
@@ -82,26 +87,65 @@
   position: relative;
   width: 100%;
   max-height: 320px;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.5) 100%);
-  border-radius: 12px;
+  background: transparent;
+  border-radius: 16px;
   overflow: hidden;
-  border: 2px solid rgba(148, 163, 184, 0.3);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 150% 150% at top left, rgba(99, 102, 241, 0.25) 0%, transparent 45%),
+      radial-gradient(ellipse 150% 150% at top right, rgba(168, 85, 247, 0.25) 0%, transparent 45%),
+      radial-gradient(ellipse 180% 180% at center bottom, rgba(59, 130, 246, 0.2) 0%, transparent 55%),
+      radial-gradient(circle at center, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.95) 70%);
+    z-index: 0;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(99, 102, 241, 0.03) 25%,
+      rgba(168, 85, 247, 0.03) 50%,
+      rgba(59, 130, 246, 0.03) 75%,
+      transparent 100%
+    );
+    animation: shimmer 4s ease-in-out infinite;
+    z-index: 0;
+  }
+  
+  @keyframes shimmer {
+    0%, 100% {
+      opacity: 0.3;
+      transform: translateX(-100%);
+    }
+    50% {
+      opacity: 1;
+      transform: translateX(100%);
+    }
+  }
 
   @media (max-width: 1024px) {
-    max-height: 280px;
+    max-height: 350px;
   }
 
   @media (max-width: 768px) {
-    max-height: 240px;
-    border-radius: 6px;
+    max-height: 320px;
+    border-radius: 12px;
   }
 
   @media (max-width: 480px) {
-    max-height: 200px;
+    max-height: 280px;
+    aspect-ratio: 4/3;
   }
 
   img {
@@ -111,7 +155,95 @@
     height: auto;
     display: block;
     object-fit: contain;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
+    
+    @media (max-width: 480px) {
+      object-fit: cover;
+      object-position: center top;
+      width: 100%;
+      height: 100%;
+    }
   }
+}
+
+// Hero Sidebar Styles
+.heroSidebar {
+  width: 260px;
+  max-width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-sizing: border-box;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.875rem;
+    gap: 1rem;
+  }
+}
+
+.sidebarHeroName {
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 0 0 0.375rem 0;
+  }
+}
+
+.sidebarHeroRole {
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.heroVitals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vitalBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 0.875rem;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  border-radius: 6px;
+  
+  &[data-type="mana"] {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.25);
+  }
+}
+
+.vitalValue {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.vitalGrowth {
+  font-size: 0.8125rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
 .heroMainInfo {
@@ -213,27 +345,17 @@
 
 // Content Section
 .contentSection {
-  padding: 2rem;
+  padding: 2.5rem;
   max-width: 100%;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.2) 0%, rgba(30, 41, 59, 0.1) 100%);
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   @media (max-width: 480px) {
-    padding: 0.75rem;
+    padding: 1rem;
   }
-}
-
-.sectionTitle {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #60a5fa;
-  margin: 0 0 1rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding-left: 0.5rem;
-  border-left: 3px solid #60a5fa;
 }
 
 // Stats Grid
@@ -253,51 +375,68 @@
 
 // Stats Table
 .statsTable {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.statsTableRow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.2);
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
   }
+
+  @media (max-width: 480px) {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.statsTableRow {
+  display: contents;
 }
 
 .statsTableCell {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.3) 0%, rgba(15, 23, 42, 0.5) 100%);
+  border: 1px solid rgba(71, 85, 105, 0.3);
   border-radius: 8px;
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s ease;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(96, 165, 250, 0.5);
+  @media (max-width: 768px) {
+    padding: 1rem 1.25rem;
   }
 }
 
+.fullWidthCell {
+  grid-column: 1 / -1;
+}
+
 .statName {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #94a3b8;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    font-size: 0.6875rem;
+  }
 }
 
 .statValueLarge {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #60a5fa;
+  color: #e2e8f0;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
 }
 
 // Hero Details Grid
@@ -543,140 +682,7 @@
   filter: drop-shadow(0 2px 8px rgba(96, 165, 250, 0.4));
 }
 
-// Skills Section
-.skillsSection {
-  margin-bottom: 2rem;
-}
 
-.skillsGrid {
-  display: grid;
-  gap: 1rem;
-}
-
-.skillCard {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.5) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  gap: 1.5rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    border-color: rgba(96, 165, 250, 0.3);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-}
-
-.skillIcon {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.3);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.skillInfo {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.skillHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.skillName {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #f1f5f9;
-  margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.skillType {
-  padding: 0.25rem 0.625rem;
-  background: rgba(34, 197, 94, 0.15);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: 4px;
-  color: #86efac;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-}
-
-.skillDescription {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: #cbd5e1;
-  margin: 0;
-}
-
-.skillEffect {
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.effectLabel {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
-}
-
-.effectList {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: #cbd5e1;
-  font-size: 0.85rem;
-  line-height: 1.6;
-
-  li {
-    margin-bottom: 0.375rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    strong {
-      color: #60a5fa;
-      font-weight: 600;
-    }
-  }
-}
-
-.skillPreview {
-  margin-top: 0.75rem;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-
-  img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-}
 
 // Basic Info Section
 .basicInfoGrid {
@@ -791,7 +797,7 @@
 .ratingsTable {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.375rem;
   width: 100%;
 }
 
@@ -799,14 +805,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.625rem 0.75rem;
-  background: rgba(30, 41, 59, 0.3);
+  padding: 0.5rem 0.625rem;
+  background: rgba(30, 41, 59, 0.25);
   border-radius: 4px;
   box-sizing: border-box;
   width: 100%;
 
   @media (max-width: 480px) {
-    padding: 0.5rem 0.625rem;
+    padding: 0.4375rem 0.5rem;
   }
 }
 
@@ -818,17 +824,17 @@
 }
 
 .ratingName {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  color: #94a3b8;
+  color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.025em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
   @media (max-width: 480px) {
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
   }
 }
 
@@ -888,14 +894,7 @@
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 16px;
   padding: 2rem;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-
-  &:hover {
-    transform: translateY(-4px);
-    border-color: rgba(96, 165, 250, 0.5);
-    box-shadow: 0 8px 32px rgba(96, 165, 250, 0.2);
-  }
 }
 
 .ratingHeader {
@@ -984,10 +983,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
+  padding: 0.625rem 0.75rem;
   background: rgba(15, 23, 42, 0.4);
-  border-radius: 8px;
-  margin-top: 0.75rem;
+  border-radius: 6px;
+  margin-top: 0.25rem;
 }
 
 .sidebarInfoLabel {
@@ -1240,655 +1239,98 @@
   }
 }
 
-// Skill Tabs
+// Skill Tabs - Elegant Professional Style
 .skillTabs {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: rgba(30, 41, 59, 0.6);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 0.625rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+  flex-shrink: 0;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  
+  @media (max-width: 1024px) {
+    flex-wrap: wrap;
+  }
+  
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 }
 
 .skillTab {
+  position: relative;
   width: 64px;
   height: 64px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
+  flex-shrink: 0;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 3px;
+  border: 2px solid rgba(71, 85, 105, 0.3);
+  
+  @media (max-width: 768px) {
+    width: 58px;
+    height: 58px;
+  }
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 7px;
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
   }
 
-  &:hover {
-    border-color: rgba(96, 165, 250, 0.5);
-    transform: translateY(-2px);
+  &.skillTabActive {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(96, 165, 250, 0.6);
+
+    img {
+      opacity: 1;
+    }
   }
 }
 
 .skillTabBadge {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 18px;
-  height: 18px;
+  bottom: 3px;
+  right: 3px;
+  width: 16px;
+  height: 16px;
   border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 800;
+  font-size: 0.65rem;
+  font-weight: 700;
+  z-index: 2;
   
   &.passive {
-    background: rgba(147, 51, 234, 0.9);
+    background: #9333ea;
     color: #fff;
   }
 
   &.active {
-    background: rgba(34, 197, 94, 0.9);
+    background: #16a34a;
     color: #fff;
   }
-}
-
-.skillTabActive {
-  border-color: #60a5fa !important;
-  box-shadow: 0 0 12px rgba(96, 165, 250, 0.5);
-  transform: translateY(-2px);
 }
 
 .skillTabTransformed {
   border-color: rgba(168, 85, 247, 0.3);
 
-  &:hover {
+  &.skillTabActive {
     border-color: rgba(168, 85, 247, 0.6);
   }
-
-  &.skillTabActive {
-    border-color: #a855f7 !important;
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
-  }
 }
 
-// Skill Detail
-.skillDetail {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.9) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 2rem;
-  position: relative;
 
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 1rem;
-  }
-}
-
-.skillDetailHeader {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  align-items: flex-start;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-}
-
-.skillDetailIcon {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 2px solid rgba(96, 165, 250, 0.5);
-  flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.3);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.skillDetailInfo {
-  flex: 1;
-}
-
-.skillDetailTitleRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.skillBadges {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.skillDetailName {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #60a5fa;
-  margin: 0 0 0.75rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-
-  @media (max-width: 768px) {
-    font-size: 1.25rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.125rem;
-  }
-}
-
-.skillBadges {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 0.75rem;
-}
-
-.skillDetailDescription {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #cbd5e1;
-  margin: 1rem 0 0 0;
-}
-
-// Skill Stats Inline (Skill Parameters like CD, Mana Cost, etc.)
-.skillStatsInline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 0;
-  margin: 0 0 0.5rem 0;
-  font-size: 0.9rem;
-  color: #cbd5e1;
-
-  @media (max-width: 768px) {
-    gap: 0.75rem;
-    font-size: 0.85rem;
-  }
-}
-
-.skillStatInline {
-  color: #e2e8f0;
-  font-weight: 500;
-  white-space: nowrap;
-
-  &::after {
-    content: '';
-    display: inline-block;
-    width: 1px;
-    height: 14px;
-    background: rgba(255, 255, 255, 0.2);
-    margin-left: 1.5rem;
-    vertical-align: middle;
-  }
-
-  &:last-child::after {
-    display: none;
-  }
-}
-
-// Old Skill Stats Grid (keeping for backwards compatibility)
-.skillStatsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.skillStatItem {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  padding: 1rem;
-}
-
-.skillStatLabel {
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-}
-
-.skillStatValue {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #60a5fa;
-}
-
-// Skill Parameters Section (inline like CD/Mana Cost)
-.skillParameters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 1.5rem;
-}
-
-.skillParamInline {
-  color: #e2e8f0;
-  font-size: 0.95rem;
-  font-weight: 500;
-  white-space: nowrap;
-
-  &::after {
-    content: '';
-    display: inline-block;
-    width: 1px;
-    height: 14px;
-    background: rgba(255, 255, 255, 0.2);
-    margin-left: 1.5rem;
-    vertical-align: middle;
-  }
-
-  &:last-child::after {
-    display: none;
-  }
-}
-
-.parametersList {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.parameterRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(30, 41, 59, 0.6);
-    border-color: rgba(96, 165, 250, 0.3);
-  }
-}
-
-.parameterLabel {
-  font-size: 0.875rem;
-  color: #94a3b8;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.parameterValue {
-  font-size: 0.875rem;
-  color: #e2e8f0;
-  font-weight: 700;
-}
-
-// Level Scaling Section
-.levelScaling {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.levelScalingTable {
-  width: 100%;
-  overflow-x: auto;
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(96, 165, 250, 0.2);
-    border-radius: 8px;
-    overflow: hidden;
-
-    thead {
-      background: rgba(30, 58, 94, 0.6);
-
-      th {
-        padding: 0.75rem 1rem;
-        text-align: center;
-        font-size: 0.875rem;
-        font-weight: 700;
-        color: #93c5fd;
-        text-transform: none;
-        letter-spacing: 0.02em;
-        border-bottom: 1px solid rgba(96, 165, 250, 0.3);
-
-        &:first-child {
-          text-align: left;
-          width: 150px;
-          background: rgba(15, 23, 42, 0.9);
-        }
-      }
-    }
-
-    tbody {
-      tr {
-        border-bottom: 1px solid rgba(96, 165, 250, 0.1);
-
-        &:last-child {
-          border-bottom: none;
-        }
-
-        td {
-          padding: 0.75rem 1rem;
-          text-align: center;
-          font-size: 0.9rem;
-          color: #e2e8f0;
-          font-weight: 600;
-          background: rgba(30, 41, 59, 0.4);
-
-          &.paramName {
-            text-align: left;
-            color: #94a3b8;
-            font-weight: 600;
-            background: rgba(15, 23, 42, 0.7);
-            font-size: 0.875rem;
-          }
-        }
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    table {
-      font-size: 0.75rem;
-
-      thead th,
-      tbody td {
-        padding: 0.5rem;
-      }
-
-      thead th:first-child {
-        width: 100px;
-      }
-    }
-  }
-}
-
-.levelScalingContent {
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 1rem;
-  font-size: 0.875rem;
-  color: #cbd5e1;
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
-
-// Ability Details
-.abilityDetails {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 1.5rem;
-}
-
-.abilityDetailsTitle {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #60a5fa;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1rem;
-  text-decoration: underline;
-}
-
-.abilityDetailsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.abilityDetailItem {
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  padding: 1rem;
-  font-size: 0.875rem;
-  color: #cbd5e1;
-  line-height: 1.5;
-}
-
-.skillTypeBadge {
-  padding: 0.375rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  
-  &.passive {
-    background: rgba(147, 51, 234, 0.15);
-    border: 1px solid rgba(147, 51, 234, 0.3);
-    color: #c084fc;
-  }
-
-  &.active {
-    background: rgba(34, 197, 94, 0.15);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    color: #86efac;
-  }
-}
-
-.effectTypeBadge {
-  padding: 0.375rem 0.75rem;
-  background: rgba(59, 130, 246, 0.15);
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  border-radius: 6px;
-  color: #93c5fd;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-// New Hero Header Layout
-.heroSidebar {
-  width: 100%;
-  max-width: 300px;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.5) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 12px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  flex-shrink: 0;
-  box-sizing: border-box;
-
-  @media (max-width: 1024px) {
-    max-width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    padding: 0.875rem;
-    gap: 0.875rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0.75rem;
-    gap: 0.75rem;
-  }
-}
-
-.sidebarHeroName {
-  text-align: center;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-
-  h2 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #60a5fa;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-
-    @media (max-width: 480px) {
-      font-size: 1.125rem;
-    }
-  }
-}
-
-.sidebarHeroRole {
-  margin: 0.5rem 0 0 0;
-  font-size: 0.75rem;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-
-  @media (max-width: 480px) {
-    font-size: 0.6875rem;
-  }
-}
-
-.heroVitals {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.vitalBar {
-  background: rgba(220, 38, 38, 0.2);
-  border-radius: 4px;
-  padding: 0.625rem 0.75rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.875rem;
-  font-weight: 600;
-  box-sizing: border-box;
-  width: 100%;
-
-  @media (max-width: 480px) {
-    padding: 0.5rem 0.625rem;
-    font-size: 0.8125rem;
-  }
-
-  &[data-type="mana"] {
-    background: rgba(59, 130, 246, 0.2);
-    border-left-color: #3b82f6;
-  }
-}
-
-.vitalValue {
-  color: #e2e8f0;
-  font-weight: 600;
-}
-
-.vitalGrowth {
-  color: #64748b;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.passiveAbility {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 1rem;
-  display: flex;
-  gap: 0.75rem;
-
-  @media (max-width: 768px) {
-    padding: 0.875rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0.75rem;
-    gap: 0.625rem;
-  }
-}
-
-.passiveIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 2px solid rgba(168, 85, 247, 0.3);
-  background: rgba(0, 0, 0, 0.3);
-  flex-shrink: 0;
-
-  @media (max-width: 480px) {
-    width: 40px;
-    height: 40px;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.passiveInfo {
-  flex: 1;
-  min-width: 0;
-}
-
-.passiveLabel {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #a855f7;
-  margin-bottom: 0.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-
-  @media (max-width: 480px) {
-    font-size: 0.8125rem;
-  }
-}
-
-.abilityIcon {
-  font-size: 0.75rem;
-}
-
-.passiveDescription {
-  font-size: 0.75rem;
-  line-height: 1.4;
-  color: #94a3b8;
-
-  @media (max-width: 480px) {
-    font-size: 0.6875rem;
-  }
-}
 
 .heroMainContent {
   flex: 1;
@@ -2008,13 +1450,28 @@
   bottom: 0;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.3) 0%,
+      rgba(15, 23, 42, 0.7) 50%,
+      rgba(15, 23, 42, 0.95) 100%
+    );
+    z-index: 1;
+  }
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.3;
-    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+    object-position: center 20%;
+    opacity: 0.25;
+    filter: blur(2px);
   }
 }
 
@@ -2027,6 +1484,8 @@
   background: transparent !important;
   border: none !important;
   padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
 
   @media (max-width: 1024px) {
     flex-direction: column;
@@ -2174,44 +1633,171 @@
   line-height: 1.7;
   color: #cbd5e1;
   margin: 0;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+}
+
+.descriptionTextCollapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.showMoreButton {
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 6px;
+  color: #60a5fa;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(96, 165, 250, 0.15);
+    border-color: rgba(96, 165, 250, 0.5);
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 0.625rem 1rem;
+  }
 }
 
 // Ability Show Section
 .abilityShow {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.5) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  border-radius: 12px;
+  margin-top: 1.5rem;
+  padding: 0;
+  background: transparent;
+  border: none;
 
   @media (max-width: 768px) {
-    margin-top: 1.5rem;
-    padding: 1rem;
+    margin-top: 1.25rem;
   }
 }
 
-.abilityShowTitle {
-  font-size: 1.25rem;
+// Performance Ratings in Base Info Tab
+.performanceRatings {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.2);
+
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #60a5fa;
-  margin: 0 0 1.5rem 0;
+  color: #64748b;
+  margin: 0 0 1rem 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    margin-bottom: 0.875rem;
+  }
+}
+
+.ratingsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.ratingCard {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+  }
+}
+
+.ratingCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.ratingCardName {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ratingCardValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #60a5fa;
+  line-height: 1;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+.ratingCardDescription {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+.abilityShowTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    margin-bottom: 0.875rem;
+  }
 }
 
 .abilityShowGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 1rem;
 
   @media (max-width: 768px) {
-    gap: 1.5rem;
+    gap: 0.875rem;
   }
 
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 }
 
@@ -2219,58 +1805,62 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 2px;
 }
 
 .abilityShowLabel {
-  margin-bottom: 0.75rem;
-  font-size: 1.5rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #e2e8f0;
+  color: #cbd5e1;
 
   @media (max-width: 768px) {
-    font-size: 1.25rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.125rem;
+    font-size: 0.8125rem;
   }
 }
 
 .abilityShowBarWrapper {
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 10px;
-  padding: 0 2px;
-  outline: 2px solid #94a3b8;
+  gap: 0.75rem;
 }
 
 .abilityShowBar {
   flex: 1;
-  height: 4px;
+  height: 6px;
+  background: rgba(71, 85, 105, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
 }
 
 .abilityShowFill {
   display: block;
-  height: 4px;
-  background-color: #94a3b8;
+  height: 100%;
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
   transition: width 0.5s ease;
+  border-radius: 3px;
 }
 
 .abilityShowValue {
-  display: none;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #94a3b8;
+  min-width: 2.5rem;
+  text-align: right;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    min-width: 2.25rem;
+  }
 }
 
 // Counter & Synergy Section - Clean Modern Design
 .relationshipSection {
-  padding: 2rem;
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 12px;
+  border: 1px solid rgba(71, 85, 105, 0.3);
 
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   @media (max-width: 480px) {
@@ -2279,66 +1869,65 @@
 }
 
 .relationshipMainTitle {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #f1f5f9;
-  margin: 0 0 1.5rem 0;
+  color: #e2e8f0;
+  margin: 0 0 1.25rem 0;
   letter-spacing: -0.01em;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.875rem;
   }
 }
 
 .relationshipTabs {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(71, 85, 105, 0.3);
 
   @media (max-width: 768px) {
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: 0.375rem;
   }
 }
 
 .relationshipTab {
-  padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: #94a3b8;
-  font-size: 0.9rem;
+  padding: 0.625rem 1rem;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
   text-transform: capitalize;
+  white-space: nowrap;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #cbd5e1;
+    color: #94a3b8;
   }
 
   &.relationshipTabActive {
-    background: rgba(96, 165, 250, 0.15);
-    border-color: rgba(96, 165, 250, 0.3);
     color: #60a5fa;
+    border-bottom-color: #60a5fa;
   }
 
   @media (max-width: 768px) {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.85rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
   }
 
   @media (max-width: 480px) {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
   }
 }
 
@@ -2816,8 +2405,6 @@
   margin-bottom: 1.5rem;
   padding: 1rem;
   background: rgba(96, 165, 250, 0.08);
-  border-left: 3px solid #60a5fa;
-  border-radius: 8px;
 
   p {
     margin: 0;
@@ -3039,3 +2626,215 @@
   }
 }
 
+// Skills Section - Chrome Tab Style Content
+.skillsSection {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.skillsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.skillDetail {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.25rem;
+  }
+}
+
+.skillDetailHeader {
+  margin-bottom: 1.5rem;
+}
+
+.skillDetailInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skillDetailName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.35rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
+}
+
+.skillBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.effectTypeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+  background: rgba(71, 85, 105, 0.4);
+  color: #94a3b8;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.65rem;
+  }
+}
+
+.skillStatsInline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+
+  @media (max-width: 768px) {
+    gap: 0.875rem;
+    padding: 0.875rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+}
+
+.skillStatInline {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  font-weight: 500;
+
+  &::before {
+    content: '•';
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+}
+
+.skillDetailDescription {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+  
+  p {
+    margin: 0.5rem 0;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
+}
+
+.levelScaling {
+  margin-top: 1.5rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid rgba(71, 85, 105, 0.2);
+
+  @media (max-width: 768px) {
+    padding: 0.875rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+    overflow-x: auto;
+  }
+}
+
+.levelScalingTable {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
+  }
+
+  thead {
+    background: rgba(71, 85, 105, 0.2);
+  }
+
+  th {
+    padding: 0.75rem 0.5rem;
+    text-align: left;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.025em;
+    border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+    white-space: nowrap;
+
+    &:first-child {
+      text-align: left;
+      min-width: 120px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 0.625rem 0.4rem;
+      font-size: 0.7rem;
+    }
+  }
+
+  td {
+    padding: 0.75rem 0.5rem;
+    color: #cbd5e1;
+    border-bottom: 1px solid rgba(71, 85, 105, 0.15);
+
+    &.paramName {
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    @media (max-width: 480px) {
+      padding: 0.625rem 0.4rem;
+    }
+  }
+
+  tbody tr {
+    &:hover {
+      background: rgba(71, 85, 105, 0.1);
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+}

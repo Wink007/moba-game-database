@@ -20,7 +20,8 @@ function HeroDetailPage() {
   const heroPatches = React.useMemo(() => {
     if (!hero || !patches) return [];
     return patches.filter((patch: Patch) => 
-      patch.hero_changes && patch.hero_changes[hero.name]
+      (patch.hero_changes && patch.hero_changes[hero.name]) ||
+      (patch.hero_adjustments && patch.hero_adjustments[hero.name])
     );
   }, [patches, hero]);
   
@@ -30,6 +31,7 @@ function HeroDetailPage() {
   const [activeTab, setActiveTab] = React.useState<'info' | 'about' | 'counter' | 'synergy' | 'history'>('info');
   const [counterSubTab, setCounterSubTab] = React.useState<'best' | 'worst'>('best');
   const [synergySubTab, setSynergySubTab] = React.useState<'compatible' | 'incompatible'>('compatible');
+  const [showFullDescription, setShowFullDescription] = React.useState(false);
 
   // Ability labels
   const abilitiesLabel = ['Durability', 'Offense', 'Ability Effects', 'Difficulty'];
@@ -42,9 +44,13 @@ function HeroDetailPage() {
     return { level: 'Low', color: 'low' };
   };
 
-  // Фільтруємо навички які не є трансформаціями
-  const mainSkills = skills.filter(skill => !skill.is_transformed);
-  const transformedSkills = skills.filter(skill => skill.is_transformed);
+  // Фільтруємо навички які не є трансформаціями та сортуємо за id
+  const mainSkills = skills
+    .filter(skill => !skill.is_transformed)
+    .sort((a, b) => a.id - b.id);
+  const transformedSkills = skills
+    .filter(skill => skill.is_transformed)
+    .sort((a, b) => a.id - b.id);
 
   // Вибираємо першу навичку за замовчуванням
   const selectedSkill = selectedSkillId 
@@ -105,73 +111,6 @@ function HeroDetailPage() {
             )}
           </div>
 
-          {/* Performance Ratings */}
-          {(hero.main_hero_appearance_rate || hero.main_hero_ban_rate || hero.main_hero_win_rate) && (
-            <div className={styles.ratingsContainer}>
-              <div className={styles.ratingsTable}>
-                {/* Appearance Rate */}
-                {hero.main_hero_appearance_rate && (
-                  <div className={styles.ratingRow}>
-                    <div className={styles.ratingInfo}>
-                      <span className={styles.ratingName}>Appearance Rate</span>
-                      <span className={styles.ratingDescription}>Pick frequency in matches</span>
-                    </div>
-                    <div className={styles.ratingData}>
-                      <span className={styles.ratingPercentage}>{hero.main_hero_appearance_rate.toFixed(1)}%</span>
-                      <div className={styles.ratingBar}>
-                        <div 
-                          className={styles.ratingBarFill}
-                          style={{ width: `${Math.min(hero.main_hero_appearance_rate, 100)}%` }}
-                          data-level={getRatingLevel(hero.main_hero_appearance_rate).color}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Ban Rate */}
-                {hero.main_hero_ban_rate && (
-                  <div className={styles.ratingRow}>
-                    <div className={styles.ratingInfo}>
-                      <span className={styles.ratingName}>Ban Rate</span>
-                      <span className={styles.ratingDescription}>How often banned</span>
-                    </div>
-                    <div className={styles.ratingData}>
-                      <span className={styles.ratingPercentage}>{hero.main_hero_ban_rate.toFixed(1)}%</span>
-                      <div className={styles.ratingBar}>
-                        <div 
-                          className={styles.ratingBarFill}
-                          style={{ width: `${Math.min(hero.main_hero_ban_rate, 100)}%` }}
-                          data-level={getRatingLevel(hero.main_hero_ban_rate).color}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Win Rate */}
-                {hero.main_hero_win_rate && (
-                  <div className={styles.ratingRow}>
-                    <div className={styles.ratingInfo}>
-                      <span className={styles.ratingName}>Win Rate</span>
-                      <span className={styles.ratingDescription}>Games won percentage</span>
-                    </div>
-                    <div className={styles.ratingData}>
-                      <span className={styles.ratingPercentage}>{hero.main_hero_win_rate.toFixed(1)}%</span>
-                      <div className={styles.ratingBar}>
-                        <div 
-                          className={styles.ratingBarFill}
-                          style={{ width: `${Math.min(hero.main_hero_win_rate, 100)}%` }}
-                          data-level={getRatingLevel(hero.main_hero_win_rate).color}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
           {/* Short Description */}
           {hero.short_description && (
             <div className={styles.sidebarDescription}>
@@ -182,7 +121,6 @@ function HeroDetailPage() {
           {/* Specialty Tags */}
           {hero.specialty && hero.specialty.length > 0 && (
             <div className={styles.sidebarSpecialty}>
-              <div className={styles.sidebarSpecialtyLabel}>Specialty:</div>
               <div className={styles.specialtyTags}>
                 {hero.specialty.map((spec, idx) => (
                   <span key={idx} className={styles.specialtyTag}>{spec}</span>
@@ -258,6 +196,68 @@ function HeroDetailPage() {
             {/* Base Information Tab */}
             {activeTab === 'info' && (
               <div className={styles.contentSection}>
+                {/* Performance Ratings */}
+                {(hero.main_hero_appearance_rate || hero.main_hero_ban_rate || hero.main_hero_win_rate) && (
+                  <div className={styles.performanceRatings}>
+                    <h3 className={styles.sectionTitle}>Performance Stats</h3>
+                    <div className={styles.ratingsGrid}>
+                      {/* Appearance Rate */}
+                      {hero.main_hero_appearance_rate && (
+                        <div className={styles.ratingCard}>
+                          <div className={styles.ratingCardHeader}>
+                            <span className={styles.ratingCardName}>Appearance Rate</span>
+                            <span className={styles.ratingCardValue}>{hero.main_hero_appearance_rate.toFixed(1)}%</span>
+                          </div>
+                          <div className={styles.ratingBar}>
+                            <div 
+                              className={styles.ratingBarFill}
+                              style={{ width: `${Math.min(hero.main_hero_appearance_rate, 100)}%` }}
+                              data-level={getRatingLevel(hero.main_hero_appearance_rate).color}
+                            />
+                          </div>
+                          <span className={styles.ratingCardDescription}>Pick frequency in matches</span>
+                        </div>
+                      )}
+
+                      {/* Ban Rate */}
+                      {hero.main_hero_ban_rate && (
+                        <div className={styles.ratingCard}>
+                          <div className={styles.ratingCardHeader}>
+                            <span className={styles.ratingCardName}>Ban Rate</span>
+                            <span className={styles.ratingCardValue}>{hero.main_hero_ban_rate.toFixed(1)}%</span>
+                          </div>
+                          <div className={styles.ratingBar}>
+                            <div 
+                              className={styles.ratingBarFill}
+                              style={{ width: `${Math.min(hero.main_hero_ban_rate, 100)}%` }}
+                              data-level={getRatingLevel(hero.main_hero_ban_rate).color}
+                            />
+                          </div>
+                          <span className={styles.ratingCardDescription}>How often banned</span>
+                        </div>
+                      )}
+
+                      {/* Win Rate */}
+                      {hero.main_hero_win_rate && (
+                        <div className={styles.ratingCard}>
+                          <div className={styles.ratingCardHeader}>
+                            <span className={styles.ratingCardName}>Win Rate</span>
+                            <span className={styles.ratingCardValue}>{hero.main_hero_win_rate.toFixed(1)}%</span>
+                          </div>
+                          <div className={styles.ratingBar}>
+                            <div 
+                              className={styles.ratingBarFill}
+                              style={{ width: `${Math.min(hero.main_hero_win_rate, 100)}%` }}
+                              data-level={getRatingLevel(hero.main_hero_win_rate).color}
+                            />
+                          </div>
+                          <span className={styles.ratingCardDescription}>Games won percentage</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Stats Table */}
                 <div className={styles.statsTable}>
                   <div className={styles.statsTableRow}>
@@ -292,12 +292,9 @@ function HeroDetailPage() {
                   </div>
                   {hero.hero_stats?.attack_speed_ratio && (
                     <div className={styles.statsTableRow}>
-                      <div className={styles.statsTableCell}>
+                      <div className={`${styles.statsTableCell} ${styles.fullWidthCell}`}>
                         <span className={styles.statName}>Attack Speed Ratio</span>
                         <span className={styles.statValueLarge}>{hero.hero_stats.attack_speed_ratio}</span>
-                      </div>
-                      <div className={styles.statsTableCell}>
-                        {/* Порожня клітинка */}
                       </div>
                     </div>
                   )}
@@ -335,7 +332,17 @@ function HeroDetailPage() {
                 {hero.full_description && (
                   <div className={styles.descriptionSection}>
                     <h3 className={styles.descriptionTitle}>About {hero.name}</h3>
-                    <p className={styles.descriptionText}>{hero.full_description}</p>
+                    <p className={`${styles.descriptionText} ${!showFullDescription ? styles.descriptionTextCollapsed : ''}`}>
+                      {hero.full_description}
+                    </p>
+                    {hero.full_description.length > 300 && (
+                      <button 
+                        className={styles.showMoreButton}
+                        onClick={() => setShowFullDescription(!showFullDescription)}
+                      >
+                        {showFullDescription ? 'Show Less' : 'Show More'}
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -640,7 +647,12 @@ function HeroDetailPage() {
                   {heroPatches.length > 0 ? (
                     <div className={styles.patchesTimeline}>
                       {heroPatches.map((patch: Patch) => {
-                        const heroChange = patch.hero_changes![hero.name];
+                        // Support both old and new formats
+                        const heroChange = patch.hero_changes?.[hero.name];
+                        const heroAdjustment = patch.hero_adjustments?.[hero.name];
+                        
+                        if (!heroChange && !heroAdjustment) return null;
+                        
                         return (
                           <div key={patch.version} className={styles.patchCard}>
                             <div className={styles.patchHeader}>
@@ -657,15 +669,21 @@ function HeroDetailPage() {
                               </div>
                             </div>
 
-                            {heroChange.summary && (
+                            {/* Summary/Description from any format */}
+                            {(heroChange?.summary || (heroAdjustment as any)?.summary || heroAdjustment?.description) && (
                               <div className={styles.patchSummary}>
-                                <p>{heroChange.summary}</p>
+                                {heroChange?.summary && <p>{heroChange.summary}</p>}
+                                {!heroChange?.summary && (heroAdjustment as any)?.summary && <p>{(heroAdjustment as any).summary}</p>}
+                                {!heroChange?.summary && !(heroAdjustment as any)?.summary && heroAdjustment?.description && (
+                                  <div dangerouslySetInnerHTML={{ __html: heroAdjustment.description }} />
+                                )}
                               </div>
                             )}
 
-                            {heroChange.skills && heroChange.skills.length > 0 && (
+                            {/* Skills from any format */}
+                            {(heroChange?.skills || (heroAdjustment as any)?.skills) && (heroChange?.skills || (heroAdjustment as any)?.skills).length > 0 && (
                               <div className={styles.skillChanges}>
-                                {heroChange.skills.map((skill, idx) => (
+                                {(heroChange?.skills || (heroAdjustment as any)?.skills).map((skill: any, idx: number) => (
                                   <div key={idx} className={styles.skillChange}>
                                     <div className={styles.skillHeader}>
                                       <div className={styles.skillName}>
@@ -683,13 +701,65 @@ function HeroDetailPage() {
                                     </div>
                                     {skill.changes && skill.changes.length > 0 && (
                                       <ul className={styles.changesList}>
-                                        {skill.changes.map((change, changeIdx) => (
+                                        {skill.changes.map((change: string, changeIdx: number) => (
                                           <li key={changeIdx} className={styles.changeItem}>
                                             {change}
                                           </li>
                                         ))}
                                       </ul>
                                     )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {/* New format skill adjustments */}
+                            {heroAdjustment?.adjustments && heroAdjustment.adjustments.length > 0 && (
+                              <div className={styles.skillChanges}>
+                                {heroAdjustment.adjustments.map((adj, idx) => (
+                                  <div key={idx} className={styles.skillChange}>
+                                    <div className={styles.skillHeader}>
+                                      <div className={styles.skillName}>
+                                        <span className={styles.skillType}>{adj.skill_type}</span>
+                                        {adj.skill_name && (
+                                          <span className={styles.skillNameText}>{adj.skill_name}</span>
+                                        )}
+                                      </div>
+                                      <span 
+                                        className={styles.balanceBadge} 
+                                        data-balance={adj.badge.toLowerCase()}
+                                      >
+                                        {adj.badge}
+                                      </span>
+                                    </div>
+                                    <div className={styles.changesList}>
+                                      <div className={styles.changeItem} dangerouslySetInnerHTML={{ __html: adj.description }} />
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {/* New format attribute adjustments */}
+                            {heroAdjustment?.attribute_adjustments && heroAdjustment.attribute_adjustments.length > 0 && (
+                              <div className={styles.skillChanges}>
+                                {heroAdjustment.attribute_adjustments.map((adj, idx) => (
+                                  <div key={idx} className={styles.skillChange}>
+                                    <div className={styles.skillHeader}>
+                                      <div className={styles.skillName}>
+                                        <span className={styles.skillType}>Attribute</span>
+                                        <span className={styles.skillNameText}>{adj.attribute_name}</span>
+                                      </div>
+                                      <span 
+                                        className={styles.balanceBadge} 
+                                        data-balance={adj.badge.toLowerCase()}
+                                      >
+                                        {adj.badge}
+                                      </span>
+                                    </div>
+                                    <div className={styles.changesList}>
+                                      <div className={styles.changeItem} dangerouslySetInnerHTML={{ __html: adj.description }} />
+                                    </div>
                                   </div>
                                 ))}
                               </div>
@@ -721,41 +791,42 @@ function HeroDetailPage() {
         <div className={styles.skillsSection}>
           <h2 className={styles.sectionTitle}>Abilities</h2>
           
-          {/* Skill Tabs */}
-          <div className={styles.skillTabs}>
-            {mainSkills.map((skill) => (
-              <div 
-                key={skill.id} 
-                className={`${styles.skillTab} ${selectedSkillId === skill.id ? styles.skillTabActive : ''}`}
-                onClick={() => setSelectedSkillId(skill.id)}
-              >
-                {skill.image && (
-                  <img src={skill.image} alt={skill.skill_name} />
-                )}
-                {skill.skill_type && (
-                  <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
-                    {skill.skill_type === 'passive' ? 'P' : 'A'}
-                  </div>
-                )}
-              </div>
-            ))}
-            {transformedSkills.map((skill) => (
-              <div 
-                key={skill.id} 
-                className={`${styles.skillTab} ${styles.skillTabTransformed} ${selectedSkillId === skill.id ? styles.skillTabActive : ''}`}
-                onClick={() => setSelectedSkillId(skill.id)}
-              >
-                {skill.image && (
-                  <img src={skill.image} alt={skill.skill_name} />
-                )}
-                {skill.skill_type && (
-                  <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
-                    {skill.skill_type === 'passive' ? 'P' : 'A'}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          <div className={styles.skillsContainer}>
+            {/* Skill Tabs */}
+            <div className={styles.skillTabs}>
+              {mainSkills.map((skill) => (
+                <div 
+                  key={skill.id} 
+                  className={`${styles.skillTab} ${selectedSkillId === skill.id ? styles.skillTabActive : ''}`}
+                  onClick={() => setSelectedSkillId(skill.id)}
+                >
+                  {skill.image && (
+                    <img src={skill.image} alt={skill.skill_name} />
+                  )}
+                  {skill.skill_type && (
+                    <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
+                      {skill.skill_type === 'passive' ? 'P' : 'A'}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {transformedSkills.map((skill) => (
+                <div 
+                  key={skill.id} 
+                  className={`${styles.skillTab} ${styles.skillTabTransformed} ${selectedSkillId === skill.id ? styles.skillTabActive : ''}`}
+                  onClick={() => setSelectedSkillId(skill.id)}
+                >
+                  {skill.image && (
+                    <img src={skill.image} alt={skill.skill_name} />
+                  )}
+                  {skill.skill_type && (
+                    <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
+                      {skill.skill_type === 'passive' ? 'P' : 'A'}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
 
           {/* Selected Skill Detail */}
             {selectedSkill && (
@@ -781,32 +852,7 @@ function HeroDetailPage() {
                     </div>
                     
                     {/* Skill Parameters (CD, Mana Cost, etc.) */}
-                    <div className={styles.skillStatsInline}>
-                      {selectedSkill.cooldown && (
-                        <span className={styles.skillStatInline}>
-                          CD: {typeof selectedSkill.cooldown === 'object' ? JSON.stringify(selectedSkill.cooldown) : selectedSkill.cooldown}
-                        </span>
-                      )}
-                      {selectedSkill.mana_cost && (
-                        <span className={styles.skillStatInline}>
-                          Mana Cost: {typeof selectedSkill.mana_cost === 'object' ? JSON.stringify(selectedSkill.mana_cost) : selectedSkill.mana_cost}
-                        </span>
-                      )}
-                      {selectedSkill.cast_range && (
-                        <span className={styles.skillStatInline}>
-                          Cast Range: {typeof selectedSkill.cast_range === 'object' ? JSON.stringify(selectedSkill.cast_range) : selectedSkill.cast_range}
-                        </span>
-                      )}
-                      {selectedSkill.damage && (
-                        <span className={styles.skillStatInline}>
-                          Damage: {typeof selectedSkill.damage === 'object' ? JSON.stringify(selectedSkill.damage) : selectedSkill.damage}
-                        </span>
-                      )}
-                      {selectedSkill.duration && (
-                        <span className={styles.skillStatInline}>
-                          Duration: {typeof selectedSkill.duration === 'object' ? JSON.stringify(selectedSkill.duration) : selectedSkill.duration}
-                        </span>
-                      )}
+                    {selectedSkill.skill_parameters && Object.entries(selectedSkill.skill_parameters).length > 0 && <div className={styles.skillStatsInline}>
                       {/* Additional skill parameters */}
                       {selectedSkill.skill_parameters && typeof selectedSkill.skill_parameters === 'object' && 
                        Object.entries(selectedSkill.skill_parameters).map(([key, value]) => {
@@ -827,7 +873,7 @@ function HeroDetailPage() {
                           </span>
                         );
                       })}
-                    </div>
+                    </div>}
 
                     {selectedSkill.skill_description && (
                       <div 
@@ -837,36 +883,6 @@ function HeroDetailPage() {
                     )}
                   </div>
                 </div>
-
-                {/* Skill Parameters - Additional parameters not in level scaling */}
-                {selectedSkill.skill_parameters && typeof selectedSkill.skill_parameters === 'object' && 
-                 Object.keys(selectedSkill.skill_parameters).length > 0 && (
-                  <div className={styles.skillParameters}>
-                    {Object.entries(selectedSkill.skill_parameters).map(([key, value]) => {
-                      let displayValue: string;
-                      
-                      if (typeof value === 'object' && value !== null) {
-                        // Handle objects like {levels: [...], name: "..."}
-                        if ('levels' in value && Array.isArray(value.levels)) {
-                          displayValue = value.levels.join(' / ');
-                        } else if ('name' in value) {
-                          return null; // Skip objects with name (they go in level scaling)
-                        } else {
-                          displayValue = JSON.stringify(value);
-                        }
-                      } else {
-                        displayValue = String(value);
-                      }
-                      
-                      return (
-                        <span key={key} className={styles.skillParamInline}>
-                          {key}: {displayValue}
-                        </span>
-                      );
-                    })}
-                  </div>
-                )}
-
                 {/* Level Scaling */}
                 {selectedSkill.level_scaling && (() => {
                   // Parse level_scaling if it's a string or use directly if it's an array
@@ -888,7 +904,22 @@ function HeroDetailPage() {
                     return null;
                   }
 
-                  const maxLevels = Math.max(...scalingData.map(item => item.levels?.length || 0));
+                  // Знаходимо максимальний рівень з фактичними даними
+                  let actualMaxLevel = 0;
+                  scalingData.forEach(param => {
+                    if (param.levels && Array.isArray(param.levels)) {
+                      for (let i = param.levels.length - 1; i >= 0; i--) {
+                        if (param.levels[i] !== undefined && param.levels[i] !== null && param.levels[i] !== '') {
+                          actualMaxLevel = Math.max(actualMaxLevel, i + 1);
+                          break;
+                        }
+                      }
+                    }
+                  });
+
+                  if (actualMaxLevel === 0) {
+                    return null;
+                  }
 
                   return (
                     <div className={styles.levelScaling}>
@@ -897,7 +928,7 @@ function HeroDetailPage() {
                           <thead>
                             <tr>
                               <th></th>
-                              {Array.from({ length: maxLevels }, (_, i) => (
+                              {Array.from({ length: actualMaxLevel }, (_, i) => (
                                 <th key={i}>Lv.{i + 1}</th>
                               ))}
                             </tr>
@@ -906,8 +937,12 @@ function HeroDetailPage() {
                             {scalingData.map((param, idx) => (
                               <tr key={idx}>
                                 <td className={styles.paramName}>{param.name}</td>
-                                {param.levels?.map((value: any, levelIdx: number) => (
-                                  <td key={levelIdx}>{value}</td>
+                                {Array.from({ length: actualMaxLevel }, (_, levelIdx) => (
+                                  <td key={levelIdx}>
+                                    {param.levels && param.levels[levelIdx] !== undefined && param.levels[levelIdx] !== null && param.levels[levelIdx] !== ''
+                                      ? param.levels[levelIdx] 
+                                      : '—'}
+                                  </td>
                                 ))}
                               </tr>
                             ))}
@@ -922,6 +957,7 @@ function HeroDetailPage() {
               </div>
             )}
           </div>
+        </div>
         )}
     </div>
   );

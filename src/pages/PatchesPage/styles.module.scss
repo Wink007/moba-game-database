@@ -232,6 +232,69 @@
   }
 }
 
+.designersNote {
+  h2 {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 16px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+}
+
+.noteContent {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border-left: 3px solid #4ecdc4;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  font-size: 1rem;
+  margin: 0;
+
+  strong {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+  }
+}
+
+.revampedHeroCard {
+  padding: 30px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.revampBadge {
+  background: rgba(156, 39, 176, 0.2) !important;
+  color: #ba68c8 !important;
+}
+
+.revampDescription {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  margin-bottom: 24px;
+  border-left: none;
+  font-size: 1rem;
+
+  strong {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+  }
+}
+
+.revampedSkills {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .heroCard, .itemCard {
   padding: 16px 20px;
   margin-bottom: 16px;
@@ -393,7 +456,6 @@
   padding: 16px 20px;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
-  border-left: 3px solid rgba(78, 205, 196, 0.4);
   
   h4, h5 {
     margin: 0 0 12px 0;

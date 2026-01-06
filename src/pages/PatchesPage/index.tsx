@@ -10,9 +10,26 @@ interface PatchSkill {
   changes: string[];
 }
 
+interface SkillAdjustment {
+  skill_type: string;
+  skill_name?: string;
+  badge?: string;
+  description: string;
+}
+
+interface AttributeAdjustment {
+  attribute_name: string;
+  badge?: string;
+  description: string;
+}
+
 interface PatchHeroChanges {
-  summary: string;
-  skills: PatchSkill[];
+  summary?: string;
+  skills?: PatchSkill[];
+  badge?: string;
+  description?: string;
+  adjustments?: SkillAdjustment[];
+  attribute_adjustments?: AttributeAdjustment[];
 }
 
 interface NewHeroSkill {
@@ -41,20 +58,49 @@ interface BattlefieldItem {
 }
 
 interface BattlefieldAdjustment {
-  type: 'section' | 'item';
-  description?: string[];
+  type?: 'section' | 'item';
+  badge?: string;
+  description?: string | string[];
   items?: Record<string, BattlefieldItem>;
   changes?: string[];
+}
+
+interface EquipmentAdjustmentItem {
+  name?: string;
+  badge?: string;
+  description?: string;
+}
+
+interface ItemAdjustment {
+  badge?: string;
+  description?: string;
+  adjustments?: (string | EquipmentAdjustmentItem)[];
+}
+
+interface RevampedHeroAdjustment {
+  skill_type: string;
+  skill_name: string;
+  description: string;
+}
+
+interface RevampedHeroData {
+  badge: string;
+  description: string;
+  adjustments: RevampedHeroAdjustment[];
 }
 
 interface Patch {
   version: string;
   release_date: string;
+  designers_note?: string;
   new_hero: NewHero | null;
   hero_adjustments: Record<string, PatchHeroChanges>;
-  emblem_adjustments: Record<string, { sections: BattlefieldSection[] }>;
+  emblem_adjustments: Record<string, { sections?: BattlefieldSection[]; badge?: string; description?: string; adjustments?: string[] }>;
+  equipment_adjustments?: Record<string, ItemAdjustment>;
   battlefield_adjustments: Record<string, BattlefieldAdjustment>;
   system_adjustments: string[];
+  revamped_heroes?: string[];
+  revamped_heroes_data?: Record<string, RevampedHeroData>;
 }
 
 export const PatchesPage: React.FC = () => {
@@ -179,6 +225,15 @@ export const PatchesPage: React.FC = () => {
               <p className={styles.releaseDate}>{currentPatch.release_date}</p>
             </div>
 
+            {currentPatch.designers_note && currentPatch.designers_note.trim() && (
+              <div className={styles.section}>
+                <div className={styles.designersNote}>
+                  <h2>Designer's Note</h2>
+                  <p className={styles.noteContent} dangerouslySetInnerHTML={{ __html: currentPatch.designers_note }} />
+                </div>
+              </div>
+            )}
+
             {currentPatch.new_hero && (
               <div className={styles.section}>
                 <h2>New Hero</h2>
@@ -217,6 +272,62 @@ export const PatchesPage: React.FC = () => {
               </div>
             )}
 
+            {currentPatch.revamped_heroes && currentPatch.revamped_heroes.length > 0 && currentPatch.revamped_heroes_data && (
+              <div className={styles.section}>
+                <h2>Revamped Heroes</h2>
+                {currentPatch.revamped_heroes.map((heroName) => {
+                  const heroData = currentPatch.revamped_heroes_data![heroName];
+                  if (!heroData) return null;
+                  
+                  return (
+                    <div key={heroName} className={styles.revampedHeroCard}>
+                      <div className={styles.heroHeader}>
+                        {heroNameToId[heroName] ? (
+                          <Link to={`/${gameId}/heroes/${heroNameToId[heroName]}`} className={styles.heroLink}>
+                            <h3>{heroName}</h3>
+                          </Link>
+                        ) : (
+                          <h3>{heroName}</h3>
+                        )}
+                        <span className={`${styles.badge} ${styles.revampBadge}`}>
+                          REVAMP
+                        </span>
+                      </div>
+                      
+                      {heroData.description && heroData.description.trim() && (
+                        <p className={styles.revampDescription}>
+                          {heroData.description.split('\n\n').map((para, pIdx) => (
+                            <span key={pIdx}>
+                              {para}
+                              {pIdx < heroData.description.split('\n\n').length - 1 && <><br /><br /></>}
+                            </span>
+                          ))}
+                        </p>
+                      )}
+                      
+                      {heroData.adjustments && heroData.adjustments.length > 0 && (
+                        <div className={styles.revampedSkills}>
+                          {heroData.adjustments.map((skill, idx) => (
+                            <div key={idx} className={styles.skillBlock}>
+                              <div className={styles.skillHeader}>
+                                <span className={styles.skillType}>{skill.skill_type}</span>
+                                <span className={styles.skillName}>{skill.skill_name}</span>
+                              </div>
+                              <div className={styles.skillDescription}>
+                                {skill.description.split('\n\n').map((para, pIdx) => (
+                                  <p key={pIdx}>{para}</p>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
             {currentPatch.hero_adjustments && Object.keys(currentPatch.hero_adjustments).length > 0 && (
               <div className={styles.section}>
                 <h2>Hero Adjustments</h2>
@@ -225,6 +336,8 @@ export const PatchesPage: React.FC = () => {
                     // Фільтруємо героїв без даних
                     const hasSummary = heroData.summary && heroData.summary.trim().length > 0;
                     const hasSkills = heroData.skills && heroData.skills.length > 0;
+                    const hasDescription = heroData.description && heroData.description.trim().length > 0;
+                    const hasAdjustments = heroData.adjustments && heroData.adjustments.length > 0;
                     
                     // Виключаємо героя якщо він є у new_hero (щоб не дублювати)
                     const isNewHero = currentPatch.new_hero && (
@@ -232,7 +345,7 @@ export const PatchesPage: React.FC = () => {
                       heroName.startsWith(currentPatch.new_hero.name + ',')
                     );
                     
-                    return (hasSummary || hasSkills) && !isNewHero;
+                    return (hasSummary || hasSkills || hasDescription || hasAdjustments) && !isNewHero;
                   })
                   .map(([heroName, heroData]) => (
                   <div key={heroName} id={heroName} className={styles.heroCard}>{/* Додали id={heroName} для якоря */}
@@ -244,10 +357,19 @@ export const PatchesPage: React.FC = () => {
                       ) : (
                         <h3>{heroName}</h3>
                       )}
+                      {heroData.badge && (
+                        <span className={`${styles.badge} ${getBalanceBadgeClass(heroData.badge)}`}>
+                          {heroData.badge}
+                        </span>
+                      )}
                     </div>
                     
                     {heroData.summary && heroData.summary.trim() && (
                       <p className={styles.summary}>{heroData.summary}</p>
+                    )}
+                    
+                    {heroData.description && heroData.description.trim() && (
+                      <p className={styles.summary}>{heroData.description}</p>
                     )}
 
                     {heroData.skills && heroData.skills.length > 0 && heroData.skills.map((skill, idx) => (
@@ -268,6 +390,97 @@ export const PatchesPage: React.FC = () => {
                         </ul>
                       </div>
                     ))}
+                    
+                    {heroData.adjustments && heroData.adjustments.length > 0 && heroData.adjustments.map((adj, idx) => (
+                      <div key={idx} className={styles.skillBlock}>
+                        <div className={styles.skillHeader}>
+                          <span className={styles.skillName}>{adj.skill_name || adj.skill_type}</span>
+                          {adj.badge && (
+                            <span className={`${styles.badge} ${getBalanceBadgeClass(adj.badge)}`}>
+                              {adj.badge}
+                            </span>
+                          )}
+                        </div>
+                        {adj.description && (
+                          <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adj.description }} />
+                        )}
+                      </div>
+                    ))}
+                    
+                    {heroData.attribute_adjustments && heroData.attribute_adjustments.length > 0 && heroData.attribute_adjustments.map((attr, idx) => (
+                      <div key={idx} className={styles.skillBlock}>
+                        <div className={styles.skillHeader}>
+                          <span className={styles.skillName}>{attr.attribute_name}</span>
+                          {attr.badge && (
+                            <span className={`${styles.badge} ${getBalanceBadgeClass(attr.badge)}`}>
+                              {attr.badge}
+                            </span>
+                          )}
+                        </div>
+                        {attr.description && (
+                          <p className={styles.summary} dangerouslySetInnerHTML={{ __html: attr.description }} />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {currentPatch.equipment_adjustments && Object.keys(currentPatch.equipment_adjustments).length > 0 && (
+              <div className={styles.section}>
+                <h2>Equipment Adjustments</h2>
+                {Object.entries(currentPatch.equipment_adjustments).map(([itemName, itemData]) => (
+                  <div key={itemName} className={styles.itemCard}>
+                    <div className={styles.itemHeader}>
+                      {itemNameToId[itemName] ? (
+                        <Link to={`/${gameId}/items/${itemNameToId[itemName]}`} className={styles.heroLink}>
+                          <h4>{itemName}</h4>
+                        </Link>
+                      ) : (
+                        <h4>{itemName}</h4>
+                      )}
+                      {itemData.badge && (
+                        <span className={`${styles.badge} ${getBalanceBadgeClass(itemData.badge)}`}>
+                          {itemData.badge}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {itemData.description && itemData.description.trim() && (
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: itemData.description }} />
+                    )}
+                    
+                    {itemData.adjustments && itemData.adjustments.length > 0 && (
+                      <div>
+                        {itemData.adjustments.map((adj, adjIdx) => {
+                          // Підтримка старого формату (string) та нового (object)
+                          if (typeof adj === 'string') {
+                            return (
+                              <div key={adjIdx} className={styles.skillBlock}>
+                                <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adj }} />
+                              </div>
+                            );
+                          }
+                          
+                          return (
+                            <div key={adjIdx} className={styles.skillBlock}>
+                              <div className={styles.skillHeader}>
+                                <span className={styles.skillName}>{adj.name}</span>
+                                {adj.badge && (
+                                  <span className={`${styles.badge} ${getBalanceBadgeClass(adj.badge)}`}>
+                                    {adj.badge}
+                                  </span>
+                                )}
+                              </div>
+                              {adj.description && (
+                                <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adj.description }} />
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -280,7 +493,24 @@ export const PatchesPage: React.FC = () => {
                   <div key={emblemName} className={styles.itemCard}>
                     <div className={styles.itemHeader}>
                       <h4>{emblemName}</h4>
+                      {emblemData.badge && (
+                        <span className={`${styles.badge} ${getBalanceBadgeClass(emblemData.badge)}`}>
+                          {emblemData.badge}
+                        </span>
+                      )}
                     </div>
+                    
+                    {emblemData.description && emblemData.description.trim() && (
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: emblemData.description }} />
+                    )}
+                    
+                    {emblemData.adjustments && emblemData.adjustments.length > 0 && (
+                      <ul className={styles.changesList}>
+                        {emblemData.adjustments.map((adj, adjIdx) => (
+                          <li key={adjIdx} dangerouslySetInnerHTML={{ __html: adj }} />
+                        ))}
+                      </ul>
+                    )}
                     
                     {emblemData.sections && emblemData.sections.length > 0 && (
                       <div className={styles.sections}>
@@ -296,7 +526,7 @@ export const PatchesPage: React.FC = () => {
                             </div>
                             <ul className={styles.changesList}>
                               {section.changes.map((change, changeIdx) => (
-                                <li key={changeIdx}>{change}</li>
+                                <li key={changeIdx} dangerouslySetInnerHTML={{ __html: change }} />
                               ))}
                             </ul>
                           </div>
@@ -367,21 +597,33 @@ export const PatchesPage: React.FC = () => {
                     );
                   }
                   
-                  // Якщо це окремий item (Mythic Battlefield, Stat Adjustments)
-                  if (sectionData.type === 'item' && 
-                      ((sectionData.description && sectionData.description.length > 0) || 
+                  // Якщо це окремий item (Mythic Battlefield, Stat Adjustments) або новий формат з badge
+                  if ((sectionData.type === 'item' || sectionData.badge || typeof sectionData.description === 'string') && 
+                      ((sectionData.description && (typeof sectionData.description === 'string' ? sectionData.description.length > 0 : sectionData.description.length > 0)) || 
                        (sectionData.changes && sectionData.changes.length > 0))) {
+                    const desc = sectionData.description;
+                    const isStringDesc = typeof desc === 'string';
+                    
                     return (
                       <div key={sectionName} className={styles.itemCard}>
                         <div className={styles.itemHeader}>
                           <h3>{sectionName}</h3>
+                          {sectionData.badge && (
+                            <span className={`${styles.badge} ${getBalanceBadgeClass(sectionData.badge)}`}>
+                              {sectionData.badge}
+                            </span>
+                          )}
                         </div>
                         
-                        {sectionData.description && sectionData.description.length > 0 && (
+                        {desc && (
                           <div className={styles.description}>
-                            {sectionData.description.map((desc, idx) => (
-                              <p key={idx}>{desc}</p>
-                            ))}
+                            {isStringDesc ? (
+                              <p dangerouslySetInnerHTML={{ __html: desc }} />
+                            ) : (
+                              desc.map((d, idx) => (
+                                <p key={idx}>{d}</p>
+                              ))
+                            )}
                           </div>
                         )}
                         

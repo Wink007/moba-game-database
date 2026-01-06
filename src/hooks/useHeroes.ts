@@ -93,6 +93,14 @@ export const useHeroRankHistory = (gameId?: number, heroGameId?: number) => {
 export const usePatches = () => {
   return useQuery({
     queryKey: ['patches'],
-    queryFn: () => api.getPatches(),
+    queryFn: async () => {
+      const patches = await api.getPatches();
+      // Сортуємо патчі за датою (від новіших до старіших)
+      return patches.sort((a: any, b: any) => {
+        const dateA = new Date(a.release_date).getTime();
+        const dateB = new Date(b.release_date).getTime();
+        return dateB - dateA;
+      });
+    },
   });
 };
