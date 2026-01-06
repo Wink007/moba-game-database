@@ -1219,5 +1219,468 @@
     "system_adjustments": [],
     "new_hero": null,
     "revamped_heroes": []
+  },
+  "2.1.30": {
+    "version": "2.1.30",
+    "release_date": "2025-11-04",
+    "hero_changes": {
+      "Hilda": {
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "description": "When entering a Bush, Hilda enhances her next Basic Attack to deal 140 (+ 70% Total Physical Attack) (+ 9*hero level) Physical Damage and slow the target by 40% for 3s. Enemies behind the target take 70 (+50% Total Physical Attack) (+ 7*hero level) Physical Damage. After using this enhanced Basic Attack, it enters a 6s cooldown.\nPursuit Speed of Enhanced Basic Attack: 10 >> 13\nEach stack reduces the target's Physical Defense and Magic Defense by: 4% >> 3%",
+            "skill_name": "Blessing of Wilderness",
+            "skill_type": "Passive"
+          },
+          {
+            "badge": "ADJUST",
+            "description": "Hilda activates the runic power of her giant axe, increasing her Movement Speed by 60% and gaining a shield equal to 10-20% of her Max HP for 3s.",
+            "skill_name": "Combat Ritual",
+            "skill_type": "Skill 1"
+          },
+          {
+            "badge": "BUFF",
+            "description": "Reduced the foreswing of Skill 2's third attack by 33%.",
+            "skill_name": "Art of Hunting",
+            "skill_type": "Skill 2"
+          },
+          {
+            "badge": "BUFF",
+            "description": "Optimized the Ultimate's pursuit range and increased its hit rate after locking on.",
+            "skill_name": "Power of Wildness",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Hilda's late-game minion clearing efficiency and durability are low, and she relies on Bushes to trigger her passive effect, leaving her with average performance in the Exp Lane.\n\nSo this time we redesigned Hilda's passive skill, changing the enhanced Basic Attack originally obtained from Skill 1 to entering a Bush, improving her Exp Lane presence and minion clearing efficiency. Meanwhile, Skill 1 has been redesigned to grant a shield and speed boost, reducing her dependence on bushes.\n\nWe've also optimized the control experience of Basic Attacks after Skill 2, improving passive stacking efficiency and combo smoothness.\n\nTo balance this, we've reduced how much the Passive Wilderness Mark reduces Physical & Magic Defense."
+      },
+      "Xavier": {
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "description": "When Xavier hits an enemy hero with his skills, he gains 50% Movement Speed that decays over 1.2s. Each enemy hero hit by Xavier's skills generates one Energy charge. Upon reaching three charges, his next skill cast will enter the Transcendence state\nPursuit Speed of Enhanced Basic Attack: 10 >> 13\nEach stack reduces the target's Physical Defense and Magic Defense by: 4% >> 3%",
+            "skill_name": "Transcendence",
+            "skill_type": "Passive"
+          },
+          {
+            "badge": "BUFF",
+            "description": "Skill Width in Normal State: 0.6 >> 0.9",
+            "skill_name": "Infinite Extension",
+            "skill_type": "Skill 1"
+          },
+          {
+            "badge": "ADJUST",
+            "description": "Immobilizing Time: 1.2s >> 0.8s\nSkill Width in Normal State: 3.5 >> 4.3\nSkill Width in Transcendence State: 5.0 >> 4.3",
+            "skill_name": "Mystic Field",
+            "skill_type": "Skill 2"
+          },
+          {
+            "badge": "ADJUST",
+            "description": "Skill Width in Normal State: 2.2 >> 3.0\nSkill Width in Transcendence State: 3.8 >> 3.0",
+            "skill_name": "Dawning Light",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Xavier relies on continuously hitting enemies with Skills 1 and 2 to enhance and enter the Transcendence state for stronger damage output. This doesn't align with our design expectations. Therefore, we've increased the width of all skills, changed Stage I to a permanent passive, and removed the original Stage II effect, allowing Xavier to enter the Transcendence state more quickly.\n\nTo balance this change, we've reduced the duration of Skill 2's immobilization."
+      },
+      "Minotaur": {
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "description": "Minotaur motivates for 3s after using the skill. When Enraged, the Regen effect is doubled.\n[Motivation]: Recover HP equal to 5% of damage taken from enemy heroes (+1%*hero level).",
+            "skill_name": "Rage Incarnate",
+            "skill_type": "Passive"
+          },
+          {
+            "badge": "ADJUST",
+            "description": "Healing Range: Minotaur recovers himself and all surrounding allies >> Minotaur recovers himself and the ally with the lowest HP nerby.\nAdditional Lost HP Recovery: 5% >> 8%\nEnraged: Remove previous Enraged effects. Now Minotaur recovers himself and all surrounding allies",
+            "skill_name": "Motivation Roar",
+            "skill_type": "Skill 2"
+          },
+          {
+            "badge": "ADJUST",
+            "description": "Slow Effect: 40% >> 60%\nAirborne Duration: 1s >> 0.8s",
+            "skill_name": "Minoan Fury",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "As a tank-roaming hero, Minotaur's ability to provide healing and buffs to his team far exceeds his own survivability as a tank. We want his combat ability to better match his character.\n\nWe've revamped the original Enraged Regen effect that enhanced Skill 2 as Minotaur's new passive to improve his durability in combat.\n\nWe've also added Slow Effects to the first 2 hits of his Ultimate to improve the hit rate of the final hit's Airborne effect.\n\nFor balance, we have reduced Minotaur's ability to provide healing and buffs to allies, though he remains a unique tank with the ability to heal teammates."
+      },
+      "Atlas": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Frigid Breath Range: 2 >> 3\nPhysical & Magical Defense Boost: 16-30 >> 20+0.5% Extra HP",
+            "skill_name": "Frigid Breath",
+            "skill_type": "Passive"
+          },
+          {
+            "badge": "ADJUST",
+            "description": "Damage and Stun Range after Atlas Returns to Mecha: 2.5 >> 3\nStun Duration after Atlas Returns to Mecha: 1s >> 0.8s",
+            "skill_name": "Perfect Match",
+            "skill_type": "Skill 2"
+          },
+          {
+            "badge": "NERF",
+            "description": "Slow Range of the First Stage: 3.5 >> 3",
+            "skill_name": "Fatal Links",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Atlas's Skill 2 and Ultimate lack clear range indicators in actual combat to determine whether they can hit enemies.\n\nSo we've adjusted the ranges of his passive Frigid Breath, Skill 2's stun, and the Ultimate's first-stage slow effect to be completely consistent. Players can now use the visual effect circle of Frigid Breath as a range indicator for other skills, improving overall skill hit rate.\n\nAdditionally, the Physical & Magic Defense boost from Atlas's Passive cannot scale with his economic growth, so we've adjusted its numerical structure to scale based on his Extra HP.\n\nTo balance this change, we've slightly reduced the stun duration after Atlas returns to Mecha in Skill 2."
+      },
+      "Benedetta": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Sword Intent Gained from Dealing Damage: 30 >> 34\nThe detection time for entering the Swordout state when holding the Basic Attack button has beend reduced by 40%\nWhen Benedetta is interrupted by control effects while charging Swordout Slash, the charge state will be interrupted, and her current Sword Intent will be retained. After the control effect ends, she needs to hold down Basic Attack again to enter the charge state.\nWhen Benedetta is in Swordout state and gets controlled while Sword Intent decays, her Swordout state will be interrupted and restored to full Sword Intent. After the control effect ends, she needs to hold down Basic Attack again to enter the charge state.",
+            "skill_name": "Elapsed Daytime",
+            "skill_type": "Passive"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "When Benedetta's skills hit consecutively, her Sword Intent accumulates quickly to full. However, holding the Basic Attack button to enter the Swordout state may affect the control experience of skill-combo transitions into Swordout Slash.\n\nTherefore, we've shortened the detection time for entering the Swordout state when holding the Basic Attack button, allowing Benedetta to enter the state more quickly and improving control fluidity and responsiveness.\n\nAdditionally, after dealing damage 3 times with Basic Attacks or skills, Benedetta' Sword Intent gauge falls slightly short of being full, affecting the controls of her Swordout Slash combos.\n\nTherefore, we've increased the amout of Sword Intent gained from dealing damage. It now only takes 3 hits from Basic Attacks or skills to fully charge her Sword Intent.\n\nWe've also fixed an issue where Benedetta would continue charging Swordout Slash after being interrupted by control effects, which could cause her to cast her it unintentionally once the control effect ended."
+      },
+      "Martis": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Extra Attack at Full Stacks: 6 * Hero Level >> 8 * Hero Level",
+            "skill_name": "Ashura's Wrath",
+            "skill_type": "Passive"
+          },
+          {
+            "badge": "BUFF",
+            "description": "Damage: 800-1000 (+100% Total Physical Attack) >> 700-1100 (+120% Total Physical Attack)\nImproved the visibilty of the target indicator for his Ultimate.\nNew Effect: Sky Piercer's damage will contribute to the activation of indicator effects on the target.",
+            "skill_name": "Decimation",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Increased Martis' damage in the mid-to-late game."
+      },
+      "Balmond": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "New Effect: Hitting an enemy hero reduces their Physical Defense by 40% for 3s.\nSlow Effect: 60% for 2s >> 40% for 3s\nCooldown: 8-5s >> 8-6s",
+            "skill_name": "Soul Lock",
+            "skill_type": "Skill 1"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "We aim to slightly raise Balmond's control ceiling in high-level matches."
+      },
+      "Harley": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Cooldown: 11-8s >> 8-6s\nNew Effect: Returning to the hat's location with Skill 2 no longer cancels the Movement Speed boost.",
+            "skill_name": "Space Escape",
+            "skill_type": "Skill 2"
+          },
+          {
+            "badge": "BUFF",
+            "description": "New Effect: The ring of the fire will no longer be blocked by enemy heroes.\nForeswing: 0.4s >> 0.33s\nSlow Effect: Slow enemy heroes by 40% for 1.5s >> Slow enemy heroes by 40% for 1.5s, decaying to 15% after 1.5s",
+            "skill_name": "Deadly Magic",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Enhanced his mobility and the controls of his Ultimate."
+      },
+      "Faramis": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Mana Cost: 75-125 >> 45-70",
+            "skill_name": "Ghost Bursters",
+            "skill_type": "Skill 2"
+          },
+          {
+            "badge": "BUFF",
+            "description": "Removed the foreswing.",
+            "skill_name": "Nether Realm",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Optimized Skill 2's Mana Cost and the controls of the Ultimate to make HP support for allies more timely."
+      },
+      "Chang'e": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Cooldown: 7s at all levels >> 7-5s",
+            "skill_name": "Starmoon Shockwave",
+            "skill_type": "Skill 1"
+          },
+          {
+            "badge": "NERF",
+            "description": "Crescent Moon Damage: 20 (+35% Total Physical Attack) (+35% Total Magic Power) >> 20 (+35% Total Magic Power)",
+            "skill_name": "Crescent Moon",
+            "skill_type": "Skill 2"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Chang'e's tower pushing efficiency in the early-mid game is too high compared to other Mages, so we reduced her enhanced Basic Attack Damage and balanced it by reducing Skill 1's mid-late game cooldown."
+      },
+      "Obsidia": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "New Effect: Increases Attack Speed by 30% after the Ultimate hits.",
+            "skill_name": "Hunt of Bone",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "NERF",
+        "description": "We aim to improve Obsidia's fighting capability when her Ultimiate hits in the early game, while reducing her damage output in the late game."
+      },
+      "Alucard": {
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "description": "Enhanced Basic Attack's Total Physical Attack Bonus: 140% >> 125%",
+            "skill_name": "Pursuit",
+            "skill_type": "Passive"
+          },
+          {
+            "badge": "NERF",
+            "description": "Total Physical Attack Bonus: 110% >> 85%",
+            "skill_name": "Groundsplitter",
+            "skill_type": "Skill 1"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Alucard's scaling ability is too strong in the current patch, so we've reduced his mid to late-game damage to restore balance."
+      },
+      "Yi Sun-shin": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Control Immunity Duration: 1s >> 0.4s (matching the dash duration)",
+            "skill_name": "Traceless",
+            "skill_type": "Skill 1"
+          },
+          {
+            "badge": "ADJUST",
+            "description": "Map Vision Duration: 5s >> 2s",
+            "skill_name": "Mountain Shocker",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Yi Sun-shin can trigger his Control Immunity too often and for too long, making him hard to counter. And we aim to reduce its duration while preserving his mobility."
+      },
+      "Arlott": {
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "description": "Base Damage: 135-335 >> 135-285",
+            "skill_name": "Vengeance",
+            "skill_type": "Skill 2"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Arlott's damage was too high with the defense build, so we've slightly reduced his Base Damage."
+      },
+      "Cici": {
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "description": "Stack Removal: 1 stack reduced every 1s >> 1 stack reduced every 0.3s",
+            "skill_name": "Performer's Delight",
+            "skill_type": "Passive"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Cici's Delight stacks decay gradually when not dealing damage, granting her Movement Speed and Spell Vamp boost most of the time, making it difficult for enemies to counter. Therefore, we have increased the decay speed."
+      },
+      "Thamuz": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Extra Max HP: 600 >> 800-1200\nExtra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP",
+            "skill_name": "Cauterant Inferno",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Thamuz currently takes too long to scale, making him unable to fulfill the Fighter / Tank role until he has three or more equipment items. To address this, we've increased his early game survivability."
+      },
+      "Natan": {
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "description": "Magic Power Bonus: 65% >> 60%\nAttack Effect Inherited: 65% >> 60%\nMovement Speed Boost per Stack of Entanglement: 7.5% >> 5%",
+            "skill_name": "Theory of Everything",
+            "skill_type": "Passive"
+          },
+          {
+            "badge": "NERF",
+            "description": "Magic Power Bonus: 130% >> 120%",
+            "skill_name": "Superposition",
+            "skill_type": "Skill 1"
+          },
+          {
+            "badge": "NERF",
+            "description": "Magic Power Bonus of Launching Gravitational Attractor: 65% > 60%\nMagic Power Bonus of Attractor Detonation: 13% >> 12%\nAdditional Note: The previously announced Attack Speed adjustments for Natan's Entanglement were not implemented in the current patch. The related announcement has since been removed. Please refer to the actual in-game values for information.",
+            "skill_name": "Interference!",
+            "skill_type": "Skill 2"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Decreased the hero's mid-to-late game damage potential."
+      },
+      "Irithel": {
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "description": "Base Damage of Empowered Crossbow Shot: 120-200 >> 100-160",
+            "skill_name": "Heavy Crossbow",
+            "skill_type": "Ultimate"
+          }
+        ],
+        "badge": "NERF",
+        "description": "Decreased Irithel's mid-to-late game damage potential."
+      },
+      "Layla": {
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "description": "Physical Attack Growth: 8.5 >> 10",
+            "skill_name": "Attributes",
+            "skill_type": "Attributes"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "As a late-game Marksman, Layla's farming speed was greatly affected by the decrease in Gold from Minions. Therefore, we've slightly increased her damage in the mid to late game."
+      },
+      "Bane": {
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "description": "Magic Power Bonus When Fully Charged: 250% >> 200%",
+            "skill_name": "Ale",
+            "skill_type": "Skill 2"
+          }
+        ],
+        "badge": "NERF",
+        "description": "We've noticed that Bane's fully charged Skill 2 venom deals excessive damage in Magic builds and is difficult to counter. To address this, we've reduced its Magic Power Bonus when fully charged."
+      }
+    },
+    "item_changes": {
+      "Dominance Ice": {
+        "adjustments": [
+          {
+            "description": "Max HP: 250 >> 0 Physical Defense: 55 >> 40 Magic Defense: 0 >> 40 Unique Passive - Arctic Cold REMOVED"
+          },
+          {
+            "description": "Unique Passive - Frost Shield NEW"
+          },
+          {
+            "description": "For each enemy hero within 5 units, Physical & Magic Defense is increased by 8, up to 40."
+          }
+        ],
+        "badge": "ADJUST",
+        "description": ""
+      },
+      "Black Ice Shield": {
+        "adjustments": [
+          {
+            "description": "Max HP: 250 >> 0 Physical Defense: 18 >> 20 Magic Defense: 0 >> 20 Unique Passive - Arctic Cold REMOVED"
+          },
+          {
+            "description": "Unique Passive - Frost Shield NEW"
+          },
+          {
+            "description": "For each enemy hero within 5 units, Physical & Magic Defense is increased by 4, up to 20."
+          }
+        ],
+        "badge": "BUFF",
+        "description": ""
+      },
+      "Guardian Helmet": {
+        "adjustments": [
+          {
+            "description": "Unique Passive - Recovery NERF"
+          },
+          {
+            "description": "Removed in-combat HP Regen effect. Unique Passive - Defender NEW"
+          },
+          {
+            "description": "Upon taking more than 500 damage in a single instance, the excess damage beyond that amount is reduced by (20 + 0.3% Max HP)%"
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Moved the excess damage reduction effect from Twilight Armor to Guardian Helmet and removed the in-combat HP Regen effect for balance."
+      },
+      "Chastise Pauldron": {
+        "adjustments": [
+          {
+            "description": "Attributes HP: 1200 >> 900"
+          },
+          {
+            "description": "Physical Defence: 15 >> 40 Unique Passive - Redemption BUFF"
+          },
+          {
+            "description": "HP Regen Time: 3s >> 2s Unique Passive - Twilight REMOVED Unique Passive - Chastise NEW"
+          },
+          {
+            "description": "Taking damage will reduce the Attack Speed and Attack Speed cap of the attack to 75% of normal for 2s."
+          }
+        ],
+        "badge": "BUFF",
+        "description": "Replaced Twilight Armor\n\nEnhanced the Attack Speed reduction and moved it from Dominance Ice to Chastise Pauldron."
+      }
+    },
+    "battlefield_adjustments": {
+      "optimizations": [
+        "Revamped Balmond's in-match and out-of-match art assets for an improved visual presentation.",
+        "Optimized the visual clarity of in-match indicators.",
+        "Optimized the visual effects of the following Equipment: Blade of the Heptaseas, Starlium Scythe, Athena's Shield, and Cursed Helmet.",
+        "Fixed an issue where Wanwan would still dash if her Basic Attack missed a target while Tiger Pace was active, but no stacks were consumed."
+      ]
+    },
+    "emblem_adjustments": {},
+    "system_adjustments": {
+      "adjustments": [
+        "Adjusted the difficulty of some daily events. You can now earn rewards from fewer matches. Battle Chest, Free Chest, and Daily Quest are now included in the Bang Bang Card system. You'll get a Bang Bang Card after each match and obtain a random reward from it. There are also chances to directly obtain a skin or a hero.",
+        "Adjusted the Main Interface layout and visuals, improving art quality and text clarity. Adjusted the entry location for some features to improve usability.",
+        "In Lane Matchmaking, players can select only one lane when choosing [Needed Lane]."
+      ]
+    },
+    "new_hero": null,
+    "revamped_heroes": {
+      "Freya": {
+        "description": "Hero Feature: A female warrior who infuses weapons with the Power of Einherjar for sustained combat..",
+        "skills": [
+          {
+            "name": "Power of Einherjar",
+            "type": "Passive",
+            "description": "Freya can store up to 6 Sacred Orbs. Each Basic Attack grants 1 Sacred Orb, and they gradually recover when out of combat. Consuming 1 Sacred Orb grants Freya 100% Attack Speed Bonus for her next Basic Attack."
+          },
+          {
+            "name": "Valkyrie Shieldbind",
+            "type": "Skill 1",
+            "description": "Freya leaps to the target area and strikes the ground with her shield, gaining a shield and dealing Physical Damage to enemies within and knocking them airborne."
+          },
+          {
+            "name": "Valkyrie Slash",
+            "type": "Skill 2",
+            "description": "Freya charges forward and slashes, dealing Physical Damage. This skill has no base cooldown but consumes 2 Sacred Orbs per cast."
+          },
+          {
+            "name": "Valkyrie Descent",
+            "type": "Ultimate",
+            "description": "Freya selects a target area and dives down, dealing Physical Damage and slowing enemies along the path and at the landing point. Upon landing, Freya enters the Valkyrie state, during which her Basic Attacks deal increased damage, recover HP, and deal splash damage."
+          }
+        ]
+      }
+    }
   }
 }
