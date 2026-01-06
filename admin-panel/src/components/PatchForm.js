@@ -3,113 +3,8 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
-const BADGE_OPTIONS = ['BUFF', 'NERF', 'ADJUST', 'REVAMP', 'NEW'];
+const BADGE_TYPES = ['BUFF', 'NERF', 'ADJUST', 'REVAMP', 'NEW'];
 const SKILL_TYPES = ['Passive', 'Skill 1', 'Skill 2', 'Ultimate'];
-
-const PATCH_TEMPLATE = {
-  version: "",
-  release_date: "",
-  designers_note: "In this patch, we continue to optimize...",
-  new_hero: {
-    name: "Sora",
-    title: "Shifting Cloud",
-    badge: "NEW",
-    hero_feature: "Adaptable cloud warrior with multiple combat styles.",
-    skills: [
-      {
-        skill_type: "Passive",
-        name: "Skill Name",
-        description: "Skill description"
-      }
-    ]
-  },
-  hero_adjustments: {
-    "Aurora": {
-      badge: "BUFF",
-      description: "Overall improvements description",
-      skills: [
-        {
-          skill_type: "Skill 1",
-          name: "Frost Shock",
-          badge: "BUFF",
-          changes: [
-            "Damage: 200 >> 250",
-            "Cooldown: 10s >> 8s"
-          ]
-        }
-      ]
-    }
-  },
-  equipment_adjustments: {
-    "Demon Hunter Sword": {
-      badge: "NERF",
-      description: "Item description",
-      sections: [
-        {
-          title: "Attributes",
-          badge: "NERF",
-          changes: [
-            "Physical Attack: 40 >> 30"
-          ]
-        },
-        {
-          title: "Unique Passive - Dragon Scale",
-          badge: "BUFF",
-          changes: [
-            "Every 1% Lifesteal increases Hybrid Defense by 1 >> Every 4 extra Physical Attack increases Hybrid Defense by 1"
-          ]
-        }
-      ]
-    }
-  },
-  battlefield_adjustments: {
-    "Turret": {
-      changes: [
-        "HP: 7300 >> 8000",
-        "Physical Defense: 150 >> 170"
-      ]
-    }
-  },
-  system_adjustments: [
-    "Bug fixes",
-    "Performance improvements"
-  ],
-  emblem_adjustments: {
-    "Fighter Emblem": {
-      badge: "NERF",
-      description: "We found that some Basic Attack-based Fighters don't have perfectly suited Emblems",
-      sections: [
-        {
-          title: "Attributes",
-          badge: "ADJUST",
-          changes: [
-            "12% Spell Vamp >> 10% Hybrid Lifesteal"
-          ]
-        }
-      ]
-    }
-  },
-  revamped_heroes: [
-    {
-      name: "Freya",
-      title: "Valkyrie",
-      badge: "REVAMP",
-      hero_feature: "A female warrior who infuses weapons with the Power of Einherjar for sustained combat.",
-      skills: [
-        {
-          skill_type: "Passive",
-          name: "Power of Einherjar",
-          description: "Freya can store up to 6 Sacred Orbs. Each Basic Attack grants 1 Sacred Orb..."
-        },
-        {
-          skill_type: "Skill 1",
-          name: "Valkyrie Shieldbind",
-          description: "Freya leaps to the target area and strikes the ground with her shield..."
-        }
-      ]
-    }
-  ]
-};
 
 function PatchForm({ patch, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -125,163 +20,636 @@ function PatchForm({ patch, onClose, onSave }) {
     revamped_heroes: []
   });
 
-  const [jsonMode, setJsonMode] = useState(false);
-  
-  // For dropdowns
+  const [activeTab, setActiveTab] = useState('basic');
   const [heroes, setHeroes] = useState([]);
   const [items, setItems] = useState([]);
   const [emblems, setEmblems] = useState([]);
-  const [activeSection, setActiveSection] = useState('basic');
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    try {
-      const [heroesRes, itemsRes, emblemsRes] = await Promise.all([
-        axios.get(`${API_URL}/heroes?game_id=2`),
-        axios.get(`${API_URL}/items?game_id=2`),
-        axios.get(`${API_URL}/emblems?game_id=2`)
-      ]);
-      setHeroes(heroesRes.data || []);
-      setItems(itemsRes.data || []);
-      setEmblems(emblemsRes.data || []);
-    } catch (error) {
-      console.error('Error loading data:', error);
-    }
-  };
-  const [jsonText, setJsonText] = useState('');
-  const [jsonError, setJsonError] = useState('');
-  const [showTemplate, setShowTemplate] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
+  const [heroSearch, setHeroSearch] = useState('');
+  const [itemSearch, setItemSearch] = useState('');
+  const [emblemSearch, setEmblemSearch] = useState('');
+  const [heroSkills, setHeroSkills] = useState({});
+  const [expandedHeroes, setExpandedHeroes] = useState({});
 
   useEffect(() => {
     if (patch) {
       setFormData(patch);
-      setJsonText(JSON.stringify(patch, null, 2));
-    } else {
-      // For new patch, set template
-      const newPatch = { ...PATCH_TEMPLATE, version: formData.version || '', release_date: formData.release_date || '' };
-  // Helper functions for managing arrays
-  const addHeroAdjustment = () => {
-    const heroName = heroes[0]?.name || '';
+    }
+  }, [patch]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [heroesRes, itemsRes, emblemsRes] = await Promise.all([
+          axios.get(`${API_URL}/heroes`),
+          axios.get(`${API_URL}/items?game_id=2`),
+          axios.get(`${API_URL}/emblems`)
+        ]);
+        setHeroes(heroesRes.data.sort((a, b) => a.name.localeCompare(b.name)));
+        const itemsList = Array.isArray(itemsRes.data) ? itemsRes.data : [];
+        setItems(itemsList.sort((a, b) => a.name.localeCompare(b.name)));
+        setEmblems(emblemsRes.data.sort((a, b) => a.name.localeCompare(b.name)));
+        setLoadingData(false);
+      } catch (error) {
+        console.error('Error loading data:', error);
+        setLoadingData(false);
+      }
+    };
+    loadData();
+  }, []);
+
+  // Load skills for heroes in patch when editing
+  useEffect(() => {
+    const loadHeroSkills = async () => {
+      if (patch && patch.hero_adjustments && heroes.length > 0) {
+        const heroNames = Object.keys(patch.hero_adjustments);
+        for (const heroName of heroNames) {
+          const hero = heroes.find(h => h.name === heroName);
+          if (hero && !heroSkills[hero.id]) {
+            try {
+              const skillsRes = await axios.get(`${API_URL}/heroes/${hero.id}/skills`);
+              setHeroSkills(prev => ({ ...prev, [hero.id]: skillsRes.data }));
+            } catch (error) {
+              console.error(`Error loading skills for ${heroName}:`, error);
+            }
+          }
+        }
+      }
+    };
+    loadHeroSkills();
+  }, [patch, heroes]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      hero_adjustments: {
-        ...prev.hero_adjustments,
-        [heroName]: {
-          badge: 'ADJUST',
-          description: '',
-          skills: []
-        }
+      [name]: value
+    }));
+  };
+
+  // New Hero handlers
+  const handleNewHeroChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      new_hero: prev.new_hero ? { ...prev.new_hero, [field]: value } : { name: '', [field]: value }
+    }));
+  };
+
+  const addNewHeroSkill = () => {
+    setFormData(prev => ({
+      ...prev,
+      new_hero: {
+        ...prev.new_hero,
+        skills: [...(prev.new_hero?.skills || []), { skill_type: 'Passive', skill_name: '', description: '' }]
       }
     }));
   };
 
-  const removeHeroAdjustment = (heroName) => {
-    const { [heroName]: removed, ...rest } = formData.hero_adjustments;
-    setFormData(prev => ({ ...prev, hero_adjustments: rest }));
+  const updateNewHeroSkill = (index, field, value) => {
+    setFormData(prev => {
+      const skills = [...(prev.new_hero?.skills || [])];
+      skills[index] = { ...skills[index], [field]: value };
+      return {
+        ...prev,
+        new_hero: { ...prev.new_hero, skills }
+      };
+    });
   };
 
-  const updateHeroAdjustment = (oldName, field, value) => {
-    if (field === 'name' && value !== oldName) {
-      const adj = formData.hero_adjustments[oldName];
-      const { [oldName]: removed, ...rest } = formData.hero_adjustments;
-      setFormData(prev => ({
+  const removeNewHeroSkill = (index) => {
+    setFormData(prev => {
+      const skills = [...(prev.new_hero?.skills || [])];
+      skills.splice(index, 1);
+      return {
         ...prev,
-        hero_adjustments: { ...rest, [value]: adj }
-      }));
-    } else {
+        new_hero: { ...prev.new_hero, skills }
+      };
+    });
+  };
+
+  const clearNewHero = () => {
+    setFormData(prev => ({ ...prev, new_hero: null }));
+  };
+
+  // Hero Adjustments handlers
+  const [selectedHeroForAdj, setSelectedHeroForAdj] = useState('');
+  
+  const addHeroAdjustment = async () => {
+    if (selectedHeroForAdj && !formData.hero_adjustments[selectedHeroForAdj]) {
+      const hero = heroes.find(h => h.name === selectedHeroForAdj);
+      if (hero && !heroSkills[hero.id]) {
+        try {
+          const skillsRes = await axios.get(`${API_URL}/heroes/${hero.id}/skills`);
+          setHeroSkills(prev => ({ ...prev, [hero.id]: skillsRes.data }));
+        } catch (error) {
+          console.error('Error loading hero skills:', error);
+        }
+      }
       setFormData(prev => ({
         ...prev,
         hero_adjustments: {
           ...prev.hero_adjustments,
-          [oldName]: {
-            ...prev.hero_adjustments[oldName],
-            [field]: value
+          [selectedHeroForAdj]: {
+            badge: 'ADJUST',
+            adjustments: []
           }
         }
       }));
+      setSelectedHeroForAdj('');
     }
   };
 
-  const addSkillToHero = (heroName) => {
+  const updateHeroAdjustmentBadge = (heroName, badge) => {
     setFormData(prev => ({
       ...prev,
       hero_adjustments: {
         ...prev.hero_adjustments,
         [heroName]: {
           ...prev.hero_adjustments[heroName],
-          skills: [
-            ...(prev.hero_adjustments[heroName].skills || []),
-            {
-              skill_type: 'Skill 1',
-              name: '',
-              badge: 'ADJUST',
-              changes: ['']
-            }
+          badge
+        }
+      }
+    }));
+  };
+
+  const updateHeroDescription = (heroName, description) => {
+    setFormData(prev => ({
+      ...prev,
+      hero_adjustments: {
+        ...prev.hero_adjustments,
+        [heroName]: {
+          ...prev.hero_adjustments[heroName],
+          description
+        }
+      }
+    }));
+  };
+
+  const addHeroAdjustmentSkill = (heroName) => {
+    setFormData(prev => ({
+      ...prev,
+      hero_adjustments: {
+        ...prev.hero_adjustments,
+        [heroName]: {
+          ...prev.hero_adjustments[heroName],
+          adjustments: [
+            ...(prev.hero_adjustments[heroName].adjustments || []),
+            { skill_type: 'Passive', description: '' }
           ]
         }
       }
     }));
   };
 
-  const addSystemAdjustment = () => {
-    setFormData(prev => ({
-      ...prev,
-      system_adjustments: [...prev.system_adjustments, '']
-    }));
+  const updateHeroAdjustmentSkill = (heroName, index, field, value) => {
+    setFormData(prev => {
+      const adjustments = [...prev.hero_adjustments[heroName].adjustments];
+      adjustments[index] = { ...adjustments[index], [field]: value };
+      return {
+        ...prev,
+        hero_adjustments: {
+          ...prev.hero_adjustments,
+          [heroName]: {
+            ...prev.hero_adjustments[heroName],
+            adjustments
+          }
+        }
+      };
+    });
   };
 
-  const addBattlefieldAdjustment = () => {
+  const removeHeroAdjustmentSkill = (heroName, index) => {
+    setFormData(prev => {
+      const adjustments = [...prev.hero_adjustments[heroName].adjustments];
+      adjustments.splice(index, 1);
+      return {
+        ...prev,
+        hero_adjustments: {
+          ...prev.hero_adjustments,
+          [heroName]: {
+            ...prev.hero_adjustments[heroName],
+            adjustments
+          }
+        }
+      };
+    });
+  };
+
+  const removeHeroAdjustment = (heroName) => {
+    if (window.confirm(`Remove ${heroName}?`)) {
+      setFormData(prev => {
+        const newAdjustments = { ...prev.hero_adjustments };
+        delete newAdjustments[heroName];
+        return { ...prev, hero_adjustments: newAdjustments };
+      });
+      setExpandedHeroes(prev => {
+        const newExpanded = { ...prev };
+        delete newExpanded[heroName];
+        return newExpanded;
+      });
+    }
+  };
+
+  const addHeroAttributeAdjustment = (heroName) => {
     setFormData(prev => ({
       ...prev,
-      battlefield_adjustments: {
-        ...prev.battlefield_adjustments,
-        'New Adjustment': { changes: [''] }
+      hero_adjustments: {
+        ...prev.hero_adjustments,
+        [heroName]: {
+          ...prev.hero_adjustments[heroName],
+          attribute_adjustments: [
+            ...(prev.hero_adjustments[heroName].attribute_adjustments || []),
+            { attribute_name: 'Attribute', badge: 'ADJUST', description: '' }
+          ]
+        }
       }
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (jsonMode && jsonError) {
-      alert('Please fix JSON errors before saving');
-      return;
-    }
+  const updateHeroAttributeAdjustment = (heroName, index, field, value) => {
+    setFormData(prev => {
+      const attribute_adjustments = [...(prev.hero_adjustments[heroName].attribute_adjustments || [])];
+      attribute_adjustments[index] = { ...attribute_adjustments[index], [field]: value };
+      return {
+        ...prev,
+        hero_adjustments: {
+          ...prev.hero_adjustments,
+          [heroName]: {
+            ...prev.hero_adjustments[heroName],
+            attribute_adjustments
+          }
+        }
+      };
+    });
+  };
 
-    try {
-      const dataToSave = jsonMode ? JSON.parse(jsonText) : formData;
-      
-      if (patch) {
-        await axios.put(`${API_URL}/patches/${patch.version}`, dataToSave);
-      } else {
-        await axios.post(`${API_URL}/patches`, dataToSave
-    setJsonError('');
-    
-    try {
-      const parsed = JSON.parse(text);
-      setFormData(parsed);
-    } catch (error) {
-      setJsonError('Invalid JSON: ' + error.message);
+  const removeHeroAttributeAdjustment = (heroName, index) => {
+    setFormData(prev => {
+      const attribute_adjustments = [...(prev.hero_adjustments[heroName].attribute_adjustments || [])];
+      attribute_adjustments.splice(index, 1);
+      return {
+        ...prev,
+        hero_adjustments: {
+          ...prev.hero_adjustments,
+          [heroName]: {
+            ...prev.hero_adjustments[heroName],
+            attribute_adjustments
+          }
+        }
+      };
+    });
+  };
+
+  const toggleHeroExpanded = (heroName) => {
+    setExpandedHeroes(prev => ({
+      ...prev,
+      [heroName]: !prev[heroName]
+    }));
+  };
+
+  // Equipment Adjustments handlers
+  const [selectedItemForAdj, setSelectedItemForAdj] = useState('');
+  
+  const addEquipmentAdjustment = () => {
+    if (selectedItemForAdj && !formData.equipment_adjustments[selectedItemForAdj]) {
+      setFormData(prev => ({
+        ...prev,
+        equipment_adjustments: {
+          ...prev.equipment_adjustments,
+          [selectedItemForAdj]: {
+            badge: 'ADJUST',
+            adjustments: []
+          }
+        }
+      }));
+      setSelectedItemForAdj('');
+    }
+  };
+
+  const updateEquipmentBadge = (itemName, badge) => {
+    setFormData(prev => ({
+      ...prev,
+      equipment_adjustments: {
+        ...prev.equipment_adjustments,
+        [itemName]: {
+          ...prev.equipment_adjustments[itemName],
+          badge
+        }
+      }
+    }));
+  };
+
+  const updateEquipmentDescription = (itemName, description) => {
+    setFormData(prev => ({
+      ...prev,
+      equipment_adjustments: {
+        ...prev.equipment_adjustments,
+        [itemName]: {
+          ...prev.equipment_adjustments[itemName],
+          description
+        }
+      }
+    }));
+  };
+
+  const addEquipmentChange = (itemName) => {
+    setFormData(prev => ({
+      ...prev,
+      equipment_adjustments: {
+        ...prev.equipment_adjustments,
+        [itemName]: {
+          ...prev.equipment_adjustments[itemName],
+          adjustments: [
+            ...(prev.equipment_adjustments[itemName].adjustments || []),
+            { name: '', badge: 'ADJUST', description: '' }
+          ]
+        }
+      }
+    }));
+  };
+
+  const updateEquipmentChange = (itemName, index, field, value) => {
+    setFormData(prev => {
+      const adjustments = [...(prev.equipment_adjustments[itemName].adjustments || [])];
+      adjustments[index] = { ...adjustments[index], [field]: value };
+      return {
+        ...prev,
+        equipment_adjustments: {
+          ...prev.equipment_adjustments,
+          [itemName]: {
+            ...prev.equipment_adjustments[itemName],
+            adjustments
+          }
+        }
+      };
+    });
+  };
+
+  const removeEquipmentChange = (itemName, index) => {
+    setFormData(prev => {
+      const adjustments = [...prev.equipment_adjustments[itemName].adjustments];
+      adjustments.splice(index, 1);
+      return {
+        ...prev,
+        equipment_adjustments: {
+          ...prev.equipment_adjustments,
+          [itemName]: {
+            ...prev.equipment_adjustments[itemName],
+            adjustments
+          }
+        }
+      };
+    });
+  };
+
+  const removeEquipmentAdjustment = (itemName) => {
+    if (window.confirm(`Remove ${itemName}?`)) {
+      setFormData(prev => {
+        const newAdjustments = { ...prev.equipment_adjustments };
+        delete newAdjustments[itemName];
+        return { ...prev, equipment_adjustments: newAdjustments };
+      });
+    }
+  };
+
+  // Emblem Adjustments handlers (similar to equipment)
+  const [selectedEmblemForAdj, setSelectedEmblemForAdj] = useState('');
+  
+  const addEmblemAdjustment = () => {
+    if (selectedEmblemForAdj && !formData.emblem_adjustments[selectedEmblemForAdj]) {
+      setFormData(prev => ({
+        ...prev,
+        emblem_adjustments: {
+          ...prev.emblem_adjustments,
+          [selectedEmblemForAdj]: {
+            badge: 'ADJUST',
+            adjustments: []
+          }
+        }
+      }));
+      setSelectedEmblemForAdj('');
+    }
+  };
+
+  const updateEmblemBadge = (emblemName, badge) => {
+    setFormData(prev => ({
+      ...prev,
+      emblem_adjustments: {
+        ...prev.emblem_adjustments,
+        [emblemName]: {
+          ...prev.emblem_adjustments[emblemName],
+          badge
+        }
+      }
+    }));
+  };
+
+  const updateEmblemDescription = (emblemName, description) => {
+    setFormData(prev => ({
+      ...prev,
+      emblem_adjustments: {
+        ...prev.emblem_adjustments,
+        [emblemName]: {
+          ...prev.emblem_adjustments[emblemName],
+          description
+        }
+      }
+    }));
+  };
+
+  const addEmblemChange = (emblemName) => {
+    const change = prompt('Enter adjustment description:');
+    if (change && change.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        emblem_adjustments: {
+          ...prev.emblem_adjustments,
+          [emblemName]: {
+            ...prev.emblem_adjustments[emblemName],
+            adjustments: [
+              ...(prev.emblem_adjustments[emblemName].adjustments || []),
+              change.trim()
+            ]
+          }
+        }
+      }));
+    }
+  };
+
+  const removeEmblemChange = (emblemName, index) => {
+    setFormData(prev => {
+      const adjustments = [...prev.emblem_adjustments[emblemName].adjustments];
+      adjustments.splice(index, 1);
+      return {
+        ...prev,
+        emblem_adjustments: {
+          ...prev.emblem_adjustments,
+          [emblemName]: {
+            ...prev.emblem_adjustments[emblemName],
+            adjustments
+          }
+        }
+      };
+    });
+  };
+
+  const removeEmblemAdjustment = (emblemName) => {
+    if (window.confirm(`Remove ${emblemName}?`)) {
+      setFormData(prev => {
+        const newAdjustments = { ...prev.emblem_adjustments };
+        delete newAdjustments[emblemName];
+        return { ...prev, emblem_adjustments: newAdjustments };
+      });
+    }
+  };
+
+  // Battlefield Adjustments handlers
+  const addBattlefieldAdjustment = () => {
+    const name = prompt('Enter adjustment name:');
+    if (name && name.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        battlefield_adjustments: {
+          ...prev.battlefield_adjustments,
+          [name.trim()]: {
+            badge: 'ADJUST',
+            description: ''
+          }
+        }
+      }));
+    }
+  };
+
+  const updateBattlefieldBadge = (name, badge) => {
+    setFormData(prev => ({
+      ...prev,
+      battlefield_adjustments: {
+        ...prev.battlefield_adjustments,
+        [name]: {
+          ...prev.battlefield_adjustments[name],
+          badge
+        }
+      }
+    }));
+  };
+
+  const updateBattlefieldDescription = (name, description) => {
+    setFormData(prev => ({
+      ...prev,
+      battlefield_adjustments: {
+        ...prev.battlefield_adjustments,
+        [name]: {
+          ...prev.battlefield_adjustments[name],
+          description
+        }
+      }
+    }));
+  };
+
+  const removeBattlefieldAdjustment = (name) => {
+    if (window.confirm(`Remove ${name}?`)) {
+      setFormData(prev => {
+        const newAdjustments = { ...prev.battlefield_adjustments };
+        delete newAdjustments[name];
+        return { ...prev, battlefield_adjustments: newAdjustments };
+      });
+    }
+  };
+
+  // System Adjustments handlers
+  const addSystemAdjustment = () => {
+    const adjustment = prompt('Enter system adjustment:');
+    if (adjustment && adjustment.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        system_adjustments: [...prev.system_adjustments, adjustment.trim()]
+      }));
+    }
+  };
+
+  const removeSystemAdjustment = (index) => {
+    setFormData(prev => {
+      const newAdjustments = [...prev.system_adjustments];
+      newAdjustments.splice(index, 1);
+      return { ...prev, system_adjustments: newAdjustments };
+    });
+  };
+
+  // Revamped Heroes handlers
+  const addRevampedHero = () => {
+    const heroName = prompt('Enter revamped hero name:');
+    if (heroName && heroName.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        revamped_heroes: [
+          ...prev.revamped_heroes,
+          {
+            name: heroName.trim(),
+            badge: 'REVAMP',
+            revamp_feature: '',
+            skills: []
+          }
+        ]
+      }));
+    }
+  };
+
+  const updateRevampedHero = (index, field, value) => {
+    setFormData(prev => {
+      const heroes = [...prev.revamped_heroes];
+      heroes[index] = { ...heroes[index], [field]: value };
+      return { ...prev, revamped_heroes: heroes };
+    });
+  };
+
+  const addRevampedHeroSkill = (heroIndex) => {
+    setFormData(prev => {
+      const heroes = [...prev.revamped_heroes];
+      heroes[heroIndex].skills = [
+        ...(heroes[heroIndex].skills || []),
+        { skill_type: 'Passive', skill_name: '', description: '' }
+      ];
+      return { ...prev, revamped_heroes: heroes };
+    });
+  };
+
+  const updateRevampedHeroSkill = (heroIndex, skillIndex, field, value) => {
+    setFormData(prev => {
+      const heroes = [...prev.revamped_heroes];
+      const skills = [...heroes[heroIndex].skills];
+      skills[skillIndex] = { ...skills[skillIndex], [field]: value };
+      heroes[heroIndex].skills = skills;
+      return { ...prev, revamped_heroes: heroes };
+    });
+  };
+
+  const removeRevampedHeroSkill = (heroIndex, skillIndex) => {
+    setFormData(prev => {
+      const heroes = [...prev.revamped_heroes];
+      const skills = [...heroes[heroIndex].skills];
+      skills.splice(skillIndex, 1);
+      heroes[heroIndex].skills = skills;
+      return { ...prev, revamped_heroes: heroes };
+    });
+  };
+
+  const removeRevampedHero = (index) => {
+    if (window.confirm('Remove this revamped hero?')) {
+      setFormData(prev => {
+        const heroes = [...prev.revamped_heroes];
+        heroes.splice(index, 1);
+        return { ...prev, revamped_heroes: heroes };
+      });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (jsonMode && jsonError) {
-      alert('Please fix JSON errors before saving');
-      return;
-    }
 
     try {
       if (patch) {
-        // Update existing patch
         await axios.put(`${API_URL}/patches/${patch.version}`, formData);
       } else {
-        // Create new patch
         await axios.post(`${API_URL}/patches`, formData);
       }
       onSave();
@@ -291,750 +659,1205 @@ function PatchForm({ patch, onClose, onSave }) {
     }
   };
 
-  const toggleMode = () => {
-    if (!jsonMode) {
-      // Switching to JSON mode
-      setJsonText(JSON.stringify(formData, null, 2));
-    } else {
-      // Switching to form mode
-      try {
-        const parsed = JSON.parse(jsonText);
-        setFormData(parsed);
-      } catch (error) {
-        alert('Cannot switch to form mode: Invalid JSON');
-        return;
-      }
+  const tabs = [
+    { id: 'basic', label: 'Basic Info', icon: '📋' },
+    { id: 'new_hero', label: 'New Hero', icon: '⭐' },
+    { id: 'hero_adj', label: 'Hero Adjustments', icon: '⚔️' },
+    { id: 'equipment', label: 'Equipment', icon: '🛡️' },
+    { id: 'battlefield', label: 'Battlefield', icon: '🗺️' },
+    { id: 'system', label: 'System', icon: '⚙️' },
+    { id: 'emblems', label: 'Emblems', icon: '💎' },
+    { id: 'revamped', label: 'Revamped', icon: '🔄' }
+  ];
+
+  const buttonStyle = {
+    padding: '8px 16px',
+    fontSize: '0.875rem',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: '#ffffff',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontWeight: '600',
+    boxShadow: '0 2px 4px rgba(102, 126, 234, 0.4)',
+    transition: 'all 0.3s ease',
+    ':hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 8px rgba(102, 126, 234, 0.5)'
     }
-    setJsonMode(!jsonMode);
   };
 
-  const useTemplate = () => {
-    const template = {
-      ...PATCH_TEMPLATE,
-      version: formData.version || "2.1.40",
-      release_date: formData.release_date || new Date().toISOString().split('T')[0]
-    };
-    setJsonText(JSON.stringify(template, null, 2));
-    try {
-      setFormData(template);
-      setJsonError('');
-    } catch (error) {
-      setJsonError('Error applying template');
-    }
+  const dangerButtonStyle = {
+    padding: '8px 16px',
+    fontSize: '0.875rem',
+    background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    color: '#ffffff',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontWeight: '600',
+    boxShadow: '0 2px 4px rgba(245, 87, 108, 0.4)',
+    transition: 'all 0.3s ease'
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '12px 16px',
+    border: '2px solid #e5e7eb',
+    borderRadius: '8px',
+    fontSize: '0.95rem',
+    transition: 'all 0.3s ease',
+    outline: 'none',
+    background: '#ffffff'
+  };
+
+  const textareaStyle = {
+    ...inputStyle,
+    minHeight: '100px',
+    fontFamily: 'inherit',
+    resize: 'vertical',
+    lineHeight: '1.6'
+  };
+
+  const labelStyle = {
+    display: 'block',
+    marginBottom: '8px',
+    fontWeight: '700',
+    color: '#1f2937',
+    fontSize: '0.875rem',
+    letterSpacing: '0.025em',
+    textTransform: 'uppercase'
+  };
+
+  const cardStyle = {
+    padding: '20px',
+    background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)',
+    borderRadius: '12px',
+    marginBottom: '16px',
+    border: '1px solid #e5e7eb',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+    transition: 'all 0.3s ease'
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        background: '#ffffff',
-        padding: '24px',
-        borderRadius: '8px',
-        width: '90%',
-        maxWidth: '800px',
-        maxHeight: '90vh',
-        overflow: 'auto',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+    <div 
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0, 0, 0, 0.6)',
+        backdropFilter: 'blur(4px)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+        padding: '20px',
+        animation: 'fadeIn 0.3s ease',
+        overflowY: 'auto'
       }}>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          marginBottom: '20px'
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: '#ffffff',
+          borderRadius: '16px',
+          width: '100%',
+          maxWidth: '1100px',
+          maxHeight: '95vh',
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+          overflow: 'hidden',
+          margin: 'auto'
         }}>
-          <h2 style={{ margin: 0, color: '#1f2937' }}>
-            {patch ? 'Edit Patch' : 'Add Patch'}
+        <div style={{ 
+          padding: '24px 28px',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          borderBottom: 'none',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <h2 style={{ 
+            margin: 0, 
+            color: '#ffffff',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            letterSpacing: '-0.025em'
+          }}>
+            {patch ? '✏️ Edit Patch' : '✨ Create New Patch'}
           </h2>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            {jsonMode && !patch && (
-              <button
-                type="button"
-                onClick={useTemplate}
-                style={{
-                  padding: '8px 16px',
-                  fontSize: '0.9rem',
-                  background: '#10b981',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontWeight: '500'
-                }}
-              >
-                📋 Use Template
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={toggleMode}
-              style={{
-                padding: '8px 16px',
-                fontSize: '0.9rem',
-                background: '#6b7280',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontWeight: '500'
-              }}
-            >
-              {jsonMode ? '📝 Form Mode' : '🔧 JSON Mode'}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              background: 'rgba(255, 255, 255, 0.2)',
+              border: 'none',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              color: '#ffffff',
+              fontSize: '1.2rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              fontWeight: 'bold'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'}
+          >
+            ✕
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          {!jsonMode ? (
-            <>
-              {/* Navigation Tabs */}
-              <div style={{ 
-                display: 'flex', 
-                gap: '5px', 
-                marginBottom: '20px',
-                borderBottom: '2px solid #e5e7eb',
-                overflowX: 'auto'
-              }}>
-                {[
-                  { id: 'basic', label: '📝 Basic Info', emoji: '📝' },
-                  { id: 'designers', label: '✍️ Designers Note', emoji: '✍️' },
-                  { id: 'new_hero', label: '🆕 New Hero', emoji: '🆕' },
-                  { id: 'hero_adj', label: '🦸 Hero Adjustments', emoji: '🦸' },
-                  { id: 'equipment', label: '⚔️ Equipment', emoji: '⚔️' },
-                  { id: 'battlefield', label: '🏰 Battlefield', emoji: '🏰' },
-                  { id: 'system', label: '⚙️ System', emoji: '⚙️' },
-                  { id: 'emblems', label: '⚡ Emblems', emoji: '⚡' },
-                  { id: 'revamped', label: '🔄 Revamped', emoji: '🔄' }
-                ].map(tab => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveSection(tab.id)}
+        <div style={{
+          display: 'flex',
+          borderBottom: '2px solid #f3f4f6',
+          overflowX: 'auto',
+          background: '#fafafa',
+          scrollbarWidth: 'thin',
+          WebkitOverflowScrolling: 'touch'
+        }}>
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                padding: '16px 28px',
+                background: activeTab === tab.id ? '#ffffff' : 'transparent',
+                border: 'none',
+                borderBottom: activeTab === tab.id ? '3px solid #667eea' : '3px solid transparent',
+                color: activeTab === tab.id ? '#667eea' : '#6b7280',
+                cursor: 'pointer',
+                fontWeight: activeTab === tab.id ? '700' : '500',
+                fontSize: '0.95rem',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.3s ease',
+                borderRadius: activeTab === tab.id ? '8px 8px 0 0' : '0',
+                transform: activeTab === tab.id ? 'translateY(2px)' : 'none',
+                minWidth: 'fit-content'
+              }}
+            >
+              <span style={{ fontSize: '1.15rem', marginRight: '8px' }}>{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+          <div style={{ 
+            flex: 1,
+            overflowY: 'auto',
+            padding: '32px 36px',
+            scrollBehavior: 'smooth',
+            maxHeight: 'calc(95vh - 200px)'
+          }}>
+            {activeTab === 'basic' && (
+              <div>
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={labelStyle}>Version *</label>
+                  <input
+                    type="text"
+                    name="version"
+                    value={formData.version}
+                    onChange={handleChange}
+                    required
+                    disabled={!!patch}
+                    placeholder="e.g., 2.1.40"
                     style={{
-                      padding: '10px 15px',
-                      fontSize: '0.9rem',
-                      border: 'none',
-                      borderBottom: activeSection === tab.id ? '3px solid #3b82f6' : '3px solid transparent',
-                      background: activeSection === tab.id ? '#eff6ff' : 'transparent',
-                      cursor: 'pointer',
-                      fontWeight: activeSection === tab.id ? '600' : '400',
-                      color: activeSection === tab.id ? '#1e40af' : '#6b7280',
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    {tab.emoji} {tab.label.replace(tab.emoji + ' ', '')}
-                  </button>
-                ))}
-              </div>
-
-              {/* Basic Info */}
-              {activeSection === 'basic' && (
-                <div>
-                  <h3 style={{ marginTop: 0 }}>📝 Basic Information</h3>
-                  
-                  <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600' }}>
-                      Version * <span style={{ color: '#ef4444' }}>required</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.version}
-                      onChange={(e) => setFormData({...formData, version: e.target.value})}
-                      required
-                      disabled={!!patch}
-                      placeholder="e.g., 2.1.40"
-                      style={{
-                        width: '100%',
-                        padding: '10px',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '6px',
-                        fontSize: '1rem',
-                        background: patch ? '#f3f4f6' : 'white'
-                      }}
-                    />
-                    {patch && (
-                      <small style={{ color: '#6b7280' }}>Version cannot be changed when editing</small>
-                    )}
-                  </div>
-
-                  <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600' }}>
-                      Release Date
-                    </label>
-                    <input
-                      type="date"
-                      value={formData.release_date}
-                      onChange={(e) => setFormData({...formData, release_date: e.target.value})}
-                      style={{
-                        width: '100%',
-                        padding: '10px',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '6px',
-                        fontSize: '1rem'
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Designers Note */}
-              {activeSection === 'designers' && (
-                <div>
-                  <h3 style={{ marginTop: 0 }}>✍️ From The Designers</h3>
-                  <textarea
-                    value={formData.designers_note || ''}
-                    onChange={(e) => setFormData({...formData, designers_note: e.target.value})}
-                    placeholder="In this patch, we continue to optimize the experience for Roaming heroes..."
-                    style={{
-                      width: '100%',
-                      minHeight: '150px',
-                      padding: '10px',
-                      border: '1px solid #d1d5db',
-                      borderRadius: '6px',
-                      fontSize: '0.95rem',
-                      fontFamily: 'inherit',
-                      resize: 'vertical'
+                      ...inputStyle,
+                      background: patch ? '#f3f4f6' : '#ffffff'
                     }}
                   />
+                  {patch && (
+                    <small style={{ color: '#6b7280', fontSize: '0.8rem' }}>
+                      Version cannot be changed when editing
+                    </small>
+                  )}
                 </div>
-              )}
 
-              {/* Hero Adjustments */}
-              {activeSection === 'hero_adj' && (
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <h3 style={{ margin: 0 }}>🦸 Hero Adjustments</h3>
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={labelStyle}>Release Date</label>
+                  <input
+                    type="date"
+                    name="release_date"
+                    value={formData.release_date || ''}
+                    onChange={handleChange}
+                    style={inputStyle}
+                  />
+                </div>
+
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={labelStyle}>From The Designers</label>
+                  <textarea
+                    name="designers_note"
+                    value={formData.designers_note || ''}
+                    onChange={handleChange}
+                    placeholder="In this patch, we continue to optimize the experience..."
+                    style={textareaStyle}
+                  />
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'new_hero' && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>New Hero</h3>
+                  {formData.new_hero && (
+                    <button type="button" onClick={clearNewHero} style={dangerButtonStyle}>
+                      Clear
+                    </button>
+                  )}
+                </div>
+
+                {!formData.new_hero ? (
+                  <div style={cardStyle}>
+                    <p style={{ color: '#6b7280', margin: 0 }}>No new hero added yet</p>
                     <button
                       type="button"
-                      onClick={addHeroAdjustment}
-                      style={{
-                        padding: '8px 16px',
-                        background: '#10b981',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontWeight: '600'
-                      }}
+                      onClick={() => handleNewHeroChange('name', '')}
+                      style={{ ...buttonStyle, marginTop: '12px' }}
                     >
-                      + Add Hero
+                      + Add New Hero
                     </button>
                   </div>
+                ) : (
+                  <div>
+                    <div style={{ marginBottom: '16px' }}>
+                      <label style={labelStyle}>Hero Name *</label>
+                      <input
+                        type="text"
+                        value={formData.new_hero.name || ''}
+                        onChange={(e) => handleNewHeroChange('name', e.target.value)}
+                        placeholder="Hero name"
+                        style={inputStyle}
+                        required
+                      />
+                    </div>
 
-                  {Object.entries(formData.hero_adjustments || {}).map(([heroName, heroData]) => (
-                    <div key={heroName} style={{
-                      background: '#f9fafb',
-                      padding: '15px',
-                      borderRadius: '8px',
-                      marginBottom: '15px',
-                      border: '1px solid #e5e7eb'
-                    }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '10px' }}>
-                        <div style={{ flex: 1, marginRight: '10px' }}>
-                          <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600', fontSize: '0.9rem' }}>
-                            Hero Name
-                          </label>
-                          <select
-                            value={heroName}
-                            onChange={(e) => updateHeroAdjustment(heroName, 'name', e.target.value)}
-                            style={{
-                              width: '100%',
-                              padding: '8px',
-                              border: '1px solid #d1d5db',
-                              borderRadius: '4px'
-                            }}
-                          >
-                            <option value={heroName}>{heroName}</option>
-                            {heroes.map(h => (
-                              <option key={h.id} value={h.name}>{h.name}</option>
-                            ))}
-                          </select>
-                        </div>
+                    <div style={{ marginBottom: '16px' }}>
+                      <label style={labelStyle}>Title</label>
+                      <input
+                        type="text"
+                        value={formData.new_hero.title || ''}
+                        onChange={(e) => handleNewHeroChange('title', e.target.value)}
+                        placeholder="e.g., The Shadowblade"
+                        style={inputStyle}
+                      />
+                    </div>
 
-                        <div style={{ width: '150px', marginRight: '10px' }}>
-                          <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600', fontSize: '0.9rem' }}>
-                            Badge
-                          </label>
-                          <select
-                            value={heroData.badge}
-                            onChange={(e) => updateHeroAdjustment(heroName, 'badge', e.target.value)}
-                            style={{
-                              width: '100%',
-                              padding: '8px',
-                              border: '1px solid #d1d5db',
-                              borderRadius: '4px'
-                            }}
-                          >
-                            {BADGE_OPTIONS.map(badge => (
-                              <option key={badge} value={badge}>{badge}</option>
-                            ))}
-                          </select>
-                        </div>
+                    <div style={{ marginBottom: '16px' }}>
+                      <label style={labelStyle}>Badge</label>
+                      <select
+                        value={formData.new_hero.badge || 'NEW'}
+                        onChange={(e) => handleNewHeroChange('badge', e.target.value)}
+                        style={inputStyle}
+                      >
+                        {BADGE_TYPES.map(badge => (
+                          <option key={badge} value={badge}>{badge}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                        <button
-                          type="button"
-                          onClick={() => removeHeroAdjustment(heroName)}
-                          style={{
-                            padding: '8px 12px',
-                            background: '#ef4444',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            marginTop: '23px'
-                          }}
-                        >
-                          🗑️
+                    <div style={{ marginBottom: '16px' }}>
+                      <label style={labelStyle}>Hero Feature</label>
+                      <textarea
+                        value={formData.new_hero.hero_feature || ''}
+                        onChange={(e) => handleNewHeroChange('hero_feature', e.target.value)}
+                        placeholder="Brief description of hero's main feature..."
+                        style={textareaStyle}
+                      />
+                    </div>
+
+                    <div style={{ marginBottom: '16px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                        <label style={labelStyle}>Skills</label>
+                        <button type="button" onClick={addNewHeroSkill} style={buttonStyle}>
+                          + Add Skill
                         </button>
                       </div>
 
-                      <div style={{ marginBottom: '10px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px', fontWeight: '600', fontSize: '0.9rem' }}>
-                          Description
-                        </label>
-                        <textarea
-                          value={heroData.description}
-                          onChange={(e) => updateHeroAdjustment(heroName, 'description', e.target.value)}
-                          placeholder="Overall hero changes description..."
-                          style={{
-                            width: '100%',
-                            minHeight: '60px',
-                            padding: '8px',
-                            border: '1px solid #d1d5db',
-                            borderRadius: '4px',
-                            fontSize: '0.9rem',
-                            fontFamily: 'inherit'
+                      {(formData.new_hero.skills || []).map((skill, index) => (
+                        <div key={index} style={cardStyle}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                            <strong style={{ fontSize: '0.9rem' }}>Skill {index + 1}</strong>
+                            <button
+                              type="button"
+                              onClick={() => removeNewHeroSkill(index)}
+                              style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                            >
+                              Remove
+                            </button>
+                          </div>
+
+                          <div style={{ marginBottom: '12px' }}>
+                            <label style={labelStyle}>Skill Type</label>
+                            <select
+                              value={skill.skill_type || 'Passive'}
+                              onChange={(e) => updateNewHeroSkill(index, 'skill_type', e.target.value)}
+                              style={inputStyle}
+                            >
+                              {SKILL_TYPES.map(type => (
+                                <option key={type} value={type}>{type}</option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div style={{ marginBottom: '12px' }}>
+                            <label style={labelStyle}>Skill Name</label>
+                            <input
+                              type="text"
+                              value={skill.skill_name || ''}
+                              onChange={(e) => updateNewHeroSkill(index, 'skill_name', e.target.value)}
+                              placeholder="Skill name"
+                              style={inputStyle}
+                            />
+                          </div>
+
+                          <div>
+                            <label style={labelStyle}>Description</label>
+                            <textarea
+                              value={skill.description || ''}
+                              onChange={(e) => updateNewHeroSkill(index, 'description', e.target.value)}
+                              placeholder="Skill description..."
+                              style={textareaStyle}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'hero_adj' && (
+              <div>
+                <div style={{ marginBottom: '16px' }}>
+                  <h3 style={{ margin: '0 0 16px 0', fontSize: '1.1rem' }}>Hero Adjustments</h3>
+                  
+                  {loadingData ? (
+                    <p style={{ color: '#6b7280' }}>Loading heroes...</p>
+                  ) : (
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="🔍 Search heroes..."
+                        value={heroSearch}
+                        onChange={(e) => setHeroSearch(e.target.value)}
+                        style={{ ...inputStyle, marginBottom: '12px' }}
+                      />
+                      <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                        <select
+                          value={selectedHeroForAdj}
+                          onChange={(e) => setSelectedHeroForAdj(e.target.value)}
+                          style={{ ...inputStyle, flex: 1 }}
+                        >
+                          <option value="">Select a hero...</option>
+                          {heroes
+                            .filter(hero => !formData.hero_adjustments[hero.name])
+                            .filter(hero => hero.name.toLowerCase().includes(heroSearch.toLowerCase()))
+                            .map(hero => (
+                              <option key={hero.id} value={hero.name}>{hero.name}</option>
+                            ))
+                          }
+                        </select>
+                      <button 
+                        type="button" 
+                        onClick={addHeroAdjustment} 
+                        disabled={!selectedHeroForAdj}
+                        style={{
+                          ...buttonStyle,
+                          opacity: selectedHeroForAdj ? 1 : 0.5,
+                          cursor: selectedHeroForAdj ? 'pointer' : 'not-allowed'
+                        }}
+                      >
+                        + Add Hero
+                      </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {Object.keys(formData.hero_adjustments).length === 0 ? (
+                  <div style={cardStyle}>
+                    <p style={{ color: '#6b7280', margin: 0 }}>No hero adjustments yet</p>
+                  </div>
+                ) : (
+                  Object.entries(formData.hero_adjustments).map(([heroName, data]) => {
+                    const isExpanded = expandedHeroes[heroName];
+                    return (
+                    <div key={heroName} style={cardStyle}>
+                      <div 
+                        style={{ 
+                          display: 'flex', 
+                          justifyContent: 'space-between', 
+                          alignItems: 'center',
+                          marginBottom: isExpanded ? '12px' : '0',
+                          cursor: 'pointer',
+                          padding: '8px',
+                          borderRadius: '8px',
+                          background: isExpanded ? '#f9fafb' : 'transparent',
+                          transition: 'all 0.2s ease'
+                        }}
+                        onClick={() => toggleHeroExpanded(heroName)}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <span style={{ fontSize: '1.2rem', transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}>▶</span>
+                          <strong style={{ fontSize: '1rem' }}>{heroName}</strong>
+                          {data.badge && (
+                            <span style={{
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              fontSize: '0.75rem',
+                              fontWeight: '600',
+                              background: data.badge === 'BUFF' ? '#dcfce7' : data.badge === 'NERF' ? '#fee2e2' : '#e0e7ff',
+                              color: data.badge === 'BUFF' ? '#16a34a' : data.badge === 'NERF' ? '#dc2626' : '#4f46e5'
+                            }}>
+                              {data.badge}
+                            </span>
+                          )}
+                          {(data.adjustments || []).length > 0 && (
+                            <span style={{ fontSize: '0.85rem', color: '#6b7280' }}>
+                              ({data.adjustments.length} skill{data.adjustments.length !== 1 ? 's' : ''})
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeHeroAdjustment(heroName);
                           }}
+                          style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      {isExpanded && (
+                        <div style={{ paddingLeft: '8px' }}>
+                          <div style={{ marginBottom: '12px' }}>
+                            <label style={labelStyle}>Badge</label>
+                            <select
+                              value={data.badge || 'ADJUST'}
+                              onChange={(e) => updateHeroAdjustmentBadge(heroName, e.target.value)}
+                              style={inputStyle}
+                            >
+                              {BADGE_TYPES.map(badge => (
+                                <option key={badge} value={badge}>{badge}</option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div style={{ marginBottom: '16px' }}>
+                            <label style={labelStyle}>Hero Description</label>
+                            <textarea
+                              value={data.description || ''}
+                              onChange={(e) => updateHeroDescription(heroName, e.target.value)}
+                              placeholder="General description of hero changes..."
+                              style={textareaStyle}
+                            />
+                          </div>
+
+                          <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                              <label style={labelStyle}>Adjustments</label>
+                              <button
+                                type="button"
+                                onClick={() => addHeroAdjustmentSkill(heroName)}
+                                style={{ ...buttonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                              >
+                                + Add
+                              </button>
+                            </div>
+
+                            {(data.adjustments || []).map((adj, index) => {
+                              const hero = heroes.find(h => h.name === heroName);
+                              const skills = hero ? heroSkills[hero.id] || [] : [];
+                              return (
+                          <div key={index} style={{ ...cardStyle, background: '#ffffff', marginBottom: '8px' }}>
+                            <div style={{ marginBottom: '8px' }}>
+                              <label style={labelStyle}>Skill</label>
+                              <select
+                                value={adj.skill_type || ''}
+                                onChange={(e) => {
+                                  const selectedSkill = skills.find(s => s.skill_name === e.target.value);
+                                  updateHeroAdjustmentSkill(heroName, index, 'skill_type', e.target.value);
+                                  if (selectedSkill) {
+                                    updateHeroAdjustmentSkill(heroName, index, 'skill_name', selectedSkill.skill_name);
+                                  }
+                                }}
+                                style={inputStyle}
+                              >
+                                <option value="">Select skill...</option>
+                                {skills.map(skill => (
+                                  <option key={skill.id} value={skill.skill_name}>
+                                    {skill.skill_name} ({skill.skill_type})
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+
+                            <div style={{ marginBottom: '8px' }}>
+                              <label style={labelStyle}>Badge</label>
+                              <select
+                                value={adj.badge || 'ADJUST'}
+                                onChange={(e) => updateHeroAdjustmentSkill(heroName, index, 'badge', e.target.value)}
+                                style={inputStyle}
+                              >
+                                {BADGE_TYPES.map(type => (
+                                  <option key={type} value={type}>{type}</option>
+                                ))}
+                              </select>
+                            </div>
+
+                            <div style={{ marginBottom: '8px' }}>
+                              <label style={labelStyle}>Description</label>
+                              <textarea
+                                value={adj.description || ''}
+                                onChange={(e) => updateHeroAdjustmentSkill(heroName, index, 'description', e.target.value)}
+                                placeholder="Adjustment description..."
+                                style={{ ...textareaStyle, minHeight: '60px' }}
+                              />
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => removeHeroAdjustmentSkill(heroName, index)}
+                              style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.75rem' }}
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        );
+                        })}
+                      </div>
+
+                          <div style={{ marginTop: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                              <label style={labelStyle}>Attribute Adjustments</label>
+                              <button
+                                type="button"
+                                onClick={() => addHeroAttributeAdjustment(heroName)}
+                                style={{ ...buttonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                              >
+                                + Add Attribute
+                              </button>
+                            </div>
+
+                            {(data.attribute_adjustments || []).map((attr, index) => (
+                              <div key={index} style={{ ...cardStyle, background: '#ffffff', marginBottom: '8px' }}>
+                                <div style={{ marginBottom: '8px' }}>
+                                  <label style={labelStyle}>Attribute Name</label>
+                                  <input
+                                    type="text"
+                                    value={attr.attribute_name || ''}
+                                    onChange={(e) => updateHeroAttributeAdjustment(heroName, index, 'attribute_name', e.target.value)}
+                                    placeholder="e.g., Attack Speed Ratio, HP, Mana"
+                                    style={inputStyle}
+                                  />
+                                </div>
+
+                                <div style={{ marginBottom: '8px' }}>
+                                  <label style={labelStyle}>Badge</label>
+                                  <select
+                                    value={attr.badge || 'ADJUST'}
+                                    onChange={(e) => updateHeroAttributeAdjustment(heroName, index, 'badge', e.target.value)}
+                                    style={inputStyle}
+                                  >
+                                    {BADGE_TYPES.map(type => (
+                                      <option key={type} value={type}>{type}</option>
+                                    ))}
+                                  </select>
+                                </div>
+
+                                <div style={{ marginBottom: '8px' }}>
+                                  <label style={labelStyle}>Description</label>
+                                  <textarea
+                                    value={attr.description || ''}
+                                    onChange={(e) => updateHeroAttributeAdjustment(heroName, index, 'description', e.target.value)}
+                                    placeholder="e.g., 40% >> 70%"
+                                    style={{ ...textareaStyle, minHeight: '60px' }}
+                                  />
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={() => removeHeroAttributeAdjustment(heroName, index)}
+                                  style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.75rem' }}
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                    </div>
+                      )}
+                    </div>
+                  );
+                  })
+                )}
+              </div>
+            )}
+
+            {activeTab === 'equipment' && (
+              <div>
+                <div style={{ marginBottom: '16px' }}>
+                  <h3 style={{ margin: '0 0 16px 0', fontSize: '1.1rem' }}>Equipment Adjustments</h3>
+                  
+                  {loadingData ? (
+                    <p style={{ color: '#6b7280' }}>Loading items...</p>
+                  ) : (
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="🔍 Search equipment..."
+                        value={itemSearch}
+                        onChange={(e) => setItemSearch(e.target.value)}
+                        style={{ ...inputStyle, marginBottom: '12px' }}
+                      />
+                      <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                        <select
+                          value={selectedItemForAdj}
+                          onChange={(e) => setSelectedItemForAdj(e.target.value)}
+                          style={{ ...inputStyle, flex: 1 }}
+                        >
+                          <option value="">Select an item...</option>
+                          {items
+                            .filter(item => !formData.equipment_adjustments[item.name])
+                            .filter(item => item.name.toLowerCase().includes(itemSearch.toLowerCase()))
+                            .map(item => (
+                              <option key={item.id} value={item.name}>{item.name}</option>
+                            ))
+                          }
+                        </select>
+                      <button 
+                        type="button" 
+                        onClick={addEquipmentAdjustment} 
+                        disabled={!selectedItemForAdj}
+                        style={{
+                          ...buttonStyle,
+                          opacity: selectedItemForAdj ? 1 : 0.5,
+                          cursor: selectedItemForAdj ? 'pointer' : 'not-allowed'
+                        }}
+                      >
+                        + Add Equipment
+                      </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {Object.keys(formData.equipment_adjustments).length === 0 ? (
+                  <div style={cardStyle}>
+                    <p style={{ color: '#6b7280', margin: 0 }}>No equipment adjustments yet</p>
+                  </div>
+                ) : (
+                  Object.entries(formData.equipment_adjustments).map(([itemName, data]) => (
+                    <div key={itemName} style={cardStyle}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                        <strong style={{ fontSize: '1rem' }}>{itemName}</strong>
+                        <button
+                          type="button"
+                          onClick={() => removeEquipmentAdjustment(itemName)}
+                          style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      <div style={{ marginBottom: '12px' }}>
+                        <label style={labelStyle}>Badge</label>
+                        <select
+                          value={data.badge || 'ADJUST'}
+                          onChange={(e) => updateEquipmentBadge(itemName, e.target.value)}
+                          style={inputStyle}
+                        >
+                          {BADGE_TYPES.map(badge => (
+                            <option key={badge} value={badge}>{badge}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={labelStyle}>Equipment Description</label>
+                        <textarea
+                          value={data.description || ''}
+                          onChange={(e) => updateEquipmentDescription(itemName, e.target.value)}
+                          placeholder="General description of equipment changes..."
+                          style={textareaStyle}
                         />
                       </div>
 
                       <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                          <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>Skills</label>
+                          <label style={labelStyle}>Adjustments</label>
                           <button
                             type="button"
-                            onClick={() => addSkillToHero(heroName)}
-                            style={{
-                              padding: '5px 12px',
-                              background: '#3b82f6',
-                              color: 'white',
-                              border: 'none',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              fontSize: '0.85rem'
-                            }}
+                            onClick={() => addEquipmentChange(itemName)}
+                            style={{ ...buttonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
                           >
-                            + Add Skill
+                            + Add
                           </button>
                         </div>
 
-                        {(heroData.skills || []).map((skill, skillIdx) => (
-                          <div key={skillIdx} style={{
-                            background: 'white',
-                            padding: '10px',
-                            borderRadius: '6px',
-                            marginBottom: '8px',
-                            border: '1px solid #d1d5db'
-                          }}>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 150px', gap: '10px', marginBottom: '8px' }}>
-                              <div>
-                                <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Skill Type</label>
-                                <select
-                                  value={skill.skill_type}
-                                  onChange={(e) => {
-                                    const newSkills = [...heroData.skills];
-                                    newSkills[skillIdx].skill_type = e.target.value;
-                                    updateHeroAdjustment(heroName, 'skills', newSkills);
-                                  }}
-                                  style={{ width: '100%', padding: '6px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                        {(data.adjustments || []).map((change, index) => {
+                          // Підтримка старого формату (string) та нового (object)
+                          const isOldFormat = typeof change === 'string';
+                          
+                          if (isOldFormat) {
+                            return (
+                              <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
+                                <div style={{ flex: 1, padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
+                                  {change}
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => removeEquipmentChange(itemName, index)}
+                                  style={{ ...dangerButtonStyle, padding: '6px 10px', fontSize: '0.75rem' }}
                                 >
-                                  {SKILL_TYPES.map(type => (
+                                  ✕
+                                </button>
+                              </div>
+                            );
+                          }
+                          
+                          return (
+                            <div key={index} style={{ ...cardStyle, background: '#ffffff', marginBottom: '8px' }}>
+                              <div style={{ marginBottom: '8px' }}>
+                                <label style={labelStyle}>Name (e.g., "Unique Passive - Magic", "Attribute")</label>
+                                <input
+                                  type="text"
+                                  value={change.name || ''}
+                                  onChange={(e) => updateEquipmentChange(itemName, index, 'name', e.target.value)}
+                                  placeholder="e.g., Unique Passive - Magic, Attribute"
+                                  style={inputStyle}
+                                />
+                              </div>
+
+                              <div style={{ marginBottom: '8px' }}>
+                                <label style={labelStyle}>Badge</label>
+                                <select
+                                  value={change.badge || 'ADJUST'}
+                                  onChange={(e) => updateEquipmentChange(itemName, index, 'badge', e.target.value)}
+                                  style={inputStyle}
+                                >
+                                  {BADGE_TYPES.map(type => (
                                     <option key={type} value={type}>{type}</option>
                                   ))}
                                 </select>
                               </div>
 
-                              <div>
-                                <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Skill Name</label>
-                                <input
-                                  type="text"
-                                  value={skill.name}
-                                  onChange={(e) => {
-                                    const newSkills = [...heroData.skills];
-                                    newSkills[skillIdx].name = e.target.value;
-                                    updateHeroAdjustment(heroName, 'skills', newSkills);
-                                  }}
-                                  placeholder="Skill name"
-                                  style={{ width: '100%', padding: '6px', border: '1px solid #d1d5db', borderRadius: '4px' }}
+                              <div style={{ marginBottom: '8px' }}>
+                                <label style={labelStyle}>Description</label>
+                                <textarea
+                                  value={change.description || ''}
+                                  onChange={(e) => updateEquipmentChange(itemName, index, 'description', e.target.value)}
+                                  placeholder="e.g., Magic Power: 75 >> 50"
+                                  style={{ ...textareaStyle, minHeight: '60px' }}
                                 />
                               </div>
 
-                              <div>
-                                <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Badge</label>
-                                <select
-                                  value={skill.badge}
-                                  onChange={(e) => {
-                                    const newSkills = [...heroData.skills];
-                                    newSkills[skillIdx].badge = e.target.value;
-                                    updateHeroAdjustment(heroName, 'skills', newSkills);
-                                  }}
-                                  style={{ width: '100%', padding: '6px', border: '1px solid #d1d5db', borderRadius: '4px' }}
-                                >
-                                  {BADGE_OPTIONS.map(badge => (
-                                    <option key={badge} value={badge}>{badge}</option>
-                                  ))}
-                                </select>
-                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeEquipmentChange(itemName, index)}
+                                style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.75rem' }}
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {activeTab === 'battlefield' && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Battlefield Adjustments</h3>
+                  <button type="button" onClick={addBattlefieldAdjustment} style={buttonStyle}>
+                    + Add Adjustment
+                  </button>
+                </div>
+
+                {Object.keys(formData.battlefield_adjustments).length === 0 ? (
+                  <div style={cardStyle}>
+                    <p style={{ color: '#6b7280', margin: 0 }}>No battlefield adjustments yet</p>
+                  </div>
+                ) : (
+                  Object.entries(formData.battlefield_adjustments).map(([name, data]) => (
+                    <div key={name} style={cardStyle}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                        <strong style={{ fontSize: '1rem' }}>{name}</strong>
+                        <button
+                          type="button"
+                          onClick={() => removeBattlefieldAdjustment(name)}
+                          style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      <div style={{ marginBottom: '12px' }}>
+                        <label style={labelStyle}>Badge</label>
+                        <select
+                          value={data.badge || 'ADJUST'}
+                          onChange={(e) => updateBattlefieldBadge(name, e.target.value)}
+                          style={inputStyle}
+                        >
+                          {BADGE_TYPES.map(badge => (
+                            <option key={badge} value={badge}>{badge}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label style={labelStyle}>Description</label>
+                        <textarea
+                          value={data.description || ''}
+                          onChange={(e) => updateBattlefieldDescription(name, e.target.value)}
+                          placeholder="Description..."
+                          style={textareaStyle}
+                        />
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {activeTab === 'system' && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>System Adjustments</h3>
+                  <button type="button" onClick={addSystemAdjustment} style={buttonStyle}>
+                    + Add Adjustment
+                  </button>
+                </div>
+
+                {formData.system_adjustments.length === 0 ? (
+                  <div style={cardStyle}>
+                    <p style={{ color: '#6b7280', margin: 0 }}>No system adjustments yet</p>
+                  </div>
+                ) : (
+                  formData.system_adjustments.map((adjustment, index) => (
+                    <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
+                      <div style={{ flex: 1, padding: '12px', background: '#f9fafb', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
+                        {adjustment}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeSystemAdjustment(index)}
+                        style={{ ...dangerButtonStyle, padding: '8px 12px' }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {activeTab === 'emblems' && (
+              <div>
+                <div style={{ marginBottom: '16px' }}>
+                  <h3 style={{ margin: '0 0 16px 0', fontSize: '1.1rem' }}>Emblem Adjustments</h3>
+                  
+                  {loadingData ? (
+                    <p style={{ color: '#6b7280' }}>Loading emblems...</p>
+                  ) : (
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="🔍 Search emblems..."
+                        value={emblemSearch}
+                        onChange={(e) => setEmblemSearch(e.target.value)}
+                        style={{ ...inputStyle, marginBottom: '12px' }}
+                      />
+                      <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                        <select
+                          value={selectedEmblemForAdj}
+                          onChange={(e) => setSelectedEmblemForAdj(e.target.value)}
+                          style={{ ...inputStyle, flex: 1 }}
+                        >
+                          <option value="">Select an emblem...</option>
+                          {emblems
+                            .filter(emblem => !formData.emblem_adjustments[emblem.name])
+                            .filter(emblem => emblem.name.toLowerCase().includes(emblemSearch.toLowerCase()))
+                            .map(emblem => (
+                              <option key={emblem.id} value={emblem.name}>{emblem.name}</option>
+                            ))
+                          }
+                        </select>
+                      <button 
+                        type="button" 
+                        onClick={addEmblemAdjustment} 
+                        disabled={!selectedEmblemForAdj}
+                        style={{
+                          ...buttonStyle,
+                          opacity: selectedEmblemForAdj ? 1 : 0.5,
+                          cursor: selectedEmblemForAdj ? 'pointer' : 'not-allowed'
+                        }}
+                      >
+                        + Add Emblem
+                      </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {Object.keys(formData.emblem_adjustments).length === 0 ? (
+                  <div style={cardStyle}>
+                    <p style={{ color: '#6b7280', margin: 0 }}>No emblem adjustments yet</p>
+                  </div>
+                ) : (
+                  Object.entries(formData.emblem_adjustments).map(([emblemName, data]) => (
+                    <div key={emblemName} style={cardStyle}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                        <strong style={{ fontSize: '1rem' }}>{emblemName}</strong>
+                        <button
+                          type="button"
+                          onClick={() => removeEmblemAdjustment(emblemName)}
+                          style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      <div style={{ marginBottom: '12px' }}>
+                        <label style={labelStyle}>Badge</label>
+                        <select
+                          value={data.badge || 'ADJUST'}
+                          onChange={(e) => updateEmblemBadge(emblemName, e.target.value)}
+                          style={inputStyle}
+                        >
+                          {BADGE_TYPES.map(badge => (
+                            <option key={badge} value={badge}>{badge}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={labelStyle}>Emblem Description</label>
+                        <textarea
+                          value={data.description || ''}
+                          onChange={(e) => updateEmblemDescription(emblemName, e.target.value)}
+                          placeholder="General description of emblem changes..."
+                          style={textareaStyle}
+                        />
+                      </div>
+
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                          <label style={labelStyle}>Adjustments</label>
+                          <button
+                            type="button"
+                            onClick={() => addEmblemChange(emblemName)}
+                            style={{ ...buttonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                          >
+                            + Add
+                          </button>
+                        </div>
+
+                        {(data.adjustments || []).map((change, index) => (
+                          <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
+                            <div style={{ flex: 1, padding: '8px', background: '#ffffff', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
+                              {change}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeEmblemChange(emblemName, index)}
+                              style={{ ...dangerButtonStyle, padding: '6px 10px', fontSize: '0.75rem' }}
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {activeTab === 'revamped' && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Revamped Heroes</h3>
+                  <button type="button" onClick={addRevampedHero} style={buttonStyle}>
+                    + Add Revamped Hero
+                  </button>
+                </div>
+
+                {formData.revamped_heroes.length === 0 ? (
+                  <div style={cardStyle}>
+                    <p style={{ color: '#6b7280', margin: 0 }}>No revamped heroes yet</p>
+                  </div>
+                ) : (
+                  formData.revamped_heroes.map((hero, heroIndex) => (
+                    <div key={heroIndex} style={cardStyle}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                        <strong style={{ fontSize: '1rem' }}>{hero.name}</strong>
+                        <button
+                          type="button"
+                          onClick={() => removeRevampedHero(heroIndex)}
+                          style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                        >
+                          Remove Hero
+                        </button>
+                      </div>
+
+                      <div style={{ marginBottom: '12px' }}>
+                        <label style={labelStyle}>Badge</label>
+                        <select
+                          value={hero.badge || 'REVAMP'}
+                          onChange={(e) => updateRevampedHero(heroIndex, 'badge', e.target.value)}
+                          style={inputStyle}
+                        >
+                          {BADGE_TYPES.map(badge => (
+                            <option key={badge} value={badge}>{badge}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div style={{ marginBottom: '12px' }}>
+                        <label style={labelStyle}>Revamp Feature</label>
+                        <textarea
+                          value={hero.revamp_feature || ''}
+                          onChange={(e) => updateRevampedHero(heroIndex, 'revamp_feature', e.target.value)}
+                          placeholder="Description of revamp changes..."
+                          style={textareaStyle}
+                        />
+                      </div>
+
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                          <label style={labelStyle}>Skills</label>
+                          <button
+                            type="button"
+                            onClick={() => addRevampedHeroSkill(heroIndex)}
+                            style={{ ...buttonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                          >
+                            + Add Skill
+                          </button>
+                        </div>
+
+                        {(hero.skills || []).map((skill, skillIndex) => (
+                          <div key={skillIndex} style={{ ...cardStyle, background: '#ffffff', marginBottom: '8px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                              <strong style={{ fontSize: '0.85rem' }}>Skill {skillIndex + 1}</strong>
+                              <button
+                                type="button"
+                                onClick={() => removeRevampedHeroSkill(heroIndex, skillIndex)}
+                                style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.75rem' }}
+                              >
+                                Remove
+                              </button>
+                            </div>
+
+                            <div style={{ marginBottom: '8px' }}>
+                              <label style={labelStyle}>Skill Type</label>
+                              <select
+                                value={skill.skill_type || 'Passive'}
+                                onChange={(e) => updateRevampedHeroSkill(heroIndex, skillIndex, 'skill_type', e.target.value)}
+                                style={inputStyle}
+                              >
+                                {SKILL_TYPES.map(type => (
+                                  <option key={type} value={type}>{type}</option>
+                                ))}
+                              </select>
+                            </div>
+
+                            <div style={{ marginBottom: '8px' }}>
+                              <label style={labelStyle}>Skill Name</label>
+                              <input
+                                type="text"
+                                value={skill.skill_name || ''}
+                                onChange={(e) => updateRevampedHeroSkill(heroIndex, skillIndex, 'skill_name', e.target.value)}
+                                placeholder="Skill name"
+                                style={inputStyle}
+                              />
                             </div>
 
                             <div>
-                              <label style={{ fontSize: '0.85rem', fontWeight: '600' }}>Changes (one per line)</label>
+                              <label style={labelStyle}>Description</label>
                               <textarea
-                                value={(skill.changes || []).join('\n')}
-                                onChange={(e) => {
-                                  const newSkills = [...heroData.skills];
-                                  newSkills[skillIdx].changes = e.target.value.split('\n');
-                                  updateHeroAdjustment(heroName, 'skills', newSkills);
-                                }}
-                                placeholder="Damage: 200 >> 250&#10;Cooldown: 10s >> 8s"
-                                style={{
-                                  width: '100%',
-                                  minHeight: '60px',
-                                  padding: '6px',
-                                  border: '1px solid #d1d5db',
-                                  borderRadius: '4px',
-                                  fontSize: '0.9rem',
-                                  fontFamily: 'monospace'
-                                }}
+                                value={skill.description || ''}
+                                onChange={(e) => updateRevampedHeroSkill(heroIndex, skillIndex, 'description', e.target.value)}
+                                placeholder="Skill description..."
+                                style={{ ...textareaStyle, minHeight: '60px' }}
                               />
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
-                  ))}
-
-                  {Object.keys(formData.hero_adjustments || {}).length === 0 && (
-                    <div style={{
-                      padding: '40px',
-                      textAlign: 'center',
-                      color: '#9ca3af',
-                      background: '#f9fafb',
-                      borderRadius: '8px',
-                      border: '2px dashed #d1d5db'
-                    }}>
-                      <p style={{ margin: 0, fontSize: '1.1rem' }}>No hero adjustments yet</p>
-                      <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem' }}>Click "+ Add Hero" to add hero changes</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* System Adjustments */}
-              {activeSection === 'system' && (
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <h3 style={{ margin: 0 }}>⚙️ System Adjustments</h3>
-                    <button
-                      type="button"
-                      onClick={addSystemAdjustment}
-                      style={{
-                        padding: '8px 16px',
-                        background: '#10b981',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontWeight: '600'
-                      }}
-                    >
-                      + Add
-                    </button>
-                  </div>
-
-                  {(formData.system_adjustments || []).map((adjustment, idx) => (
-                    <div key={idx} style={{
-                      display: 'flex',
-                      gap: '10px',
-                      marginBottom: '10px'
-                    }}>
-                      <input
-                        type="text"
-                        value={adjustment}
-                        onChange={(e) => {
-                          const newAdjustments = [...formData.system_adjustments];
-                          newAdjustments[idx] = e.target.value;
-                          setFormData({...formData, system_adjustments: newAdjustments});
-                        }}
-                        placeholder="System adjustment description"
-                        style={{
-                          flex: 1,
-                          padding: '10px',
-                          border: '1px solid #d1d5db',
-                          borderRadius: '6px'
-                        }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const newAdjustments = formData.system_adjustments.filter((_, i) => i !== idx);
-                          setFormData({...formData, system_adjustments: newAdjustments});
-                        }}
-                        style={{
-                          padding: '10px 15px',
-                          background: '#ef4444',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '6px',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  ))}
-
-                  {(formData.system_adjustments || []).length === 0 && (
-                    <div style={{
-                      padding: '40px',
-                      textAlign: 'center',
-                      color: '#9ca3af',
-                      background: '#f9fafb',
-                      borderRadius: '8px',
-                      border: '2px dashed #d1d5db'
-                    }}>
-                      <p style={{ margin: 0 }}>No system adjustments yet</p>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Other sections placeholders */}
-              {['new_hero', 'equipment', 'battlefield', 'emblems', 'revamped'].includes(activeSection) && (
-                <div style={{
-                  padding: '40px',
-                  textAlign: 'center',
-                  background: '#fffbeb',
-                  borderRadius: '8px',
-                  border: '1px solid #fcd34d'
-                }}>
-                  <p style={{ margin: 0, color: '#92400e', fontSize: '1.1rem', fontWeight: '600' }}>
-                    {activeSection === 'new_hero' && '🆕 New Hero'}
-                    {activeSection === 'equipment' && '⚔️ Equipment Adjustments'}
-                    {activeSection === 'battlefield' && '🏰 Battlefield Adjustments'}
-                    {activeSection === 'emblems' && '⚡ Emblem Adjustments'}
-                    {activeSection === 'revamped' && '🔄 Revamped Heroes'}
-                  </p>
-                  <p style={{ margin: '10px 0 0 0', color: '#92400e' }}>
-                    This section is under development. Please use JSON Mode for now.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={toggleMode}
-                    style={{
-                      marginTop: '15px',
-                      padding: '10px 20px',
-                      background: '#3b82f6',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontWeight: '600'
-                    }}
-                  >
-                    Switch to JSON Mode
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151' }}>
-                  Version *
-                </label>
-                <input
-                  type="text"
-                  name="version"
-                  value={formData.version}
-                  onChange={handleChange}
-                  required
-                  disabled={!!patch}
-                  placeholder="e.g., 2.1.40"
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '4px',
-                    fontSize: '1rem',
-                    background: patch ? '#f3f4f6' : '#ffffff'
-                  }}
-                />
-                {patch && (
-                  <small style={{ color: '#6b7280', fontSize: '0.875rem' }}>
-                    Version cannot be changed when editing
-                  </small>
+                  ))
                 )}
               </div>
+            )}
+          </div>
 
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151' }}>
-                  Release Date
-                </label>
-                <input
-                  type="date"
-                  name="release_date"
-                  value={formData.release_date || ''}
-                  onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '4px',
-                    fontSize: '1rem'
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151' }}>
-                  From The Designers
-                </label>
-                <textarea
-                  value={formData.designers_note || ''}
-                  onChange={(e) => setFormData({...formData, designers_note: e.target.value})}
-                  placeholder="In this patch, we continue to optimize the experience for Roaming heroes..."
-                  style={{
-                    width: '100%',
-                    minHeight: '100px',
-                    padding: '8px 12px',
-                    border: '1px solid #d1d5db',
-                    borderRadius: '4px',
-                    fontSize: '0.9rem',
-                    fontFamily: 'inherit',
-                    resize: 'vertical'
-                  }}
-                />
-              </div>
-
-              <div style={{
-                padding: '16px',
-                background: '#f9fafb',
-                borderRadius: '6px',
-                marginBottom: '16px'
-              }}>
-                <p style={{ margin: 0, color: '#6b7280', fontSize: '0.9rem' }}>
-                  💡 <strong>Tip:</strong> For advanced editing (hero adjustments, new hero, equipment changes, emblems, etc.), 
-                  switch to JSON Mode using the button above. Click "📋 Use Template" to see the full structure with examples.
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <div style={{
-                padding: '16px',
-                background: '#eff6ff',
-                borderRadius: '6px',
-                marginBottom: '16px',
-                fontSize: '0.85rem',
-                color: '#1e40af'
-              }}>
-                <details>
-                  <summary style={{ cursor: 'pointer', fontWeight: '600', marginBottom: '10px' }}>
-                    📚 Patch Structure Guide
-                  </summary>
-                  <div style={{ paddingLeft: '15px', lineHeight: '1.8' }}>
-                    <p><strong>designers_note:</strong> Overall patch description from designers</p>
-                    <p><strong>new_hero:</strong> Object with name, title, badge ("NEW"), hero_feature, skills[]</p>
-                    <p><strong>hero_adjustments:</strong> Object where key = hero name, value = badge, description, skills[]</p>
-                    <p><strong>equipment_adjustments:</strong> Object where key = item name, value = badge, description, sections[]</p>
-                    <p><strong>emblem_adjustments:</strong> Object where key = emblem name, value = badge, description, sections[]</p>
-                    <p><strong>battlefield_adjustments:</strong> Object where key = name, value = changes[]</p>
-                    <p><strong>system_adjustments:</strong> Array of strings</p>
-                    <p><strong>revamped_heroes:</strong> Array of objects (name, title, badge, hero_feature, skills[])</p>
-                    <hr style={{ margin: '10px 0' }} />
-                    <p><strong>Badges:</strong> "BUFF", "NERF", "ADJUST", "REVAMP", "NEW"</p>
-                    <p><strong>Skill Types:</strong> "Passive", "Skill 1", "Skill 2", "Ultimate"</p>
-                  </div>
-                </details>
-              </div>
-              
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151' }}>
-                  JSON Data
-                </label>
-                <textarea
-                  value={jsonText}
-                  onChange={handleJsonChange}
-                  style={{
-                    width: '100%',
-                    minHeight: '500px',
-                    padding: '12px',
-                    border: jsonError ? '2px solid #ef4444' : '1px solid #d1d5db',
-                    borderRadius: '4px',
-                    fontSize: '0.85rem',
-                    fontFamily: 'Monaco, Consolas, "Courier New", monospace',
-                    resize: 'vertical',
-                    lineHeight: '1.5'
-                  }}
-                  spellCheck="false"
-                />
-                {jsonError && (
-                  <div style={{ 
-                    marginTop: '8px', 
-                    color: '#ef4444', 
-                    fontSize: '0.875rem',
-                    padding: '8px',
-                    background: '#fee2e2',
-                    borderRadius: '4px'
-                  }}>
-                    {jsonError}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '24px' }}>
+          <div style={{ 
+            padding: '24px 36px',
+            background: 'linear-gradient(to top, #f9fafb 0%, #ffffff 100%)',
+            borderTop: '2px solid #f3f4f6',
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'flex-end',
+            boxShadow: '0 -4px 12px rgba(0, 0, 0, 0.05)'
+          }}>
             <button
               type="button"
               onClick={onClose}
               style={{
-                padding: '10px 20px',
+                padding: '14px 36px',
                 fontSize: '1rem',
-                background: '#6b7280',
+                background: 'linear-gradient(135deg, #868f96 0%, #596164 100%)',
                 color: '#ffffff',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '10px',
                 cursor: 'pointer',
-                fontWeight: '600'
+                fontWeight: '700',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.3s ease',
+                minWidth: '120px'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              Cancel
+              ✕ Cancel
             </button>
             <button
               type="submit"
-              disabled={jsonMode && jsonError}
               style={{
-                padding: '10px 20px',
+                padding: '14px 36px',
                 fontSize: '1rem',
-                background: (jsonMode && jsonError) ? '#9ca3af' : '#3b82f6',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 color: '#ffffff',
                 border: 'none',
-                borderRadius: '6px',
-                cursor: (jsonMode && jsonError) ? 'not-allowed' : 'pointer',
-                fontWeight: '600'
+                borderRadius: '10px',
+                cursor: 'pointer',
+                fontWeight: '700',
+                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
+                transition: 'all 0.3s ease',
+                minWidth: '140px'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              {patch ? 'Update' : 'Create'}
+              {patch ? '💾 Update Patch' : '🚀 Create Patch'}
             </button>
           </div>
         </form>

@@ -2,12 +2,7 @@
   "2.1.40a": {
     "url": "https://liquipedia.net/mobilelegends/Patch_2.1.40a",
     "release_date": "2025-12-31",
-    "highlights": [
-      "Hero Adjustments",
-      "Battlefield Adjustments",
-      "Equipment Adjustments"
-    ],
-    "designers_note": "In this update, we are making adjustments targeting the high-ranking and professional matches. We hope to see a shift in the meta to make the upcoming M7 even more exciting.",
+    "highlights": [],
     "new_hero": null,
     "hero_changes": {
       "Akai": {
@@ -25,6 +20,7 @@
         ]
       },
       "Barats": {
+        "summary": "",
         "badge": "BUFF",
         "skills": [
           {
@@ -96,6 +92,7 @@
       "Ling": {
         "summary": "Increased Ling's combat capability in the mid to late game.",
         "badge": "BUFF",
+        "skills": [],
         "attributes": [
           {
             "name": "Attribute",
@@ -115,8 +112,7 @@
             "name": "King's Calling",
             "balance": "BUFF",
             "changes": [
-              "Slow Effect: 20% >> 30%",
-              "Cooldown: 60s-50s >> 55s-45s"
+              "Slow Effect: 20% >> 30%<br/>\nCooldown: 60s-50s >> 55s-45s"
             ]
           }
         ]
@@ -151,11 +147,9 @@
         "badge": "BUFF",
         "sections": [
           {
-            "name": "Unique Passive - Magic",
-            "balance": "BUFF",
-            "changes": [
-              "Magic Defense Reduction per Stack: 3 + (0.3*Hero Level) >> 2.5 + (0.5*Hero Level)"
-            ]
+            "badge": "BUFF",
+            "description": "Magic Defense Reduction per Stack: 3 + (0.3*Hero Level) >> 2.5 + (0.5*Hero Level)",
+            "name": "Unique Passive - Magic"
           }
         ]
       },
@@ -164,11 +158,9 @@
         "badge": "NERF",
         "sections": [
           {
-            "name": "Attribute",
-            "balance": "NERF",
-            "changes": [
-              "Magic Power: 75 >> 50"
-            ]
+            "badge": "NERF",
+            "description": "Magic Power: 75 >> 50",
+            "name": "Attribute"
           }
         ]
       },
@@ -177,11 +169,9 @@
         "badge": "BUFF",
         "sections": [
           {
-            "name": "Unique Passive - Magic",
-            "balance": "BUFF",
-            "changes": [
-              "Base Damage: 170 >> 255"
-            ]
+            "badge": "BUFF",
+            "description": "Base Damage: 170 >> 255",
+            "name": "Unique Passive - Magic"
           }
         ]
       },
@@ -190,11 +180,9 @@
         "badge": "NERF",
         "sections": [
           {
-            "name": "Attributes",
-            "balance": "NERF",
-            "changes": [
-              "12% Spell Vamp >> 8% Spell Vamp"
-            ]
+            "badge": "NERF",
+            "description": "12% Spell Vamp >> 8% Spell Vamp",
+            "name": "Attributes"
           }
         ]
       },
@@ -203,15 +191,14 @@
         "badge": "NERF",
         "sections": [
           {
-            "name": "Unique Passive - Magic",
-            "balance": "NERF",
-            "changes": [
-              "Damage required to trigger Butterfly Goddess: 800 >> 900"
-            ]
+            "badge": "NERF",
+            "description": "Damage required to trigger Butterfly Goddess: 800 >> 900",
+            "name": "Unique Passive - Magic"
           }
         ]
       }
     },
+    "system_changes": [],
     "battlefield_adjustments": {
       "Creeps": {
         "badge": "NERF",
@@ -231,7 +218,7 @@
       }
     },
     "emblem_adjustments": {},
-    "system_changes": [],
+    "designers_note": "In this update, we are making adjustments targeting the high-ranking and professional matches. We hope to see a shift in the meta to make the upcoming M7 even more exciting.",
     "revamped_heroes": []
   },
   "2.1.40": {
@@ -1184,25 +1171,9 @@
     ],
     "new_hero": null,
     "hero_changes": {
-      "Thamuz": {
-        "summary": "Thamuz currently takes too long to scale, making him unable to fulfill the Fighter/Tank role unti he has three or more equipment items. To address this, we've increased his early game survivability.",
-        "skills": [
-          {
-            "type": "Ultimate",
-            "name": "Cauterant Inferno",
-            "balance": "BUFF",
-            "changes": [
-              "Extra Max HP: 600 >> 1000-1200Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP"
-            ]
-          }
-        ]
-      },
-      "Layla": {
-        "summary": "As a late-game Marksman, Layla's farming speed was greatly affected by the decrease in Gold from Minions. Therefore, we've slightly increased her damage in the mid to late game.",
-        "skills": []
-      },
       "Bane": {
         "summary": "We've noticed that Bane's fully charged Skill venom deals excessive damage in Magic builds and is difficult to counter. To address this, we've reduced its Magic Power Bonus when fully charged.",
+        "badge": null,
         "skills": [
           {
             "type": "Ultimate",
@@ -1213,10 +1184,33 @@
             ]
           }
         ]
+      },
+      "Layla": {
+        "summary": "As a late-game Marksman, Layla's farming speed was greatly affected by the decrease in Gold from Minions. Therefore, we've slightly increased her damage in the mid to late game.",
+        "badge": null,
+        "skills": []
+      },
+      "Thamuz": {
+        "summary": "Thamuz currently takes too long to scale, making him unable to fulfill the Fighter/Tank role unti he has three or more equipment items. To address this, we've increased his early game survivability.",
+        "badge": null,
+        "skills": [
+          {
+            "type": "Ultimate",
+            "name": "Cauterant Inferno",
+            "balance": "BUFF",
+            "changes": [
+              "Extra Max HP: 600 >> 1000-1200Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP"
+            ]
+          }
+        ]
       }
     },
     "item_changes": {},
-    "system_changes": []
+    "system_changes": [],
+    "battlefield_adjustments": {},
+    "emblem_adjustments": {},
+    "designers_note": "",
+    "revamped_heroes": []
   },
   "2.1.18a": {
     "url": "https://liquipedia.net/mobilelegends/Patch_2.1.18a",
