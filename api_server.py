@@ -1022,26 +1022,42 @@ def create_patch():
         if not data.get('version'):
             return jsonify({'error': 'Version is required'}), 400
         
+        version = data['version']
         patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
         
         # Читаємо існуючі патчі
-        patches = []
+        patches = {}
         if os.path.exists(patches_file):
             with open(patches_file, 'r', encoding='utf-8') as f:
                 patches = json.load(f)
         
         # Перевіряємо чи не існує вже такий патч
-        if any(p.get('version') == data['version'] for p in patches):
+        if version in patches:
             return jsonify({'error': 'Patch with this version already exists'}), 400
         
+        # Конвертуємо дані з фронтенду в формат JSON файлу
+        patch_data = {
+            'version': version,
+            'release_date': data.get('release_date'),
+            'designers_note': data.get('designers_note', ''),
+            'new_hero': data.get('new_hero'),
+            'hero_changes': data.get('hero_adjustments', data.get('hero_changes', {})),
+            'item_changes': data.get('equipment_adjustments', data.get('item_changes', {})),
+            'system_changes': data.get('system_adjustments', data.get('system_changes', [])),
+            'battlefield_adjustments': data.get('battlefield_adjustments', {}),
+            'emblem_adjustments': data.get('emblem_adjustments', {}),
+            'revamped_heroes': data.get('revamped_heroes', []),
+            'revamped_heroes_data': data.get('revamped_heroes_data', {})
+        }
+        
         # Додаємо новий патч
-        patches.insert(0, data)  # Додаємо на початок списку (найновіші спочатку)
+        patches[version] = patch_data
         
         # Зберігаємо
         with open(patches_file, 'w', encoding='utf-8') as f:
             json.dump(patches, f, indent=2, ensure_ascii=False)
         
-        return jsonify({'success': True, 'patch': data}), 201
+        return jsonify({'success': True, 'patch': patch_data}), 201
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
