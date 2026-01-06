@@ -319,15 +319,17 @@
 
 .heroHeader, .itemHeader {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
   margin-bottom: 12px;
 
-  h3 {
+  h3, h4 {
     margin: 0;
+    padding: 0;
     font-size: 1.35rem;
     color: #fff;
     font-weight: 700;
+    line-height: 1;
   }
 }
 
@@ -336,7 +338,7 @@
   color: inherit;
   transition: color 0.2s;
 
-  &:hover h3 {
+  &:hover h3, &:hover h4 {
     color: #4ecdc4;
   }
 }
@@ -386,6 +388,9 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
 
   &.buff {
     background: rgba(76, 175, 80, 0.15);
