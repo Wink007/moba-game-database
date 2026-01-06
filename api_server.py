@@ -916,8 +916,23 @@ def get_patches():
         with open(patches_file, 'r', encoding='utf-8') as f:
             patches_data = json.load(f)
         
-        # patches_data тепер це масив патчів
-        result = patches_data if isinstance(patches_data, list) else []
+        # Конвертуємо об'єкт в масив патчів
+        if isinstance(patches_data, dict):
+            result = [
+                {
+                    'version': version,
+                    'release_date': data.get('release_date', ''),
+                    'highlights': data.get('highlights', []),
+                    'new_hero': data.get('new_hero'),
+                    'hero_adjustments': data.get('hero_changes', {}),
+                    'item_adjustments': data.get('item_changes', {}),
+                    'system_changes': data.get('system_changes', []),
+                    'game_id': 1
+                }
+                for version, data in patches_data.items()
+            ]
+        else:
+            result = patches_data if isinstance(patches_data, list) else []
         
         # Сортуємо патчі за датою (від новіших до старіших)
         result.sort(key=lambda x: datetime.strptime(x.get('release_date', '2000-01-01'), '%Y-%m-%d'), reverse=True)
