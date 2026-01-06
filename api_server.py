@@ -925,8 +925,12 @@ def get_patches():
                     'highlights': data.get('highlights', []),
                     'new_hero': data.get('new_hero'),
                     'hero_adjustments': data.get('hero_changes', {}),
-                    'item_adjustments': data.get('item_changes', {}),
-                    'system_changes': data.get('system_changes', []),
+                    'equipment_adjustments': data.get('item_changes', {}),
+                    'system_adjustments': data.get('system_changes', []),
+                    'battlefield_adjustments': data.get('battlefield_adjustments', {}),
+                    'emblem_adjustments': data.get('emblem_adjustments', {}),
+                    'designers_note': data.get('designers_note', ''),
+                    'revamped_heroes': data.get('revamped_heroes', []),
                     'game_id': 1
                 }
                 for version, data in patches_data.items()
@@ -1058,21 +1062,34 @@ def update_patch(version):
         with open(patches_file, 'r', encoding='utf-8') as f:
             patches = json.load(f)
         
-        # Шукаємо патч за версією
-        patch_index = next((i for i, p in enumerate(patches) if p.get('version') == version), None)
-        
-        if patch_index is None:
+        # patches - це об'єкт/dict, не масив
+        if version not in patches:
             return jsonify({'error': 'Patch not found'}), 404
         
-        # Оновлюємо патч, зберігаючи version
-        data['version'] = version
-        patches[patch_index] = data
+        # Конвертуємо ключі з адмін панелі назад в формат JSON файлу
+        patch_data = {
+            'url': data.get('url', patches[version].get('url', '')),
+            'release_date': data.get('release_date'),
+            'highlights': data.get('highlights', []),
+            'new_hero': data.get('new_hero'),
+            'hero_changes': data.get('hero_adjustments', data.get('hero_changes', {})),
+            'item_changes': data.get('equipment_adjustments', data.get('item_changes', {})),
+            'system_changes': data.get('system_adjustments', data.get('system_changes', []))
+        }
+        
+        # Зберігаємо додаткові поля, якщо є
+        for key in ['designers_note', 'battlefield_adjustments', 'emblem_adjustments', 'revamped_heroes']:
+            if key in data:
+                patch_data[key] = data[key]
+        
+        # Оновлюємо патч
+        patches[version] = patch_data
         
         # Зберігаємо
         with open(patches_file, 'w', encoding='utf-8') as f:
             json.dump(patches, f, indent=2, ensure_ascii=False)
         
-        return jsonify({'success': True, 'patch': data})
+        return jsonify({'success': True, 'patch': patch_data})
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500

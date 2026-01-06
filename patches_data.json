@@ -7,10 +7,232 @@
       "Battlefield Adjustments",
       "Equipment Adjustments"
     ],
+    "designers_note": "In this update, we are making adjustments targeting the high-ranking and professional matches. We hope to see a shift in the meta to make the upcoming M7 even more exciting.",
     "new_hero": null,
-    "hero_changes": {},
-    "item_changes": {},
-    "system_changes": []
+    "hero_changes": {
+      "Akai": {
+        "summary": "Slightly improved the hero's flexibility.",
+        "badge": "BUFF",
+        "skills": [
+          {
+            "type": "Headbutt",
+            "name": "Headbutt",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 13-10s >> 11-8.5s"
+            ]
+          }
+        ]
+      },
+      "Barats": {
+        "badge": "BUFF",
+        "skills": [
+          {
+            "type": "Detona's Welcome",
+            "name": "Detona's Welcome",
+            "balance": "BUFF",
+            "changes": [
+              "Cooldown: 60-50s >> 50-40s"
+            ]
+          }
+        ]
+      },
+      "Baxia": {
+        "summary": "Slightly reduced this hero's damage in the early game.",
+        "badge": "NERF",
+        "skills": [
+          {
+            "type": "Shield of Spirit",
+            "name": "Shield of Spirit",
+            "balance": "NERF",
+            "changes": [
+              "Base Damage: 180-255 >> 140-265"
+            ]
+          }
+        ]
+      },
+      "Kalea": {
+        "summary": "Kalea's Ultimate is difficult to counter, so we've reduced its casting frequency.",
+        "badge": "NERF",
+        "skills": [
+          {
+            "type": "Tsunami Slam",
+            "name": "Tsunami Slam",
+            "balance": "NERF",
+            "changes": [
+              "Cooldown: 50-40s >> 56-48s"
+            ]
+          }
+        ]
+      },
+      "Lancelot": {
+        "summary": "After several nerfs, Lancelot remains too strong. We've reduced his Ultimate casting frequency to tone him down.",
+        "badge": "NERF",
+        "skills": [
+          {
+            "type": "Phantom Execution",
+            "name": "Phantom Execution",
+            "balance": "NERF",
+            "changes": [
+              "Cooldown: 27-21s >> 36-28s"
+            ]
+          }
+        ]
+      },
+      "Lapu-Lapu": {
+        "summary": "Lapu-Lapu becomes extremely powerful after activating his Ultimate. This adjustment aims to preserve this highlight experience while reducing the frequency of his Ultimate.",
+        "badge": "NERF",
+        "skills": [
+          {
+            "type": "Bravest Fighter",
+            "name": "Bravest Fighter",
+            "balance": "NERF",
+            "changes": [
+              "Cooldown: 20-15s >> 30-24s"
+            ]
+          }
+        ]
+      },
+      "Ling": {
+        "summary": "Increased Ling's combat capability in the mid to late game.",
+        "badge": "BUFF",
+        "attributes": [
+          {
+            "name": "Attribute",
+            "balance": "BUFF",
+            "changes": [
+              "Attack Speed Ratio: 40% >> 70%"
+            ]
+          }
+        ]
+      },
+      "Minsitthar": {
+        "summary": "To allow Minsitthar to better restrict highly mobile heroes, we've enhanced the hero's utility and increased the cast frequency of his Ultimate.",
+        "badge": "BUFF",
+        "skills": [
+          {
+            "type": "King's Calling",
+            "name": "King's Calling",
+            "balance": "BUFF",
+            "changes": [
+              "Slow Effect: 20% >> 30%",
+              "Cooldown: 60s-50s >> 55s-45s"
+            ]
+          }
+        ]
+      },
+      "Yve": {
+        "summary": "Yve's long cast range and Movement Speed Boost gave her excessive kiting ability, so we've made some adjustments.",
+        "badge": "NERF",
+        "skills": [
+          {
+            "type": "Void Blast",
+            "name": "Void Blast",
+            "balance": "NERF",
+            "changes": [
+              "Cast Range: 5.7 >> 5.5"
+            ]
+          }
+        ],
+        "attributes": [
+          {
+            "name": "Attribute",
+            "balance": "NERF",
+            "changes": [
+              "Base Movement Speed: 255 >> 245"
+            ]
+          }
+        ]
+      }
+    },
+    "item_changes": {
+      "Genius Wand": {
+        "summary": "The late-game Magic Defense of some heroes has increased in recent patches, so we've increased this equipment's Magic Defense reduction effect in the late game.",
+        "badge": "BUFF",
+        "sections": [
+          {
+            "name": "Unique Passive - Magic",
+            "balance": "BUFF",
+            "changes": [
+              "Magic Defense Reduction per Stack: 3 + (0.3*Hero Level) >> 2.5 + (0.5*Hero Level)"
+            ]
+          }
+        ]
+      },
+      "Glowing Wand": {
+        "summary": "It is a bit too well-rounded as a utility Magic equipment, so we've reduced its damage capability.",
+        "badge": "NERF",
+        "sections": [
+          {
+            "name": "Attribute",
+            "balance": "NERF",
+            "changes": [
+              "Magic Power: 75 >> 50"
+            ]
+          }
+        ]
+      },
+      "Lightning Truncheon": {
+        "summary": "Compared to Wishing Lantern, Lightning Truncheon deals lower damage most of the time. Therefore, we've increased its damage in the early to mid game.",
+        "badge": "BUFF",
+        "sections": [
+          {
+            "name": "Unique Passive - Magic",
+            "balance": "BUFF",
+            "changes": [
+              "Base Damage: 170 >> 255"
+            ]
+          }
+        ]
+      },
+      "War Axe": {
+        "summary": "War Axe was too well-rounded, providing Attack, HP, Cooldown Reduction, extra damage, and sustainability. Therefore, we've reduced its sustainability.",
+        "badge": "NERF",
+        "sections": [
+          {
+            "name": "Attributes",
+            "balance": "NERF",
+            "changes": [
+              "12% Spell Vamp >> 8% Spell Vamp"
+            ]
+          }
+        ]
+      },
+      "Wishing Lantern": {
+        "summary": "Reduced damage potential against low HP heroes.",
+        "badge": "NERF",
+        "sections": [
+          {
+            "name": "Unique Passive - Magic",
+            "balance": "NERF",
+            "changes": [
+              "Damage required to trigger Butterfly Goddess: 800 >> 900"
+            ]
+          }
+        ]
+      }
+    },
+    "battlefield_adjustments": {
+      "Creeps": {
+        "badge": "NERF",
+        "description": "Reduced Gold rewards from legend creeps in the early and mid game to provide more room for growth for late-game lineups"
+      },
+      "Lord": {
+        "badge": "ADJUST",
+        "description": "Base Gold Reward: 80 >> 50<br/>\nGold Reward Increase Per Minute: 8 >> 10"
+      },
+      "Minions": {
+        "badge": "BUFF",
+        "description": "Increased the farming speed of Mid Lane heroes in the early to mid game to provide more viability for damage Mages<br/>\nRanged Minion Base Gold Reward: 21 >> 25"
+      },
+      "Turtle": {
+        "badge": "NERF",
+        "description": "Base Gold Reward: 40 >> 30"
+      }
+    },
+    "emblem_adjustments": {},
+    "system_changes": [],
+    "revamped_heroes": []
   },
   "2.1.40": {
     "url": "https://liquipedia.net/mobilelegends/Patch_2.1.40",
