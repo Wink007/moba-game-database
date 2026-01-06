@@ -931,6 +931,7 @@ def get_patches():
                     'emblem_adjustments': data.get('emblem_adjustments', {}),
                     'designers_note': data.get('designers_note', ''),
                     'revamped_heroes': data.get('revamped_heroes', []),
+                    'revamped_heroes_data': data.get('revamped_heroes_data', {}),
                     'game_id': 1
                 }
                 for version, data in patches_data.items()
@@ -1068,6 +1069,7 @@ def update_patch(version):
         
         # Конвертуємо ключі з адмін панелі назад в формат JSON файлу
         patch_data = {
+            'version': version,
             'url': data.get('url', patches[version].get('url', '')),
             'release_date': data.get('release_date'),
             'highlights': data.get('highlights', []),
@@ -1078,7 +1080,7 @@ def update_patch(version):
         }
         
         # Зберігаємо додаткові поля, якщо є
-        for key in ['designers_note', 'battlefield_adjustments', 'emblem_adjustments', 'revamped_heroes']:
+        for key in ['designers_note', 'battlefield_adjustments', 'emblem_adjustments', 'revamped_heroes', 'revamped_heroes_data']:
             if key in data:
                 patch_data[key] = data[key]
         
