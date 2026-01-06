@@ -1655,7 +1655,10 @@
       ]
     },
     "new_hero": null,
-    "revamped_heroes": {
+    "revamped_heroes": [
+      "Freya"
+    ],
+    "revamped_heroes_data": {
       "Freya": {
         "description": "Hero Feature: A female warrior who infuses weapons with the Power of Einherjar for sustained combat..",
         "skills": [
