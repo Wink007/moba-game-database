@@ -907,6 +907,7 @@ def get_patches():
     """Отримує список патчів з кешованого JSON файлу"""
     try:
         import os
+        from datetime import datetime
         patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
         
         if not os.path.exists(patches_file):
@@ -917,6 +918,9 @@ def get_patches():
         
         # patches_data тепер це масив патчів
         result = patches_data if isinstance(patches_data, list) else []
+        
+        # Сортуємо патчі за датою (від новіших до старіших)
+        result.sort(key=lambda x: datetime.strptime(x.get('release_date', '2000-01-01'), '%Y-%m-%d'), reverse=True)
         
         # Фільтруємо за параметрами
         limit = request.args.get('limit', type=int)
