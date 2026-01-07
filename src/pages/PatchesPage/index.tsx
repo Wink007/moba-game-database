@@ -91,6 +91,11 @@ interface RevampedHeroData {
   adjustments: RevampedHeroAdjustment[];
 }
 
+interface SystemAdjustment {
+  name: string;
+  description: string;
+}
+
 interface Patch {
   version: string;
   release_date: string;
@@ -100,7 +105,7 @@ interface Patch {
   emblem_adjustments: Record<string, { sections?: BattlefieldSection[]; badge?: string; description?: string; adjustments?: string[] }>;
   equipment_adjustments?: Record<string, ItemAdjustment>;
   battlefield_adjustments: Record<string, BattlefieldAdjustment>;
-  system_adjustments: string[];
+  system_adjustments: (string | SystemAdjustment)[];
   revamped_heroes?: string[];
   revamped_heroes_data?: Record<string, RevampedHeroData>;
 }
@@ -648,11 +653,25 @@ export const PatchesPage: React.FC = () => {
             {currentPatch.system_adjustments && currentPatch.system_adjustments.length > 0 && (
               <div className={styles.section}>
                 <h2>System Adjustments</h2>
-                <ul className={styles.systemChanges}>
-                  {currentPatch.system_adjustments.map((change, idx) => (
-                    <li key={idx}>{change}</li>
-                  ))}
-                </ul>
+                {currentPatch.system_adjustments.map((adjustment, idx) => {
+                  // Підтримка старого формату (string) та нового (object)
+                  if (typeof adjustment === 'string') {
+                    return (
+                      <div key={idx} className={styles.itemCard}>
+                        <p className={styles.summary}>{adjustment}</p>
+                      </div>
+                    );
+                  }
+                  
+                  return (
+                    <div key={idx} className={styles.itemCard}>
+                      <h4>{adjustment.name}</h4>
+                      {adjustment.description && adjustment.description.trim() && (
+                        <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adjustment.description }} />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </>

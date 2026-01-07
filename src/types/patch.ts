@@ -24,6 +24,11 @@ export interface AttributeAdjustment {
   description: string;
 }
 
+export interface SystemAdjustment {
+  name: string;
+  description: string;
+}
+
 export interface HeroAdjustment {
   badge: 'BUFF' | 'NERF' | 'ADJUST' | 'REVAMP' | 'NEW';
   description: string;
@@ -39,5 +44,6 @@ export interface Patch {
   hero_adjustments?: Record<string, HeroAdjustment>; // New format from admin panel
   item_changes?: any;
   system_changes?: any;
+  system_adjustments?: SystemAdjustment[];
   new_hero?: any;
 }
