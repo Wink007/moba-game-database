@@ -1041,13 +1041,14 @@ def create_patch():
             'release_date': data.get('release_date'),
             'designers_note': data.get('designers_note', ''),
             'new_hero': data.get('new_hero'),
-            'hero_changes': data.get('hero_adjustments', data.get('hero_changes', {})),
-            'item_changes': data.get('equipment_adjustments', data.get('item_changes', {})),
-            'system_changes': data.get('system_adjustments', data.get('system_changes', [])),
+            'hero_adjustments': data.get('hero_adjustments', {}),
+            'equipment_adjustments': data.get('equipment_adjustments', {}),
+            'system_adjustments': data.get('system_adjustments', []),
             'battlefield_adjustments': data.get('battlefield_adjustments', {}),
             'emblem_adjustments': data.get('emblem_adjustments', {}),
             'revamped_heroes': data.get('revamped_heroes', []),
-            'revamped_heroes_data': data.get('revamped_heroes_data', {})
+            'revamped_heroes_data': data.get('revamped_heroes_data', {}),
+            'game_id': data.get('game_id', 1)
         }
         
         # Додаємо новий патч
@@ -1090,13 +1091,13 @@ def update_patch(version):
             'release_date': data.get('release_date'),
             'highlights': data.get('highlights', []),
             'new_hero': data.get('new_hero'),
-            'hero_changes': data.get('hero_adjustments', data.get('hero_changes', {})),
-            'item_changes': data.get('equipment_adjustments', data.get('item_changes', {})),
-            'system_changes': data.get('system_adjustments', data.get('system_changes', []))
+            'hero_adjustments': data.get('hero_adjustments', {}),
+            'equipment_adjustments': data.get('equipment_adjustments', {}),
+            'system_adjustments': data.get('system_adjustments', [])
         }
         
         # Зберігаємо додаткові поля, якщо є
-        for key in ['designers_note', 'battlefield_adjustments', 'emblem_adjustments', 'revamped_heroes', 'revamped_heroes_data']:
+        for key in ['designers_note', 'battlefield_adjustments', 'emblem_adjustments', 'revamped_heroes', 'revamped_heroes_data', 'game_id']:
             if key in data:
                 patch_data[key] = data[key]
         
