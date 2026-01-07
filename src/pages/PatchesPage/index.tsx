@@ -33,8 +33,10 @@ interface PatchHeroChanges {
 }
 
 interface NewHeroSkill {
-  type: string;
-  name: string;
+  skill_type?: string;
+  type?: string;
+  skill_name?: string;
+  name?: string;
   description: string;
 }
 
@@ -257,8 +259,8 @@ export const PatchesPage: React.FC = () => {
                     {currentPatch.new_hero.skills.map((skill, idx) => (
                       <div key={idx} className={styles.newHeroSkill}>
                         <div className={styles.newHeroSkillHeader}>
-                          <span className={styles.skillType}>{skill.type}</span>
-                          <span className={styles.skillName}>{skill.name}</span>
+                          <span className={styles.skillType}>{skill.skill_type || skill.type}</span>
+                          <span className={styles.skillName}>{skill.skill_name || skill.name}</span>
                         </div>
                         <div className={styles.newHeroSkillDescription}>
                           {skill.description.split('\n\n').map((para, pIdx) => (
