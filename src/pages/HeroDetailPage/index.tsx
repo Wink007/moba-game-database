@@ -692,12 +692,14 @@ function HeroDetailPage() {
                                           <span className={styles.skillNameText}>{skill.name}</span>
                                         )}
                                       </div>
-                                      <span 
-                                        className={styles.balanceBadge} 
-                                        data-balance={skill.balance.toLowerCase()}
-                                      >
-                                        {skill.balance}
-                                      </span>
+                                      {skill.balance && (
+                                        <span 
+                                          className={styles.balanceBadge} 
+                                          data-balance={skill.balance.toLowerCase()}
+                                        >
+                                          {skill.balance}
+                                        </span>
+                                      )}
                                     </div>
                                     {skill.changes && skill.changes.length > 0 && (
                                       <ul className={styles.changesList}>
@@ -720,17 +722,20 @@ function HeroDetailPage() {
                                   <div key={idx} className={styles.skillChange}>
                                     <div className={styles.skillHeader}>
                                       <div className={styles.skillName}>
-                                        <span className={styles.skillType}>{adj.skill_type}</span>
-                                        {adj.skill_name && (
+                                        {adj.skill_name ? (
                                           <span className={styles.skillNameText}>{adj.skill_name}</span>
+                                        ) : (
+                                          <span className={styles.skillType}>{adj.skill_type}</span>
                                         )}
                                       </div>
-                                      <span 
-                                        className={styles.balanceBadge} 
-                                        data-balance={adj.badge.toLowerCase()}
-                                      >
-                                        {adj.badge}
-                                      </span>
+                                      {adj.badge && (
+                                        <span 
+                                          className={styles.balanceBadge} 
+                                          data-balance={adj.badge.toLowerCase()}
+                                        >
+                                          {adj.badge}
+                                        </span>
+                                      )}
                                     </div>
                                     <div className={styles.changesList}>
                                       <div className={styles.changeItem} dangerouslySetInnerHTML={{ __html: adj.description }} />
@@ -747,15 +752,16 @@ function HeroDetailPage() {
                                   <div key={idx} className={styles.skillChange}>
                                     <div className={styles.skillHeader}>
                                       <div className={styles.skillName}>
-                                        <span className={styles.skillType}>Attribute</span>
                                         <span className={styles.skillNameText}>{adj.attribute_name}</span>
                                       </div>
-                                      <span 
-                                        className={styles.balanceBadge} 
-                                        data-balance={adj.badge.toLowerCase()}
-                                      >
-                                        {adj.badge}
-                                      </span>
+                                      {adj.badge && (
+                                        <span 
+                                          className={styles.balanceBadge} 
+                                          data-balance={adj.badge.toLowerCase()}
+                                        >
+                                          {adj.badge}
+                                        </span>
+                                      )}
                                     </div>
                                     <div className={styles.changesList}>
                                       <div className={styles.changeItem} dangerouslySetInnerHTML={{ __html: adj.description }} />
