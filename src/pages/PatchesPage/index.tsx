@@ -367,11 +367,11 @@ export const PatchesPage: React.FC = () => {
                     </div>
                     
                     {heroData.summary && heroData.summary.trim() && (
-                      <p className={styles.summary}>{heroData.summary}</p>
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: heroData.summary }} />
                     )}
                     
                     {heroData.description && heroData.description.trim() && (
-                      <p className={styles.summary}>{heroData.description}</p>
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: heroData.description }} />
                     )}
 
                     {heroData.skills && heroData.skills.length > 0 && heroData.skills.map((skill, idx) => (
