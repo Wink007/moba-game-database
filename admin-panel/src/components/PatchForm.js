@@ -17,7 +17,8 @@ function PatchForm({ patch, onClose, onSave }) {
     emblem_adjustments: {},
     battlefield_adjustments: {},
     system_adjustments: [],
-    revamped_heroes: []
+    revamped_heroes: [],
+    revamped_heroes_data: {}
   });
 
   const [activeTab, setActiveTab] = useState('basic');
@@ -33,7 +34,21 @@ function PatchForm({ patch, onClose, onSave }) {
 
   useEffect(() => {
     if (patch) {
-      setFormData(patch);
+      // Convert old string-based system_adjustments to new object structure
+      const systemAdjustments = Array.isArray(patch.system_adjustments)
+        ? patch.system_adjustments.map(item => 
+            typeof item === 'string' 
+              ? { name: item, description: '' }
+              : item
+          )
+        : [];
+
+      setFormData({
+        ...patch,
+        system_adjustments: systemAdjustments,
+        revamped_heroes: patch.revamped_heroes || [],
+        revamped_heroes_data: patch.revamped_heroes_data || {}
+      });
     }
   }, [patch]);
 
@@ -558,13 +573,10 @@ function PatchForm({ patch, onClose, onSave }) {
 
   // System Adjustments handlers
   const addSystemAdjustment = () => {
-    const adjustment = prompt('Enter system adjustment:');
-    if (adjustment && adjustment.trim()) {
-      setFormData(prev => ({
-        ...prev,
-        system_adjustments: [...prev.system_adjustments, adjustment.trim()]
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      system_adjustments: [...prev.system_adjustments, { name: 'New Feature', description: '' }]
+    }));
   };
 
   const removeSystemAdjustment = (index) => {
@@ -576,71 +588,103 @@ function PatchForm({ patch, onClose, onSave }) {
   };
 
   // Revamped Heroes handlers
+  const [selectedRevampedHero, setSelectedRevampedHero] = useState('');
+
   const addRevampedHero = () => {
-    const heroName = prompt('Enter revamped hero name:');
-    if (heroName && heroName.trim()) {
+    if (selectedRevampedHero && selectedRevampedHero.trim()) {
+      const heroName = selectedRevampedHero.trim();
       setFormData(prev => ({
         ...prev,
-        revamped_heroes: [
-          ...prev.revamped_heroes,
-          {
-            name: heroName.trim(),
+        revamped_heroes: [...prev.revamped_heroes, heroName],
+        revamped_heroes_data: {
+          ...prev.revamped_heroes_data,
+          [heroName]: {
             badge: 'REVAMP',
-            revamp_feature: '',
-            skills: []
+            description: '',
+            adjustments: []
           }
-        ]
+        }
       }));
+      setSelectedRevampedHero('');
     }
   };
 
-  const updateRevampedHero = (index, field, value) => {
-    setFormData(prev => {
-      const heroes = [...prev.revamped_heroes];
-      heroes[index] = { ...heroes[index], [field]: value };
-      return { ...prev, revamped_heroes: heroes };
-    });
-  };
-
-  const addRevampedHeroSkill = (heroIndex) => {
-    setFormData(prev => {
-      const heroes = [...prev.revamped_heroes];
-      heroes[heroIndex].skills = [
-        ...(heroes[heroIndex].skills || []),
-        { skill_type: 'Passive', skill_name: '', description: '' }
-      ];
-      return { ...prev, revamped_heroes: heroes };
-    });
-  };
-
-  const updateRevampedHeroSkill = (heroIndex, skillIndex, field, value) => {
-    setFormData(prev => {
-      const heroes = [...prev.revamped_heroes];
-      const skills = [...heroes[heroIndex].skills];
-      skills[skillIndex] = { ...skills[skillIndex], [field]: value };
-      heroes[heroIndex].skills = skills;
-      return { ...prev, revamped_heroes: heroes };
-    });
-  };
-
-  const removeRevampedHeroSkill = (heroIndex, skillIndex) => {
-    setFormData(prev => {
-      const heroes = [...prev.revamped_heroes];
-      const skills = [...heroes[heroIndex].skills];
-      skills.splice(skillIndex, 1);
-      heroes[heroIndex].skills = skills;
-      return { ...prev, revamped_heroes: heroes };
-    });
-  };
-
-  const removeRevampedHero = (index) => {
-    if (window.confirm('Remove this revamped hero?')) {
+  const removeRevampedHero = (heroName) => {
+    if (window.confirm(`Remove ${heroName} from revamped heroes?`)) {
       setFormData(prev => {
-        const heroes = [...prev.revamped_heroes];
-        heroes.splice(index, 1);
-        return { ...prev, revamped_heroes: heroes };
+        const newRevampedHeroes = prev.revamped_heroes.filter(h => h !== heroName);
+        const newRevampedHeroesData = { ...prev.revamped_heroes_data };
+        delete newRevampedHeroesData[heroName];
+        return {
+          ...prev,
+          revamped_heroes: newRevampedHeroes,
+          revamped_heroes_data: newRevampedHeroesData
+        };
       });
     }
+  };
+
+  const updateRevampedHeroDescription = (heroName, value) => {
+    setFormData(prev => ({
+      ...prev,
+      revamped_heroes_data: {
+        ...prev.revamped_heroes_data,
+        [heroName]: {
+          ...prev.revamped_heroes_data[heroName],
+          description: value
+        }
+      }
+    }));
+  };
+
+  const addRevampedHeroAdjustment = (heroName) => {
+    setFormData(prev => ({
+      ...prev,
+      revamped_heroes_data: {
+        ...prev.revamped_heroes_data,
+        [heroName]: {
+          ...prev.revamped_heroes_data[heroName],
+          adjustments: [
+            ...(prev.revamped_heroes_data[heroName].adjustments || []),
+            { skill_type: 'Passive', skill_name: '', description: '' }
+          ]
+        }
+      }
+    }));
+  };
+
+  const updateRevampedHeroAdjustment = (heroName, index, field, value) => {
+    setFormData(prev => {
+      const adjustments = [...prev.revamped_heroes_data[heroName].adjustments];
+      adjustments[index] = { ...adjustments[index], [field]: value };
+      return {
+        ...prev,
+        revamped_heroes_data: {
+          ...prev.revamped_heroes_data,
+          [heroName]: {
+            ...prev.revamped_heroes_data[heroName],
+            adjustments
+          }
+        }
+      };
+    });
+  };
+
+  const removeRevampedHeroAdjustment = (heroName, index) => {
+    setFormData(prev => {
+      const adjustments = [...prev.revamped_heroes_data[heroName].adjustments];
+      adjustments.splice(index, 1);
+      return {
+        ...prev,
+        revamped_heroes_data: {
+          ...prev.revamped_heroes_data,
+          [heroName]: {
+            ...prev.revamped_heroes_data[heroName],
+            adjustments
+          }
+        }
+      };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -1552,16 +1596,44 @@ function PatchForm({ patch, onClose, onSave }) {
                   </div>
                 ) : (
                   formData.system_adjustments.map((adjustment, index) => (
-                    <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
-                      <div style={{ flex: 1, padding: '12px', background: '#f9fafb', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
-                        {adjustment}
+                    <div key={index} style={{ ...cardStyle, marginBottom: '12px' }}>
+                      <div style={{ marginBottom: '8px' }}>
+                        <label style={labelStyle}>Feature Name</label>
+                        <input
+                          type="text"
+                          value={adjustment.name || ''}
+                          onChange={(e) => {
+                            setFormData(prev => {
+                              const newAdjustments = [...prev.system_adjustments];
+                              newAdjustments[index] = { ...newAdjustments[index], name: e.target.value };
+                              return { ...prev, system_adjustments: newAdjustments };
+                            });
+                          }}
+                          placeholder="e.g., New Feature"
+                          style={inputStyle}
+                        />
+                      </div>
+                      <div style={{ marginBottom: '8px' }}>
+                        <label style={labelStyle}>Description</label>
+                        <textarea
+                          value={adjustment.description || ''}
+                          onChange={(e) => {
+                            setFormData(prev => {
+                              const newAdjustments = [...prev.system_adjustments];
+                              newAdjustments[index] = { ...newAdjustments[index], description: e.target.value };
+                              return { ...prev, system_adjustments: newAdjustments };
+                            });
+                          }}
+                          placeholder="Describe the system adjustment..."
+                          style={{ ...textareaStyle, minHeight: '60px' }}
+                        />
                       </div>
                       <button
                         type="button"
                         onClick={() => removeSystemAdjustment(index)}
-                        style={{ ...dangerButtonStyle, padding: '8px 12px' }}
+                        style={dangerButtonStyle}
                       >
-                        ✕
+                        Remove
                       </button>
                     </div>
                   ))
@@ -1693,11 +1765,50 @@ function PatchForm({ patch, onClose, onSave }) {
 
             {activeTab === 'revamped' && (
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Revamped Heroes</h3>
-                  <button type="button" onClick={addRevampedHero} style={buttonStyle}>
-                    + Add Revamped Hero
-                  </button>
+                <div style={{ marginBottom: '16px' }}>
+                  <h3 style={{ margin: '0 0 16px 0', fontSize: '1.1rem' }}>Revamped Heroes</h3>
+                  
+                  {loadingData ? (
+                    <p style={{ color: '#6b7280' }}>Loading heroes...</p>
+                  ) : (
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="🔍 Search heroes..."
+                        value={heroSearch}
+                        onChange={(e) => setHeroSearch(e.target.value)}
+                        style={{ ...inputStyle, marginBottom: '12px' }}
+                      />
+                      <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                        <select
+                          value={selectedRevampedHero}
+                          onChange={(e) => setSelectedRevampedHero(e.target.value)}
+                          style={{ ...inputStyle, flex: 1 }}
+                        >
+                          <option value="">Select a hero...</option>
+                          {heroes
+                            .filter(hero => !(formData.revamped_heroes || []).includes(hero.name))
+                            .filter(hero => hero.name.toLowerCase().includes(heroSearch.toLowerCase()))
+                            .map(hero => (
+                              <option key={hero.id} value={hero.name}>{hero.name}</option>
+                            ))
+                          }
+                        </select>
+                        <button 
+                          type="button" 
+                          onClick={addRevampedHero} 
+                          disabled={!selectedRevampedHero}
+                          style={{
+                            ...buttonStyle,
+                            opacity: selectedRevampedHero ? 1 : 0.5,
+                            cursor: selectedRevampedHero ? 'pointer' : 'not-allowed'
+                          }}
+                        >
+                          + Add Revamped Hero
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {formData.revamped_heroes.length === 0 ? (
@@ -1705,105 +1816,131 @@ function PatchForm({ patch, onClose, onSave }) {
                     <p style={{ color: '#6b7280', margin: 0 }}>No revamped heroes yet</p>
                   </div>
                 ) : (
-                  formData.revamped_heroes.map((hero, heroIndex) => (
-                    <div key={heroIndex} style={cardStyle}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                        <strong style={{ fontSize: '1rem' }}>{hero.name}</strong>
-                        <button
-                          type="button"
-                          onClick={() => removeRevampedHero(heroIndex)}
-                          style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                  formData.revamped_heroes.map((heroName) => {
+                    const data = (formData.revamped_heroes_data && formData.revamped_heroes_data[heroName]) || {};
+                    const isExpanded = expandedHeroes[heroName];
+                    return (
+                      <div key={heroName} style={cardStyle}>
+                        <div 
+                          style={{ 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center',
+                            marginBottom: isExpanded ? '12px' : '0',
+                            cursor: 'pointer',
+                            padding: '8px',
+                            borderRadius: '8px',
+                            background: isExpanded ? '#f9fafb' : 'transparent',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onClick={() => toggleHeroExpanded(heroName)}
                         >
-                          Remove Hero
-                        </button>
-                      </div>
-
-                      <div style={{ marginBottom: '12px' }}>
-                        <label style={labelStyle}>Badge</label>
-                        <select
-                          value={hero.badge || 'REVAMP'}
-                          onChange={(e) => updateRevampedHero(heroIndex, 'badge', e.target.value)}
-                          style={inputStyle}
-                        >
-                          {BADGE_TYPES.map(badge => (
-                            <option key={badge} value={badge}>{badge}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div style={{ marginBottom: '12px' }}>
-                        <label style={labelStyle}>Revamp Feature</label>
-                        <textarea
-                          value={hero.revamp_feature || ''}
-                          onChange={(e) => updateRevampedHero(heroIndex, 'revamp_feature', e.target.value)}
-                          placeholder="Description of revamp changes..."
-                          style={textareaStyle}
-                        />
-                      </div>
-
-                      <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                          <label style={labelStyle}>Skills</label>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <span style={{ fontSize: '1.2rem', transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}>▶</span>
+                            <strong style={{ fontSize: '1rem' }}>{heroName}</strong>
+                            <span style={{
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              fontSize: '0.75rem',
+                              fontWeight: '600',
+                              background: '#e0e7ff',
+                              color: '#4f46e5'
+                            }}>
+                              REVAMP
+                            </span>
+                            {(data.adjustments || []).length > 0 && (
+                              <span style={{ fontSize: '0.85rem', color: '#6b7280' }}>
+                                ({data.adjustments.length} skill{data.adjustments.length !== 1 ? 's' : ''})
+                              </span>
+                            )}
+                          </div>
                           <button
                             type="button"
-                            onClick={() => addRevampedHeroSkill(heroIndex)}
-                            style={{ ...buttonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeRevampedHero(heroName);
+                            }}
+                            style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
                           >
-                            + Add Skill
+                            Remove
                           </button>
                         </div>
 
-                        {(hero.skills || []).map((skill, skillIndex) => (
-                          <div key={skillIndex} style={{ ...cardStyle, background: '#ffffff', marginBottom: '8px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                              <strong style={{ fontSize: '0.85rem' }}>Skill {skillIndex + 1}</strong>
-                              <button
-                                type="button"
-                                onClick={() => removeRevampedHeroSkill(heroIndex, skillIndex)}
-                                style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.75rem' }}
-                              >
-                                Remove
-                              </button>
-                            </div>
-
-                            <div style={{ marginBottom: '8px' }}>
-                              <label style={labelStyle}>Skill Type</label>
-                              <select
-                                value={skill.skill_type || 'Passive'}
-                                onChange={(e) => updateRevampedHeroSkill(heroIndex, skillIndex, 'skill_type', e.target.value)}
-                                style={inputStyle}
-                              >
-                                {SKILL_TYPES.map(type => (
-                                  <option key={type} value={type}>{type}</option>
-                                ))}
-                              </select>
-                            </div>
-
-                            <div style={{ marginBottom: '8px' }}>
-                              <label style={labelStyle}>Skill Name</label>
-                              <input
-                                type="text"
-                                value={skill.skill_name || ''}
-                                onChange={(e) => updateRevampedHeroSkill(heroIndex, skillIndex, 'skill_name', e.target.value)}
-                                placeholder="Skill name"
-                                style={inputStyle}
+                        {isExpanded && (
+                          <div style={{ paddingLeft: '8px' }}>
+                            <div style={{ marginBottom: '16px' }}>
+                              <label style={labelStyle}>Revamp Feature</label>
+                              <textarea
+                                value={data.description || ''}
+                                onChange={(e) => updateRevampedHeroDescription(heroName, e.target.value)}
+                                placeholder="Description of revamp changes..."
+                                style={textareaStyle}
                               />
                             </div>
 
                             <div>
-                              <label style={labelStyle}>Description</label>
-                              <textarea
-                                value={skill.description || ''}
-                                onChange={(e) => updateRevampedHeroSkill(heroIndex, skillIndex, 'description', e.target.value)}
-                                placeholder="Skill description..."
-                                style={{ ...textareaStyle, minHeight: '60px' }}
-                              />
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                                <label style={labelStyle}>Skills</label>
+                                <button
+                                  type="button"
+                                  onClick={() => addRevampedHeroAdjustment(heroName)}
+                                  style={{ ...buttonStyle, padding: '4px 8px', fontSize: '0.8rem' }}
+                                >
+                                  + Add Skill
+                                </button>
+                              </div>
+
+                              {(data.adjustments || []).map((adj, index) => (
+                                <div key={index} style={{ ...cardStyle, background: '#ffffff', marginBottom: '8px' }}>
+                                  <div style={{ marginBottom: '8px' }}>
+                                    <label style={labelStyle}>Skill Type</label>
+                                    <select
+                                      value={adj.skill_type || 'Passive'}
+                                      onChange={(e) => updateRevampedHeroAdjustment(heroName, index, 'skill_type', e.target.value)}
+                                      style={inputStyle}
+                                    >
+                                      {SKILL_TYPES.map(type => (
+                                        <option key={type} value={type}>{type}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+
+                                  <div style={{ marginBottom: '8px' }}>
+                                    <label style={labelStyle}>Skill Name</label>
+                                    <input
+                                      type="text"
+                                      value={adj.skill_name || ''}
+                                      onChange={(e) => updateRevampedHeroAdjustment(heroName, index, 'skill_name', e.target.value)}
+                                      placeholder="Skill name"
+                                      style={inputStyle}
+                                    />
+                                  </div>
+
+                                  <div style={{ marginBottom: '8px' }}>
+                                    <label style={labelStyle}>Description</label>
+                                    <textarea
+                                      value={adj.description || ''}
+                                      onChange={(e) => updateRevampedHeroAdjustment(heroName, index, 'description', e.target.value)}
+                                      placeholder="Skill description..."
+                                      style={{ ...textareaStyle, minHeight: '60px' }}
+                                    />
+                                  </div>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => removeRevampedHeroAdjustment(heroName, index)}
+                                    style={{ ...dangerButtonStyle, padding: '4px 8px', fontSize: '0.75rem' }}
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
+                              ))}
                             </div>
                           </div>
-                        ))}
+                        )}
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             )}
