@@ -27,11 +27,12 @@ function HeroDetailPage() {
   
   console.log('heroPatches:', heroPatches);
   
-  const [selectedSkillId, setSelectedSkillId] = React.useState<number | null>(null);
+  const [selectedSkillIndex, setSelectedSkillIndex] = React.useState<number>(0);
   const [activeTab, setActiveTab] = React.useState<'info' | 'about' | 'counter' | 'synergy' | 'history'>('info');
   const [counterSubTab, setCounterSubTab] = React.useState<'best' | 'worst'>('best');
   const [synergySubTab, setSynergySubTab] = React.useState<'compatible' | 'incompatible'>('compatible');
   const [showFullDescription, setShowFullDescription] = React.useState(false);
+  const [transformIndex, setTransformIndex] = React.useState(0);
 
   // Ability labels
   const abilitiesLabel = ['Durability', 'Offense', 'Ability Effects', 'Difficulty'];
@@ -45,23 +46,38 @@ function HeroDetailPage() {
   };
 
   // Фільтруємо навички які не є трансформаціями та сортуємо за id
-  const mainSkills = skills
+  const baseSkills = skills
     .filter(skill => !skill.is_transformed)
     .sort((a, b) => a.id - b.id);
   const transformedSkills = skills
     .filter(skill => skill.is_transformed)
     .sort((a, b) => a.id - b.id);
 
-  // Вибираємо першу навичку за замовчуванням
-  const selectedSkill = selectedSkillId 
-    ? skills.find(s => s.id === selectedSkillId) 
-    : mainSkills[0];
+  const maxTransforms = transformedSkills.length > 0 
+    ? Math.max(...transformedSkills.map(s => s.transformation_order || 0))
+    : 0;
+
+  const displaySkills = transformIndex === 0
+    ? baseSkills
+    : baseSkills.map(base => 
+        transformedSkills.find(
+          t => t.replaces_skill_id === base.id && t.transformation_order === transformIndex
+        ) || base
+      );
+
+  const cycleTransform = () => {
+    setTransformIndex((prev) => (prev + 1) % (maxTransforms + 1));
+  };
+
+  // Вибираємо навичку за індексом
+  const selectedSkill = displaySkills[selectedSkillIndex] || displaySkills[0];
 
   React.useEffect(() => {
-    if (mainSkills.length > 0 && !selectedSkillId) {
-      setSelectedSkillId(mainSkills[0].id);
+    // Якщо обраний індекс більше ніж є скілів, скидаємо на 0
+    if (selectedSkillIndex >= displaySkills.length && displaySkills.length > 0) {
+      setSelectedSkillIndex(0);
     }
-  }, [mainSkills, selectedSkillId]);
+  }, [displaySkills, selectedSkillIndex]);
 
   if (heroLoading || skillsLoading) return <Loader />;
   if (heroError || !hero) {
@@ -793,18 +809,18 @@ function HeroDetailPage() {
       </div>
 
       {/* Skills Section - Below Hero Header */}
-      {mainSkills.length > 0 && (
+      {baseSkills.length > 0 && (
         <div className={styles.skillsSection}>
           <h2 className={styles.sectionTitle}>Abilities</h2>
           
           <div className={styles.skillsContainer}>
             {/* Skill Tabs */}
             <div className={styles.skillTabs}>
-              {mainSkills.map((skill) => (
+              {displaySkills.map((skill, index) => (
                 <div 
                   key={skill.id} 
-                  className={`${styles.skillTab} ${selectedSkillId === skill.id ? styles.skillTabActive : ''}`}
-                  onClick={() => setSelectedSkillId(skill.id)}
+                  className={`${styles.skillTab} ${selectedSkillIndex === index ? styles.skillTabActive : ''}`}
+                  onClick={() => setSelectedSkillIndex(index)}
                 >
                   {skill.image && (
                     <img src={skill.image} alt={skill.skill_name} />
@@ -816,22 +832,15 @@ function HeroDetailPage() {
                   )}
                 </div>
               ))}
-              {transformedSkills.map((skill) => (
-                <div 
-                  key={skill.id} 
-                  className={`${styles.skillTab} ${styles.skillTabTransformed} ${selectedSkillId === skill.id ? styles.skillTabActive : ''}`}
-                  onClick={() => setSelectedSkillId(skill.id)}
+              {maxTransforms > 0 && (
+                <button
+                  onClick={cycleTransform}
+                  className={styles.transformButton}
+                  title={transformIndex === 0 ? "Show transformation" : `Transformation ${transformIndex}`}
                 >
-                  {skill.image && (
-                    <img src={skill.image} alt={skill.skill_name} />
-                  )}
-                  {skill.skill_type && (
-                    <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
-                      {skill.skill_type === 'passive' ? 'P' : 'A'}
-                    </div>
-                  )}
-                </div>
-              ))}
+                  🔄
+                </button>
+              )}
             </div>
 
           {/* Selected Skill Detail */}
