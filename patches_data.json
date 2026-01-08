@@ -634,6 +634,230 @@
             }
         }
     },
+    "2.1.14": {
+        "version": "2.1.14",
+        "release_date": "2025-08-21",
+        "game_id": 1,
+        "designers_note": "Revamped Freya adjustments. Hero adjustments to Angela, Hilda, Bane, Xavier, Aldous, Silvanna, and Grock. Roaming Boots nerfs with purchase restrictions. Dominance Ice and defensive equipment rework. New Jungle buff protection mechanism.",
+        "battlefield_adjustments": {
+            "Jungle Buff Protection": {
+                "badge": "ADJUST",
+                "description": "We've noticed that allied heroes sometimes accidentally kill creeps and steal buffs when helping Junglers. And we aim to reduce the likelihood of such occurrences.<br/><br/>New Mechanism: In the early game, when buff creeps in the allied Jungle Area die, as long as there's a nearby allied hero with Retribution who has dealt damage to the creep recently, the buff will be given to the nearest allied hero with Retribution, even if the creep was killed by a non-Jungler hero."
+            }
+        },
+        "equipment_adjustments": {
+            "Roaming Boots": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "After several patches of Gold adjustments, the average economy of the roaming position now significantly exceeds other lanes. We will make a small adjustment to bring it back down, and it will still be higher than before.<br/><br/>Gold and EXP gained every 5s: reduced by 25% in the first 8 minutes of the match, reduced by 33% after 8 minutes.",
+                        "name": "Thriving"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Gold Gained from Single Vision Reveal: 25-30 >> 20 (removed duration-based income when vision revealed).<br/>Gold Gaining Timing: when the enemy disappears from vision >> when revealing the enemy's position<br/>New Effect: In the first 5 minutes of the game, heroes with Roaming Boots only receive 50% income when clearing minions alone.",
+                        "name": "Devotion"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "After 2 minutes of the game, Roaming Boots can no longer be purchased (switching Roaming Blessing has a 15s protection period).",
+                        "name": "Purchase Restrictions"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Gold and EXP reduced, vision reveal gold reduced, purchase restrictions added."
+            },
+            "Dominance Ice": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "We aim to enhance this equipment's versatility, allowing tank players to choose this equipment against all heroes to reduce enemy healing effectiveness, rather than targeting only Attack Speed based heroes.<br/><br/>Max HP: 250 >> 0<br/>Physical Defense: 55 >> 40<br/>Magic Defense: 0 >> 40<br/><br/>[Unique Passive - Arctic Cold] (Removed)<br/><br/>[Unique Passive - Frost Shield] (New)<br/>For each enemy hero within 5 units, Physical & Magic Defense is increased by 8, up to 40.",
+                        "name": "Rework"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Reworked to be more versatile with balanced defenses and new Frost Shield passive."
+            },
+            "Antique Cuirass": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "After the Dominance Ice revamp, Attack Speed-based heroes have lacked suitable defense equipment to counter. To address this, we've adjusted Antique Cuirass to be more versatile.<br/><br/>Trigger Condition: Hit by enemy skills >> Hit by enemy skills and Basic Attacks<br/>Physical Damage Reduction Per Stack: 6% >> 5%",
+                        "name": "Deter"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Now triggers on Basic Attacks, damage reduction per stack reduced."
+            },
+            "Dreadnaught Armor": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Trigger Condition: Hit by enemy skills >> Hit by enemy skills and Basic Attacks<br/>Physical Damage Reduction Per Stack: 4% >> 3%",
+                        "name": "Deter"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Now triggers on Basic Attacks, damage reduction per stack reduced."
+            },
+            "Black Ice Shield": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Max HP: 250 >> 0<br/>Physical Defense: 18 >> 20<br/>Magic Defense: 0 >> 20<br/><br/>[Unique Passive - Arctic Cold] (Removed)<br/><br/>[Unique Passive - Frost Shield] (New)<br/>For each enemy hero within 5 units, Physical & Magic Defense is increased by 4, up to 20.",
+                        "name": "Rework"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Reworked with balanced defenses and new Frost Shield passive."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Freya": {
+                "badge": "BUFF",
+                "description": "Experimental Adjustment: The interaction between Skill 1 and Skill 2 for greater mobility proved less efficient. So we simplified the skill set by retaining the original flexible Skill 1.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Freya leaps to the target area, dealing Physical Damage and knocking enemies Airborne while gaining shield (no longer need to cast skill 1 to enhance Skill 2).",
+                        "skill_name": "Valkyrie Shieldbind",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Increased damage range.",
+                        "skill_name": "Valkyrie Slash",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Basic Damage Increase: 30-60 >> 30-90",
+                        "skill_name": "Valkyrie Descent",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Angela": {
+                "badge": "ADJUST",
+                "description": "Based on ongoing evaluations, some of last week's adjustments have been reverted. Added effective range indicators for Skill 2 after connecting with enemies. Optimized the Ultimate auto-targeting logic.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "We've added an effective range indicator circle after Skill 2 hits enemies to help players make judgments and ensure the connection won't accidentally disconnect.",
+                        "skill_name": "Love Waves",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "The reduction to the Ultimate's shield bonus from Total Magic Power has been reverted.<br/>Optimized the auto-targeting logic for direct Ultimate casts. The Ultimate will now auto-target the allied hero with the lowest HP percentage if that allied hero has taken or dealt damage within the last 3 seconds. This avoids the skill from attaching to allies who are out of combat or recalling.<br/>Manual targeting is not affected by this change.",
+                        "skill_name": "Heartguard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Hilda": {
+                "badge": "NERF",
+                "description": "We're happy to see Hilda back on the battlefield, but her enhanced Basic Attack strength is a bit too high, so we've made necessary adjustments. At the same time, we've adjusted the Shield gained from Skill 1 to scale with level to balance early and late game strength. To balance this change, we've increased the pursuit speed of enhanced Basic Attack to improve laning suppression and minion clearing efficiency.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Pursuit Speed of Enhanced Basic Attack: 10 >> 13<br/>Enhanced Basic Attack Base Damage: 200 (+ 100% Total Physical Attack) (+ 7 Hero Level) >> 160 + (100% Total Physical Attack) + (8 * Hero Level)<br/>Piercing Base Damage: 120 (+ 60% Total Physical Attack) (+ 5 Hero Level) >> 90 (+ 60% Total Physical Attack) (+ 6 * Hero Level)",
+                        "skill_name": "Blessing of Wilderness",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Shield: Fixed 15% >> 10-20%",
+                        "skill_name": "Combat Ritual",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Bane": {
+                "badge": "ADJUST",
+                "description": "Based on ongoing evaluations, some of last week's adjustments have been reverted.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Venom Base Damage: 150-350 (+ 130% Total Magic Power) >> 130-330 (+ 130% Total Magic Power)",
+                        "skill_name": "Ale",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Xavier": {
+                "badge": "NERF",
+                "description": "Due to Xavier's Skills 1 and 2 increased width, making the Mystic Field easier to trigger, his performance slightly exceeded our expectations, so we've slightly reduced the immobilize time.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Immobilizing Time: 1.2s >> 0.8s",
+                        "skill_name": "Mystic Field",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Aldous": {
+                "badge": "BUFF",
+                "description": "We want to reduce Aldous's scaling time and encourage greater participation in mid-game teamfights.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Base Damage: 200-450 >> 200-700<br/>Soul Steal Cap: 650 >> 600<br/>New Effect: Gain 5 stacks of Soul Steal when nearby enemy heroes die.",
+                        "skill_name": "Contract: Soul Steal",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Silvanna": {
+                "badge": "BUFF",
+                "description": "Reverted the damage nerf while preserving the effect where Skill 2 can only be interrupted by high-level CC.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Damage: 150-225 + 40% Total Magic Power >> 165-255 + 45% Total Magic Power<br/>Portion of Attack Effect inherited: 40% >> 45%<br/>Damage to Minions: 55% >> 50%",
+                        "skill_name": "Spiral Strangling",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Grock": {
+                "badge": "BUFF",
+                "description": "Fixed a bug where Grock's Skill 1 occasionally dealt more damage than expected. Slightly enhanced Grock's durability and Physical Defense scaling.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Shield: 10% of Max HP >> 14% of Max HP<br/>Extra Physical Defense: (30+4* Hero Level)% >> (30+6* Hero Level)%",
+                        "skill_name": "Ancestral Gift",
+                        "skill_type": "Passive"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Equipment Price Adjustments",
+                "description": "Reverted the prices of Corrosion Scythe, Windtalker, Malefic Gun, Wind of Nature, and Sky Piercer."
+            },
+            {
+                "name": "Free Heroes",
+                "description": "Server Time 08/22/2025 05:01:00 to 08/29/2025 05:00:00<br/><br/>8 Free Heroes: Cici, Hylos, Hanzo, Fredrinn, Aurora, Pharsa, Sun, and Hanabi."
+            },
+            {
+                "name": "Event Adjustments",
+                "description": "The Interactive Effects Shop and the Free Interactive Effects event are tentatively scheduled to close at 00:00 (Server Time) on 08/29. The final closure time will be based on the actual system implementation. Please stay tuned to future announcements for reopening schedules."
+            },
+            {
+                "name": "1V1 Mode",
+                "description": "In this mode, players will face off against another player on a separate map. Victory is achieved by getting three kills on the opponent first or by destroying the enemy Turret (this mode is currently only available in Custom Lobby)."
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.18-org": {
         "version": "2.1.18 (Org. Server)",
         "release_date": "2025-09-09",
