@@ -1128,8 +1128,17 @@ def delete_patch(version):
         with open(patches_file, 'r', encoding='utf-8') as f:
             patches = json.load(f)
         
-        # Видаляємо патч
-        patches = [p for p in patches if p.get('version') != version]
+        # Перевірка чи patches це словник чи список
+        if isinstance(patches, dict):
+            # Якщо це словник (як у patches_data.json)
+            if version not in patches:
+                return jsonify({'error': f'Patch {version} not found'}), 404
+            
+            # Видаляємо патч
+            del patches[version]
+        else:
+            # Якщо це список (старий формат)
+            patches = [p for p in patches if p.get('version') != version]
         
         # Зберігаємо
         with open(patches_file, 'w', encoding='utf-8') as f:
