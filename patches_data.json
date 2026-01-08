@@ -1,4 +1,241 @@
 {
+    "1.9.66": {
+        "version": "1.9.66",
+        "release_date": "2025-03-14",
+        "game_id": 1,
+        "designers_note": "The 2025 new battlefield effect test resumes! Each match will randomly feature one of the four previously tested battlefield effects. (For testing purposes, some matches may not have any battlefield effects applied.)",
+        "battlefield_adjustments": {
+            "Battlefield Effect Test": {
+                "badge": "NEW",
+                "description": "The 2025 new battlefield effect test resumes! Each match will randomly feature one of the four previously tested battlefield effects. (For testing purposes, some matches may not have any battlefield effect applied.)<br/><br/>The current visual elements are in testing and do not represent the final quality. We will continue to optimize gameplay, attributes, and visual elements. We will also gradually introduce new effects for testing. We hope you'll try them out and share your feedback with us. We'll keep communicating with you through [Layla's Workshop].<br/><br/><strong>The battlefield effect rules are as follows:</strong><br/>1. The battlefield effect gameplay is only available in Pick & Ban matches in the Ranked mode, and the battlefield effect for each match is random.<br/>2. After matchmaking is successful, you'll be notified of the battlefield effect for the current match. The battlefield effect description can still be viewed during the Pick & Ban phase.<br/>3. The battlefield effect will activate at the 5-minute mark and remain active until the end of the match."
+            }
+        },
+        "equipment_adjustments": {
+            "Dominance Ice": {
+                "badge": "ADJUST",
+                "description": "We've modified this equipment's attributes to make it more suitable for most heroes. (Since Hylos is quite strong in the current patch, we won't provide compensation for him at this time. We'll monitor how this change affects Hylos and consider adjustments in the future if necessary.)<br/><br/>500 Mana >> 250 HP"
+            },
+            "Black Ice Shield": {
+                "badge": "BUFF",
+                "description": "400 Mana >> 250 HP<br/>Price: 880 >> 780"
+            },
+            "Inspire": {
+                "badge": "ADJUST",
+                "description": "We've optimized the consumption logic of Inspire's Basic Attack enhancement opportunities. Now, the enhancement opportunities decrease correctly based on the actual number of Basic Attacks (for example, the bounce damage of Hanabi's Basic Attack no longer consumes Basic Attack enhancement opportunities).<br/><br/>For balance, we've slightly reduced the number of Basic Attack enhancement opportunities provided by Inspire. Additionally, we've expanded Inspire's effect from ignoring Physical Defense to ignoring Hybrid Defense, in order to better accommodate heroes that rely on Magic Damage.<br/><br/>Basic Attack enhancement opportunities: 8 >> 6<br/><br/>Ignore target's Physical Defense when Inspire is active >> Ignore target's Hybrid Defense when Inspire is active"
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Kimmy": {
+                "badge": "ADJUST",
+                "description": "Optimized Skill 1 effect and slightly reduced mid-game damage.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Basic Attack's Physical Attack Bonus: 25% >> 20%<br/>Enhanced Basic Attack's Physical Attack Bonus: 30% >> 25%",
+                        "skill_name": "Aerial Dominance",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Movement Speed Boost: 40% for 1.5s >> 90% burst Movement Speed Boost that decays in 1s<br/><br/>New Effect: Immune to Slow Effect while the skill is active.<br/><br/>New Effect: Slows hit targets by 50% for 0.5s.",
+                        "skill_name": "Anti-Grav Thruster",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Hanzo": {
+                "badge": "BUFF",
+                "description": "Last week's energy reduction for Hanzo after activating his Ultimate significantly lowered his strength. If his Skill 2 in Hanekage form misses enemy heroes, Hanzo's ability to pursue targets will be greatly weakened.<br/><br/>However, we believe this adjustment is reasonable as it enhances the enemy's counterplay. Therefore, we will provide compensation in other aspects.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Further increased Hanzo's effectiveness against the Turtle/Lord in Human form during the mid-to-late game.<br/><br/>HP Regen when the target is a Turtle/Lord/hero: 10% >> 10%-20%",
+                        "skill_name": "Ninjutsu: Demon Feast",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Lesley": {
+                "badge": "BUFF",
+                "description": "As a sniper, Lesley should have a longer attack range than other Marksmen, so we want her to be compatible with the \"Malefic Gun\".<br/><br/>Due to the previous increase in the Crit Chance buff of Windtalker, Lesley can now achieve 100% Crit Chance through Berserker's Fury + Windtalker Fatal talent combination. Therefore, we've removed the Crit Chance bonus from her Ultimate and further increased her Crit Damage instead.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Each point of fixed Physical Penetration converts to Crit Damage: 0.5% >> 1%<br/><br/>New Effect: Each 1% of Physical Penetration converts to 1% Crit Damage.",
+                        "skill_name": "Master of Camouflage",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Removed the effect of gaining Crit Chance.",
+                        "skill_name": "Ultimate Snipe",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Clint": {
+                "badge": "BUFF",
+                "description": "We've found that in the current patch, Clint lacks both early-game dominance and late-game damage output.<br/><br/>Therefore, we've enhanced his early-to-mid game laning dominance. We've also reduced his late-game single-shot burst damage but increased his overall damage output over a short period.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Enhanced Basic Attack's Damage: 50 + 120% of Total Physical Attack >> 150 + 100% of Total Physical Attack",
+                        "skill_name": "Quick Draw",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 2s at all levels >> 2-1s<br/>Skill Recharge Time: 12-10s >> 12-8s<br/>Max Charges: 5 >> 3<br/>Slow Effect: 25% for 1.2s >> 50% for 0.5s",
+                        "skill_name": "Grenade Bombardment",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Cecilion": {
+                "badge": "NERF",
+                "description": "As a Mage who serves as a core damage dealer in the late-game, Cecilion's power spike arrived a bit too early. We will be reducing his damage output during the mid-game.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Base Damage: 85-230 >> 85-185<br/>Destination Damage: 170-420 >> 170-370",
+                        "skill_name": "Sanguine Claws",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Gatotkaca": {
+                "badge": "NERF",
+                "description": "Gatotkaca has shown overwhelming dominance as both an Exp Laner and a Roaming hero. While maintaining his ability to counter heroes relying on Physical damage, we're reducing his mid-to-late game Magic Defense.",
+                "adjustments": [],
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Attributes",
+                        "badge": "NERF",
+                        "description": "Base Physical Defense: 10 >> 16<br/>Physical Defense Growth: 6.4 >> 5.5<br/>Magic Defense Growth: 4 >> 2.5"
+                    }
+                ]
+            },
+            "Fredrinn": {
+                "badge": "BUFF",
+                "description": "Slightly increased early-game Jungling speed and reduced late-game skill downtime.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Extra Damage against Creeps: 50% >> 100%",
+                        "skill_name": "Piercing Strike",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8-6s >> 8-4s",
+                        "skill_name": "Energy Eruption",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Jawhead": {
+                "badge": "BUFF",
+                "description": "Reduced Jawhead's skill downtime in the mid-to-late game.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 5s at all levels >> 5-3.5s",
+                        "skill_name": "Smart Missiles",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Natan": {
+                "badge": "BUFF",
+                "description": "We aim to optimize Natan's laning experience. Now, he can follow up with Basic Attacks more quickly after using skills and maintain his passive stacks more easily during extended fights.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Natan's Basic Attack hits will refresh the duration of the passive [Entanglement] effect (without changing the number of Passive stacks).",
+                        "skill_name": "Entanglement",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Removed backswing.",
+                        "skill_name": "The Spacetime",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Removed backswing.",
+                        "skill_name": "Reverse Clone",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Lolita": {
+                "badge": "ADJUST",
+                "description": "Currently, Lolita is still a very strong counter pick. We aim to enhance her versatility without changing her overall strength.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Removed the automatic trigger of the Passive Shield effect every 6 seconds.<br/><br/>Shield Duration: 30s >> 6s<br/><br/>Passive Shield triggered by using skills: 20+2.5% of Total HP + 20% of Magic Power >> 30 + 5% of Total HP + 40% of Magic Power",
+                        "skill_name": "Noumenon Blast",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 10s at all levels >> 10-7.5s<br/>Mana Cost: 70-95 >> 50-75",
+                        "skill_name": "Charge!",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 15-12.5s >> 15s at all levels",
+                        "skill_name": "Guardian's Bulwark",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Gord": {
+                "badge": "BUFF",
+                "description": "Experimental Adjustments: We want Gord to stack his Passive more through skill hits. To achieve this, we've shortened the cast intervals of Skill 2, and increased the width of the Ultimate's casting range. For balance, we've increased the threshold for triggering 1 stack of the Passive and reduced the Base Damage of Skill 2.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Hits Required to Trigger Passive: 4 >> 5",
+                        "skill_name": "Mystic Favor",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Added a targeting indicator.",
+                        "skill_name": "Mystic Injunction",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cast Interval: 0.3s >> 0.25s<br/>Number of Casts: 13 >> 16<br/>Base Damage: 55-105 >> 50-100",
+                        "skill_name": "Mystic Gush",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Ultimate Width: 0.6 >> 0.8",
+                        "skill_name": "Mystic Shield",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "category": "Free Heroes",
+                "description": "Server Time 03/14/2025 05:01:00 to 03/21/2025 05:00:00<br/><br/>8 Free Heroes: Lesley, Clint, Fanny, Beatrix, Benedetta, Selena, Minotaur, Arlott<br/><br/>6 Extra StarLight Member Heroes: Valir, Aamon, Diggie, Aurora, Badang, Khufra"
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "1.9.56": {
         "version": "1.9.56",
         "release_date": "2025-01-23",
