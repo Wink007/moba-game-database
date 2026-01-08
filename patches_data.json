@@ -5992,5 +5992,107 @@
         },
         "revamped_heroes": [],
         "revamped_heroes_data": {}
+    },
+    "1.8.68": {
+        "version": "1.8.68",
+        "release_date": "2024-03-14",
+        "game_id": 1,
+        "designers_note": "After much discussion with you in Layla's Workshop, the first version of our equipment adjustments will be available on the Advanced Server with this update.<br/><br/>We have primarily optimized existing equipment and introduced several new pieces of equipment, including adaptive ones, to provide a more diverse set of choices for heroes of each class.<br/><br/>For a better experience with the new equipment, your previous equipment setups with optimized equipment will be reset to default. We have also changed most of the default setups to match the equipment adjustments.<br/><br/>Please feel free to send us feedback through Layla's Workshop and other channels. We will also continue to make adjustments to equipment effects, stats, icons, and in-game visual effects.",
+        "battlefield_adjustments": {
+            "Bug Fixes": {
+                "badge": "ADJUST",
+                "description": "1. Removed the Basic Attack button's feature to switch targets by tapping in different directions.<br/>2. Fixed an issue where the Closest Target in Controls wouldn't take effect on skills.<br/>3. Fixed the incorrect skill filter ranges during smart casting:<br/>&nbsp;&nbsp;&nbsp;a) Fixed an issue where some target-locking skills couldn't pursue enemies, e.g. Eudora's Ultimate.<br/>&nbsp;&nbsp;&nbsp;b) Fixed an issue where some AOE skills couldn't correctly filter the furthest enemy, e.g. Pharsa's Ultimate.<br/>&nbsp;&nbsp;&nbsp;c) Fixed an issue where some AOE skills' filter ranges were too long, e.g. Ixia's Skill 1.<br/>&nbsp;&nbsp;&nbsp;d) Fixed an issue where some target-locking skills' pursue ranges were too long, e.g. Lunox's Skill 1."
+            }
+        },
+        "equipment_adjustments": {
+            "Sky Piercer": {
+                "badge": "NEW",
+                "description": "We want to give Assassins a riskier but more rewarding choice to make the early game fight more intense.<br/><br/><strong>Equipment Attribute:</strong><br/>+60 Adaptive Attack<br/>+20 Movement Speed<br/><br/><strong>Unique Passive - Lethality:</strong><br/>After dealing damage to an enemy hero, executes the hero if their HP is lower than 5%.<br/><br/>Gains 10 stacks of Lethality for each kill and loses 8 stacks for each death. Each stack of Lethality increases the HP threshold of the execute effect by 0.1%, stacking up 70 times."
+            },
+            "Malefic Gun": {
+                "badge": "NEW",
+                "description": "We want to optimize Marksmen's Basic Attack experience and allow some to make use of their Attack Range and movement to dish out damage in teamfights safely.<br/><br/><strong>Equipment Attribute:</strong><br/>+30 Physical Attack<br/>+20% Attack Speed<br/>+15% Crit Chance<br/><br/><strong>Active Skill - Malefic Energy:</strong><br/>Increases Attack Range by 15% units for 2s. The duration resets each time a Basic Attack hits a hero. The effect has a 70s cooldown.<br/><br/><strong>Unique Passive - Zeal:</strong><br/>Basic Attacks grant 10% Movement Speed for 1s."
+            },
+            "Pandora's Box": {
+                "badge": "NEW",
+                "description": "Mages don't have equipment that deals impressive damage to high HP heroes, so we added this equipment that hopefully won't do too much damage to squishy heroes.<br/><br/><strong>Equipment Attribute:</strong><br/>+70 Magic Power<br/>+10% Cooldown Reduction<br/><br/><strong>Unique Passive - Seeker:</strong><br/>For every 300 Magic Damage dealt to an enemy hero, a projectile is launched at the enemy hero, dealing True Damage equal to 1% of their Max HP."
+            },
+            "Glowing Wand": {
+                "badge": "REWORK",
+                "description": "Glowing Wand's effects are too simple without the damage increase, while Necklace of Durance pales in comparison to the other two pieces of Regen Reduction equipment. Therefore, we removed Necklace of Durance and added its effects to Glowing Wand.<br/><br/><strong>Unique Passive - Lifebane (New):</strong><br/>Dealing damage to a target will reduce the Shield and HP Regen effects on them to 50% of normal for 3s.<br/><br/><strong>Price:</strong><br/>1950 >> 2150"
+            },
+            "Queen's Wings": {
+                "badge": "REWORK",
+                "description": "We removed Bloodlust Axe and added its effects to Queen's Wings, which will hopefully fit more Fighters and help them perform low-HP outplays.<br/><br/><strong>Equipment Attribute:</strong><br/>+40 Adaptive Attack<br/>+600 Max HP<br/>+10% Cooldown Reduction<br/>+15% Spell Vamp<br/><br/><strong>Unique Passive - Demonize (Reworked):</strong><br/>When HP drops below 40%, gains 600-2000 Shield (scales with level) and reduces the skill cooldown by 2s. The effect has a 60s cooldown."
+            },
+            "Thunder Belt": {
+                "badge": "REWORK",
+                "description": "We want the new Thunder Belt to match more Tank Fighters instead of other heroes and provide enough damage.<br/><br/><strong>Equipment Attribute:</strong><br/>+800 Max HP<br/>+20 Physical Defense<br/>+20 Magic Defense<br/>+20 Movement Speed<br/><br/><strong>Unique Passive - Thunderbolt (Reworked):</strong><br/>Every 4 seconds, the next Basic Attack will deal an extra 50 + 100% Physical Defense + 100% Magic Defense true damage to the target and surrounding enemies, along with a brief but powerful slow by 99%.<br/><br/>Each hit on an enemy hero will permanently increase Hybrid Defense by 1."
+            },
+            "Twilight Armor": {
+                "badge": "REWORK",
+                "description": "We want to improve the versatility of Twilight Armor against burst damage.<br/><br/><strong>Unique Passive - Twilight (Reworked):</strong><br/>Upon taking more than 800 damage in a single instance, the excess damage beyond that amount is reduced by (0.4% of Max HP)% without cooldown (applies to enemy damage only)."
+            },
+            "Clock of Destiny": {
+                "badge": "REWORK",
+                "description": "Hopefully the new Clock of Destiny will help Magic heroes who need both damage and durability, and we also find equipment that grows slowly over time is not suitable for fast-paced gameplay.<br/><br/><strong>Equipment Attribute:</strong><br/>+45 Magic Power<br/>+400 Max HP<br/>+800 Max Mana<br/><br/><strong>Unique Passive - Destiny:</strong><br/>Gains 5-12 Hybrid Defense (scales with level) each time dealing Magic Damage, stacking up to 6 times for 3s (can gain 1 stack every 0.4s)."
+            },
+            "Dominance Ice": {
+                "badge": "ADJUST",
+                "description": "We want it to have similar counter effects for Fighters and Marksmen that rely on Attack Speed.<br/><br/><strong>Unique Passive - Arctic Cold:</strong><br/>Triggering Condition: Trigger against nearby enemy heroes >> Trigger against attackers upon taking damage<br/>Attack Speed Reduction: 70% >> 80%<br/><br/><strong>Unique Passive - Lifebane:</strong><br/>Triggering Condition: Trigger against nearby enemy heroes >> Trigger against attackers upon taking damage"
+            },
+            "Black Ice Shield": {
+                "badge": "ADJUST",
+                "description": "<strong>Unique Passive - Arctic Cold:</strong><br/>Triggering Condition: Trigger against nearby enemy heroes >> Trigger against attackers upon taking damage<br/>Attack Speed Reduction: 85% >> 90%"
+            },
+            "Fleeting Time": {
+                "badge": "ADJUST",
+                "description": "We want it to be an option for Physical and even Tank heroes, as it can also provide enough Cooldown Reduction for Tanks as well.<br/><br/><strong>Equipment Attribute:</strong><br/>+30 Adaptive Attack<br/>+600 Max HP<br/>+15% Cooldown Reduction"
+            },
+            "Winter Crown": {
+                "badge": "ADJUST",
+                "description": "Renamed from Winter Truncheon. We want it to be an option for Physical heroes.<br/><br/><strong>Equipment Attribute:</strong><br/>+60 Adaptive Attack<br/>+400 Max HP<br/>+5% Cooldown Reduction"
+            },
+            "Expert Gloves": {
+                "badge": "NEW",
+                "description": "We added a new component to some adaptive equipment.<br/><br/><strong>Equipment Attribute:</strong><br/>+30 Adaptive Attack<br/><br/><strong>Builds:</strong><br/>Sky Piercer, Winter Crown, Fleeting Time, Queen's Wings"
+            },
+            "Blood Wings": {
+                "badge": "REWORK",
+                "description": "We want it to better improve Mages' durability at a lower price, making it available in early and mid game.<br/><br/><strong>Equipment Attribute:</strong><br/>+90 Magic Power<br/><br/><strong>Price:</strong><br/>3000 >> 2100<br/><br/><strong>Unique Passive - Guard (Reworked):</strong><br/>Gains a (800 + 10% Magic Power) Shield that will regenerate 30s after being damaged. The Shield also grants 30 Movement Speed while it lasts and 150 Movement Speed for 1s after it breaks."
+            },
+            "Holy Crystal": {
+                "badge": "BUFF",
+                "description": "We need new Mage equipment to provide lots of Magic Power after lowering the price of Blood Wings.<br/><br/><strong>Attributes:</strong><br/>Magic Power: 100 >> 185<br/><br/><strong>Price:</strong><br/>2100 >> 3000<br/><br/><strong>Build Path:</strong><br/>Magic Wand Needed: 2 >> 3"
+            },
+            "Ogre Tomahawk": {
+                "badge": "ADJUST",
+                "description": "We removed the Passive and lowered the price to add it to more Build Paths.<br/><br/><strong>Attributes:</strong><br/>Physical Attack: 30 >> 25<br/><br/><strong>Price:</strong><br/>790 >> 650<br/><br/><strong>Unique Passive - Angry:</strong> Removed"
+            },
+            "Endless Battle": {
+                "badge": "ADJUST",
+                "description": "To match the adjustments made to Ogre Tomahawk, we want heroes that use this as core equipment to build faster.<br/><br/><strong>Attributes:</strong><br/>Physical Attack: 65 >> 60<br/><br/><strong>Price:</strong><br/>2470 >> 2330"
+            },
+            "War Axe": {
+                "badge": "ADJUST",
+                "description": "Added Ogre Tomahawk to the Build Path."
+            },
+            "Blade of the Heptaseas": {
+                "badge": "ADJUST",
+                "description": "Added Ogre Tomahawk to the Build Path."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {},
+        "system_adjustments": [
+            {
+                "category": "Free Heroes",
+                "description": "8 Free Heroes: Server Time 03/15/2024 05:00:00 to 03/22/2024 05:01:00<br/><br/>Aulus, Zhask, Esmeralda, Minsitthar, Benedetta, Melissa, Alice, Harley<br/><br/>6 Extra StarLight Member Heroes: Brody, Claude, Vexana, Xavier, Lunox, Arlott"
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
     }
 }
