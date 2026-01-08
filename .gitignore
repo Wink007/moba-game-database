@@ -1,51 +1,14 @@
-# Ігноруємо локальні файли
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
-
-# База даних (локальна)
-test_games.db
-*.db
-*.sqlite
-*.sqlite3
-
-# Бекапи та експорти
-backup_*.sql
-postgres_import.sql
-
-# Environment
-.env
-.venv/
-venv/
-ENV/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Logs
-*.log
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Node modules (для admin-panel)
-admin-panel/node_modules/
-admin-panel/build/
-admin-panel/.env.local
-
-# Тимчасові файли
-*.tmp
-*.temp
-logs/
+# Temporary files
+*_temp.json
+*.backup_*
+user_*.json
+check_*.sql
+fix_*.sql
+parse_*.py
+check_*.py
+generate_*.py
+save_*.py
+convert_*.py
+restore_*.py
+patch_*_parsed.json
+node_modules
