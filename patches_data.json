@@ -306,7 +306,29 @@
         "new_hero": {
             "name": "Zetian",
             "title": "Celestial Empress",
-            "description": "Recognized by the Heavens and cherished by her people, the Celestial Empress of the Cadia Riverlands ascends to bring peace to the mortal realm.<br/><br/><strong>[Passive - Celestial Armament]</strong><br/>[Phoenix Crown]: Zetian gains increased Spell Vamp after hitting enemy heroes with [Phoenix Strike] and [Phoenix Descent].<br/>[Celestial Robe]: The power of the Phoenix Spirit periodically protects Zetian, knocking back and stunning any enemy heroes who dare to approach, dealing Magic Damage and granting Zetian a Shield.<br/><br/><strong>[Skill 1 - Phoenix Strike]</strong><br/>Zetian unleashes a [Phoenix Wave] in the target direction. If it hits an enemy, she automatically casts the next [Phoenix Wave], up to 3 times. Zetian can cast other skills during this process. The third [Phoenix Wave] hits a larger area and pulls targets in the skill's direction for a short distance.<br/><br/><strong>[Skill 2 - Phoenix Descent]</strong><br/>Zetian summons a [Phoenix Spirit] at the target location, dealing Magic Damage and applying a brief slow effect to enemies in the area. The [Phoenix Spirit] hovers at the location for 3s, dealing sustained Magic Damage to enemies in a range and reducing enemies' Magic Defense. While the [Phoenix Spirit] is active, Zetian can use this skill again to command the [Phoenix Spirit] to charge toward a designated location, dealing Magic Damage and applying a brief slow effect upon arrival.<br/><br/><strong>[Ultimate - Fury of the Phoenix]</strong><br/>Zetian grants all allied heroes a Movement Speed increase that gradually decays over 3 sec, while unleashing divine retribution upon all enemy heroes, dealing Magic Damage and stunning them on hit.<br/>During this time, Zetian gains vision of all enemy heroes. She can cast other skills while channeling this ability."
+            "description": "Hero Feature: Recognized by the Heavens and cherished by her people, the Celestial Empress of the Cadia Riverlands ascends to bring peace to the mortal realm.",
+            "skills": [
+                {
+                    "description": "[Phoenix Crown]: Zetian gains increased Spell Vamp after hitting enemy heroes with [Phoenix Strike] and [Phoenix Descent].<br/><br/>[Celestial Robe]: The power of the Phoenix Spirit periodically protects Zetian, knocking back and stunning any enemy heroes who dare to approach, dealing Magic Damage and granting Zetian a Shield.",
+                    "skill_name": "Celestial Armament",
+                    "skill_type": "Passive"
+                },
+                {
+                    "description": "Zetian unleashes a [Phoenix Wave] in the target direction. If it hits an enemy, she automatically casts the next [Phoenix Wave], up to 3 times. Zetian can cast other skills during this process. The third [Phoenix Wave] hits a larger area and pulls targets in the skill's direction for a short distance.",
+                    "skill_name": "Phoenix Strike",
+                    "skill_type": "Skill 1"
+                },
+                {
+                    "description": "Zetian summons a [Phoenix Spirit] at the target location, dealing Magic Damage and applying a brief slow effect to enemies in the area. The [Phoenix Spirit] hovers at the location for 3s, dealing sustained Magic Damage to enemies in a range and reducing enemies' Magic Defense. While the [Phoenix Spirit] is active, Zetian can use this skill again to command the [Phoenix Spirit] to charge toward a designated location, dealing Magic Damage and applying a brief slow effect upon arrival.",
+                    "skill_name": "Phoenix Descent",
+                    "skill_type": "Skill 2"
+                },
+                {
+                    "description": "Zetian grants all allied heroes a Movement Speed increase that gradually decays over 3 sec, while unleashing divine retribution upon all enemy heroes, dealing Magic Damage and stunning them on hit.<br/><br/>During this time, Zetian gains vision of all enemy heroes. She can cast other skills while channeling this ability.",
+                    "skill_name": "Fury of the Phoenix",
+                    "skill_type": "Ultimate"
+                }
+            ]
         },
         "revamped_heroes": ["Rafaela"],
         "revamped_heroes_data": {
