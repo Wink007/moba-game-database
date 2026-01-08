@@ -120,6 +120,142 @@
             }
         }
     },
+    "2.1.26": {
+        "version": "2.1.26",
+        "release_date": "2025-10-10",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: Sora (↑), Martis (↑), Balmond (↑), and Harley (↑).",
+        "battlefield_adjustments": {},
+        "equipment_adjustments": {
+            "Twilight Armor": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "We've noticed that Attack Speed reduction effects were less effective against heroes with high Attack Speed. To address this, we've introduced an effect that reduces their Attack Speed cap, ensuring it applies consistently to all heroes.<br/><br/>[Unique Passive - Fearless]<br/>New Effect: Taking damage will reduce the attacker's Attack Speed cap to 80% of normal for 1s.",
+                        "name": "Fearless"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "New effect reduces attacker's Attack Speed cap when taking damage."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Sora": {
+                "badge": "BUFF",
+                "description": "Optimized the controls of Sora's skills and the hit rate of his Assassin Style skills.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 6-4s >> 5-4s",
+                        "skill_name": "All Styles",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 10-8s >> 8-7s",
+                        "skill_name": "All Styles",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Effect Adjusted: Sora leaps forward and stops upon hitting an enemy hero.<br/>Effect Adjusted: Hits can reduce cooldown by 2s >> Can be cast again within a short time on hit.",
+                        "skill_name": "Assassin Style",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "HP-to-ATK Conversion Ratio: 10% >> 12%",
+                        "skill_name": "Shifting Skies",
+                        "skill_type": "Ultimate"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Sora can now move through terrain when striking.",
+                        "skill_name": "Second Phase",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Martis": {
+                "badge": "BUFF",
+                "description": "Increased Martis's damage in the mid-to-late game.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Extra Attack at Full Stacks: 6 * Hero Level >> 8 * Hero Level",
+                        "skill_name": "Ashura's Wrath",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Damage: 800-1000 (+100% Total Physical Attack) >> 700-1100(+120% Total Physical Attack)<br/>Improved the visibility of the target indicator for his Ultimate.<br/>New Effect: Sky Piercer's damage will contribute to the activation of indicator effects on the target.",
+                        "skill_name": "Decimate",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Balmond": {
+                "badge": "BUFF",
+                "description": "We aim to slightly raise Balmond's control ceiling in high-level matches.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Hitting an enemy hero reduces their Physical Defense by 15%-30% for 3s.<br/>Slow Effect: 60% for 2s >> 30% for 3s<br/>Cooldown: 8-5s >> 8-6s",
+                        "skill_name": "Soul Lock",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Harley": {
+                "badge": "ADJUST",
+                "description": "Reverted the removal of the Attack Speed boost, and removed the extra damage from Skill 1 to creeps.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Damaging enemies with Basic Attacks and skills increases Harley's Attack Speed by 5%-10% for 3s, up to 10 times.",
+                        "skill_name": "Tuner's Insight",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Removed Effect: The cards deal 30% extra damage to creeps.",
+                        "skill_name": "Poker Trick",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Faramis": {
+                "badge": "BUFF",
+                "description": "Reduced the Mana Cost of a skill.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 75-125 >> 45-70",
+                        "skill_name": "Ghost Bursters",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Natan": {
+                "badge": "BUFF",
+                "description": "Reverted the previous nerf to Ultimate's cooldown.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 36-24s >> 24-16s",
+                        "skill_name": "Reverse Time",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.36": {
         "version": "2.1.36",
         "release_date": "2025-11-20",
