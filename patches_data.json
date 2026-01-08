@@ -1,4 +1,125 @@
 {
+    "2.1.44": {
+        "version": "2.1.44",
+        "release_date": "2025-12-18",
+        "game_id": 1,
+        "designers_note": "Hero with major changes in this patch: Yve (~).",
+        "battlefield_adjustments": {},
+        "equipment_adjustments": {},
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Eudora": {
+                "badge": "ADJUST",
+                "description": "Revamped: With this revamp, we aim to retain Eudora's single-target burst damage while introducing a new sustained damage playstyle based on Cooldown Reduction.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Superconductor Duration: 5s >> 3s",
+                        "skill_name": "Superconductor",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: If the lightning chain deals additional damage when it ends, reduce this skill's cooldown by 1.5s.",
+                        "skill_name": "Forked Lightning",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 26-20s >> 32-26s",
+                        "skill_name": "Thunderstruck",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Lapu-Lapu": {
+                "badge": "NERF",
+                "description": "We're restricting the hero's access to his Ultimate.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 20-15s >> 26-20s",
+                        "skill_name": "Bravest Fighter",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Mathilda": {
+                "badge": "NERF",
+                "description": "Reverted some buffs made in the previous patch.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Subsequent Damage Decay Ratio: 40%-60% >> 40%-50%",
+                        "skill_name": "Guiding Wind",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Yve": {
+                "badge": "ADJUST",
+                "description": "Reverted the movement speed boost of Skill 1, and reduced the Base Movement Speed instead.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Base Movement Speed",
+                        "badge": "NERF",
+                        "description": "255 >> 245"
+                    }
+                ],
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Movement Speed Boost: 40% >> 55%",
+                        "skill_name": "Void Blast",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [],
+        "highlights": [],
+        "new_hero": {
+            "name": "Marcel",
+            "title": "Soul Photographer",
+            "description": "Hero Feature: An agile Support hero with two souls who uses unique photography skills to roam and control the battlefield.<br/><br/>Marcel & Clemar, two souls in one body. The perfect coordination between the photographer and the camera will bring a brand-new experience to the Land of Dawn!",
+            "skills": [
+                {
+                    "description": "Marcel's camera, Clemar, will automatically snap photos of nearby enemy heroes, dealing True Damage and granting a shield to Marcel and an allied hero.<br/><br/>Marcel's Basic Attacks deal damage based on his Hybrid Defense but cannot Crit. Marcel cannot benefit from extra Attack Speed, and Extra HP will be converted into Hybrid Defense.",
+                    "skill_name": "Platinum Snap",
+                    "skill_type": "Passive"
+                },
+                {
+                    "description": "Clemar focuses on an area around Marcel, slowing enemy heroes in range. After a duration, he completes the shot, dealing AOE Damage and immobilizing enemies.",
+                    "skill_name": "Framed Moment",
+                    "skill_type": "Skill 1"
+                },
+                {
+                    "description": "Marcel enters the Tracking Haste state, gaining Movement Speed, which increases further when moving toward enemy heroes. Use Again within the duration to dash in the target direction. If Framed Moment is active, Clemar will remain at the original location.",
+                    "skill_name": "Tracking Shot",
+                    "skill_type": "Skill 2"
+                },
+                {
+                    "description": "After a short delay, Clemar takes a wide-angle shot of the target area for 3s, putting all units in the area into Stasis except Marcel. All targets in range are immobilized and immune to damage from anyone other than Marcel.",
+                    "skill_name": "Golden Hour",
+                    "skill_type": "Ultimate"
+                }
+            ]
+        },
+        "revamped_heroes": ["Eudora"],
+        "revamped_heroes_data": {
+            "Eudora": {
+                "badge": "REVAMP",
+                "description": "With this revamp, we aim to retain Eudora's single-target burst damage while introducing a new sustained damage playstyle based on Cooldown Reduction.",
+                "adjustments": [
+                    {
+                        "description": "Superconductor Duration reduced. Skill 1 now has cooldown reduction on lightning chain damage. Ultimate cooldown increased.",
+                        "skill_name": "Revamp Overview",
+                        "skill_type": "Revamp"
+                    }
+                ]
+            }
+        }
+    },
     "2.1.34": {
         "version": "2.1.34",
         "release_date": "2025-11-13",
