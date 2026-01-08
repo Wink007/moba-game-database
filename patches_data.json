@@ -1,4 +1,123 @@
 {
+    "2.1.48": {
+        "version": "2.1.48",
+        "release_date": "2025-12-31",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: Hanzo (↑), Hilda (↑), and Phoveus (↑).",
+        "battlefield_adjustments": {
+            "Battlefield Effect Test": {
+                "badge": "ADJUST",
+                "description": "New battlefield effects available for testing. Visuals are in testing and do not represent final quality. Expected rollout around 01/04.<br/>\n<br/>\n1- <strong>Concealing Mist</strong>: Upon death, the Lithowanderer creates a mist instead of spawning a Stone Roamer. This mist drifts from the River to the enemy Jungle, granting vision of a small area. Allied heroes inside the mist become Concealed.<br/>\n<br/>\n2- <strong>Concealment Time</strong>: Upon defeating the Turtle or Lord, all heroes gain the Concealment Time for 1 minute. During this period, heroes become Concealed after being out of combat for 5s."
+            }
+        },
+        "equipment_adjustments": {},
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Hanzo": {
+                "badge": "BUFF",
+                "description": "Improved Ultimate sustainability in mid-to-late game to enable attacking Turtle and Lord. New Energy Regen mechanic in Hanekage Form: gains Energy when attacking heroes, Turtle, or Lord. Max Energy increased by 10x with proportional consumption and regen adjustments.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Basic Attacks against heroes, the Turtle, and the Lord grant 45 Energy. Hitting multiple units with a Basic Attack only grants Energy once.",
+                        "skill_name": "Ame no Habakiri",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Hilda": {
+                "badge": "BUFF",
+                "description": "Optimized visual effects of Passive Enhanced Basic Attack for better visibility. Note: All Hilda skins temporarily unavailable during this update.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Added visual effects to indicate when the Enhanced Basic Attack is active.",
+                        "skill_name": "Blessing of Wilderness",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Leomord": {
+                "badge": "NERF",
+                "description": "Early-game jungle control was too difficult to counter, so reduced Skill 1's extra damage against creeps.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Extra Damage Against Creeps: 200% >> 150%",
+                        "skill_name": "Phantom Steed",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Marcel": {
+                "badge": "NERF",
+                "description": "Growth & Balance Adjustments: improved base stats but reduced scaling and passive effects.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Base HP",
+                        "badge": "BUFF",
+                        "description": "2500 >> 2650"
+                    },
+                    {
+                        "attribute_name": "Base Physical Defense",
+                        "badge": "BUFF",
+                        "description": "20 >> 25"
+                    },
+                    {
+                        "attribute_name": "Base Magic Defense",
+                        "badge": "BUFF",
+                        "description": "12 >> 15"
+                    },
+                    {
+                        "attribute_name": "Physical Defense Growth",
+                        "badge": "NERF",
+                        "description": "3 >> 2"
+                    },
+                    {
+                        "attribute_name": "Magic Defense Growth",
+                        "badge": "NERF",
+                        "description": "2 >> 1"
+                    },
+                    {
+                        "attribute_name": "HP Growth",
+                        "badge": "NERF",
+                        "description": "243 >> 200"
+                    }
+                ],
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Removed effect: No longer grants shield to a nearby ally. Extra HP to Hybrid Defense Ratio: 2% >> 1.5%",
+                        "skill_name": "Tyrant's Revenge",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Base Damage: 400-700 >> 300-500",
+                        "skill_name": "Tyrant's Descent",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Phoveus": {
+                "badge": "BUFF",
+                "description": "Increased late-game potential while maintaining early and mid game strength.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Magic Damage based on target's Max HP: 4% >> 4-6%; Shield based on Phoveus' Max HP: 8% >> 8-12%",
+                        "skill_name": "Malefic Terror",
+                        "skill_type": "Passive"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.40a": {
         "version": "2.1.40a",
         "release_date": "2025-12-31",
