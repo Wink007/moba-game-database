@@ -448,7 +448,8 @@ def update_hero(hero_id):
             data.get('main_hero_ban_rate', None),
             data.get('main_hero_appearance_rate', None),
             data.get('main_hero_win_rate', None),
-            data.get('hero_stats', None)
+            data.get('hero_stats', None),
+            data.get('counter_data', None)
         )
         
         # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query
