@@ -120,6 +120,381 @@
             }
         }
     },
+    "2.1.38": {
+        "version": "2.1.38",
+        "release_date": "2025-11-28",
+        "game_id": 1,
+        "designers_note": "As the testing for certain features has concluded, the number of heroes available for a limited time on the Advanced Server will be restored to match the Official Server this week.<br/><br/>Heroes with major changes in this patch: Estes (↑), Freya (↑), Rafaela (↑), and Zhuxin (↑).",
+        "battlefield_adjustments": {
+            "Mythical Honor Battlefield": {
+                "badge": "ADJUST",
+                "description": "On the Advanced Server, we are temporarily lowering the entry requirement for Mythical Honor Battlefield to Master rank or above to support system monitoring and optimization.<br/><br/>We've noticed that in high-rank matches, more Fighters are taking the Gold Lane, severely limiting the viability of Marksmen. Therefore, we've made Mythic Honor Battlefield adjustments to address this.<br/><br/><strong>Gold Lane Siege Minion:</strong> Extra Gold: 30% >> 40%<br/><strong>Base Turret:</strong> HP: 7300 >> 8200<br/><strong>Base:</strong> HP: 7900 >> 9000"
+            }
+        },
+        "equipment_adjustments": {
+            "Roaming Blessing": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "[All Blessings]:<br/>1- Gold Gained from Vision Reveal: 30 >> 30 (+ 1* Hero Level)<br/>2- EXP Gained from Vision Reveal: 30 in first 2 min, 60 after 2 min >> 25.5+ (4.5* Hero Level)<br/>3- Gold Gained Every 5s After 8 Min: 9 >> 10<br/>4- EXP Gained Every 5s After 8 Min: 18 >> 20",
+                        "name": "All Blessings"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Gains from Minions and Creeps When Allied Heroes Are Nearby: 40% >> 35%",
+                        "name": "Encourage & Favor"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "As match time increases, Gold from minions and creeps rises, while vision reveals and damage opportunities for roamers decrease in the late game. Therefore, we've adjusted the reward values for Roaming heroes' different actions to balance the Gold income of different Roaming styles."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Angela": {
+                "badge": "ADJUST",
+                "description": "At max Cooldown Reduction, if Fleeting Time was triggered, Angela could use her Ultimate again immediately after the attached state ends. This left little room for counterplay. Therefore, we've increased the Ultimate's cooldown. To balance this change, we've reverted the previous nerfs to Skill 2.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Reverted previous adjustments.",
+                        "skill_name": "Puppet-on-a-String",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 50s >> 60s",
+                        "skill_name": "Heartguard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Atlas": {
+                "badge": "BUFF",
+                "description": "Increased the stability of Atlas's Skill 1 damage.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Damage: 215-390 (+60% Total Magic Power) >> 400-600 (+ 100% Total Magic Power)<br/>New Effect: Each target can be damaged only once.",
+                        "skill_name": "Annihilate",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Aurora": {
+                "badge": "NERF",
+                "description": "Reverted some adjustments from last week.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Additional Freezing Time: Gains 0.1s for every 100 Magic Power >> Gains 0.06s for every 100 Magic Power",
+                        "skill_name": "Bitter Frost",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Barats": {
+                "badge": "BUFF",
+                "description": "Increased Barats' Ultimate explosion damage on collision after spitting out the target.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "HP Bonus of the Additional Damage: 1.8% Total HP >> 5% Total HP",
+                        "skill_name": "Detona's Welcome",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Benedetta": {
+                "badge": "BUFF",
+                "description": "To improve the fluidity of Benedetta's Swordout Slash combos during skill casts, we have reduced the foreswing of Swordout Slash.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Reduced the foreswing of Swordout Slash by 20%.",
+                        "skill_name": "Elapsed Daytime",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Estes": {
+                "badge": "BUFF",
+                "description": "Some of last week's adjustments have been reverted. The following are the adjustments made based on the Official Server version. Enhanced Estes's sustained healing and ability to protect fragile heroes.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Sustained Healing: 250-400 (+ 60% Total Magic Power) >> 360-585 (+90% Total Magic Power)<br/>Duration of Hybrid Defense Increase: 3s >> 5s<br/>Cooldown: 11-7s >> 11-8.5s<br/>Mana Cost: 110-210 >> 60-120",
+                        "skill_name": "Moonlight Immersion",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Enhanced Moonlight Immersion doubles the Hybrid Defense increase.<br/>Optimized the skill description.",
+                        "skill_name": "Blessing of Moon Goddess",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Fredrinn": {
+                "badge": "BUFF",
+                "description": "Reverted previous adjustments.",
+                "adjustments": []
+            },
+            "Freya": {
+                "badge": "BUFF",
+                "description": "Some of last week's adjustments have been reverted. The following are the adjustments made based on the Official Server version. Freya's combat effectiveness was relatively weak without her Ultimate. To improve balance while preserving her highlight performance during Ultimate, we've reduced its cooldown.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Airborne Duration: 0.4s >> 0.6s",
+                        "skill_name": "Valkyrie Shieldbind",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 54-46s (Starts on cast) >> 30-20s (Starts after cast)<br/>Gain 50% damage reduction while diving down.<br/>Slightly increased the speed when diving down.",
+                        "skill_name": "Valkyrie Descent",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Gatotkaca": {
+                "badge": "NERF",
+                "description": "Compared to other Tank heroes, the control duration of Gatotkaca's Skill 2 was too long and easy to cast.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Taunt Duration: Fixed 1.5s >> 0.5-1.5s (scales with channel time)<br/>Sprint Distance: 3-4.4 >> 2.2-4.4",
+                        "skill_name": "Blast Iron Fist",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Grock": {
+                "badge": "ADJUST",
+                "description": "Grock boasts incredible durability and can gain Control Immunity from his Passive. Therefore, we've slightly reduced his ability. Grock can still cast his skills uninterrupted, but he will be affected by control effects.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Removed Effect: Gains Control Immunity while casting skills.<br/>New Effect: The skill cannot be interrupted.",
+                        "skill_name": "Power of Nature",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Gains Control Immunity while charging.",
+                        "skill_name": "Wild Charge",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Harith": {
+                "badge": "NERF",
+                "description": "Further reduced Harith's competitiveness in the Gold Lane.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Enhanced Basic Attacks deal damage equal to a normal Basic Attack to Turrets.",
+                        "skill_name": "Synchro Fission",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Harley": {
+                "badge": "ADJUST",
+                "description": "Reverted previous adjustments.",
+                "adjustments": []
+            },
+            "Hayabusa": {
+                "badge": "BUFF",
+                "description": "Hayabusa's output stability dropped significantly after the nerf to Skill 2. To compensate, we've increased his skill casting frequency.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 20-16s >> 16-14s",
+                        "skill_name": "Quad Shadow",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 50s >> 40s",
+                        "skill_name": "Ougi: Shadow Kill",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Hilda": {
+                "badge": "NERF",
+                "description": "Reverted some buffs to the Enhanced Basic Attack from last week.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Enhanced Basic Attack Base Damage: 160 >> 110<br/>Base Damage to Enemies Behind the Target: 70 >> 40",
+                        "skill_name": "Blessing of Wilderness",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Leomord": {
+                "badge": "NERF",
+                "description": "We are happy to see Leomord riding more actively on the battlefield, but Leomord's passive HP regen with a Tank build is a bit too high. Therefore, we have reduced the Extra HP bonus of his Passive's HP regen.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "HP Regen on Crit Damage: +20% Extra Max HP >> +10% Extra Max HP",
+                        "skill_name": "Oath of Cavalry",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Lolita": {
+                "badge": "BUFF",
+                "description": "The shield provided by Lolita's Passive is insufficient for protection during fast-paced combats in the mid to late game. Therefore, we have increased the trigger frequency of her Passive's shield in the mid to late game to improve her durability.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Shield Frequency: Every 6s >> Every 7-4s (scales with the Noumenon Blast level)",
+                        "skill_name": "Noumenon Energy Core",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Passive: Each level-up reduces the interval of the shield provided by Noumenon Energy Core by 1s.",
+                        "skill_name": "Noumenon Blast",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Lukas": {
+                "badge": "BUFF",
+                "description": "To improve Sacred Beast's viability in the current meta, we've increased his sustained damage capability.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 14-8s >> 12-8s<br/>Lightning Storm Base Damage: 40 >> 50-100",
+                        "skill_name": "Sacred Tempest",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Lylia": {
+                "badge": "NERF",
+                "description": "Reverted some buffs from last week. The hero remains stronger than on the Official Server. As this adjustment involves updates to skill effects and skin optimizations, all of Lylia's skins are temporarily unavailable. Please understand.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cast Range: 8 >> 7.5",
+                        "skill_name": "Magic Shockwave",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cast Range: 6 >> 5.5<br/>Area of Effect After Gloom Devours Shadow Energy: 6 >> 5.5",
+                        "skill_name": "Gloom",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Paquito": {
+                "badge": "BUFF",
+                "description": "To let this skill-based Fighter unleash combos more frequently, we've made adjustments.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8-6s >> 7-5.5s",
+                        "skill_name": "Jab",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 17-13s >> 15-12s",
+                        "skill_name": "Annihilation Strike",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Rafaela": {
+                "badge": "BUFF",
+                "description": "Some of last week's adjustments have been reverted. The following are the adjustments made based on the Official Server version. Increased Rafaela's healing and speed-up effects as a Support.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Removed Effect: Each mark no longer increases the damage of the next Skill 1 by 20%.",
+                        "skill_name": "Light of Retribution",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Magic Bonus on the Additional Healing for Self and the Most Injured Allied Hero: 45% >> 65%<br/>The Movement Speed bonus increases by 1% for every 20 Magic Power >> The Movement Speed bonus increases by 1% for every 10 Magic Power",
+                        "skill_name": "Holy Healing",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 42-34s >> 38-30s",
+                        "skill_name": "Holy Baptism",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Sora": {
+                "badge": "ADJUST",
+                "description": "Fixed an issue with Sora's recommended lanes and removed Sora's Roaming lane. Adjusted Sora's stat structure to make him more suitable for the EXP Lane.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Strike Damage: 150-250 (+40% Total Physical Attack) >> 140-220 (+50% Total Physical Attack)",
+                        "skill_name": "Sundering Strike",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Zhuxin": {
+                "badge": "BUFF",
+                "description": "Increased the damage after the control effect ends.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Base Mana: 1200 >> 800<br/>Mana Regen from Each Crimson Butterfly: 2% >> 5%",
+                        "skill_name": "Crimson Butterflies",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Skill 2 deals 25%-50% increased damage to targets that cannot be stacked with Soul Snare.",
+                        "skill_name": "Lantern Flare",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Zilong": {
+                "badge": "BUFF",
+                "description": "Further reduced Skill 2's cooldown.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 12-9.5s >> 9.5-7s",
+                        "skill_name": "Spear Strike",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Hyper Blend Mode",
+                "description": "New Random Heroes and Skills Added to Hyper Blend Mode:<br/><br/>New random heroes added: Franco and Saber.<br/><br/>New random skills added: Bats Feast, Falling Starmoon, I'm Offended!, Feathered Air Strike, and Triple Sweep."
+            },
+            {
+                "name": "Overdrive Mode",
+                "description": "Overdrive Mode Optimization:<br/><br/>Since the Attack Speed bonus is ineffective on Clint, any bonus Attack Speed he gains will be converted to Physical Attack."
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.34": {
         "version": "2.1.34",
         "release_date": "2025-11-13",
