@@ -45,13 +45,13 @@ function HeroDetailPage() {
     return { level: 'Low', color: 'low' };
   };
 
-  // Фільтруємо навички які не є трансформаціями та сортуємо за id
+  // Фільтруємо навички які не є трансформаціями та сортуємо за display_order
   const baseSkills = skills
     .filter(skill => !skill.is_transformed)
-    .sort((a, b) => a.id - b.id);
+    .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
   const transformedSkills = skills
     .filter(skill => skill.is_transformed)
-    .sort((a, b) => a.id - b.id);
+    .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
 
   const maxTransforms = transformedSkills.length > 0 
     ? Math.max(...transformedSkills.map(s => s.transformation_order || 0))
@@ -472,7 +472,7 @@ function HeroDetailPage() {
                           return (
                             <a 
                               key={counter.heroid}
-                              href={`/heroes/${counterHero.id}`}
+                              href={`/2/heroes/${counterHero.id}`}
                               className={styles.counterListItem}
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
@@ -487,7 +487,7 @@ function HeroDetailPage() {
                           return (
                             <a 
                               key={counter.heroid}
-                              href={`/heroes/${counterHero.id}`}
+                              href={`/2/heroes/${counterHero.id}`}
                               className={styles.counterListItem}
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
@@ -612,7 +612,7 @@ function HeroDetailPage() {
                           return (
                             <a 
                               key={mate.heroid}
-                              href={`/heroes/${mateHero.id}`}
+                              href={`/2/heroes/${mateHero.id}`}
                               className={styles.counterListItem}
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
@@ -627,7 +627,7 @@ function HeroDetailPage() {
                           return (
                             <a 
                               key={mate.heroid}
-                              href={`/heroes/${mateHero.id}`}
+                              href={`/2/heroes/${mateHero.id}`}
                               className={styles.counterListItem}
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>

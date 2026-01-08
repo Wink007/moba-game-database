@@ -113,42 +113,61 @@ interface Patch {
 export const PatchesPage: React.FC = () => {
   const { gameId, patchVersion } = useParams<{ gameId: string; patchVersion?: string }>();
   const navigate = useNavigate();
-  const [patches, setPatches] = useState<Patch[]>([]);
+  const [patchVersions, setPatchVersions] = useState<Array<{version: string, release_date: string}>>([]);
+  const [currentPatchData, setCurrentPatchData] = useState<Patch | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadingPatch, setLoadingPatch] = useState(false);
   const [selectedPatch, setSelectedPatch] = useState<string | null>(null);
   const [heroNameToId, setHeroNameToId] = useState<Record<string, number>>({});
   const [itemNameToId, setItemNameToId] = useState<Record<string, number>>({});
 
-  const handlePatchSelect = (version: string) => {
+  const handlePatchSelect = async (version: string) => {
     setSelectedPatch(version);
     // Оновлюємо URL при зміні патчу
     navigate(`/${gameId}/patches/patch_${version}`, { replace: true });
+    
+    // Завантажуємо повні дані патчу
+    setLoadingPatch(true);
+    try {
+      const response = await fetch(`https://web-production-8570.up.railway.app/api/patches/${version}`);
+      const patchData = await response.json();
+      setCurrentPatchData(patchData);
+    } catch (error) {
+      console.error('Error fetching patch data:', error);
+    } finally {
+      setLoadingPatch(false);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch patches
-        const patchesResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches`);
+        // Fetch only patch versions list with minimal data (only version + date)
+        const patchesResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches?minimal=true&limit=50`);
         const patchesData = await patchesResponse.json();
         
-        // patchesData вже є масивом
-        setPatches(patchesData);
+        setPatchVersions(patchesData);
+        
         if (patchesData.length > 0) {
           // Якщо є параметр версії в URL, використовуємо його
           const versionFromUrl = patchVersion ? patchVersion.replace('patch_', '') : null;
-          const patchToSelect = versionFromUrl && patchesData.find((p: Patch) => p.version === versionFromUrl)
+          const patchToSelect = versionFromUrl && patchesData.find((p: any) => p.version === versionFromUrl)
             ? versionFromUrl
             : patchesData[0].version;
-          setSelectedPatch(patchToSelect);
           
           // Якщо в URL немає версії, додаємо її
           if (!patchVersion) {
             navigate(`/${gameId}/patches/patch_${patchToSelect}`, { replace: true });
           }
+          
+          // Завантажуємо дані вибраного патчу
+          const selectedPatchResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches/${patchToSelect}`);
+          const selectedPatchData = await selectedPatchResponse.json();
+          setCurrentPatchData(selectedPatchData);
+          setSelectedPatch(patchToSelect);
         }
 
-        // Fetch heroes to build name -> id mapping
+        // Fetch heroes to build name -> id mapping (API already returns minimal data)
         const heroesResponse = await fetch(`https://web-production-8570.up.railway.app/api/heroes?game_id=2`);
         const heroesData = await heroesResponse.json();
         const heroMapping: Record<string, number> = {};
@@ -157,7 +176,7 @@ export const PatchesPage: React.FC = () => {
         });
         setHeroNameToId(heroMapping);
 
-        // Fetch items to build name -> id mapping
+        // Fetch items to build name -> id mapping (API already returns minimal data)
         const itemsResponse = await fetch(`https://web-production-8570.up.railway.app/api/items?game_id=2`);
         const itemsData = await itemsResponse.json();
         const itemMapping: Record<string, number> = {};
@@ -206,13 +225,11 @@ export const PatchesPage: React.FC = () => {
     return <Loader />;
   }
 
-  const currentPatch = patches.find(p => p.version === selectedPatch);
-
   return (
     <div className={styles.patchesPage}>
       <div className={styles.patchSelector}>
         <div className={styles.patchVersions}>
-          {patches.map(patch => (
+          {patchVersions.map(patch => (
             <button
               key={patch.version}
               className={`${styles.patchButton} ${selectedPatch === patch.version ? styles.active : ''}`}
@@ -225,43 +242,45 @@ export const PatchesPage: React.FC = () => {
       </div>
 
       <div className={styles.content}>
-        {currentPatch && (
+        {loadingPatch ? (
+          <Loader />
+        ) : currentPatchData && (
           <>
             <div className={styles.header}>
-              <h1>Patch {currentPatch.version}</h1>
-              <p className={styles.releaseDate}>{currentPatch.release_date}</p>
+              <h1>Patch {currentPatchData.version}</h1>
+              <p className={styles.releaseDate}>{currentPatchData.release_date}</p>
             </div>
 
-            {currentPatch.designers_note && currentPatch.designers_note.trim() && (
+            {currentPatchData.designers_note && currentPatchData.designers_note.trim() && (
               <div className={styles.section}>
                 <div className={styles.designersNote}>
                   <h2>Designer's Note</h2>
-                  <p className={styles.noteContent} dangerouslySetInnerHTML={{ __html: currentPatch.designers_note }} />
+                  <p className={styles.noteContent} dangerouslySetInnerHTML={{ __html: currentPatchData.designers_note }} />
                 </div>
               </div>
             )}
 
-            {currentPatch.new_hero && (
+            {currentPatchData.new_hero && (
               <div className={styles.section}>
                 <h2>New Hero</h2>
                 <div className={styles.newHeroCard}>
                   <div className={styles.newHeroHeader}>
-                    {heroNameToId[currentPatch.new_hero.name] ? (
-                      <Link to={`/${gameId}/heroes/${heroNameToId[currentPatch.new_hero.name]}`} className={styles.newHeroLink}>
-                        <h3>{currentPatch.new_hero.name}</h3>
+                    {heroNameToId[currentPatchData.new_hero.name] ? (
+                      <Link to={`/${gameId}/heroes/${heroNameToId[currentPatchData.new_hero.name]}`} className={styles.newHeroLink}>
+                        <h3>{currentPatchData.new_hero.name}</h3>
                       </Link>
                     ) : (
-                      <h3>{currentPatch.new_hero.name}</h3>
+                      <h3>{currentPatchData.new_hero.name}</h3>
                     )}
                     <span className={styles.newHeroBadge}>NEW</span>
                   </div>
-                  <p className={styles.newHeroTitle}>{currentPatch.new_hero.title}</p>
+                  <p className={styles.newHeroTitle}>{currentPatchData.new_hero.title}</p>
                   <p className={styles.newHeroDescription}>
-                    {currentPatch.new_hero.description}
+                    {currentPatchData.new_hero.description}
                   </p>
                   
                   <div className={styles.newHeroSkills}>
-                    {currentPatch.new_hero.skills.map((skill, idx) => (
+                    {currentPatchData.new_hero.skills.map((skill, idx) => (
                       <div key={idx} className={styles.newHeroSkill}>
                         <div className={styles.newHeroSkillHeader}>
                           <span className={styles.skillType}>{skill.skill_type || skill.type}</span>
@@ -279,11 +298,11 @@ export const PatchesPage: React.FC = () => {
               </div>
             )}
 
-            {currentPatch.revamped_heroes && currentPatch.revamped_heroes.length > 0 && currentPatch.revamped_heroes_data && (
+            {currentPatchData.revamped_heroes && currentPatchData.revamped_heroes.length > 0 && currentPatchData.revamped_heroes_data && (
               <div className={styles.section}>
                 <h2>Revamped Heroes</h2>
-                {currentPatch.revamped_heroes.map((heroName) => {
-                  const heroData = currentPatch.revamped_heroes_data![heroName];
+                {currentPatchData.revamped_heroes.map((heroName) => {
+                  const heroData = currentPatchData.revamped_heroes_data![heroName];
                   if (!heroData) return null;
                   
                   return (
@@ -335,10 +354,10 @@ export const PatchesPage: React.FC = () => {
               </div>
             )}
 
-            {currentPatch.hero_adjustments && Object.keys(currentPatch.hero_adjustments).length > 0 && (
+            {currentPatchData.hero_adjustments && Object.keys(currentPatchData.hero_adjustments).length > 0 && (
               <div className={styles.section}>
                 <h2>Hero Adjustments</h2>
-                {Object.entries(currentPatch.hero_adjustments)
+                {Object.entries(currentPatchData.hero_adjustments)
                   .filter(([heroName, heroData]) => {
                     // Фільтруємо героїв без даних
                     const hasSummary = heroData.summary && heroData.summary.trim().length > 0;
@@ -347,9 +366,9 @@ export const PatchesPage: React.FC = () => {
                     const hasAdjustments = heroData.adjustments && heroData.adjustments.length > 0;
                     
                     // Виключаємо героя якщо він є у new_hero (щоб не дублювати)
-                    const isNewHero = currentPatch.new_hero && (
-                      heroName === currentPatch.new_hero.name || 
-                      heroName.startsWith(currentPatch.new_hero.name + ',')
+                    const isNewHero = currentPatchData.new_hero && (
+                      heroName === currentPatchData.new_hero.name || 
+                      heroName.startsWith(currentPatchData.new_hero.name + ',')
                     );
                     
                     return (hasSummary || hasSkills || hasDescription || hasAdjustments) && !isNewHero;
@@ -434,10 +453,10 @@ export const PatchesPage: React.FC = () => {
               </div>
             )}
 
-            {currentPatch.equipment_adjustments && Object.keys(currentPatch.equipment_adjustments).length > 0 && (
+            {currentPatchData.equipment_adjustments && Object.keys(currentPatchData.equipment_adjustments).length > 0 && (
               <div className={styles.section}>
                 <h2>Equipment Adjustments</h2>
-                {Object.entries(currentPatch.equipment_adjustments).map(([itemName, itemData]) => (
+                {Object.entries(currentPatchData.equipment_adjustments).map(([itemName, itemData]) => (
                   <div key={itemName} className={styles.itemCard}>
                     <div className={styles.itemHeader}>
                       {itemNameToId[itemName] ? (
@@ -493,10 +512,10 @@ export const PatchesPage: React.FC = () => {
               </div>
             )}
 
-            {currentPatch.emblem_adjustments && Object.keys(currentPatch.emblem_adjustments).length > 0 && (
+            {currentPatchData.emblem_adjustments && Object.keys(currentPatchData.emblem_adjustments).length > 0 && (
               <div className={styles.section}>
                 <h2>Emblem Adjustments</h2>
-                {Object.entries(currentPatch.emblem_adjustments).map(([emblemName, emblemData]) => (
+                {Object.entries(currentPatchData.emblem_adjustments).map(([emblemName, emblemData]) => (
                   <div key={emblemName} className={styles.itemCard}>
                     <div className={styles.itemHeader}>
                       <h4>{emblemName}</h4>
@@ -545,10 +564,10 @@ export const PatchesPage: React.FC = () => {
               </div>
             )}
 
-            {currentPatch.battlefield_adjustments && Object.keys(currentPatch.battlefield_adjustments).length > 0 && (
+            {currentPatchData.battlefield_adjustments && Object.keys(currentPatchData.battlefield_adjustments).length > 0 && (
               <div className={styles.section}>
                 <h2>Battlefield Adjustments</h2>
-                {Object.entries(currentPatch.battlefield_adjustments).map(([sectionName, sectionData]) => {
+                {Object.entries(currentPatchData.battlefield_adjustments).map(([sectionName, sectionData]) => {
                   // Якщо це секція з вкладеними items (Equipment Adjustments, Battle Spells)
                   if (sectionData.type === 'section' && sectionData.items && Object.keys(sectionData.items).length > 0) {
                     return (
@@ -650,10 +669,10 @@ export const PatchesPage: React.FC = () => {
               </div>
             )}
 
-            {currentPatch.system_adjustments && currentPatch.system_adjustments.length > 0 && (
+            {currentPatchData.system_adjustments && currentPatchData.system_adjustments.length > 0 && (
               <div className={styles.section}>
                 <h2>System Adjustments</h2>
-                {currentPatch.system_adjustments.map((adjustment, idx) => {
+                {currentPatchData.system_adjustments.map((adjustment, idx) => {
                   // Підтримка старого формату (string) та нового (object)
                   if (typeof adjustment === 'string') {
                     return (
