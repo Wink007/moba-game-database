@@ -120,6 +120,317 @@
             }
         }
     },
+    "2.1.10": {
+        "version": "2.1.10",
+        "release_date": "2025-08-08",
+        "game_id": 1,
+        "designers_note": "Revamped Hero: Valkyrie - Freya. Major hero adjustments to Yi Sun-shin, Lancelot, Guinevere, Vexana, Alice, Minotaur, Atlas, Angela, and Thamuz. Equipment and system adjustments.",
+        "battlefield_adjustments": {},
+        "equipment_adjustments": {
+            "Roam Shoes": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Reduced early to mid-game gains, while increasing mid to late-game gains.<br/><br/>[Unique Passive - Thriving]<br/>Gain 10 Gold and 20 EXP every 5s >> Gain 8 Gold and 16 EXP every 5s. After 8 minutes into the match, this increases to 12 Gold and 24 EXP every 5s.",
+                        "name": "Thriving"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Fixed an issue where the Gold could not be gained from vision reveals in certain situations.<br/>Gold Gained from Single Vision Reveal: 25-50 >> 25-30<br/><br/>Vision Reveal Gold Guide: Enemy targets that disappear from allied vision for more than 5s are marked as vision lost units. When a hero first reveals such targets using vision or skills, they will start gaining vision reveals Gold (starting at 25 Gold, gaining 1 Gold for each additional second the target remains revealed, up to a maximum of 30 Gold).",
+                        "name": "Devotion"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Reduced early to mid-game gains, increased mid to late-game gains, fixed vision reveal Gold issues."
+            },
+            "Magic Boots": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Attribute: +150 Max HP<br/>Price: 710 >> 720<br/>Build Path now includes Hero's Ring.",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Added Max HP, increased price, build path updated."
+            },
+            "Arcane Boots": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Attribute: +15 Magic Power<br/>Price: 690 >> 720<br/>Build Path now includes Mystery Codex.",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Added Magic Power, increased price, build path updated."
+            },
+            "Rapid Boots": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Price: 700 >> 720<br/>Reduce Movement Speed upon entering combat: 25 >> 20",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Price increased, Movement Speed penalty reduced."
+            },
+            "Tough Boots": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 700 >> 720",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Price increased."
+            },
+            "Swift Boots": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 710 >> 720",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Price increased."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Freya": {
+                "badge": "ADJUST",
+                "description": "Revamped: A female warrior who infuses weapons with the Power of Einherjar for sustained combat. We've noticed that Freya has to cast her Skill 2 to increase Attack Speed when jungling or clearing minions, which leaves her unprepared for sudden teamfights. We aim to lower the cast condition for her Skill 2. Reduced the Attack Speed provided by her passive. Redesigned Skill 1, integrating the original mobility into the enhanced Skill 2, while giving her Ultimate the capability to enter teamfights.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Freya can store up to 6 Sacred Orbs. Each Basic Attack grants 1 Sacred Orb, and they gradually recover when out of combat. Consuming 1 Sacred Orb grants Freya 100% Attack Speed Bonus for her next Basic Attack.",
+                        "skill_name": "Power of Einherjar",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Freya hurls her shield at the target enemy, dealing Physical Damage and gaining shield when it returns. After hitting the target, Freya gains 2 Sacred Orbs and enhances her next Skill 2.",
+                        "skill_name": "Valkyrie Shieldbind",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Freya charges forward and slashes, dealing Physical Damage. This skill has no base cooldown but consumes 2 Sacred Orbs per cast.<br/><br/>[Enhanced Skill 2 - Leap of Faith]<br/>Freya leaps to the target area and strikes the ground with her shield, dealing Physical Damage to enemies within and knocking them airborne.",
+                        "skill_name": "Valkyrie Slash",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Freya selects a target area and dives down, dealing Physical Damage and slowing enemies along the path and at the landing point. Upon landing, Freya enters the Valkyrie state, during which her Basic Attacks recover HP and deal splash damage.",
+                        "skill_name": "Valkyrie Descent",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Yi Sun-shin": {
+                "badge": "NERF",
+                "description": "Decreased early-to-mid game HP and mid-to-late game burst potential.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Base HP",
+                        "badge": "NERF",
+                        "description": "2570 >> 2320"
+                    },
+                    {
+                        "attribute_name": "HP Growth",
+                        "badge": "BUFF",
+                        "description": "13.25 >> 15"
+                    }
+                ],
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Damage: 160-320 +65% Total Physical Attack >> 160-240 +50% Total Physical Attack",
+                        "skill_name": "One Wave to Eradicate",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Lancelot": {
+                "badge": "NERF",
+                "description": "Decreased mid-to-late game burst potential.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Total Physical Attack Bonus: 170%-200% >> 170% at all levels",
+                        "skill_name": "Phantom Execution",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Guinevere": {
+                "badge": "NERF",
+                "description": "Last week's changes significantly increased the trigger frequency of Enhanced Basic Attacks, so this week we will slightly reduce the damage of Enhanced Basic Attacks in the mid-to-late game.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Enhanced Magic Power Bonus: 120% >> 90%",
+                        "skill_name": "Super Magic",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Vexana": {
+                "badge": "BUFF",
+                "description": "Optimized skill Mana Cost and increased the hit rate of the Eternal Guard's first strike damage after Ultimate hits.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 80-120 >> 60-90",
+                        "skill_name": "Nether Touch",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 200-400 >> 120-200<br/>Reduced Eternal Guard's summoning backswing by 50%.<br/>Airborne Duration: 0.6s >> 0.8s",
+                        "skill_name": "Eternal Guard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Alice": {
+                "badge": "ADJUST",
+                "description": "Thanks to her extremely high efficiency in clearing jungle creeps, Alice has become very dominant in the Jungle Area. We've decided to reduce her early-to-mid game jungling efficiency while improving her laning capabilities.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Base Physical Defense",
+                        "badge": "BUFF",
+                        "description": "21 >> 25"
+                    },
+                    {
+                        "attribute_name": "Physical Defense Growth",
+                        "badge": "NERF",
+                        "description": "4.3 >> 4"
+                    }
+                ],
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "New Effect: Non-hero unit damage cap: 70+10*hero level<br/>Max HP Damage dealt: 0.5%-1.5% >> 0.5%-2.5%",
+                        "skill_name": "Blood Ancestry",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Minotaur": {
+                "badge": "ADJUST",
+                "description": "Experimental Adjustments: As a tank-roaming hero, Minotaur's ability to provide healing to his team far exceeds his own survivability as a tank. We want his combat ability to better match his character. We've revamped the original Enraged Regen effect that enhanced Skill 2 as Minotaur's new passive to improve his durability in combat. For balance, we have reduced Minotaur's ability to provide healing and buffs to allies, though he remains a unique tank with the ability to heal teammates. As this adjustment involves updates to skill effects and skin optimizations, all of Minotaur's skins are temporarily unavailable. Please understand!",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Minotaur motivates for 3s after using the skill. When Enraged, the Regen effect is doubled.<br/><br/>[Motivation]: Recover HP equal to 20% of damage taken from enemy heroes.",
+                        "skill_name": "Rage Mode",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Minotaur motivates himself and nearby allied heroes, restoring 220-320 (+60% Total Magic Power) HP for them and healing himself an additional 5% Lost HP >> Minotaur motivates himself and the nearby ally with the lowest HP, restoring 220-320 (+60% Total Magic Power) HP for them and healing himself an additional 8% Lost HP<br/><br/>Enraged: Minotaur gains Enraged Regen effect for 2s >> Minotaur motivates himself and all nearby allied heroes, Regen effect increased to 150%",
+                        "skill_name": "Motivation Roar",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Slow Effect: 40% >> 60%<br/>Airborne Duration: 1s >> 0.8s",
+                        "skill_name": "Minoan Fury",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Atlas": {
+                "badge": "BUFF",
+                "description": "Experimental Adjustments: Atlas's Skill 2 and Ultimate lack clear range indicators in actual combat to determine whether they can hit enemies. So we've adjusted the ranges of his passive Frigid Breath, Skill 2's stun, and the Ultimate's first-stage immobilize effect to be more consistent. Players can now use the visual effect circle of Frigid Breath as a range indicator for other skills, improving overall skill hit rate. To balance this change, we've slightly reduced the stun duration after Atlas returns to Mecha in Skill 2. As this adjustment involves updates to skill effects and skin optimizations, all of Atlas's skins are temporarily unavailable. We appreciate your understanding!",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Frigid Breath Range: 2 >> 3",
+                        "skill_name": "Frigid Breath",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Damage and Stun Range after Atlas Returns to Mecha: 2.5 >> 3<br/>Stun Duration after Atlas Returns to Mecha: 1s >> 0.8s",
+                        "skill_name": "Annihilate",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Angela": {
+                "badge": "ADJUST",
+                "description": "Experimental Adjustments: We expected Angela to fight side-by-side with allied heroes, but in actual matches, Angela spent most of her time away from allies. So we want to enhance Angela's distinct characteristics. We've significantly reduced her Ultimate's cooldown and channeling time, as well as added an ally call feature to increase players' Ultimate usage frequency and support efficiency. For balance, we've reduced the shield value provided by her Ultimate and removed the effect where completing channeling would reset her other skills.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "New Effect: Added stack indicator for gained Movement Speed.<br/>Fixed an issue where Ultimate could not trigger the passive's Movement Speed bonus.",
+                        "skill_name": "Smart Heart",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Unable to target minion units (can only target creeps and hero units).<br/>Added a countdown bar for the connected string.",
+                        "skill_name": "Love Waves",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Base Shield: 800-1300 (+250% Total Magic Power) >> 600-1000 (+150% Total Magic Power)<br/>Cooldown: Fixed at 70s >> Fixed at 20s<br/>Cooldown now starts when detaching an ally (previously started when attaching to an ally).<br/>Added Ultimate consecutive use protection and removed the effect that resets other skill cooldowns after channeling.<br/>Also added a Quick Chat feature for allies to call Angela. When Angela responds to an ally, that ally's avatar on the Ultimate button will light up. Tapping the lit avatar allows Ultimate to attach to that ally, enabling more frequent and timely support for allies in need.",
+                        "skill_name": "Heartguard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Thamuz": {
+                "badge": "ADJUST",
+                "description": "Reverted the adjustments made on Thamuz's Lava Energy burst speed, yet increased the damage.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Reduced the Lava Energy burst speed.<br/>Damage: 45 + 50% Total Physical Attack + 8* Hero Level >> 60+70% Total Physical Attack + 8* Hero Level",
+                        "skill_name": "Grand Lord Lava",
+                        "skill_type": "Passive"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Battlefield Loading",
+                "description": "Battlefield Loading Interface upgraded! Multiple features are now live!<br/><br/>Visual Upgrade: Loading interface features brand-new visual effects with optimized hero portrait layouts.<br/><br/>Convenient Communication: Chat and real-time voice functions are now available during the battlefield loading phase.<br/><br/>Honor Badges: The all-new Honor Badge system is here! Customize your honor badges freely and showcase them on the loading interface.<br/><br/>Sacred Statue Cards: The battlefield loading interface now features a rotating display of exclusive card effects for Advanced Sacred Statues used in the current match.<br/><br/>Interactive Effects: New Interactive Effect feature available! Send stunning Interactive Effects to other players during lobby, hero selection, and battlefield loading phases."
+            },
+            {
+                "name": "Team-up Group",
+                "description": "Team-up Group feature is now live! Create your own Team-up Group, and enjoy a new way to team up!<br/><br/>Join Freely: Join a variety of groups - friend, local, and rank-up groups. There's always one that suits you!<br/><br/>Favorite Groups Priority: Set your Favorite Groups to get team-up updates instantly. After creating a lobby, make it public for teammates to join immediately.<br/><br/>Join with One-Tap: Group members can directly join the team-up lobby without invitations or reservations, making team-up easier!<br/><br/>Go to [Lobby] - [Team-up Group] - create or join a group to try this feature!<br/><br/>This feature will be available on selected Advanced Servers, with the official launch schedule to be announced at a later date."
+            },
+            {
+                "name": "Free Heroes",
+                "description": "Server Time 08/08/2025 05:01:00 to 08/15/2025 05:00:00<br/><br/>8 Free Heroes: Grock, Franco, Kagura, Clint, Harith, Hayabusa, Guinevere, and Ixia."
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": ["Freya"],
+        "revamped_heroes_data": {
+            "Freya": {
+                "badge": "REVAMP",
+                "description": "Complete revamp: A female warrior who infuses weapons with the Power of Einherjar for sustained combat. Redesigned skills to improve teamfight readiness and combat flow.",
+                "adjustments": [
+                    {
+                        "description": "Sacred Orbs system: Each Basic Attack grants 1 Sacred Orb (max 6). Consuming 1 grants 100% Attack Speed Bonus. Skill 1 redesigned to throw shield and gain orbs. Skill 2 reworked as charge with no cooldown (consumes orbs). Enhanced Skill 2 leaps and knocks airborne. Ultimate dives down and enters Valkyrie state with HP recovery and splash damage.",
+                        "skill_name": "Revamp Overview",
+                        "skill_type": "Revamp"
+                    }
+                ]
+            }
+        }
+    },
     "2.1.26": {
         "version": "2.1.26",
         "release_date": "2025-10-10",
