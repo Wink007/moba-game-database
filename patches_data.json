@@ -120,6 +120,363 @@
             }
         }
     },
+    "2.1.36": {
+        "version": "2.1.36",
+        "release_date": "2025-11-20",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: Revamped Eudora (~), Barats (↑), Estes (↑), Freya (↑), Hilda (↑), Kimmy (↓), Lylia (↑), Sora (↑), and Zilong (↑).",
+        "battlefield_adjustments": {
+            "Mythical Honor Battlefield": {
+                "badge": "ADJUST",
+                "description": "[Mythic Battlefield] has been renamed to [Mythical Honor Battlefield]<br/><br/>Mythic Battlefield's exclusive stat adjustments now only take effect after reaching Mythical Honor."
+            }
+        },
+        "equipment_adjustments": {
+            "Roaming Blessing": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Dealing damage to enemies in the mid-to-late game occurs less frequently, so we've increased the bonus per instance.<br/><br/>[Conceal] & [Dire Hit]:<br/>Gold from Dealing Damage to Enemy Heroes: 20 >> 30 (+ 2 * Hero Level)",
+                        "name": "Conceal & Dire Hit"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Increased Gold rewards from dealing damage to enemy heroes."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Eudora": {
+                "badge": "ADJUST",
+                "description": "Revamped: To help Eudora leverage Superconductor through different skill orders, we've reduced the Ultimate's cooldown. At the same time, we've adjusted the difficulty of landing Lightning Chain and the rewards for doing so. To balance this, Skill 2 now primarily provides crowd control, so it only deals single-target damage when hitting targets without Superconductor.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Cooldown: Fixed 5s >> 7-5s<br/>Delayed Damage: 280-400 (+50% Total Magic Power) >> 280-530 (+130% Total Magic Power)<br/>Movement Speed is only increased when the lightning chain is connected to a target.<br/>Adjusted the skill description. Skill 1 only deals increased damage to minions.",
+                        "skill_name": "Forked Lightning",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "When hitting a non-Superconductor unit, it deals single-target damage.",
+                        "skill_name": "Electric Arrow",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 32-26s >> 26-20s",
+                        "skill_name": "Thunderstruck",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Angela": {
+                "badge": "NERF",
+                "description": "To encourage coordinated combat with allies rather than emergency rescues, we have reverted the previous adjustment to the shield of Angela's Ultimate.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Reverted the previous adjustment that increased the shield value.",
+                        "skill_name": "Heartguard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Aurora": {
+                "badge": "BUFF",
+                "description": "Aurora was slightly underperforming among Mages. We've enhanced her overall ability scaling.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Gain 0.1s additional freezing time for every 100 Magic Power.",
+                        "skill_name": "Bitter Frost",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Barats": {
+                "badge": "BUFF",
+                "description": "The payoff for landing Barats' Ultimate was low, while missing it was too punishing. Therefore, we've made some adjustments to improve this.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: If the Ultimate misses, its cooldown will be reduced by 50%.<br/>New Effect: If the Ultimate hits, Detona immediately gains max stacks of Big Guy.<br/>Effect Change: 60% cooldown refund when the cast is canceled >> 50% cooldown refund when the cast is canceled<br/>Removed Effect: Detona gains Big Guy stacks upon respawn.",
+                        "skill_name": "Detona's Welcome",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Cecilion": {
+                "badge": "ADJUST",
+                "description": "Optimized Cecilion's early-game skill casting experience, allowing him to cast skills more frequently.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Mana Cost Increase Per Cast: 1.5 times at all levels >> 1.3-1.8 times<br/>Mana Cost: 75-150 >> 75 at all levels",
+                        "skill_name": "Bat Impact",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Cici": {
+                "badge": "ADJUST",
+                "description": "Cici's Passive Delight grants her higher mobility than other Fighters. With the optimized decays, she could maintain high Movement Speed to support teammates. Therefore, we've reduced Cici's base Movement Speed and reverted last week's reduction to the Passive's Movement Speed boost.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Movement Speed",
+                        "badge": "NERF",
+                        "description": "260 >> 250"
+                    }
+                ],
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Reverted last week's reduction to the Movement Speed boost.",
+                        "skill_name": "Delight",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Estes": {
+                "badge": "BUFF",
+                "description": "Enhanced Estes' ability to protect backline heroes.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Estes' healing scales with the target's Extra Attack (the higher of Extra Physical Attack or Extra Magic Power). Every 7 extra attack increases healing to that target by 1%.",
+                        "skill_name": "Blessing of Moon Goddess",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Instant Healing: 200-325 (+110% Total Magic Power) >> 200-325 (+75% Total Magic Power)<br/>Sustained Healing: 250-400 (+60% Total Magic Power) >> 250-400 (+80% Total Magic Power)<br/>Enhanced Skill 1 Instant Healing: 400-650 (+220% Total Magic Power) >> 400-650 (+150% Total Magic Power)<br/>Enhanced Skill 1 Sustained Healing: 1020-1500 (+225% Total Magic Power) >> 1020-1500 (+ 300% Total Magic Power)",
+                        "skill_name": "Moonlight Immersion",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Self Healing: 1020-1500 (+225% Total Magic Power) >> 1020-1500 + (300% Total Magic Power)<br/>Enhanced Moonlight Immersion doubles the Hybrid Defense increase.<br/>Optimized the skill description.",
+                        "skill_name": "Blessing of Moon Goddess",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Freya": {
+                "badge": "BUFF",
+                "description": "Enhanced the hero's combat ability without Ultimate. Ultimate now serves as a skill to engage in combat.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "When consuming a Sacred Orb, the next Basic Attack Damage is increased by 20 (+ 2* Hero Level).",
+                        "skill_name": "Power of Einherjar",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Airborne Duration: 0.4s >> 0.6s<br/>Removed the shield effect.",
+                        "skill_name": "Valkyrie Shieldbind",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Upon use, it gains a shield (up to 3 stacks).<br/>Optimized Skill 2's control handling. It no longer hits targets behind the caster, which could cause the charge to fail.",
+                        "skill_name": "Valkyrie Slash",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Gain 50% damage reduction while diving down.<br/>Slightly increased the speed when diving down.<br/>Removed Basic Attack damage increase and HP recovery after activating Ultimate.",
+                        "skill_name": "Valkyrie Descent",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Hilda": {
+                "badge": "BUFF",
+                "description": "We found that there was an issue with Hilda's enhanced Basic Attack. As compensation, we've increased its damage and balanced her lane clearing efficiency and combat power in the early and late game.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Fixed an issue where the enhanced Basic Attack could ignore enemy Physical Defense.<br/>Enhanced Basic Attack Base Damage: 140 (+ 70% Total Physical Attack) (+ 9* Hero Level) >> 160 (+130% Total Physical Attack) (+12* Hero Level)<br/>Piercing Base Damage: 70 (+50% Total Physical Attack) (+7* Hero Level) >> 70 (+ 100% Total Physical Attack) (+ 10* Hero Level)",
+                        "skill_name": "Blessing of Wilderness",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Added a [Target's HP Percentage] row to the Ultimate's stats table, showing the extra damage per Wilderness Mark stack at each level.",
+                        "skill_name": "Power of Wildness",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Kimmy": {
+                "badge": "NERF",
+                "description": "Slightly reduced Kimmy's dominance in the early to mid game.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Basic Attack Damage: 21% of Total Physical Attack + 26% of Total Magic Power >> 15% of Total Physical Attack + 25% of Total Magic Power<br/>Enhanced Basic Attack Damage: 26% of Total Physical Attack + 31% of Total Magic Power >> 20% of Total Physical Attack + 30% of Total Magic Power<br/>Attack Effects: 21% >> 25%<br/>Enhanced Basic Attack Effects: 26% >> 30%",
+                        "skill_name": "Chemist's Instinct",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 10-8s >> 12-10s",
+                        "skill_name": "Charged Energy",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Lancelot": {
+                "badge": "NERF",
+                "description": "Reduced the hero's margin for error in the mid to late game.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 10-7s >> 11-9s",
+                        "skill_name": "Thorned Rose",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Leomord": {
+                "badge": "BUFF",
+                "description": "We've slightly increased the efficiency of Oath Keeper energy gain, allowing Leomord to trigger Critical Basic Attacks faster against a single target.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Oath Keeper Energy from Dealing Damage: 20 >> 25",
+                        "skill_name": "Oath of Cavalry",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Lolita": {
+                "badge": "NERF",
+                "description": "Reverted previous adjustments.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Reverted the previous adjustment that increased the shield value.",
+                        "skill_name": "Noumenon Energy Core",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Lylia": {
+                "badge": "BUFF",
+                "description": "Experimental Adjustments: Due to Lylia's Skill 2 short casting range and Gloom's small area of effect after devouring Shadow Energy, she has struggled in the current meta. Therefore, we've increased the cast range of her Skills 1 and 2, and increased the area of effect after Gloom devours Shadow Energy. As this adjustment involves updates to skill effects and skin optimizations, all of Lylia's skins are temporarily unavailable. Please understand.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cast Range: 7 >> 8",
+                        "skill_name": "Magic Shockwave",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cast Range: 5 >> 6<br/>Area of Effect After Gloom Devours Shadow Energy: 5 >> 6",
+                        "skill_name": "Gloom",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Nolan": {
+                "badge": "NERF",
+                "description": "Reverted some buffs from the previous patch.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Energy Regen: 25 >> 20",
+                        "skill_name": "Multi-Shape",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Rafaela": {
+                "badge": "ADJUST",
+                "description": "Reverted adjustments to healing targets and healing amount.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "HP Regen for Self and the Most Injured Nearby Allied Hero: 150-250 (+90% Total Magic Power) >> 150-250 (+45% Total Magic Power)<br/>Re-added Effect: Recover HP for other nearby allied heroes.",
+                        "skill_name": "Holy Healing",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Sora": {
+                "badge": "BUFF",
+                "description": "Reverted last week's nerfs and optimized the Ultimate's skill performance when in cloud form.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Additional Slam Damage Bonus: 6% Total HP >> 8% Total HP<br/>Torrent Form Adjustment: Leaping forward now knocks enemies airborne instead of back.<br/>Torrent Form Adjustment: Ground Smash Stun Duration 1s >> 0.4s",
+                        "skill_name": "Skyfall",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 32-18s >> 24-16s",
+                        "skill_name": "Shifting Skies",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Zilong": {
+                "badge": "BUFF",
+                "description": "Improved Zilong's early and mid game combat ability and adjusted the skill reset mechanics to give players more control.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Basic Attack Speed",
+                        "badge": "BUFF",
+                        "description": "1.2 >> 1.05"
+                    },
+                    {
+                        "attribute_name": "Physical Attack Growth",
+                        "badge": "BUFF",
+                        "description": "6.65 >> 10"
+                    }
+                ],
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Basic Attack Damage: 100% Total Physical Attack >> 100 (+ 80% Total Physical Attack)<br/>Dragon Flurry Damage: 30 (+40% Total Physical Attack) >> 80 (+ 30% Total Physical Attack)<br/>Dragon Flurry Trigger Condition: Deal damage 3 times with Basic Attacks >> Deal damage 3 times with Basic Attacks or skills<br/>New Effect: Triggering Dragon Flurry reduces the cooldown of Skills 1 & 2 by 2s.<br/>Removed Effect: When the target's HP is below 50%, Zilong's skills and Basic Attacks deal increased damage.",
+                        "skill_name": "Dragon Flurry",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Removed Effect: Zilong resets the skill cooldown when killing an enemy.<br/>Removed Effect: Launches a Basic Attack after casting the skill.",
+                        "skill_name": "Spear Strike",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Battle Spell: Vengeance",
+                "description": "We found that some offensive Fighters using Vengeance posed too great a threat to the backline, so we've reduced its damage to the attacker.<br/><br/>Damage: 35% of damage taken (before reduction) >> 25% of damage taken (before reduction)"
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": ["Eudora"],
+        "revamped_heroes_data": {
+            "Eudora": {
+                "badge": "REVAMP",
+                "description": "Adjusted to leverage Superconductor through different skill orders with reduced Ultimate cooldown and adjusted skill mechanics.",
+                "adjustments": [
+                    {
+                        "description": "Skill 1 cooldown and damage adjusted. Skill 2 now deals single-target damage to non-Superconductor targets. Ultimate cooldown reduced.",
+                        "skill_name": "Revamp Overview",
+                        "skill_type": "Revamp"
+                    }
+                ]
+            }
+        }
+    },
     "2.1.38": {
         "version": "2.1.38",
         "release_date": "2025-11-28",
