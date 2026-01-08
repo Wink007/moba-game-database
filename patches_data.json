@@ -1,4 +1,187 @@
 {
+    "2.1.40": {
+        "version": "2.1.40",
+        "release_date": "2025-12-05",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: Benedetta (↓), Harith (~), Leomord (↑), and Lolita (↑).",
+        "battlefield_adjustments": {
+            "Golden Turtle Test": {
+                "badge": "ADJUST",
+                "description": "We have significantly optimized the visual effects of Golden Turtle and will keep this gameplay available on the Advanced Server.<br/><br/>This test is available in Ranked matches for Master rank and above.<br/><br/>Download the full resources to better experience the gameplay and ensure all visual effects are displayed correctly.<br/><br/>Gather your teammates to defeat the Turtle and collect massive Gold!"
+            }
+        },
+        "equipment_adjustments": {
+            "Demon Hunter Sword": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "HP Regen per Basic Attack: 10 (+4* Hero Level) >> 20 (+ 4* Hero Level)",
+                        "name": "Unique Passive - Devour"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Increased HP regeneration per Basic Attack."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Angela": {
+                "badge": "BUFF",
+                "description": "To improve Angela's support capabilities when attached to allies, we've reduced the cooldown of Skill 1 when attached. Reverted some adjustments from the last patch.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown Reduction When Attached: 50% >> 60%",
+                        "skill_name": "Love Waves",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Reverted adjustments from the last patch.",
+                        "skill_name": "Heartguard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Benedetta": {
+                "badge": "NERF",
+                "description": "After reducing the foreswing of her Passive's Swordout Slash, the skill became overpowered. We've slightly reduced the damage of Swordout Slash to balance this.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Swordout Slash Damage: 215% Total Physical Attack >> 200% Total Physical Attack",
+                        "skill_name": "Elapsed Daytime",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Freya": {
+                "badge": "NERF",
+                "description": "Reverted some buffs made in the previous patch.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Airborne Duration: 0.6s >> 0.4s",
+                        "skill_name": "Valkyrie Shieldbind",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 30-20s >> 34-26s",
+                        "skill_name": "Valkyrie Descent",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Gatotkaca": {
+                "badge": "BUFF",
+                "description": "Reverted some nerfs to the taunt duration made in the previous patch.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Taunt Duration: 0.5-1.5s >> 0.9-1.5s",
+                        "skill_name": "Blast Iron Fist",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Harith": {
+                "badge": "ADJUST",
+                "description": "Reverted some of the previous adjustments.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Enhanced Basic Attack's Magic Power Bonus: 50% >> 60%<br/>Enhanced Basic Attacks deal 50-100 extra base damage to Turrets.<br/>Shield's Magic Power Bonus: 150% >> 120%",
+                        "skill_name": "Synchro Fission",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Leomord": {
+                "badge": "BUFF",
+                "description": "Reverted some previous nerfs.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "HP Regen on Crit Damage: +10% Extra Max HP >> +15% Extra Max HP",
+                        "skill_name": "Oath of Cavalry",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Lolita": {
+                "badge": "BUFF",
+                "description": "We've increased Lolita's durability and the damage of Skill 1.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Shield Frequency: Every 7-4s >> Every 6-3s",
+                        "skill_name": "Noumenon Energy Core",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Base Damage: 300-550 >> 400-650",
+                        "skill_name": "Charge!",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Rafaela": {
+                "badge": "BUFF",
+                "description": "Reverted the previous removal of Skill 1's effect.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Reverted Effect: Each stack of Light of Retribution increases the damage of the next Skill 1 by 20%.",
+                        "skill_name": "Light of Retribution",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Zhuxin": {
+                "badge": "NERF",
+                "description": "Reverted some previous buffs.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Damage Increase Against Targets That Cannot Stack Soul Snare: 25%-50% >> 15-25%",
+                        "skill_name": "Lantern Flare",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Shield: 600-1000 (+150% Total Magic Power) >> 400-700 (+100% Total Magic Power)",
+                        "skill_name": "Crimson Beacon",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Zilong": {
+                "badge": "ADJUST",
+                "description": "Based on player feedback, we decided to revert the cooldown reset mechanics of Zilong's skills.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Removed Effect: Triggering Dragon Flurry reduces the cooldown of Skills 1 & 2 by 2s.<br/>Reverted Effect: When the target's HP is below 50%, Zilong's skills and Basic Attacks deal increased damage.",
+                        "skill_name": "Dragon Flurry",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Cooldown: 9.5-7s >> 12-9s<br/>Reverted Effect: Zilong resets the skill cooldown when killing an enemy.",
+                        "skill_name": "Spear Strike",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.42": {
         "version": "2.1.42",
         "release_date": "2025-12-12",
