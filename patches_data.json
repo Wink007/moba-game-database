@@ -1,4 +1,1063 @@
 {
+    "1.9.91": {
+        "version": "1.9.91",
+        "release_date": "2025-06-18",
+        "game_id": 1,
+        "designers_note": "In high-tier Ranked games and professional matches, Junglers have the biggest impact on early-to-mid game tempo, while Exp Lane heroes rarely have standout performances. Sometimes, Exp Lane heroes even have to purchase defensive equipment to take on the role of damage soaking and give up their resources to other teammates.<br/><br/>We aim to give Exp Lane fighters more opportunities to dominate in the mid game, while slightly reducing Junglers' early-game tempo and balancing creep-clearing speeds among different Jungler heroes to prevent excessive disparities.<br/><br/>Additionally, we find that the Healing Reduction effect from equipment is currently too strong, creating a big difference in how well healing-dependent heroes perform, based heavily on whether enemies purchase equipment with this effect. Therefore, we are reducing the Healing Reduction effect, while also adjusting heroes, equipment, and skills with overly high healing to maintain balance.<br/><br/>Finally, we've enhanced the Resilience attribute to reduce the duration of Airborne control effects. However, we've also decreased the Resilience provided by certain equipment. Due to Airborne now being affected by the new Resilience effect, we will make adjustments to heroes whose combo relies on Airborne to minimize the impact, while providing other compensatory buffs to heroes whose core feature is Airborne but doesn't affect their combo.<br/><br/>Good luck ranking up in the new season!",
+        "new_hero": {
+            "name": "Zetian",
+            "title": "Celestial Empress",
+            "description": "Recognized by the Heavens and cherished by her people, the Celestial Empress of the Cadia Riverlands ascends to bring peace to the mortal realm.<br/><br/><strong>[Passive - Celestial Armament]</strong><br/>[Phoenix Crown]: Zetian gains increased Spell Vamp after hitting enemy heroes with [Phoenix Strike] and [Phoenix Descent].<br/>[Celestial Robe]: The power of the Phoenix Spirit periodically protects Zetian, knocking back and stunning any enemy heroes who dare to approach, dealing Magic Damage and granting Zetian a Shield.<br/><br/><strong>[Skill 1 - Phoenix Strike]</strong><br/>Zetian unleashes a [Phoenix Wave] in the target direction. If it hits an enemy, she automatically casts the next [Phoenix Wave], up to 3 times. Zetian can cast other skills during this process. The third [Phoenix Wave] hits a larger area and pulls targets in the skill's direction for a short distance.<br/><br/><strong>[Skill 2 - Phoenix Descent]</strong><br/>Zetian summons a [Phoenix Spirit] at the target location, dealing Magic Damage and applying a brief slow effect to enemies in the area. The [Phoenix Spirit] hovers at the location for 3s, dealing sustained Magic Damage to enemies in a range and reducing enemies' Magic Defense. While the [Phoenix Spirit] is active, Zetian can use this skill again to command the [Phoenix Spirit] to charge toward a designated location, dealing Magic Damage and applying a brief slow effect upon arrival.<br/><br/><strong>[Ultimate - Fury of the Phoenix]</strong><br/>Zetian grants all allied heroes a Movement Speed increase that gradually decays over 3 sec, while unleashing divine retribution upon all enemy heroes, dealing Magic Damage and stunning them on hit.<br/>During this time, Zetian gains vision of all enemy heroes. She can cast other skills while channeling this ability."
+        },
+        "revamped_heroes": ["Rafaela"],
+        "revamped_heroes_data": {
+            "Rafaela": {
+                "badge": "REWORK",
+                "description": "As an Angel who heals and protects allies, Rafaela's previous Passive skill wasn't compatible with her core mechanics, so we've reworked her Passive.<br/><br/>Rafaela can now turn the tide of battle with her new Passive skill [Divine Resurrection], which allows her to quickly resurrect a teammate at crucial moments.",
+                "adjustments": [
+                    {
+                        "skill": "Passive - Divine Resurrection",
+                        "badge": "REWORK",
+                        "description": "At regular intervals, Rafaela can use a special skill to instantly resurrect a fallen allied hero after a brief channeling. The resurrected allied hero will respawn at the base and is granted increased Movement Speed.<br/><br/>This skill's cooldown is determined by both its base cooldown and the remaining respawn time of the revived hero. It is not affected by Cooldown Reduction."
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "ADJUST",
+                        "description": "Cooldown: 4s at all levels >> 5-3s<br/>Base Damage: 225-500 >> 225-400<br/>Consecutive Hits Time Requirement: 5s >> 6s"
+                    }
+                ]
+            }
+        },
+        "battlefield_adjustments": {
+            "Jungling Adjustments": {
+                "badge": "BUFF",
+                "description": "To balance creep-clearing speeds across Junglers, we've increased the damage ratio of Blessed Jungling Boots while making individual adjustments to heroes with particularly fast or slow creep-clearing speeds (see Hero Adjustments section for details).<br/><br/><strong>[Blessed Jungling Boots]</strong><br/>Base Damage per Second: 25 >> 40 (damage is increased by 100% for non-Marksman heroes)"
+            },
+            "Turtle": {
+                "badge": "BUFF",
+                "description": "We hope to make it easier for side lane heroes to join team fights.<br/><br/><strong>[Current]</strong><br/>Duration of Current: 15s before the Turtle spawns >> Persists from 15s before the Turtle spawns until the Turtle is killed"
+            },
+            "Exp Lane Siege Minion": {
+                "badge": "BUFF",
+                "description": "Exp Reward: Significantly increased the EXP granted during 2-5 minutes."
+            },
+            "Exp Lane Scavenger Crab": {
+                "badge": "BUFF",
+                "description": "Respawn Timer: 1 min >> 45s<br/>Physical & Magic Defense: 37 >> 0"
+            },
+            "Gold Lane Scavenger Crab": {
+                "badge": "ADJUST",
+                "description": "Respawn Timer: 1 min >> 45s<br/>Gold Rewards: Reduced by 22%.<br/>Physical & Magic Defense: 37 >> 0"
+            },
+            "Creep Adjustments": {
+                "badge": "ADJUST",
+                "description": "<strong>[Molten Fiend]</strong><br/>First Spawn Time: 20s >> 25s<br/>Base HP increased by 30%.<br/>Base Attack decreased by 15%.<br/><br/><strong>[Thunder Fenrir]</strong><br/>First Spawn Time: 20s >> 25s<br/>Base HP increased by 30%.<br/>Base Attack decreased by 15%.<br/><br/><strong>[Fire Beetle]</strong><br/>Base HP increased by 30%.<br/>Base Attack decreased by 15%.<br/><br/><strong>[Wind Lizard]</strong><br/>Base HP increased by 30%.<br/>Base Attack decreased by 15%.<br/><br/><strong>[Lava Golem]</strong><br/>Base HP increased by 30%.<br/>Base Attack decreased by 15%."
+            },
+            "Resilience": {
+                "badge": "BUFF",
+                "description": "This attribute now reduces the duration of Airborne (except for Saber and Kalea, whose Airborne durations are closely tied to their skill mechanics).<br/><br/>Kalea has been performing a bit too well in the current patch, and we plan to tone her down."
+            },
+            "Battlefield Draft - Roaring Strike": {
+                "badge": "NEW",
+                "description": "The new Battlefield Draft mode, Roaring Strike, is coming soon! Available for a limited time from 06/27 to 08/05 (Server Time).<br/><br/>This is a limited-time Battlefield Draft mode designed for the ALLSTAR event. A brand-new themed map, Dino Planet, is also available for a limited time. In this new map, the Lord Roar and other dinosaur Creeps await your challenge.<br/><br/>We recommend switching to the themed map for the best gaming experience. But don't worry, you can still enjoy all the content on the default map as well.<br/><br/>The Battlefield Effect applies to both Classic matches and Ranked matches at Epic rank or above, as well as in MLBB Rising Open matches. When entering a match, the system will inform you of the Battlefield Effect active for that match.<br/><br/><strong>Mode Guide:</strong><br/>1- New Damage Skill - Bombardment: Every 3 sec, the Lord locks onto nearby heroes and deals Extra Damage.<br/>2- New Special Ability - Roaring Launch: Heroes near the Summoned Lord can use a special skill to throw themselves to a designated position around the Lord.<br/>3- Lithowanderer Changes: Increased Movement Speed Bonus and granted continuous Mana Regen for the killer. During this time, heroes gain a Passive to detect nearby concealed enemy heroes. However, Stone Roamers will no longer spawn.<br/>4- EXP Scavenger Crab Changes: Gains Damage Reduction when HP falls below 50%. The killer gains additional benefits: increased Max HP and a Shield when at low HP.<br/>5- Gold Scavenger Crab Changes: Gains Extra Damage, Attack Speed, and Movement Speed Bonus when HP falls below 50%. The killer gains additional benefits: Adaptive Attack, Attack Speed, and the ability to deal Extra Damage and slow enemy heroes when attacking them.<br/>6- New Lord Special Mechanics- Roaring Strike: If the Lord hasn't engaged in combat for a while after spawning, it will enter a charging state. After charging for 10 sec, the Lord will move to the other river area. The Lord's charging can be interrupted by damage, but once it enters the movement state, it becomes invincible and cannot be interrupted."
+            }
+        },
+        "equipment_adjustments": {
+            "Endless Battle": {
+                "badge": "BUFF",
+                "description": "Heroes suited for this equipment generally have weaker sustainability (most of them are not ideal candidates for purchasing Haas' Claws or War Axe). We want to provide a more straightforward way to enhance their sustainability.<br/><br/><strong>[Attributes]</strong><br/>Removed Effect: 8% Hybrid Lifesteal, Build Path adjusted accordingly.<br/><br/><strong>[Unique Passive - Divine Justice]</strong><br/>New Effect: When triggered, recover (80 + 40% of Total Physical Attack) HP.<br/>Removed Effect: When triggered, gain 10% Movement Speed."
+            },
+            "Starlium Scythe": {
+                "badge": "NERF",
+                "description": "This equipment deals high-frequency True Damage in the late game with limited counter options. Since most Magic Assassins are better suited for burst-oriented equipment, we've preserved its burst potential but reduced its trigger frequency.<br/><br/>\"The scientists of Eruditio have discovered that Shadow Twinblades's data model has become dominant for this equipment.\"<br/><br/>Price: 2220 >> 2120<br/><br/><strong>[Unique Passive - Crisis]</strong><br/>Cooldown: 1.5s >> 5s<br/>New Effect: When triggered, reduce the target's Movement Speed by 40%.<br/>Removed Effect: When triggered, gain 10% Movement Speed."
+            },
+            "Glowing Wand": {
+                "badge": "NERF",
+                "description": "We find that the Healing Reduction effect from equipment is currently too strong, creating a big difference in how well healing-dependent heroes perform, based heavily on whether enemies purchase equipment with this effect. Therefore, we are reducing the Healing Reduction effect, while also adjusting heroes, equipment, and skills with overly high healing to maintain balance.<br/><br/>Healing Reduction Effect: 50% >> 40%"
+            },
+            "Sea Halberd": {
+                "badge": "NERF",
+                "description": "Healing Reduction Effect: 50% >> 40%"
+            },
+            "Dominance Ice": {
+                "badge": "NERF",
+                "description": "Healing Reduction Effect: 50% >> 40%"
+            },
+            "Ares Belt": {
+                "badge": "ADJUST",
+                "description": "Price: 900 >> 700<br/>Max HP: 770 >> 600"
+            },
+            "Brute Force Breastplate": {
+                "badge": "BUFF",
+                "description": "While this equipment has been underperforming in the current patch, we believe its intended role is appropriate. Therefore, we have significantly enhanced effects.<br/><br/><strong>[Attributes]</strong><br/>Max HP: 600 >> 800<br/>Price: 1870 >> 2070<br/><br/><strong>[Unique Passive - Brute Force]</strong><br/>Resilience at Max Stacks: 15% >> 25%<br/><br/>Adjusted build path; now requires an Ares Belt to build."
+            },
+            "Queen's Wings": {
+                "badge": "ADJUST",
+                "description": "Max HP: 600 >> 750<br/>Adaptive Attack: 40 >> 30<br/><br/>Adjusted build path; now requires an Ares Belt to build."
+            },
+            "Cursed Helmet": {
+                "badge": "ADJUST",
+                "description": "Adjusted build path; now requires an Ares Belt to build."
+            },
+            "Twilight Armor": {
+                "badge": "BUFF",
+                "description": "Adjusted build path; now requires 2 Ares Belts to build.<br/><br/><strong>[Unique Passive - Redemption]</strong> (New)<br/>When incoming damage reduces HP below 30%, recover 20% Max HP over the next 4s. This effect has a 60s cooldown."
+            },
+            "Guardian Helmet": {
+                "badge": "BUFF",
+                "description": "Max HP: 1550 >> 1800<br/>Price: 2200 >> 2500<br/><br/>Adjusted build path; now requires 3 Ares Belts to build."
+            },
+            "Thunder Belt": {
+                "badge": "NERF",
+                "description": "As this equipment provides high Hybrid Defense, we have slightly reduced its Max HP.<br/><br/>Max HP: 800 >> 600"
+            },
+            "Tough Boots": {
+                "badge": "NERF",
+                "description": "Reduced the Resilience provided to align with the Resilience adjustments.<br/><br/><strong>[Unique Passive - Fortitude]</strong><br/>CC Duration Reduction: 30% >> 25%"
+            },
+            "Rapid Boots": {
+                "badge": "BUFF",
+                "description": "We aim to enhance this equipment's utility by providing additional HP Regen to help roaming heroes maintain their condition better.<br/><br/><strong>[Attributes]</strong><br/>New Effect: +12 HP Regen<br/>Price: 750 >> 700<br/><br/>Adjusted build path, now requires two additional Healing Necklaces."
+            },
+            "Roaming Blessing - Dire Hit": {
+                "badge": "BUFF",
+                "description": "Significantly increased its trigger frequency.<br/><br/>Cooldown: 30s >> 15s"
+            },
+            "Roaming Blessing - Favor": {
+                "badge": "NERF",
+                "description": "Following adjustments to the equipment with Healing Reduction, slightly reduced its trigger frequency.<br/><br/>Cooldown: 10s >> 15s"
+            },
+            "Immortality": {
+                "badge": "BUFF",
+                "description": "Max HP: 800 >> 850<br/><br/>Adjusted build path, now requires an additional Vitality Crystal to build."
+            },
+            "Rock Potion": {
+                "badge": "ADJUST",
+                "description": "Removed Effect: 25% CC Duration Reduction<br/>New Effect: 5% Damage Reduction"
+            },
+            "Rose Gold Meteor": {
+                "badge": "NERF",
+                "description": "Reduced the early-to-mid-game durability of heroes with this equipment.<br/><br/>Shield: 770 + 70 * Hero Level >> 120 * Hero Level"
+            },
+            "Magic Blade": {
+                "badge": "NERF",
+                "description": "Shield: 385 + 35 * Hero Level >> 60 * Hero Level"
+            },
+            "Inspire": {
+                "badge": "ADJUST",
+                "description": "We've optimized the consumption logic of Inspire's Basic Attack enhancement opportunities. Now, the enhancement opportunities decrease correctly based on the actual number of Basic Attacks (for example, the bounce damage of Hanabi's Basic Attack no longer consumes Basic Attack enhancement opportunities). For balance, we've slightly reduced the number of Basic Attack enhancement opportunities provided by Inspire.<br/><br/>Additionally, we want Inspire to serve as a Battle Spell that enhances Basic Attacks for all heroes relying on Attack Speed and Basic Attacks. Therefore, we've expanded Inspire's effect from ignoring Physical Defense to ignoring Hybrid Defense to better accommodate heroes that deal Magic Damage. To balance this change, we've reduced the HP recovered from Basic Attacks based on Total Magic Power.<br/><br/>Basic Attack Enhancement Opportunities: 8 >> 6<br/>Ignore target's Physical Defense when Inspire is active >> Ignore target's Hybrid Defense when Inspire is active<br/>HP Regen per Basic Attack: 60 + 15% Total Physical Attack + 15% Total Magic Power >> 60+ 15% Total Physical Attack + 10% Total Magic Power"
+            },
+            "Ice Retribution": {
+                "badge": "NERF",
+                "description": "We aim to balance the effectiveness of different Retribution effects.<br/><br/>Duration: 4s >> 3s"
+            },
+            "Flame Retribution": {
+                "badge": "ADJUST",
+                "description": "Duration: 4s >> 3s<br/>Physical & Magic Power Increase: 58-100 >> 71-120"
+            },
+            "Bloody Retribution": {
+                "badge": "BUFF",
+                "description": "Duration: 4s >> 3s<br/>HP Stolen: 250 + 20% of the caster's Extra HP >> 300 + 24% of the caster's Extra HP"
+            },
+            "Revitalize": {
+                "badge": "NERF",
+                "description": "Following adjustments to the equipment with Healing Reduction, slightly reduced this skill's healing effect.<br/><br/>Healing Received: 25% >> 20%"
+            }
+        },
+        "emblem_adjustments": {
+            "Fighter Emblem": {
+                "badge": "BUFF",
+                "description": "Spell Vamp: 10% >> 12%<br/>Hybrid Defense: 6 >> 8"
+            },
+            "Weapons Master": {
+                "badge": "BUFF",
+                "description": "Attack Increase: 5% >> 8%"
+            },
+            "Festival of Blood": {
+                "badge": "BUFF",
+                "description": "Max Stacks: 8 >> 12"
+            },
+            "Quantum Charge": {
+                "badge": "NERF",
+                "description": "Cooldown: 8s >> 10s"
+            },
+            "Fatal": {
+                "badge": "NERF",
+                "description": "Crit Damage: 10% >> 5%"
+            }
+        },
+        "system_adjustments": {
+            "Ranked Season 37": {
+                "badge": "NEW",
+                "description": "S36 will end at 21:59:59 on 06/17 (Server Time).<br/><br/>S37 will start from 00:00:00 on 06/18 (Server Time). Complete Ranked matches to claim rewards including S37 Seasonal Skin: Faramis \"Enigmatic Wayfarer\" and S37 Avatar Border \"Phoenix Empress Rising\"."
+            },
+            "Music Set": {
+                "badge": "NEW",
+                "description": "The new Music Set feature debuts in S37! When you select a Theme Song marked with (Set), it will replace the music in the Main Interface, Pick & Ban, and in the match. Come experience the fresh battle atmosphere brought by the new hero!<br/><br/>1- This feature is currently in testing, with only the new hero Zetian's exclusive theme song, Soaring Phoenix, supporting this feature.<br/>2- To disable the Music Set feature, go to [Settings > Sound]."
+            },
+            "Lane Matchmaking": {
+                "badge": "NEW",
+                "description": "Lane Matchmaking is now officially available. Players can unlock this feature after reaching Epic rank this season:<br/><br/>1- Before starting matchmaking, select your preferred lane. Matchmaking will be based on your lane preference.<br/>2- Players who have reached Mythic rank before must select at least 2 lanes, while others must select at least 1 lane.<br/>3- When certain lanes have a shortage of players, you'll earn Protection Points for selecting and playing in these high-demand lanes. You can claim this reward once per day.<br/>4- You must play in your assigned lane during the match. If you play in a different lane causing a Laning Conflict, you will lose Credit Score when reported.<br/><br/>We will continue to optimize Lane Matchmaking. Thank you for your support and understanding."
+            },
+            "MLBB Rising Open": {
+                "badge": "ADJUST",
+                "description": "1- Anti-cheat detection has been added to ensure fair competition.<br/>2- The highest honor trophies from each season of MLBB Rising Open are now permanently recorded. You can view trophy information from all historical seasons in your Profile.<br/>3- Added team information viewing feature to the championship records on the home page.<br/>4- To improve the battle experience, matchmaking confirmation will be enabled in MLBB Rising Open. After finding your opponents, you must manually confirm to enter the match. Please note that failure to confirm in time will result in a temporary suspension penalty.<br/>5- Optimized the tournament rules pop-up window.<br/>6- Optimized the Championship title quality.<br/>7- Split the Egypt Division to improve network experience.<br/>8- Optimized the Live Stream Feature: Added a Division filter, Extended the video storage duration."
+            },
+            "Collection": {
+                "badge": "ADJUST",
+                "description": "1- Exclusive items are now included in the Collection and will accumulate Collection Points. However, for fairness, these points will not be counted in the Global Collection Leaderboard.<br/>2- Optimized the sorting order of tabs for various customization items.<br/>3- Added a \"Not Owned\" filter option for customization items."
+            },
+            "Hero Collection": {
+                "badge": "NEW",
+                "description": "The Hero Collection feature is now live! Build your personalized hero roster in two simple steps.<br/><br/>1- Pre-match Setup: Mark your favorite heroes preferred on the Hero Display page or during the Hero Selection.<br/>2- Quick Pick: Your preferred heroes will be automatically pinned to the top during the Hero Selection. Mark your main hero now and be the first to carry in your next match!"
+            },
+            "Squad": {
+                "badge": "ADJUST",
+                "description": "1- Squad Task Adjustment: During the Breakout and Knockout phases of MLBB Rising Open, you can earn Squad Active Points and rewards by participating in MLBB Rising Open matches with your Squad members.<br/>2- Full Squad Weekly Championship Certification: Win a weekly championship in MLBB Rising Open with your Squad members to unlock a Dynamic Level Badge that automatically upgrades based on the tournament level won.<br/>3- Seasonal Honor: The growth system resets each season, badge effects last until the season ends, and Star Squad member achievements are permanently recorded.<br/>4- Squad Honor Display: Championship badges are displayed in real-time on your Profile and Squad Honor Wall, showing your highest tournament achievement of the week.<br/>5- MCL Honor Record: Your Squad's previous MCL Honors have been integrated into the Squad Honor page. You can view these historical MCL Honors under the dedicated MCL Honor tab."
+            },
+            "Lobby ID": {
+                "badge": "NEW",
+                "description": "The new Lobby ID Team-up feature will be available on 06/25/2025!<br/><br/>To improve the quick lobby joining experience, we have made optimizations to the existing Face-to-Face Team-up feature:<br/><br/>You can now tap the button on the top to instantly generate a Lobby ID for any lobby. Other players can enter the shared Lobby ID to quickly join the lobby.<br/><br/>You can use Lobby ID to team up in multiple modes without geographic restrictions, making it more convenient to form teams."
+            },
+            "Report": {
+                "badge": "NEW",
+                "description": "The new Report feature is now available in VS A.I. & Custom and Tournament modes."
+            },
+            "Optimizations": {
+                "badge": "ADJUST",
+                "description": "1- Optimized the red-flash hit indicator feature: When players successfully hit a target, the target's model will briefly change color to provide better visual feedback for successful hits.<br/>2- Fixed an issue where the enhanced Basic Attack indicators for certain heroes and their skins wouldn't expand after purchasing Malefic Gun. Affected heroes: Lesley, Khufra, Khaleed, Nolan, Chip, Lukas, Layla, Saber, Yu Zhong, Kimmy, and Kalea.<br/>3- Enhanced Crowd Control Effects: Optimized the UI display when heroes are under crowd control effects to improve clarity during combat.<br/>4- New Skill Duration Timer: A timer will now appear to the left of the HP bar when crucial persistent skills are activated to improve combat clarity.<br/>5- Flicker: Optimized the landing position detection when using the Flicker near walls to prevent displacement issues.<br/>6- Optimized the casting experience of short-range Ultimate skills with long foreswing animations, making them interruptible only by Suppression. These skills include: Arlot's Ultimate, Kadita's Ultimate, Khufra's Ultimate, and Lapu-Lapu's Skill 1 after activating Ultimate.<br/>7- Adjusted the recommended lanes and corresponding Battle Setup for some heroes based on current Ranked data.<br/>8- Optimized the auto-selection feature.<br/>9- Optimized the in-game skill board: You can now view more detailed skill information under the complete description.<br/>10- The battle effect preview feature has been fully implemented. You can now long-press icons to preview their actual effects in the match.<br/>11- To optimize your gaming experience, we will temporarily close the Season Achievement system on the Advanced Server. The system will reopen once optimization is complete."
+            },
+            "Bug Fixes": {
+                "badge": "ADJUST",
+                "description": "1- Fixed an issue where Fanny's Skill 1 would trigger multiple times during flight.<br/>2- Fixed an issue where Brody's Basic Attacks could be interrupted by immobilizing effects.<br/>3- Fixed an issue where Balmond's Skill 2, Balmond's Ultimate, Dyrroth's Ultimate, Aulus's Ultimate, and Fredrinn's Ultimate could not be interrupted by Suppression.<br/>4- Fixed an issue where heroes with Retribution received more rewards from Creeps than intended. (This change will slow down the time it takes for fast-jungling heroes to reach Lv.4.)<br/>5- Fixed an issue where the indicator range of Natan's Skill did not match its actual range.<br/>6- Fixed an issue where Lukas could use Skill 1 while inside Minsitthar's Ultimate."
+            }
+        },
+        "hero_adjustments": {
+            "Aamon": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "ADJUST",
+                        "description": "Speed Boost: 60% >> 80%<br/>All enhanced Basic Attacks reduce all skill cooldowns by 0.5s. >> The first enhanced Basic Attack after leaving the Camouflage state reduces all skill cooldowns by 1s."
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 7s at all levels >> 7-5.5s<br/>Armor Charge Interval in the Camouflage State: 1s >> 0.5s<br/>Reduced the foreswing time by 25%.<br/>Removed Effect: Casting a skill will charge the armor.<br/>Fixed an issue where Aamon threw his shards with the next Enhanced Basic Attack after reaching 4 charges."
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 13-11s >> 12.5-10s"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 55-45s >> 50-40s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Arlott": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "HP Recovery: 90%-160% Total Physical Attack >> 70-270 + 60% Total Physical Attack<br/>New Effect: Gain a brief significant Movement Speed boost when hitting marked targets."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "New Effect: Each level-up reduces the Passive cooldown by 1s.<br/>The Ultimate can only be interrupted by Suppression during casting."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Lesley": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "ADJUST",
+                        "description": "Each Point of Fixed Physical Penetration Converts to Crit Damage: 0.5% >> 1%<br/>New Effect: Each 1% of Physical Penetration converts to 1% Crit Damage."
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "New Effect: After entering the Camouflage state, gain 0.5 sec of protection during which damage will not immediately break the Camouflage."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Gain Crit Chance: 5%-15% >> 10%-20%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Ixia": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "New Effect: [Siphon Starlium] reduces the target's Movement Speed by 25% for 1 sec upon hit.<br/>Non-hero Units' HP Recovery: 20 (+ 100*Lifesteal)% >> 20 (+150*Lifesteal)%"
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "ADJUST",
+                        "description": "Movement Speed Gained after Hitting a Hero: 40% >> 50%<br/>Slightly increased skill width and cast speed.<br/>Removed the effect that reduces enemy hero's Movement Speed by 40% on hit."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Optimized auto-cast targeting logic for Skill 1 and Skill 2 during the Ultimate state.<br/>Cooldown: 54-42s >> 42-30s"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Basic Attack Range",
+                        "badge": "NERF",
+                        "description": "5 >> 4.8"
+                    }
+                ]
+            },
+            "Bruno": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Crit Chance per Stack: 2% >> 2.5%<br/>Max Stacks: 10 >> 8"
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 75-125 >> 50-100"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Natan": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8-6s >> 8-5s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Lylia": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 9.8-5s >> 6s at all levels<br/>Mana Cost: 40-100 >> 32-80<br/>Damage: 220-370 + 100% of Magic Power >> 220-430 + 115% of Total Magic Power<br/>Gloom Damage Growth per Level: 30% >> 20%<br/>A max-level Gloom will restore 50% of Shadow Energy's Recharge Time when it hits an enemy hero. >> Gloom restores 20% of Shadow Energy's Recharge Time when it hits an enemy hero."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Kadita": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "ADJUST",
+                        "description": "Dashing Speed: 10 >> 8<br/>Mana Cost: 80-130 >> 55-80"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Airborne Delay: 1.1s >> 0.8s<br/>Mana Cost: 90-140 >> 75-100"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "The Ultimate can only be interrupted by Suppression during casting.<br/>Foreswing: 0.7s >> 0.5s"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Movement Speed",
+                        "badge": "BUFF",
+                        "description": "240 >> 255"
+                    }
+                ]
+            },
+            "Kagura": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Shield: 280 + 50% of Total Magic Power >> 450 + 80% of Total Magic Power"
+                    },
+                    {
+                        "skill": "Skill 2 (with Seimei Umbrella)",
+                        "badge": "BUFF",
+                        "description": "New Effect: Gain a brief Control Immunity effect when removing debuffs."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Lunox": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill": "Skill 3 (Power of Chaos: Darkening)",
+                        "badge": "ADJUST",
+                        "description": "Now, while Power of Chaos is enhanced, Skill (Starlight Pulse) shares a shorter cooldown with Skill 1 (Chaos Assault). However, using Starlight Pulse will interrupt the Power of Chaos enhancement state."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Odette": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 90-140 >> 80-105"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Reduced the foreswing time by 25%.<br/>Removed backswing."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 200-280 >> 160-240"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Roger": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Basic Attack",
+                        "badge": "BUFF",
+                        "description": "Removed the Basic Attack backswing in human form."
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Reduced the foreswing time of Skill 1 in human form by 20%.<br/>Reduced the backswing time of Skill 1 in human form by 25%."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 9-4.5s >> 7.5-4.5s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Helcurt": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "New Effect: Reveals the position of terrified enemies."
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Extra Physical Attack Bonus: 42% >> 50%<br/>New Effect: Skill 2 now prioritizes targets affected by Skill 1's Terrify effect."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Removed the delay after casting Ultimate. Now casting Ultimate restricts enemies' sight range immediately."
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Attack Growth",
+                        "badge": "NERF",
+                        "description": "11.05 >> 8"
+                    }
+                ]
+            },
+            "Lancelot": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Mark Duration: 5s >> 3s<br/>Base Damage: 100-250 >> 150-275"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Gusion": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 11-9s >> 9s at all levels"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 28-20s >> 24-16s<br/>The second-cast dashing distance is increased by 33%, and the dashing speed is increased by 66%."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Nolan": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Energy Regen: 15 >> 20<br/>Base Damage: 220 >> 240"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Yu Zhong": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Improved the efficiency of lost HP recovery."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "HP Boost: 600-1000 >> 1000-2000"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Minsitthar": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Base Damage: 300 >> 400<br/>Basic Regen: 300 >> 400"
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "ADJUST",
+                        "description": "Damage Bonus: 200% Extra Physical Attack >> 40% Total Physical Attack"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 7-5s >> 4s at all levels<br/>Enhanced Basic Attack Damage: 100% Total Physical Attack >> 100-200 + 45% Total Physical Attack<br/>Damage: 300-500 + 180% Extra Physical Attack >> 100-200 + 45% Total Physical Attack"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "X.Borg": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Number of Rotations: 7 >> 14<br/>Rotation Damage: 200 + 130% Extra Physical Attack + 90% Total Magic Power >> 90-110 + 60% Extra Physical Attack + 45% Total Magic Power<br/>New Effect: Firaga Supplies touched during Ultimate will not be absorbed. When Ultimate ends, all nearby Firaga Supplies will be absorbed immediately."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Uranus": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Effect Adjustment: Uranus' Basic Attack deals Magic Damage equal to 80% Total Physical Attack + 4-8 (scales with level) * Radiance stacks."
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "New Effect: Skill 1 deals extra Magic Damage equal to (8-16) * Radiance stacks.<br/>Removed Effect: Skill 1 no longer stacks on enemies hit or increases damage based on stack count."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Lapu-Lapu": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1 - Great Sword Stance",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 10s >> 10-7s<br/>This skill can only be interrupted Suppression during casting."
+                    },
+                    {
+                        "skill": "Skill 2 - Great Sword Stance",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 4s >> 6-4s<br/>Damage Reduction Duration: 4s >> 3s<br/>Effect Changed: For each enemy hero hit, Lapu-Lapu gains 10% extra Damage Reduction. >> Lapu-Lapu gains 30% Damage Reduction upon hitting an enemy hero, plus 8% for each additional enemy hero hit."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Terizla": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 9s >> 8.5s"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Damage to Minions: 70%-100% >> 80%-100%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Paquito": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8.5-6.5s >> 8-6s"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 18-15s >> 17-13s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Ruby": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Base Spell Vamp: 5% >> 6%-20% (scales with level)<br/>Defense Increase After Dashing: 9-30 >> 8-25"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Aldous": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 60-85 >> 45-60"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Esmeralda": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 150 >> 100<br/>Cooldown: 32-24s >> 30-20s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Kalea": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "Removed the knockback effect from the first Enhanced Basic Attack.<br/>Second Enhanced Basic Attack Base Damage: 300 >> 200"
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "NERF",
+                        "description": "Base Damage: 250-400 >> 200-350"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Leaping Distance after Colliding with an Obstacle during Charge: 5 > 4.5"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Slamming Distance: 5.5 >> 5"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Lukas": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "Resolve Gained per Second: 1 >> 0.5<br/>No longer retains the Resolve upon death in Sacred Beast form."
+                    },
+                    {
+                        "skill": "Skill 1",
+                        "badge": "NERF",
+                        "description": "Base Damage: 270-570 >> 220-520<br/>Combo Damage Bonus: 50% Total Physical Attack >> 45% Total Physical Attack"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Cooldown: 12-8s >> 14-8s"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Extra Resolve Gained: 0.5-1.5 >> 1-2"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Hayabusa": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "Hayabusa can now only apply one stack of Shadow Mark each time."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "ADJUST",
+                        "description": "Base Damage: 140 + 50% Extra Physical Attack >> 140 + 32% Extra Physical Attack<br/>Extra Damage: 70-140 >> 90-150<br/>Extra Damage Bonus: 40% Extra Physical Attack >> 40%-60% Extra Physical Attack"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Kimmy": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Cooldown: 40s-30s >> 50s-40s<br/>Range reduced by 10%.<br/>Optimized the Ultimate's collision logic. The explosion center point will now be closer to the first target hit."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Selena": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "ADJUST",
+                        "description": "Cooldown: 5.5-4s >> 5.5s at all levels<br/>New Effect: Gain 5-20 Magic Power."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Fanny": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Energy Cost: 15 >> 12"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Energy Cost: 16-11 >> 19-14"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Energy Cost: 15 >> 12"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Zhuxin": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Skill 2 no longer reveals the vision of the entire bush, now only reveals the vision of heroes hit."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Luo Yi": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "During the Ultimate casting, Luo Yi's position will be revealed (teleport destination remains hidden)."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Chip": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 4",
+                        "badge": "NERF",
+                        "description": "Skill 4 now has a 1-sec foreswing and reveals Chip's position for 1.5 sec."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Estes": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "ADJUST",
+                        "description": "Basic Healing: 250-325 + 110% Total Magic Power >> 200-325 + 110% Total Magic Power<br/>Sustained Healing: 325-400 + 60% Total Magic Power >> 250-400 + 60% Total Magic Power<br/>New Effect: Increases the linked ally's Hybrid Defense by 15-30."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Enhanced Skill 1 Basic Healing: 500-700 + 220% Total Magic Power >> 400-650 + 220% Total Magic Power<br/>Enhanced Skill 1 Sustained Healing: 1170-1470 + 210% Total Magic Power >> 900-1500 + 225% Total Magic Power<br/>Self Healing: 1230-1470 + 210% Total Magic Power >> 1020-1500 + 225% Total Magic Power"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Mathilda": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Self Shield: 350-800 >> 350-600<br/>Allied Hero Shield: 60% >> 50%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Floryn": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Removed Effect: Removes all allies' Healing Reduction received upon activation.<br/>New Effect: Increases all allies' Healing Received by 12% upon activation."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Angela": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Shield: 1000-1600 + 200%-300% Magic Power >> 800-1300 + 250% Magic Power at all levels"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Baxia": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "Target Shield and HP Regen Reduction: 50% >> 40%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Barats": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "ADJUST",
+                        "description": "Hybrid Defense Increase: 3-9 >> 4-10<br/>Removed the 5% Resilience increase each stack.<br/>New Effect: Gain 20% Resilience at max stacks."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Ling": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "New Effect: Slows hit targets by 40% for 1.5s."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Khufra": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Reduced the backswing time by 60% when hitting heroes."
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "The Ultimate can only be interrupted by Suppression during casting."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Minotaur": {
+                "badge": "BUFF",
+                "adjustments": [],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Base Physical Defense",
+                        "badge": "BUFF",
+                        "description": "18 >> 23"
+                    },
+                    {
+                        "attribute": "Base Magic Defense",
+                        "badge": "BUFF",
+                        "description": "10 >> 15"
+                    },
+                    {
+                        "attribute": "Physical Defense Growth",
+                        "badge": "BUFF",
+                        "description": "5.5 >> 6.7"
+                    },
+                    {
+                        "attribute": "Magic Defense Growth",
+                        "badge": "BUFF",
+                        "description": "2.5 >> 4"
+                    }
+                ]
+            },
+            "Atlas": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Time Needed to Freeze Enemies in Frigid Breath: 3s >> 2s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Guinevere": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Airborne Duration: 0.8s >> 1s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Vale": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Airborne Duration: 0.6s >> 0.8s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Hanzo": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "NERF",
+                        "description": "Cooldown: 25-15s >> 30-20s<br/>When targeting the Turtle, Lord, or enemy hero, this skill's cooldown is reduced by 50% >> 60%."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Freya": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "New Effect: Freya's Basic Attacks only deal 75% damage to Creeps."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Alpha": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "New Effect: This skill only deals 75% damage to Creeps."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Jawhead": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "New Effect: Limited to 50% for Creeps."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Julian": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "NERF",
+                        "description": "New Effect: Enhanced Basic Attacks only deal 75% damage to Creeps."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Alucard": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "New Effect: As a Demon Hunter, all of Alucard's damage against Creeps is increased by 10%."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Sun": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "New Effect: Sun or his Doppelgangers' Basic Attack damage against Creeps is increased by 50."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Saber": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Removed Effect: Orbiting Swords only deal 50% damage to Creeps."
+                    }
+                ],
+                "attribute_adjustments": []
+            }
+        }
+    },
     "1.9.66": {
         "version": "1.9.66",
         "release_date": "2025-03-14",
