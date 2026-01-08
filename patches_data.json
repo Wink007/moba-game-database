@@ -431,6 +431,57 @@
             }
         }
     },
+    "2.1.18-org": {
+        "version": "2.1.18 (Org. Server)",
+        "release_date": "2025-09-09",
+        "game_id": 1,
+        "designers_note": "Additional Balance Adjustments for Original Server. Thamuz and Layla buffs, Bane nerf.",
+        "battlefield_adjustments": {},
+        "equipment_adjustments": {},
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Thamuz": {
+                "badge": "BUFF",
+                "description": "Thamuz currently takes too long to scale, making him unable to fulfill the Fighter/Tank role until he has three or more equipment items. To address this, we've increased his early game survivability.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Extra Max HP: 600 >> 1000-1200<br/>Extra Max HP Bonus: 30%-50% Extra Max HP >> 50% Extra Max HP",
+                        "skill_name": "Cauterant Inferno",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Layla": {
+                "badge": "BUFF",
+                "description": "As a late-game Marksman, Layla's farming speed was greatly affected by the decrease in Gold from Minions. Therefore, we've slightly increased her damage in the mid to late game.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Physical Attack Growth",
+                        "badge": "BUFF",
+                        "description": "8.5 >> 10"
+                    }
+                ]
+            },
+            "Bane": {
+                "badge": "NERF",
+                "description": "We've noticed that Bane's fully charged Skill venom deals excessive damage in Magic builds and is difficult to counter. To address this, we've reduced its Magic Power Bonus when fully charged.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Magic Power Bonus When Fully Charged: 250% >> 200%",
+                        "skill_name": "Ale",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.26": {
         "version": "2.1.26",
         "release_date": "2025-10-10",
