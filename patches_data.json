@@ -1500,6 +1500,89 @@
         "revamped_heroes": [],
         "revamped_heroes_data": {}
     },
+    "2.1.18-adv": {
+        "version": "2.1.18 (Adv. Server)",
+        "release_date": "2025-09-05",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: Revamped Freya (↓). Balance adjustments following the Freya revamp.",
+        "battlefield_adjustments": {},
+        "equipment_adjustments": {
+            "Roaming Boots": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "The following adjustments have been made to ensure roaming heroes can gain more economy through their own in the early and mid game.<br/><br/>Gold Gained from Single Vision Reveal: 20 >> 30<br/>When allied heroes are nearby, independent gains from minions and creeps: 30% >> 40%",
+                        "name": "Devotion"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Additional Gold and EXP gained every 5s after 8 minutes: 33% >> 50%",
+                        "name": "Thriving"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Increased Gold and EXP gains for roaming heroes."
+            },
+            "Blade Armor": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "The adjustments to Dominance Ice and Antique Cuirass have generated ongoing discussions, so we have decided to temporarily revert these adjustments.",
+                        "name": "Revert"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Reverted previous adjustments."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Freya": {
+                "badge": "NERF",
+                "description": "Revamped Freya: Reduced her farming efficiency and mid-game combat ability.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Damage Against Creeps: 70% >> 50%",
+                        "skill_name": "Valkyrie Slash",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Basic Attack Damage Increase: 30-90 >> 30-60<br/>Basic Attack HP Regen: 70-210 >> 70-140<br/>Exp Lane >> Exp Lane / Jungling",
+                        "skill_name": "Valkyrie Descent",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Alice": {
+                "badge": "ADJUST",
+                "description": "Alice's Passive could be triggered too easily, allowing her to farm the Jungle at a high pace. We've adjusted the Passive mechanics while strengthening her Passive Damage and laning ability.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Mechanics Adjustment: Damage to creeps no longer refreshes Crimson.<br/>Base Damage: 20 >> 25<br/>HP Recovery Reduction from Minions: 50% >> 30%",
+                        "skill_name": "Blood Ancestry",
+                        "skill_type": "Passive"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Bug Fixes",
+                "description": "1- Fixed an issue where the Speed Boost for allies and the Slow effect on enemies from Hylos's Ultimate would be removed upon his death.<br/><br/>2- Fixed an issue where Zetian's Skill dealt slightly less damage to minions than described."
+            },
+            {
+                "name": "Free Heroes",
+                "description": "Server Time 09/05/2025 05:01:00 to 09/12/2025 05:00:00<br/><br/>8 Free Heroes: Baxia, Guinevere, Joy, Faramis, Novaria, Brody, Minotaur, and Harith."
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.18-org": {
         "version": "2.1.18 (Org. Server)",
         "release_date": "2025-09-09",
