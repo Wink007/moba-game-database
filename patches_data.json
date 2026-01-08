@@ -1969,6 +1969,232 @@
             }
         }
     },
+    "1.9.74-adv": {
+        "version": "1.9.74 (Adv. Server)",
+        "release_date": "2025-04-10",
+        "game_id": 1,
+        "designers_note": "Advanced server update with hero adjustments and battlefield effect tests.",
+        "battlefield_adjustments": {},
+        "equipment_adjustments": {},
+        "emblem_adjustments": {},
+        "system_adjustments": {
+            "Bug Fixes": {
+                "badge": "ADJUST",
+                "description": "Fixed an issue where Brody's Basic Attacks could be interrupted by immobilizing effects."
+            },
+            "Battlefield Effect Test": {
+                "badge": "ADJUST",
+                "description": "We will continue testing last week's new Battlefield Draft effect on the Advanced Server this week to collect more test data and feedback."
+            },
+            "Pro Setup": {
+                "badge": "ADJUST",
+                "description": "Due to differences between some Pro Setups and the mainstream Setups in the current latest Patch, we will temporarily remove content in the Pro Setups tab, only keeping Pro Setups for new heroes, revamped heroes, or older heroes with significant changes."
+            },
+            "Free Heroes": {
+                "badge": "ADJUST",
+                "description": "Server Time 04/11/2025 05:01:00 to 04/18/2025 05:00:00<br/><br/>8 Free Heroes: Pharsa, Helcurt, Edith, Lunox, Ling, Fredrinn, Akai, Luo Yi<br/>6 Extra StarLight Member Heroes: Brody, Martis, Alice, X.Borg, Lapu-Lapu, Karina"
+            }
+        },
+        "hero_adjustments": {
+            "Gord": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Added vision shifting effect."
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Base Damage: 40–90 (+14% of Total Magic Power) >> 30–80 (+12% of Total Magic Power)"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Leomord": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1 (Human Form)",
+                        "badge": "ADJUST",
+                        "description": "Reverted to match the Official Server."
+                    },
+                    {
+                        "skill_name": "Skill 1 (Mounted)",
+                        "badge": "ADJUST",
+                        "description": "Reverted to match the Official Server."
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "ADJUST",
+                        "description": "Cooldown: 35–25s >> 30–20s<br/>Barbiel's Impact Damage: 200–400 (+60% of Total Physical Attack) >> 100–300 (+50% of Total Physical Attack)"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Ixia": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Optimized auto-cast targeting logic for Skill 1 and Skill 2 during Ultimate state.<br/>Cooldown: 54–42s >> 42–30s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Aamon": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "BUFF",
+                        "description": "Camouflage Duration: 2s >> 3s<br/>Reduced HP Regen rate in the Camouflage state."
+                    },
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "NERF",
+                        "description": "Cooldown: 6–4s >> 5.5s at all levels"
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Cooldown: 9–6.5s >> 11.5–9s"
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Cooldown: 36–30s >> 45–39s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Valir": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "NERF",
+                        "description": "Ablaze Damage Duration: 4s > 3s"
+                    },
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "New Effect: The skill cooldown can now be affected by Cooldown Reduction.<br/>Recharge Time: 9s >> 10s<br/>Cooldown Refunded When Hitting Minions: 50% >> 4s fixed"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Balmond": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Damage: 25–100 + 25% of Total Physical Attack >> 25–75 + 25% of Total Physical Attack + 3% of Extra HP"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Kimmy": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Speed Boost: 90% >> 120%"
+                    },
+                    {
+                        "skill_name": "Passive",
+                        "badge": "NERF",
+                        "description": "Enhanced Basic Attack Lifesteal Ratio: 100% >> 50%"
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Immobilizing Time: 1.5s >> 1s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Helcurt": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Extra Physical Attack Growth: 40%–60% >> 50% at all levels"
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Removed the delay after casting Ultimate. Now casting Ultimate restricts enemies' sight range immediately."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Yi Sun-shin": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "NERF",
+                        "description": "Removed Enhanced Basic Attack HP Regen: 50 + 50% of Total Physical Attack >> 30% of Total Physical Attack"
+                    },
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Control Immunity Duration: 0.4s >> 1s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Minsitthar": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "ADJUST",
+                        "description": "Damage Bonus: 200% of Extra Physical Attack >> 40% of Total Physical Attack"
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 7–5s >> 4s at all levels<br/>Enhanced Basic Attack Damage: 100% of Total Physical Attack >> 100–200 + 50% of Total Physical Attack<br/>Damage: 300–500 + 180% of Extra Physical Attack >> 100–200 + 50% of Total Physical Attack"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "X.Borg": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "BUFF",
+                        "description": "Armor Gained from Extra HP: 90% >> 100%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Gloo": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "ADJUST",
+                        "description": "Extra Damage: 200–300 + 8% of Total HP >> 300–450 + 12% of Extra HP"
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "ADJUST",
+                        "description": "Basic Attack Damage when Attached: 30 + 50% of Total Magic Power + 3% of Total HP >> 30–90 + 50% of Total Magic Power + 6% of Extra HP"
+                    }
+                ],
+                "attribute_adjustments": []
+            }
+        }
+    },
     "1.9.66": {
         "version": "1.9.66",
         "release_date": "2025-03-14",
