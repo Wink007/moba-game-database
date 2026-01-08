@@ -1,4 +1,255 @@
 {
+    "1.9.56": {
+        "version": "1.9.56",
+        "release_date": "2025-01-23",
+        "game_id": 1,
+        "designers_note": "The 2025 New Battlefield Effects are coming!! The current visual elements are in testing and do not represent the final quality. We will continue to optimize gameplay, attributes, and visual elements. We will also gradually introduce new battlefield effects for testing. We hope you'll try them out and share your feedback with us. We'll keep communicating with you through [Layla's Workshop]. This feature will not be available immediately after the Patch update. We will enable it after confirming the Patch's stability.<br/><br/>Badang, Grock, and Ling will be temporarily unavailable when this feature is enabled. We will fix the related issues as soon as possible and make these heroes available in a future Patch.",
+        "battlefield_adjustments": {
+            "Battlefield Effect Test": {
+                "badge": "NEW",
+                "description": "<strong>Battlefield Effect Rules:</strong><br/>1. The battlefield effect mechanism is only available in Pick & Ban matches in the Ranked mode, and the battlefield effect for each match is random.<br/>2. After matchmaking is successful, you'll be notified of the battlefield effect for the current match. The battlefield effect description can still be viewed during the Pick & Ban phase.<br/>3. The battlefield effect will activate the 5-minute mark and remain active until the end of the match.<br/><br/><strong>Battlefield Effects Tested in This Patch:</strong><br/>1. <strong>Boulder Shatter:</strong> Multiple obstacles on the map become thinned or broken, making them easier to pass through. Heroes without movement skills can now move more freely.<br/>2. <strong>Danger at Every Turn:</strong> Existing bushes on the map are extended and new ones are added, providing more opportunities for ambush.<br/>3. <strong>Overcharge Zone:</strong> Neutral Lord/Turtle gains significantly enhanced survivability and damage. When in combat, they create an Overcharge Zone around them, granting heroes within massive Cooldown Reduction, Attack Speed, and Mana Regen bonuses."
+            },
+            "Equipment Adjustments": {
+                "badge": "ADJUST",
+                "description": "We have optimized the effect descriptions of the 4 [Movement] Blessings of Roaming equipment:<br/><br/>After purchase, the hero cannot gain EXP or Gold from Minions and Creeps >> After purchase, the hero cannot gain EXP or Gold from Minions and Creeps when there are allied heroes nearby"
+            },
+            "Main Interface Optimizations": {
+                "badge": "ADJUST",
+                "description": "We've optimized the Main Interface, with several less-used features now grouped under a new button in the top-right corner.<br/><br/>1. Inventory, Live, Leaderboards, and Tournament can now be found under the new button in the top-right corner.<br/>2. The StarLight button has been moved to the bottom-left corner of the Main Interface.<br/>3. These optimizations will be effective from 02/07 to 02/21. During this period, the Level Growth and Mentorship features will be temporarily unavailable. You can continue completing these tasks after the optimization period ends."
+            },
+            "Activity Events Adjustments": {
+                "badge": "ADJUST",
+                "description": "Adjusted the activity events. You can now earn better rewards from fewer daily matches.<br/><br/>1. Battle Chest, Free Chest, and Daily Quests have been merged into the Bang Bang Card system.<br/>2. You'll get a Bang Bang Card after each match and obtain a random reward from it. There're also chances to directly obtain a skin or a hero.<br/>3. These optimizations will be effective from 02/07 to 02/21. During this period, the Level Growth and Mentorship features will be temporarily unavailable. You can continue completing these tasks after the optimization period ends."
+            },
+            "Others": {
+                "badge": "NEW",
+                "description": "The hero switching feature is now being tested on the Advanced Server. Go to Ranked mode - Season Info - Timeless Captures to view and switch your Main Interface hero."
+            }
+        },
+        "equipment_adjustments": {
+            "Roaming Equipment": {
+                "badge": "ADJUST",
+                "description": "We have optimized the effect descriptions of the 4 [Movement] Blessings of Roaming equipment:<br/><br/>After purchase, the hero cannot gain EXP or Gold from Minions and Creeps >> After purchase, the hero cannot gain EXP or Gold from Minions and Creeps when there are allied heroes nearby"
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Yi Sun-shin": {
+                "badge": "BUFF",
+                "description": "New in-battle Ultimate effects for Revamped Yi Sun-shin are now available.<br/><br/>When an enemy hero exposes their position to Revamped Yi Sun-shin, a special marker will appear as a reminder.<br/><br/>In the second phase of the Ultimate, hitting enemies with the turtle ship will immediately trigger the Weapon Mastery effect.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New in-battle Ultimate effects. Special marker appears when enemy exposes position. Turtle ship hits trigger Weapon Mastery immediately.",
+                        "skill_name": "One Man's Determination",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Zhuxin": {
+                "badge": "ADJUST",
+                "description": "We aim to reduce Zhuxin's control abilities while compensating with increased damage.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Max Stacks: 20 >> 15<br/>Mana Regen per Stack: 4% >> 5%",
+                        "skill_name": "Starlight Ink",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Mana Cost: 90-120 >> 110-145<br/>Extra Damage: 270-645 + 150% of Magic Power >> 300-850 + 165% of Magic Power<br/><br/>Skill 2 reveals the entire Bush >> Only reveals the vision of targets hit by Skill 2",
+                        "skill_name": "Ink Splash",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Kalea": {
+                "badge": "BUFF",
+                "description": "Improved controllability of the Ultimate's slam move.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "During the slam move, you can now use the left joystick to change the landing spot at any time.",
+                        "skill_name": "Tsunami Slam",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Lukas": {
+                "badge": "BUFF",
+                "description": "We want to enhance the impact of the Sacred Beast's Shockwave Blast.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Shockwave Blast's explosion now damages all enemies in range (previously only damaged the first target hit).",
+                        "skill_name": "Sanctum Sovereignty",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Rafaela": {
+                "badge": "BUFF",
+                "description": "We've reverted the changes to Rafaela's Skill 2 and optimized the usability of her Passive.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "When the skill is available, its icon will move to the center of the screen.",
+                        "skill_name": "Goddess Blessings",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 4s >> 5-3s<br/>Consecutive Hits Time Limit: 5s >> 6s",
+                        "skill_name": "Light of Retribution",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Reverted to match the Official Server.",
+                        "skill_name": "Holy Healing",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Pharsa": {
+                "badge": "BUFF",
+                "description": "Pharsa's Passive triggered too slowly in the mid-to-late game, so we've reduced the trigger interval in this phase to improve Pharsa's mid-to-late-game performance.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Reveals marked enemies' position.",
+                        "skill_name": "Curse of Crow",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Passive: Each level-up reduces the interval of Spiritual Unity by 1s.",
+                        "skill_name": "Feathered Air Strike",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Leomord": {
+                "badge": "BUFF",
+                "description": "We want Leomord's Skill in the mounted state to deal Extra Damage to high-HP targets, leveraging his Passive advantage to secure kills with Crit Basic Attacks.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "450-850 (+130% of Total Physical Attack) + 8%-10.5% of target's current HP >> 450-850 (+ 120% of Total Physical Attack) + 7.5%-10% of target's current HP",
+                        "skill_name": "Phantom Steed (Human Form)",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "325-600 (+120% of Total Physical Attack) >> 250-500 (+100% of Total Physical Attack) + 7.5%-10% of target's current HP",
+                        "skill_name": "Phantom Steed (Mounted)",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Johnson": {
+                "badge": "BUFF",
+                "description": "We aim to enhance Johnson's team utility.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Base Damage: 80-180 >> 120-220<br/><br/>Removed Effect: 60% Extra Damage to Creeps<br/>Removed Effect: 15% Damage Increase per hit (up to 3 times).<br/><br/>New Effect: Each hit reduces the target's Magic Defense by 10% (up to 3 stacks, lasting for 2s).<br/><br/>Slow Effect: 20% Slow Effect for 0.5s >> Each hit reduces the target's Movement Speed by 10% (up to 3 stacks, lasting for 2s)",
+                        "skill_name": "Electro-airbag",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Akai": {
+                "badge": "BUFF",
+                "description": "Improved Akai's damage output and control capabilities in the mid-to-late game.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 55s at all levels >> 55s-45s<br/>Damage: 200+450 + 100% of Extra Physical Attack (subsequent impacts only deal 50% damage) >> 100-200 + 50% of Total Physical Attack (subsequent impacts deal full damage)",
+                        "skill_name": "Hurricane Dance",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Granger": {
+                "badge": "NERF",
+                "description": "Slightly reduced Granger's mobility and made his Ultimate more dodgeable.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Speed Boost: 15% >> 10%",
+                        "skill_name": "Rondo",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Bullet Speed: 15 >> 12",
+                        "skill_name": "Death Sonata",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Beatrix": {
+                "badge": "ADJUST",
+                "description": "In the current patch, Beatrix's Bennett outshines her other weapons. We aim to balance the effectiveness of her different weapons.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Bennett's Basic Attack Damage: 232%-330% of Total Physical Attack >> 230%-300% of Total Physical Attack<br/><br/>Nibiru's Attack Effect inheritance ratio per bullet: 22% >> 25%<br/><br/>Wesker's Attack Effect inheritance ratio per bullet: 22% >> 35%<br/><br/>Fixed an issue where some bullets of Basic Attacks with Wesker would be lost at certain distances.",
+                        "skill_name": "Mechanical Genius",
+                        "skill_type": "Basic Attack"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Ultimate (Wesker) Cooldown: 32-24s >> 20-12s",
+                        "skill_name": "Wesker's Ultimate",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "category": "Radiant Golden Base Event",
+                "description": "Available from 01/24/2025 to 02/02/2025 (Server Time)<br/><br/>During the event, participate in Ranked matches to earn extra Vanguard Coins! There's also a small chance to trigger the special Golden Base mode, where you can earn even more Vanguard Coins!<br/><br/>During the event, special in-match tasks are also waiting for you! Complete them to earn Vanguard Coins. Please check the event interface for details!<br/><br/>Vanguard Coins will be automatically distributed after each match, with the winning team receiving extra Vanguard Coins! Fight for victory!<br/><br/>Please note: Players can earn up to 100 Vanguard Coins per day through this event, with a maximum total of 300 Vanguard Coins throughout the event period."
+            },
+            {
+                "category": "Free Heroes",
+                "description": "Server Time 01/24/2025 05:01:00 to 01/31/2025 05:00:00<br/><br/>8 Free Heroes: Hanzo, Helcurt, Minsithar, Luo Yi, Joy, Chang'e, Floryn, Gatotcaca<br/><br/>6 Extra StarLight Member Heroes: Esmeralda, Hayabusa, Baxia, Masha, Uranus, Zhask"
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": ["Kimmy"],
+        "revamped_heroes_data": {
+            "Kimmy": {
+                "hero_feature": "In this revamp, we aim to give Kimmy the following characteristics:<br/><br/>1. Enhanced Basic Attacks are now easier to cast and no longer require an additional skill slot.<br/>2. Survival skills now better match the hero's image and design, without counter-intuitive mechanics.<br/>3. Given the Ultimate's extremely long range, we've added crowd control effects, allowing Kimmy to actively initiate team fights, rather than having Ultimate function solely as a damage-dealing skill.<br/>4. Made enhanced Basic Attacks more unstoppable.",
+                "skills": [
+                    {
+                        "skill_name": "Aerial Dominance",
+                        "skill_type": "Passive",
+                        "description": "Kimmy can move and aim in different directions when using her Spray Gun, but cannot lock on to a specific enemy. Kimmy's Spray Gun attack deals Magic Damage. Hitting enemy heroes restores Starlium. At max Starlium, Kimmy's Basic Attacks are enhanced to deal more damage and pierce through targets."
+                    },
+                    {
+                        "skill_name": "Anti-Grav Thruster",
+                        "skill_type": "Skill 1",
+                        "description": "Kimmy uses her jetpack to take flight, passing through terrain and gaining Movement Speed boost. During the flight, she fires Chemical Bolts at nearby enemies, dealing Magic Damage."
+                    },
+                    {
+                        "skill_name": "Starlium Beam",
+                        "skill_type": "Skill 2",
+                        "description": "Kimmy fires a Starlium Beam in a target direction, dealing Magic Damage to enemies in the path and slowing them down. The beam illuminates the surrounding area, providing vision."
+                    },
+                    {
+                        "skill_name": "Traction Pulse",
+                        "skill_type": "Ultimate",
+                        "description": "Kimmy charges and fires a Traction Pulse in a target direction. Upon hitting an enemy or reaching its max range, the Traction Pulse explodes, deals Magic Damage to nearby enemies, and creates a force field that slows down enemies within. After a short delay, the field contracts, pulling all enemies to its center."
+                    }
+                ]
+            }
+        }
+    },
     "2.1.28": {
         "version": "2.1.28",
         "release_date": "2025-10-17",
