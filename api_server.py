@@ -472,13 +472,13 @@ def update_hero(hero_id):
                 if isinstance(effect, (dict, list)):
                     effect = json.dumps(effect)
                 else:
-                    effect = str(effect)
+                    effect = str(effect) if effect else ''
                 
                 db.add_hero_skill(
                     hero_id,
                     skill_name,
                     skill_desc,
-                    skill.get('effect', ''),
+                    effect,  # Use converted effect, not skill.get('effect')
                     preview,
                     skill_type,
                     skill.get('skill_parameters', {}),
