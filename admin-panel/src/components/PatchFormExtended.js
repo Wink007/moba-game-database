@@ -102,7 +102,7 @@ function PatchFormExtended({ patch, onClose, onSave }) {
   };
 
   // Convert form data back to patch format
-  const convertToЗPatchFormat = () => {
+  const convertToPatchFormat = () => {
     const hero_adjustments = {};
     formData.hero_adjustments.forEach(adj => {
       hero_adjustments[adj.hero_name] = {
