@@ -1383,6 +1383,422 @@
             }
         }
     },
+    "1.9.64": {
+        "version": "1.9.64",
+        "release_date": "2025-03-18",
+        "game_id": 1,
+        "designers_note": "In this patch, we've made adjustments to some strong heroes in Ranked mode and optimized a few less-used Roaming heroes.<br/><br/>Additionally, we've adjusted some of the less popular talents in hopes that more heroes will choose them.<br/><br/>Good luck with your ranking up journey!",
+        "new_hero": {
+            "name": "Kalea",
+            "title": "Surging Wave",
+            "description": "Hero Feature: Descendant of the Great Serpent that swims gracefully through the Vonetis Sea with her serpent tail.",
+            "skills": [
+                {
+                    "description": "After casting a skill, Kalea creates a [Water Zone] on the ground. When Kalea casts a skill within [Water Zone], she absorbs the [Water Zone] to enhance her next three Basic Attacks. The enhanced attacks will heal Kalea and the nearby ally with the lowest HP.",
+                    "skill_name": "Surge of Life",
+                    "skill_type": "Passive"
+                },
+                {
+                    "description": "Kalea slams her fist into the ground, creating a wave that deals Physical Damage to nearby enemies and slows them.",
+                    "skill_name": "Wavebreaker",
+                    "skill_type": "Skill 1"
+                },
+                {
+                    "description": "Kalea charges forward and body slams the first enemy hero she encounters, knocking them airborne for a short duration while dealing Physical Damage. If she collides with an obstacle or touches the edge of a [Water Zone] during her charge, Kalea will leap into the air. Cast the skill again to slam down at a target location, dealing Physical Damage and knocking enemies airborne.",
+                    "skill_name": "Tidal Strike/Rolling Wave",
+                    "skill_type": "Skill 2"
+                },
+                {
+                    "description": "Kalea grabs an enemy hero with her tail and slams them down in the Joystick's direction (drag the Joystick to change landing spot). She gains Control Immunity during this process. Upon landing, deals Physical Damage to nearby enemies.",
+                    "skill_name": "Tsunami Slam",
+                    "skill_type": "Ultimate"
+                }
+            ]
+        },
+        "battlefield_adjustments": {
+            "Lord (Neutral)": {
+                "badge": "ADJUST",
+                "description": "Respawn Interval after 18 Minutes: 3 min >> 2.5 min"
+            },
+            "Lord (Summoned)": {
+                "badge": "ADJUST",
+                "description": "Now only evolves at 18 minutes, removed the evolution at 12 minutes.<br/><br/>The Lord spawning at 8 minutes now has the ability to charge at Turrets, but only deals True Damage equal to 30% of the Turret's Max HP. After evolving at 18 minutes, the effect will align with the previous patch.<br/><br/>Slightly increased the Summoned Lord's HP Growth and Physical Defense Growth. The Base Turret's Holy Defense now deals damage equal to 65% of the Lord's Max HP (this skill doesn't deal damage to the Lord on the Official Server).<br/><br/>Damage reduction for the evolved Lord when allied heroes are nearby (0-5 heroes): 0-25% >> 15%-35%. Fixed an issue where the damage reduction would not update in certain situations."
+            },
+            "Gold Lane": {
+                "badge": "NERF",
+                "description": "<strong>[Scavenger Crabs]</strong><br/>Gold rewards reduced by 20%.<br/><br/><strong>[First 10 waves of Siege Minions in Gold Lane]</strong><br/>Extra Gold: 35% >> 30%"
+            },
+            "Map": {
+                "badge": "ADJUST",
+                "description": "After continuous visual improvements, Sanctum Island's overall visual quality has significantly improved compared to the current default map (The Imperial Sanctuary). Through multiple performance optimizations, we've also ensured that this map's performance metrics now match the current default map across all device specifications.<br/><br/>Therefore, in this patch, we are setting Sanctum Island as the default map and have optimized various aspects for both Sanctum Island and The Imperial Sanctuary, including feature tutorials, resource downloads, and system settings."
+            },
+            "Turret - Base Turret": {
+                "badge": "BUFF",
+                "description": "Increased Base Turret strength."
+            }
+        },
+        "equipment_adjustments": {
+            "Roaming Blessing - Dire Hit": {
+                "badge": "ADJUST",
+                "description": "We don't want Roaming Blessings to increase a hero's own damage output, so we've adjusted the trigger condition to make Roaming Equipment better support allies.<br/><br/>Revamped Effect: After inflicting a control effect on an enemy hero, mark them for 3s. When allies attack a marked target, the mark is removed, and the target takes Extra Damage. Cooldown: 30s."
+            },
+            "Wind of Nature": {
+                "badge": "NERF",
+                "description": "Slightly increased this equipment's downtime.<br/><br/><strong>[Unique Passive - Wind Chant]</strong><br/>Cooldown: 70s >> 90s"
+            },
+            "Rose Gold Meteor": {
+                "badge": "NERF",
+                "description": "This equipment currently offers high benefits. To better balance early-game combat experience, we will slightly increase its price.<br/><br/>Price: 1820 >> 2030"
+            },
+            "Fleeting Time": {
+                "badge": "ADJUST",
+                "description": "Optimized the building order."
+            },
+            "Endless Battle": {
+                "badge": "ADJUST",
+                "description": "Optimized the building order."
+            },
+            "Queen's Wings": {
+                "badge": "ADJUST",
+                "description": "Optimized the building order."
+            }
+        },
+        "emblem_adjustments": {
+            "Assassin - Killing Spree": {
+                "badge": "BUFF",
+                "description": "Trigger condition: After killing an enemy hero >> After dealing damage to a hero with less than 30% HP<br/>New Effect: After killing an enemy hero, [Killing Spree] cooldown will be reset.<br/>Added cooldown: 30s"
+            },
+            "Common - Temporal Reign": {
+                "badge": "BUFF",
+                "description": "New Effect: Temporal Reign's duration is extended by 2s when getting a kill or assist."
+            },
+            "Support - Focusing Mark": {
+                "badge": "BUFF",
+                "description": "After dealing damage to an enemy hero, increase their damage taken from allies by 6% >> After dealing damage to an enemy hero, increase their damage taken from allies by 6% and gain 10% Movement Speed boost"
+            },
+            "Support - Pull Yourself Together": {
+                "badge": "BUFF",
+                "description": "Cooldown Reduction: 15% >> Initially 12%, gain 1% extra for each kill or assist (up to 8 stacks)"
+            },
+            "Tank - Tenacity": {
+                "badge": "ADJUST",
+                "description": "When HP is below 50%, Physical & Magic Defense are increased by 15 >> When HP is below 50%, gain 5% Damage Reduction"
+            },
+            "Fighter - Firmness": {
+                "badge": "BUFF",
+                "description": "Physical and Magic Defense: 6 >> 8"
+            },
+            "Mage - Inspire": {
+                "badge": "BUFF",
+                "description": "New Effect: Mana Regen + 2"
+            }
+        },
+        "system_adjustments": {
+            "Ranked Season 36": {
+                "badge": "NEW",
+                "description": "S35 will end at 21:59:59 on 03/18 (Server Time).<br/><br/>S36 will start from 00:00:00 on 03/19 (Server Time). Complete Ranked matches to claim rewards including S36 Seasonal Skin: Khaleed \"Desert Salamander\" and S36 Avatar Border \"Breaking Waves\".<br/><br/>Starting from this season onward, Ranked seasons will end on patch update days. We wish you an enjoyable gaming experience and smooth rank progression!"
+            },
+            "Account Recovery Feature": {
+                "badge": "ADJUST",
+                "description": "Starting from 03/19, the account recovery feature on the [Account - Account Center] will gradually go offline across different regions. After the upgrade, this original entry will redirect to the latest [Account Recovery Service] feature, which has also been integrated into the [Customer Service] button at the top of the in-game Main Interface, ensuring 24/7 account security protection."
+            },
+            "MLBB Rising Open - Hall of Honor": {
+                "badge": "NEW",
+                "description": "Added the Hall of Honor feature to the MLBB Rising Open tournament records interface, displaying the top 8 teams from each region's Championship for every season."
+            },
+            "Skill Aim Panning Optimization": {
+                "badge": "ADJUST",
+                "description": "Optimized the in-game Aim Panning feature: When dragging the skill wheel to aim and the skill indicator moves off-screen, the camera will automatically shift toward the aim direction. Access via: Settings - Controls - Advanced Control Mode - Aim Panning."
+            },
+            "Medal Award Logic Optimization": {
+                "badge": "ADJUST",
+                "description": "We've optimized the medal award logic: Now, regardless of whether your team wins or loses, as long as your Medal Points exceed the unified standard, you will be awarded a Gold Medal. This change will significantly reduce cases where high-performing players on the losing team only receive Silver Medals, or low-performing players on the winning team receive Gold Medals. Additionally, we've adjusted the thresholds for Gold Medals, making them harder to obtain, and thus more \"valuable\"."
+            },
+            "Display Background": {
+                "badge": "NEW",
+                "description": "A new Display Background featuring the Vonetis Sea is now available. This Display Background will be used for Kalea, Kadita, Badang, and Lapu-Lapu. Stay tuned for more Display Backgrounds coming soon."
+            },
+            "Art Quality Improvements": {
+                "badge": "ADJUST",
+                "description": "We have enhanced the art quality for Gord, Odette, Angela, Wanwan, Aldous, Claude, Harley, and Natalia."
+            },
+            "Optimizations": {
+                "badge": "ADJUST",
+                "description": "1- Optimized the progress bars for the following heroes' channeling skills to better reflect skill casting or countdown states: Khaleed, Beatrix, Ixia, Zhuxin, Karina, Akai.<br/>2- Optimized the effect descriptions of the 4 Movement Blessings of Roaming equipment.<br/>3- Optimized player avatar display on the map during matches.<br/>4- Improved the restart feature in Ranked mode. When the team composition is not ideal, choosing to restart will end the match in a shorter time.<br/>5- Improved item descriptions: Added role information for hero items and Collection Points for skin items.<br/>6- Fixed an issue where skill switching would fail during the final preparation phase of hero selection when the countdown ended."
+            },
+            "Bug Fixes": {
+                "badge": "ADJUST",
+                "description": "1- Fixed an issue where the Lord would not spawn immediately after the map countdown ended.<br/>2- Fixed an issue where Clint's Ultimate Recharge Time did not decrease as the Skill Level increased.<br/>3- Fixed an issue where Argus's Skill damage did not match its description in certain situations.<br/>4- Fixed an issue where Khufra's Ultimate and Cecilion's Skill 2 could not interrupt mobility skills.<br/>5- Fixed an issue where Beatrix's Basic Attack using Bennett would become slower when attacking nearby targets and faster when attacking distant targets.<br/>6- Fixed an issue where the number of Soul Steal stacks Aldous gained from killing summoned units with Skill 1 did not match the skill description.<br/>7- Fixed an issue where Cyclops' Spell Vamp Ratio for Skills 1 and 2 was not working properly."
+            }
+        },
+        "hero_adjustments": {
+            "Hanzo": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Damage dealt to the Turtle/Lord now matches the damage dealt to enemy heroes.<br/>When the target is the Turtle, Lord, or a hero, this skill's cooldown is reduced by 50%, and Hanzo restores 10%-20% of his Max HP."
+                    },
+                    {
+                        "skill_name": "Skill 1 (Hanekage)",
+                        "badge": "NERF",
+                        "description": "HP Recovery when used on a fully stacked target: 30% >> 20%"
+                    },
+                    {
+                        "skill_name": "Skill 2 (Hanekage)",
+                        "badge": "BUFF",
+                        "description": "New Effect: Recovers 20 Energy upon hitting a hero."
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Movement Speed Boost: 35% >> 50% initially, decaying to 15% over 2s<br/>Energy Cost per second: 12.5 >> 17<br/>Cooldown: 24-18s >> 24-12s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Melissa": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Damage Transfer Ratio: 60%-80% >> 60% at all levels<br/>Cooldown: 9-7s >> 9-6s"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Movement Speed",
+                        "badge": "NERF",
+                        "description": "248 >> 240"
+                    }
+                ]
+            },
+            "Pharsa": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "New Effect: Reveals marked enemies' position."
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "New Passive: Each level-up reduces the interval of Spiritual Unity by 1s."
+                    },
+                    {
+                        "skill_name": "Wings by Wings",
+                        "badge": "BUFF",
+                        "description": "Movement Speed: 135% >> 150%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Brody": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Reduced the skill backswing by 40%."
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Reduced the skill backswing by 20%."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Lukas": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "ADJUST",
+                        "description": "Shockwave Blast's explosion now damages all enemies in range (previously only damaged the first target hit).<br/>Removed Effect: Removed the aftershock damage.<br/>Explosion Damage: 250-750 + 100% of Total Physical Attack >> 450-1100 + 155% of Total Physical Attack"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Zhuxin": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "ADJUST",
+                        "description": "Max Stacks: 20 >> 15<br/>Mana Regen per Stack: 4% >> 5%"
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Mana Cost: 90-120 >> 120-150<br/>Extra Damage: 270-645 + 150% of Magic Power >> 300-800 + 150% of Magic Power"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Base HP",
+                        "badge": "BUFF",
+                        "description": "2280 >> 2480"
+                    }
+                ]
+            },
+            "Johnson": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Base Damage: 80-180 >> 120-220<br/>Removed Effect: 60% Extra Damage to Creeps<br/>Removed Effect: 15% Damage Increase per hit (up to 3 times).<br/>New Effect: Each hit reduces the target's Magic Defense by 10% (up to 3 stacks, lasting for 2s).<br/>Slow Effect: 20% Slow Effect for 0.5s >> Each hit reduces the target's Movement Speed by 10% (up to 3 stacks, lasting for 2s)"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Akai": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 55s at all levels >> 55s-45s<br/>Damage: 200-450 + 100% of Extra Physical Attack (subsequent impacts only deal 50% damage) >> 100-200 + 50% of Total Physical Attack (subsequent impacts deal full damage)"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Beatrix": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Basic Attack",
+                        "badge": "NERF",
+                        "description": "Bennett's Basic Attack Damage: 232%-330% of Total Physical Attack >> 230%-300% of Total Physical Attack<br/>Nibiru's Attack Effect inheritance ratio per bullet: 25% >> 25%<br/>Wesker's Attack Effect inheritance ratio per bullet: 22% >> 35%<br/>Fixed an issue where some bullets of Basic Attacks with Wesker would be lost at certain distances."
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Ultimate (Wesker) Cooldown: 32-24s >> 20-12s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Natalia": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 10-8s >> 10-6s"
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Skill Recharge Time: 30-24s >> 30-18s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Hayabusa": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Slash Damage Bonus: 60% Extra Physical Attack >> 50% Extra Physical Attack<br/>Extra Damage: 45-85 + 20% of Total Physical Attack >> 70-140 + 40% of Extra Physical Attack"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Badang": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "NERF",
+                        "description": "Range: 6.5 >> 5.5"
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "ADJUST",
+                        "description": "Cooldown: 9-7s >> 9s at all levels<br/>Dash Distance: 4.5 >> 4<br/>Dashing Speed: 9 >> 10"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Minotaur": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Dash Distance: 3 >> 4"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Chip": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 4",
+                        "badge": "BUFF",
+                        "description": "New Effect: Can now teleport to any location (only available after leaving combat)."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Eudora": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 65-90 >> 50-70"
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 90-140 >> 70-95"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Julian": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Role",
+                        "badge": "ADJUST",
+                        "description": "Role: Fighter/Mage >> Assassin/Fighter"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Miya": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "NERF",
+                        "description": "Moonlight Shadow Basic Attack's Total Physical Bonus: 30% >> 20%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Argus": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Healing Effect: Damage dealt to heroes is converted to HP after the effect ends >> All damage dealt is converted to HP after the effect ends"
+                    }
+                ],
+                "attribute_adjustments": []
+            }
+        }
+    },
     "1.9.66": {
         "version": "1.9.66",
         "release_date": "2025-03-14",
