@@ -1852,5 +1852,481 @@
                 "description": "Hero Feature: A female warrior who infuses weapons with the Power of Einherjar for sustained combat.."
             }
         }
+    },
+    "1.9.20": {
+        "version": "1.9.20",
+        "release_date": "2024-09-18",
+        "game_id": 1,
+        "designers_note": "In this update, we have adjusted some heroes according to recent data and feedback. We have also adjusted some equipment in the hope of diversifying hero picks in Ranked matches.<br/>\n<br/>\nWe've optimized some basic elements, including the Move and Attack control experience, some heroes' skill ranges or indicators, some heroes' Mana Cost, and more.<br/>\n<br/>\nAdditionally, the Battlefield Draft event will be available, bringing a fresh battlefield experience.<br/>\n<br/>\nHave fun in the new version!",
+        "battlefield_adjustments": {
+            "Optimizations": {
+                "badge": "ADJUST",
+                "description": "1- Move/Attack responsiveness improved for: Miya, Bruno, Yi Sun-shin, Karrie, Wanwan, Popol and Kupa, Beatrix (Bennet), Natan, Melissa (others already optimized).<br/>\n2- Optimized skill ranges/indicators for: Gord, Hilda, Thamuz, Carmilla, Miya, Nana, Odette, Diggie, Hylos, Pharsa, Jawhead, Claude, Terizla, Lyia.<br/>\n3- Unified Mana and Mana Regen for most Mana heroes (exceptions: Alice, Cecilion, Zhuxin); some tanks/roamers received Mana/Mana Regen increases.<br/>\n4- Optimized Aurora's Ultimate indicator.<br/>\n5- Optimized VFX for Aldous Skill 1 & 2 and Eudora Ultimate.<br/>\n6- Optimized combo experience of Vale Skill 2 + Ultimate (Ultimate prioritizes enemies in direction of Skill 2).<br/>\n7- Optimized the visual effects of Inspire."
+            },
+            "Bug Fixes": {
+                "badge": "ADJUST",
+                "description": "1- Adjusted the indicator and visual effect range of the third cast of Terizla's Skill to better match its damage area.<br/>\n2- Fixed an issue in Mythic Battlefield where the damage reduction for nearby allied heroes granted by the Outer Turret of the Gold Lane is not increased as normal when the Energy Shield is on.<br/>\n3- Fixed the duplicated Mythic Battlefield Gold Lane Outer Turret damage reduction issue when Energy Shield is active."
+            }
+        },
+        "equipment_adjustments": {
+            "Clock of Destiny": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Added 10% CD Reduction; Mana: 800 >> 400",
+                        "name": "Attributes"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 1950 >> 2030",
+                        "name": "Price"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Aims to broaden adoption by magic tanks and fighters."
+            },
+            "Wishing Lantern": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Magic Power: 70 >> 75; Added 400 Mana",
+                        "name": "Attributes"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 2160 >> 2250",
+                        "name": "Price"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "More frequent casting via added Mana."
+            },
+            "Thunder Belt": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Damage: 50 + 100% Total Physical Defense + 100% Total Magic Defense >> 50 + 100% Extra Physical Defense + 100% Extra Magic Defense",
+                        "name": "Unique Passive - Thunderbolt"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Early and mid game damage toned down; scales with extra defenses."
+            },
+            "Twilight Armor": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Excess Damage Reduction: (0.4% Total HP)% >>> 20% + (0.2% Total HP)%",
+                        "name": "Unique Passive - Twilight"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Improved adaptivity against burst damage."
+            },
+            "Glowing Wand": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Damage per Second: 1.5% of target's Max HP >> 1% of target's Max HP",
+                        "name": "Unique Passive - Scorch"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Slightly reduced damage after adding healing reduction effect."
+            }
+        },
+        "hero_adjustments": {
+            "Zhuxin": {
+                "badge": "ADJUST",
+                "description": "Lowered teamfight control while helping mana flow and wave clear.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Base Mana Regen",
+                        "badge": "NERF",
+                        "description": "28 >> 10"
+                    }
+                ],
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Max Crimson Butterflies stacks: 30 >> 20; Mana restored per stack: 3% Max Mana >> 4% Max Mana",
+                        "skill_name": "Crimson Butterflies",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Casting no longer consumes Mana.",
+                        "skill_name": "Skill 1",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Casting no longer consumes Mana. Each time applying Soul Snare consumes 90-150 Mana (no Mana consumed if no hero or summon is hit).",
+                        "skill_name": "Soul Snare",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Casting no longer consumes Mana. Removed the effect where Skill 2 does not consume Mana during the Ultimate.",
+                        "skill_name": "Ultimate",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Chip": {
+                "badge": "ADJUST",
+                "description": "Higher teamfight impact but reduced global support uptime.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Extra effect after delay: 50% Slow >> Immobilizing Effect",
+                        "skill_name": "Ultimate",
+                        "skill_type": "Ultimate"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 20s >> 60s",
+                        "skill_name": "Skill 4",
+                        "skill_type": "Skill 4"
+                    }
+                ]
+            },
+            "Nolan": {
+                "badge": "BUFF",
+                "description": "More kill pressure with slightly lower mobility.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 2-1s >> 2.5-1.5s",
+                        "skill_name": "Skill 1 & Skill 2",
+                        "skill_type": "Skill 1 & 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New effect: Slows target hit by 30% for 0.5s. Cooldown: 24-18s >> 21-15s",
+                        "skill_name": "Ultimate",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Terizla": {
+                "badge": "NERF",
+                "description": "Early and mid power reduced; late scaling slightly increased.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Maximum Damage Reduction: 30% >> 21%-35% (increases with hero level)",
+                        "skill_name": "Body of Smith",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 7s at all levels >> 9s at all levels",
+                        "skill_name": "Revenge Strike",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 7-4.5s >> 9-4s; Damage of first 2 attacks: 135-310 + 160%-185% Total Physical Attack >> 90-315 + 135%-185%-185% Total Physical Attack; Damage to minions: 60%-100% >> 70%-100%-100%",
+                        "skill_name": "Execution Strike",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Zhask": {
+                "badge": "NERF",
+                "description": "Slightly weaker early game and simplified Nightmaric Spawn inheritance.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Nightmaric Spawn Base Damage: 60 >> 55; Spawn HP and Hybrid Defense inherited: 70%-100% >> 55%-100%; Magic Power inherited: 50%-80% >> 55%-100% (removed Extra Magic Power)",
+                        "skill_name": "Nightmaric Spawn",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Enhanced Spawn Magic Power inherited: 90% >> 100% (removed Extra Magic Power)",
+                        "skill_name": "Dominator's Descent",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Hylos": {
+                "badge": "NERF",
+                "description": "Maintains strong early game while trimming late durability.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "HP Growth",
+                        "badge": "NERF",
+                        "description": "360 >> 295"
+                    },
+                    {
+                        "attribute_name": "Physical Defense Growth",
+                        "badge": "NERF",
+                        "description": "6.8 >> 5.5"
+                    },
+                    {
+                        "attribute_name": "Magic Defense Growth",
+                        "badge": "NERF",
+                        "description": "4 >> 2.5"
+                    },
+                    {
+                        "attribute_name": "Base Mana",
+                        "badge": "BUFF",
+                        "description": "430 >> 500"
+                    },
+                    {
+                        "attribute_name": "Base Mana Regen",
+                        "badge": "BUFF",
+                        "description": "2.4 >> 4"
+                    }
+                ]
+            },
+            "Roger": {
+                "badge": "NERF",
+                "description": "Reduced early-mid survivability and mobility.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 6-4.5s >> 9-4.5s; Increased Physical & Magic Defense: 40-70 >> 20-65",
+                        "skill_name": "Lycan Pounce",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Julian": {
+                "badge": "NERF",
+                "description": "Slightly reduced early-mid burst from enhanced Skill 1.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Enhanced Scythe sustained damage: 90-210 >> 80-180",
+                        "skill_name": "Scythe",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Hayabusa": {
+                "badge": "NERF",
+                "description": "Damage lowered while improving late-game ultimate speed.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Effect optimization: Faster striking speed at Ultimate level 2 & 3 (total duration for 9/12 strikes now same as 6 strikes at level 1). Damage bonus: 75% Extra Physical Attack >> 60% Extra Physical Attack",
+                        "skill_name": "Ougi: Shadow Kill",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Popol and Kupa": {
+                "badge": "NERF",
+                "description": "Lowered early burst and jungle clear speed.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Kupa's extra damage against creeps: 150% >> 120%",
+                        "skill_name": "We Are Angry!",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Base damage of Kupa's Bite: 100-190 >> 70-160",
+                        "skill_name": "Bite 'Em, Kupa!",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Mathilda": {
+                "badge": "ADJUST",
+                "description": "QoL improvement to Skill 1, tighter Skill 2 range, lower Mana costs.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Range: 4.6 >> 4.8; Casting skills will not interrupt movement; Mana Cost: 60-110 >> 50-75",
+                        "skill_name": "Guiding Wind",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Range: 5.5 >> 4.8; Mana Cost: 75-100 >> 60-85",
+                        "skill_name": "Lightness",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Edith": {
+                "badge": "ADJUST",
+                "description": "Fixed Overload applying during Ultimate and rebalanced passive scaling.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Fixed Overload Magic Power bonus during Ultimate; Total Magic Power Bonus: 30% >> 20%; Bonus Damage: 4% + 0.25% x Hero Level >> 3% + 0.2% x Hero Level",
+                        "skill_name": "Overload",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Lolita": {
+                "badge": "NERF",
+                "description": "Passive shield gains toned down and triggered later in Skill 1.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Passive Shield trigger interval: 5s >> 6s; Shield per stack: 80 + 16 x Hero Level + 60% Total Magic Power >> 20 + 2.5% Total HP + 20% Total Magic Power",
+                        "skill_name": "Noumenon Energy Core",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Passive Shield trigger moved to after the first dash instead of before it.",
+                        "skill_name": "Charge!",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Balmond": {
+                "badge": "BUFF",
+                "description": "Higher sustained damage on Skill 2 hits.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Damage increase per subsequent hit: 7.5% >> 8.5%; Max damage increase: 60% >> 68%",
+                        "skill_name": "Cyclone Sweep",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Arlott": {
+                "badge": "BUFF",
+                "description": "Removed Mana and slightly improved laning when Ultimate unavailable.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8s >> 7s",
+                        "skill_name": "Demon Gaze",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Natalia": {
+                "badge": "BUFF",
+                "description": "Mana removed; enhanced Basic Attack timer now displayed where Mana was when entering Bush.",
+                "adjustments": []
+            },
+            "Grock": {
+                "badge": "BUFF",
+                "description": "Removed Mana to streamline gameplay.",
+                "adjustments": []
+            },
+            "Claude": {
+                "badge": "BUFF",
+                "description": "Removed Mana.",
+                "adjustments": []
+            },
+            "Alice": {
+                "badge": "BUFF",
+                "description": "More Mana to align with equipment changes.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Mana Regen per Second",
+                        "badge": "BUFF",
+                        "description": "3.6 >> 6"
+                    },
+                    {
+                        "attribute_name": "Mana Growth per Level",
+                        "badge": "BUFF",
+                        "description": "100 >> 150"
+                    }
+                ]
+            },
+            "Cecilion": {
+                "badge": "BUFF",
+                "description": "More Mana growth alongside equipment changes.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Mana Growth per Level",
+                        "badge": "BUFF",
+                        "description": "109 >> 140"
+                    }
+                ]
+            }
+        },
+        "emblem_adjustments": {},
+        "system_adjustments": [
+            {
+                "name": "Ranked",
+                "description": "1- S33 will end at 21:59:59 on 09/20 (Server Time).<br/>\n2- S34 will start from 00:00:00 09/21 (Server Time) with rewards: S34 Seasonal Skin Aulus \"Ironmane Reaver\" and S34 Avatar Border \"Master of Transformation\".<br/>\n3- New S34 story chapter reveals Suyou's background; complete for an exclusive Suyou emote. Season ends 2 hours earlier than previous seasons."
+            },
+            {
+                "name": "Battlefield Draft",
+                "description": "Event from 09/21 to 11/22 (Server Time). Vote during each phase for effects like Super Entourage, Healing Turret, and Eternal Strength. Winning effect applies to Ranked (Epic and above) during Competing Stage. Some notifications Android-only."
+            },
+            {
+                "name": "Anniversary",
+                "description": "MLBB 8th Anniversary events begin 09/27. Grand Adventure 09/27-10/27 for Akai skin; returning player event 09/27-10/27; Kagura anniversary gift event 10/18-11/03; Anniversary Skin Giveaway 10/04-10/17; Anniversary Battle Bonus 09/27-10/22."
+            },
+            {
+                "name": "MPL Team Recall Effect Draw",
+                "description": "Starts 09/19 (Server Time) with Recall effects for 12 MPL teams; first 1x and 10x draw discounted 50%."
+            },
+            {
+                "name": "Brody \"APBren\"",
+                "description": "From 09/19 to 11/02 (Server Time) event offers 60%+ discount from 1,299 Diamonds. Champion Souvenir Card unlocks M5 Champion Skin Brody \"APBren\"; Deluxe Card unlocks all rewards including Recall, Spawn, Elimination effects."
+            },
+            {
+                "name": "Shop",
+                "description": "Shop adjustments on 09/19: removed Shop - Preparation - Special tab; added Shop - Special tab for packs/items (Android first)."
+            },
+            {
+                "name": "New Skins",
+                "description": "Paquito \"Fist of Glory\" M5 FMVP skin available 09/19 with 30% first-week discount. Suyou \"Venerated Vigilance\" available 09/21 for 51 Diamonds in first two weeks."
+            },
+            {
+                "name": "S34 First Recharge Event",
+                "description": "Recharge 20 Diamonds to claim S34 First Recharge Avatar Border; recharge any amount to buy Hylos \"Bloodhoof Marauder\" for 100 Diamonds after discount; recharge 3 days to purchase Rename Card (7-Day) for 50 Diamonds."
+            },
+            {
+                "name": "Zodiac Summon",
+                "description": "Lunox \"Libra\" returns 09/23 (Server Time) with 30% first-week discount."
+            },
+            {
+                "name": "Fragment Shop",
+                "description": "09/20 adjustments: Added Rare skins Miya \"Captain Thorns\", Franco \"Apocalypse\", Freya \"Dragon Hunter\", Aurora \"Heartbreak Empress\", Belerick \"Tiger's Claw\". Removed Natalia \"Phantom Dancer\", Zilong \"Eastern Warrior\", Harley \"Royal Magister\", Akai \"Akazonae Samurai\", Uranus \"Ancient Soul\". Hero Shop added: Zhask, Benedetta, Martis, Novaria, Vale, Xavier, Arlott, Lylia. Removed: Hanabi, Angela, Beatrix, Karrie, Fanny, Aamon, Lancelot, Ruby."
+            },
+            {
+                "name": "Free Heroes",
+                "description": "09/20/2024 05:01 to 09/27/2024 05:00: Free heroes: Cyclops, Silvanna, Chou, Aulus, Lunox, Hylos, Kagura, Arlott; Starlight: Hanabi, Terizla, Lesley, Cecilion, Carmila, Harith.<br/>\n09/27/2024 05:01 to 10/04/2024 05:00: Free heroes: Valentina, Helcurt, Faramis, Hanzo, Barats, Cici, Karina, Aurora; Starlight: Mathilda, Leomord, Karrie, Fredrinn, Belerick, Nolan."
+            }
+        ],
+        "highlights": [],
+        "new_hero": {
+            "name": "Suyou",
+            "title": "Mask of the Immortal",
+            "description": "Hero Feature: An exorcist from Zhu'an who has inherited the power of the Immortal Nuo. (Assassin/Fighter). Available on 09/21 (Server Time).",
+            "skills": [
+                {
+                    "description": "Tap-casting any skill grants Movement Speed; hold-casting any skill grants Reduction.",
+                    "skill_name": "Transient Immortal",
+                    "skill_type": "Passive"
+                },
+                {
+                    "description": "Tap: Throws weapon, dealing damage along the path, blinks to it, then slashes back. Hold: Charges in the target direction, stops on first enemy hit and stuns enemies in front when stopping.",
+                    "skill_name": "Blade Surge",
+                    "skill_type": "Skill 1"
+                },
+                {
+                    "description": "Tap: Deals damage in a fan, higher to low-HP enemies. Hold: Channels 3 cleaves in a fan while recovering HP.",
+                    "skill_name": "Soul Sever",
+                    "skill_type": "Skill 2"
+                },
+                {
+                    "description": "Tap: Glides backward and swings forward, damaging enemies in a rectangle and along the path. Hold: Fires a deadly arrow in the target direction, damaging the first target hit.",
+                    "skill_name": "Evil Queller",
+                    "skill_type": "Ultimate"
+                }
+            ]
+        },
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
     }
 }
