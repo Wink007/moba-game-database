@@ -916,7 +916,34 @@ def get_patches():
         with open(patches_file, 'r', encoding='utf-8') as f:
             patches_data = json.load(f)
         
-        # Конвертуємо об'єкт в масив патчів
+        # Якщо запит тільки для списку версій (minimal=true)
+        minimal = request.args.get('minimal', '').lower() == 'true'
+        
+        if minimal:
+            # Повертаємо тільки версії та дати
+            if isinstance(patches_data, dict):
+                result = [
+                    {
+                        'version': version,
+                        'release_date': data.get('release_date', '')
+                    }
+                    for version, data in patches_data.items()
+                ]
+            else:
+                result = [{'version': p.get('version', ''), 'release_date': p.get('release_date', '')} for p in patches_data]
+            
+            # Сортуємо за датою
+            from datetime import datetime
+            result.sort(key=lambda x: datetime.strptime(x.get('release_date', '2000-01-01'), '%Y-%m-%d'), reverse=True)
+            
+            # Застосовуємо limit
+            limit = request.args.get('limit', type=int)
+            if limit:
+                result = result[:limit]
+            
+            return jsonify(result)
+        
+        # Конвертуємо об'єкт в масив патчів (повні дані)
         if isinstance(patches_data, dict):
             result = [
                 {
