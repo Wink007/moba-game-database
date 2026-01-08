@@ -426,6 +426,17 @@ def update_hero(hero_id):
                 if not build.get('created_at'):
                     build['created_at'] = current_time
         
+        # Sanitize createdAt - ensure it's an integer or None
+        created_at_value = data.get('createdAt', None)
+        if created_at_value is not None:
+            if isinstance(created_at_value, (list, dict)):
+                created_at_value = None  # Invalid format, set to None
+            elif isinstance(created_at_value, str):
+                try:
+                    created_at_value = int(created_at_value)
+                except ValueError:
+                    created_at_value = None
+        
         # Update hero
         db.update_hero(
             hero_id,
@@ -442,7 +453,7 @@ def update_hero(hero_id):
             data.get('relation', None),
             pro_builds,
             None,  # created_at (автоматичне поле, не змінюємо)
-            data.get('createdAt', None),  # createdAt (timestamp в мілісекундах)
+            created_at_value,  # createdAt (timestamp в мілісекундах, sanitized)
             data.get('head', None),
             data.get('painting', None),
             data.get('main_hero_ban_rate', None),
