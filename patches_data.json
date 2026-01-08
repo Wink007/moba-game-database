@@ -4545,12 +4545,293 @@
         "version": "2.1.18",
         "release_date": "2025-09-17",
         "game_id": 1,
-        "designers_note": "Project NEXT Patch 2025 is here! Annual Map Change is live, with every match offering a completely different experience.\n\nAt the same time, we've reworked how Roaming Equipment generates gold, allowing the roaming role to have a greater impact.\n\nThere are also new heroes, revamped heroes, in-match experience optimizations, and much more awaiting you!\n\nWe hope the new patch will bring more diverse hero picks, with more balanced impact across different lanes. Have fun in MLBB!",
-        "battlefield_adjustments": {},
-        "equipment_adjustments": {},
+        "designers_note": "Project NEXT Patch 2025 is here! Annual Map Change is live, with every match offering a completely different experience.<br/><br/>At the same time, we've reworked how Roaming Equipment generates gold, allowing the roaming role to have a greater impact.<br/><br/>There are also new heroes, revamped heroes, in-match experience optimizations, and much more awaiting you!<br/><br/>We hope the new patch will bring more diverse hero picks, with more balanced impact across different lanes. Have fun in MLBB!",
+        "battlefield_adjustments": {
+            "Annual Map Change": {
+                "badge": "NEW",
+                "description": "<strong>Mode Guide:</strong><br/>1. Battlefield effects will be active in Classic, Custom (excluding Brawl), MLBB Rising Open, professional tournaments, Practice, and other modes. The battlefield effect is randomized every match.<br/>2. After matchmaking is successful, you'll be notified of the battlefield effect for the current match. The battlefield effect description can still be viewed during the hero selection phase.<br/>3. The battlefield effect will activate immediately when the match starts and remain active until the end of the match.<br/><br/><strong>Gameplay Overview:</strong><br/>1. <strong>Broken Walls:</strong> Multiple obstacles on the map become thinned or broken, making them easier to pass through. Heroes without movement skills can now move more freely.<br/>2. <strong>Dangerous Grass:</strong> Existing bushes on the map are extended and new ones are added, providing more opportunities for ambush.<br/>3. <strong>Flying Cloud:</strong> Two flying clouds have been added to the Base. Heroes can ride the clouds to return to lanes faster or flank enemies during Base attacks.<br/>4. <strong>Expanding Rivers:</strong> The accelerated River Current has a wider range and longer duration. The Lord's spawn and death also generate accelerated River Currents. Heroes can participate more conveniently in contests for neutral map objectives."
+            },
+            "Map": {
+                "badge": "ADJUST",
+                "description": "With this Annual Map Change update, we're removing \"The Imperial Sanctuary\" map. Moving forward, we'll focus on quality improvements and iterative enhancements to the default \"Sanctum Island\" map while providing more limited-time featured maps for diverse battlefield experiences!"
+            },
+            "Gold": {
+                "badge": "BUFF",
+                "description": "We've noticed that in recent Ranked matches, the leading team's economic advantage has grown increasingly significant. We want to limit this and give the disadvantaged team more opportunities to make a comeback.<br/><br/><strong>Passive Income:</strong><br/>\"Gold gained every 2 seconds\" after 8 minutes in match: 6 >> 8"
+            },
+            "Minions": {
+                "badge": "NERF",
+                "description": "Gold gained from minions is reduced by 12.5%."
+            },
+            "Creeps": {
+                "badge": "NERF",
+                "description": "Gold gained from creeps is reduced by 7.5%."
+            },
+            "Jungling Optimizations": {
+                "badge": "NEW",
+                "description": "We've noticed that allied heroes sometimes accidentally kill creeps and steal buffs when helping Junglers. And we aim to reduce the likelihood of such occurrences.<br/><br/>New Mechanism: In the first 2 minutes of the match, when buff creeps in the allied Jungle Area as long as there's a nearby allied hero with Retribution who has dealt damage to the creep recently, the buff will be given to the nearest allied hero with Retribution, even if the creep was killed a non-Jungler hero."
+            },
+            "Other Adjustments": {
+                "badge": "ADJUST",
+                "description": "1. Enhanced Crowd Control Effects: Optimized the UI display when heroes are under crowd control effects to improve clarity during combat.<br/>2. New Skill Duration Timer: A timer will now appear to the left of the HP bar when crucial persistent skills are activated to improve combat clarity.<br/>3. Support and Tank heroes are at a disadvantage when calculating Medal Points due to their team positioning. This optimization will include active healing and control performed by heroes in matches in Medal Points calculations.<br/>4. Optimized art resources for Thamuz and his \"Lord of Wraith\" skin.<br/>5. Optimized the skill indicator of Terizla's skill 2 on its third time of use.<br/>6. We have optimized Dyrroth's visual effects. He will return to the battlefield with a brand-new look!<br/>7. Optimized Sun's Doppelganger experience bar display. Doppelgangers now correctly inherit the real Sun's experience bar."
+            }
+        },
+        "equipment_adjustments": {
+            "Roaming Blessing": {
+                "badge": "REWORK",
+                "description": "We've noticed that the roaming role has had relatively little impact on match results in the current Ranked system, and we believe that choosing to roam shouldn't stand for sacrificing your economy.<br/><br/>Therefore, we've reworked the conditions for Roaming Blessing to earn Gold, hoping that roaming players can also gain more Gold through their performance!<br/><br/>Additionally, to ensure fair distribution of in-match economy, we've added some restrictions. So that non-roaming heroes can no longer purchase Roaming Boots to compete with Roamers for Gold, and Roamers can purchase Roaming Boots so they don't draw economy from their allies.<br/><br/><strong>Unique Passive - Devotion (Reworked):</strong><br/>When near allied heroes, it does not share Gold and EXP from minions and creeps, but gains 40% Gold and EXP independently. Revealing enemies also grants Gold and EXP. (A maximum of 2000 Gold can be gained through this skill.) (Only triggers when you have the lowest Gold among all heroes with active Roaming Blessing on your team.)<br/><br/>Vision Reveal Gold Guide: Enemy targets that disappear from allied vision for more than 5 seconds are marked as vision lost units. When a hero first reveals such vision lost units using vision or skills, they gain 20 Gold and 40 EXP.<br/><br/>New Effect: In the first 5 minutes of the game, heroes with Roaming Boots only receive 50% income when clearing minions alone.<br/><br/><strong>Unique Passive - Thriving (Reworked):</strong><br/>Gain 6 Gold and 12 EXP every 5 seconds, and Gold and 18 EXP after 8 minutes into the match (only triggers when you have the lowest Gold among all heroes with active Roaming Blessing on your team).<br/><br/><strong>Unique Passive - Blessing (Reworked):</strong><br/>Gain 1000 Gold through Devotion and Thriving to unlock a roaming skill (values no longer scale)."
+            },
+            "Dire Hit": {
+                "badge": "BUFF",
+                "description": "Simplified its trigger condition so that more heroes can use this Blessing.<br/><br/>Trigger condition: Controlling an enemy hero >> Dealing damage to an enemy hero<br/>Damage dealt based on target's Max HP: 7%-18% >> 12%<br/><br/>Allies can now see the damage numbers from Dire Hit."
+            },
+            "Conceal": {
+                "badge": "ADJUST",
+                "description": "Speed Boost: 24%-60% >> 40%"
+            },
+            "Favor": {
+                "badge": "ADJUST",
+                "description": "HP Regen: 240-600 >> 400"
+            },
+            "Encourage": {
+                "badge": "ADJUST",
+                "description": "Hybrid Attack Boost: 12-30 >> 20<br/>Attack Speed Boost: 15% >> 10%"
+            },
+            "Roaming Equipment Rules": {
+                "badge": "NEW",
+                "description": "After 2 minutes of the game, Roaming Boots can no longer be purchased (switching Roaming Blessing has a 15-second protection period).<br/><br/>In Ranked matches, heroes in the roaming lane can only purchase Roaming Blessing boots."
+            },
+            "Magic Boots": {
+                "badge": "BUFF",
+                "description": "We found that some Movement Equipment's build paths were not ideal, so we've optimized them. At the same time, based on the performance data of various Movement Equipment, we've standardized their prices.<br/><br/>New Attribute: +150 Max HP<br/>Price: 710 >> 720<br/>Build path now includes Hero's Ring."
+            },
+            "Arcane Boots": {
+                "badge": "BUFF",
+                "description": "New Attribute: +15 Magic Power<br/>Price: 690 >> 720<br/>Build path now includes Mystery Codex."
+            },
+            "Rapid Boots": {
+                "badge": "ADJUST",
+                "description": "Price: 700 >> 720<br/>Reduce Movement Speed upon Entering Combat: 25 >> 20"
+            },
+            "Tough Boots": {
+                "badge": "NERF",
+                "description": "Price: 700 >> 720"
+            },
+            "Swift Boots": {
+                "badge": "NERF",
+                "description": "Price: 710 >> 720"
+            },
+            "Athena's Shield": {
+                "badge": "BUFF",
+                "description": "Optimized the trigger condition of this equipment.<br/><br/><strong>Unique Passive - Shield:</strong><br/>Now only triggered by Magic Damage from hero skills or Basic Attacks. It can still reduce all Magic Damage after being triggered."
+            },
+            "Blade Armor": {
+                "badge": "ADJUST",
+                "description": "As a defensive item against Marksmen with Crit, we aim to balance its damage-returning effect between multiple Basic Attacks and single high-damage Basic Attacks.<br/><br/><strong>Attribute:</strong><br/>Physical Defense: 70 >> 80<br/><br/><strong>Unique Passive - Bladed Armor:</strong><br/>Damage: 30% Original Damage + 20% Total Physical Defense >> (30 + 2% Total Physical Defense)% Original Damage"
+            }
+        },
         "emblem_adjustments": {},
-        "hero_adjustments": {},
-        "system_adjustments": [],
+        "hero_adjustments": {
+            "Angela": {
+                "badge": "BUFF",
+                "description": "We expected Angela to fight side-by-side with allies, but in actual matches, Angela spent most of her time away from allies. So we aim to enhance Angela's distinct characteristics. So we've significantly reduced her Ultimate's cooldown and optimized her Ultimate's auto-targeting logic to increase players' Ultimate usage frequency and support efficiency.<br/><br/>We've made experience improvements to Angela's Passive and Skill 2, allowing players to better perceive battlefield conditions.<br/><br/>For balance, we've reduced the shield value provided by her Ultimate and removed the effect where completing channelling would reset her other skills.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Added stack indicator for gained Movement Speed.<br/><br/>Fixed an issue where Ultimate could not trigger the passive's Movement Speed bonus.",
+                        "skill_name": "Smart Heart",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 6s >> 7s",
+                        "skill_name": "Love Waves",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Unable to target minion units (can only target creeps and hero units).<br/><br/>We've added an effective range indicator circle after Skill 2 hits enemies to help players make judgments and ensure the connection won't accidentally disconnect.<br/><br/>A countdown bar has been added to indicate when the immobilization will take effect, allowing players to know when enemies will be immobilized.",
+                        "skill_name": "Puppet-on-a-String",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Base Shield: 800-1300 (+250% Total Magic Power) >> 600-1000 (+150% Total Magic Power)<br/>Cooldown: Fixed at 70s >> Fixed at 20s.<br/><br/>Cooldown now starts when detaching an ally (previously started when attaching to an ally).<br/><br/>Added protection to prevent accidentally cancelling channelling or attaching due to fast tapping, and removed the effect that resets other skill cooldowns after channelling.<br/><br/>Optimized the auto-targeting logic for direct Ultimate casts. The Ultimate will now auto-target the allied hero with the lowest HP percentage if that allied hero has taken or dealt damage from heroes within the last 3 seconds. This avoids the skill from attaching to allies who are out of combat or recalling. Manual targeting is not affected by this change.",
+                        "skill_name": "Heartguard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Floryn": {
+                "badge": "NERF",
+                "description": "We've simplified the experience to share Floryn's Flower of Hope with allied heroes. Now you can directly drag to select a target ally for sharing.<br/><br/>We've also added a feature where her Ultimate now displays real-time HP info of low-health allies, allowing you to use the Ultimate more promptly to support allied heroes in difficult situations.<br/><br/>To balance this, we've slightly reduced her crowd control ability and the shield value provided to allies.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Share Method of Dew - Flower of Hope: Tap Flower of Hope, then select the target ally's avatar, and tap Flower of Hope again to confirm sharing >> Drag Flower of Hope to the target ally's avatar to share<br/><br/>Shield: 150 (+ 80% Total Magic Power) >> 100 (+ 70% Total Magic Power)",
+                        "skill_name": "Dew",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Stun Duration: 0.7s >> 0.5s",
+                        "skill_name": "Bloom",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Added a feature where HP info for allies below 60% health is displayed in real-time near the Ultimate button, making it easier for players to support allied heroes in need more promptly.",
+                        "skill_name": "Sow",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Bane": {
+                "badge": "BUFF",
+                "description": "Bane has been too reliant on Gold to scale in the current patch. We want him to have more impact in early team fights, so we've adjusted his damage curve, boosting his early and mid-game power. At the same time, we've increased the strength of the fully charged Skill 2. Time to surprise enemies with a spit of venom!<br/><br/>The summoned sharks by Bane's Ultimate could easily be dodged by enemies through agile positioning or mobility skills. So we've reduced the Ultimate's foreswing while increasing the sharks' movement speed.<br/><br/>Optimized the Ultimate's airborne and slow effects. This should allow the enraged sharks to pose a greater threat to enemies.<br/><br/>To balance, we've reduced his late-game strength while removing the knockback effect from the Ultimate, preventing Bane from having extra time chasing knocked-back enemies.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Damage: 250-450 (+180% Total Magic Power) >> 140-340 (+130% Total Magic Power)<br/>Charged Damage Multiplier: 150% >> 250%<br/>Charge Time: 2.5s >> 2s<br/>Charge Protection Time: 2.5s >> 3s<br/><br/>Fixed an issue where the charging progress bar didn't match the actual charging time. Now, 250% damage will only be dealt when the progress bar is full.<br/><br/>Adjusted the decay rate of the Movement Speed increase.",
+                        "skill_name": "Ale",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Reduced the foreswing time by 20%.<br/>Sharks' Movement Speed: 4 >> 4.3<br/>Airborne Duration: 0.4s >> 0.6s (Also fixed a bug where the Ultimate's described airborne duration didn't match its actual effect.)<br/>Removed the knockback effect from the Ultimate's hit and improved the slow effect on hit.<br/>Damage: 600-1000 (+100% Total Physical Attack) (+170% Total Magic Power) >> 700-1100 (+80% Total Physical Attack) (+150% Total Magic Power)",
+                        "skill_name": "Deadly Catch",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Thamuz": {
+                "badge": "BUFF",
+                "description": "King of the Fire Demons - Thamuz returns with greater power! With his ambitions revealed, Thamuz leads his legion of demons in their quest to dominate the Abyss.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Mechanics Adjustment: Each Basic Attack that doesn't spout Lava Energy accumulates Thamuz's Rage, which increases the chance of triggering Lava Energy. This should significantly improve the overall chance of triggering Lava Energy.<br/><br/>True Damage of Lava Energy: 45 + 100% Total Physical Attack + 5 * Hero Level >> 60 + 70% Total Physical Attack + 8 * Hero Level",
+                        "skill_name": "Grand Lord Lava",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Optimized the collision detection of the Scythes. It now moves more quickly behind the target and drags them back.",
+                        "skill_name": "Molten Scythes",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Optimized both the casting experience and the visual effects of this skill.",
+                        "skill_name": "Chasm Trample",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Greatly reduced skill's foreswing time. Thamuz can now transform quickly. Upon transformation, he gains full Rage.<br/><br/>Max HP: 500-1500 >> 600<br/>Max HP Bonus: 0 >> 30-50% Extra Max HP<br/>Attack Speed Boost: 1.3-1.6 times >> 60-100%",
+                        "skill_name": "Cauterant Inferno",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Silvanna": {
+                "badge": "BUFF",
+                "description": "We've been receiving feedback requesting Control Immunity for Silvanna's Skill But as a high-damage skill with pulling controls that can be cast frequently, adding Control Immunity would make it impossible for enemies to counter. To keep the balance, we've adjusted the skill to only be interrupted by high-level CC.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Can only be interrupted by high-level CC.",
+                        "skill_name": "Imperial Justice",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Chip": {
+                "badge": "BUFF",
+                "description": "Slightly improved Base Attributes to enhance the ability to help allies clear minions and creeps.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Marks can now be applied to minions and creeps.",
+                        "skill_name": "Charged Marker",
+                        "skill_type": "Skill 1"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Attribute",
+                        "badge": "BUFF",
+                        "description": "Physical Defense Growth: 5.5 >> 6"
+                    }
+                ]
+            },
+            "Kimmy": {
+                "badge": "NERF",
+                "description": "We found that Kimmy can achieve higher hit rates by continuously tapping the Basic Attack button while losing less damage output. We aim to adjust this.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Increased the interval between Basic Attacks when continuously tapping the button.",
+                        "skill_name": "Basic Attack",
+                        "skill_type": "Basic Attack"
+                    }
+                ]
+            },
+            "Cici": {
+                "badge": "ADJUST",
+                "description": "We noticed that after Cici's Basic Attack range was increased in previous patches, the splash area didn't match the visual effects. Therefore, we've optimized the shape of Cici's Basic Attack splash so that the new range better matches the visuals.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Optimized splash range.",
+                        "skill_name": "Basic Attack",
+                        "skill_type": "Basic Attack"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "category": "Ranked Mode",
+                "description": "S37 will end at 21:59:59 on 09/16 (Server Time).<br/><br/>S38 will start from 00:00:00 on 09/17 (Server Time). Complete Ranked matches to claim rewards, including S38 Seasonal Skin: Valentina \"Grand Gala\" and S38 Avatar Border \"Abyss Reborn\".<br/><br/>We wish you an enjoyable gaming experience and smooth rank progression!!"
+            },
+            {
+                "category": "Highlight System",
+                "description": "The Highlight System is available! Your impressive performances in matches will send notifications to all allies! There are highlights as follows for you to explore:<br/><br/>1. Perfect Shot: Kill an enemy hero from an extremely long range.<br/>2. Superb Tanking: Take a significant percentage of damage in team fights and assist team kills.<br/>3. Outstanding Support: Provide substantial healing or shield to allies in team fights and assist with team kills.<br/>4. Superb Damage: Deal high damage percentage in team fights and secure kills.<br/>5. Solo Kill: Fight against an enemy hero by themself and secure the kill.<br/>6. Epic Outplay: Kill an enemy hero while at low HP.<br/>7. Instant Kill: Kill an enemy hero within a short time.<br/>8. Lord Slayer: Kill the Lord twice.<br/>9. Turtle Slayer: Kill the Turtle three times.<br/>10. Clutch Steal: Steal the Turtle or Lord from the enemy.<br/>11. Attack & Defend: Deal and take high percentage damage in team fights while securing kills.<br/>12. Awesome Control: Control multiple enemy heroes simultaneously and deal effective damage.<br/>13. Great Heal: Heal an ally with extremely low HP and assist them in securing a kill.<br/>14. Great Initiation: Assist allies in securing the first kill on key enemy heroes in team fights.<br/>15. Perfect AOE: Use skills to deal effective damage to multiple enemy targets.<br/>16. Solo Push: Destroy enemy Turrets alone."
+            },
+            {
+                "category": "Season Achievement",
+                "description": "The Season Achievement system is live! In the brand-new Season Achievement system, you can experience the following content:<br/><br/>1. Various Season Styles: We've prepared six season styles for you to explore. Flex Pro and each of your main lanes can earn exclusive honor rewards in the Season Achievement system!<br/>2. Unique Style Plate: You can complete Season Achievements and obtain Style Points to increase your Style Level and earn exclusive Style Plate rewards.<br/>3. Multiple Showcase Options: You can showcase your Style Plate when matches start, triggering highlights, and in your Profile, Namecard, and many other places!<br/>4. Exclusive Painted Skin: Each season, when you first upgrade your Season Achievement, you'll also receive a unique Seasonal Painted Skin as a reward!"
+            },
+            {
+                "category": "Achievement System",
+                "description": "The Achievement System has been completely revamped. Here are the main updates:<br/><br/>1. Global Completion Rates: The Achievement System displays global completion rates for individual achievements, achievement categories, and overall completion.<br/>2. Limited Achievements: If you own any limited achievements, they will be displayed in a separate section of the achievement list.<br/>3. Leaderboards Update: Achievement rankings have been expanded from server-specific to global leaderboards, allowing you to compete with players worldwide!<br/>4. Achievement Showcase: You can customize up to 5 achievement badges for display or sharing. You can also view other players' Achievement Showcase from their Profile."
+            },
+            {
+                "category": "MLBB Rising Open",
+                "description": "The new season of MLBB Rising Open begins on 09/15, with the first week as a warm-up period. Top honors and Diamond rewards await your challenge! Good luck on your Road to Champion!<br/><br/>1. MLBB Rising Open match confirmation time extended to 30s.<br/>2. In the Knockout stage, players can exchange MLBB Rising Open Challenge Attempt (Permanent) for MRO Knockout Challenge Attempt (Permanent).<br/>3. Optimized the red dot notification logic and visuals for MLBB Rising Open on the Main Interface.<br/>4. More practical signals added for you to experience!"
+            },
+            {
+                "category": "In-match Quick Communication",
+                "description": "Battlefield communication has been fully upgraded! The new Trigger Signals are now live, making team coordination more seamless and battle communication smoother.<br/><br/>1. Opening Encouragement: Fist bump at the start to light up avatars, triggering random cheering voice lines to boost team morale!<br/>2. Resource Gaining Cooperation: Within the first 60 seconds of a match, Roaming and Mid Lane cooperate to provide visions and communicate enemy Jungler movements.<br/>3. Hero Status Reminder: Automatically triggers low-HP or low-mana signals. Tap to let allies know your status in time.<br/>4. Battlefield Situation Notification: Key information, such as Mid Missing and Lord being killed, triggers automatically, enabling timely communication for battle control."
+            },
+            {
+                "category": "Share Feature",
+                "description": "Optimized the match result process and the share function. More impressive match stats await your share.<br/><br/>1. Optimized the visual presentation of the Battle Achievement interface in match results. You can now customize the display to show either 3D models or portraits of skins used in the match.<br/>2. The Battle Achievement interface no longer displays just 1 achievement but shows multiple achievements, with a maximum of 7.<br/>3. The 10-player results interface now includes additional statistics and displays match honors.<br/>4. Optimized the share interface. Rank-up sharing now includes current season match count and win rate. And the MLBB Rising Open interface now displays the championship date.<br/>5. Optimized some other share interfaces, such as the 10-player match results interface and the Collection interface.<br/>6. Share feature now supports TikTok. You can now share exciting content with your TikTok friends!"
+            },
+            {
+                "category": "Other Adjustments",
+                "description": "1. Added teammate star count display in Lobby. Now you can see your teammates' Mythic stars.<br/>2. Optimized the graphic performance of the Like All button in the match results."
+            },
+            {
+                "category": "Bug Fixes",
+                "description": "1. Fixed an issue where Nana's Molina Smooch failed to properly interrupt enemy heroes' Camouflage state.<br/>2. Fixed an issue where Suppress effects sometimes failed to interrupt Fanny's Skill 2.<br/>3. Fixed an issue where Gatotkaca's enhanced Basic Attack would play an abnormal animation in place when there was no target.<br/>4. Fixed an issue where the Ice Queen Wand could not slow multiple heroes simultaneously.<br/>5. Fixed an issue where Valentina's basic skills were not disabled when casting the Ultimate stolen from Akai.<br/>6. Fixed an issue where Thamuz's Skill 1 visual effects disappeared after Yin's Ultimate ended if Skill 1 was cast inside the Ultimate.<br/>7. Fixed an issue where the Speed Boost for allies and the Slow effect on enemies from Hylos's Ultimate would be removed upon his death.<br/>8. Fixed an issue where Zetian's Skill dealt slightly less damage to minions than described.<br/>9. Fixed an issue where Chat Bubble text descriptions in the Chat Lobby could be obscured.<br/>10. Fixed an issue where the Hero Adjustment feature could occasionally disappear during the hero selection phase."
+            },
+            {
+                "category": "Game Modes",
+                "description": "<strong>1VS1 Mode Now Available</strong><br/><br/>The new 1VS1 mode will be available at 00:00 (Server Time) on 10/09! You'll have the chance to engage in pure head-to-head combat, using precision controls and strategy to determine the true champion.<br/><br/>Victory conditions for this mode: be the first to eliminate your opponent 3 times, or destroy their Turret.<br/><br/>Before the match, both sides can ban 3 heroes each, then select 1 hero to fight with-strategic gameplay begins from the Pick & Ban phase. Additionally, EXP and Gold gain rates are significantly increased in 1VS1 mode, helping you grow faster and achieve a fierce battle pace. Access the mode through the Custom section on the Main Interface, where you can create a Lobby to invite a friend or share the Lobby ID to gather an opponent.<br/><br/>Gather your friends right now and engage in an intense, thrilling solo duel!"
+            }
+        ],
         "highlights": [],
         "new_hero": {
             "name": "Obsidia",
@@ -4559,27 +4840,53 @@
                 {
                     "skill_name": "Return to Bone",
                     "skill_type": "Passive",
-                    "description": "Obsidia accumulates Bone Shards by attacking enemy heroes or minions. Each Bone Shard assists her attacks to deal extra damage.\n\n"
+                    "description": "Obsidia accumulates Bone Shards by attacking enemy heroes or minions. Each Bone Shard assists her attacks to deal extra damage."
                 },
                 {
                     "skill_name": "Abyssal Bone Needle",
                     "skill_type": "Skill 1",
-                    "description": "Obsidia fires an Abyssal Bone Needle, triggering Return to Bone on the first enemy hero hit.\n\n"
+                    "description": "Obsidia fires an Abyssal Bone Needle, triggering Return to Bone on the first enemy hero hit."
                 },
                 {
                     "skill_name": "Phantom Shadowmeld",
                     "skill_type": "Skill 2",
-                    "description": "Obsidia enters Shadowmeld Form, gaining 500% Movement Speed for a short time.\n\n"
+                    "description": "Obsidia enters Shadowmeld Form, gaining 500% Movement Speed for a short time."
                 },
                 {
                     "skill_name": "Hunt of Bone",
                     "skill_type": "Ultimate",
-                    "description": "Obsidia launches Bones of Wrath and pulls herself near the enemy hit. Afterward, she cannot move away from the enemy, and the enemy cannot use displacement skills. Enemy's movement will also drag Obsidia along. During her Ultimate, Obsidia ignores Obstacles and gains access to an enhanced Skill 2 with a longer duration and shorter cooldown.\n\n"
+                    "description": "Obsidia launches Bones of Wrath and pulls herself near the enemy hit. Afterward, she cannot move away from the enemy, and the enemy cannot use displacement skills. Enemy's movement will also drag Obsidia along. During her Ultimate, Obsidia ignores Obstacles and gains access to an enhanced Skill 2 with a longer duration and shorter cooldown."
                 }
             ]
         },
-        "revamped_heroes": [],
-        "revamped_heroes_data": {}
+        "revamped_heroes": ["Alice"],
+        "revamped_heroes_data": {
+            "Alice": {
+                "hero_feature": "A Powerful Abyss Queen Who Dominates the Late Game<br/><br/>Alice, the Blood Demon Queen, awakens to new power! The Queen makes her move in advance, preparing for the upcoming conquest of the Abyss.",
+                "skills": [
+                    {
+                        "skill_name": "Crimson Banquet",
+                        "skill_type": "Passive",
+                        "description": "Alice gains stacks when skills hit. When fully stacked, Blood Banquet will be activated to continuously deal damage to all nearby enemies and recover HP."
+                    },
+                    {
+                        "skill_name": "Crimson Gleam / Scarlet Shadow",
+                        "skill_type": "Skill 1",
+                        "description": "Alice casts a sphere of blood energy in the target direction to deal Magic Damage. Use again to cast Scarlet Shadow to teleport to the blood sphere's location."
+                    },
+                    {
+                        "skill_name": "Doom Waltz",
+                        "skill_type": "Skill 2",
+                        "description": "Alice deals damage and slows all enemies in range. When her Passive Crimson Banquet is active, she deals additional damage and recovers HP."
+                    },
+                    {
+                        "skill_name": "Throne of Ruin",
+                        "skill_type": "Ultimate",
+                        "description": "Alice surrounds herself in blood, gaining significant Damage Reduction during the channeling. Upon completion, she descends with force, dealing Magic Damage and immobilizing enemies in a large range."
+                    }
+                ]
+            }
+        }
     },
     "1.9.99a": {
         "version": "1.9.99a",
