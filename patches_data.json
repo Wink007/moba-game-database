@@ -323,6 +323,427 @@
             }
         }
     },
+    "1.9.86": {
+        "version": "1.9.86",
+        "release_date": "2025-05-23",
+        "game_id": 1,
+        "designers_note": "Revamped Hero: Fortress Titan - Grock. The slumbering giant has awakened new powers! Grock's body size now scales with his Physical Defense. Major battlefield adjustments with Roaring Assault effect and Dino Planet themed map.",
+        "battlefield_adjustments": {
+            "Battlefield Effect Test - Roaring Assault": {
+                "badge": "ADJUST",
+                "description": "This week, we will close the 2025 new battlefield effect test and continue testing the new Battlefield Draft effect: Roaring Assault. This is a limited-time Battlefield Draft effect designed for the ALLSTAR event. A brand-new themed map, Dino Planet, is also available for a limited time.<br/><br/>Adjustment Details:<br/>a) Removed the retreat mechanism of the natural lord at low HP.<br/>b) New Lord mechanism: If the Lord remains out of combat for 60 consecutive seconds after spawning, it will move to another area of The River. During this process, the Lord becomes invulnerable and cannot deal damage. This can only be triggered once per spawn.<br/>c) Summoned Lord's special throwing skill range: 3 units >> 5 units; skill cooldown: 8s >> 5s<br/>d) Skill Damage Adjustment for the Neutral Lord: 1 hit dealing 100% of the Lord's Attack >> 3 hits each dealing 25% of the Lord's Attack<br/><br/>Complete Battlefield Effect Details:<br/>a) New Damage Skill of the Neutral Lord: Every 3 seconds, the Lord locks onto nearby hero(es) and deals Extra Damage.<br/>b) New Special Ability of the Summoned Lord: Heroes near the Summoned Lord can use a special skill to throw themselves to a designated position around the Lord.<br/>c) Lithowanderer Changes: Increased Movement Speed Bonus for the killer. During this time, heroes gain a passive skill to detect nearby hidden enemy heroes. However, Stone Roamers will no longer spawn.<br/>d) EXP Scavenger Crab Changes: Gains Damage Reduction when HP falls below 50%. The killer gains additional benefits: increased Max HP and a Shield when at low HP<br/>e) Gold Scavenger Crab Changes: Gains Extra Damage, Attack Speed, and Movement Speed Bonus when HP falls below 50%. The killer gains additional benefits: increased Adaptive Attack and Attack"
+            }
+        },
+        "equipment_adjustments": {},
+        "emblem_adjustments": {
+            "Killing Spree": {
+                "badge": "BUFF",
+                "description": "Cooldown: 30s >> 15s<br/>Enemy HP Threshold: 30% >> 40%"
+            },
+            "Weapons Master": {
+                "badge": "BUFF",
+                "description": "Attack Increase: 6% >> 8%"
+            },
+            "Fatal": {
+                "badge": "NERF",
+                "description": "Crit Damage: 8% >> 5%"
+            },
+            "Bargain Hunter": {
+                "badge": "ADJUST",
+                "description": "Reverted previous adjustments."
+            },
+            "Wilderness Blessing": {
+                "badge": "ADJUST",
+                "description": "Reverted previous adjustments."
+            }
+        },
+        "hero_adjustments": {
+            "Grock": {
+                "badge": "ADJUST",
+                "description": "Revamped: Fortress Titan - A relentless control-oriented tank. The slumbering giant has awakened new powers! Grock's body size now scales with his Physical Defense. His original Power of Nature has been upgraded to a passive trigger - now Grock gains Control Immunity when casting the skill, instead of using Power of Nature near a wall.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Periodically gains a Shield and enhances the Basic Attack into a swinging strike. While the Shield exists, Grock gains a significant Physical Defense bonus.",
+                        "skill_name": "Bastion of Stone",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Deals damage and knocks back enemies in a fan-shaped area. If enemies collide with terrain, they take additional damage and are knocked airborne.",
+                        "skill_name": "Mighty Swing",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "After a brief delay, Grock summons a stone wall in the target area, dealing damage and pushing enemies within range towards him.",
+                        "skill_name": "Earthen Rampart",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Grock charges forward, dealing minor damage to enemies in his path. Upon hitting terrain, he immediately stops and triggers a massive explosion that knocks enemies within range airborne and deals heavy damage.",
+                        "skill_name": "Tectonic Charge",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Paquito": {
+                "badge": "BUFF",
+                "description": "We're glad to see Paquito back in the spotlight. To strengthen his early-game performance, we've decided to reduce his skill cooldowns during the early game. For balance, we've adjusted the Ultimate cooldown reduction accordingly.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: Fixed 7s >> 7-6s",
+                        "skill_name": "Heavy Left Punch",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8.5-6s >> 8-6s",
+                        "skill_name": "Jab",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Cooldown: 18-12s >> 17-13s",
+                        "skill_name": "Knockout Strike",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Terizla": {
+                "badge": "NERF",
+                "description": "Terizla's performance has become too strong after the buffs, so we've decided to revert some of last week's enhancements.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 9-7s >> 9-8s",
+                        "skill_name": "Revenge Strike",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Minotaur": {
+                "badge": "BUFF",
+                "description": "Minotaur's physique now better matches his tough and rugged image.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Physical Defense Growth",
+                        "badge": "BUFF",
+                        "description": "5.5 >> 6.7"
+                    },
+                    {
+                        "attribute_name": "Magic Defense Growth",
+                        "badge": "BUFF",
+                        "description": "2.5 >> 4"
+                    }
+                ]
+            },
+            "Fanny": {
+                "badge": "ADJUST",
+                "description": "Fanny should be a hero with high skill requirements and a high skill ceiling, but currently her mobility doesn't match her energy costs. We're adjusting the energy consumption of her different skills to better balance her risk and reward.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Energy Cost: 15 >> 12",
+                        "skill_name": "Tornado Strike",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Energy Cost: 16-11 >> 19-14",
+                        "skill_name": "Steel Cable",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Energy Cost: 15 >> 12",
+                        "skill_name": "Cut Throat",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Kimmy": {
+                "badge": "NERF",
+                "description": "Kimmy's Ultimate is a bit too powerful for initiating team fights, so we're reducing its frequency and range.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 40-30s >> 55-45s<br/>Range reduced by 10%.<br/>Optimized the Ultimate's collision logic. The explosion center point will now be closer to the first target hit.",
+                        "skill_name": "Maximum Charge",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Jawhead": {
+                "badge": "NERF",
+                "description": "We aim to balance creep-clearing speeds across all Junglers. Currently, Jawhead's creep-clearing speed is a bit too fast.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Valid Targets: Heroes and Creeps >> Heroes only",
+                        "skill_name": "Smart Missiles",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Julian": {
+                "badge": "NERF",
+                "description": "We aim to balance creep-clearing speeds across all Junglers. Currently, Julian's creep-clearing speed is a bit too fast.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "New Effect: Enhanced Basic Attacks only deal 75% damage to Creeps.",
+                        "skill_name": "Smith's Legacy",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Karina": {
+                "badge": "NERF",
+                "description": "The increase in Creep HP has indirectly boosted Karina's jungling speed (compared to other heroes), so we're reverting previous buffs to match the Official Server.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Base Damage: 150 >> 100",
+                        "skill_name": "Shadow Combo",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Gusion": {
+                "badge": "NERF",
+                "description": "Slightly reverted previous buffs.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 9-6s >> 9s at all levels",
+                        "skill_name": "Shadowblade Slaughter",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Lancelot": {
+                "badge": "NERF",
+                "description": "Slightly reverted previous buffs.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Duration: 5s >> 4s",
+                        "skill_name": "Soul Cutter",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Alucard": {
+                "badge": "NERF",
+                "description": "Slightly reverted previous buffs.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Extra Damage to Creeps: 15% >> 10%",
+                        "skill_name": "Pursuit",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Natan": {
+                "badge": "BUFF",
+                "description": "Following the previous optimization, Natan can maintain his Passive more easily, but the stack count still depends on skill hits. We've slightly reduced his Skill 1 cooldown to help him stack his Passive more effectively.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8-6s >> 8-5s",
+                        "skill_name": "Spacetime Index",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Bruno": {
+                "badge": "BUFF",
+                "description": "Made it easier to stack Passive and optimized Mana Costs.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Crit Chance per Stack: 2% >> 3%<br/>Max Stacks: 10 >> 7",
+                        "skill_name": "Mecha Legs",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 75-125 >> 50-100",
+                        "skill_name": "Volley Shot",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Estes": {
+                "badge": "NERF",
+                "description": "Slightly reverted previous buffs.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Hybrid Defense: 20-45 >> 15-35",
+                        "skill_name": "Moonlight Immersion",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Ixia": {
+                "badge": "BUFF",
+                "description": "Enhanced slow effect and movement speed bonus.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Siphon Starlium Slow Effect: 20% >> 30%",
+                        "skill_name": "Siphon Starlium",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Movement Speed Gained Upon Hit: 40% >> 50%",
+                        "skill_name": "Comet Fall",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "X.Borg": {
+                "badge": "NERF",
+                "description": "Slightly reduced the damage of the Ultimate.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Rotation Damage: 100-125 + 65% Extra Physical Attack + 45% Total Magic Power >> 90-110 + 60% Extra Physical Attack + 45% Total Magic Power",
+                        "skill_name": "Last Insanity",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Uranus": {
+                "badge": "BUFF",
+                "description": "Improved gaming experience and enhanced Uranus's solo-pushing capability.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Basic Attacks deal extra Magic Damage based on Passive stacks (increased damage against Turrets).",
+                        "skill_name": "Radiance",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Removed Effect: This skill no longer marks enemies hit or increases damage based on stack count.<br/>New Effect: Upon hitting heroes or minions, this skill will stack Radiance.<br/>New Effect: This skill deals extra damage based on current Radiance stacks.",
+                        "skill_name": "Ionic Edge",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Lapu-Lapu": {
+                "badge": "BUFF",
+                "description": "Enhanced his durability in teamfights and sustained combat capability.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cooldown: 10s >> 10-7s",
+                        "skill_name": "Justice Blade - Great Sword Stance",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Cooldown: 4s >> 6-4s<br/>Damage Reduction Duration: 4s >> 3s<br/>Effect Changed: For each enemy hero hit, Lapu-Lapu gains 10% extra Damage Reduction >> Lapu-Lapu gains 30% Damage Reduction upon hitting an enemy hero, plus 8% for each additional enemy hero hit.",
+                        "skill_name": "Jungle King - Great Sword Stance",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Luo Yi": {
+                "badge": "NERF",
+                "description": "Her Ultimate was too unexpected, so we want to give her enemies some warning.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "During the Ultimate casting, Luo Yi's position will be revealed (teleport destination remains hidden).",
+                        "skill_name": "Diversion",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Chip": {
+                "badge": "NERF",
+                "description": "His Skill 4 was too unexpected, so we want to give his enemies some warning.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Skill 4 now has a 1-sec foreswing and reveals Chip's position for 1.5 sec.",
+                        "skill_name": "Pack Up",
+                        "skill_type": "Skill 4"
+                    }
+                ]
+            },
+            "Lylia": {
+                "badge": "BUFF",
+                "description": "The condition for Lylia to restore Shadow Energy's Recharge Time is a bit too harsh, which is not suitable for the current fast-paced battles.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "A max-level Gloom will restore 50% of Shadow Energy's Recharge Time when it hits an enemy hero >> Gloom restores 20% of Shadow Energy's Recharge Time when it hits an enemy hero.",
+                        "skill_name": "Gloom",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Skill Vision-Revealing Effect Rules",
+                "description": "We've removed the effect to reveal the entire vision of a bush for the following skills; only skills with summons (such as Kagura's Skill 1 and Zhask's Skill 1) will retain this effect:<br/><br/>Selena's Skill 2, Vale's Skill 2, Kimmy's Ultimate, Luo Yi's Skill 2, Barats's Skill 2, Yve's Skill 2, Phoveus's Skill 1 (second phase), Xavier's Skill 2, Joy's Skill 1, and Kalea's Passive.<br/><br/>Zhuxin's Skill 2 no longer reveals the entire vision of a bush. It now only reveals the vision of targets hit by the skill."
+            },
+            {
+                "name": "New Season Achievements",
+                "description": "We're introducing the new Season Achievement system to enhance your experience. You can access this feature under Collection - Achievements.<br/><br/>Each season, complete various Season Achievements while battling to increase your Style Level. There are five different lane styles waiting to be unlocked!<br/><br/>Level up your style to earn cool Style Plates. You can showcase your unique displays to other players in various scenarios.<br/><br/>Season Achievement Levels reset at the beginning of each season. In this Advanced Server patch, we're providing 4 Style Levels for you to experience."
+            },
+            {
+                "name": "Battle Emote Auto-Play Revamped",
+                "description": "To enhance your battle experience, we've improved the auto-play Battle Emote feature. You can now set up automatic Battle Emote or Style Plate for five different scenarios: First Kill, First Assist, Triple Kill, Wiped Out, and Highlights."
+            },
+            {
+                "name": "Highlight Triggers and Sound Effects Optimization",
+                "description": "We've adjusted some highlight triggers to make highlight detection more precise.<br/><br/>A unique voice notification will play when highlights are triggered.<br/><br/>Added TikTok sharing feature. Now you can share your impressive battle stats on TikTok to show off to your friends!<br/><br/>Optimized sharing experience for WhatsApp, Facebook, and other platforms."
+            },
+            {
+                "name": "Squad Honor System Available",
+                "description": "Added MLBB Rising Open Squad Honor. Team up with 5 Squad members to win matches and earn corresponding Squad Honor Badges.<br/><br/>Your Squad Badges can be displayed on the Squad Profile, Personal Profile, and Namecard. These badges will level up as you progress in tournaments.<br/><br/>Your Squad's previous MCL Honors have been integrated into the Squad Honor page."
+            },
+            {
+                "name": "New Achievement System",
+                "description": "The Achievement System has been completely revamped. Progress Tracking, Limited Achievements, Leaderboards Update (server-specific to global), Achievement Display (up to 5 Achievement Medals with global completion percentages)."
+            },
+            {
+                "name": "Other Fixes",
+                "description": "Adjusted the recommended lanes and corresponding Battle Setup for some heroes based on current Ranked data.<br/><br/>Fixed an issue where certain skills that should count as Basic Attacks, such as Wanwan's and Claude's Ultimates, failed to trigger Inspire's effects.<br/><br/>Fixed an issue where Zetian's Skill 1 could not be interrupted by control skills during cast."
+            },
+            {
+                "name": "Free Heroes",
+                "description": "Server Time 05/23/2025 05:01:00 to 05/30/2025 05:00:00<br/><br/>8 Free Heroes: Vexana, Selena, Karina, Phoveus, Hylos, Lancelot, Alucard, Xavier<br/><br/>6 Extra StarLight Member Heroes: Kimmy, Joy, Kagura, Natan, Yu Zhong, Valentina"
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": ["Grock"],
+        "revamped_heroes_data": {
+            "Grock": {
+                "badge": "REVAMP",
+                "description": "Fortress Titan - A relentless control-oriented tank. Body size now scales with Physical Defense. Power of Nature upgraded to passive trigger with Control Immunity.",
+                "adjustments": [
+                    {
+                        "description": "Complete skill rework: Passive grants shield and Physical Defense bonus. Skill 1 knocks back enemies (airborne on terrain collision). Skill 2 summons stone wall. Ultimate charges into terrain for massive explosion.",
+                        "skill_name": "Revamp Overview",
+                        "skill_type": "Revamp"
+                    }
+                ]
+            }
+        }
+    },
     "2.1.10": {
         "version": "2.1.10",
         "release_date": "2025-08-08",
