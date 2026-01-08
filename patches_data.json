@@ -1,4 +1,303 @@
 {
+    "1.9.47": {
+        "version": "1.9.47",
+        "release_date": "2025-02-12",
+        "game_id": 1,
+        "designers_note": "In this patch, we've optimized some underused heroes to give them more opportunities to shine. This includes Hanzo, who has long been overlooked and is now getting a revamp. We've also slighty toned down some overly popular heroes. We hope these adjustments, along with optimizations to certain equipment, will create a more diverse and dynamic ranked environment.",
+        "revamped_heroes": ["Hanzo"],
+        "revamped_heroes_data": {
+            "Hanzo": {
+                "badge": "REWORK",
+                "description": "A ninja who combines Ninjutsu with Demon Blood, able to transform into Hanekage to reap enemies from afar before returning to safety.<br/><br/>Hanzo's Ninjutsu has been refined. Even without his Ultimate, Hanzo's base form now has some combat capabilities.<br/><br/>Hanzo no longer needs to accumulate Demon Blood to cast his Ultimate. Now Hanzo gains fixed energy when casting the Ultimate, and Hanzo's body becomes invincible when the Ultimate is active.<br/><br/>We've also optimized Hanzo's normal skills to provide a smoother killing experience.",
+                "adjustments": [
+                    {
+                        "skill": "Passive - Ame no Habakiri",
+                        "badge": "REWORK",
+                        "description": "Damage dealt by Hanzo's Basic Attack or skills inflicts a stack of [Dark Ninjutsu] on the target, up to 5 stacks. Each stack of [Dark Ninjutsu] increases the damage of Skill 1."
+                    },
+                    {
+                        "skill": "Skill 1 - Ninjutsu: Demon Feast",
+                        "badge": "REWORK",
+                        "description": "The skill can only be used on targets with max stacks of [Dark Ninjutsu]. If the target is a Common Creep, Hanzo will immediately devour it and digest it over a period of time to recover HP.<br/><br/>Deals Physical Damage to heroes and True Damage to the Turtle and the Lord."
+                    },
+                    {
+                        "skill": "Skill 1 (Hanekage) - Forbidden Ninjutsu: Soul Snatch",
+                        "badge": "REWORK",
+                        "description": "Hanekage dashes to an enemy hero, dealing damage after a brief delay. Each stack of [Dark Ninjutsu] on the target increases this damage. When the target has max stacks of [Dark Ninjutsu], an additional high amount of damage is dealt and Hanzo recovers HP."
+                    },
+                    {
+                        "skill": "Skill 2 - Ninjutsu: Soul Reap",
+                        "badge": "REWORK",
+                        "description": "Hanzo dashes in the target direction, leaving a Dark Mist in his path, dealing Physical Damage to enemies in the area and slowing them. The Dark Mist provides Hanzo with a Movement Speed boost."
+                    },
+                    {
+                        "skill": "Skill 2 (Hanekage) - Forbidden Ninjutsu: Black Mist",
+                        "badge": "REWORK",
+                        "description": "Hanekage dashes in the target direction, knocking enemies in his path airborne and leaving a Dark Mist that deals Physical Damage to enemies in the area and slows them."
+                    },
+                    {
+                        "skill": "Ultimate - Kinjutsu: Pinnacle Ninja",
+                        "badge": "REWORK",
+                        "description": "Hanzo leaves his body behind (invincible during this period) and charges into battle as Hanekage with enhanced skills, consuming energy every second (can be reduced with Purple Buff). When nearby units die, Hanekage gains energy. When energy is depleted, Hanzo's body will gradually be pulled toward Hanekage's current position (Hanzo and Hanekage share the same HP).<br/><br/>When casting this skill again or when Hanekage is killed, Hanekage will quickly return to Hanzo's body (becoming untargetable and recovering a small amount of HP during the process). If Hanekage is killed, Hanzo will suffer a 50% Movement Sped reduction and have his position revealed for 6s."
+                    }
+                ]
+            }
+        },
+        "battlefield_adjustments": {
+            "Jawhead Throw Reminder": {
+                "badge": "ADJUST",
+                "description": "Adjusted the trigger condition for the special reminder when being thrown by an allied Jawhead. Now the quick purchase reminder for the [Throw Forbidden] special equipment will appear the first time you get thrown by an allied Jawhead in each match."
+            },
+            "Art Quality Improvements": {
+                "badge": "ADJUST",
+                "description": "We have enhanced the art quality for Gord, Odette, Angela, WanWan, Aldous, Claude, Harley, and Natalia."
+            }
+        },
+        "equipment_adjustments": {
+            "Cursed Helmet": {
+                "badge": "BUFF",
+                "description": "We've noticed that this equipment has a low pick rate, with some heroes only purchasing its component, Molten Essence. We aim to enhance the damage output of this equipment.<br/><br/><strong>[Unique Passive - Curse]</strong> (New)<br/>Each Burning Soul effect reduces the target's Hybrid Defense by 3 for 3s, stacking up to 3 times.<br/><br/>Price: 1760 >> 1910<br/><br/>Optimized the build path of this equipment for a smoother experience."
+            },
+            "Wishing Lantern": {
+                "badge": "ADJUST",
+                "description": "Slightly reduced damage against high-HP heroes but added a minimum damage threshold, so this equipment can stll deal damage when the enemy hero's Hip is low.<br/><br/><strong>[Unique Passive - Butterfly Goddess]</strong><br/>Percentage damage based on target's current HP: 10% >> 8%<br/>New Effect: Each Butterfly Goddess deals at least 50 Magic Damage (before damage reduction)."
+            },
+            "Radiant Armor": {
+                "badge": "BUFF",
+                "description": "We believe Radiant Armor's passive effect provides sufficient protection against sustained damage from Mages when fully stacked. However, the current stacking efficiency is too slow, so we aim to improve it.<br/><br/><strong>[Unique Passive - Holy Blessing]</strong><br/>Stack Cooldown: 0.6s >> 0.4s"
+            },
+            "Brute Force Breastplate": {
+                "badge": "BUFF",
+                "description": "We aim to sightly enhance this equipment's damage output to make it more appealing to agile Fighter heroes.<br/><br/><strong>[Attributes]</strong><br/>Physical Defense: 23 >> 20<br/><br/><strong>[Unique Passive - Brute Force]</strong><br/>Adaptive Attack Per Stack: 6 >> 8"
+            },
+            "Ice Queen Wand": {
+                "badge": "ADJUST",
+                "description": "Optimized the build path of this equipment for a smoother experience."
+            }
+        },
+        "emblem_adjustments": {},
+        "system_adjustments": {
+            "Bug Fixes": {
+                "badge": "ADJUST",
+                "description": "1- Fixed an issue where Beatrix's Basic Attack using Bennett would become slower when attacking nearby targets and faster when attacking distant targets."
+            }
+        },
+        "hero_adjustments": {
+            "Selena": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Other Effect: Mark Damage against Creeps: 200% >> Mark Damage against Creeps and Minions: 250%"
+                    },
+                    {
+                        "skill": "Skill 1 (Elven Form)",
+                        "badge": "BUFF",
+                        "description": "Reduced the foreswing time by 25%."
+                    },
+                    {
+                        "skill": "Skill 2 (Elven Form)",
+                        "badge": "BUFF",
+                        "description": "Reduced the foreswing time by 20%.<br/>Flying Speed: 8 >> 8.5<br/>Movement Speed Bonus Upon Hit: 40% >> 50%<br/>Required Stun Duration for Movement Speed Bonus: 1s >> 0.9s<br/>Added Picture-in-Picture effect upon hit.<br/>Stun Duration: 0.5-3s >> 0.5-2.5s"
+                    },
+                    {
+                        "skill": "Skill 2 (Abyssal Form)",
+                        "badge": "BUFF",
+                        "description": "Dashing Speed: 10 >> 12"
+                    },
+                    {
+                        "skill": "Controls Optimization",
+                        "badge": "BUFF",
+                        "description": "Removed the foreswing and backswing of Skills 1 and 2 in Abyssal Form."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Cici": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "BUFF",
+                        "description": "Stack Removal: All stacks removed instantly >> 1 stack reduced per second"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Karrie": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Greatly reduced Skill 1 backswing (now consistent with Hanabi's Skill 2)."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Novaria": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 8s >> 7s<br/>Mana Cost: 120-270 >> 100-200"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Floryn": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Cast Range: 6 >> 7 (same as Skill 2)"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Esmeralda": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Base Shield: 400-700 >> 400-900"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Physical Defense Growth",
+                        "badge": "BUFF",
+                        "description": "5.8 >> 6.3"
+                    }
+                ]
+            },
+            "Uranus": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "60% Movement Speed buff, decays to 10% after 2s >> 60% Movement Speed buff, decays to 20% after 2s"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Base Physical Defense",
+                        "badge": "BUFF",
+                        "description": "14 >> 19"
+                    }
+                ]
+            },
+            "Baxia": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Cooldown: 10-5s >> 7-5s"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Physical Defense Growth",
+                        "badge": "BUFF",
+                        "description": "5.8 >> 6.3"
+                    }
+                ]
+            },
+            "Barats": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Total Physical Attack Bonus for Detonation Damage: 160% >> 180%"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Base Physical Defense",
+                        "badge": "BUFF",
+                        "description": "18 >> 23"
+                    }
+                ]
+            },
+            "Layla": {
+                "badge": "NERF",
+                "adjustments": [],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Physical Attack Growth",
+                        "badge": "NERF",
+                        "description": "10 >> 8.5"
+                    }
+                ]
+            },
+            "Granger": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill": "Skill 1",
+                        "badge": "NERF",
+                        "description": "Extra damage per bullet against Creeps and Minions: 70 >> 35"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Damage: 250-400 + 80% of Total Physical Attack >> 150-250 + 100% of Total Physical Attack"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Sun": {
+                "badge": "NERF",
+                "adjustments": [],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Physical Attack Growth",
+                        "badge": "NERF",
+                        "description": "6.65 >> 5.5"
+                    },
+                    {
+                        "attribute": "HP Growth",
+                        "badge": "NERF",
+                        "description": "210 >> 180"
+                    }
+                ]
+            },
+            "Hanabi": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill": "Passive",
+                        "badge": "ADJUST",
+                        "description": "Bounce Damage: First bounce deals 40% of the initial damage; subsequent bounces deal 85% of the previous bounce >> All bounces inherit 30% of the initial damage"
+                    },
+                    {
+                        "skill": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Base Damage: 450-600 >> 350-600"
+                    },
+                    {
+                        "skill": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Following Bloom Damage Decays to: 20% >> 30%"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute": "Physical Attack Growth",
+                        "badge": "BUFF",
+                        "description": "7 >> 10"
+                    }
+                ]
+            }
+        }
+    },
     "1.9.91": {
         "version": "1.9.91",
         "release_date": "2025-06-18",
