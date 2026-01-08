@@ -1,4 +1,160 @@
 {
+    "2.1.42": {
+        "version": "2.1.42",
+        "release_date": "2025-12-12",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: Joy (↑), Ling (↑), Mathilda (↑), and Minsitthar (↑).",
+        "battlefield_adjustments": {},
+        "equipment_adjustments": {},
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Angela": {
+                "badge": "NERF",
+                "description": "Reverted the previous cooldown reduction of Skill 1 when attached.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown Reduction When Attached: 60% >> 50%",
+                        "skill_name": "Love Waves",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Baxia": {
+                "badge": "NERF",
+                "description": "Slightly reduced his damage in the early to mid game.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Base Damage: 180-255 >> 140-265",
+                        "skill_name": "Shield of Spirit",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Benedetta": {
+                "badge": "ADJUST",
+                "description": "We need more time to monitor and refine the recent adjustments to Benedetta, so we are temporarily reverting the previous changes to her Passive's foreswing and damage.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Reverted the reduced foreswing of Swordout Slash.<br/>Swordout Slash Damage: 200% Total Physical Attack >> 215% Total Physical Attack",
+                        "skill_name": "Elapsed Daytime",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Joy": {
+                "badge": "BUFF",
+                "description": "Enhanced combat capability after casting Ultimate.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Spell Vamp Ratio: 50% >> 100%<br/>Spell Vamp Ratio on Hitting All Beats: 40% >> 25%",
+                        "skill_name": "Rhapsody in Joy",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Ling": {
+                "badge": "BUFF",
+                "description": "Slightly increased benefits from Attack Speed equipment.",
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Attack Speed Ratio",
+                        "badge": "BUFF",
+                        "description": "40% >> 60%"
+                    }
+                ]
+            },
+            "Luo Yi": {
+                "badge": "BUFF",
+                "description": "Optimized the hero's Mana Cost and skill cast frequency in the mid and late game.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Mana Cost: 120-170 >> 75-100<br/>Cooldown: 12s at all levels >> 12-10s",
+                        "skill_name": "Rotation",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Mathilda": {
+                "badge": "BUFF",
+                "description": "Increased the hero's damage in the mid to late game.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Subsequent Damage Decay Ratio: 40% >> 40%-60%",
+                        "skill_name": "Guiding Wind",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Minsitthar": {
+                "badge": "BUFF",
+                "description": "Enhanced Ultimate's utility.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Slow Effect: 20% >> 30%<br/>Cooldown: 60s-50s >> 55s-45s",
+                        "skill_name": "King's Calling",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Yi Sun-shin": {
+                "badge": "NERF",
+                "description": "Slightly reduced the hero's utility.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 60s >> 70s",
+                        "skill_name": "Mountain Shocker",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Yve": {
+                "badge": "NERF",
+                "description": "Yve's long cast range and Movement Speed Boost gave her excessive kiting ability, so we've made some adjustments.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Cast Range: 5.7 >> 5.5<br/>Movement Speed Boost: 55% >> 40%",
+                        "skill_name": "Void Blast",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Zhuxin": {
+                "badge": "ADJUST",
+                "description": "Further reduced the control effect but increased the damage. (Due to visual effect adjustments, her skins will be temporarily disabled.)",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Duration of Soul Snare's Stack Cooldown & Increased Damage: 4s >> 6s",
+                        "skill_name": "Lantern Flare",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Overdrive Mode Returns",
+                "description": "To meet Summoners' expectations, Overdrive Mode will return soon with new heroes.<br/><br/>Available Time: Limited full-day access starting 12/12/2025.<br/><br/><strong>Guide:</strong> The system will randomly assign two heroes to players, selected from owned heroes, mode-specific free heroes, and heroes unlocked by trial cards.<br/><br/><strong>New Heroes:</strong> Added new random heroes: Alice, Bane, Yi Sun-shin, Hilda, Lapu-Lapu, Karrie, Harley, Grock, Diggie, Zhask, Valir, Uranus, Kaja, Selena, Lunox, Kimmy, Minsitthar, Kadita, Faramis, Khufra, Terizla, Lylia, Baxia, Masha, Gloo, Aulus, Aamon, Valentina, Fredrinn, Joy, Arlott, Ixia, Nolan, Chip, Kalea, and Obsidia."
+            },
+            {
+                "name": "Free Elite Skin Event - Schedule Adjustment",
+                "description": "As the test sample size for the Free Elite Skin event has reached the required threshold, the event, originally scheduled to end at 23:59:59 on 12/25/2025 (Server Time), will now end earlier at 23:59:59 on 12/14/2025 (Server Time).<br/><br/>Players who were unable to obtain the skin chest due to the shortened event period need not worry. We will review participation records dated 12/14. If you have not obtained the skin chest by the end of the event, we will reissue it to eligible players after the event ends."
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.48": {
         "version": "2.1.48",
         "release_date": "2025-12-31",
