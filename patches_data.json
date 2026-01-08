@@ -744,6 +744,227 @@
             }
         }
     },
+    "2.1.08": {
+        "version": "2.1.08",
+        "release_date": "2025-08-02",
+        "game_id": 1,
+        "designers_note": "Major adjustments to passive Gold income and Roaming Blessing rework. Equipment price increases for Marksman items to reduce late-game dominance.",
+        "battlefield_adjustments": {
+            "Gold Income": {
+                "badge": "NERF",
+                "description": "We've noticed that compared to years ago, due to heroes' gradually enhanced performance in the early-to-mid game, everyone's development speed has become somewhat too fast, so we will slightly reduce passive Gold income.<br/><br/>Gold gained every 2 seconds: 6 >> 5"
+            }
+        },
+        "equipment_adjustments": {
+            "Roaming Blessing": {
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "We've noticed that the roaming role has had relatively little impact on match results in the current Ranked system, and we believe that choosing to roam shouldn't stand for sacrificing your economy. Therefore, we've reworked the conditions for Roaming Blessing to earn Gold.<br/><br/>[Unique Passive - Devotion] (Reworked)<br/>When near allied heroes, does not share Gold and EXP from minions and creeps, but gains 30% Gold and Experience independently. Revealing enemies also grants Gold and Experience. (A maximum of 2000 Gold can be gained through this skill) (Only triggers when you have the lowest Gold among all heroes with active Roaming Blessing on your team)<br/><br/>[Unique Passive - Thriving] (Reworked)<br/>Gain 4 Gold and 8 Experience for yourself every 2 seconds (only triggers when you have the lowest Gold among all heroes with active Roaming Blessing on your team).<br/><br/>[Unique Passive - Blessing] (Reworked)<br/>Gain 1000 Gold through Devotion and Thriving to unlock a Roaming skill (values no longer scale)",
+                        "name": "Rework"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Speed Boost: 24%-60% >> 40%",
+                        "name": "Conceal"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "HP Regen: 240-600 >> 400",
+                        "name": "Favor"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Hybrid Attack Boost: 12-30 >> 20<br/>Attack Speed Boost: 15% >> 10%",
+                        "name": "Encourage"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Damage dealt based on target's Max HP: 7%-18% >> 12%",
+                        "name": "Dire Hit"
+                    }
+                ],
+                "badge": "ADJUST",
+                "description": "Complete rework: roaming players gain Gold through performance-based mechanics."
+            },
+            "Corrosion Scythe": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "In the current patch, Marksman heroes have become overly dominant in the late game. We aim to slightly reduce their scaling speed.<br/><br/>Price: 2050 >> 2150",
+                        "name": "Price"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Price increased."
+            },
+            "Windtalker": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 1880 >> 1980",
+                        "name": "Price"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Price increased."
+            },
+            "Malefic Gun": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 2120 >> 2220",
+                        "name": "Price"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Price increased."
+            },
+            "Wind of Nature": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 1910 >> 2010",
+                        "name": "Price"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Price increased."
+            },
+            "Sky Piercer": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Price: 1500 >> 1600",
+                        "name": "Price"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Price increased."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Floryn": {
+                "badge": "NERF",
+                "description": "After last week's optimization, Floryn's in-match experience has improved. However, while Floryn has support capabilities across the map, her control abilities are also very powerful. For balance, we decided to reduce her control abilities.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Stun Duration: 0.7s >> 0.5s",
+                        "skill_name": "Dew",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Benedetta": {
+                "badge": "ADJUST",
+                "description": "When Benedetta was interrupted by control effects while charging Swordout Slash, she would continue charging, potentially causing her to accidentally cast Swordout Slash after the control effect ends. We have fixed this issue.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "When Benedetta is interrupted by control effects while charging Swordout Slash, the charge state will be interrupted, and her current Sword Intent will be retained. After the control effect ends, she needs to hold down Basic Attack again to enter the charge state.<br/><br/>When Benedetta is in Swordout state and gets controlled while Sword Intent decays, her Swordout state will be interrupted and restored to full Sword Intent. After the control effect ends, she needs to hold down Basic Attack again to enter the charge state.",
+                        "skill_name": "Alecto: Swordout",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Guinevere": {
+                "badge": "ADJUST",
+                "description": "We hope to enhance her sustainability while reducing her slow effect to maintain balance.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Super Magic built on Basic Attack and Skill 1 & 2 hit: 1/4 >> 1/3",
+                        "skill_name": "Super Magic",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Slow Effect: 50% >> 20%",
+                        "skill_name": "Magic Shockwave",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Kimmy": {
+                "badge": "NERF",
+                "description": "We found that Kimmy can achieve higher hit rates by continuously tapping the Basic Attack button while losing less damage output. We aim to adjust this.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Increased the interval between Basic Attacks when continuously tapping the button.",
+                        "skill_name": "Basic Attack",
+                        "skill_type": "Basic Attack"
+                    }
+                ]
+            },
+            "Lancelot": {
+                "badge": "NERF",
+                "description": "Reduced Skill 2 damage scaling.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Extra Physical Attack Bonus: 130% >> 120%",
+                        "skill_name": "Thorned Rose",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Yve": {
+                "badge": "BUFF",
+                "description": "Increased Skill 1 cast range.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Cast Range: 5.5 >> 5.7",
+                        "skill_name": "Void Blast",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Vexana": {
+                "badge": "ADJUST",
+                "description": "Adjusted Eternal Guard's stats and removed Skill 2's sight-gaining ability.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Removed the sight-gaining ability of the surrounding area.",
+                        "skill_name": "Nether Touch",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Eternal Guard's Extra Magic Power: 0 >> 80-120<br/>Eternal Guard's Extra Physical Defense: 60-80 >> 40-60<br/>Eternal Guard's Extra Magic Defense: 40-50 >> 40-60",
+                        "skill_name": "Eternal Guard",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Resplendent Dragonshard System",
+                "description": "The Resplendent Dragonshard system is now available! Players can use the exclusive item Resplendent Dragonshard to change the colors of corresponding skin appearances and in-match visual effects.<br/><br/>The first batch of skins that support the Resplendent Dragonshard system includes: Silvanna \"Future Cop\", Diggie \"Underwood Steward\", Valir \"Draconic Flame\", and Fredrinn \"Jewel Connoisseur\".<br/><br/>Instructions: Resplendent Dragonshards can be used in [Preparation] - [Customization] - [Resplendent Dragonshard] to unlock Resplendent Skins.<br/><br/>Note: Resplendent Skins require owning the base skin to unlock. This feature is currently in testing."
+            },
+            {
+                "name": "Bug Fixes",
+                "description": "Fixed an issue where Gatotkaca's enhanced Basic Attack would play an abnormal animation in place when there was no target."
+            },
+            {
+                "name": "Control Adjustments",
+                "description": "Connecting Line for Pursuit: When a hero is in Pursuit state but the target is beyond attack range, there will be a connecting line between the hero and the target to provide a clearer indication of the pursuit direction and target position."
+            },
+            {
+                "name": "Free Heroes",
+                "description": "Server Time 08/01/2025 05:01:00 to 08/08/2025 05:00:00<br/><br/>8 Free Heroes: Kadita, Fanny, Beatrix, Argus, Lukas, Vale, Floryn, and Terizla."
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": [],
+        "revamped_heroes_data": {}
+    },
     "2.1.10": {
         "version": "2.1.10",
         "release_date": "2025-08-08",
