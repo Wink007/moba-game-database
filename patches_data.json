@@ -1,4 +1,207 @@
 {
+    "2.1.46": {
+        "version": "2.1.46",
+        "release_date": "2025-12-25",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: [Revamped Eudora] (↑), [Marcel] (↓), and [Saber] (↑)",
+        "battlefield_adjustments": {
+            "Minions": {
+                "badge": "BUFF",
+                "description": "Increased the farming speed of Mid Lane heroes in the early to mid game to provide more viability for damage Mages.<br/><br/>[Base Gold Rewards]<br/>Ranged Minion Base Gold Reward: 21 >> 25"
+            },
+            "Creeps": {
+                "badge": "NERF",
+                "description": "Reduced Gold rewards from Legend Creeps in the early and mid game to provide more room for growth for late-game lineups.<br/><br/>[Base Gold Rewards]<br/>Turtle: 40 >> 30<br/>Lord: 80 >> 60"
+            }
+        },
+        "equipment_adjustments": {
+            "Genius Wand": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Magic Defense Reduction per stack: 3 + (0.3* Hero Level) >> 3 + (0.5* Hero Level)",
+                        "name": "Magic"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Enhanced Magic Defense reduction per stack."
+            },
+            "Glowing Wand": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Magic Power: 75 >> 50",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Reduced Magic Power attribute."
+            },
+            "Lightning Truncheon": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Base Damage: 170 >> 255",
+                        "name": "Resonate"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Increased base damage of Resonate passive."
+            },
+            "Wishing Lantern": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Damage required to trigger Butterfly Goddess: 800 >> 1000",
+                        "name": "Butterfly Goddess"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Increased damage threshold to trigger passive."
+            },
+            "War Axe": {
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "War Axe is too well-rounded, providing Attack, HP, Cooldown Reduction, extra damage, and sustainability. We have adjusted it to shift some of its sustainability to other equipment.<br/><br/>12% Spell Vamp >> 5% Spell Vamp",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "NERF",
+                "description": "Reduced Spell Vamp from 12% to 5%."
+            },
+            "Queen's Wings": {
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "10% Spell Vamp >> 15% Spell Vamp",
+                        "name": "Attributes"
+                    }
+                ],
+                "badge": "BUFF",
+                "description": "Increased Spell Vamp from 10% to 15%."
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Eudora": {
+                "badge": "BUFF",
+                "description": "Revamped: We have restored and enhanced the Magic Defense reduction effect of the previous Eudora, allowing for different combo choices in different situations. When facing a single target, the Skill 2-Ultimate-Skill 1 combo still deals the highest damage. When supported by allies' crowd control, the Skill 1-Skill 2-Ultimate combo deals higher AOE burst damage.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Delayed Damage: 280-530 (+130% Total Magic Power) >> 410-710 + (150% Total Magic Power)<br/>Removed Effect: Delayed Damage scales with the target's lost HP.<br/>Damage Delay and Speed Boost Time of the Lightning Chain: 1.5s >> 1s",
+                        "skill_name": "Forked Lightning",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Stunning the target also reduces their Magic Defense. If the target is affected by Superconductor, the lightning orb stuns all nearby enemies and reduces their Magic Defense.",
+                        "skill_name": "Electric Arrow",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Diffusion Damage: 200-400 (+130% Total Magic Power) >> 470-710 (+150% Total Magic Power)",
+                        "skill_name": "Thunderstruck",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Marcel": {
+                "badge": "NERF",
+                "description": "This dark magician and his unique skills have caused quite a stir in the Advanced Server. We have made some adjustments to balance him.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Removed Effect: Marcel gains extra HP Regen.<br/>Base True Damage: 4% Max HP >> 3% Max HP<br/>Cooldown: 8s >>12s<br/>Cooldown Reduction from Basic Attacks: 0.5s >> 1s",
+                        "skill_name": "Phorograph",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Framed Moment applies 20% slow effect to enemy heroes within range.",
+                        "skill_name": "Framed Moment",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 10-8s >> 12.5-10s",
+                        "skill_name": "Unparalleled",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Cooldown: 65-50s >> 74-62s",
+                        "skill_name": "Into The Lens",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Saber": {
+                "badge": "BUFF",
+                "description": "Saber relied too much on one-shot combos. Therefore, we've made adjustments to increase his sustained damage capabilities before and after casting his Ultimate. To balance, we've also slightly reduced his early-game burst capabilities.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Base Damage: 75-105 >> 55-105<br/>Orbiting Sword Damage (Extra Damage): 210-260 >> 160-260<br/>Mana Cost: 80-105 >> 60-85<br/>Orbiting sword damage reduces Skill 2's cooldown by 1s >> Orbiting sword damage reduces Skill 1 & 2 cooldowns by 0.5s<br/>New Effect: Orbiting sword damage deals 50 extra damage to creeps.<br/>Cooldown: 10s >> 9s<br/>Duration: 5s >> 4s",
+                        "skill_name": "Flying Sword",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "New Effect: Enhanced Basic Attacks reduce Skill 2's cooldown by 30% on hit.<br/>Mana Cost: 70-45 >> 40-60",
+                        "skill_name": "Charge",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Extra Physical Attack Bonus of the First Two Strikes: 100% >>80%<br/>Extra Physical Attack Bonus of the Third Strike: 200% >> 160%",
+                        "skill_name": "Triple Sweep",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Yve": {
+                "badge": "ADJUST",
+                "description": "Optimized the camera angle when casting the Ultimate. Resolved an issue where the camera angle and UI layout prevented players from viewing information or casting the Ultimate at the desired location.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "Increased the top-down camera angle during the Ultimate to better focus on the center of the Starfield.<br/>Relocated kill notifications and other messages during the Ultimate so they no longer block the view.",
+                        "skill_name": "Real World Manipulation",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "name": "Battlefield Effect Test",
+                "description": "New Battlefield Effects are here! Visuals related to this gameplay are in testing and do not represent final quality. We will continue to optimize gameplay, values, and visuals.<br/><br/>[Gameplay Tested in This Version]<br/><br/>1- Omni-Sentries: Magic Sentries have been moved behind each Turret. Only the outermost Magic Sentry in each lane can be activated. Each Magic Sentry has a 90s cooldown.<br/><br/>2- Fire Turtle: Defeating the Turtle no longer grants a shield. Instead, an allied Turtle will spawn on the enemy's weakest lane to help push. Allied heroes near the allied Turtle will recover HP rapidly."
+            },
+            {
+                "name": "In-Match System Optimizations",
+                "description": "1- Scoreboard: Tap the Team Gold area at the top to send a signal showing the Gold difference.<br/><br/>2- Scoreboard: Tap a hero's avatar to send a signal based on their current status and Bounty status.<br/><br/>3- When your team is behind in Gold and the enemy has a hero with a high Bounty, the system will automatically send a chat message regarding that hero."
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": ["Eudora"],
+        "revamped_heroes_data": {
+            "Eudora": {
+                "badge": "REVAMP",
+                "description": "Restored and enhanced Magic Defense reduction effects. Different combo choices for different situations.",
+                "adjustments": [
+                    {
+                        "description": "Skill 1 delayed damage increased. Skill 2 now reduces Magic Defense. Ultimate diffusion damage increased. Multiple combo paths available.",
+                        "skill_name": "Revamp Overview",
+                        "skill_type": "Revamp"
+                    }
+                ]
+            }
+        }
+    },
     "2.1.44": {
         "version": "2.1.44",
         "release_date": "2025-12-18",
