@@ -1,4 +1,259 @@
 {
+    "2.1.28": {
+        "version": "2.1.28",
+        "release_date": "2025-10-17",
+        "game_id": 1,
+        "designers_note": "Heroes with major changes in this patch: Hilda (↑), Xavier (↑), Minotaur (↑), and Atlas (↑).",
+        "battlefield_adjustments": {
+            "Equipment Adjustment": {
+                "badge": "BUFF",
+                "description": "Twilight Armor replaced by Chastise Pauldron<br/><br/><strong>Attributes:</strong><br/>HP: 800 >> 900<br/>Physical Defense: 35 >> 40<br/><br/><strong>Unique Passive - Chastise:</strong><br/>Reduces the attacker's Attack Speed and Attack Speed cap to 80% >> 75%.<br/>Attack Speed Reduction Duration: 1s >> 2s"
+            },
+            "Optimizations": {
+                "badge": "ADJUST",
+                "description": "1. Revamped Balmond's in-match and out-of-match art assets for an improved visual presentation.<br/>2. Optimized the visual clarity of in-match indicators.<br/>3. Optimized the visual effects of the following Equipment: Lord of the Heptaseas, Starlium Scythe, Athena's Shield, and Cursed Helmet."
+            },
+            "Bug Fix": {
+                "badge": "ADJUST",
+                "description": "Fixed an issue where Wanwan would still dash if her Basic Attack missed a target while Tiger Pace was active, but no stacks were consumed."
+            }
+        },
+        "equipment_adjustments": {
+            "Chastise Pauldron": {
+                "badge": "BUFF",
+                "description": "Twilight Armor replaced by Chastise Pauldron<br/><br/><strong>Attributes:</strong><br/>HP: 800 >> 900<br/>Physical Defense: 35 >> 40<br/><br/><strong>Unique Passive - Chastise:</strong><br/>Reduces the attacker's Attack Speed and Attack Speed cap to 80% >> 75%.<br/>Attack Speed Reduction Duration: 1s >> 2s"
+            }
+        },
+        "emblem_adjustments": {},
+        "hero_adjustments": {
+            "Hilda": {
+                "badge": "BUFF",
+                "description": "Hilda's late-game minion clearing efficiency and durability are low, and she relies on Bushes to trigger her passive effect, leaving her with average performance in the Exp Lane.<br/><br/>So this time we redesigned Hilda's passive skill, changing the enhanced Basic Attack originally obtained from Skill 1 to entering a Bush, improving her Exp Lane presence and minion clearing efficiency. Meanwhile, Skill 1 has been redesigned to grant a shield and speed boost, reducing her dependence on bushes.<br/><br/>We've also optimized the control experience of Basic Attacks after Skill 2, improving passive stacking efficiency and combo smoothness.<br/><br/>To balance this, we've reduced how much the Passive Wilderness Mark reduces Physical & Magic Defense.",
+                "adjustments": [
+                    {
+                        "badge": "REWORK",
+                        "description": "When entering a Bush, Hilda enhances her next Basic Attack to deal 140 (+ 70% Total Physical Attack) (+ 9*hero level) Physical Damage and slow the target by 40% for 3s. Enemies behind the target take 70 (+ 50% Total Physical Attack) (+ 7*hero level) Physical Damage. After using this enhanced Basic Attack, it enters a 6s cooldown.<br/><br/>Pursuit Speed of Enhanced Basic Attack: 10 >> 13<br/><br/>Each stack reduces the target's Physical Defense and Magic Defense by: 4% >> 3%",
+                        "skill_name": "Blessing of Wilderness",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "REWORK",
+                        "description": "Hilda activates the runic power of her giant axe, increasing her Movement Speed by 60% and gaining a shield equal to 10-20% of her Max HP for 3s.",
+                        "skill_name": "Combat Ritual",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Reduced the foreswing of Skill 2's third attack by 33%.",
+                        "skill_name": "Power of Wildness",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Optimized the Ultimate's pursuit range and increased its hit rate after locking on.",
+                        "skill_name": "Mega Shield Charge",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Xavier": {
+                "badge": "BUFF",
+                "description": "Xavier relies on continuously hitting enemies with Skills 1 and 2 to enhance and enter the Transcendence state for stronger damage output. This doesn't align with our design expectations.<br/><br/>Therefore, we've increased the width of all skills, changed Stage I to a permanent passive, and removed the original Stage II effect, allowing Xavier to enter the Transcendence state more quickly.<br/><br/>To balance this change, we've reduced the duration of Skill 2's immobilization.",
+                "adjustments": [
+                    {
+                        "badge": "ADJUST",
+                        "description": "When Xavier hits an enemy hero with his skills, he gains 50% Movement Speed that decays over 1.2s. Each enemy hero hit by Xavier's skills generates one Energy charge. Upon reaching three charges, his next skill cast will enter the Transcendence state.",
+                        "skill_name": "Intuition",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "BUFF",
+                        "description": "Skill Width in Normal State: 0.6 >> 0.9<br/>Mana Cost: 50-75 >> 30-55",
+                        "skill_name": "Infinite Extension",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Immobilizing Time: 1.2s >> 0.8s<br/>Skill Width in Normal State: 3.5 >> 4.3<br/>Skill Width in Transcendence State: 5.0 >> 4.3",
+                        "skill_name": "Mystic Field",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Skill Width in Normal State: 2.2 >> 3.0<br/>Skill Width in Transcendence State: 3.8 >> 3.0",
+                        "skill_name": "Dawning Light",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Minotaur": {
+                "badge": "BUFF",
+                "description": "As a tank-roaming hero, Minotaur's ability to provide healing and buffs to his team far exceeds his own survivability as a tank. We want his combat ability to better match his character.<br/><br/>We've revamped the original Enraged Regen effect that enhanced Skill 2 as Minotaur's new passive to improve his durability in combat.<br/><br/>We've also added Slow Effects to the first 2 hits of his Ultimate to improve the hit rate of the final hit's Airborne effect.<br/><br/>For balance, we have reduced Minotaur's ability to provide healing and buffs to allies, though he remains a unique tank with the ability to heal teammates.",
+                "adjustments": [
+                    {
+                        "badge": "REWORK",
+                        "description": "Minotaur motivates for 3s after using the skill. When Enraged, the Regen effect is doubled.<br/><br/>[Motivation]: Recover HP equal to 5% of damage taken from enemy heroes (+ 1%*hero level).",
+                        "skill_name": "Rage",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "REWORK",
+                        "description": "Healing Range: Minotaur recovers himself and all surrounding allies >> Minotaur recovers himself and the ally with the lowest HP nearby<br/><br/>Additional Lost HP Recovery: 5% >> 8%<br/><br/>Enraged: Remove previous Enraged effects. Now Minotaur recovers himself and all surrounding allies.",
+                        "skill_name": "Motivation Roar",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Slow Effect: 40% >> 60%<br/>Airborne Duration: 1s >> 0.8s",
+                        "skill_name": "Minoan Fury",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Atlas": {
+                "badge": "BUFF",
+                "description": "Atlas's Skill 2 and Ultimate lack clear range indicators in actual combat to determine whether they can hit enemies.<br/><br/>So we've adjusted the ranges of his passive Frigid Breath, Skill 2's stun, and the Ultimate's first-stage slow effect to be completely consistent. Players can now use the visual effect circle of Frigid Breath as a range indicator for other skills, improving overall skill hit rate.<br/><br/>Additionally, the Physical & Magic Defense boost from Atlas's Passive cannot scale with his economic growth, so we've adjusted its numerical structure to scale based on his Extra HP.<br/><br/>To balance this change, we've slightly reduced the stun duration after Atlas returns to Mecha in Skill 2",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Frigid Breath Range: 2 >> 3<br/>Physical & Magic Defense Boost: 16-30 >> 20+0.5% Extra HP",
+                        "skill_name": "Frigid Breath",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "ADJUST",
+                        "description": "Damage and Stun Range after Atlas Returns to Mecha: 2.5 >> 3<br/>Stun Duration after Atlas Returns to Mecha: 1s >> 0.8s",
+                        "skill_name": "Annihilate",
+                        "skill_type": "Skill 2"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Slow Range of the First Stage: 3.5 >> 3",
+                        "skill_name": "Fatal Links",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Benedetta": {
+                "badge": "BUFF",
+                "description": "When Benedetta's skills hit consecutively, her Sword Intent accumulates quickly to full. However, holding the Basic Attack button to enter the Swordout state may affect the control experience of skill-combo transitions into Swordout Slash.<br/><br/>Therefore, we've shortened the detection time for entering the Swordout state when holding the Basic Attack button, allowing Benedetta to enter the state more quickly and improving control fluidity and responsiveness.<br/><br/>Additionally, after dealing damage 3 times with Basic Attacks or skills, Benedetta's Sword Intent gauge falls slightly short of being full, affecting the controls of her Swordout Slash combos.<br/><br/>Therefore, we've increased the amount of Sword Intent gained from dealing damage. It now only takes 3 hits from Basic Attacks or skills to fully charge her Sword Intent.<br/><br/>We've also fixed an issue where Benedetta would continue charging Swordout Slash after being interrupted by control effects, which could cause her to cast it unintentionally once the control effect ended.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Sword Intent Gained from Dealing Damage: 30 >> 34<br/><br/>The detection time for entering the Swordout state when holding the Basic Attack button has been reduced by 40%.<br/><br/>When Benedetta is interrupted by control effects while charging Swordout Slash, the charge state will be interrupted, and her current Sword Intent will be retained. After the control effect ends, she needs to hold down Basic Attack again to enter the charge state.<br/><br/>When Benedetta is in Swordout state and gets controlled while Sword Intent decays, her Swordout state will be interrupted and restored to full Sword Intent. After the control effect ends, she needs to hold down Basic Attack again to enter the charge state.",
+                        "skill_name": "Elapsed Daytime",
+                        "skill_type": "Passive"
+                    }
+                ]
+            },
+            "Balmond": {
+                "badge": "BUFF",
+                "description": "",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "Physical Defense Reduction: 15%-30% >> 40%<br/>Movement Speed Reduction: 30% >> 40%",
+                        "skill_name": "Soul Lock",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Freya": {
+                "badge": "BUFF",
+                "description": "Slightly increased her durability.",
+                "adjustments": [],
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Attributes",
+                        "badge": "BUFF",
+                        "description": "Base HP: 2500 >> 2600<br/>HP Growth: 200 >> 230"
+                    }
+                ]
+            },
+            "Gloo": {
+                "badge": "BUFF",
+                "description": "Gloo can be easily poked down in the late game. To address this, we've increased the HP restored by his Skill 1 to improve his late-game sustainability.",
+                "adjustments": [
+                    {
+                        "badge": "BUFF",
+                        "description": "HP Regen: 2.5%-5% >> 2.5%-6%",
+                        "skill_name": "Slam Smash",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Alucard": {
+                "badge": "NERF",
+                "description": "Alucard's scaling ability is too strong in the current patch, so we've reduced his mid to late-game damage to restore balance.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Enhanced Basic Attack's Total Physical Attack Bonus: 140% >> 125%",
+                        "skill_name": "Pursuit",
+                        "skill_type": "Passive"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Total Physical Attack Bonus: 110% >> 85%",
+                        "skill_name": "Groundsplitter",
+                        "skill_type": "Skill 1"
+                    }
+                ]
+            },
+            "Yi Sun-shin": {
+                "badge": "NERF",
+                "description": "Yi Sun-shin's Control Immunity duration and utility have been reduced to lower his pick priority in high-rank and professional matches.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Control Immunity Duration: 1s >> 0.4s (matching the dash duration)",
+                        "skill_name": "One-man Army",
+                        "skill_type": "Skill 1"
+                    },
+                    {
+                        "badge": "NERF",
+                        "description": "Map Vision Duration: 5s >> 2s",
+                        "skill_name": "Mountain Shocker",
+                        "skill_type": "Ultimate"
+                    }
+                ]
+            },
+            "Arlott": {
+                "badge": "NERF",
+                "description": "Arlott's damage was too high with the defense build, so we've slightly reduced his Base Damage.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Base Damage: 135-335 >> 135-285",
+                        "skill_name": "Dauntless Strike",
+                        "skill_type": "Skill 2"
+                    }
+                ]
+            },
+            "Cici": {
+                "badge": "NERF",
+                "description": "Cici's Delight stacks decay gradually when not dealing damage, granting her Movement Speed and Spell Vamp boost most of the time, making it difficult for enemies to counter. Therefore, we have increased the decay speed.",
+                "adjustments": [
+                    {
+                        "badge": "NERF",
+                        "description": "Stack Removal: 1 stack reduced every 1s >> 1 stack reduced every 0.3s",
+                        "skill_name": "Delight",
+                        "skill_type": "Passive"
+                    }
+                ]
+            }
+        },
+        "system_adjustments": [
+            {
+                "category": "New Event",
+                "description": "<strong>Nexus Sea</strong><br/><br/>This week on the Advanced Server, we've launched the Nexus Sea draw event, where you can get Alpha \"Revenant of Roses\", Dynamic Portrait, and other rewards.<br/><br/>Due to the unique nature of ID Tags, the Revenant of Roses ID Tag obtained in this event will be removed after the event ends. Skins, Dynamic Portrait, and other rewards will be distributed and can be kept as usual. In the Nexus Sea event on the Official Server, the exclusive ID Tag will be distributed and can be kept as usual.<br/><br/>Thank you for your support of MLBB. Enjoy the game!"
+            }
+        ],
+        "highlights": [],
+        "new_hero": null,
+        "revamped_heroes": ["Hilda", "Xavier", "Minotaur"],
+        "revamped_heroes_data": {}
+    },
     "2.1.46": {
         "version": "2.1.46",
         "release_date": "2025-12-25",
