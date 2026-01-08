@@ -1,4 +1,174 @@
 {
+    "1.9.64-adv": {
+        "version": "1.9.64 (Adv. Server)",
+        "release_date": "2025-03-07",
+        "game_id": 1,
+        "designers_note": "Advanced server update with hero adjustments and Lord optimizations.",
+        "battlefield_adjustments": {
+            "Lord (Summoned)": {
+                "badge": "NERF",
+                "description": "After several weeks of adjustments, the Summoned Lord's late-game strength is more in line with expectations. However, it was slightly too strong in the early-to-mid game, so we've made additional adjustments.<br/><br/>Slightly decreased the Summoned Lord's HP Growth.<br/>Slightly decreased the Summoned Lord's base Physical Defense."
+            },
+            "Battlefield": {
+                "badge": "ADJUST",
+                "description": "We've optimized the Evolved Lord icon after 18 minutes, making it more distinguishable from the Lord icon before evolution."
+            }
+        },
+        "equipment_adjustments": {},
+        "emblem_adjustments": {},
+        "system_adjustments": {
+            "MLBB Rising Open - Championship System": {
+                "badge": "NEW",
+                "description": "We're introducing a Substitute Recruitment feature for the first match of the Championship! If your team is missing members when the match begins, you can initiate Substitute Recruitment after the preparation time ends! Successfully recruited substitute players will replace the absent players in your team and continue the Championship journey with you!<br/><br/>Players who qualify for the Championship but haven't successfully registered can sign up as substitute players in the MLBB Rising Open interface after the Championship bracket is generated. When the first match begins, you can enter the substitute matching channel. Once matched, you can join a new team to start your Championship journey!<br/><br/>(Note: You must leave your current team to register as a substitute player.)"
+            },
+            "Free Heroes": {
+                "badge": "ADJUST",
+                "description": "Server Time 03/07/2025 05:01:00 to 03/14/2025 05:00:00<br/><br/>8 Free Heroes: Angela, Xavier, Floryn, Hanabi, Zhuxin, Cici, Luo Yi, Jawhead<br/>6 Extra StarLight Member Heroes: Melissa, Martis, Baxia, Argus, Phoveus, Pharsa"
+            },
+            "Bug Fixes": {
+                "badge": "ADJUST",
+                "description": "1- We previously added an internal cooldown display for Pharsa's Ultimate. However, we found this design affected players' control habits and gameplay experience, so we've temporarily reverted this change.<br/>2- Fixed an issue where the number of Soul Steal stacks Aldous gained from killing summoned units with Skill 1 did not match the skill description."
+            }
+        },
+        "hero_adjustments": {
+            "Hanzo": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 1",
+                        "badge": "BUFF",
+                        "description": "Damage dealt to the Turtle/Lord now matches the damage dealt to enemy heroes. When the target is the Turtle, Lord, or a hero, this skill's cooldown is reduced by 50%, and Hanzo restores 10% of Max HP."
+                    },
+                    {
+                        "skill_name": "Skill 1 (Hanekage)",
+                        "badge": "NERF",
+                        "description": "HP Recovery when used on a fully stacked target: 30% >> 20%"
+                    },
+                    {
+                        "skill_name": "Skill 2 (Hanekage)",
+                        "badge": "BUFF",
+                        "description": "New Effect: Recovers 20 Energy upon hitting a hero."
+                    },
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "NERF",
+                        "description": "Movement Speed Boost: 35% >> 50% initially, decaying to 15%<br/>Energy Cost per second: 12.5 >> 17<br/>Cooldown: 24-18s >> 24-12s"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Kimmy": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "BUFF",
+                        "description": "Every 1% of Attack Speed Converted to Magic Power: 0.5 >> 1<br/>Starlium Restored on Basic Attack Hit (Hero/Non-Hero): 8/2 >> 6/3<br/>Fixed an issue where Basic Attack bullets would disappear. (This issue caused a significant decrease in output frequency.)"
+                    },
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "BUFF",
+                        "description": "Starlium Restored when Hitting Heroes: 20 at all levels >> 20-40"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Base Movement Speed",
+                        "badge": "BUFF",
+                        "description": "245 >> 255"
+                    }
+                ]
+            },
+            "Melissa": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Damage Transfer Ratio: 60%-80% >> 60% at all levels<br/>Cooldown: 9-7s >> 9-6s"
+                    }
+                ],
+                "attribute_adjustments": [
+                    {
+                        "attribute_name": "Movement Speed",
+                        "badge": "NERF",
+                        "description": "248 >> 240"
+                    }
+                ]
+            },
+            "Zhuxin": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "ADJUST",
+                        "description": "Mana Cost: 110-160 >> 120-150"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Badang": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Skill 2",
+                        "badge": "NERF",
+                        "description": "Cooldown: 9-7s >> 9s at all levels"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Miya": {
+                "badge": "NERF",
+                "adjustments": [
+                    {
+                        "skill_name": "Passive",
+                        "badge": "NERF",
+                        "description": "Moonlight Shadow Basic Attack's Total Physical Bonus: 25% >> 20%"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Lukas": {
+                "badge": "BUFF",
+                "adjustments": [
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "BUFF",
+                        "description": "Explosion Damage: 400-1000 + 140% of Total Physical Attack >> 450-1100 + 155% of Total Physical Attack"
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Yi Sun-shin": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "Ultimate",
+                        "badge": "ADJUST",
+                        "description": "Optimized the visual effects of the Ultimate. Now during the Ultimate, the cannon shots will be fired from the Base."
+                    },
+                    {
+                        "skill_name": "Basic Attack",
+                        "badge": "ADJUST",
+                        "description": "Bug Fix: Fixed an issue where Yi Sun-shin's Basic Attack indicator would occasionally display the incorrect attack type during lag spikes (note: the actual Basic Attack mechanics were not affected). The indicator will now update more promptly to show the correct type of the next Basic Attack."
+                    }
+                ],
+                "attribute_adjustments": []
+            },
+            "Fanny": {
+                "badge": "ADJUST",
+                "adjustments": [
+                    {
+                        "skill_name": "All Adjustments",
+                        "badge": "ADJUST",
+                        "description": "We need to reconsider the adjustment plan for Fanny. For now, we have temporarily reverted all previous adjustments made to Fanny and keep her consistent with the Official Server."
+                    }
+                ],
+                "attribute_adjustments": []
+            }
+        }
+    },
     "1.9.47": {
         "version": "1.9.47",
         "release_date": "2025-02-12",
