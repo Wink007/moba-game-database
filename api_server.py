@@ -1251,20 +1251,59 @@ def update_emblem_api(emblem_id):
     return jsonify({'success': True})
 
 # Battle Spells endpoints
-@app.route('/api/battle-spells', methods=['GET'])
+@app.route('/api/battle-spells', methods=['GET', 'POST'])
+def battle_spells_api():
+    if request.method == 'GET':
+        game_id = request.args.get('game_id', type=int)
+        spells = db.get_battle_spells(game_id=game_id)
+        return jsonify(spells)
+    
+    elif request.method == 'POST':
+        data = request.get_json()
+        try:
+            spell_id = db.add_battle_spell(
+                game_id=data.get('game_id'),
+                name=data.get('name'),
+                overview=data.get('overview'),
+                description=data.get('description'),
+                cooldown=data.get('cooldown'),
+                unlocked_level=data.get('unlocked_level'),
+                icon_url=data.get('icon_url')
+            )
+            return jsonify({'id': spell_id, 'message': 'Battle spell created'}), 201
+        except Exception as e:
+            return jsonify({'error': str(e)}), 400
 
-def get_battle_spells_api():
-    game_id = request.args.get('game_id', type=int)
-    spells = db.get_battle_spells(game_id=game_id)
-    return jsonify(spells)
-
-@app.route('/api/battle-spells/<int:spell_id>', methods=['GET'])
-
-def get_battle_spell_api(spell_id):
-    spell = db.get_battle_spell(spell_id)
-    if spell:
-        return jsonify(spell)
-    return jsonify({'error': 'Battle spell not found'}), 404
+@app.route('/api/battle-spells/<int:spell_id>', methods=['GET', 'PUT', 'DELETE'])
+def battle_spell_api(spell_id):
+    if request.method == 'GET':
+        spell = db.get_battle_spell(spell_id)
+        if spell:
+            return jsonify(spell)
+        return jsonify({'error': 'Battle spell not found'}), 404
+    
+    elif request.method == 'PUT':
+        data = request.get_json()
+        try:
+            db.update_battle_spell(
+                spell_id=spell_id,
+                name=data.get('name'),
+                overview=data.get('overview'),
+                description=data.get('description'),
+                cooldown=data.get('cooldown'),
+                unlocked_level=data.get('unlocked_level'),
+                icon_url=data.get('icon_url')
+            )
+            return jsonify({'message': 'Battle spell updated'})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 400
+    
+    elif request.method == 'DELETE':
+        try:
+            db.delete_battle_spell(spell_id)
+            return jsonify({'message': 'Battle spell deleted'})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 400
 
 # Fix item recipe IDs after migration
 @app.route('/api/fix-recipe-ids', methods=['POST'])

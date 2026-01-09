@@ -1289,6 +1289,51 @@ def get_battle_spell(spell_id):
     release_connection(conn)
     return dict(spell) if spell else None
 
+def add_battle_spell(game_id, name, overview=None, description=None, cooldown=None, unlocked_level=None, icon_url=None):
+    conn = get_connection()
+    cursor = conn.cursor()
+    ph = get_placeholder()
+    
+    query = f"""
+        INSERT INTO battle_spells (game_id, name, overview, description, cooldown, unlocked_level, icon_url)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+    """
+    
+    cursor.execute(query, (game_id, name, overview, description, cooldown, unlocked_level, icon_url))
+    
+    if DATABASE_TYPE == 'postgres':
+        cursor.execute("SELECT lastval()")
+        spell_id = cursor.fetchone()[0]
+    else:
+        spell_id = cursor.lastrowid
+    
+    conn.commit()
+    release_connection(conn)
+    return spell_id
+
+def update_battle_spell(spell_id, name=None, overview=None, description=None, cooldown=None, unlocked_level=None, icon_url=None):
+    conn = get_connection()
+    cursor = conn.cursor()
+    ph = get_placeholder()
+    
+    query = f"""
+        UPDATE battle_spells 
+        SET name = {ph}, overview = {ph}, description = {ph}, cooldown = {ph}, unlocked_level = {ph}, icon_url = {ph}
+        WHERE id = {ph}
+    """
+    
+    cursor.execute(query, (name, overview, description, cooldown, unlocked_level, icon_url, spell_id))
+    conn.commit()
+    release_connection(conn)
+
+def delete_battle_spell(spell_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    ph = get_placeholder()
+    cursor.execute(f"DELETE FROM battle_spells WHERE id = {ph}", (spell_id,))
+    conn.commit()
+    release_connection(conn)
+
 # Hero Rank legacy functions (main implementation is above around line 656)
 def get_hero_rank_by_hero_id(hero_id):
     """Отримує rank конкретного героя (legacy, redirects to get_hero_rank)"""
