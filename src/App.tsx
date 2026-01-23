@@ -34,7 +34,7 @@ function App() {
               <Route path="/:gameId/items" element={<ItemsPage />} />
               <Route path="/:gameId/items/:itemId" element={<ItemDetailPage />} />
               <Route path="/:gameId/emblems" element={<EmblemsPage />} />
-              <Route path="/:gameId/battle-spells" element={<SpellsPage />} />
+              <Route path="/:gameId/spells" element={<SpellsPage />} />
               <Route path="/:gameId/patches" element={<PatchesPage />} />
               <Route path="/:gameId/patches/:patchVersion" element={<PatchesPage />} />
             </Routes>

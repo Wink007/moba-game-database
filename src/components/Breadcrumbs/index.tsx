@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useGameStore } from '../../store/gameStore';
-import { useGames } from '../../hooks/useGames';
-import { useHeroes } from '../../hooks/useHeroes';
-import { useItems } from '../../hooks/useItems';
+import { useGamesQuery } from '../../queries/useGamesQuery';
+import { useHeroesQuery } from '../../queries/useHeroesQuery';
+import { useItemsQuery } from '../../queries/useItemsQuery';
 import styles from './styles.module.scss';
 
 export const Breadcrumbs: React.FC = () => {
   const location = useLocation();
   const { selectedGameId } = useGameStore();
-  const { data: games } = useGames();
-  const { data: heroes } = useHeroes(selectedGameId);
-  const { data: items } = useItems(selectedGameId);
+  const { data: games } = useGamesQuery();
+  const { data: heroes } = useHeroesQuery(selectedGameId);
+  const { data: items } = useItemsQuery(selectedGameId);
 
   const pathSegments = location.pathname.split('/').filter(Boolean);
   

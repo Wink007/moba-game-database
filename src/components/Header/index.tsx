@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
 import { SearchBar } from '../SearchBar';
+import { LanguageSwitcher } from '../LanguageSwitcher';
 
 import styles from './styles.module.scss';
 
 export const Header: React.FC = () => {
+  const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -53,40 +56,45 @@ export const Header: React.FC = () => {
               <SearchBar />
             </div>
 
+            {/* Mobile Language Switcher */}
+            <div className={styles['mobile-lang']}>
+              <LanguageSwitcher />
+            </div>
+
             <NavLink 
                 to={`/${selectedGameId}/heroes`}
                 className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
                 onClick={closeMenu}
             >
-                Heroes
+                {t('header.heroes')}
             </NavLink>
             <NavLink 
                 to={`/${selectedGameId}/items`}
                 className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
                 onClick={closeMenu}
             >
-                Items
+                {t('header.items')}
             </NavLink>
             <NavLink 
                 to={`/${selectedGameId}/emblems`}
                 className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
                 onClick={closeMenu}
             >
-                Emblems
+                {t('header.emblems')}
             </NavLink>
             <NavLink 
                 to={`/${selectedGameId}/spells`}
                 className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
                 onClick={closeMenu}
             >
-                Spells
+                {t('header.spells')}
             </NavLink>
             <NavLink 
                 to={`/${selectedGameId}/patches`}
                 className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
                 onClick={closeMenu}
             >
-                Patches
+                {t('header.patches')}
             </NavLink>
         </nav>
 
@@ -94,6 +102,9 @@ export const Header: React.FC = () => {
         <div className={styles['search-wrapper']}>
           <SearchBar />
         </div>
+
+        {/* Language Switcher */}
+        <LanguageSwitcher />
 
         {/* Overlay for mobile */}
         {isMenuOpen && (

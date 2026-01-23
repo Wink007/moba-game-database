@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { useHeroes, useHeroRanks } from '../../hooks/useHeroes';
+import { useTranslation } from 'react-i18next';
+import { useHeroesQuery, useHeroRanksQuery } from '../../queries/useHeroesQuery';
 import LoadMoreButton from '../../components/LoadMoreButton';
 import { FilterSection, FilterGroup } from '../../components/FilterSection';
 import styles from './styles.module.scss';
 import { useGameStore } from '../../store/gameStore';
-import { DAYS_OPTIONS, RANK_OPTIONS, SORT_OPTIONS, ITEMS_PER_PAGE } from './constants';
+import { getDaysOptions, getRankOptions, getSortOptions, ITEMS_PER_PAGE } from './constants';
 import { HeroRankSkeleton } from './components/HeroRankSkeleton';
 import { HeroRankCard } from './components/HeroRankCard';
 
 export const HeroRankPage = () => {
+  const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
   const [days, setDays] = useState(1);
   const [rank, setRank] = useState('all');
@@ -16,7 +18,7 @@ export const HeroRankPage = () => {
   const [page, setPage] = useState(1);
   const [allHeroes, setAllHeroes] = useState<any[]>([]);
 
-  const { data: heroRanksData, isLoading, isError } = useHeroRanks(
+  const { data: heroRanksData, isLoading, isError } = useHeroRanksQuery(
     selectedGameId,
     page,
     ITEMS_PER_PAGE,
@@ -26,7 +28,7 @@ export const HeroRankPage = () => {
     'desc'
   );
 
-  const { data: heroes } = useHeroes(selectedGameId);
+  const { data: heroes } = useHeroesQuery(selectedGameId);
 
   if (heroRanksData && !isLoading) {
     const existingIds = new Set(allHeroes.map(h => h.id));
@@ -49,9 +51,9 @@ export const HeroRankPage = () => {
 
   const filterGroups: FilterGroup[] = [
     {
-      label: 'Time Period',
+      label: t('heroRank.filters.timePeriod'),
       emoji: '⏱️',
-      options: DAYS_OPTIONS,
+      options: getDaysOptions(t),
       selectedValue: days,
       onChange: (value) => {
         setDays(Number(value));
@@ -59,9 +61,9 @@ export const HeroRankPage = () => {
       }
     },
     {
-      label: 'Rank Tier',
+      label: t('heroRank.filters.rankTier'),
       emoji: '🏆',
-      options: RANK_OPTIONS,
+      options: getRankOptions(t),
       selectedValue: rank,
       onChange: (value) => {
         setRank(value);
@@ -69,9 +71,9 @@ export const HeroRankPage = () => {
       }
     },
     {
-      label: 'Sort By',
+      label: t('heroRank.filters.sortBy'),
       emoji: '📊',
-      options: SORT_OPTIONS,
+      options: getSortOptions(t),
       selectedValue: sortField,
       onChange: (value) => {
         setSortField(value as 'win_rate' | 'ban_rate' | 'pick_rate');
@@ -86,7 +88,7 @@ export const HeroRankPage = () => {
   if (isError) {
     return (
       <div className={styles.container}>
-        <div className={styles.error}>Failed to load hero rankings</div>
+        <div className={styles.error}>{t('common.error')}</div>
       </div>
     );
   }
@@ -96,8 +98,8 @@ export const HeroRankPage = () => {
       
       <div className={styles.header}>
         <div className={styles.titleSection}>
-          <h1 className={styles.title}>Hero Rankings</h1>
-          <p className={styles.subtitle}>Competitive tier list based on current meta</p>
+          <h1 className={styles.title}>{t('heroRank.title')}</h1>
+          <p className={styles.subtitle}>{t('heroRank.description')}</p>
         </div>
 
         <FilterSection filterGroups={filterGroups} collapsible={true} defaultExpanded={false} />
@@ -105,11 +107,11 @@ export const HeroRankPage = () => {
 
       <div className={styles.tableHeader}>
         <div className={styles.headerRank}>#</div>
-        <div className={styles.headerHero}>HERO</div>
-        <div className={styles.headerStat}>PICK RATE</div>
-        <div className={styles.headerStat}>WIN RATE</div>
-        <div className={styles.headerStat}>BAN RATE</div>
-        <div className={styles.headerSynergy}>BEST WITH</div>
+        <div className={styles.headerHero}>{t('heroRank.hero')}</div>
+        <div className={styles.headerStat}>{t('heroRank.pickRate')}</div>
+        <div className={styles.headerStat}>{t('heroRank.winRate')}</div>
+        <div className={styles.headerStat}>{t('heroRank.banRate')}</div>
+        <div className={styles.headerSynergy}>{t('heroRank.bestWith')}</div>
       </div>
 
       <div className={styles.heroGrid}>
@@ -134,13 +136,13 @@ export const HeroRankPage = () => {
 
       {hasMore && !isLoading && (
         <LoadMoreButton onClick={handleLoadMore}>
-          Show More Heroes
+          {t('heroRank.showMore')}
         </LoadMoreButton>
       )}
 
       {!isLoading && displayHeroes.length === 0 && (
         <div className={styles.noData}>
-          No hero rankings available for selected filters
+          {t('heroRank.noData')}
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles.module.scss';
 import { Hero } from '../../../types';
 
@@ -10,6 +11,7 @@ interface HeroRankCardProps {
 }
 
 export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCardProps) => {
+  const { t } = useTranslation();
   const counterHero = heroes?.find(h => h.id === hero.hero_id);
 
   const getCardClass = (index: number) => {
@@ -33,15 +35,15 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
       </div>
 
       <div className={styles.statsGrid}>
-        <div className={styles.statValue} data-label="Pick Rate">
+        <div className={styles.statValue} data-label={t('heroRank.pickRate')}>
           {(hero.appearance_rate * 100).toFixed(2)}%
         </div>
 
-        <div className={styles.statValue} data-label="Win Rate">
+        <div className={styles.statValue} data-label={t('heroRank.winRate')}>
           {(hero.win_rate * 100).toFixed(2)}%
         </div>
 
-        <div className={styles.statValue} data-label="Ban Rate">
+        <div className={styles.statValue} data-label={t('heroRank.banRate')}>
           {(hero.ban_rate * 100).toFixed(2)}%
         </div>
       </div>
@@ -61,7 +63,10 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
                   src={synergyHero?.head}
                   alt={synergyHero?.name || `Hero ${synergy.hero_id}`}
                   className={styles.synergyHeroIcon}
-                  title={`${synergyHero?.name}: +${(synergy.increase_win_rate * 100).toFixed(1)}% win rate`}
+                  title={t('heroRank.synergyTooltip', { 
+                    hero: synergyHero?.name, 
+                    rate: (synergy.increase_win_rate * 100).toFixed(1) 
+                  })}
                 />
               </Link>
             );

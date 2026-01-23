@@ -1,0 +1,32 @@
+.talentCard {
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.talentHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.625rem;
+}
+
+.talentIcon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.talentName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.talentEffect {
+  font-size: 0.8125rem;
+  color: rgba(148, 163, 184, 0.8);
+  line-height: 1.5;
+  margin: 0;
+}

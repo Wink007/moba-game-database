@@ -1,199 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
+import { usePatchData } from './hooks/usePatchData';
+import { PatchHeader } from './components/PatchHeader';
 import styles from './styles.module.scss';
 
-interface PatchSkill {
-  type: string | null;
-  name: string;
-  balance: string | null;
-  changes: string[];
-}
-
-interface SkillAdjustment {
-  skill_type: string;
-  skill_name?: string;
-  badge?: string;
-  description: string;
-}
-
-interface AttributeAdjustment {
-  attribute_name: string;
-  badge?: string;
-  description: string;
-}
-
-interface PatchHeroChanges {
-  summary?: string;
-  skills?: PatchSkill[];
-  badge?: string;
-  description?: string;
-  adjustments?: SkillAdjustment[];
-  attribute_adjustments?: AttributeAdjustment[];
-}
-
-interface NewHeroSkill {
-  skill_type?: string;
-  type?: string;
-  skill_name?: string;
-  name?: string;
-  description: string;
-}
-
-interface NewHero {
-  name: string;
-  title: string;
-  description: string;
-  skills: NewHeroSkill[];
-}
-
-interface BattlefieldSection {
-  name: string;
-  balance: string | null;
-  changes: string[];
-}
-
-interface BattlefieldItem {
-  description: string[];
-  sections: BattlefieldSection[];
-  changes: string[];
-}
-
-interface BattlefieldAdjustment {
-  type?: 'section' | 'item';
-  badge?: string;
-  description?: string | string[];
-  items?: Record<string, BattlefieldItem>;
-  changes?: string[];
-}
-
-interface EquipmentAdjustmentItem {
-  name?: string;
-  badge?: string;
-  description?: string;
-}
-
-interface ItemAdjustment {
-  badge?: string;
-  description?: string;
-  adjustments?: (string | EquipmentAdjustmentItem)[];
-}
-
-interface RevampedHeroAdjustment {
-  skill_type: string;
-  skill_name: string;
-  description: string;
-}
-
-interface RevampedHeroData {
-  badge: string;
-  description: string;
-  adjustments: RevampedHeroAdjustment[];
-}
-
-interface SystemAdjustment {
-  name: string;
-  description: string;
-}
-
-interface Patch {
-  version: string;
-  release_date: string;
-  designers_note?: string;
-  new_hero: NewHero | null;
-  hero_adjustments: Record<string, PatchHeroChanges>;
-  emblem_adjustments: Record<string, { sections?: BattlefieldSection[]; badge?: string; description?: string; adjustments?: string[] }>;
-  equipment_adjustments?: Record<string, ItemAdjustment>;
-  battlefield_adjustments: Record<string, BattlefieldAdjustment>;
-  system_adjustments: (string | SystemAdjustment)[];
-  revamped_heroes?: string[];
-  revamped_heroes_data?: Record<string, RevampedHeroData>;
-}
-
 export const PatchesPage: React.FC = () => {
+  const { t } = useTranslation();
   const { gameId, patchVersion } = useParams<{ gameId: string; patchVersion?: string }>();
-  const navigate = useNavigate();
-  const [patchVersions, setPatchVersions] = useState<Array<{version: string, release_date: string}>>([]);
-  const [currentPatchData, setCurrentPatchData] = useState<Patch | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [loadingPatch, setLoadingPatch] = useState(false);
-  const [selectedPatch, setSelectedPatch] = useState<string | null>(null);
-  const [heroNameToId, setHeroNameToId] = useState<Record<string, number>>({});
-  const [itemNameToId, setItemNameToId] = useState<Record<string, number>>({});
-
-  const handlePatchSelect = async (version: string) => {
-    setSelectedPatch(version);
-    // Оновлюємо URL при зміні патчу
-    navigate(`/${gameId}/patches/patch_${version}`, { replace: true });
-    
-    // Завантажуємо повні дані патчу
-    setLoadingPatch(true);
-    try {
-      const response = await fetch(`https://web-production-8570.up.railway.app/api/patches/${version}`);
-      const patchData = await response.json();
-      setCurrentPatchData(patchData);
-    } catch (error) {
-      console.error('Error fetching patch data:', error);
-    } finally {
-      setLoadingPatch(false);
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch only patch versions list with minimal data (only version + date)
-        const patchesResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches?minimal=true&limit=50`);
-        const patchesData = await patchesResponse.json();
-        
-        setPatchVersions(patchesData);
-        
-        if (patchesData.length > 0) {
-          // Якщо є параметр версії в URL, використовуємо його
-          const versionFromUrl = patchVersion ? patchVersion.replace('patch_', '') : null;
-          const patchToSelect = versionFromUrl && patchesData.find((p: any) => p.version === versionFromUrl)
-            ? versionFromUrl
-            : patchesData[0].version;
-          
-          // Якщо в URL немає версії, додаємо її
-          if (!patchVersion) {
-            navigate(`/${gameId}/patches/patch_${patchToSelect}`, { replace: true });
-          }
-          
-          // Завантажуємо дані вибраного патчу
-          const selectedPatchResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches/${patchToSelect}`);
-          const selectedPatchData = await selectedPatchResponse.json();
-          setCurrentPatchData(selectedPatchData);
-          setSelectedPatch(patchToSelect);
-        }
-
-        // Fetch heroes to build name -> id mapping (API already returns minimal data)
-        const heroesResponse = await fetch(`https://web-production-8570.up.railway.app/api/heroes?game_id=2`);
-        const heroesData = await heroesResponse.json();
-        const heroMapping: Record<string, number> = {};
-        heroesData.forEach((hero: any) => {
-          heroMapping[hero.name] = hero.id;
-        });
-        setHeroNameToId(heroMapping);
-
-        // Fetch items to build name -> id mapping (API already returns minimal data)
-        const itemsResponse = await fetch(`https://web-production-8570.up.railway.app/api/items?game_id=2`);
-        const itemsData = await itemsResponse.json();
-        const itemMapping: Record<string, number> = {};
-        itemsData.forEach((item: any) => {
-          itemMapping[item.name] = item.id;
-        });
-        setItemNameToId(itemMapping);
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [gameId, patchVersion]);
+  
+  const {
+    patchVersions,
+    currentPatchData,
+    loading,
+    loadingPatch,
+    selectedPatch,
+    heroNameToId,
+    itemNameToId,
+    handlePatchSelect,
+  } = usePatchData({ gameId, patchVersion });
 
   // Ефект для скролу до якоря після завантаження
   useEffect(() => {
@@ -218,6 +44,16 @@ export const PatchesPage: React.FC = () => {
       case 'ADJUST': return styles.adjust;
       case 'REVAMP': return styles.revamp;
       default: return '';
+    }
+  };
+
+  const getBadgeText = (badge: string) => {
+    switch (badge.toUpperCase()) {
+      case 'BUFF': return t('patches.buffs');
+      case 'NERF': return t('patches.nerfs');
+      case 'ADJUST': return t('patches.adjustments');
+      case 'REVAMP': return t('patches.rework');
+      default: return badge;
     }
   };
 
@@ -246,23 +82,15 @@ export const PatchesPage: React.FC = () => {
           <Loader />
         ) : currentPatchData && (
           <>
-            <div className={styles.header}>
-              <h1>Patch {currentPatchData.version}</h1>
-              <p className={styles.releaseDate}>{currentPatchData.release_date}</p>
-            </div>
-
-            {currentPatchData.designers_note && currentPatchData.designers_note.trim() && (
-              <div className={styles.section}>
-                <div className={styles.designersNote}>
-                  <h2>Designer's Note</h2>
-                  <p className={styles.noteContent} dangerouslySetInnerHTML={{ __html: currentPatchData.designers_note }} />
-                </div>
-              </div>
-            )}
+            <PatchHeader
+              version={currentPatchData.version}
+              releaseDate={currentPatchData.release_date}
+              designersNote={currentPatchData.designers_note}
+            />
 
             {currentPatchData.new_hero && (
               <div className={styles.section}>
-                <h2>New Hero</h2>
+                <h2>{t('patches.newHero')}</h2>
                 <div className={styles.newHeroCard}>
                   <div className={styles.newHeroHeader}>
                     {heroNameToId[currentPatchData.new_hero.name] ? (
@@ -272,7 +100,7 @@ export const PatchesPage: React.FC = () => {
                     ) : (
                       <h3>{currentPatchData.new_hero.name}</h3>
                     )}
-                    <span className={styles.newHeroBadge}>NEW</span>
+                    <span className={styles.newHeroBadge}>{t('patches.newHero')}</span>
                   </div>
                   <p className={styles.newHeroTitle}>{currentPatchData.new_hero.title}</p>
                   <p className={styles.newHeroDescription}>
@@ -300,7 +128,7 @@ export const PatchesPage: React.FC = () => {
 
             {currentPatchData.revamped_heroes && currentPatchData.revamped_heroes.length > 0 && currentPatchData.revamped_heroes_data && (
               <div className={styles.section}>
-                <h2>Revamped Heroes</h2>
+                <h2>{t('patches.revampedHeroes')}</h2>
                 {currentPatchData.revamped_heroes.map((heroName) => {
                   const heroData = currentPatchData.revamped_heroes_data![heroName];
                   if (!heroData) return null;
@@ -316,7 +144,7 @@ export const PatchesPage: React.FC = () => {
                           <h3>{heroName}</h3>
                         )}
                         <span className={`${styles.badge} ${styles.revampBadge}`}>
-                          REVAMP
+                          {t('patches.rework')}
                         </span>
                       </div>
                       
@@ -356,7 +184,7 @@ export const PatchesPage: React.FC = () => {
 
             {currentPatchData.hero_adjustments && Object.keys(currentPatchData.hero_adjustments).length > 0 && (
               <div className={styles.section}>
-                <h2>Hero Adjustments</h2>
+                <h2>{t('patches.heroChanges')}</h2>
                 {Object.entries(currentPatchData.hero_adjustments)
                   .filter(([heroName, heroData]) => {
                     // Фільтруємо героїв без даних
@@ -385,7 +213,7 @@ export const PatchesPage: React.FC = () => {
                       )}
                       {heroData.badge && (
                         <span className={`${styles.badge} ${getBalanceBadgeClass(heroData.badge)}`}>
-                          {heroData.badge}
+                          {getBadgeText(heroData.badge)}
                         </span>
                       )}
                     </div>
@@ -405,7 +233,7 @@ export const PatchesPage: React.FC = () => {
                           <span className={styles.skillName}>{skill.name}</span>
                           {skill.balance && (
                             <span className={`${styles.badge} ${getBalanceBadgeClass(skill.balance)}`}>
-                              {skill.balance}
+                              {getBadgeText(skill.balance)}
                             </span>
                           )}
                         </div>
@@ -423,7 +251,7 @@ export const PatchesPage: React.FC = () => {
                           <span className={styles.skillName}>{adj.skill_name || adj.skill_type}</span>
                           {adj.badge && (
                             <span className={`${styles.badge} ${getBalanceBadgeClass(adj.badge)}`}>
-                              {adj.badge}
+                              {getBadgeText(adj.badge)}
                             </span>
                           )}
                         </div>
@@ -439,7 +267,7 @@ export const PatchesPage: React.FC = () => {
                           <span className={styles.skillName}>{attr.attribute_name}</span>
                           {attr.badge && (
                             <span className={`${styles.badge} ${getBalanceBadgeClass(attr.badge)}`}>
-                              {attr.badge}
+                              {getBadgeText(attr.badge)}
                             </span>
                           )}
                         </div>
@@ -455,7 +283,7 @@ export const PatchesPage: React.FC = () => {
 
             {currentPatchData.equipment_adjustments && Object.keys(currentPatchData.equipment_adjustments).length > 0 && (
               <div className={styles.section}>
-                <h2>Equipment Adjustments</h2>
+                <h2>{t('patches.itemChanges')}</h2>
                 {Object.entries(currentPatchData.equipment_adjustments).map(([itemName, itemData]) => (
                   <div key={itemName} className={styles.itemCard}>
                     <div className={styles.itemHeader}>
@@ -468,7 +296,7 @@ export const PatchesPage: React.FC = () => {
                       )}
                       {itemData.badge && (
                         <span className={`${styles.badge} ${getBalanceBadgeClass(itemData.badge)}`}>
-                          {itemData.badge}
+                          {getBadgeText(itemData.badge)}
                         </span>
                       )}
                     </div>
@@ -495,7 +323,7 @@ export const PatchesPage: React.FC = () => {
                                 <span className={styles.skillName}>{adj.name}</span>
                                 {adj.badge && (
                                   <span className={`${styles.badge} ${getBalanceBadgeClass(adj.badge)}`}>
-                                    {adj.badge}
+                                    {getBadgeText(adj.badge)}
                                   </span>
                                 )}
                               </div>
@@ -514,14 +342,14 @@ export const PatchesPage: React.FC = () => {
 
             {currentPatchData.emblem_adjustments && Object.keys(currentPatchData.emblem_adjustments).length > 0 && (
               <div className={styles.section}>
-                <h2>Emblem Adjustments</h2>
+                <h2>{t('patches.adjustments')}</h2>
                 {Object.entries(currentPatchData.emblem_adjustments).map(([emblemName, emblemData]) => (
                   <div key={emblemName} className={styles.itemCard}>
                     <div className={styles.itemHeader}>
                       <h4>{emblemName}</h4>
                       {emblemData.badge && (
                         <span className={`${styles.badge} ${getBalanceBadgeClass(emblemData.badge)}`}>
-                          {emblemData.badge}
+                          {getBadgeText(emblemData.badge)}
                         </span>
                       )}
                     </div>
@@ -546,7 +374,7 @@ export const PatchesPage: React.FC = () => {
                               {section.name && <span className={styles.skillName}>{section.name}</span>}
                               {section.balance && (
                                 <span className={`${styles.badge} ${getBalanceBadgeClass(section.balance)}`}>
-                                  {section.balance}
+                                  {getBadgeText(section.balance)}
                                 </span>
                               )}
                             </div>
@@ -566,7 +394,7 @@ export const PatchesPage: React.FC = () => {
 
             {currentPatchData.battlefield_adjustments && Object.keys(currentPatchData.battlefield_adjustments).length > 0 && (
               <div className={styles.section}>
-                <h2>Battlefield Adjustments</h2>
+                <h2>{t('patches.systemChanges')}</h2>
                 {Object.entries(currentPatchData.battlefield_adjustments).map(([sectionName, sectionData]) => {
                   // Якщо це секція з вкладеними items (Equipment Adjustments, Battle Spells)
                   if (sectionData.type === 'section' && sectionData.items && Object.keys(sectionData.items).length > 0) {
@@ -596,7 +424,7 @@ export const PatchesPage: React.FC = () => {
                                       {section.name && <span className={styles.skillName}>{section.name}</span>}
                                       {section.balance && (
                                         <span className={`${styles.badge} ${getBalanceBadgeClass(section.balance)}`}>
-                                          {section.balance}
+                                          {getBadgeText(section.balance)}
                                         </span>
                                       )}
                                     </div>
@@ -636,7 +464,7 @@ export const PatchesPage: React.FC = () => {
                           <h3>{sectionName}</h3>
                           {sectionData.badge && (
                             <span className={`${styles.badge} ${getBalanceBadgeClass(sectionData.badge)}`}>
-                              {sectionData.badge}
+                              {getBadgeText(sectionData.badge)}
                             </span>
                           )}
                         </div>
@@ -671,7 +499,7 @@ export const PatchesPage: React.FC = () => {
 
             {currentPatchData.system_adjustments && currentPatchData.system_adjustments.length > 0 && (
               <div className={styles.section}>
-                <h2>System Adjustments</h2>
+                <h2>{t('patches.systemChanges')}</h2>
                 {currentPatchData.system_adjustments.map((adjustment, idx) => {
                   // Підтримка старого формату (string) та нового (object)
                   if (typeof adjustment === 'string') {

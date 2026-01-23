@@ -122,6 +122,16 @@
   }
 }
 
+.mobile-lang {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-md);
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
 .overlay {
   position: fixed;
   top: 0;

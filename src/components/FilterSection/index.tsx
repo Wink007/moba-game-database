@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 export interface FilterOption {
@@ -25,6 +26,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   collapsible = false,
   defaultExpanded = true 
 }) => {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   if (collapsible) {
@@ -35,7 +37,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <span className={styles.filtersToggleText}>
-            Filters
+            {t('heroes.filters.title')}
           </span>
           <span className={isExpanded ? `${styles.toggleIcon} ${styles.toggleIconExpanded}` : styles.toggleIcon}>
             <img src="/arrow-small.svg" alt="filter icon" />

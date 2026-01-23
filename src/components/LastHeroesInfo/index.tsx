@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { useHeroes, useHeroSkillsById } from "../../hooks/useHeroes";
+import { useTranslation } from "react-i18next";
+import { useHeroesQuery, useHeroSkillsQuery } from "../../queries/useHeroesQuery";
 import { useGameStore } from "../../store/gameStore";
 import { Lanes, LanesIcons } from "../../enum";
 import style from './styles.module.scss';
@@ -7,8 +8,9 @@ import { MoreInfoLink } from '../MoreInfoLink';
 import SkillTooltip from '../SkillTooltip';
 
 export const LastHeroesInfo = () => {
+    const { t } = useTranslation();
     const { selectedGameId } = useGameStore();
-    const { data: heroes } = useHeroes(selectedGameId);
+    const { data: heroes } = useHeroesQuery(selectedGameId);
     const latestHeroes = heroes?.sort((a, b) => b.id - a.id).slice(0, 6);
     const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
     const [transformIndex, setTransformIndex] = useState(0);
@@ -17,7 +19,7 @@ export const LastHeroesInfo = () => {
     const tooltipRef = useRef<HTMLDivElement>(null);
     
     const currentHeroId = latestHeroes?.[currentHeroIndex]?.id || 0;
-    const { data: allSkills, isLoading } = useHeroSkillsById(currentHeroId);
+    const { data: allSkills, isLoading } = useHeroSkillsQuery(currentHeroId);
 
     const baseSkills = allSkills?.filter(s => !s.is_transformed) || [];
     const transformedSkills = allSkills?.filter(s => s.is_transformed) || [];
@@ -85,11 +87,16 @@ export const LastHeroesInfo = () => {
         }
     }, [hoveredSkillId]);
 
-    const abilitiesLabel = ['Durability', 'Offense', 'Ability Effects', 'Difficulty'];
+    const abilitiesLabel = [
+        t('home.abilities.durability'), 
+        t('home.abilities.offense'), 
+        t('home.abilities.abilityEffects'), 
+        t('home.abilities.difficulty')
+    ];
 
     return (
         <div className={style['last-heroes-info-wrapper']}>
-            <h2>Last Heroes Info</h2>
+            <h2>{t('home.latestHeroesInfo')}</h2>
             <div className={style.info}>
                 <div className={style['hero-detail']}>
                     <button className={style['prev-button']} onClick={prevHero}>

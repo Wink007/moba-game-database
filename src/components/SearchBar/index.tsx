@@ -1,22 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { getHeroName } from '../../utils/translation';
 import { useGameStore } from '../../store/gameStore';
-import { useHeroes } from '../../hooks/useHeroes';
-import { useItems } from '../../hooks/useItems';
+import { useHeroesQuery } from '../../queries/useHeroesQuery';
+import { useItemsQuery } from '../../queries/useItemsQuery';
 import styles from './styles.module.scss';
 
 export const SearchBar: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { selectedGameId } = useGameStore();
-  const { data: heroes } = useHeroes(selectedGameId);
-  const { data: items } = useItems(selectedGameId);
+  const { data: heroes } = useHeroesQuery(selectedGameId);
+  const { data: items } = useItemsQuery(selectedGameId);
 
   // Фільтруємо героїв по запиту
   const filteredHeroes = heroes?.filter(hero =>
-    hero.name.toLowerCase().includes(query.toLowerCase())
+    getHeroName(hero, currentLanguage).toLowerCase().includes(query.toLowerCase())
   ).slice(0, 5) || [];
 
   // Фільтруємо предмети по запиту
@@ -74,7 +78,7 @@ export const SearchBar: React.FC = () => {
           value={query}
           onChange={handleInputChange}
           onFocus={() => query.length > 0 && setIsOpen(true)}
-          placeholder="Search heroes, items..."
+          placeholder={t('search.placeholder')}
           className={styles.input}
         />
         {query && (
@@ -94,7 +98,7 @@ export const SearchBar: React.FC = () => {
         <div className={styles.dropdown}>
           {filteredHeroes.length > 0 && (
             <>
-              <div className={styles.dropdownHeader}>Heroes</div>
+              <div className={styles.dropdownHeader}>{t('search.heroes')}</div>
               {filteredHeroes.map(hero => (
                 <div
                   key={hero.id}
@@ -102,7 +106,7 @@ export const SearchBar: React.FC = () => {
                   onClick={() => handleSelect(hero.id)}
                 >
                   <div className={styles.heroInfo}>
-                    <span className={styles.heroName}>{hero.name}</span>
+                    <span className={styles.heroName}>{getHeroName(hero, currentLanguage)}</span>
                     <div className={styles.heroRoles}>
                         {hero.roles.map(role => (
                             <span key={role} className={styles.heroRole}>{role}</span>
@@ -116,7 +120,7 @@ export const SearchBar: React.FC = () => {
 
           {filteredItems.length > 0 && (
             <>
-              <div className={styles.dropdownHeader}>Items</div>
+              <div className={styles.dropdownHeader}>{t('search.items')}</div>
               {filteredItems.map(item => (
                 <div
                   key={item.id}
@@ -136,7 +140,7 @@ export const SearchBar: React.FC = () => {
 
       {isOpen && query.length > 0 && !hasResults && (
         <div className={styles.dropdown}>
-          <div className={styles.noResults}>No results found</div>
+          <div className={styles.noResults}>{t('search.noResults')}</div>
         </div>
       )}
     </div>

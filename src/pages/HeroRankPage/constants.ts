@@ -1,24 +1,24 @@
-export const DAYS_OPTIONS = [
-  { value: 1, label: '1 Day' },
-  { value: 3, label: '3 Days' },
-  { value: 7, label: '7 Days' },
-  { value: 15, label: '15 Days' },
-  { value: 30, label: '30 Days' },
+export const getDaysOptions = (t: any) => [
+  { value: 1, label: t('heroRank.filters.days.1') },
+  { value: 3, label: t('heroRank.filters.days.3') },
+  { value: 7, label: t('heroRank.filters.days.7') },
+  { value: 15, label: t('heroRank.filters.days.15') },
+  { value: 30, label: t('heroRank.filters.days.30') },
 ];
 
-export const RANK_OPTIONS = [
-  { value: 'all', label: 'All Ranks' },
-  { value: 'epic', label: 'Epic' },
-  { value: 'legend', label: 'Legend' },
-  { value: 'mythic', label: 'Mythic' },
-  { value: 'honor', label: 'Mythical Honor' },
-  { value: 'glory', label: 'Mythical Glory' },
+export const getRankOptions = (t: any) => [
+  { value: 'all', label: t('heroRank.filters.ranks.all') },
+  { value: 'epic', label: t('heroRank.filters.ranks.epic') },
+  { value: 'legend', label: t('heroRank.filters.ranks.legend') },
+  { value: 'mythic', label: t('heroRank.filters.ranks.mythic') },
+  { value: 'honor', label: t('heroRank.filters.ranks.honor') },
+  { value: 'glory', label: t('heroRank.filters.ranks.glory') },
 ];
 
-export const SORT_OPTIONS = [
-  { value: 'win_rate', label: 'Win Rate' },
-  { value: 'pick_rate', label: 'Pick Rate' },
-  { value: 'ban_rate', label: 'Ban Rate' },
+export const getSortOptions = (t: any) => [
+  { value: 'win_rate', label: t('heroRank.filters.sort.winRate') },
+  { value: 'pick_rate', label: t('heroRank.filters.sort.pickRate') },
+  { value: 'ban_rate', label: t('heroRank.filters.sort.banRate') },
 ];
 
 export const ITEMS_PER_PAGE = 20;

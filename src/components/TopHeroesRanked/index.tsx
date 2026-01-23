@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useHeroRanks } from '../../hooks/useHeroes';
+import { useTranslation } from 'react-i18next';
+import { getHeroName } from '../../utils/translation';
+import { useHeroRanksQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
 import styles from './styles.module.scss';
 
@@ -12,10 +14,11 @@ const HeroRankSkeleton = () => (
 );
 
 export const TopHeroesRanked = () => {
+  const { t, i18n } = useTranslation();
   const { selectedGameId } = useGameStore();
   
   // Get top 5 heroes for ALL ranks, 30 days period, sorted by win rate
-  const { data: heroRanks, isLoading, isError } = useHeroRanks(
+  const { data: heroRanks, isLoading, isError } = useHeroRanksQuery(
     selectedGameId, 
     1, // page
     5, // size - top 5
@@ -28,13 +31,13 @@ export const TopHeroesRanked = () => {
   console.log(heroRanks);
 
   if (!selectedGameId) return null;
-  if (isError) return <div className={styles.error}>Failed to load rankings</div>;
+  if (isError) return <div className={styles.error}>{t('heroRank.noData')}</div>;
   
   if (isLoading) {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Top 5 Heroes Ranking</h2>
+          <h2 className={styles.title}>{t('home.topHeroesRanking')}</h2>
           <div className={styles.periodSkeleton} />
         </div>
         <HeroRankSkeleton />
@@ -47,10 +50,10 @@ export const TopHeroesRanked = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h4 className={styles.title}>Top 5 Heroes Ranking</h4>
+        <h4 className={styles.title}>{t('home.topHeroesRanking')}</h4>
         <div className={styles.period}>
-          <span>Last 30 Days - Mythic Glory Ranks</span>
-          <p>Updated Time: {heroRanks[0].updated_at}</p>
+          <span>{t('home.lastDays', { days: 30 })}</span>
+          <p>{t('home.updatedTime', { time: heroRanks[0].updated_at })}</p>
         </div>
       </div>
       
@@ -68,31 +71,31 @@ export const TopHeroesRanked = () => {
             
             <Link to={`${selectedGameId}/heroes/${hero.hero_id}`} className={styles.heroLink}>
               <div className={styles.heroImage}>
-                <img src={hero.head || hero.image} alt={hero.name} />
+                <img src={hero.head || hero.image} alt={getHeroName(hero, i18n.language)} />
               </div>
               
               <div className={styles.heroInfo}>
-                <h3 className={styles.heroName}>{hero.name}</h3>
+                <h3 className={styles.heroName}>{getHeroName(hero, i18n.language)}</h3>
               </div>
             </Link>
             
             <div className={styles.stats}>
               <div className={styles.stat}>
-                <span className={styles.statLabel}>Win Rate</span>
+                <span className={styles.statLabel}>{t('home.stats.winRate')}</span>
                 <span className={styles.statValue}>
                   {(hero.win_rate * 100).toFixed(2)}%
                 </span>
               </div>
               
               <div className={styles.stat}>
-                <span className={styles.statLabel}>Pick Rate</span>
+                <span className={styles.statLabel}>{t('home.stats.pickRate')}</span>
                 <span className={styles.statValue}>
                   {(hero.appearance_rate * 100).toFixed(2)}%
                 </span>
               </div>
               
               <div className={styles.stat}>
-                <span className={styles.statLabel}>Ban Rate</span>
+                <span className={styles.statLabel}>{t('home.stats.banRate')}</span>
                 <span className={styles.statValue}>
                   {(hero.ban_rate * 100).toFixed(2)}%
                 </span>
