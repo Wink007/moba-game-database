@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
 import { useGamesQuery } from '../../queries/useGamesQuery';
 import { useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useItemsQuery } from '../../queries/useItemsQuery';
+import { getHeroName, getItemName } from '../../utils/translation';
 import styles from './styles.module.scss';
 
 export const Breadcrumbs: React.FC = () => {
+  const { i18n } = useTranslation();
   const location = useLocation();
   const { selectedGameId } = useGameStore();
   const { data: games } = useGamesQuery();
@@ -50,7 +53,7 @@ export const Breadcrumbs: React.FC = () => {
           if (pathSegments[1] === 'heroes' && heroes) {
             const hero = heroes.find(h => h.id === itemId);
             if (hero) {
-              itemName = hero.name;
+              itemName = getHeroName(hero, i18n.language);
             }
           }
 
@@ -58,7 +61,7 @@ export const Breadcrumbs: React.FC = () => {
           if (pathSegments[1] === 'items' && items) {
             const item = items.find(i => i.id === itemId);
             if (item) {
-              itemName = item.name;
+              itemName = getItemName(item, i18n.language);
             }
           }
 

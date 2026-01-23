@@ -1,15 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeroSidebarProps } from './interface';
+import { getHeroName } from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div className={styles.heroSidebar}>
       {/* Hero Name in Sidebar */}
       <div className={styles.sidebarHeroName}>
-        <h2>{hero.name}</h2>
+        <h2>{getHeroName(hero, i18n.language)}</h2>
         {hero.roles && hero.roles.length > 0 && (
           <p className={styles.sidebarHeroRole}>{hero.roles.join(' • ')}</p>
         )}
@@ -17,7 +18,7 @@ export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
 
       {hero.image && (
         <div className={styles.heroPortrait}>
-          <img src={hero.image} alt={hero.name} />
+          <img src={hero.image} alt={getHeroName(hero, i18n.language)} />
         </div>
       )}
 

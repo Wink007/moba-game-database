@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { Hero } from '../../../types';
 import { Lanes, LanesIcons } from '../../../enum';
+import { getHeroName } from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 interface HeroCardProps {
@@ -9,6 +11,7 @@ interface HeroCardProps {
 }
 
 export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
+  const { i18n } = useTranslation();
   const getLaneIcon = (lane: string): string | undefined => {
     const laneKey = Object.values(Lanes).find(l => l === lane);
     return laneKey ? LanesIcons[laneKey as Lanes] : undefined;
@@ -18,10 +21,10 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
     <Link to={`/${gameId}/heroes/${hero.id}`} className={styles.heroCard}>
       <div className={styles.heroImageWrapper}>
         {hero.image ? (
-          <img src={hero.image} alt={hero.name} className={styles.heroImage} />
+          <img src={hero.image} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} />
         ) : (
           <div className={styles.heroImagePlaceholder}>
-            <span>{hero.name.charAt(0)}</span>
+            <span>{getHeroName(hero, i18n.language).charAt(0)}</span>
           </div>
         )}
         <div className={styles.heroImageOverlay} />
@@ -46,7 +49,7 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
       </div>
       
       <div className={styles.heroContent}>
-        <h3 className={styles.heroName}>{hero.name}</h3>
+        <h3 className={styles.heroName}>{getHeroName(hero, i18n.language)}</h3>
         <div className={styles.heroFooter} />
         {hero.roles && hero.roles.length > 0 && (
           <p className={styles.heroRoles}>
