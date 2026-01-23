@@ -8,6 +8,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up
 function HeroForm({ hero, gameId, onClose, onSave }) {
   const [formData, setFormData] = useState({
     name: '',
+    name_uk: '',
     hero_game_id: '',
     image: '',
     painting: '',
@@ -106,6 +107,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     if (hero) {
       setFormData({
         name: hero.name || '',
+        name_uk: hero.name_uk || '',
         hero_game_id: hero.hero_game_id || '',
         image: hero.image || '',
         painting: hero.painting || '',
@@ -745,7 +747,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
           {/* Basic Info Tab */}
           {activeTab === 'basic' && (
           <div className="form-section">
-            <label>Hero Name</label>
+            <label>Hero Name (English)</label>
             <input
               type="text"
               name="name"
@@ -753,6 +755,15 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               value={formData.name}
               onChange={handleInputChange}
               required
+            />
+            
+            <label>Hero Name (Ukrainian) 🇺🇦</label>
+            <input
+              type="text"
+              name="name_uk"
+              placeholder="Українська назва героя"
+              value={formData.name_uk}
+              onChange={handleInputChange}
             />
             
             <label>Hero Game ID</label>

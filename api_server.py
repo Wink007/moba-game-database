@@ -460,7 +460,8 @@ def update_hero(hero_id):
             data.get('main_hero_appearance_rate', None),
             data.get('main_hero_win_rate', None),
             data.get('hero_stats', None),
-            data.get('counter_data', None)
+            data.get('counter_data', None),
+            data.get('name_uk', None)  # Ukrainian name
         )
         
         # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query
@@ -908,6 +909,174 @@ def update_items_from_fandom():
                 results['failed'] += 1
         
         return jsonify(results)
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/items/translations/fetch', methods=['POST'])
+def fetch_item_translations():
+    """Fetch translations for items from Fandom/Liquipedia"""
+    try:
+        data = request.json
+        game_id = data.get('game_id', 1)
+        dry_run = data.get('dry_run', False)
+        
+        # Import the translation fetcher
+        import sys
+        import os
+        sys.path.insert(0, os.path.dirname(__file__))
+        
+        from fetch_item_translations import fetch_item_from_fandom, fetch_item_from_liquipedia
+        import time
+        
+        # Get all items for this game
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        cursor.execute(f"""
+            SELECT id, name, name_en, description_en
+            FROM equipment 
+            WHERE game_id = {ph}
+            ORDER BY tier DESC, name
+        """, (game_id,))
+        
+        items = cursor.fetchall()
+        
+        results = {
+            'total': len(items),
+            'updated': 0,
+            'skipped': 0,
+            'failed': 0,
+            'items': []
+        }
+        
+        for item in items:
+            if db.DATABASE_TYPE == 'postgres':
+                item_id = item[0]
+                name = item[1]
+                name_en = item[2]
+                description_en = item[3]
+            else:
+                item_id = item['id']
+                name = item['name']
+                name_en = item['name_en']
+                description_en = item['description_en']
+            
+            # Skip if already has translation
+            if name_en and description_en:
+                results['skipped'] += 1
+                continue
+            
+            # Fetch from Fandom
+            translation_data = fetch_item_from_fandom(name)
+            
+            # Fallback to Liquipedia
+            if not translation_data or not translation_data.get('description_en'):
+                time.sleep(1)
+                translation_data = fetch_item_from_liquipedia(name)
+            
+            if not translation_data:
+                results['failed'] += 1
+                continue
+            
+            # Update database if not dry run
+            if not dry_run:
+                update_fields = []
+                update_values = []
+                
+                if translation_data.get('name_en'):
+                    update_fields.append(f"name_en = {ph}")
+                    update_values.append(translation_data['name_en'])
+                
+                if translation_data.get('description_en'):
+                    update_fields.append(f"description_en = {ph}")
+                    update_values.append(translation_data['description_en'])
+                
+                if translation_data.get('passive_name'):
+                    update_fields.append(f"passive_name = {ph}")
+                    update_values.append(translation_data['passive_name'])
+                
+                if translation_data.get('passive_description'):
+                    update_fields.append(f"passive_description = {ph}")
+                    update_values.append(translation_data['passive_description'])
+                
+                if translation_data.get('active_name'):
+                    update_fields.append(f"active_name = {ph}")
+                    update_values.append(translation_data['active_name'])
+                
+                if translation_data.get('active_description'):
+                    update_fields.append(f"active_description = {ph}")
+                    update_values.append(translation_data['active_description'])
+                
+                if update_fields:
+                    update_values.append(item_id)
+                    query = f"""
+                        UPDATE equipment 
+                        SET {', '.join(update_fields)}
+                        WHERE id = {ph}
+                    """
+                    cursor.execute(query, tuple(update_values))
+                    conn.commit()
+                    results['updated'] += 1
+            else:
+                results['updated'] += 1
+            
+            # Add to results
+            results['items'].append({
+                'id': item_id,
+                'name': name,
+                'translation': translation_data
+            })
+            
+            # Pause to avoid overloading servers
+            time.sleep(2)
+        
+        db.release_connection(conn)
+        
+        return jsonify(results)
+        
+    except Exception as e:
+        import traceback
+        return jsonify({
+            'error': str(e),
+            'traceback': traceback.format_exc()
+        }), 500
+
+@app.route('/api/items/translations/stats', methods=['GET'])
+def get_translation_stats():
+    """Get statistics about translation coverage"""
+    try:
+        game_id = request.args.get('game_id', 1, type=int)
+        
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        cursor.execute(f"""
+            SELECT 
+                COUNT(*) as total,
+                SUM(CASE WHEN name_en IS NOT NULL AND name_en != '' THEN 1 ELSE 0 END) as has_name_en,
+                SUM(CASE WHEN description_en IS NOT NULL AND description_en != '' THEN 1 ELSE 0 END) as has_desc_en,
+                SUM(CASE WHEN passive_name IS NOT NULL AND passive_name != '' THEN 1 ELSE 0 END) as has_passive,
+                SUM(CASE WHEN active_name IS NOT NULL AND active_name != '' THEN 1 ELSE 0 END) as has_active
+            FROM equipment 
+            WHERE game_id = {ph}
+        """, (game_id,))
+        
+        stats = cursor.fetchone()
+        db.release_connection(conn)
+        
+        if db.DATABASE_TYPE == 'postgres':
+            return jsonify({
+                'total': stats[0],
+                'has_name_en': stats[1],
+                'has_desc_en': stats[2],
+                'has_passive': stats[3],
+                'has_active': stats[4]
+            })
+        else:
+            return jsonify(dict(stats))
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
