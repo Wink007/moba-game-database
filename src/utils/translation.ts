@@ -37,3 +37,14 @@ export const getItemName = (item: any, language: string = 'en'): string => {
   }
   return item.name;
 };
+
+// Re-export game terminology translation functions
+export {
+  getRole,
+  getLane,
+  getDamageType,
+  getSpecialty,
+  translateRoles,
+  translateLanes,
+  translateSpecialties
+} from './gameTerminology';

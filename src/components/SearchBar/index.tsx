@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getHeroName } from '../../utils/translation';
+import { getHeroName, translateRoles } from '../../utils/translation';
 import { useGameStore } from '../../store/gameStore';
 import { useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useItemsQuery } from '../../queries/useItemsQuery';
@@ -108,8 +108,8 @@ export const SearchBar: React.FC = () => {
                   <div className={styles.heroInfo}>
                     <span className={styles.heroName}>{getHeroName(hero, currentLanguage)}</span>
                     <div className={styles.heroRoles}>
-                        {hero.roles.map(role => (
-                            <span key={role} className={styles.heroRole}>{role}</span>
+                        {translateRoles(hero.roles, currentLanguage).map((role, index) => (
+                            <span key={index} className={styles.heroRole}>{role}</span>
                         ))}
                     </div>
                   </div>

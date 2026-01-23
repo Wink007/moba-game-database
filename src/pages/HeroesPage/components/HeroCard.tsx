@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Hero } from '../../../types';
 import { Lanes, LanesIcons } from '../../../enum';
-import { getHeroName } from '../../../utils/translation';
+import { getHeroName, translateRoles, translateLanes } from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 interface HeroCardProps {
@@ -32,15 +32,16 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
         {/* Lane icons in top left corner */}
         {hero.lane && hero.lane.length > 0 && (
           <div className={styles.heroLanes}>
-            {hero.lane.slice(0, 2).map(lane => {
+            {hero.lane.slice(0, 2).map((lane, index) => {
               const icon = getLaneIcon(lane);
+              const translatedLanes = translateLanes(hero.lane || [], i18n.language);
               return icon ? (
                 <img 
                   key={lane} 
                   src={icon} 
-                  alt={lane}
+                  alt={translatedLanes[index] || lane}
                   className={styles.laneIcon}
-                  title={lane}
+                  title={translatedLanes[index] || lane}
                 />
               ) : null;
             })}
@@ -53,7 +54,7 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
         <div className={styles.heroFooter} />
         {hero.roles && hero.roles.length > 0 && (
           <p className={styles.heroRoles}>
-            {hero.roles.slice(0, 2).join(' • ')}
+            {translateRoles(hero.roles, i18n.language).slice(0, 2).join(' • ')}
           </p>
         )}
         
@@ -61,3 +62,4 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
     </Link>
   );
 };
+

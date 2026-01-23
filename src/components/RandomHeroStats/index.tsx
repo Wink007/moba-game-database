@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getHeroName } from '../../utils/translation';
+import { getHeroName, translateRoles } from '../../utils/translation';
 import { useGameStore } from '../../store/gameStore';
 import { Loader } from '../Loader';
 import { Chart } from './Chart';
@@ -26,7 +26,9 @@ export const RandomHeroStats = () => {
         <div className={styles.heroInfo}>
           <h3 className={styles.heroName}>{getHeroName(hero, i18n.language)}</h3>
           {hero.roles && hero.roles.length > 0 && (
-            <div className={styles.heroRoles}>{hero.roles.join(', ')}</div>
+            <div className={styles.heroRoles}>
+              {translateRoles(hero.roles, i18n.language).join(', ')}
+            </div>
           )}
         </div>
       </Link>

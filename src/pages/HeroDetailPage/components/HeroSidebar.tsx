@@ -1,7 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeroSidebarProps } from './interface';
-import { getHeroName, getHeroShortDescription } from '../../../utils/translation';
+import { 
+  getHeroName, 
+  getHeroShortDescription, 
+  translateRoles, 
+  translateLanes, 
+  translateSpecialties, 
+  getDamageType 
+} from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
@@ -12,7 +19,9 @@ export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
       <div className={styles.sidebarHeroName}>
         <h2>{getHeroName(hero, i18n.language)}</h2>
         {hero.roles && hero.roles.length > 0 && (
-          <p className={styles.sidebarHeroRole}>{hero.roles.join(' • ')}</p>
+          <p className={styles.sidebarHeroRole}>
+            {translateRoles(hero.roles, i18n.language).join(' • ')}
+          </p>
         )}
       </div>
 
@@ -53,7 +62,7 @@ export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
       {hero.specialty && hero.specialty.length > 0 && (
         <div className={styles.sidebarSpecialty}>
           <div className={styles.specialtyTags}>
-            {hero.specialty.map((spec, idx) => (
+            {translateSpecialties(hero.specialty, i18n.language).map((spec, idx) => (
               <span key={idx} className={styles.specialtyTag}>{spec}</span>
             ))}
           </div>
@@ -64,7 +73,9 @@ export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
       {hero.damage_type && (
         <div className={styles.sidebarInfo}>
           <span className={styles.sidebarInfoLabel}>{t('heroDetail.damageType')}</span>
-          <span className={styles.sidebarInfoValue}>{hero.damage_type}</span>
+          <span className={styles.sidebarInfoValue}>
+            {getDamageType(hero.damage_type, i18n.language)}
+          </span>
         </div>
       )}
 
@@ -72,7 +83,9 @@ export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
       {hero.lane && hero.lane.length > 0 && (
         <div className={styles.sidebarInfo}>
           <span className={styles.sidebarInfoLabel}>{t('heroDetail.lane')}</span>
-          <span className={styles.sidebarInfoValue}>{hero.lane.join(', ')}</span>
+          <span className={styles.sidebarInfoValue}>
+            {translateLanes(hero.lane, i18n.language).join(', ')}
+          </span>
         </div>
       )}
     </div>
