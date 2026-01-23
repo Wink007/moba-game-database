@@ -461,7 +461,9 @@ def update_hero(hero_id):
             data.get('main_hero_win_rate', None),
             data.get('hero_stats', None),
             data.get('counter_data', None),
-            data.get('name_uk', None)  # Ukrainian name
+            data.get('name_uk', None),  # Ukrainian name
+            data.get('short_description_uk', None),  # Ukrainian short description
+            data.get('full_description_uk', None)  # Ukrainian full description
         )
         
         # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query

@@ -9,6 +9,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [formData, setFormData] = useState({
     name: '',
     name_uk: '',
+    short_description_uk: '',
+    full_description_uk: '',
     hero_game_id: '',
     image: '',
     painting: '',
@@ -108,6 +110,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       setFormData({
         name: hero.name || '',
         name_uk: hero.name_uk || '',
+        short_description_uk: hero.short_description_uk || '',
+        full_description_uk: hero.full_description_uk || '',
         hero_game_id: hero.hero_game_id || '',
         image: hero.image || '',
         painting: hero.painting || '',
@@ -764,6 +768,24 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               placeholder="Українська назва героя"
               value={formData.name_uk}
               onChange={handleInputChange}
+            />
+            
+            <label>Short Description (Ukrainian) 🇺🇦</label>
+            <textarea
+              name="short_description_uk"
+              placeholder="Короткий опис героя українською"
+              value={formData.short_description_uk}
+              onChange={handleInputChange}
+              rows="3"
+            />
+            
+            <label>Full Description (Ukrainian) 🇺🇦</label>
+            <textarea
+              name="full_description_uk"
+              placeholder="Повний опис героя українською"
+              value={formData.full_description_uk}
+              onChange={handleInputChange}
+              rows="6"
             />
             
             <label>Hero Game ID</label>
