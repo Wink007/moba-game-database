@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { getHeroName, getHeroFullDescription } from '../../utils/translation';
 import { useHeroQuery, useHeroSkillsQuery, useHeroCounterDataQuery, useHeroCompatibilityDataQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
 import { usePatchesQuery } from '../../queries/usePatchesQuery';
 import { Loader } from '../../components/Loader';
@@ -13,7 +14,7 @@ import styles from './styles.module.scss';
 import type { Patch } from '../../types';
 
 function HeroDetailPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { heroId } = useParams();
   const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(Number(heroId));
   const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(Number(heroId));
@@ -233,22 +234,25 @@ function HeroDetailPage() {
             {activeTab === 'about' && (
               <div className={styles.contentSection}>
                 {/* Full Description */}
-                {hero.full_description && (
-                  <div className={styles.descriptionSection}>
-                    <h3 className={styles.descriptionTitle}>{t('heroDetail.about', { name: hero.name })}</h3>
-                    <p className={`${styles.descriptionText} ${!showFullDescription ? styles.descriptionTextCollapsed : ''}`}>
-                      {hero.full_description}
-                    </p>
-                    {hero.full_description.length > 300 && (
-                      <button 
-                        className={styles.showMoreButton}
-                        onClick={() => setShowFullDescription(!showFullDescription)}
-                      >
-                        {showFullDescription ? t('heroDetail.showLess') : t('heroDetail.showMore')}
-                      </button>
-                    )}
-                  </div>
-                )}
+                {(hero.full_description || hero.full_description_uk) && (() => {
+                  const fullDescription = getHeroFullDescription(hero, i18n.language);
+                  return (
+                    <div className={styles.descriptionSection}>
+                      <h3 className={styles.descriptionTitle}>{t('heroDetail.about', { name: getHeroName(hero, i18n.language) })}</h3>
+                      <p className={`${styles.descriptionText} ${!showFullDescription ? styles.descriptionTextCollapsed : ''}`}>
+                        {fullDescription}
+                      </p>
+                      {fullDescription.length > 300 && (
+                        <button 
+                          className={styles.showMoreButton}
+                          onClick={() => setShowFullDescription(!showFullDescription)}
+                        >
+                          {showFullDescription ? t('heroDetail.showLess') : t('heroDetail.showMore')}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
             )}
 

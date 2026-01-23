@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeroSidebarProps } from './interface';
-import { getHeroName } from '../../../utils/translation';
+import { getHeroName, getHeroShortDescription } from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
@@ -43,9 +43,9 @@ export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
       </div>
 
       {/* Short Description */}
-      {hero.short_description && (
+      {(hero.short_description || hero.short_description_uk) && (
         <div className={styles.sidebarDescription}>
-          <p>{hero.short_description}</p>
+          <p>{getHeroShortDescription(hero, i18n.language)}</p>
         </div>
       )}
 

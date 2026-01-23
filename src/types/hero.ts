@@ -83,6 +83,7 @@ export interface Hero {
   id: number;
   game_id: number;
   name: string;
+  name_uk?: string;
   hero_game_id?: number;
   image?: string;
   head?: string;
@@ -92,7 +93,9 @@ export interface Hero {
   specialty?: string[];
   damage_type?: string;
   short_description?: string;
+  short_description_uk?: string;
   full_description?: string;
+  full_description_uk?: string;
   abilityshow: string[];
   use_energy?: boolean;
   hero_stats?: HeroStatsObject;
