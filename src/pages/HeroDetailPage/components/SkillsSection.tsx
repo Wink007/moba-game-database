@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SkillsSectionProps } from './interface';
+import { getSkillName, getSkillDescription } from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ 
@@ -12,7 +13,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
   onSkillSelect,
   onTransformCycle 
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   if (displaySkills.length === 0) return null;
 
   return (
@@ -29,7 +30,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
               onClick={() => onSkillSelect(index)}
             >
               {skill.image && (
-                <img src={skill.image} alt={skill.skill_name} />
+                <img src={skill.image} alt={getSkillName(skill, i18n.language)} />
               )}
               {skill.skill_type && (
                 <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
@@ -57,7 +58,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
           <div className={styles.skillDetail}>
             <div className={styles.skillDetailHeader}>
               <div className={styles.skillDetailInfo}>
-                <h3 className={styles.skillDetailName}>{selectedSkill.skill_name}</h3>
+                <h3 className={styles.skillDetailName}>{getSkillName(selectedSkill, i18n.language)}</h3>
                 
                 {/* Effect Types badges */}
                 <div className={styles.skillBadges}>
@@ -99,10 +100,10 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
                   </div>
                 )}
 
-                {selectedSkill.skill_description && (
+                {(selectedSkill.skill_description || selectedSkill.skill_description_uk) && (
                   <div 
                     className={styles.skillDetailDescription}
-                    dangerouslySetInnerHTML={{ __html: selectedSkill.skill_description }}
+                    dangerouslySetInnerHTML={{ __html: getSkillDescription(selectedSkill, i18n.language) }}
                   />
                 )}
               </div>

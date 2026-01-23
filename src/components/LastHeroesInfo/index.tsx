@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useHeroesQuery, useHeroSkillsQuery } from "../../queries/useHeroesQuery";
 import { useGameStore } from "../../store/gameStore";
 import { Lanes, LanesIcons } from "../../enum";
+import { getSkillName, getSkillDescription } from '../../utils/translation';
 import style from './styles.module.scss';
 import { MoreInfoLink } from '../MoreInfoLink';
 import SkillTooltip from '../SkillTooltip';
 
 export const LastHeroesInfo = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { selectedGameId } = useGameStore();
     const { data: heroes } = useHeroesQuery(selectedGameId);
     const latestHeroes = heroes?.sort((a, b) => b.id - a.id).slice(0, 6);
@@ -143,8 +144,8 @@ export const LastHeroesInfo = () => {
                                     >
                                         <img 
                                             src={skill.preview} 
-                                            alt={skill.skill_name} 
-                                            title={skill.skill_name} 
+                                            alt={getSkillName(skill, i18n.language)} 
+                                            title={getSkillName(skill, i18n.language)} 
                                             className={style['skill-icon']} 
                                         />
                                         {hoveredSkillId === skill.id && (
@@ -156,9 +157,9 @@ export const LastHeroesInfo = () => {
                                                 }}
                                             >
                                                 <SkillTooltip
-                                                    name={skill.skill_name}
+                                                    name={getSkillName(skill, i18n.language)}
                                                     effect={skill.effect_types || []}
-                                                    description={skill.skill_description || ''}
+                                                    description={getSkillDescription(skill, i18n.language)}
                                                     parameters={skill.skill_parameters}
                                                 />
                                             </div>

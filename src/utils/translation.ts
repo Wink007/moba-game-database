@@ -38,6 +38,26 @@ export const getItemName = (item: any, language: string = 'en'): string => {
   return item.name;
 };
 
+/**
+ * Helper function to get translated skill name based on current language
+ */
+export const getSkillName = (skill: any, language: string = 'en'): string => {
+  if (language === 'uk' && skill.skill_name_uk) {
+    return skill.skill_name_uk;
+  }
+  return skill.skill_name || '';
+};
+
+/**
+ * Helper function to get translated skill description based on current language
+ */
+export const getSkillDescription = (skill: any, language: string = 'en'): string => {
+  if (language === 'uk' && skill.skill_description_uk) {
+    return skill.skill_description_uk;
+  }
+  return skill.skill_description || '';
+};
+
 // Re-export game terminology translation functions
 export {
   getRole,

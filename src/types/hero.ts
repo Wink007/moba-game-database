@@ -113,8 +113,10 @@ export interface HeroSkill {
   id: number;
   hero_id: number;
   skill_name: string;
+  skill_name_uk?: string;
   skill_type: 'passive' | 'active';
   skill_description?: string;
+  skill_description_uk?: string;
   image?: string;
   preview?: string;
   effect?: string[];
