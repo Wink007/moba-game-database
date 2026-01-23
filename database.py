@@ -581,7 +581,7 @@ def delete_hero_stats(hero_id):
     release_connection(conn)
 
 # Hero Skills
-def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skill_type, skill_parameters, level_scaling, effect_types=None, is_transformed=None, transformation_order=None, display_order=None, replaces_skill_id=None):
+def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skill_type, skill_parameters, level_scaling, effect_types=None, is_transformed=None, transformation_order=None, display_order=None, replaces_skill_id=None, skill_name_uk=None, skill_description_uk=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -597,9 +597,9 @@ def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skil
     ph = get_placeholder()
     cursor.execute(f"""
         INSERT INTO hero_skills (hero_id, skill_name, skill_description, effect, preview, image,
-                                skill_type, skill_parameters, level_scaling, effect_types, is_transformed, transformation_order, display_order, replaces_skill_id)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, effect_types_json, is_transformed or 0, transformation_order or 0, display_order or 0, replaces_skill_id))
+                                skill_type, skill_parameters, level_scaling, effect_types, is_transformed, transformation_order, display_order, replaces_skill_id, skill_name_uk, skill_description_uk)
+        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+    """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, effect_types_json, is_transformed or 0, transformation_order or 0, display_order or 0, replaces_skill_id, skill_name_uk, skill_description_uk))
     conn.commit()
     release_connection(conn)
 
@@ -655,7 +655,7 @@ def get_hero_skills(hero_id):
     release_connection(conn)
     return skills
 
-def update_hero_skill(skill_id, skill_name=None, skill_description=None, display_order=None, replaces_skill_id=None, is_transformed=None, transformation_order=None):
+def update_hero_skill(skill_id, skill_name=None, skill_description=None, display_order=None, replaces_skill_id=None, is_transformed=None, transformation_order=None, skill_name_uk=None, skill_description_uk=None):
     """Оновлює skill_name, skill_description, display_order, replaces_skill_id, is_transformed та/або transformation_order для конкретного скілу"""
     conn = get_connection()
     try:
@@ -692,6 +692,14 @@ def update_hero_skill(skill_id, skill_name=None, skill_description=None, display
         if transformation_order is not None:
             updates.append(f"transformation_order = {ph}")
             params.append(transformation_order)
+        
+        if skill_name_uk is not None:
+            updates.append(f"skill_name_uk = {ph}")
+            params.append(skill_name_uk)
+        
+        if skill_description_uk is not None:
+            updates.append(f"skill_description_uk = {ph}")
+            params.append(skill_description_uk)
         
         if not updates:
             return False

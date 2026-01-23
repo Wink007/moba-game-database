@@ -142,11 +142,12 @@ def update_hero_skill(hero_id, skill_id):
     replaces_skill_id = data.get('replaces_skill_id')
     is_transformed = data.get('is_transformed')
     transformation_order = data.get('transformation_order')
-    
-    if all(v is None for v in [skill_name, skill_description, display_order, replaces_skill_id, is_transformed, transformation_order]):
+    skill_name_uk = data.get('skill_name_uk')
+    skill_description_uk = data.get('skill_description_uk')
+    if all(v is None for v in [skill_name, skill_description, display_order, replaces_skill_id, is_transformed, transformation_order, skill_name_uk, skill_description_uk]):
         return jsonify({'error': 'No fields to update'}), 400
     
-    success = db.update_hero_skill(skill_id, skill_name, skill_description, display_order, replaces_skill_id, is_transformed, transformation_order)
+    success = db.update_hero_skill(skill_id, skill_name, skill_description, display_order, replaces_skill_id, is_transformed, transformation_order, skill_name_uk, skill_description_uk)
     
     if success:
         return jsonify({'success': True, 'message': 'Skill updated successfully'})
@@ -164,7 +165,8 @@ def create_hero_skill(hero_id):
     skill_name = data.get('skill_name')
     skill_description = data.get('skill_description', '')
     display_order = data.get('display_order', 0)
-    
+    skill_name_uk = data.get('skill_name_uk')
+    skill_description_uk = data.get('skill_description_uk')
     if not skill_name:
         return jsonify({'error': 'skill_name is required'}), 400
     
@@ -175,16 +177,16 @@ def create_hero_skill(hero_id):
         
         if db.DATABASE_TYPE == 'postgres':
             cursor.execute(f'''
-                INSERT INTO hero_skills (hero_id, skill_name, skill_description, display_order)
-                VALUES ({ph}, {ph}, {ph}, {ph})
+                INSERT INTO hero_skills (hero_id, skill_name, skill_description, display_order, skill_name_uk, skill_description_uk)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph})
                 RETURNING id
-            ''', (hero_id, skill_name, skill_description, display_order))
+            ''', (hero_id, skill_name, skill_description, display_order, skill_name_uk, skill_description_uk))
             skill_id = cursor.fetchone()[0]
         else:
             cursor.execute(f'''
-                INSERT INTO hero_skills (hero_id, skill_name, skill_description, display_order)
-                VALUES ({ph}, {ph}, {ph}, {ph})
-            ''', (hero_id, skill_name, skill_description, display_order))
+                INSERT INTO hero_skills (hero_id, skill_name, skill_description, display_order, skill_name_uk, skill_description_uk)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+            ''', (hero_id, skill_name, skill_description, display_order, skill_name_uk, skill_description_uk))
             skill_id = cursor.lastrowid
         
         conn.commit()
