@@ -61,6 +61,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
   const [newSkill, setNewSkill] = useState({
     skill_name: '',
     skill_description: '',
+    skill_name_uk: '',
+    skill_description_uk: '',
     effect: [],
     preview: '',
     skill_type: 'active',
@@ -395,7 +397,13 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
         if (param.name) acc[param.name] = param.value;
         return acc;
       }, {}),
-      level_scaling: levelScaling
+      level_scaling: levelScaling,
+      // Preserve critical fields when updating existing skill
+      ...(editingSkillIndex !== null && skills[editingSkillIndex] ? {
+        id: skills[editingSkillIndex].id,
+        display_order: skills[editingSkillIndex].display_order,
+        image: skills[editingSkillIndex].image
+      } : {})
       // is_transformed is already in newSkill, no need to override
     };
 
@@ -415,6 +423,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
       skill_name: '',
       skill_description: '',
       effect: [],
+      skill_name_uk: '',
+      skill_description_uk: '',
       preview: '',
       skill_type: 'active',
       effect_types: [],
@@ -436,11 +446,17 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     setNewSkill({
       skill_name: skill.skill_name || '',
       skill_description: skill.skill_description || '',
+      skill_name_uk: skill.skill_name_uk || '',
+      skill_description_uk: skill.skill_description_uk || '',
       effect: Array.isArray(skill.effect) ? skill.effect : (skill.effect ? [skill.effect] : []),
       preview: skill.preview || '',
       skill_type: skill.skill_type || 'active',
       effect_types: Array.isArray(skill.effect_types) ? skill.effect_types : [],
-      is_transformed: skill.is_transformed || 0
+      is_transformed: skill.is_transformed || 0,
+      // Store these for preservation during update
+      id: skill.id,
+      display_order: skill.display_order,
+      image: skill.image
     });
 
     // Load parameters
@@ -575,6 +591,8 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
             await axios.post(`${API_URL}/heroes/${hero.id}/skills`, {
               skill_name: externalSkill.skillname,
               skill_description: externalSkill.skilldesc || '',
+              skill_name_uk: '',
+              skill_description_uk: '',
               display_order: i
             });
             console.log(`Inserted skill: ${externalSkill.skillname}`);
@@ -1678,6 +1696,24 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
               <small style={{ color: '#666', display: 'block', marginTop: '4px' }}>
                 Supports HTML: &lt;font color="a6aafb"&gt;Passive&lt;/font&gt; for colored text, \n for new lines
               </small>
+              
+              <input
+                type="text"
+                name="skill_name_uk"
+                placeholder="Skill Name (Ukrainian) 🇺🇦"
+                value={newSkill.skill_name_uk}
+                onChange={handleSkillChange}
+                style={{ marginTop: '1rem' }}
+              />
+              
+              <textarea
+                name="skill_description_uk"
+                placeholder="Skill Description (Ukrainian) 🇺🇦 - supports HTML tags"
+                value={newSkill.skill_description_uk}
+                onChange={handleSkillChange}
+                rows="4"
+                style={{ marginTop: '0.5rem' }}
+              />
               
               <div style={{ marginTop: '1rem' }}>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>

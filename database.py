@@ -179,7 +179,7 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
         
         # Завантажуємо skills тільки якщо потрібно
         if include_skills:
-            cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders})", hero_ids)
+            cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders}) ORDER BY COALESCE(display_order, 999), id", hero_ids)
             all_skills = cursor.fetchall()
             for skill in all_skills:
                 skill_dict = dict_from_row(skill)
@@ -611,7 +611,7 @@ def get_hero_skills(hero_id):
     else:
         cursor = conn.cursor()
     ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id = {ph}", (hero_id,))
+    cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id = {ph} ORDER BY COALESCE(display_order, 999), id", (hero_id,))
     skills = []
     for row in cursor.fetchall():
         skill = dict_from_row(row)
