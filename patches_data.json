@@ -8872,7 +8872,7 @@
         "revamped_heroes_data": {}
     },
     "2.1.56-adv": {
-        "version": "2.1.56 (Adv. Server)",
+        "version": "2.1.56-adv",
         "release_date": "2026-01-30",
         "game_id": 1,
         "designers_note": "In this patch, we have adjusted the attributes and Mana Costs of most Mid Lane Mages to bring them closer to the average level. We have also made specific adjustments to certain strong and weak Mages. We hope to see more heroes picked in the Mid Lane.",
