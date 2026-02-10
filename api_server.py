@@ -362,6 +362,144 @@ def get_all_heroes_compatibility_data():
     
     return jsonify(compatibility_data_by_hero)
 
+@app.route('/api/mlbb/heroes/update-stats', methods=['POST'])
+def update_mlbb_heroes_stats():
+    """Оновлює статистику героїв (ban/pick/win rates + counter data) з mlbb_heroes_stats.json
+    
+    Body Parameters:
+        game_id: ID гри (optional, default: 2 - MLBB)
+    
+    Returns:
+        {
+            'updated': int - кількість оновлених героїв,
+            'skipped': int - кількість пропущених,
+            'errors': int - кількість помилок,
+            'top_banned': list - топ-5 найбанніших героїв
+        }
+    """
+    try:
+        data = request.json or {}
+        game_id = data.get('game_id', 2)
+        
+        # Читаємо дані з mlbb_heroes_stats.json
+        import os
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        stats_file = os.path.join(script_dir, 'mlbb_heroes_stats.json')
+        
+        if not os.path.exists(stats_file):
+            return jsonify({'error': 'mlbb_heroes_stats.json not found. Please run fetch_all_heroes_stats.py first'}), 404
+        
+        with open(stats_file, 'r', encoding='utf-8') as f:
+            api_data = json.load(f)
+        
+        statistics = api_data.get('statistics', [])
+        if not statistics:
+            return jsonify({'error': 'No statistics data in file'}), 400
+        
+        updated = 0
+        skipped = 0
+        errors = 0
+        top_banned = []
+        
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        for hero_stat in statistics:
+            try:
+                hero_id = hero_stat.get('hero_id')
+                ban_rate = hero_stat.get('ban_rate')
+                pick_rate = hero_stat.get('pick_rate')
+                win_rate = hero_stat.get('win_rate')
+                raw_data = hero_stat.get('raw_data', {})
+                
+                # Знаходимо героя в БД
+                cursor.execute(f"SELECT id FROM heroes WHERE hero_game_id = {ph} AND game_id = {ph}", (hero_id, game_id))
+                result = cursor.fetchone()
+                
+                if not result:
+                    skipped += 1
+                    continue
+                
+                hero_db_id = result[0]
+                
+                # Підготовка counter_data
+                counter_data = {
+                    'allies': [],
+                    'counters': []
+                }
+                
+                # Союзники (sub_hero - найкращі синергії)
+                if raw_data.get('sub_hero'):
+                    for ally in raw_data['sub_hero'][:5]:
+                        counter_data['allies'].append({
+                            'hero_id': ally.get('sub_heroid'),
+                            'increase_win_rate': ally.get('increase_win_rate', 0)
+                        })
+                
+                # Контри (sub_hero_last - найгірші проти)
+                if raw_data.get('sub_hero_last'):
+                    for counter in raw_data['sub_hero_last'][:5]:
+                        counter_data['counters'].append({
+                            'hero_id': counter.get('sub_heroid'),
+                            'increase_win_rate': counter.get('increase_win_rate', 0)
+                        })
+                
+                counter_data_json = json.dumps(counter_data)
+                
+                # Оновлюємо БД
+                if db.DATABASE_TYPE == 'postgres':
+                    cursor.execute(f"""
+                        UPDATE heroes 
+                        SET main_hero_ban_rate = {ph},
+                            main_hero_appearance_rate = {ph},
+                            main_hero_win_rate = {ph},
+                            counter_data = {ph}::jsonb
+                        WHERE id = {ph}
+                    """, (ban_rate, pick_rate, win_rate, counter_data_json, hero_db_id))
+                else:
+                    cursor.execute(f"""
+                        UPDATE heroes 
+                        SET main_hero_ban_rate = {ph},
+                            main_hero_appearance_rate = {ph},
+                            main_hero_win_rate = {ph},
+                            counter_data = {ph}
+                        WHERE id = {ph}
+                    """, (ban_rate, pick_rate, win_rate, counter_data_json, hero_db_id))
+                
+                updated += 1
+                
+                # Зберігаємо для топу
+                top_banned.append({
+                    'name': hero_stat.get('hero_name'),
+                    'ban_rate': ban_rate,
+                    'win_rate': win_rate,
+                    'pick_rate': pick_rate
+                })
+                
+            except Exception as e:
+                print(f"Error updating hero {hero_stat.get('hero_name', 'unknown')}: {str(e)}")
+                errors += 1
+                continue
+        
+        conn.commit()
+        db.release_connection(conn)
+        
+        # Сортуємо топ-банених
+        top_banned.sort(key=lambda x: x['ban_rate'], reverse=True)
+        
+        return jsonify({
+            'success': True,
+            'updated': updated,
+            'skipped': skipped,
+            'errors': errors,
+            'total': len(statistics),
+            'top_banned': top_banned[:10]
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/heroes', methods=['POST'])
 def create_hero():
     

@@ -132,6 +132,35 @@ function HeroRanksManager({ selectedGame }) {
     }
   };
 
+  const updateHeroesStats = async () => {
+    if (!selectedGame) {
+      setMessage('❌ Спочатку оберіть гру');
+      return;
+    }
+
+    setLoading(true);
+    setMessage('🔄 Оновлення статистики героїв з Moonton API...');
+
+    try {
+      const response = await axios.post(`${API_URL}/mlbb/heroes/update-stats`, {
+        game_id: selectedGame.id
+      });
+
+      setLastUpdate(new Date().toLocaleString());
+      setMessage(`✅ Статистика оновлена! Оновлено: ${response.data.updated}, Пропущено: ${response.data.skipped}, Помилки: ${response.data.errors}`);
+      
+      if (response.data.top_banned && response.data.top_banned.length > 0) {
+        const top5 = response.data.top_banned.slice(0, 5).map(h => `${h.name} (${h.ban_rate.toFixed(2)}%)`).join(', ');
+        setMessage(prev => prev + `\n\n🚫 Топ-5 банів: ${top5}`);
+      }
+    } catch (error) {
+      console.error('Update stats error:', error);
+      setMessage(`❌ Помилка: ${error.response?.data?.error || error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px', marginTop: '20px' }}>
       <h2 style={{ marginBottom: '20px' }}>🏆 Hero Ranks Manager</h2>
@@ -250,6 +279,27 @@ function HeroRanksManager({ selectedGame }) {
         </button>
       </div>
 
+      {/* Нова кнопка для оновлення статистики з Moonton API */}
+      <div style={{ marginBottom: '20px' }}>
+        <button
+          onClick={updateHeroesStats}
+          disabled={loading || !selectedGame}
+          style={{
+            width: '100%',
+            padding: '12px 24px',
+            backgroundColor: loading ? '#ccc' : '#9C27B0',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            fontSize: '16px',
+            fontWeight: 'bold'
+          }}
+        >
+          {loading ? '⏳ Оновлення...' : '⚡ Оновити статистику героїв (Ban/Pick/Win Rates)'}
+        </button>
+      </div>
+
       {/* Message */}
       {message && (
         <div style={{
@@ -292,6 +342,7 @@ function HeroRanksManager({ selectedGame }) {
         <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
           <li><strong>🔄 Оновити вибране</strong> - імпортує дані для однієї комбінації (days + rank)</li>
           <li><strong>🔥 Імпорт всіх 30 комбінацій</strong> - імпортує всі варіанти (1/3/7/15/30 днів × 6 рангів)</li>
+          <li><strong>⚡ Оновити статистику героїв</strong> - оновлює ban/pick/win rates + counter data з офіційного Moonton API</li>
           <li>Оновлюйте статистику <strong>щодня</strong> для актуальних даних</li>
           <li>Різні <strong>ranks</strong> показують різну мету гравців (Epic, Legend, Mythic, Glory)</li>
           <li>API за замовчуванням використовує: days=1, rank=all, size=20</li>
