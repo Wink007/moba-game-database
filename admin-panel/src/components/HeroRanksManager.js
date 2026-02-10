@@ -13,7 +13,6 @@ function HeroRanksManager({ selectedGame }) {
   const [days, setDays] = useState(1);
   const [rank, setRank] = useState('all');
   const [sortField, setSortField] = useState('win_rate');
-  const [bulkImport, setBulkImport] = useState(false);
 
   const updateHeroRanks = async () => {
     if (!selectedGame) {
@@ -118,17 +117,39 @@ function HeroRanksManager({ selectedGame }) {
   const checkCurrentStats = async () => {
     if (!selectedGame) return;
 
+    setLoading(true);
+    setMessage('🔍 Перевірка поточної статистики...');
+
     try {
-      const response = await axios.get(`${API_URL}/hero-ranks?game_id=${selectedGame.id}&size=5`);
+      const response = await axios.get(`${API_URL}/hero-ranks`, {
+        params: {
+          game_id: selectedGame.id,
+          days: days,
+          rank: rank,
+          page: 1,
+          size: 5
+        }
+      });
+      
       const data = response.data.data || response.data;
+      const total = response.data.total || 0;
       
       if (data.length > 0) {
-        setMessage(`📊 Поточна статистика: ${data.length} героїв. Топ-1: ${data[0].name} (${(data[0].win_rate * 100).toFixed(2)}% WR)`);
+        const topHero = data[0];
+        setMessage(
+          `📊 Статистика (${days}д, ${rank}):\n` +
+          `Всього героїв: ${total}\n` +
+          `Топ-1: ${topHero.name} - WR: ${topHero.win_rate.toFixed(2)}%, Ban: ${topHero.ban_rate.toFixed(2)}%, Pick: ${topHero.appearance_rate.toFixed(2)}%\n` +
+          `Оновлено: ${new Date(topHero.updated_at).toLocaleString()}`
+        );
       } else {
-        setMessage('⚠️ Немає даних про ранги героїв');
+        setMessage(`⚠️ Немає даних для комбінації: ${days} днів, ранг ${rank}`);
       }
     } catch (error) {
       console.error('Check error:', error);
+      setMessage(`❌ Помилка перевірки: ${error.response?.data?.error || error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -218,7 +239,7 @@ function HeroRanksManager({ selectedGame }) {
             >
               <option value="win_rate">Win Rate</option>
               <option value="ban_rate">Ban Rate</option>
-              <option value="pick_rate">Pick Rate</option>
+              <option value="appearance_rate">Pick Rate</option>
             </select>
           </div>
         </div>
@@ -341,13 +362,25 @@ function HeroRanksManager({ selectedGame }) {
         <h4>💡 Підказки:</h4>
         <ul style={{ margin: '10px 0', paddingLeft: '20px' }}>
           <li><strong>🔄 Оновити вибране</strong> - імпортує дані для однієї комбінації (days + rank)</li>
-          <li><strong>🔥 Імпорт всіх 30 комбінацій</strong> - імпортує всі варіанти (1/3/7/15/30 днів × 6 рангів)</li>
-          <li><strong>⚡ Оновити статистику героїв</strong> - оновлює ban/pick/win rates + counter data з офіційного Moonton API</li>
-          <li>Оновлюйте статистику <strong>щодня</strong> для актуальних даних</li>
-          <li>Різні <strong>ranks</strong> показують різну мету гравців (Epic, Legend, Mythic, Glory)</li>
-          <li>API за замовчуванням використовує: days=1, rank=all, size=20</li>
-          <li>Статистика для: <strong>{selectedGame?.name || 'не обрано'}</strong></li>
+          <li><strong>🔥 Імпорт всіх 30 комбінацій</strong> - імпортує всі варіанти (5 періодів × 6 рангів)</li>
+          <li><strong>⚡ Оновити статистику героїв</strong> - оновлює ban/pick/win rates з mlbb_heroes_stats.json</li>
+          <li>Доступні періоди: <strong>1, 3, 7, 15, 30 днів</strong></li>
+          <li>Доступні ранги: <strong>all, epic, legend, mythic, honor, glory</strong></li>
+          <li>Для оновлення з Moonton API запустіть: <code style={{backgroundColor:'#f5f5f5',padding:'2px 6px',borderRadius:'3px'}}>python3 update_hero_ranks_from_moonton.py</code></li>
         </ul>
+        
+        <div style={{
+          marginTop: '15px',
+          padding: '10px',
+          backgroundColor: '#e3f2fd',
+          borderRadius: '4px',
+          fontSize: '14px'
+        }}>
+          <strong>🔗 API Endpoint:</strong><br/>
+          <code style={{backgroundColor:'#f5f5f5',padding:'2px 6px',borderRadius:'3px'}}>
+            GET /api/hero-ranks?game_id=2&days=1&rank=all&page=1&size=20
+          </code>
+        </div>
       </div>
     </div>
   );
