@@ -182,6 +182,41 @@ function HeroRanksManager({ selectedGame }) {
     }
   };
 
+  const updateFromMoontonAPI = async () => {
+    if (!selectedGame) {
+      setMessage('❌ Спочатку оберіть гру');
+      return;
+    }
+
+    if (!window.confirm('⚠️ Це оновить ВСІ 30 комбінацій (5 періодів × 6 рангів) з офіційного Moonton API.\n\nПроцес займе 1-2 хвилини.\n\n⚡ Перед запуском переконайся, що токен авторизації актуальний!\n\nПродовжити?')) {
+      return;
+    }
+
+    setLoading(true);
+    setMessage('🔄 Запуск оновлення з Moonton GMS API... (1-2 хвилини)');
+
+    try {
+      const response = await axios.post(`${API_URL}/update-hero-ranks-moonton`, {
+        game_id: selectedGame.id
+      });
+
+      setLastUpdate(new Date().toLocaleString());
+      setMessage(
+        `✅ ${response.data.message}\n\n` +
+        `⏱️ Очікуваний час: ${response.data.estimated_time}\n\n` +
+        `📋 Оновлюються всі 30 комбінацій:\n` +
+        `   • 5 періодів: 1, 3, 7, 15, 30 днів\n` +
+        `   • 6 рангів: All, Epic, Legend, Mythic, Honor, Glory\n\n` +
+        `ℹ️ Перевір логи сервера для деталей`
+      );
+    } catch (error) {
+      console.error('Moonton API update error:', error);
+      setMessage(`❌ Помилка: ${error.response?.data?.error || error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px', marginTop: '20px' }}>
       <h2 style={{ marginBottom: '20px' }}>🏆 Hero Ranks Manager</h2>
@@ -300,13 +335,13 @@ function HeroRanksManager({ selectedGame }) {
         </button>
       </div>
 
-      {/* Нова кнопка для оновлення статистики з Moonton API */}
-      <div style={{ marginBottom: '20px' }}>
+      {/* Кнопки для оновлення статистики */}
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
         <button
           onClick={updateHeroesStats}
           disabled={loading || !selectedGame}
           style={{
-            width: '100%',
+            flex: 1,
             padding: '12px 24px',
             backgroundColor: loading ? '#ccc' : '#9C27B0',
             color: 'white',
@@ -318,6 +353,24 @@ function HeroRanksManager({ selectedGame }) {
           }}
         >
           {loading ? '⏳ Оновлення...' : '⚡ Оновити статистику героїв (Ban/Pick/Win Rates)'}
+        </button>
+
+        <button
+          onClick={updateFromMoontonAPI}
+          disabled={loading || !selectedGame}
+          style={{
+            flex: 1,
+            padding: '12px 24px',
+            backgroundColor: loading ? '#ccc' : '#E91E63',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            fontSize: '16px',
+            fontWeight: 'bold'
+          }}
+        >
+          {loading ? '⏳ Оновлення...' : '🚀 Оновити через Moonton GMS API (всі 30 комбінацій)'}
         </button>
       </div>
 

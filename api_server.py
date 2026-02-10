@@ -2101,6 +2101,51 @@ def update_hero_stats():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/update-hero-ranks-moonton', methods=['POST'])
+def update_hero_ranks_moonton():
+    """Запустити update_hero_ranks_from_moonton.py для оновлення всіх 30 комбінацій"""
+    try:
+        data = request.get_json() or {}
+        game_id = data.get('game_id', 2)
+        
+        # Запускаємо скрипт в окремому потоці
+        import threading
+        import subprocess
+        import sys
+        
+        def run_script():
+            try:
+                print("[INFO] Starting update_hero_ranks_from_moonton.py...")
+                result = subprocess.run(
+                    [sys.executable, 'update_hero_ranks_from_moonton.py'],
+                    capture_output=True,
+                    text=True,
+                    timeout=300  # 5 хвилин максимум
+                )
+                print(f"[INFO] Script completed with exit code {result.returncode}")
+                if result.stdout:
+                    print(f"[STDOUT] {result.stdout}")
+                if result.stderr:
+                    print(f"[STDERR] {result.stderr}")
+            except Exception as e:
+                print(f"[ERROR] Failed to run script: {e}")
+        
+        thread = threading.Thread(target=run_script)
+        thread.daemon = True
+        thread.start()
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Hero ranks update from Moonton API started. This will update all 30 combinations (5 days × 6 ranks). Check server logs for progress.',
+            'estimated_time': '1-2 minutes'
+        }), 202  # 202 Accepted
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/update-hero-relation/<hero_name>', methods=['POST'])
 def update_hero_relation_endpoint(hero_name):
     """Оновлює relation для конкретного героя з mlbb-stats API"""
