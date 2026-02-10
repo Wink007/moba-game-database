@@ -16,13 +16,17 @@ from datetime import datetime
 
 # Moonton API configuration
 MOONTON_API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
+
+# Читаємо токен з environment variable або використовуємо дефолтний
+AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN', 'WS4idfyEnXVoAhjH1ZmQhPIwrak=')
+
 HEADERS = {
     'accept': 'application/json, text/plain, */*',
     'content-type': 'application/json;charset=UTF-8',
     'x-actid': '2669607',
     'x-appid': '2669606',
     'x-lang': 'en',
-    'authorization': 'WS4idfyEnXVoAhjH1ZmQhPIwrak='
+    'authorization': AUTH_TOKEN
 }
 
 # Source IDs для різних періодів

@@ -2107,6 +2107,12 @@ def update_hero_ranks_moonton():
     try:
         data = request.get_json() or {}
         game_id = data.get('game_id', 2)
+        auth_token = data.get('auth_token')  # Отримуємо токен з запиту
+        
+        if not auth_token:
+            return jsonify({
+                'error': 'Authorization token is required. Please provide auth_token in request body.'
+            }), 400
         
         # Запускаємо скрипт в окремому потоці
         import threading
@@ -2116,11 +2122,16 @@ def update_hero_ranks_moonton():
         def run_script():
             try:
                 print("[INFO] Starting update_hero_ranks_from_moonton.py...")
+                # Створюємо копію environment і додаємо токен
+                env = os.environ.copy()
+                env['MOONTON_AUTH_TOKEN'] = auth_token
+                
                 result = subprocess.run(
                     [sys.executable, 'update_hero_ranks_from_moonton.py'],
                     capture_output=True,
                     text=True,
-                    timeout=300  # 5 хвилин максимум
+                    timeout=300,  # 5 хвилин максимум
+                    env=env  # Передаємо environment з токеном
                 )
                 print(f"[INFO] Script completed with exit code {result.returncode}")
                 if result.stdout:

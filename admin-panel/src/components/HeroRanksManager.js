@@ -13,6 +13,9 @@ function HeroRanksManager({ selectedGame }) {
   const [days, setDays] = useState(1);
   const [rank, setRank] = useState('all');
   const [sortField, setSortField] = useState('win_rate');
+  
+  // Токен авторизації для Moonton API
+  const [authToken, setAuthToken] = useState('');
 
   const updateHeroRanks = async () => {
     if (!selectedGame) {
@@ -188,7 +191,12 @@ function HeroRanksManager({ selectedGame }) {
       return;
     }
 
-    if (!window.confirm('⚠️ Це оновить ВСІ 30 комбінацій (5 періодів × 6 рангів) з офіційного Moonton API.\n\nПроцес займе 1-2 хвилини.\n\n⚡ Перед запуском переконайся, що токен авторизації актуальний!\n\nПродовжити?')) {
+    if (!authToken || authToken.trim() === '') {
+      setMessage('❌ Введіть токен авторизації! Візьміть його з https://m.mobilelegends.com/en/rank (DevTools → Network → rank → Authorization header)');
+      return;
+    }
+
+    if (!window.confirm('⚠️ Це оновить ВСІ 30 комбінацій (5 періодів × 6 рангів) з офіційного Moonton API.\n\nПроцес займе 1-2 хвилини.\n\nПродовжити?')) {
       return;
     }
 
@@ -197,7 +205,8 @@ function HeroRanksManager({ selectedGame }) {
 
     try {
       const response = await axios.post(`${API_URL}/update-hero-ranks-moonton`, {
-        game_id: selectedGame.id
+        game_id: selectedGame.id,
+        auth_token: authToken.trim()
       });
 
       setLastUpdate(new Date().toLocaleString());
@@ -220,6 +229,33 @@ function HeroRanksManager({ selectedGame }) {
   return (
     <div style={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px', marginTop: '20px' }}>
       <h2 style={{ marginBottom: '20px' }}>🏆 Hero Ranks Manager</h2>
+      
+      {/* Токен авторизації для Moonton API */}
+      <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#fff3cd', border: '1px solid #ffc107', borderRadius: '6px' }}>
+        <h3 style={{ marginTop: 0, color: '#856404' }}>🔐 Moonton API Authorization</h3>
+        <p style={{ margin: '10px 0', fontSize: '14px', color: '#856404' }}>
+          Для оновлення через офіційний Moonton API потрібен токен авторизації:<br/>
+          1. Відкрийте <a href="https://m.mobilelegends.com/en/rank" target="_blank" rel="noopener noreferrer" style={{ color: '#007bff' }}>https://m.mobilelegends.com/en/rank</a><br/>
+          2. Відкрийте DevTools (F12) → Network → Знайдіть запит "rank"<br/>
+          3. Request Headers → Authorization: скопіюйте значення<br/>
+          4. Вставте токен нижче (без "Bearer")
+        </p>
+        <input
+          type="text"
+          value={authToken}
+          onChange={(e) => setAuthToken(e.target.value)}
+          placeholder="Вставте токен авторизації (напр: WS4idfyEnXVoAhjH1ZmQhPIwrak=)"
+          style={{
+            width: '100%',
+            padding: '10px',
+            borderRadius: '4px',
+            border: '1px solid #ddd',
+            fontSize: '14px',
+            fontFamily: 'monospace',
+            backgroundColor: authToken ? '#d4edda' : '#fff'
+          }}
+        />
+      </div>
       
       <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#fff', borderRadius: '6px' }}>
         <h3>Налаштування імпорту</h3>
