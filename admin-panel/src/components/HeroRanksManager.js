@@ -216,8 +216,41 @@ function HeroRanksManager({ selectedGame }) {
         `📋 Оновлюються всі 30 комбінацій:\n` +
         `   • 5 періодів: 1, 3, 7, 15, 30 днів\n` +
         `   • 6 рангів: All, Epic, Legend, Mythic, Honor, Glory\n\n` +
-        `ℹ️ Перевір логи сервера для деталей`
+        `⏳ Автоматична перевірка через 2 хвилини...`
       );
+
+      // Автоматична перевірка через 2 хвилини
+      setTimeout(async () => {
+        try {
+          setMessage(prev => prev + '\n\n🔍 Перевіряємо оновлення...');
+          const checkResponse = await axios.get(`${API_URL}/hero-ranks`, {
+            params: {
+              game_id: selectedGame.id,
+              days: 30,
+              rank: 'glory',
+              page: 1,
+              size: 1
+            }
+          });
+          
+          const hero = checkResponse.data.data?.[0];
+          if (hero) {
+            const updateTime = new Date(hero.updated_at);
+            const now = new Date();
+            const diffMinutes = Math.floor((now - updateTime) / 1000 / 60);
+            
+            if (diffMinutes < 5) {
+              setMessage(prev => prev + `\n\n✅ ОНОВЛЕНО! Дані свіжі (${diffMinutes} хв тому)\n` +
+                `Приклад: ${hero.name} (30д, Glory): Pick ${hero.appearance_rate.toFixed(2)}%, Win ${hero.win_rate.toFixed(2)}%, Ban ${hero.ban_rate.toFixed(2)}%`);
+            } else {
+              setMessage(prev => prev + `\n\n⚠️ Дані не оновилися. Останнє оновлення: ${updateTime.toLocaleString()}\nПеревір логи сервера або спробуй ще раз.`);
+            }
+          }
+        } catch (error) {
+          setMessage(prev => prev + '\n\n⚠️ Помилка перевірки. Перевір дані вручну на фронтенді.');
+        }
+      }, 120000); // 2 хвилини
+
     } catch (error) {
       console.error('Moonton API update error:', error);
       setMessage(`❌ Помилка: ${error.response?.data?.error || error.message}`);
