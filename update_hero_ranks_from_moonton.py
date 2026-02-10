@@ -44,6 +44,9 @@ BIGRANK_MAP = {
     'epic': '5',
     'legend': '6',
     'mythic': '7',
+    'honor': '8',
+    'glory': '9',
+    # Алиаси для сумісності
     'mythic_honor': '8',
     'mythic_glory': '9'
 }
