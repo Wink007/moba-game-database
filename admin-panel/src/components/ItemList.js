@@ -9,6 +9,23 @@ function ItemList({ items, onEdit, onDelete, gameId, onUpdate }) {
   const [showRecipeTree, setShowRecipeTree] = useState(null);
   const [updating, setUpdating] = useState(false);
   const [updateResults, setUpdateResults] = useState(null);
+  const [translating, setTranslating] = useState(false);
+  const [translationResults, setTranslationResults] = useState(null);
+  const [translationStats, setTranslationStats] = useState(null);
+
+  // Load translation stats on mount
+  React.useEffect(() => {
+    loadTranslationStats();
+  }, [gameId]);
+
+  const loadTranslationStats = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/items/translations/stats?game_id=${gameId}`);
+      setTranslationStats(response.data);
+    } catch (error) {
+      console.error('Error loading translation stats:', error);
+    }
+  };
 
   if (items.length === 0) {
     return (
@@ -75,8 +92,120 @@ function ItemList({ items, onEdit, onDelete, gameId, onUpdate }) {
     }
   };
 
+  const handleFetchTranslations = async () => {
+    if (!window.confirm('Fetch English translations from Fandom Wiki? This may take several minutes.')) {
+      return;
+    }
+
+    setTranslating(true);
+    setTranslationResults(null);
+
+    try {
+      alert('⏳ Fetching translations from Fandom Wiki... This may take 5-10 minutes.');
+      
+      const response = await axios.post(`${API_URL}/items/translations/fetch`, {
+        game_id: gameId,
+        dry_run: false
+      }, {
+        timeout: 600000 // 10 minutes
+      });
+
+      setTranslationResults(response.data);
+      
+      if (response.data.updated > 0) {
+        alert(`✅ Successfully fetched ${response.data.updated} translations!`);
+        loadTranslationStats(); // Reload stats
+        if (onUpdate) {
+          onUpdate(); // Reload items
+        }
+      } else {
+        alert(`⚠️ No items were updated. ${response.data.skipped} skipped, ${response.data.failed} failed.`);
+      }
+    } catch (error) {
+      console.error('Error fetching translations:', error);
+      const errorMsg = error.response?.data?.error || error.message;
+      alert('❌ Error fetching translations: ' + errorMsg);
+    } finally {
+      setTranslating(false);
+    }
+  };
+
   return (
     <>
+    {/* Translation Banner */}
+    <div style={{
+      background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+      padding: '16px 20px',
+      borderRadius: '8px',
+      marginBottom: '16px',
+      color: 'white',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem' }}>🌍 Translations</h3>
+          {translationStats ? (
+            <div style={{ fontSize: '0.875rem', opacity: 0.9 }}>
+              <span style={{ marginRight: '16px' }}>
+                📝 Names: {translationStats.has_name_en}/{translationStats.total} 
+                ({Math.round(translationStats.has_name_en * 100 / translationStats.total)}%)
+              </span>
+              <span style={{ marginRight: '16px' }}>
+                📄 Descriptions: {translationStats.has_desc_en}/{translationStats.total}
+                ({Math.round(translationStats.has_desc_en * 100 / translationStats.total)}%)
+              </span>
+              <span style={{ marginRight: '16px' }}>
+                ⚡ Passives: {translationStats.has_passive}
+              </span>
+              <span>
+                🎯 Actives: {translationStats.has_active}
+              </span>
+            </div>
+          ) : (
+            <p style={{ margin: 0, fontSize: '0.875rem', opacity: 0.9 }}>
+              Fetch English translations from Fandom Wiki
+            </p>
+          )}
+        </div>
+        <button
+          onClick={handleFetchTranslations}
+          disabled={translating}
+          style={{
+            padding: '10px 20px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            backgroundColor: translating ? '#9ca3af' : 'white',
+            color: '#06b6d4',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: translating ? 'not-allowed' : 'pointer',
+            transition: 'all 0.2s',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          {translating ? '⏳ Fetching...' : '🌐 Fetch Translations'}
+        </button>
+      </div>
+    </div>
+
+    {/* Translation Results */}
+    {translationResults && (
+      <div style={{
+        padding: '16px',
+        borderRadius: '8px',
+        marginBottom: '20px',
+        backgroundColor: translationResults.failed > 0 ? '#fef3c7' : '#d1fae5',
+        border: `1px solid ${translationResults.failed > 0 ? '#fbbf24' : '#10b981'}`
+      }}>
+        <h4 style={{ margin: '0 0 8px 0' }}>Translation Results:</h4>
+        <p style={{ margin: '4px 0' }}>✅ Updated: {translationResults.updated}</p>
+        <p style={{ margin: '4px 0' }}>⏭️ Skipped (already translated): {translationResults.skipped}</p>
+        <p style={{ margin: '4px 0' }}>❌ Failed: {translationResults.failed}</p>
+        <p style={{ margin: '4px 0' }}>📊 Total: {translationResults.total}</p>
+      </div>
+    )}
+
     {/* Bulk Update Banner */}
     <div style={{
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -188,7 +317,27 @@ function ItemList({ items, onEdit, onDelete, gameId, onUpdate }) {
                 </div>
               )}
             </td>
-            <td><strong>{item.name}</strong></td>
+            <td>
+              <strong>{item.name}</strong>
+              {item.name_uk && (
+                <div style={{ 
+                  fontSize: '0.85rem', 
+                  color: '#0066cc',
+                  marginTop: '4px'
+                }}>
+                  🇺🇦 {item.name_uk}
+                </div>
+              )}
+              {item.name_en && item.name_en !== item.name && (
+                <div style={{ 
+                  fontSize: '0.85rem', 
+                  color: '#666',
+                  marginTop: '2px'
+                }}>
+                  🇬🇧 {item.name_en}
+                </div>
+              )}
+            </td>
             <td>
               <span style={{
                 padding: '4px 8px',

@@ -139,7 +139,7 @@ function HeroRanksManager({ selectedGame }) {
         setMessage(
           `📊 Статистика (${days}д, ${rank}):\n` +
           `Всього героїв: ${total}\n` +
-          `Топ-1: ${topHero.name} - WR: ${topHero.win_rate.toFixed(2)}%, Ban: ${topHero.ban_rate.toFixed(2)}%, Pick: ${topHero.appearance_rate.toFixed(2)}%\n` +
+          `Топ-1: ${topHero.name} - WR: ${topHero.win_rate.toFixed(2)}%, Ban: ${topHero.ban_rate.toFixed(2)}%, Pick: ${(topHero.appearance_rate * 100).toFixed(2)}%\n` +
           `Оновлено: ${new Date(topHero.updated_at).toLocaleString()}`
         );
       } else {

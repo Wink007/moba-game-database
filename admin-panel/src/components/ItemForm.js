@@ -8,14 +8,24 @@ function ItemForm({ item, gameId, onClose, onSave }) {
   const [recipeSearch, setRecipeSearch] = useState('');
   const [formData, setFormData] = useState({
     name: '',
+    name_en: '',
+    name_uk: '',
     category: 'Attack',
     price_total: 0,
     price_sell: 0,
     description: '',
+    description_en: '',
+    description_uk: '',
     icon_url: '',
     attributes: {},
     passive_name: '',
+    passive_name_uk: '',
     passive_description: '',
+    passive_description_uk: '',
+    active_name: '',
+    active_name_uk: '',
+    active_description: '',
+    active_description_uk: '',
     stats_other: '',
     recipe: [],
     upgrades_to: [],
@@ -79,14 +89,24 @@ function ItemForm({ item, gameId, onClose, onSave }) {
       
       setFormData({
         name: item.name || '',
+        name_en: item.name_en || '',
+        name_uk: item.name_uk || '',
         category: item.category || 'Attack',
         price_total: item.price_total || 0,
         price_sell: item.price_sell || 0,
         description: item.description || '',
+        description_en: item.description_en || '',
+        description_uk: item.description_uk || '',
         icon_url: item.icon_url || '',
         attributes: item.attributes || {},
         passive_name: item.passive_name || '',
+        passive_name_uk: item.passive_name_uk || '',
         passive_description: item.passive_description || '',
+        passive_description_uk: item.passive_description_uk || '',
+        active_name: item.active_name || '',
+        active_name_uk: item.active_name_uk || '',
+        active_description: item.active_description || '',
+        active_description_uk: item.active_description_uk || '',
         stats_other: item.stats_other || '',
         recipe: recipeArray,
         upgrades_to: upgradesArray,
@@ -134,18 +154,52 @@ function ItemForm({ item, gameId, onClose, onSave }) {
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto'}}>
         <h3>{item ? '✏️ Edit Item' : '➕ Add Item'}</h3>
         <form onSubmit={handleSubmit}>
+          <h4 style={{marginTop: '0', marginBottom: '1rem', color: '#0066cc'}}>🌐 Names / Назви</h4>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
             <div className="form-group">
-              <label>Item Name*</label>
+              <label>Item Name* (EN)</label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                placeholder="Berserker's Fury"
+                placeholder="Haas's Claws"
               />
             </div>
 
+            <div className="form-group">
+              <label>🇺🇦 Українська назва</label>
+              <input
+                type="text"
+                value={formData.name_uk || ''}
+                onChange={(e) => setFormData({ ...formData, name_uk: e.target.value })}
+                placeholder="Кігті Хааса"
+              />
+            </div>
+          </div>
+
+          <h4 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>📝 Descriptions / Описи</h4>
+          <div className="form-group">
+            <label>Description (EN)</label>
+            <textarea
+              value={formData.description_en || formData.description}
+              onChange={(e) => setFormData({ ...formData, description_en: e.target.value })}
+              placeholder="Grants lifesteal and cooldown reduction..."
+              rows="2"
+            />
+          </div>
+          <div className="form-group">
+            <label>🇺🇦 Опис українською</label>
+            <textarea
+              value={formData.description_uk || ''}
+              onChange={(e) => setFormData({ ...formData, description_uk: e.target.value })}
+              placeholder="Надає крадіжку здоров'я та зменшення перезарядки..."
+              rows="2"
+            />
+          </div>
+
+          <h4 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>💰 Price & Category</h4>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
             <div className="form-group">
               <label>Category*</label>
               <select
@@ -394,11 +448,67 @@ function ItemForm({ item, gameId, onClose, onSave }) {
             />
           </div>
           <div className="form-group">
+            <label>🇺🇦 Назва пасивної українською</label>
+            <input
+              type="text"
+              value={formData.passive_name_uk || ''}
+              onChange={(e) => setFormData({ ...formData, passive_name_uk: e.target.value })}
+              placeholder="Рок"
+            />
+          </div>
+          <div className="form-group">
             <label>Passive Description</label>
             <textarea
               value={formData.passive_description}
               onChange={(e) => setFormData({ ...formData, passive_description: e.target.value })}
               placeholder="Unique Passive - Doom: Critical strikes grant 5% extra Physical Attack..."
+              rows="3"
+            />
+          </div>
+          <div className="form-group">
+            <label>🇺🇦 Опис пасивної українською</label>
+            <textarea
+              value={formData.passive_description_uk || ''}
+              onChange={(e) => setFormData({ ...formData, passive_description_uk: e.target.value })}
+              placeholder="Унікальна пасивна - Рок: Критичні удари надають..."
+              rows="3"
+            />
+          </div>
+
+          <h4 style={{marginTop: '1.5rem', marginBottom: '1rem'}}>🎯 Active Ability / Активна здібність</h4>
+          <div className="form-group">
+            <label>Active Name</label>
+            <input
+              type="text"
+              value={formData.active_name || ''}
+              onChange={(e) => setFormData({ ...formData, active_name: e.target.value })}
+              placeholder="Sprint"
+            />
+          </div>
+          <div className="form-group">
+            <label>🇺🇦 Назва активної українською</label>
+            <input
+              type="text"
+              value={formData.active_name_uk || ''}
+              onChange={(e) => setFormData({ ...formData, active_name_uk: e.target.value })}
+              placeholder="Спринт"
+            />
+          </div>
+          <div className="form-group">
+            <label>Active Description</label>
+            <textarea
+              value={formData.active_description || ''}
+              onChange={(e) => setFormData({ ...formData, active_description: e.target.value })}
+              placeholder="Increases movement speed by 30%..."
+              rows="3"
+            />
+          </div>
+          <div className="form-group">
+            <label>🇺🇦 Опис активної українською</label>
+            <textarea
+              value={formData.active_description_uk || ''}
+              onChange={(e) => setFormData({ ...formData, active_description_uk: e.target.value })}
+              placeholder="Збільшує швидкість пересування на 30%..."
               rows="3"
             />
           </div>
