@@ -10123,25 +10123,11 @@
         "emblem_adjustments": {
             "Fighter Emblem": {
                 "badge": "NERF",
-                "description": "The Fighter Emblem was too versatile, so we've slightly reduced its Attack.",
-                "sections": [
-                    {
-                        "badge": "NERF",
-                        "name": "Attribute",
-                        "description": "Hybrid Attack: 22 >> 16"
-                    }
-                ]
+                "description": "The Fighter Emblem was too versatile, so we've slightly reduced its Attack.<br/><br/>Hybrid Attack: 22 >> 16"
             },
             "Marksman Emblem": {
                 "badge": "ADJUST",
-                "description": "To improve the uniqueness of the Marksman Emblem, we've changed the Lifesteal attribute to Adaptive Penetration.",
-                "sections": [
-                    {
-                        "badge": "ADJUST",
-                        "name": "Attribute",
-                        "description": "5% Lifesteal >> 5% Adaptive Penetration"
-                    }
-                ]
+                "description": "To improve the uniqueness of the Marksman Emblem, we've changed the Lifesteal attribute to Adaptive Penetration.<br/><br/>5% Lifesteal >> 5% Adaptive Penetration"
             }
         },
         "hero_adjustments": {
