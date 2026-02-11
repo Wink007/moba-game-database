@@ -656,6 +656,41 @@ def update_hero(hero_id):
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/heroes/<int:hero_id>/counter-compat', methods=['PUT'])
+def update_hero_counter_compat(hero_id):
+    """Update only counter_data and compatibility_data for a hero."""
+    try:
+        data = request.json
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        
+        updates = []
+        params = []
+        
+        if 'counter_data' in data:
+            updates.append(f"counter_data = {db.get_placeholder()}")
+            params.append(json.dumps(data['counter_data']) if data['counter_data'] else None)
+        
+        if 'compatibility_data' in data:
+            updates.append(f"compatibility_data = {db.get_placeholder()}")
+            params.append(json.dumps(data['compatibility_data']) if data['compatibility_data'] else None)
+        
+        if not updates:
+            return jsonify({'error': 'No data to update'}), 400
+        
+        params.append(hero_id)
+        query = f"UPDATE heroes SET {', '.join(updates)} WHERE id = {db.get_placeholder()}"
+        cursor.execute(query, params)
+        conn.commit()
+        db.release_connection(conn)
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"ERROR updating counter/compat for hero {hero_id}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/heroes/<int:hero_id>', methods=['DELETE'])
 def delete_hero(hero_id):
     
