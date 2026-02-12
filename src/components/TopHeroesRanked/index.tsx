@@ -32,19 +32,6 @@ export const TopHeroesRanked = () => {
 
   if (!selectedGameId) return null;
   if (isError) return <div className={styles.error}>{t('heroRank.noData')}</div>;
-  
-  if (isLoading) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>{t('home.topHeroesRanking')}</h2>
-          <div className={styles.periodSkeleton} />
-        </div>
-        <HeroRankSkeleton />
-      </div>
-    );
-  }
-  
   if (!heroRanks || heroRanks.length === 0) return null;
 
   return (
@@ -83,21 +70,21 @@ export const TopHeroesRanked = () => {
               <div className={styles.stat}>
                 <span className={styles.statLabel}>{t('home.stats.winRate')}</span>
                 <span className={styles.statValue}>
-                  {(hero.win_rate * 100).toFixed(2)}%
+                  {hero.win_rate.toFixed(2)}%
                 </span>
               </div>
               
               <div className={styles.stat}>
                 <span className={styles.statLabel}>{t('home.stats.pickRate')}</span>
                 <span className={styles.statValue}>
-                  {(hero.appearance_rate * 100).toFixed(2)}%
+                  {hero.appearance_rate.toFixed(2)}%
                 </span>
               </div>
               
               <div className={styles.stat}>
                 <span className={styles.statLabel}>{t('home.stats.banRate')}</span>
                 <span className={styles.statValue}>
-                  {(hero.ban_rate * 100).toFixed(2)}%
+                  {hero.ban_rate.toFixed(2)}%
                 </span>
               </div>
             </div>
