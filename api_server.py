@@ -98,8 +98,8 @@ def get_heroes():
     name = request.args.get('name')
     limit = request.args.get('limit')
     
-    # Завантажуємо без skills, relation, counter_data та compatibility_data (вони в окремих endpoints)
-    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=False, include_compatibility_data=False)
+    # Include counter_data and compatibility_data by default
+    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=True, include_compatibility_data=True)
     
     # Фільтруємо по імені якщо вказано
     if name:
