@@ -3046,4 +3046,48 @@ def migrate_equipment_fields():
         print(f"Error migrating fields: {e}")
         return jsonify({'error': str(e)}), 500
 
-
+@app.route('/api/heroes/sync-moonton-data', methods=['POST'])
+def sync_moonton_data():
+    """
+    Оновлює counter_data та compatibility_data для всіх героїв з Moonton API
+    Параметри:
+    - game_id (опціонально): ID гри для фільтрації героїв (default: 2 для Mobile Legends)
+    """
+    try:
+        import subprocess
+        import threading
+        
+        game_id = request.json.get('game_id', 2) if request.json else 2
+        
+        # Запускаємо скрипт в окремому потоці, щоб API не блокувався
+        def run_sync():
+            try:
+                result = subprocess.run(
+                    ['python3', 'fetch_all_counter_stats.py'],
+                    cwd=os.path.dirname(os.path.abspath(__file__)),
+                    capture_output=True,
+                    text=True,
+                    timeout=600  # 10 хвилин максимум
+                )
+                print("✅ Moonton sync completed:")
+                print(result.stdout)
+                if result.stderr:
+                    print("Errors:", result.stderr)
+            except subprocess.TimeoutExpired:
+                print("⏱️ Moonton sync timeout (>10 min)")
+            except Exception as e:
+                print(f"❌ Moonton sync error: {e}")
+        
+        # Запускаємо асинхронно
+        thread = threading.Thread(target=run_sync, daemon=True)
+        thread.start()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Moonton data sync started. This will take 5-7 minutes for all heroes.',
+            'estimated_time': '5-7 minutes'
+        })
+        
+    except Exception as e:
+        print(f"Error starting Moonton sync: {e}")
+        return jsonify({'error': str(e)}), 500

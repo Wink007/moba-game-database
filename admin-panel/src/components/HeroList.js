@@ -11,6 +11,7 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   const [transformedState, setTransformedState] = useState({});
   const [transformationIndex, setTransformationIndex] = useState({});
   const [isUpdatingAll, setIsUpdatingAll] = useState(false);
+  const [isSyncingMoonton, setIsSyncingMoonton] = useState(false);
   const itemsPerPage = 10;
   
   // Функція для отримання skills героя
@@ -69,16 +70,34 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   const uniqueRoles = [...new Set(heroes.flatMap(h => h.roles || []))];
 
   const handleUpdateAllSkills = async () => {
-    if (!window.confirm('Update skills for ALL heroes? This may take several minutes.')) {
+    // Ask for auth token
+    const authToken = window.prompt(
+      '🔑 Enter Moonton API auth token:\n\n' +
+      'Get token from: https://api.gms.moontontech.com\n' +
+      'Example: WS4idfyEnXVoAhjH1ZmQhPIwrak=\n\n' +
+      '⚠️ Note: Tokens expire frequently, get a fresh one if needed.',
+      'WS4idfyEnXVoAhjH1ZmQhPIwrak='
+    );
+
+    // If user cancels the prompt, return
+    if (authToken === null || !authToken.trim()) {
+      alert('⚠️ Auth token is required to update skills from Moonton API');
+      return;
+    }
+
+    if (!window.confirm(`🚀 Update skills for ALL ${heroes.length} heroes using Moonton GMS API?\n\nThis will take ~1-2 minutes.`)) {
       return;
     }
 
     setIsUpdatingAll(true);
     
     try {
-      const response = await axios.post(`${API_URL}/heroes/update-all-skills`, {
-        game_id: heroes[0]?.game_id || 2
-      });
+      const payload = {
+        game_id: heroes[0]?.game_id || 2,
+        auth_token: authToken.trim()
+      };
+
+      const response = await axios.post(`${API_URL}/heroes/update-all-skills-moonton`, payload);
 
       const results = response.data.results;
       
@@ -101,9 +120,35 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
       }
     } catch (error) {
       console.error('Error updating all skills:', error);
-      alert(`Error: ${error.response?.data?.error || error.message}`);
+      const errorMsg = error.response?.data?.error || error.message;
+      alert(`❌ Error: ${errorMsg}\n\nMake sure:\n1. API server is running (python3 api_server.py)\n2. Auth token is valid and not expired`);
     } finally {
       setIsUpdatingAll(false);
+    }
+  };
+
+  const handleSyncMoontonData = async () => {
+    if (!window.confirm(`🔄 Sync Counter & Compatibility data for ALL ${heroes.length} heroes from Moonton?\n\nThis will:\n✓ Update counter_data (best counters, most countered by)\n✓ Update compatibility_data (compatible, not compatible teammates)\n✓ Update main_hero_win_rate for each hero\n\n⏱️ Estimated time: 5-7 minutes (rate limited to 1 request/sec)`)) {
+      return;
+    }
+
+    setIsSyncingMoonton(true);
+    
+    try {
+      const payload = {
+        game_id: heroes[0]?.game_id || 2
+      };
+
+      const response = await axios.post(`${API_URL}/heroes/sync-moonton-data`, payload);
+
+      alert(`✅ ${response.data.message}\n\n⏱️ ${response.data.estimated_time}\n\nThe sync is running in the background. You can continue working and refresh the page in 5-7 minutes to see updated data.`);
+      
+    } catch (error) {
+      console.error('Error syncing Moonton data:', error);
+      const errorMsg = error.response?.data?.error || error.message;
+      alert(`❌ Error: ${errorMsg}\n\nMake sure:\n1. API server is running (python3 api_server.py)\n2. Database has counter_data and compatibility_data columns`);
+    } finally {
+      setIsSyncingMoonton(false);
     }
   };
 
@@ -121,9 +166,12 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
         color: 'white'
       }}>
         <div>
-          <strong style={{ fontSize: '1.1rem' }}>🔄 Bulk Skills Update</strong>
+          <strong style={{ fontSize: '1.1rem' }}>🔄 Bulk Skills Update (Moonton API)</strong>
           <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', opacity: 0.9 }}>
-            Update skill descriptions and order for all heroes from external API
+            Update skills from official Moonton GMS API with name-based matching (~1-2 min for {heroes.length} heroes)
+          </p>
+          <p style={{ margin: '5px 0 0 0', fontSize: '0.8rem', opacity: 0.8 }}>
+            ⚠️ Requires: 1) API server running locally, 2) Valid Moonton auth token
           </p>
         </div>
         <button
@@ -153,6 +201,56 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
           }}
         >
           {isUpdatingAll ? '⏳ Updating...' : '🚀 Update All Heroes'}
+        </button>
+      </div>
+
+      {/* Moonton Counter/Compatibility Sync Button */}
+      <div style={{
+        marginBottom: '15px',
+        padding: '15px',
+        background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+        borderRadius: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        color: 'white'
+      }}>
+        <div>
+          <strong style={{ fontSize: '1.1rem' }}>🎯 Sync Counter & Compatibility Data (Moonton)</strong>
+          <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', opacity: 0.9 }}>
+            Update counter relationships and teammate compatibility from Moonton API for all {heroes.length} heroes
+          </p>
+          <p style={{ margin: '5px 0 0 0', fontSize: '0.8rem', opacity: 0.8 }}>
+            ⏱️ Takes 5-7 minutes (rate limited: 1 request/sec) • Updates: best_counters, most_countered_by, compatible, not_compatible
+          </p>
+        </div>
+        <button
+          onClick={handleSyncMoontonData}
+          disabled={isSyncingMoonton || heroes.length === 0}
+          style={{
+            padding: '12px 24px',
+            background: isSyncingMoonton ? 'rgba(255,255,255,0.3)' : 'white',
+            color: isSyncingMoonton ? 'white' : '#f5576c',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: isSyncingMoonton || heroes.length === 0 ? 'not-allowed' : 'pointer',
+            fontWeight: '700',
+            fontSize: '0.95rem',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            if (!isSyncingMoonton && heroes.length > 0) {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 6px 8px rgba(0,0,0,0.15)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+          }}
+        >
+          {isSyncingMoonton ? '⏳ Syncing...' : '🔄 Sync Moonton Data'}
         </button>
       </div>
 
