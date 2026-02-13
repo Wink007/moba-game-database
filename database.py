@@ -462,11 +462,8 @@ def get_hero(hero_id):
         else:
             hero['pro_builds'] = []
         
-        # Видаляємо counter_data - він завантажується окремо через /api/heroes/counter-data
-        hero.pop('counter_data', None)
-        
-        # Видаляємо compatibility_data - він завантажується окремо через /api/heroes/compatibility-data
-        hero.pop('compatibility_data', None)
+        # NOTE: Повертаємо counter_data та compatibility_data в об'єкті героя
+        # Фронтенд очікує ці дані в об'єкті героя для відображення Counter Relationship
         
         return hero
     return None
