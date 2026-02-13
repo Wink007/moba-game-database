@@ -465,6 +465,19 @@ def get_hero(hero_id):
         # NOTE: Повертаємо counter_data та compatibility_data в об'єкті героя
         # Фронтенд очікує ці дані в об'єкті героя для відображення Counter Relationship
         
+        # Парсимо JSONB поля counter_data та compatibility_data з string в object
+        if hero.get('counter_data') and isinstance(hero['counter_data'], str):
+            try:
+                hero['counter_data'] = json.loads(hero['counter_data'])
+            except:
+                hero['counter_data'] = None
+        
+        if hero.get('compatibility_data') and isinstance(hero['compatibility_data'], str):
+            try:
+                hero['compatibility_data'] = json.loads(hero['compatibility_data'])
+            except:
+                hero['compatibility_data'] = None
+        
         return hero
     return None
 
