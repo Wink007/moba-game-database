@@ -162,25 +162,26 @@ function HeroRanksManager({ selectedGame }) {
       return;
     }
 
-    if (!window.confirm('🔄 Оновити статистику героїв (Ban/Pick/Win Rates)?\n\nЦе оновить базу даних з файлу mlbb_heroes_stats.json\n\n⚠️ Якщо потрібні свіжі дані - спочатку запустіть:\npython3 fetch_all_heroes_stats.py <TOKEN>')) {
+    if (!authToken || authToken.trim() === '') {
+      setMessage('❌ Введіть токен авторизації! Візьміть його з https://m.mobilelegends.com/en/rank (DevTools → Network → rank → Authorization header)');
+      return;
+    }
+
+    if (!window.confirm('🔄 Оновити статистику героїв (Ban/Pick/Win Rates)?\n\nЦе завантажить свіжі дані з Moonton API та оновить базу даних.\n\n⏱️ Займе ~1-2 хвилини')) {
       return;
     }
 
     setLoading(true);
-    setMessage('💾 Оновлення бази даних...');
+    setMessage('🔄 Завантаження та оновлення статистик з Moonton API...');
 
     try {
-      const response = await axios.post(`${API_URL}/mlbb/heroes/update-stats`, {
-        game_id: selectedGame.id
+      const response = await axios.post(`${API_URL}/mlbb/heroes/fetch-and-update-stats`, {
+        game_id: selectedGame.id,
+        auth_token: authToken.trim()
       });
 
       setLastUpdate(new Date().toLocaleString());
-      setMessage(`✅ Статистика оновлена! Оновлено: ${response.data.updated}, Пропущено: ${response.data.skipped}, Помилки: ${response.data.errors}`);
-      
-      if (response.data.top_banned && response.data.top_banned.length > 0) {
-        const top5 = response.data.top_banned.slice(0, 5).map(h => `${h.name} (${h.ban_rate.toFixed(2)}%)`).join(', ');
-        setMessage(prev => prev + `\n\n🚫 Топ-5 банів: ${top5}`);
-      }
+      setMessage(`✅ ${response.data.message}\n\nОновлено: ${response.data.updated}, Пропущено: ${response.data.skipped}, Помилки: ${response.data.errors}`);
     } catch (error) {
       console.error('Update stats error:', error);
       setMessage(`❌ Помилка: ${error.response?.data?.error || error.message}`);
