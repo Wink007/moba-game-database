@@ -128,6 +128,18 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   };
 
   const handleSyncMoontonData = async () => {
+    const authToken = prompt(
+      '🔑 Enter Moonton Authorization Token:\n\n' +
+      'Get it from: https://m.mobilelegends.com/en/rank\n' +
+      'Open DevTools → Network → rank → Headers → authorization\n\n' +
+      'Paste token here:'
+    );
+
+    if (!authToken || !authToken.trim()) {
+      alert('❌ Authorization token is required!');
+      return;
+    }
+
     if (!window.confirm(`🔄 Sync Counter & Compatibility data for ALL ${heroes.length} heroes from Moonton?\n\nThis will:\n✓ Update counter_data (best counters, most countered by)\n✓ Update compatibility_data (compatible, not compatible teammates)\n✓ Update main_hero_win_rate for each hero\n\n⏱️ Estimated time: 5-7 minutes (rate limited to 1 request/sec)`)) {
       return;
     }
@@ -136,7 +148,8 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
     
     try {
       const payload = {
-        game_id: heroes[0]?.game_id || 2
+        game_id: heroes[0]?.game_id || 2,
+        auth_token: authToken.trim()
       };
 
       const response = await axios.post(`${API_URL}/heroes/sync-moonton-data`, payload);
@@ -146,7 +159,7 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
     } catch (error) {
       console.error('Error syncing Moonton data:', error);
       const errorMsg = error.response?.data?.error || error.message;
-      alert(`❌ Error: ${errorMsg}\n\nMake sure:\n1. API server is running (python3 api_server.py)\n2. Database has counter_data and compatibility_data columns`);
+      alert(`❌ Error: ${errorMsg}\n\nMake sure:\n1. API server is running (python3 api_server.py)\n2. Authorization token is valid\n3. Database has counter_data and compatibility_data columns`);
     } finally {
       setIsSyncingMoonton(false);
     }

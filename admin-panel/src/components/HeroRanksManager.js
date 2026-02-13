@@ -162,8 +162,12 @@ function HeroRanksManager({ selectedGame }) {
       return;
     }
 
+    if (!window.confirm('🔄 Оновити статистику героїв (Ban/Pick/Win Rates)?\n\nЦе оновить базу даних з файлу mlbb_heroes_stats.json\n\n⚠️ Якщо потрібні свіжі дані - спочатку запустіть:\npython3 fetch_all_heroes_stats.py <TOKEN>')) {
+      return;
+    }
+
     setLoading(true);
-    setMessage('🔄 Оновлення статистики героїв з Moonton API...');
+    setMessage('💾 Оновлення бази даних...');
 
     try {
       const response = await axios.post(`${API_URL}/mlbb/heroes/update-stats`, {

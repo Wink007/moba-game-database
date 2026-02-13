@@ -98,8 +98,8 @@ def get_heroes():
     name = request.args.get('name')
     limit = request.args.get('limit')
     
-    # Include counter_data and compatibility_data by default
-    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=True, include_compatibility_data=True)
+    # Завантажуємо без skills, relation, counter_data та compatibility_data (вони в окремих endpoints)
+    heroes = db.get_heroes(game_id, include_details=True, include_skills=False, include_relation=False, include_counter_data=False, include_compatibility_data=False)
     
     # Фільтруємо по імені якщо вказано
     if name:
@@ -362,6 +362,57 @@ def get_all_heroes_compatibility_data():
     
     return jsonify(compatibility_data_by_hero)
 
+@app.route('/api/mlbb/heroes/fetch-fresh-stats', methods=['POST'])
+def fetch_fresh_mlbb_stats():
+    """Запускає fetch_all_heroes_stats.py для оновлення mlbb_heroes_stats.json з Moonton API"""
+    try:
+        data = request.get_json() or {}
+        auth_token = data.get('auth_token')
+        
+        if not auth_token:
+            return jsonify({
+                'error': 'Authorization token is required. Please provide auth_token in request body.'
+            }), 400
+        
+        import threading
+        import subprocess
+        import sys
+        
+        def run_script():
+            try:
+                print("[INFO] Starting fetch_all_heroes_stats.py...")
+                env = os.environ.copy()
+                env['MOONTON_AUTH_TOKEN'] = auth_token
+                
+                result = subprocess.run(
+                    [sys.executable, 'fetch_all_heroes_stats.py'],
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                    cwd=os.path.dirname(os.path.abspath(__file__)),
+                    env=env
+                )
+                print(f"[INFO] Script completed with exit code {result.returncode}")
+                if result.stdout:
+                    print(f"[STDOUT] {result.stdout}")
+                if result.stderr:
+                    print(f"[STDERR] {result.stderr}")
+            except Exception as e:
+                print(f"[ERROR] Failed to run script: {e}")
+        
+        thread = threading.Thread(target=run_script)
+        thread.daemon = True
+        thread.start()
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Fetching fresh hero statistics from Moonton API started. This will update mlbb_heroes_stats.json file.',
+            'estimated_time': '30-60 seconds'
+        }), 202
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/mlbb/heroes/update-stats', methods=['POST'])
 def update_mlbb_heroes_stats():
     """Оновлює статистику героїв (ban/pick/win rates + counter data) з mlbb_heroes_stats.json
@@ -423,49 +474,14 @@ def update_mlbb_heroes_stats():
                 
                 hero_db_id = result[0]
                 
-                # Підготовка counter_data
-                counter_data = {
-                    'allies': [],
-                    'counters': []
-                }
-                
-                # Союзники (sub_hero - найкращі синергії)
-                if raw_data.get('sub_hero'):
-                    for ally in raw_data['sub_hero'][:5]:
-                        counter_data['allies'].append({
-                            'hero_id': ally.get('sub_heroid'),
-                            'increase_win_rate': ally.get('increase_win_rate', 0)
-                        })
-                
-                # Контри (sub_hero_last - найгірші проти)
-                if raw_data.get('sub_hero_last'):
-                    for counter in raw_data['sub_hero_last'][:5]:
-                        counter_data['counters'].append({
-                            'hero_id': counter.get('sub_heroid'),
-                            'increase_win_rate': counter.get('increase_win_rate', 0)
-                        })
-                
-                counter_data_json = json.dumps(counter_data)
-                
-                # Оновлюємо БД
-                if db.DATABASE_TYPE == 'postgres':
-                    cursor.execute(f"""
-                        UPDATE heroes 
-                        SET main_hero_ban_rate = {ph},
-                            main_hero_appearance_rate = {ph},
-                            main_hero_win_rate = {ph},
-                            counter_data = {ph}::jsonb
-                        WHERE id = {ph}
-                    """, (ban_rate, pick_rate, win_rate, counter_data_json, hero_db_id))
-                else:
-                    cursor.execute(f"""
-                        UPDATE heroes 
-                        SET main_hero_ban_rate = {ph},
-                            main_hero_appearance_rate = {ph},
-                            main_hero_win_rate = {ph},
-                            counter_data = {ph}
-                        WHERE id = {ph}
-                    """, (ban_rate, pick_rate, win_rate, counter_data_json, hero_db_id))
+                # Оновлюємо тільки ban/pick/win rates (counter_data оновлюється окремим скриптом)
+                cursor.execute(f"""
+                    UPDATE heroes 
+                    SET main_hero_ban_rate = {ph},
+                        main_hero_appearance_rate = {ph},
+                        main_hero_win_rate = {ph}
+                    WHERE id = {ph}
+                """, (ban_rate, pick_rate, win_rate, hero_db_id))
                 
                 updated += 1
                 
@@ -496,6 +512,60 @@ def update_mlbb_heroes_stats():
             'total': len(statistics),
             'top_banned': top_banned[:10]
         })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/heroes/sync-moonton-data', methods=['POST'])
+def sync_moonton_counter_data():
+    """Запускає update_moonton_stats_final.py для оновлення counter_data та compatibility_data"""
+    try:
+        data = request.get_json() or {}
+        game_id = data.get('game_id', 2)
+        auth_token = data.get('auth_token')
+        
+        if not auth_token:
+            return jsonify({
+                'error': 'Authorization token is required. Please provide auth_token in request body.'
+            }), 400
+        
+        # Запускаємо скрипт в окремому потоці
+        import threading
+        import subprocess
+        import sys
+        
+        def run_script():
+            try:
+                print("[INFO] Starting update_moonton_stats_final.py...")
+                # Створюємо копію environment і додаємо токен
+                env = os.environ.copy()
+                env['MOONTON_AUTH_TOKEN'] = auth_token
+                
+                result = subprocess.run(
+                    [sys.executable, 'update_moonton_stats_final.py'],
+                    capture_output=True,
+                    text=True,
+                    timeout=600,  # 10 хвилин максимум
+                    cwd=os.path.dirname(os.path.abspath(__file__)),
+                    env=env
+                )
+                print(f"[INFO] Script completed with exit code {result.returncode}")
+                if result.stdout:
+                    print(f"[STDOUT] {result.stdout}")
+                if result.stderr:
+                    print(f"[STDERR] {result.stderr}")
+            except Exception as e:
+                print(f"[ERROR] Failed to run script: {e}")
+        
+        thread = threading.Thread(target=run_script)
+        thread.daemon = True
+        thread.start()
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Counter & Compatibility data sync started. Updates: best_counters, most_countered_by, compatible, not_compatible for all heroes.',
+            'estimated_time': '5-7 minutes (rate limited: 1 request/sec)'
+        }), 202  # 202 Accepted
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -605,8 +675,7 @@ def update_hero(hero_id):
             data.get('counter_data', None),
             data.get('name_uk', None),  # Ukrainian name
             data.get('short_description_uk', None),  # Ukrainian short description
-            data.get('full_description_uk', None),  # Ukrainian full description
-            data.get('compatibility_data', None)  # Compatibility data
+            data.get('full_description_uk', None)  # Ukrainian full description
         )
         
         # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query
@@ -2466,235 +2535,6 @@ def update_all_heroes_skills():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/heroes/update-all-skills-moonton', methods=['POST'])
-def update_all_skills_from_moonton():
-    """Update all hero skills using Moonton GMS API with name-based matching
-    
-    Request body:
-        {
-            "game_id": 2,  // optional, default 2
-            "auth_token": "WS4idfyEnXVoAhjH1ZmQhPIwrak="  // REQUIRED - Moonton API auth token
-        }
-    
-    Returns:
-        {
-            "success": true,
-            "results": {
-                "total": 132,
-                "updated": 132,
-                "skipped": 0,
-                "failed": 0,
-                "errors": []
-            }
-        }
-    """
-    try:
-        import requests
-        import time
-        
-        # Get request data
-        data = request.get_json() or {}
-        game_id = data.get('game_id', 2)
-        auth_token = data.get('auth_token')
-        
-        if not auth_token:
-            return jsonify({
-                'success': False,
-                'error': 'auth_token is required. Moonton API tokens expire frequently, please provide a valid token.'
-            }), 400
-        
-        # Railway API base URL
-        RAILWAY_API_BASE = 'https://web-production-8570.up.railway.app/api'
-        
-        # Moonton GMS API configuration
-        MOONTON_BASE_URL = "https://api.gms.moontontech.com/api/gms/source/2669606"
-        MOONTON_HERO_ENDPOINT = "2756564"
-        
-        headers = {
-            'authorization': auth_token,
-            'Content-Type': 'application/json'
-        }
-        
-        results = {
-            'total': 0,
-            'updated': 0,
-            'skipped': 0,
-            'failed': 0,
-            'errors': []
-        }
-        
-        # Step 1: Fetch all heroes from Moonton API to create name→ID mapping
-        print("Fetching all heroes from Moonton API...")
-        try:
-            url = f"{MOONTON_BASE_URL}/{MOONTON_HERO_ENDPOINT}"
-            response = requests.get(url, headers=headers, timeout=30)
-            response.raise_for_status()
-            
-            moonton_data = response.json()
-            heroes_data = moonton_data.get('data', {}).get('records', [])
-            
-            if not heroes_data:
-                return jsonify({
-                    'success': False,
-                    'error': 'No heroes data received from Moonton API'
-                }), 500
-            
-            hero_data = heroes_data[0].get('data', {}).get('hero', {}).get('data', [])
-            
-            # Create name→ID mapping
-            moonton_name_to_id = {}
-            for hero in hero_data:
-                hero_name = hero.get('heroname', '').strip()
-                hero_id = hero.get('heroid')
-                if hero_name and hero_id:
-                    moonton_name_to_id[hero_name] = hero_id
-            
-            print(f"Found {len(moonton_name_to_id)} heroes in Moonton API")
-            
-        except Exception as e:
-            return jsonify({
-                'success': False,
-                'error': f'Failed to fetch heroes from Moonton API: {str(e)}'
-            }), 500
-        
-        # Step 2: Get all heroes from Railway database
-        railway_heroes = db.get_heroes(game_id=game_id)
-        results['total'] = len(railway_heroes)
-        
-        print(f"Found {len(railway_heroes)} heroes in Railway database")
-        
-        # Step 3: Process each hero
-        for hero in railway_heroes:
-            try:
-                railway_hero_id = hero['id']
-                hero_name = hero['name'].strip()
-                
-                print(f"\nProcessing hero: {hero_name} (Railway ID: {railway_hero_id})")
-                
-                # Find Moonton ID by name
-                moonton_hero_id = moonton_name_to_id.get(hero_name)
-                
-                if not moonton_hero_id:
-                    print(f"  ⚠️  Hero not found in Moonton API: {hero_name}")
-                    results['skipped'] += 1
-                    if len(results['errors']) < 10:
-                        results['errors'].append(f"{hero_name}: Not found in Moonton API")
-                    continue
-                
-                print(f"  Found Moonton ID: {moonton_hero_id}")
-                
-                # Fetch skills from Moonton
-                try:
-                    url = f"{MOONTON_BASE_URL}/{MOONTON_HERO_ENDPOINT}?heroId={moonton_hero_id}"
-                    response = requests.get(url, headers=headers, timeout=30)
-                    response.raise_for_status()
-                    
-                    skill_data = response.json()
-                    records = skill_data.get('data', {}).get('records', [])
-                    
-                    if not records:
-                        print(f"  ⚠️  No data for {hero_name}")
-                        results['skipped'] += 1
-                        continue
-                    
-                    hero_info = records[0].get('data', {}).get('hero', {}).get('data', [])
-                    if not hero_info:
-                        print(f"  ⚠️  No hero info for {hero_name}")
-                        results['skipped'] += 1
-                        continue
-                    
-                    skill_lists = hero_info[0].get('heroskilllist', [])
-                    if not skill_lists:
-                        print(f"  ⚠️  No skill lists for {hero_name}")
-                        results['skipped'] += 1
-                        continue
-                    
-                    moonton_skills = skill_lists[0].get('skilllist', [])
-                    
-                    if not moonton_skills:
-                        print(f"  ⚠️  No skills found for {hero_name}")
-                        results['skipped'] += 1
-                        continue
-                    
-                    print(f"  Found {len(moonton_skills)} skills from Moonton")
-                    
-                except Exception as e:
-                    print(f"  ❌ Error fetching skills: {e}")
-                    results['skipped'] += 1
-                    if len(results['errors']) < 10:
-                        results['errors'].append(f"{hero_name}: Error fetching skills - {str(e)}")
-                    continue
-                
-                # Get current skills from Railway
-                railway_skills = db.get_hero_skills(railway_hero_id)
-                print(f"  Found {len(railway_skills)} skills in Railway")
-                
-                # Update each skill via Railway API
-                updated_count = 0
-                for i, moonton_skill in enumerate(moonton_skills):
-                    skill_name = moonton_skill.get('skillname', '').strip()
-                    skill_description = moonton_skill.get('skilldesc', '').strip()
-                    skill_icon = moonton_skill.get('skillicon', '').strip()
-                    
-                    if not skill_name:
-                        continue
-                    
-                    # Find matching Railway skill by display_order (position-based matching)
-                    if i < len(railway_skills):
-                        railway_skill = railway_skills[i]
-                        skill_id = railway_skill['id']
-                        
-                        try:
-                            url = f"{RAILWAY_API_BASE}/heroes/{railway_hero_id}/skills/{skill_id}"
-                            
-                            payload = {
-                                'skill_name': skill_name,
-                                'skill_description': skill_description if skill_description else None,
-                                'skill_icon': skill_icon if skill_icon else None,
-                                'display_order': i
-                            }
-                            
-                            response = requests.put(url, json=payload, timeout=30)
-                            response.raise_for_status()
-                            updated_count += 1
-                            print(f"  ✅ Updated skill: {skill_name}")
-                        except Exception as e:
-                            print(f"  ❌ Failed to update skill {skill_name}: {e}")
-                
-                if updated_count > 0:
-                    results['updated'] += 1
-                    print(f"  ✅ Hero updated: {updated_count} skills")
-                else:
-                    results['skipped'] += 1
-                    print(f"  ⚠️  No skills updated")
-                
-                # Rate limiting: wait 0.5 seconds between heroes
-                time.sleep(0.5)
-                
-            except Exception as e:
-                results['failed'] += 1
-                error_msg = f"{hero.get('name', 'Unknown')}: {str(e)}"
-                if len(results['errors']) < 10:
-                    results['errors'].append(error_msg)
-                print(f"  ❌ Error: {error_msg}")
-        
-        if len(results['errors']) >= 10:
-            results['errors'].append('... (more errors not shown)')
-        
-        print(f"\n✅ Update complete!")
-        print(f"Total: {results['total']}, Updated: {results['updated']}, Skipped: {results['skipped']}, Failed: {results['failed']}")
-        
-        return jsonify({
-            'success': True,
-            'results': results
-        })
-        
-    except Exception as e:
-        import traceback
-        error_details = traceback.format_exc()
-        print(f"Error in update_all_skills_from_moonton: {error_details}")
-        return jsonify({'error': str(e)}), 500
-
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
@@ -3046,48 +2886,4 @@ def migrate_equipment_fields():
         print(f"Error migrating fields: {e}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/heroes/sync-moonton-data', methods=['POST'])
-def sync_moonton_data():
-    """
-    Оновлює counter_data та compatibility_data для всіх героїв з Moonton API
-    Параметри:
-    - game_id (опціонально): ID гри для фільтрації героїв (default: 2 для Mobile Legends)
-    """
-    try:
-        import subprocess
-        import threading
-        
-        game_id = request.json.get('game_id', 2) if request.json else 2
-        
-        # Запускаємо скрипт в окремому потоці, щоб API не блокувався
-        def run_sync():
-            try:
-                result = subprocess.run(
-                    ['python3', 'fetch_all_counter_stats.py'],
-                    cwd=os.path.dirname(os.path.abspath(__file__)),
-                    capture_output=True,
-                    text=True,
-                    timeout=600  # 10 хвилин максимум
-                )
-                print("✅ Moonton sync completed:")
-                print(result.stdout)
-                if result.stderr:
-                    print("Errors:", result.stderr)
-            except subprocess.TimeoutExpired:
-                print("⏱️ Moonton sync timeout (>10 min)")
-            except Exception as e:
-                print(f"❌ Moonton sync error: {e}")
-        
-        # Запускаємо асинхронно
-        thread = threading.Thread(target=run_sync, daemon=True)
-        thread.start()
-        
-        return jsonify({
-            'success': True,
-            'message': 'Moonton data sync started. This will take 5-7 minutes for all heroes.',
-            'estimated_time': '5-7 minutes'
-        })
-        
-    except Exception as e:
-        print(f"Error starting Moonton sync: {e}")
-        return jsonify({'error': str(e)}), 500
+

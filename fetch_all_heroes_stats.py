@@ -5,13 +5,30 @@
 import json
 import requests
 import time
+import sys
+import os
 from typing import Dict, List, Any
 
 # API Configuration
 API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
+
+# Читаємо токен з environment variable або з аргумента командного рядка
+AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN')
+
+if not AUTH_TOKEN and len(sys.argv) > 1:
+    AUTH_TOKEN = sys.argv[1]
+
+if not AUTH_TOKEN:
+    print("\n⚠️  Authorization token not provided!")
+    print("Usage: python3 fetch_all_heroes_stats.py <AUTH_TOKEN>")
+    print("   or: MOONTON_AUTH_TOKEN=<token> python3 fetch_all_heroes_stats.py")
+    print("\nGet token from: https://m.mobilelegends.com/en/rank")
+    print("Open DevTools → Network → rank → Headers → authorization")
+    sys.exit(1)
+
 HEADERS = {
     'accept': 'application/json, text/plain, */*',
-    'authorization': 'CciHBEvFRqQNHGj2djxdUSja7W4=',
+    'authorization': AUTH_TOKEN,
     'content-type': 'application/json;charset=UTF-8',
     'origin': 'https://www.mobilelegends.com',
     'referer': 'https://www.mobilelegends.com/',

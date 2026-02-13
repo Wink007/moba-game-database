@@ -5,9 +5,6 @@
 Збирає статистику для різних періодів (1/3/7/15/30 днів) та рангів
 """
 import os
-os.environ['DATABASE_URL'] = 'postgresql://postgres:AgAAUwYzsOuUEzuKvjSQIUUXaxoTfGIn@crossover.proxy.rlwy.net:34790/railway'
-os.environ['DATABASE_TYPE'] = 'postgres'
-
 import requests
 import json
 import time
@@ -17,8 +14,12 @@ from datetime import datetime
 # Moonton API configuration
 MOONTON_API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
 
-# Читаємо токен з environment variable або використовуємо дефолтний
-AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN', 'WS4idfyEnXVoAhjH1ZmQhPIwrak=')
+# Читаємо токен з environment variable
+AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN', '')
+
+if not AUTH_TOKEN:
+    print("❌ MOONTON_AUTH_TOKEN not set in environment!")
+    exit(1)
 
 HEADERS = {
     'accept': 'application/json, text/plain, */*',
@@ -45,10 +46,7 @@ BIGRANK_MAP = {
     'legend': '6',
     'mythic': '7',
     'honor': '8',
-    'glory': '9',
-    # Алиаси для сумісності
-    'mythic_honor': '8',
-    'mythic_glory': '9'
+    'glory': '9'
 }
 
 def fetch_hero_stats(days, rank, match_type=1):
@@ -57,7 +55,7 @@ def fetch_hero_stats(days, rank, match_type=1):
     
     Args:
         days: період (1, 3, 7, 15, 30)
-        rank: ранг (all, epic, legend, mythic, mythic_honor, mythic_glory)
+        rank: ранг (all, epic, legend, mythic, honor, glory)
         match_type: 0=Classic, 1=Ranked (default: 1)
     """
     source_id = SOURCE_IDS.get(days)
@@ -118,100 +116,76 @@ def fetch_hero_stats(days, rank, match_type=1):
     
     return all_heroes
 
-def update_hero_rank_in_db(cursor, hero_game_id, days, rank, ban_rate, pick_rate, win_rate, synergy_data, game_id=2):
-    """Оновлює або додає запис в hero_rank"""
-    ph = db.get_placeholder()
+def update_hero_rank_in_railway(hero_game_id, days, rank, ban_rate, pick_rate, win_rate, synergy_data, game_id=2):
+    """Оновлює або додає запис в hero_rank через Railway API"""
+    railway_api = "https://web-production-8570.up.railway.app/api"
     
     try:
-        # Знаходимо hero_id по hero_game_id
-        cursor.execute(f"SELECT id FROM heroes WHERE hero_game_id = {ph} AND game_id = {ph}", 
-                      (hero_game_id, game_id))
-        result = cursor.fetchone()
+        # Знаходимо героя
+        response = requests.get(f"{railway_api}/heroes?game_id={game_id}")
+        heroes = response.json()
         
-        if not result:
+        hero = next((h for h in heroes if h.get('hero_game_id') == hero_game_id), None)
+        if not hero:
             return False
         
-        hero_id = result[0]
+        hero_id = hero['id']
+        
+        # Перевіряємо чи існує запис hero_rank
+        check_response = requests.get(f"{railway_api}/hero-ranks?hero_id={hero_id}&days={days}&rank={rank}")
+        existing_ranks = check_response.json()
+        
         synergy_json = json.dumps(synergy_data) if synergy_data else None
         
-        # UPSERT: оновити або вставити
-        if db.DATABASE_TYPE == 'postgres':
-            cursor.execute(f"""
-                INSERT INTO hero_rank (hero_id, days, rank, ban_rate, appearance_rate, win_rate, synergy_heroes, updated_at)
-                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}::jsonb, NOW())
-                ON CONFLICT (hero_id, days, rank) 
-                DO UPDATE SET
-                    ban_rate = EXCLUDED.ban_rate,
-                    appearance_rate = EXCLUDED.appearance_rate,
-                    win_rate = EXCLUDED.win_rate,
-                    synergy_heroes = EXCLUDED.synergy_heroes,
-                    updated_at = NOW()
-            """, (hero_id, days, rank, ban_rate, pick_rate, win_rate, synergy_json))
-        else:
-            # SQLite fallback
-            cursor.execute(f"""
-                INSERT OR REPLACE INTO hero_rank 
-                (hero_id, days, rank, ban_rate, appearance_rate, win_rate, synergy_heroes, updated_at)
-                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, datetime('now'))
-            """, (hero_id, days, rank, ban_rate, pick_rate, win_rate, synergy_json))
+        data = {
+            'hero_id': hero_id,
+            'days': days,
+            'rank': rank,
+            'ban_rate': ban_rate,
+            'appearance_rate': pick_rate,
+            'win_rate': win_rate,
+            'synergy_heroes': synergy_json
+        }
         
-        return True
+        if existing_ranks and len(existing_ranks) > 0:
+            # Оновлюємо існуючий запис
+            rank_id = existing_ranks[0]['id']
+            update_response = requests.put(f"{railway_api}/hero-ranks/{rank_id}", json=data)
+            return update_response.status_code in [200, 204]
+        else:
+            # Створюємо новий запис
+            create_response = requests.post(f"{railway_api}/hero-ranks", json=data)
+            return create_response.status_code in [200, 201]
         
     except Exception as e:
-        print(f"    ❌ Помилка обробки героя: {e}")
+        print(f"    ❌ Помилка Railway API: {e}")
         return False
 
 def main():
     print("=" * 80)
     print("🎮 ОНОВЛЕННЯ HERO RANKS З MOONTON API")
     print("=" * 80)
+    print(f"🔑 Auth Token: {AUTH_TOKEN[:20]}...")
     
     # Комбінації для оновлення - всі можливі (5 періодів × 6 рангів = 30 комбінацій)
     combinations = [
         # 1 день
-        (1, 'all'),
-        (1, 'epic'),
-        (1, 'legend'),
-        (1, 'mythic'),
-        (1, 'honor'),
-        (1, 'glory'),
+        (1, 'all'), (1, 'epic'), (1, 'legend'), (1, 'mythic'), (1, 'honor'), (1, 'glory'),
         # 3 дні
-        (3, 'all'),
-        (3, 'epic'),
-        (3, 'legend'),
-        (3, 'mythic'),
-        (3, 'honor'),
-        (3, 'glory'),
+        (3, 'all'), (3, 'epic'), (3, 'legend'), (3, 'mythic'), (3, 'honor'), (3, 'glory'),
         # 7 днів
-        (7, 'all'),
-        (7, 'epic'),
-        (7, 'legend'),
-        (7, 'mythic'),
-        (7, 'honor'),
-        (7, 'glory'),
+        (7, 'all'), (7, 'epic'), (7, 'legend'), (7, 'mythic'), (7, 'honor'), (7, 'glory'),
         # 15 днів
-        (15, 'all'),
-        (15, 'epic'),
-        (15, 'legend'),
-        (15, 'mythic'),
-        (15, 'honor'),
-        (15, 'glory'),
+        (15, 'all'), (15, 'epic'), (15, 'legend'), (15, 'mythic'), (15, 'honor'), (15, 'glory'),
         # 30 днів
-        (30, 'all'),
-        (30, 'epic'),
-        (30, 'legend'),
-        (30, 'mythic'),
-        (30, 'honor'),
-        (30, 'glory')
+        (30, 'all'), (30, 'epic'), (30, 'legend'), (30, 'mythic'), (30, 'honor'), (30, 'glory')
     ]
     
-    conn = db.get_connection()
-    cursor = conn.cursor()
     total_updated = 0
     total_skipped = 0
     
-    for days, rank in combinations:
-        print(f"\n📊 Обробка: {days} днів, ранг {rank}")
+    for idx, (days, rank) in enumerate(combinations, 1):
+        print(f"\n[{idx}/30] 📊 Обробка: {days} днів, ранг {rank}")
         print("-" * 60)
         
         heroes = fetch_hero_stats(days, rank, match_type=1)
@@ -229,11 +203,11 @@ def main():
             try:
                 data = hero_data.get('data', {})
                 hero_game_id = data.get('main_heroid')
-                ban_rate = data.get('main_hero_ban_rate', 0) * 100  # Конвертуємо в %
-                pick_rate = data.get('main_hero_appearance_rate', 0) * 100
-                win_rate = data.get('main_hero_win_rate', 0) * 100
+                ban_rate = round(data.get('main_hero_ban_rate', 0) * 100, 2)
+                pick_rate = round(data.get('main_hero_appearance_rate', 0) * 100, 2)
+                win_rate = round(data.get('main_hero_win_rate', 0) * 100, 2)
                 
-                # Synergy heroes (top 5 allies)
+                # Synergy heroes (top 5 allies from sub_hero)
                 synergy_heroes = []
                 sub_hero = data.get('sub_hero', [])
                 if sub_hero and isinstance(sub_hero, list):
@@ -246,11 +220,9 @@ def main():
                                 'synergy': round(increase_wr, 2)
                             })
                 
-                success = update_hero_rank_in_db(
-                    cursor, hero_game_id, days, rank, 
-                    round(ban_rate, 2), 
-                    round(pick_rate, 2), 
-                    round(win_rate, 2),
+                success = update_hero_rank_in_railway(
+                    hero_game_id, days, rank, 
+                    ban_rate, pick_rate, win_rate,
                     synergy_heroes
                 )
                 
@@ -263,14 +235,11 @@ def main():
                 print(f"    ❌ Помилка обробки героя: {e}")
                 skipped += 1
         
-        conn.commit()
         total_updated += updated
         total_skipped += skipped
         
         print(f"  ✅ Оновлено: {updated}, Пропущено: {skipped}")
-        time.sleep(1)  # Затримка між комбінаціями
-    
-    db.release_connection(conn)
+        time.sleep(0.5)  # Затримка між комбінаціями
     
     print("\n" + "=" * 80)
     print("📈 ПІДСУМОК")
