@@ -85,36 +85,29 @@ def fetch_compatibility_data(hero_id):
         print(f"    ❌ Compat error: {e}")
         return None
 
-# Load heroes
-print("Loading heroes...")
-with open('heroes_moonton_data_complete.json', 'r') as f:
-    moonton_heroes = json.load(f)
-
-# Get Railway heroes
+print("Loading Railway heroes...")
 response = requests.get(f'{RAILWAY_API}?game_id=2')
+response.raise_for_status()
 railway_heroes = response.json()
-name_to_railway = {h['name'].strip(): h for h in railway_heroes}
 
-# Create game_id to railway mapping
+# Create game_id to railway mapping (Moonton hero_id -> Railway hero)
 gameid_to_railway = {h.get('hero_game_id'): h for h in railway_heroes if h.get('hero_game_id')}
 
-print(f"✅ {len(moonton_heroes)} Moonton, {len(railway_heroes)} Railway\n")
+print(f"✅ {len(railway_heroes)} Railway heroes loaded\n")
 
 # Process
 updated = 0
 skipped = 0
 
-for mhero in moonton_heroes:
-    hero_name = mhero['hero_name'].strip()
-    moonton_id = mhero['hero_id']
-    
-    railway_hero = name_to_railway.get(hero_name)
-    if not railway_hero:
+for railway_hero in railway_heroes:
+    hero_name = railway_hero.get('name', '').strip()
+    moonton_id = railway_hero.get('hero_game_id')
+    if not moonton_id:
         skipped += 1
         continue
-    
+
     railway_id = railway_hero['id']
-    
+
     print(f"[{updated + skipped + 1}] {hero_name} (ID:{moonton_id})")
     
     # Fetch data
