@@ -1,10 +1,33 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
+from pathlib import Path
+from urllib.parse import urlparse
 import json
 import os
 import gzip
 import io
+
+def _load_env_file(file_path: Path) -> None:
+    if not file_path.exists():
+        return
+    try:
+        for raw_line in file_path.read_text(encoding='utf-8').splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            key, value = line.split('=', 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            os.environ.setdefault(key, value)
+    except Exception as exc:
+        print(f"Failed to load env file {file_path}: {exc}")
+
+
+_base_dir = Path(__file__).resolve().parent
+_load_env_file(_base_dir / '.env')
+_load_env_file(_base_dir / '.env.local')
+
 import database as db
 
 app = Flask(__name__)
@@ -38,6 +61,19 @@ def compress_response(response):
 
 # Для Railway: використовуємо PORT з environment
 PORT = int(os.getenv('PORT', 8080))
+
+def _log_db_target():
+    try:
+        db_url = os.getenv('DATABASE_URL', '')
+        parsed = urlparse(db_url)
+        host = parsed.hostname or 'unknown'
+        port = parsed.port or 'default'
+        db_name = (parsed.path or '').lstrip('/') or 'unknown'
+        print(f"DB: type={os.getenv('DATABASE_TYPE','sqlite')} host={host} port={port} db={db_name}")
+    except Exception as exc:
+        print(f"DB: failed to parse DATABASE_URL ({exc})")
+
+_log_db_target()
 
 # Games
 @app.route('/api/games', methods=['GET'])
@@ -2783,6 +2819,16 @@ def background_hero_ranks_update(game_id, days, rank_param, sort_field):
         import traceback
         traceback.print_exc()
 
+def _coerce_json_field(value):
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value
+    try:
+        return json.dumps(value, ensure_ascii=False)
+    except Exception:
+        return None
+
 @app.route('/api/heroes/update-counter-data', methods=['POST'])
 def update_heroes_counter_data_api():
     """Оновити counter та compatibility data для всіх героїв (асинхронно)"""
@@ -2803,7 +2849,7 @@ def update_heroes_counter_data_api():
                 cursor = conn.cursor()
             
             ph = db.get_placeholder()
-            cursor.execute(f"SELECT id, name, hero_game_id FROM heroes WHERE id = {ph}", (hero_id,))
+            cursor.execute(f"SELECT id, name, hero_game_id, counter_data, compatibility_data FROM heroes WHERE id = {ph}", (hero_id,))
             hero = cursor.fetchone()
             db.release_connection(conn)
             
@@ -2819,6 +2865,8 @@ def update_heroes_counter_data_api():
             hero_local_id = hero_dict['id']
             hero_name = hero_dict['name']
             hero_game_id = hero_dict.get('hero_game_id')
+            existing_counter_data = _coerce_json_field(hero_dict.get('counter_data'))
+            existing_compat_data = _coerce_json_field(hero_dict.get('compatibility_data'))
             
             if not hero_game_id:
                 return jsonify({'error': 'Hero has no hero_game_id'}), 400
@@ -2827,6 +2875,10 @@ def update_heroes_counter_data_api():
             
             counter_data = fhcc.fetch_hero_counter(hero_game_id)
             compat_data = fhcc.fetch_hero_compatibility(hero_game_id)
+            if counter_data is None:
+                counter_data = existing_counter_data
+            if compat_data is None:
+                compat_data = existing_compat_data
             
             if counter_data or compat_data:
                 fhcc.update_hero_counter_compat(hero_local_id, counter_data, compat_data)
@@ -2875,7 +2927,7 @@ def background_counter_data_update(game_id):
             cursor = conn.cursor()
         
         ph = db.get_placeholder()
-        cursor.execute(f"SELECT id, name, hero_game_id FROM heroes WHERE game_id = {ph} ORDER BY id", (game_id,))
+        cursor.execute(f"SELECT id, name, hero_game_id, counter_data, compatibility_data FROM heroes WHERE game_id = {ph} ORDER BY id", (game_id,))
         heroes = cursor.fetchall()
         db.release_connection(conn)
         
@@ -2892,6 +2944,8 @@ def background_counter_data_update(game_id):
             hero_id = hero_dict['id']
             hero_name = hero_dict['name']
             hero_game_id = hero_dict.get('hero_game_id')
+            existing_counter_data = _coerce_json_field(hero_dict.get('counter_data'))
+            existing_compat_data = _coerce_json_field(hero_dict.get('compatibility_data'))
             
             if not hero_game_id:
                 print(f"Processing [{hero_id}] {hero_name}... ⊘ Skipped (no hero_game_id)")
@@ -2905,6 +2959,11 @@ def background_counter_data_update(game_id):
             
             compat_data = fhcc.fetch_hero_compatibility(hero_game_id)
             time.sleep(0.3)
+            
+            if counter_data is None:
+                counter_data = existing_counter_data
+            if compat_data is None:
+                compat_data = existing_compat_data
             
             if counter_data or compat_data:
                 fhcc.update_hero_counter_compat(hero_id, counter_data, compat_data)
