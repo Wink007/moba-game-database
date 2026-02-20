@@ -672,6 +672,191 @@ def update_mlbb_heroes_stats():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/heroes/update-all-skills-moonton', methods=['POST'])
+def update_all_skills_moonton():
+    """Оновлює скіли для всіх героїв з офіційного Moonton GMS API (name-based matching)"""
+    import requests as req
+    import re as _re
+    
+    data = request.get_json() or {}
+    game_id = data.get('game_id', 2)
+    auth_token = data.get('auth_token')
+    
+    if not auth_token:
+        return jsonify({'error': 'Authorization token is required.'}), 400
+    
+    MOONTON_API = "https://api.gms.moontontech.com/api/gms/source/2669606"
+    headers = {
+        'authorization': auth_token,
+        'content-type': 'application/json;charset=UTF-8',
+    }
+    
+    results = {
+        'total': 0,
+        'updated': 0,
+        'skipped': 0,
+        'failed': 0,
+        'errors': []
+    }
+    
+    try:
+        # 1. Отримуємо список героїв з Moonton API
+        heroes_url = f"{MOONTON_API}/2756564"
+        heroes_payload = {
+            "pageSize": 200,
+            "pageIndex": 1,
+            "filters": [],
+            "sorts": [{"data": {"field": "hero_id", "order": "desc"}, "type": "sequence"}],
+            "object": []
+        }
+        
+        heroes_resp = req.post(heroes_url, json=heroes_payload, headers=headers, timeout=30)
+        moonton_heroes = heroes_resp.json().get('data', {}).get('records', [])
+        
+        if not moonton_heroes:
+            return jsonify({'error': 'Failed to fetch heroes from Moonton API. Check auth token.'}), 400
+        
+        # 2. Будуємо маппінг name → moonton skills
+        moonton_map = {}  # name.lower() → skills list
+        for mh in moonton_heroes:
+            hero_data = mh.get('data', {})
+            hero_inner = hero_data.get('hero', {}).get('data', {})
+            name = hero_inner.get('name', '').strip()
+            skill_lists = hero_inner.get('heroskilllist', [])
+            
+            if name and skill_lists:
+                skills = skill_lists[0].get('skilllist', [])
+                if skills:
+                    # Видаляємо дублікати
+                    seen = set()
+                    unique = []
+                    for s in skills:
+                        sn = s.get('skillname', '')
+                        if sn and sn not in seen:
+                            seen.add(sn)
+                            unique.append(s)
+                    moonton_map[name.lower()] = unique
+        
+        # 3. Отримуємо героїв з нашої БД
+        db_heroes = db.get_heroes(game_id, include_details=False, include_skills=False, include_relation=False)
+        results['total'] = len(db_heroes)
+        
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        
+        def sanitize_html(text):
+            """Зберігає кольорові теги від Moonton, видаляє небезпечні"""
+            if not text:
+                return ''
+            import re as _re_local
+            # Зберігаємо тільки <font color="..."> та </font>
+            # Видаляємо все інше HTML
+            allowed = _re_local.findall(r'(<font[^>]*color=[^>]*>|</font>)', text)
+            # Спочатку видаляємо всі теги
+            clean = _re_local.sub(r'<[^>]+>', lambda m: m.group(0) if m.group(0) in allowed else '', text)
+            return clean
+        
+        for hero in db_heroes:
+            hero_name = hero['name']
+            hero_id = hero['id']
+            
+            try:
+                # Шукаємо скіли по імені героя
+                moonton_skills = moonton_map.get(hero_name.lower())
+                
+                if not moonton_skills:
+                    results['skipped'] += 1
+                    results['errors'].append(f"{hero_name}: not found in Moonton API")
+                    continue
+                
+                # Отримуємо існуючі скіли з БД
+                cursor.execute(f'SELECT id, skill_name, is_transformed, skill_parameters FROM hero_skills WHERE hero_id = {ph} ORDER BY display_order', (hero_id,))
+                db_rows = cursor.fetchall()
+                
+                # Будуємо список базових (не-трансформ) скілів за іменем
+                # Для кожного імені беремо тільки ПЕРШИЙ не-трансформ скіл
+                base_skills_by_name = {}
+                for row in db_rows:
+                    if isinstance(row, dict):
+                        sid, sname, is_t = row['id'], row['skill_name'], row.get('is_transformed')
+                    else:
+                        sid, sname, is_t = row[0], row[1], row[2]
+                    
+                    # Оновлюємо тільки базові скіли (не трансформи)
+                    if not is_t or is_t == 0:
+                        if sname not in base_skills_by_name:
+                            base_skills_by_name[sname] = sid
+                
+                skills_updated = 0
+                skills_added = 0
+                
+                for i, ext_skill in enumerate(moonton_skills):
+                    skill_name = ext_skill.get('skillname', '')
+                    skill_desc = sanitize_html(ext_skill.get('skilldesc', ''))
+                    skill_icon = ext_skill.get('skillicon', '')
+                    
+                    # Парсимо skill_parameters з Moonton skillcd&cost
+                    raw_cd = ext_skill.get('skillcd&cost', '')
+                    new_params = None
+                    if raw_cd and raw_cd.strip():
+                        pairs = _re.findall(r'([A-Za-z][A-Za-z ]*?):\s*(\S+)', raw_cd)
+                        if pairs:
+                            new_params = json.dumps({k.strip(): v.strip() for k, v in pairs})
+                    
+                    existing_id = base_skills_by_name.get(skill_name)
+                    
+                    if existing_id:
+                        # UPDATE існуючого базового скіла — тільки description, icon, skill_parameters
+                        # Зберігаємо: skill_name_uk, skill_description_uk, effect, skill_type,
+                        #             level_scaling, effect_types, is_transformed, replaces_skill_id, etc.
+                        if new_params:
+                            cursor.execute(f'''
+                                UPDATE hero_skills 
+                                SET skill_description = {ph}, preview = {ph}, image = {ph}, 
+                                    display_order = {ph}, skill_parameters = {ph}
+                                WHERE id = {ph}
+                            ''', (skill_desc, skill_icon, skill_icon, i, new_params, existing_id))
+                        else:
+                            cursor.execute(f'''
+                                UPDATE hero_skills 
+                                SET skill_description = {ph}, preview = {ph}, image = {ph}, display_order = {ph}
+                                WHERE id = {ph}
+                            ''', (skill_desc, skill_icon, skill_icon, i, existing_id))
+                        skills_updated += 1
+                    else:
+                        # INSERT нового скіла (не існує в БД)
+                        cursor.execute(f'''
+                            INSERT INTO hero_skills (hero_id, skill_name, skill_description, preview, image, 
+                                                    display_order, skill_parameters)
+                            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+                        ''', (hero_id, skill_name, skill_desc, skill_icon, skill_icon, i, new_params))
+                        skills_added += 1
+                
+                results['updated'] += 1
+                conn.commit()
+                
+            except Exception as e:
+                # Rollback щоб не ламати наступних героїв
+                try:
+                    conn.rollback()
+                except:
+                    pass
+                results['failed'] += 1
+                results['errors'].append(f"{hero_name}: {str(e)}")
+        
+        db.release_connection(conn)
+        
+        return jsonify({
+            'success': True,
+            'results': results
+        })
+        
+    except req.RequestException as e:
+        return jsonify({'error': f'Moonton API error: {str(e)}'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/heroes/sync-moonton-data', methods=['POST'])
 def sync_moonton_counter_data():
     """Запускає update_moonton_stats_final.py для оновлення counter_data та compatibility_data"""
@@ -2593,62 +2778,36 @@ def update_all_heroes_skills():
                 ext_skill_names = set(skill['skillname'] for skill in unique_skills)
                 db_skill_names = set(skill['skill_name'] for skill in db_skills)
                 
-                # If skill sets are different, delete old skills and insert new ones
+                # If skill sets are different, only update descriptions/icons for matching skills
+                # and add truly new skills (DO NOT delete existing skills to preserve all metadata)
                 if ext_skill_names != db_skill_names:
-                    conn = db.get_db_connection()
+                    conn = db.get_connection()
                     cursor = conn.cursor()
                     ph = db.get_placeholder()
                     
-                    # Save transformation data before deleting (with skill names, not IDs)
-                    cursor.execute(f'''
-                        SELECT s1.skill_name, s1.is_transformed, s2.skill_name, s1.transformation_order
-                        FROM hero_skills s1
-                        LEFT JOIN hero_skills s2 ON s1.replaces_skill_id = s2.id
-                        WHERE s1.hero_id = {ph} AND (s1.is_transformed IS NOT NULL OR s1.replaces_skill_id IS NOT NULL OR s1.transformation_order IS NOT NULL)
-                    ''', (hero_id,))
-                    transformation_data = {row[0]: {
-                        'is_transformed': row[1], 
-                        'replaces_skill_name': row[2],  # Зберігаємо назву, не ID
-                        'transformation_order': row[3]
-                    } for row in cursor.fetchall()}
-                    
-                    # Delete all old skills
-                    cursor.execute(f'DELETE FROM hero_skills WHERE hero_id = {ph}', (hero_id,))
-                    
-                    # Insert new skills
+                    # Update existing skills that match by name
                     for i, ext_skill in enumerate(unique_skills):
                         skill_name = ext_skill['skillname']
                         skill_desc = ext_skill.get('skilldesc', '')
                         skill_icon = ext_skill.get('skillicon', '')
                         
-                        cursor.execute(f'''
-                            INSERT INTO hero_skills (hero_id, skill_name, skill_description, skill_icon, display_order)
-                            VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
-                        ''', (hero_id, skill_name, skill_desc, skill_icon, i))
-                    
-                    # Restore transformation data for matching skill names
-                    if transformation_data:
-                        # Отримуємо нові ID скілів
-                        cursor.execute(f'SELECT id, skill_name FROM hero_skills WHERE hero_id = {ph}', (hero_id,))
-                        new_skill_ids = {row[1]: row[0] for row in cursor.fetchall()}
-                        
-                        for skill_name, trans_data in transformation_data.items():
-                            # Якщо скіл ще існує
-                            if skill_name in new_skill_ids:
-                                # Знаходимо новий ID скіла, який замінюється
-                                replaces_skill_name = trans_data['replaces_skill_name']
-                                new_replaces_id = new_skill_ids.get(replaces_skill_name) if replaces_skill_name else None
-                                
-                                cursor.execute(f'''
-                                    UPDATE hero_skills 
-                                    SET is_transformed = {ph}, replaces_skill_id = {ph}, transformation_order = {ph}
-                                    WHERE hero_id = {ph} AND skill_name = {ph}
-                                ''', (trans_data['is_transformed'], new_replaces_id, 
-                                      trans_data['transformation_order'], hero_id, skill_name))
+                        matching_skill = next((s for s in db_skills if s['skill_name'] == skill_name), None)
+                        if matching_skill:
+                            # Only update description and icon, preserve everything else
+                            cursor.execute(f'''
+                                UPDATE hero_skills 
+                                SET skill_description = {ph}, preview = {ph}, image = {ph}, display_order = {ph}
+                                WHERE id = {ph}
+                            ''', (skill_desc, skill_icon, skill_icon, i, matching_skill['id']))
+                        else:
+                            # New skill - insert with basic data
+                            cursor.execute(f'''
+                                INSERT INTO hero_skills (hero_id, skill_name, skill_description, preview, image, display_order)
+                                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+                            ''', (hero_id, skill_name, skill_desc, skill_icon, skill_icon, i))
                     
                     conn.commit()
-                    cursor.close()
-                    conn.close()
+                    db.release_connection(conn)
                     results['updated'] += 1
                 else:
                     # Skills match, just update descriptions
