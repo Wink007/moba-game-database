@@ -58,6 +58,10 @@ function HeroDetailPage() {
     if (typeof value === 'object') return value as T;
     return null;
   };
+
+  // counter_data/compatibility_data use Moonton's heroid (hero_game_id), not our internal DB id
+  const findHeroByGameId = (heroId: number) =>
+    allHeroes.find(h => h.hero_game_id === heroId) || allHeroes.find(h => h.id === heroId);
   
   const handleSkillSelect = (index: number) => {
     setSkillIndex(index);
@@ -311,7 +315,7 @@ function HeroDetailPage() {
                         {counterSubTab === 'best' && bestCounters.length > 0 && (() => {
                           const topCounter = bestCounters[0];
                           const counterHeroId = topCounter.heroid ?? topCounter.hero_id;
-                          const counterHero = allHeroes.find(h => h.id === counterHeroId);
+                          const counterHero = findHeroByGameId(counterHeroId);
                           if (!counterHero) return null;
                           
                           // Normalize win rates - if value < 1, it's decimal format (0.5), otherwise it's already percentage (50)
@@ -348,7 +352,7 @@ function HeroDetailPage() {
                         {counterSubTab === 'worst' && mostCounteredBy.length > 0 && (() => {
                           const topCounter = mostCounteredBy[0];
                           const counterHeroId = topCounter.heroid ?? topCounter.hero_id;
-                          const counterHero = allHeroes.find(h => h.id === counterHeroId || h.hero_game_id === counterHeroId);
+                          const counterHero = findHeroByGameId(counterHeroId);
                           if (!counterHero) return null;
                           
                           // Normalize win rates - if value < 1, it's decimal format (0.5), otherwise it's already percentage (50)
@@ -392,7 +396,7 @@ function HeroDetailPage() {
                         </div>
                         {counterSubTab === 'best' && bestCounters.slice(0, 5).map((counter: any, idx: number) => {
                           const counterHeroId = counter.heroid ?? counter.hero_id;
-                          const counterHero = allHeroes.find(h => h.id === counterHeroId || h.hero_game_id === counterHeroId);
+                          const counterHero = findHeroByGameId(counterHeroId);
                           if (!counterHero) return null;
                           const increaseWinRate = counter.increase_win_rate != null ? Math.abs(counter.increase_win_rate < 1 ? counter.increase_win_rate * 100 : counter.increase_win_rate) : 0;
                           return (
@@ -409,7 +413,7 @@ function HeroDetailPage() {
                         })}
                         {counterSubTab === 'worst' && mostCounteredBy.slice(0, 5).map((counter: any, idx: number) => {
                           const counterHeroId = counter.heroid ?? counter.hero_id;
-                          const counterHero = allHeroes.find(h => h.id === counterHeroId || h.hero_game_id === counterHeroId);
+                          const counterHero = findHeroByGameId(counterHeroId);
                           if (!counterHero) return null;
                           const increaseWinRate = counter.increase_win_rate != null ? Math.abs(counter.increase_win_rate) : 0;
                           const normalizedRate = increaseWinRate !== 0 && increaseWinRate < 1 ? increaseWinRate * 100 : increaseWinRate;
@@ -465,7 +469,7 @@ function HeroDetailPage() {
                         {synergySubTab === 'compatible' && heroCompatibilityData.compatible && heroCompatibilityData.compatible.length > 0 && (() => {
                           const topMate = heroCompatibilityData.compatible[0];
                           const topMateId = topMate.heroid ?? topMate.hero_id;
-                          const mateHero = allHeroes.find(h => h.id === topMateId || h.hero_game_id === topMateId);
+                          const mateHero = findHeroByGameId(topMateId);
                           if (!mateHero) return null;
                           
                           const heroWinRate = (heroCompatibilityData.main_hero_win_rate || 0.5) * 100;
@@ -499,7 +503,7 @@ function HeroDetailPage() {
                         {synergySubTab === 'incompatible' && heroCompatibilityData.not_compatible && heroCompatibilityData.not_compatible.length > 0 && (() => {
                           const topMate = heroCompatibilityData.not_compatible[0];
                           const topMateId = topMate.heroid ?? topMate.hero_id;
-                          const mateHero = allHeroes.find(h => h.id === topMateId || h.hero_game_id === topMateId);
+                          const mateHero = findHeroByGameId(topMateId);
                           if (!mateHero) return null;
                           
                           const heroWinRate = (heroCompatibilityData.main_hero_win_rate || 0.5) * 100;
@@ -540,7 +544,7 @@ function HeroDetailPage() {
                         </div>
                         {synergySubTab === 'compatible' && heroCompatibilityData.compatible && heroCompatibilityData.compatible.slice(0, 5).map((mate: any, idx: number) => {
                           const mateId = mate.heroid ?? mate.hero_id;
-                          const mateHero = allHeroes.find(h => h.id === mateId || h.hero_game_id === mateId);
+                          const mateHero = findHeroByGameId(mateId);
                           if (!mateHero) return null;
                           return (
                             <a 
@@ -556,7 +560,7 @@ function HeroDetailPage() {
                         })}
                         {synergySubTab === 'incompatible' && heroCompatibilityData.not_compatible && heroCompatibilityData.not_compatible.slice(0, 5).map((mate: any, idx: number) => {
                           const mateId = mate.heroid ?? mate.hero_id;
-                          const mateHero = allHeroes.find(h => h.id === mateId || h.hero_game_id === mateId);
+                          const mateHero = findHeroByGameId(mateId);
                           if (!mateHero) return null;
                           return (
                             <a 
