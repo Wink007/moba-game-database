@@ -7,7 +7,7 @@ import { useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import styles from './styles.module.scss';
 
-export const SearchBar: React.FC = () => {
+export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
   const [query, setQuery] = useState('');
@@ -46,12 +46,14 @@ export const SearchBar: React.FC = () => {
     navigate(`/${selectedGameId}/heroes/${heroId}`);
     setQuery('');
     setIsOpen(false);
+    onSelect?.();
   };
 
   const handleSelectItem = (itemId: number) => {
     navigate(`/${selectedGameId}/items/${itemId}`);
     setQuery('');
     setIsOpen(false);
+    onSelect?.();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

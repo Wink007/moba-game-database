@@ -32,6 +32,21 @@ export const TopHeroesRanked = () => {
 
   if (!selectedGameId) return null;
   if (isError) return <div className={styles.error}>{t('heroRank.noData')}</div>;
+  
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h4 className={styles.title}>{t('home.topHeroesRanking')}</h4>
+          <div className={styles.period}>
+            <span>{t('home.lastDays', { days: 30 })}</span>
+          </div>
+        </div>
+        <HeroRankSkeleton />
+      </div>
+    );
+  }
+  
   if (!heroRanks || heroRanks.length === 0) return null;
 
   return (

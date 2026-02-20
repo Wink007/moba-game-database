@@ -12,7 +12,7 @@
     "disclaimer": "DISCLAIMER: This is an unofficial fan-made guide app. Not affiliated with, endorsed, or approved by Moonton. All game content, images, and trademarks are property of their respective owners.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd. • Dota 2 © Valve • League of Legends © Riot Games"
+    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd."
   },
   "search": {
     "placeholder": "Search heroes, items...",
@@ -135,7 +135,15 @@
     "lane": "Lane:",
     "abilities": "Abilities",
     "showTransformation": "Show transformation",
-    "transformation": "Transformation {{index}}"
+    "transformation": "Transformation {{index}}",
+    "proBuilds": "Builds",
+    "proBuildsDesc": "Popular builds recommended by top players and the community",
+    "battleSpell": "Battle Spell",
+    "emblem": "Emblem",
+    "talents": "Talents",
+    "coreItems": "Core Items",
+    "optionalItems": "Optional Items",
+    "noBuildsData": "No builds available for this hero"
   },
   "items": {
     "title": "Items",

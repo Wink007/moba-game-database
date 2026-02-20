@@ -49,7 +49,7 @@ export const LegalPage = () => {
 const PrivacyPolicy = () => (
   <div className={styles.document}>
     <h2>Privacy Policy</h2>
-    <p className={styles.lastUpdated}>Last Updated: December 17, 2025</p>
+    <p className={styles.lastUpdated}>Last Updated: February 20, 2026</p>
 
     <section>
       <h3>Introduction</h3>
@@ -89,8 +89,7 @@ const PrivacyPolicy = () => (
       <h3>Third-Party Services</h3>
       <p>This app may use third-party services that may collect information:</p>
       <ul>
-        <li>Hosting provider (Vercel/Netlify) - may collect basic server logs</li>
-        <li>API hosting (Railway) - server access logs only</li>
+        <li>Hosting provider (Railway) - may collect basic server logs</li>
       </ul>
     </section>
 
@@ -135,7 +134,7 @@ const PrivacyPolicy = () => (
 const TermsOfService = () => (
   <div className={styles.document}>
     <h2>Terms of Service</h2>
-    <p className={styles.lastUpdated}>Last Updated: December 17, 2025</p>
+    <p className={styles.lastUpdated}>Last Updated: February 20, 2026</p>
 
     <section>
       <h3>1. Acceptance of Terms</h3>
@@ -210,8 +209,6 @@ const TermsOfService = () => (
       <h4>Game Content</h4>
       <ul>
         <li>All Mobile Legends content © Moonton Technology Co., Ltd.</li>
-        <li>Dota 2 content © Valve Corporation</li>
-        <li>League of Legends content © Riot Games, Inc.</li>
       </ul>
 
       <h4>User Contributions</h4>

@@ -12,8 +12,8 @@ export interface HeroBackgroundProps {
 }
 
 export interface TabsNavigationProps {
-  activeTab: 'info' | 'about' | 'counter' | 'synergy' | 'history';
-  onTabChange: (tab: 'info' | 'about' | 'counter' | 'synergy' | 'history') => void;
+  activeTab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds';
+  onTabChange: (tab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds') => void;
 }
 
 export interface PerformanceStatsProps {
@@ -37,6 +37,7 @@ export interface SkillsSectionProps {
   selectedSkill: HeroSkill | undefined;
   maxTransforms: number;
   transformIndex: number;
+  changedIndices: Set<number>;
   onSkillSelect: (index: number) => void;
   onTransformCycle: () => void;
 }

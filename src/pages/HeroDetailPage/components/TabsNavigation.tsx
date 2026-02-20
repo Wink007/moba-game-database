@@ -14,10 +14,10 @@ export const TabsNavigation: React.FC<TabsNavigationProps> = ({ activeTab, onTab
         {t('heroDetail.baseInformation')}
       </button>
       <button 
-        className={`${styles.tabButton} ${activeTab === 'about' ? styles.tabButtonActive : ''}`}
-        onClick={() => onTabChange('about')}
+        className={`${styles.tabButton} ${activeTab === 'builds' ? styles.tabButtonActive : ''}`}
+        onClick={() => onTabChange('builds')}
       >
-        {t('heroDetail.aboutTab')}
+        {t('heroDetail.proBuilds')}
       </button>
       <button 
         className={`${styles.tabButton} ${activeTab === 'counter' ? styles.tabButtonActive : ''}`}
@@ -30,6 +30,12 @@ export const TabsNavigation: React.FC<TabsNavigationProps> = ({ activeTab, onTab
         onClick={() => onTabChange('synergy')}
       >
         {t('heroDetail.bestWith')}
+      </button>
+      <button 
+        className={`${styles.tabButton} ${activeTab === 'about' ? styles.tabButtonActive : ''}`}
+        onClick={() => onTabChange('about')}
+      >
+        {t('heroDetail.aboutTab')}
       </button>
       <button 
         className={`${styles.tabButton} ${activeTab === 'history' ? styles.tabButtonActive : ''}`}

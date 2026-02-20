@@ -25,11 +25,11 @@ export const Chart = ({ data, min, max, currentValue, trend, title, color, gradi
     <div className={styles.chartCard}>
       <div className={styles.chartHeader}>
         <h4 className={styles.chartTitle}>
-          {title} <span className={styles.chartValue}>{(currentValue * 100).toFixed(1)}%</span>
+          {title} <span className={styles.chartValue}>{currentValue.toFixed(2)}%</span>
         </h4>
         <div className={styles.chartTrend}>
           <span className={trend >= 0 ? styles.trendUp : styles.trendDown}>
-            {trend >= 0 ? '↑' : '↓'} {Math.abs(trend).toFixed(1)}%
+            {trend >= 0 ? '↑' : '↓'} {Math.abs(trend).toFixed(2)}%
           </span>
           <span className={styles.chartSubtitle}>vs 3 days ago</span>
         </div>
@@ -67,7 +67,7 @@ export const Chart = ({ data, min, max, currentValue, trend, title, color, gradi
             fontSize="11"
             fontFamily="system-ui"
           >
-            {(value * 100).toFixed(2)}%
+            {value.toFixed(2)}%
           </text>
         ))}
         
@@ -109,7 +109,7 @@ export const Chart = ({ data, min, max, currentValue, trend, title, color, gradi
                 fill={fillColor}
                 style={{ pointerEvents: 'none' }}
               />
-              <title>{`${point.patch}: ${(point.value * 100).toFixed(2)}%`}</title>
+              <title>{`${point.patch}: ${point.value.toFixed(2)}%`}</title>
             </g>
           );
         })}

@@ -13,19 +13,20 @@ export interface UseHeroSkillsReturn {
   selectedSkill: HeroSkill | undefined;
   maxTransforms: number;
   transformIndex: number;
+  changedIndices: Set<number>;
   cycleTransform: () => void;
   setSelectedSkillIndex: (index: number) => void;
   setTransformIndex: (index: number) => void;
 }
 
 export interface UseHeroTabsProps {
-  activeTab: 'info' | 'about' | 'counter' | 'synergy' | 'history';
+  activeTab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds';
   counterSubTab: 'best' | 'worst';
   synergySubTab: 'compatible' | 'incompatible';
 }
 
 export interface UseHeroTabsReturn extends UseHeroTabsProps {
-  setActiveTab: (tab: 'info' | 'about' | 'counter' | 'synergy' | 'history') => void;
+  setActiveTab: (tab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds') => void;
   setCounterSubTab: (tab: 'best' | 'worst') => void;
   setSynergySubTab: (tab: 'compatible' | 'incompatible') => void;
 }

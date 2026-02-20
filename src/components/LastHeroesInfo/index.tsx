@@ -143,7 +143,7 @@ export const LastHeroesInfo = () => {
                                         onMouseLeave={() => setHoveredSkillId(null)}
                                     >
                                         <img 
-                                            src={skill.preview} 
+                                            src={skill.image || skill.preview} 
                                             alt={getSkillName(skill, i18n.language)} 
                                             title={getSkillName(skill, i18n.language)} 
                                             className={style['skill-icon']} 

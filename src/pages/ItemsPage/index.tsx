@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import { useItemCategories } from './hooks/useItemCategories';
@@ -8,10 +8,13 @@ import { ItemFilters } from './components/ItemFilters';
 import { ItemGrid } from './components/ItemGrid';
 import { ItemDetails } from './components/ItemDetails';
 import { Item } from '../../types/item';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
 function ItemsPage() {
   const { gameId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  useSEO({ title: 'Items', description: 'Browse all Mobile Legends items — equipment, roaming, jungling and more.' });
   const { data: items = [], isLoading } = useItemsQuery(Number(gameId));
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
@@ -19,6 +22,20 @@ function ItemsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+
+  // Auto-select item from ?item= query param
+  useEffect(() => {
+    const itemId = searchParams.get('item');
+    if (itemId && items.length > 0) {
+      const item = items.find((i: Item) => i.id === Number(itemId));
+      if (item) {
+        setSelectedItem(item);
+        setIsDetailsOpen(true);
+        searchParams.delete('item');
+        setSearchParams(searchParams, { replace: true });
+      }
+    }
+  }, [items, searchParams, setSearchParams]);
 
   useEffect(() => {
     if (isDetailsOpen && window.innerWidth <= 1024) {

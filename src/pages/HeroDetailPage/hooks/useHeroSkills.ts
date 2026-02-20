@@ -33,6 +33,16 @@ export const useHeroSkills = (
         ) || base
       );
 
+  // Track which skill indices changed from base
+  const changedIndices: Set<number> = new Set();
+  if (transformIndex > 0) {
+    displaySkills.forEach((skill, index) => {
+      if (skill.id !== baseSkills[index]?.id) {
+        changedIndices.add(index);
+      }
+    });
+  }
+
   // Cycle through transformations
   const cycleTransform = () => {
     setTransformIndex((prev) => (prev + 1) % (maxTransforms + 1));
@@ -55,6 +65,7 @@ export const useHeroSkills = (
     selectedSkill,
     maxTransforms,
     transformIndex,
+    changedIndices,
     cycleTransform,
     setSelectedSkillIndex,
     setTransformIndex,

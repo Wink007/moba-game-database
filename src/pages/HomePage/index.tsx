@@ -6,10 +6,12 @@ import { LastHeroesInfo } from '../../components/LastHeroesInfo';
 import { RandomHeroStats } from '../../components/RandomHeroStats';
 import { VideoPreview } from './components/VideoPreview';
 import { HeroRankSection } from './components/HeroRankSection';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
 export const HomePage = () => {
   const { t } = useTranslation();
+  useSEO({ title: 'Home', description: 'Mobile Legends Wiki — heroes stats, builds, counter picks, items, emblems, spells and patch notes.' });
   const { data: games, isLoading, isError } = useGamesQuery();
   const { selectedGameId } = useGameStore();
   const defaultGame = games?.find(g => g.id === selectedGameId);

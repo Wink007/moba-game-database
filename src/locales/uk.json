@@ -12,7 +12,7 @@
     "disclaimer": "ВІДМОВА ВІД ВІДПОВІДАЛЬНОСТІ: Це неофіційний фанатський додаток-довідник. Не афілійований, не схвалений і не затверджений Moonton. Весь ігровий контент, зображення та торгові марки є власністю їх відповідних власників.",
     "privacyPolicy": "Політика конфіденційності",
     "termsOfService": "Умови використання",
-    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd. • Dota 2 © Valve • League of Legends © Riot Games"
+    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd."
   },
   "search": {
     "placeholder": "Пошук героїв, предметів...",
@@ -135,7 +135,15 @@
     "lane": "Лінія:",
     "abilities": "Здібності",
     "showTransformation": "Показати трансформацію",
-    "transformation": "Трансформація {{index}}"
+    "transformation": "Трансформація {{index}}",
+    "proBuilds": "Збірки",
+    "proBuildsDesc": "Популярні збірки від топових гравців та спільноти",
+    "battleSpell": "Бойове Закляття",
+    "emblem": "Емблема",
+    "talents": "Таланти",
+    "coreItems": "Основні Предмети",
+    "optionalItems": "Опціональні Предмети",
+    "noBuildsData": "Збірки для цього героя недоступні"
   },
   "items": {
     "title": "Предмети",

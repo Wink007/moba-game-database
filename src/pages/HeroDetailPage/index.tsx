@@ -8,8 +8,10 @@ import { Loader } from '../../components/Loader';
 import { HeroSidebar } from './components/HeroSidebar';
 import { TabsNavigation } from './components/TabsNavigation';
 import { SkillsSection } from './components/SkillsSection';
+import { ProBuildsSection } from './components/ProBuildsSection';
 import { useHeroSkills } from './hooks/useHeroSkills';
 import { useHeroTabs } from './hooks/useHeroTabs';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 import type { Patch } from '../../types';
 
@@ -27,16 +29,35 @@ function HeroDetailPage() {
   
   const { activeTab, counterSubTab, synergySubTab, setActiveTab, setCounterSubTab, setSynergySubTab } = useHeroTabs();
   
+  useSEO({
+    title: hero ? `${hero.name} — Hero Guide` : 'Hero',
+    description: hero ? `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.` : undefined,
+  });
+  
   const {
     displaySkills,
     selectedSkill,
     maxTransforms,
     transformIndex,
+    changedIndices,
     cycleTransform,
     setSelectedSkillIndex,
   } = useHeroSkills(skills);
   
   const [selectedSkillIndex, setSkillIndex] = React.useState(0);
+
+  const parseMaybeJson = <T,>(value: unknown): T | null => {
+    if (!value) return null;
+    if (typeof value === 'string') {
+      try {
+        return JSON.parse(value) as T;
+      } catch {
+        return null;
+      }
+    }
+    if (typeof value === 'object') return value as T;
+    return null;
+  };
   
   const handleSkillSelect = (index: number) => {
     setSkillIndex(index);
@@ -111,7 +132,7 @@ function HeroDetailPage() {
                         <div className={styles.ratingCard}>
                           <div className={styles.ratingCardHeader}>
                             <span className={styles.ratingCardName}>{t('heroDetail.appearanceRate')}</span>
-                            <span className={styles.ratingCardValue}>{hero.main_hero_appearance_rate.toFixed(1)}%</span>
+                            <span className={styles.ratingCardValue}>{hero.main_hero_appearance_rate.toFixed(2)}%</span>
                           </div>
                           <div className={styles.ratingBar}>
                             <div 
@@ -129,7 +150,7 @@ function HeroDetailPage() {
                         <div className={styles.ratingCard}>
                           <div className={styles.ratingCardHeader}>
                             <span className={styles.ratingCardName}>{t('heroDetail.banRate')}</span>
-                            <span className={styles.ratingCardValue}>{hero.main_hero_ban_rate.toFixed(1)}%</span>
+                            <span className={styles.ratingCardValue}>{hero.main_hero_ban_rate.toFixed(2)}%</span>
                           </div>
                           <div className={styles.ratingBar}>
                             <div 
@@ -147,7 +168,7 @@ function HeroDetailPage() {
                         <div className={styles.ratingCard}>
                           <div className={styles.ratingCardHeader}>
                             <span className={styles.ratingCardName}>{t('heroDetail.winRate')}</span>
-                            <span className={styles.ratingCardValue}>{hero.main_hero_win_rate.toFixed(1)}%</span>
+                            <span className={styles.ratingCardValue}>{hero.main_hero_win_rate.toFixed(2)}%</span>
                           </div>
                           <div className={styles.ratingBar}>
                             <div 
@@ -259,8 +280,11 @@ function HeroDetailPage() {
             {/* Counter Tab */}
             {activeTab === 'counter' && (
               <div className={styles.contentSection}>
-                {counterData && hero.hero_game_id && counterData[hero.hero_game_id] && (() => {
-                  const heroCounterData = counterData[hero.hero_game_id];
+                {hero.counter_data && (() => {
+                  const heroCounterData = parseMaybeJson<any>(hero.counter_data);
+                  if (!heroCounterData) return null;
+                  const bestCounters = heroCounterData.best_counters || heroCounterData.counters || [];
+                  const mostCounteredBy = heroCounterData.most_countered_by || heroCounterData.allies || [];
                   return (
                   <div className={styles.relationshipSection}>
                     <h2 className={styles.relationshipMainTitle}>{t('heroDetail.counterRelationship')}</h2>
@@ -284,9 +308,10 @@ function HeroDetailPage() {
                     <div className={styles.relationshipContent}>
                       {/* Left Side - Visual Comparison */}
                       <div className={styles.comparisonBlock}>
-                        {counterSubTab === 'best' && heroCounterData.best_counters && heroCounterData.best_counters.length > 0 && (() => {
-                          const topCounter = heroCounterData.best_counters[0];
-                          const counterHero = allHeroes.find(h => h.hero_game_id === topCounter.heroid);
+                        {counterSubTab === 'best' && bestCounters.length > 0 && (() => {
+                          const topCounter = bestCounters[0];
+                          const counterHeroId = topCounter.heroid ?? topCounter.hero_id;
+                          const counterHero = allHeroes.find(h => h.id === counterHeroId);
                           if (!counterHero) return null;
                           
                           // Normalize win rates - if value < 1, it's decimal format (0.5), otherwise it's already percentage (50)
@@ -320,9 +345,10 @@ function HeroDetailPage() {
                             </>
                           );
                         })()}
-                        {counterSubTab === 'worst' && heroCounterData.most_countered_by && heroCounterData.most_countered_by.length > 0 && (() => {
-                          const topCounter = heroCounterData.most_countered_by[0];
-                          const counterHero = allHeroes.find(h => h.hero_game_id === topCounter.heroid);
+                        {counterSubTab === 'worst' && mostCounteredBy.length > 0 && (() => {
+                          const topCounter = mostCounteredBy[0];
+                          const counterHeroId = topCounter.heroid ?? topCounter.hero_id;
+                          const counterHero = allHeroes.find(h => h.id === counterHeroId || h.hero_game_id === counterHeroId);
                           if (!counterHero) return null;
                           
                           // Normalize win rates - if value < 1, it's decimal format (0.5), otherwise it's already percentage (50)
@@ -364,13 +390,14 @@ function HeroDetailPage() {
                           <span>{counterSubTab === 'best' ? t('heroDetail.bestCounters') : t('heroDetail.counteredBy')}</span>
                           <span>{t('heroDetail.counterScore')}</span>
                         </div>
-                        {counterSubTab === 'best' && heroCounterData.best_counters && heroCounterData.best_counters.slice(0, 5).map((counter, idx) => {
-                          const counterHero = allHeroes.find(h => h.hero_game_id === counter.heroid);
+                        {counterSubTab === 'best' && bestCounters.slice(0, 5).map((counter: any, idx: number) => {
+                          const counterHeroId = counter.heroid ?? counter.hero_id;
+                          const counterHero = allHeroes.find(h => h.id === counterHeroId || h.hero_game_id === counterHeroId);
                           if (!counterHero) return null;
-                          const increaseWinRate = counter.increase_win_rate < 1 ? counter.increase_win_rate * 100 : counter.increase_win_rate;
+                          const increaseWinRate = counter.increase_win_rate != null ? Math.abs(counter.increase_win_rate < 1 ? counter.increase_win_rate * 100 : counter.increase_win_rate) : 0;
                           return (
                             <a 
-                              key={counter.heroid}
+                              key={counterHeroId}
                               href={`/2/heroes/${counterHero.id}`}
                               className={styles.counterListItem}
                             >
@@ -380,14 +407,15 @@ function HeroDetailPage() {
                             </a>
                           );
                         })}
-                        {counterSubTab === 'worst' && heroCounterData.most_countered_by && heroCounterData.most_countered_by.slice(0, 5).map((counter, idx) => {
-                          const counterHero = allHeroes.find(h => h.hero_game_id === counter.heroid);
+                        {counterSubTab === 'worst' && mostCounteredBy.slice(0, 5).map((counter: any, idx: number) => {
+                          const counterHeroId = counter.heroid ?? counter.hero_id;
+                          const counterHero = allHeroes.find(h => h.id === counterHeroId || h.hero_game_id === counterHeroId);
                           if (!counterHero) return null;
-                          const increaseWinRate = Math.abs(counter.increase_win_rate);
-                          const normalizedRate = increaseWinRate < 1 ? increaseWinRate * 100 : increaseWinRate;
+                          const increaseWinRate = counter.increase_win_rate != null ? Math.abs(counter.increase_win_rate) : 0;
+                          const normalizedRate = increaseWinRate !== 0 && increaseWinRate < 1 ? increaseWinRate * 100 : increaseWinRate;
                           return (
                             <a 
-                              key={counter.heroid}
+                              key={counterHeroId}
                               href={`/2/heroes/${counterHero.id}`}
                               className={styles.counterListItem}
                             >
@@ -408,8 +436,9 @@ function HeroDetailPage() {
             {/* Synergy Tab (Best With) */}
             {activeTab === 'synergy' && (
               <div className={styles.contentSection}>
-                {compatibilityData && hero.hero_game_id && compatibilityData[hero.hero_game_id] && (() => {
-                  const heroCompatibilityData = compatibilityData[hero.hero_game_id];
+                {hero.compatibility_data && (() => {
+                  const heroCompatibilityData = parseMaybeJson<any>(hero.compatibility_data);
+                  if (!heroCompatibilityData) return null;
                   return (
                   <div className={styles.relationshipSection}>
                     <h2 className={styles.relationshipMainTitle}>{t('heroDetail.compatibility')}</h2>
@@ -435,11 +464,12 @@ function HeroDetailPage() {
                       <div className={styles.comparisonBlock}>
                         {synergySubTab === 'compatible' && heroCompatibilityData.compatible && heroCompatibilityData.compatible.length > 0 && (() => {
                           const topMate = heroCompatibilityData.compatible[0];
-                          const mateHero = allHeroes.find(h => h.hero_game_id === topMate.heroid);
+                          const topMateId = topMate.heroid ?? topMate.hero_id;
+                          const mateHero = allHeroes.find(h => h.id === topMateId || h.hero_game_id === topMateId);
                           if (!mateHero) return null;
                           
-                          const heroWinRate = heroCompatibilityData.main_hero_win_rate || 50;
-                          const teamWinRate = topMate.win_rate;
+                          const heroWinRate = (heroCompatibilityData.main_hero_win_rate || 0.5) * 100;
+                          const teamWinRate = topMate.win_rate * 100;
                           
                           return (
                             <>
@@ -447,7 +477,7 @@ function HeroDetailPage() {
                                 <div className={`${styles.heroComparisonSide} ${styles.left}`}>
                                   <img src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} />
                                   <div className={styles.comparisonWinRate}>
-                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(2)}%</span>
                                     <span className={styles.winRateLabel}>Win Rate</span>
                                   </div>
                                 </div>
@@ -455,7 +485,7 @@ function HeroDetailPage() {
                                 <div className={`${styles.heroComparisonSide} ${styles.right}`}>
                                   <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.rightAvatar} />
                                   <div className={styles.comparisonWinRate}>
-                                    <span className={styles.winRateNumber}>{teamWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateNumber}>{teamWinRate.toFixed(2)}%</span>
                                     <span className={styles.winRateLabel}>Win Rate</span>
                                   </div>
                                 </div>
@@ -468,11 +498,12 @@ function HeroDetailPage() {
                         })()}
                         {synergySubTab === 'incompatible' && heroCompatibilityData.not_compatible && heroCompatibilityData.not_compatible.length > 0 && (() => {
                           const topMate = heroCompatibilityData.not_compatible[0];
-                          const mateHero = allHeroes.find(h => h.hero_game_id === topMate.heroid);
+                          const topMateId = topMate.heroid ?? topMate.hero_id;
+                          const mateHero = allHeroes.find(h => h.id === topMateId || h.hero_game_id === topMateId);
                           if (!mateHero) return null;
                           
-                          const heroWinRate = heroCompatibilityData.main_hero_win_rate || 50;
-                          const teamWinRate = topMate.win_rate;
+                          const heroWinRate = (heroCompatibilityData.main_hero_win_rate || 0.5) * 100;
+                          const teamWinRate = topMate.win_rate * 100;
                           
                           return (
                             <>
@@ -480,7 +511,7 @@ function HeroDetailPage() {
                                 <div className={`${styles.heroComparisonSide} ${styles.left}`}>
                                   <img src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} />
                                   <div className={styles.comparisonWinRate}>
-                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateNumber}>{heroWinRate.toFixed(2)}%</span>
                                     <span className={styles.winRateLabel}>Win Rate</span>
                                   </div>
                                 </div>
@@ -488,7 +519,7 @@ function HeroDetailPage() {
                                 <div className={`${styles.heroComparisonSide} ${styles.right}`}>
                                   <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.rightAvatar} />
                                   <div className={styles.comparisonWinRate}>
-                                    <span className={styles.winRateNumber}>{teamWinRate.toFixed(1)}%</span>
+                                    <span className={styles.winRateNumber}>{teamWinRate.toFixed(2)}%</span>
                                     <span className={styles.winRateLabel}>Win Rate</span>
                                   </div>
                                 </div>
@@ -507,33 +538,35 @@ function HeroDetailPage() {
                           <span>{synergySubTab === 'compatible' ? t('heroDetail.bestTeammates') : t('heroDetail.worstTeammates')}</span>
                           <span>{t('heroDetail.teammateScore')}</span>
                         </div>
-                        {synergySubTab === 'compatible' && heroCompatibilityData.compatible && heroCompatibilityData.compatible.slice(0, 5).map((mate, idx) => {
-                          const mateHero = allHeroes.find(h => h.hero_game_id === mate.heroid);
+                        {synergySubTab === 'compatible' && heroCompatibilityData.compatible && heroCompatibilityData.compatible.slice(0, 5).map((mate: any, idx: number) => {
+                          const mateId = mate.heroid ?? mate.hero_id;
+                          const mateHero = allHeroes.find(h => h.id === mateId || h.hero_game_id === mateId);
                           if (!mateHero) return null;
                           return (
                             <a 
-                              key={mate.heroid}
+                              key={mateId ?? mate.heroid}
                               href={`/2/heroes/${mateHero.id}`}
                               className={styles.counterListItem}
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
                               <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} />
-                              <span className={styles.counterListScore}>{mate.increase_win_rate.toFixed(2)}</span>
+                                <span className={styles.counterListScore}>{mate.increase_win_rate != null ? (mate.increase_win_rate * 100).toFixed(2) : '0.00'}</span>
                             </a>
                           );
                         })}
-                        {synergySubTab === 'incompatible' && heroCompatibilityData.not_compatible && heroCompatibilityData.not_compatible.slice(0, 5).map((mate, idx) => {
-                          const mateHero = allHeroes.find(h => h.hero_game_id === mate.heroid);
+                        {synergySubTab === 'incompatible' && heroCompatibilityData.not_compatible && heroCompatibilityData.not_compatible.slice(0, 5).map((mate: any, idx: number) => {
+                          const mateId = mate.heroid ?? mate.hero_id;
+                          const mateHero = allHeroes.find(h => h.id === mateId || h.hero_game_id === mateId);
                           if (!mateHero) return null;
                           return (
                             <a 
-                              key={mate.heroid}
+                              key={mateId ?? mate.heroid}
                               href={`/2/heroes/${mateHero.id}`}
                               className={styles.counterListItem}
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
                               <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} />
-                              <span className={styles.counterListScore}>{Math.abs(mate.increase_win_rate).toFixed(2)}</span>
+                                <span className={styles.counterListScore}>{mate.increase_win_rate != null ? Math.abs(mate.increase_win_rate).toFixed(2) : '0.00'}</span>
                             </a>
                           );
                         })}
@@ -705,6 +738,16 @@ function HeroDetailPage() {
                 </div>
               </div>
             )}
+
+            {/* Builds Tab */}
+            {activeTab === 'builds' && (
+              <div className={styles.contentSection}>
+                <ProBuildsSection 
+                  builds={hero.pro_builds || []} 
+                  gameId={hero.game_id} 
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -716,6 +759,7 @@ function HeroDetailPage() {
         selectedSkill={selectedSkill}
         maxTransforms={maxTransforms}
         transformIndex={transformIndex}
+        changedIndices={changedIndices}
         onSkillSelect={handleSkillSelect}
         onTransformCycle={cycleTransform}
       />

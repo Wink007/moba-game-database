@@ -14,6 +14,11 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
   const { t } = useTranslation();
   const counterHero = heroes?.find(h => h.id === hero.hero_id);
 
+  const normalizeRate = (value: number | null | undefined) => {
+    if (value == null) return 0;
+    return value <= 1 ? value * 100 : value;
+  };
+
   const getCardClass = (index: number) => {
     if (index === 0) return styles.first;
     if (index === 1) return styles.second;
@@ -36,15 +41,15 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
 
       <div className={styles.statsGrid}>
         <div className={styles.statValue} data-label={t('heroRank.pickRate')}>
-          {(hero.appearance_rate * 100).toFixed(2)}%
+          {normalizeRate(hero.appearance_rate).toFixed(2)}%
         </div>
 
         <div className={styles.statValue} data-label={t('heroRank.winRate')}>
-          {(hero.win_rate * 100).toFixed(2)}%
+          {normalizeRate(hero.win_rate).toFixed(2)}%
         </div>
 
         <div className={styles.statValue} data-label={t('heroRank.banRate')}>
-          {(hero.ban_rate * 100).toFixed(2)}%
+          {normalizeRate(hero.ban_rate).toFixed(2)}%
         </div>
       </div>
 
@@ -65,7 +70,7 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
                   className={styles.synergyHeroIcon}
                   title={t('heroRank.synergyTooltip', { 
                     hero: synergyHero?.name, 
-                    rate: (synergy.increase_win_rate * 100).toFixed(1) 
+                    rate: normalizeRate(synergy.increase_win_rate).toFixed(1) 
                   })}
                 />
               </Link>

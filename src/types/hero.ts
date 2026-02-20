@@ -79,6 +79,18 @@ export interface HeroCompatibilityData {
   not_compatible: CompatibilityHero[];
 }
 
+export interface ProBuild {
+  author: string;
+  battle_spell_id: number;
+  core_items: number[];
+  emblem_id: number;
+  emblem_talents: string[];
+  likes: number;
+  optional_items: number[];
+  source: string;
+  description?: string;
+}
+
 export interface Hero {
   id: number;
   game_id: number;
@@ -100,13 +112,15 @@ export interface Hero {
   use_energy?: boolean;
   hero_stats?: HeroStatsObject;
   skills?: HeroSkill[];
-  pro_builds?: any[];
+  pro_builds?: ProBuild[];
   selected_talents?: any;
   main_hero_appearance_rate?: number;
   main_hero_ban_rate?: number;
   main_hero_win_rate?: number;
   created_at?: string;
   createdat?: number;
+  counter_data?: string;
+  compatibility_data?: string;
 }
 
 export interface HeroSkill {

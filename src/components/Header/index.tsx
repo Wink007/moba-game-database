@@ -53,13 +53,13 @@ export const Header: React.FC = () => {
         <nav className={`${styles.nav} ${isMenuOpen ? styles['nav--open'] : ''}`}>
             {/* Mobile Search */}
             <div className={styles['mobile-search']}>
-              <SearchBar />
+              <SearchBar onSelect={closeMenu} />
             </div>
 
-            {/* Mobile Language Switcher */}
-            <div className={styles['mobile-lang']}>
+            {/* Mobile Language Switcher - temporarily hidden */}
+            {/* <div className={styles['mobile-lang']}>
               <LanguageSwitcher />
-            </div>
+            </div> */}
 
             <NavLink 
                 to={`/${selectedGameId}/heroes`}
@@ -103,8 +103,10 @@ export const Header: React.FC = () => {
           <SearchBar />
         </div>
 
-        {/* Language Switcher */}
-        <LanguageSwitcher />
+        {/* Language Switcher for Desktop - temporarily hidden */}
+        {/* <div className={styles['desktop-lang']}>
+          <LanguageSwitcher />
+        </div> */}
 
         {/* Overlay for mobile */}
         {isMenuOpen && (

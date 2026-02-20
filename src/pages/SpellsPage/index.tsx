@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 import { API_URL } from '../../config';
 
@@ -19,6 +20,7 @@ interface BattleSpell {
 function SpellsPage() {
   const { t } = useTranslation();
   const { gameId } = useParams();
+  useSEO({ title: 'Battle Spells', description: 'All Mobile Legends battle spells — cooldowns, effects and unlock levels.' });
 
   const { data: spells = [], isLoading: loading, error: queryError } = useQuery<BattleSpell[]>({
     queryKey: ['battle-spells', gameId],

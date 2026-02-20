@@ -5,10 +5,12 @@ import { useGameStore } from '../../store/gameStore';
 import { useHeroFilters } from './hooks/useHeroFilters';
 import { HeroFilters } from './components/HeroFilters';
 import { HeroGrid } from './components/HeroGrid';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
 function HeroesPage() {
   const { t } = useTranslation();
+  useSEO({ title: 'Heroes', description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty.' });
   const { selectedGameId } = useGameStore();
   const { data: heroes, isLoading, isError } = useHeroesQuery(selectedGameId);
 

@@ -61,7 +61,14 @@
   cursor: pointer;
   padding: 0;
   z-index: 1001;
-  position: relative;
+  margin-left: auto;
+  flex-shrink: 0;
+
+  &--open {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+  }
 
   span {
     width: 100%;
@@ -129,6 +136,14 @@
   
   @media (min-width: 768px) {
     display: none;
+  }
+}
+
+.desktop-lang {
+  display: none;
+  
+  @media (min-width: 768px) {
+    display: flex;
   }
 }
 

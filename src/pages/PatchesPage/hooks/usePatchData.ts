@@ -54,11 +54,12 @@ export const usePatchData = ({ gameId, patchVersion }: UsePatchDataProps): UsePa
         
         if (patchesData.length > 0) {
           const versionFromUrl = patchVersion ? patchVersion.replace('patch_', '') : null;
-          const patchToSelect = versionFromUrl && patchesData.find((p: any) => p.version === versionFromUrl)
-            ? versionFromUrl
+          const matchedPatch = versionFromUrl && patchesData.find((p: any) => p.version === versionFromUrl);
+          const patchToSelect = matchedPatch
+            ? versionFromUrl!
             : patchesData[0].version;
           
-          if (!patchVersion) {
+          if (!patchVersion || !matchedPatch) {
             navigate(`/${gameId}/patches/patch_${patchToSelect}`, { replace: true });
           }
           

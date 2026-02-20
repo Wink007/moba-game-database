@@ -10,6 +10,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
   selectedSkill,
   maxTransforms,
   transformIndex,
+  changedIndices,
   onSkillSelect,
   onTransformCycle 
 }) => {
@@ -26,7 +27,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
           {displaySkills.map((skill, index) => (
             <div 
               key={skill.id} 
-              className={`${styles.skillTab} ${selectedSkillIndex === index ? styles.skillTabActive : ''}`}
+              className={`${styles.skillTab} ${selectedSkillIndex === index ? styles.skillTabActive : ''} ${changedIndices.has(index) ? styles.skillTabTransformed : ''}`}
               onClick={() => onSkillSelect(index)}
             >
               {skill.image && (
@@ -37,12 +38,15 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
                   {skill.skill_type === 'passive' ? 'P' : 'A'}
                 </div>
               )}
+              {changedIndices.has(index) && (
+                <div className={styles.skillTabChangedDot} />
+              )}
             </div>
           ))}
           {maxTransforms > 0 && (
             <button
               onClick={onTransformCycle}
-              className={styles.transformButton}
+              className={`${styles.transformButton} ${transformIndex > 0 ? styles.transformButtonActive : ''}`}
               title={transformIndex === 0 ? t('heroDetail.showTransformation') : t('heroDetail.transformation', { index: transformIndex })}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,72 +112,6 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
                 )}
               </div>
             </div>
-            
-            {/* Level Scaling Table */}
-            {selectedSkill.level_scaling && (() => {
-              let scalingData: Array<{ levels: any[]; name: string }> = [];
-              
-              if (typeof selectedSkill.level_scaling === 'string') {
-                try {
-                  scalingData = JSON.parse(selectedSkill.level_scaling);
-                } catch {
-                  return null;
-                }
-              } else if (Array.isArray(selectedSkill.level_scaling)) {
-                scalingData = selectedSkill.level_scaling;
-              } else {
-                return null;
-              }
-
-              if (!scalingData.length || !scalingData[0]?.levels || scalingData[0].levels.length === 0) {
-                return null;
-              }
-
-              let actualMaxLevel = 0;
-              scalingData.forEach(param => {
-                if (param.levels && Array.isArray(param.levels)) {
-                  for (let i = param.levels.length - 1; i >= 0; i--) {
-                    if (param.levels[i] !== undefined && param.levels[i] !== null && param.levels[i] !== '') {
-                      actualMaxLevel = Math.max(actualMaxLevel, i + 1);
-                      break;
-                    }
-                  }
-                }
-              });
-
-              if (actualMaxLevel === 0) return null;
-
-              return (
-                <div className={styles.levelScaling}>
-                  <div className={styles.levelScalingTable}>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th></th>
-                          {Array.from({ length: actualMaxLevel }, (_, i) => (
-                            <th key={i}>Lv.{i + 1}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {scalingData.map((param, idx) => (
-                          <tr key={idx}>
-                            <td className={styles.paramName}>{param.name}</td>
-                            {Array.from({ length: actualMaxLevel }, (_, levelIdx) => (
-                              <td key={levelIdx}>
-                                {param.levels && param.levels[levelIdx] !== undefined && param.levels[levelIdx] !== null && param.levels[levelIdx] !== ''
-                                  ? param.levels[levelIdx] 
-                                  : '—'}
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              );
-            })()}
           </div>
         )}
       </div>

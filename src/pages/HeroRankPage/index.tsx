@@ -8,10 +8,12 @@ import { useGameStore } from '../../store/gameStore';
 import { getDaysOptions, getRankOptions, getSortOptions, ITEMS_PER_PAGE } from './constants';
 import { HeroRankSkeleton } from './components/HeroRankSkeleton';
 import { HeroRankCard } from './components/HeroRankCard';
+import { useSEO } from '../../hooks/useSEO';
 
 export const HeroRankPage = () => {
   const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
+  useSEO({ title: 'Hero Rankings', description: 'Mobile Legends hero tier list — win rates, ban rates and pick rates by rank.' });
   const [days, setDays] = useState(1);
   const [rank, setRank] = useState('all');
   const [sortField, setSortField] = useState<'win_rate' | 'ban_rate' | 'pick_rate'>('win_rate');

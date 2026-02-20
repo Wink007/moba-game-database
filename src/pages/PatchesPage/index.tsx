@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
 import { usePatchData } from './hooks/usePatchData';
 import { PatchHeader } from './components/PatchHeader';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
 export const PatchesPage: React.FC = () => {
   const { t } = useTranslation();
   const { gameId, patchVersion } = useParams<{ gameId: string; patchVersion?: string }>();
+  useSEO({ title: patchVersion ? `Patch ${patchVersion}` : 'Patch Notes', description: 'Latest Mobile Legends patch notes — hero buffs, nerfs, item changes and more.' });
   
   const {
     patchVersions,
@@ -288,7 +290,7 @@ export const PatchesPage: React.FC = () => {
                   <div key={itemName} className={styles.itemCard}>
                     <div className={styles.itemHeader}>
                       {itemNameToId[itemName] ? (
-                        <Link to={`/${gameId}/items/${itemNameToId[itemName]}`} className={styles.heroLink}>
+                        <Link to={`/${gameId}/items?item=${itemNameToId[itemName]}`} className={styles.heroLink}>
                           <h4>{itemName}</h4>
                         </Link>
                       ) : (
