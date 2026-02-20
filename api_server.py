@@ -2569,6 +2569,49 @@ def update_hero_ranks_moonton():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+@app.route('/api/heroes/update-pro-builds', methods=['POST'])
+def update_pro_builds():
+    """Запустити fetch_mlbbio_builds.py для оновлення про-білдів з mlbb.io"""
+    try:
+        import threading
+        import subprocess
+        import sys
+
+        def run_script():
+            try:
+                print("[INFO] Starting fetch_mlbbio_builds.py...")
+                result = subprocess.run(
+                    [sys.executable, 'fetch_mlbbio_builds.py'],
+                    capture_output=True,
+                    text=True,
+                    timeout=600  # 10 хвилин максимум
+                )
+                print(f"[INFO] fetch_mlbbio_builds.py completed with exit code {result.returncode}")
+                if result.stdout:
+                    # Показуємо останні рядки
+                    lines = result.stdout.strip().split('\n')
+                    for line in lines[-10:]:
+                        print(f"[BUILDS] {line}")
+                if result.stderr:
+                    print(f"[STDERR] {result.stderr[:500]}")
+            except Exception as e:
+                print(f"[ERROR] Failed to run fetch_mlbbio_builds.py: {e}")
+
+        thread = threading.Thread(target=run_script)
+        thread.daemon = True
+        thread.start()
+
+        return jsonify({
+            'status': 'success',
+            'message': 'Pro builds update from mlbb.io started in background. Check server logs for progress.',
+            'estimated_time': '2-5 minutes'
+        }), 202
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/update-hero-relation/<hero_name>', methods=['POST'])
 def update_hero_relation_endpoint(hero_name):
     """Оновлює relation для конкретного героя з mlbb-stats API"""

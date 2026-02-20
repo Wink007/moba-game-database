@@ -656,6 +656,21 @@ function App() {
                   🔄 Update Counter Data
                 </button>
                 <button 
+                  className="btn btn-secondary"
+                  onClick={async () => {
+                    if (!window.confirm('Оновити про-білди з mlbb.io для всіх героїв? Це займе 2-5 хвилин.')) return;
+                    try {
+                      const response = await axios.post(`${API_URL}/heroes/update-pro-builds`);
+                      alert(`✅ ${response.data.message}`);
+                    } catch (error) {
+                      alert(`❌ Помилка: ${error.response?.data?.error || error.message}`);
+                    }
+                  }}
+                  title="Fetch latest pro builds from mlbb.io"
+                >
+                  🏗️ Update Pro Builds
+                </button>
+                <button 
                   className="btn btn-primary"
                   onClick={() => {
                     setEditingHero(null);
