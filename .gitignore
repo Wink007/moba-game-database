@@ -1,14 +1,98 @@
-# Temporary files
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+
+# Environment
+.env
+
+# Dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Bot (separate project)
+bot/
+
+# Archive (local reference only)
+archive/
+
+# Temporary data files
 *_temp.json
 *.backup_*
 user_*.json
-check_*.sql
-fix_*.sql
-parse_*.py
+patch_*_parsed.json
+patch_*_test.json
+temp_*.json
+*.db
+
+# One-off scripts (not needed for production)
+add_*.py
+fill_*.py
+fix_*.py
 check_*.py
+verify_*.py
+explore_*.py
+test_*.py
 generate_*.py
 save_*.py
 convert_*.py
 restore_*.py
-patch_*_parsed.json
-node_modules
+parse_*.py
+cleanup_*.py
+analyze_*.py
+deep_*.py
+final_*.py
+search_*.py
+migrate_*.py
+full_*.py
+sync_*.py
+resync_*.py
+debug_*.js
+simulate_*.js
+
+# One-off data/sql
+check_*.sql
+fix_*.sql
+*.sql
+additional_*.json
+equipment_data_*.json
+missing_*.json
+heroes_moonton_data_*.json
+all_heroes_skills_*.json
+roger_*.json
+
+# One-off shell scripts
+quick_test.sh
+start.sh
+start_all.sh
+check_and_start.sh
+cron_*.sh
+update_*.sh
+test_api.sh
+
+# One-off text artifacts
+equipment_fetch_log.txt
+liquipedia_equipment_list.txt
+test_output.txt
+
+# Admin panel build artifacts
+admin-panel/build/
+admin-panel/.DS_Store
+admin-panel/.env
+admin-panel/node_modules/
+admin-panel/react.log
+
+# Production files that MUST be kept (DO NOT add to gitignore):
+# api_server.py, database.py
+# fetch_all_heroes_stats.py, update_moonton_stats_final.py, update_hero_ranks_from_moonton.py
+# fetch_equipment_from_fandom.py, fetch_hero_counter_compatibility.py
+# import_hero_ranks.py, fetch_patches_from_liquipedia.py, fetch_item_translations.py
+# fetch_mlbbio_builds.py
+# mlbb_heroes_stats.json, patches_data.json
+*.env.local

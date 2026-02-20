@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up.railway.app/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
 
 function HeroRanksManager({ selectedGame }) {
   const [loading, setLoading] = useState(false);

@@ -8,8 +8,23 @@ import os
 import requests
 import json
 import time
-import database as db
 from datetime import datetime
+from pathlib import Path
+
+# Load .env file BEFORE importing database module
+def _load_env():
+    env_path = Path(__file__).resolve().parent / '.env'
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            key, value = line.split('=', 1)
+            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+_load_env()
+
+import database as db
 
 # Moonton API configuration
 MOONTON_API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
@@ -116,49 +131,52 @@ def fetch_hero_stats(days, rank, match_type=1):
     
     return all_heroes
 
-def update_hero_rank_in_railway(hero_game_id, days, rank, ban_rate, pick_rate, win_rate, synergy_data, game_id=2):
-    """Оновлює або додає запис в hero_rank через Railway API"""
-    railway_api = "https://web-production-8570.up.railway.app/api"
-    
+def update_hero_rank_in_db(hero_game_id, days, rank, ban_rate, pick_rate, win_rate, synergy_data, game_id=2, heroes_cache=None):
+    """Оновлює або додає запис в hero_rank напряму через database.py"""
     try:
-        # Знаходимо героя
-        response = requests.get(f"{railway_api}/heroes?game_id={game_id}")
-        heroes = response.json()
+        # Використовуємо кеш героїв для швидкості
+        if heroes_cache is None:
+            heroes_cache = {}
         
-        hero = next((h for h in heroes if h.get('hero_game_id') == hero_game_id), None)
-        if not hero:
+        hero_game_id_str = str(hero_game_id)
+        hero_id = heroes_cache.get(hero_game_id_str)
+        
+        if not hero_id:
             return False
         
-        hero_id = hero['id']
-        
-        # Перевіряємо чи існує запис hero_rank
-        check_response = requests.get(f"{railway_api}/hero-ranks?hero_id={hero_id}&days={days}&rank={rank}")
-        existing_ranks = check_response.json()
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
         
         synergy_json = json.dumps(synergy_data) if synergy_data else None
         
-        data = {
-            'hero_id': hero_id,
-            'days': days,
-            'rank': rank,
-            'ban_rate': ban_rate,
-            'appearance_rate': pick_rate,
-            'win_rate': win_rate,
-            'synergy_heroes': synergy_json
-        }
+        # Перевіряємо чи існує запис
+        cursor.execute(f"""
+            SELECT id FROM hero_rank 
+            WHERE hero_id = {ph} AND days = {ph} AND rank = {ph}
+        """, (hero_id, days, rank))
+        existing = cursor.fetchone()
         
-        if existing_ranks and len(existing_ranks) > 0:
-            # Оновлюємо існуючий запис
-            rank_id = existing_ranks[0]['id']
-            update_response = requests.put(f"{railway_api}/hero-ranks/{rank_id}", json=data)
-            return update_response.status_code in [200, 204]
+        if existing:
+            existing_id = existing[0] if not isinstance(existing, dict) else existing['id']
+            cursor.execute(f"""
+                UPDATE hero_rank 
+                SET ban_rate = {ph}, appearance_rate = {ph}, win_rate = {ph}, 
+                    synergy_heroes = {ph}, updated_at = CURRENT_TIMESTAMP
+                WHERE id = {ph}
+            """, (ban_rate, pick_rate, win_rate, synergy_json, existing_id))
         else:
-            # Створюємо новий запис
-            create_response = requests.post(f"{railway_api}/hero-ranks", json=data)
-            return create_response.status_code in [200, 201]
+            cursor.execute(f"""
+                INSERT INTO hero_rank (hero_id, days, rank, ban_rate, appearance_rate, win_rate, synergy_heroes)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+            """, (hero_id, days, rank, ban_rate, pick_rate, win_rate, synergy_json))
+        
+        conn.commit()
+        db.release_connection(conn)
+        return True
         
     except Exception as e:
-        print(f"    ❌ Помилка Railway API: {e}")
+        print(f"    ❌ DB error: {e}")
         return False
 
 def main():
@@ -166,6 +184,20 @@ def main():
     print("🎮 ОНОВЛЕННЯ HERO RANKS З MOONTON API")
     print("=" * 80)
     print(f"🔑 Auth Token: {AUTH_TOKEN[:20]}...")
+    
+    # Кешуємо маппінг hero_game_id → hero_id
+    print("📦 Завантажуємо героїв з БД...")
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, hero_game_id FROM heroes WHERE game_id = 2")
+    heroes_cache = {}
+    for row in cursor.fetchall():
+        if isinstance(row, dict):
+            heroes_cache[str(row['hero_game_id'])] = row['id']
+        else:
+            heroes_cache[str(row[1])] = row[0]
+    db.release_connection(conn)
+    print(f"  ✅ Завантажено {len(heroes_cache)} героїв")
     
     # Комбінації для оновлення - всі можливі (5 періодів × 6 рангів = 30 комбінацій)
     combinations = [
@@ -220,10 +252,10 @@ def main():
                                 'synergy': round(increase_wr, 2)
                             })
                 
-                success = update_hero_rank_in_railway(
+                success = update_hero_rank_in_db(
                     hero_game_id, days, rank, 
                     ban_rate, pick_rate, win_rate,
-                    synergy_heroes
+                    synergy_heroes, heroes_cache=heroes_cache
                 )
                 
                 if success:

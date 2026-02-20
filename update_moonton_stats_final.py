@@ -26,12 +26,26 @@ if not AUTH_TOKEN:
 
 API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
 ENDPOINT = "2756569"
-RAILWAY_API = "https://web-production-8570.up.railway.app/api/heroes"
 
 HEADERS = {
     'authorization': AUTH_TOKEN,
     'content-type': 'application/json;charset=UTF-8',
 }
+
+# Load .env for database connection
+from pathlib import Path
+def _load_env():
+    env_path = Path(__file__).resolve().parent / '.env'
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            key, value = line.split('=', 1)
+            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+_load_env()
+
+import database as db
 
 def fetch_counter_data(hero_id):
     """Fetch counter data (match_type=0)"""
@@ -85,28 +99,30 @@ def fetch_compatibility_data(hero_id):
         print(f"    ❌ Compat error: {e}")
         return None
 
-print("Loading Railway heroes...")
-response = requests.get(f'{RAILWAY_API}?game_id=2')
-response.raise_for_status()
-railway_heroes = response.json()
+print("Loading heroes from database...")
+db_heroes = db.get_heroes(2, include_details=False, include_skills=False, include_relation=False)
 
-# Create game_id to railway mapping (Moonton hero_id -> Railway hero)
-gameid_to_railway = {h.get('hero_game_id'): h for h in railway_heroes if h.get('hero_game_id')}
+# Create game_id to hero mapping (Moonton hero_id -> DB hero)
+gameid_to_hero = {}
+for h in db_heroes:
+    gid = h.get('hero_game_id')
+    if gid:
+        gameid_to_hero[int(gid) if isinstance(gid, str) and gid.isdigit() else gid] = h
 
-print(f"✅ {len(railway_heroes)} Railway heroes loaded\n")
+print(f"✅ {len(db_heroes)} heroes loaded from DB\n")
 
 # Process
 updated = 0
 skipped = 0
 
-for railway_hero in railway_heroes:
-    hero_name = railway_hero.get('name', '').strip()
-    moonton_id = railway_hero.get('hero_game_id')
+for hero in db_heroes:
+    hero_name = hero.get('name', '').strip()
+    moonton_id = hero.get('hero_game_id')
     if not moonton_id:
         skipped += 1
         continue
 
-    railway_id = railway_hero['id']
+    hero_db_id = hero['id']
 
     print(f"[{updated + skipped + 1}] {hero_name} (ID:{moonton_id})")
     
@@ -122,16 +138,15 @@ for railway_hero in railway_heroes:
         skipped += 1
         continue
     
-    # Parse counter
+    # Parse counter — зберігаємо Moonton heroid як є (фронтенд використовує hero_game_id)
     counter_data = {}
     if counter_raw:
         best_counters = []
         for item in counter_raw.get('sub_hero', [])[:5]:
             sub_heroid = item.get('heroid')
-            sub_hero = gameid_to_railway.get(sub_heroid)
-            if sub_hero:
+            if sub_heroid:
                 best_counters.append({
-                    'heroid': sub_hero['id'],
+                    'heroid': sub_heroid,
                     'win_rate': round(item.get('hero_win_rate', 0), 4),
                     'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
                     'appearance_rate': round(item.get('hero_appearance_rate', 0), 4)
@@ -140,10 +155,9 @@ for railway_hero in railway_heroes:
         most_countered = []
         for item in counter_raw.get('sub_hero_last', [])[:5]:
             sub_heroid = item.get('heroid')
-            sub_hero = gameid_to_railway.get(sub_heroid)
-            if sub_hero:
+            if sub_heroid:
                 most_countered.append({
-                    'heroid': sub_hero['id'],
+                    'heroid': sub_heroid,
                     'win_rate': round(item.get('hero_win_rate', 0), 4),
                     'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
                     'appearance_rate': round(item.get('hero_appearance_rate', 0), 4)
@@ -155,16 +169,15 @@ for railway_hero in railway_heroes:
             'most_countered_by': most_countered
         }
     
-    # Parse compatibility
+    # Parse compatibility — зберігаємо Moonton heroid як є
     compat_data = {}
     if compat_raw:
         compatible = []
         for item in compat_raw.get('sub_hero', [])[:5]:
             sub_heroid = item.get('heroid')
-            sub_hero = gameid_to_railway.get(sub_heroid)
-            if sub_hero:
+            if sub_heroid:
                 compatible.append({
-                    'heroid': sub_hero['id'],
+                    'heroid': sub_heroid,
                     'win_rate': round(item.get('hero_win_rate', 0), 4),
                     'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
                     'appearance_rate': round(item.get('hero_appearance_rate', 0), 4)
@@ -173,10 +186,9 @@ for railway_hero in railway_heroes:
         not_compatible = []
         for item in compat_raw.get('sub_hero_last', [])[:5]:
             sub_heroid = item.get('heroid')
-            sub_hero = gameid_to_railway.get(sub_heroid)
-            if sub_hero:
+            if sub_heroid:
                 not_compatible.append({
-                    'heroid': sub_hero['id'],
+                    'heroid': sub_heroid,
                     'win_rate': round(item.get('hero_win_rate', 0), 4),
                     'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
                     'appearance_rate': round(item.get('hero_appearance_rate', 0), 4)
@@ -188,24 +200,42 @@ for railway_hero in railway_heroes:
             'not_compatible': not_compatible
         }
     
-    # Get current hero data, update only counter/compat, then PUT back
+    # Прямий SQL UPDATE — оновлюємо ТІЛЬКИ counter_data і compatibility_data
     try:
-        get_resp = requests.get(f"{RAILWAY_API}/{railway_id}")
-        get_resp.raise_for_status()
-        hero_data = get_resp.json()
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
         
-        # Update only these fields
-        hero_data['counter_data'] = json.dumps(counter_data, ensure_ascii=False)
-        hero_data['compatibility_data'] = json.dumps(compat_data, ensure_ascii=False)
+        counter_json = json.dumps(counter_data, ensure_ascii=False) if counter_data else None
+        compat_json = json.dumps(compat_data, ensure_ascii=False) if compat_data else None
         
-        # PUT back
-        put_resp = requests.put(f"{RAILWAY_API}/{railway_id}", json=hero_data, timeout=10)
-        put_resp.raise_for_status()
+        if counter_json and compat_json:
+            cursor.execute(f"""
+                UPDATE heroes SET counter_data = {ph}, compatibility_data = {ph}
+                WHERE id = {ph}
+            """, (counter_json, compat_json, hero_db_id))
+        elif counter_json:
+            cursor.execute(f"""
+                UPDATE heroes SET counter_data = {ph}
+                WHERE id = {ph}
+            """, (counter_json, hero_db_id))
+        elif compat_json:
+            cursor.execute(f"""
+                UPDATE heroes SET compatibility_data = {ph}
+                WHERE id = {ph}
+            """, (compat_json, hero_db_id))
+        
+        conn.commit()
+        db.release_connection(conn)
         
         print(f"  ✅ {len(counter_data.get('best_counters', []))} counters, {len(compat_data.get('compatible', []))} mates\n")
         updated += 1
     except Exception as e:
         print(f"  ❌ Update error: {e}\n")
+        try:
+            db.release_connection(conn)
+        except:
+            pass
         skipped += 1
 
 print(f"\n✅ Updated: {updated}, Skipped: {skipped}")
