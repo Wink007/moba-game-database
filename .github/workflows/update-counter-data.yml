@@ -21,13 +21,32 @@ jobs:
         run: |
           echo "🔄 Updating counter and compatibility data..."
           
-          RESPONSE=$(curl -X POST https://web-production-8570.up.railway.app/api/heroes/update-counter-data \
-            -H "Content-Type: application/json" \
-            -d '{"game_id": 2}' \
-            -s -w "\n%{http_code}")
+          MAX_RETRIES=3
+          RETRY_DELAY=10
           
-          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-          BODY=$(echo "$RESPONSE" | sed '$d')
+          for i in $(seq 1 $MAX_RETRIES); do
+            echo "   Attempt $i of $MAX_RETRIES..."
+            
+            RESPONSE=$(curl -X POST https://web-production-8570.up.railway.app/api/heroes/update-counter-data \
+              -H "Content-Type: application/json" \
+              -d '{"game_id": 2}' \
+              --connect-timeout 15 \
+              --max-time 30 \
+              -s -w "\n%{http_code}" || true)
+            
+            HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+            BODY=$(echo "$RESPONSE" | sed '$d')
+            
+            if [ "$HTTP_CODE" == "202" ]; then
+              break
+            fi
+            
+            if [ "$i" -lt "$MAX_RETRIES" ]; then
+              echo "   ⚠️ Attempt $i failed (HTTP $HTTP_CODE), retrying in ${RETRY_DELAY}s..."
+              sleep $RETRY_DELAY
+              RETRY_DELAY=$((RETRY_DELAY * 2))
+            fi
+          done
           
           echo "response=$BODY" >> $GITHUB_OUTPUT
           echo "http_code=$HTTP_CODE" >> $GITHUB_OUTPUT
