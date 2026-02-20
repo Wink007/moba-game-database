@@ -16,7 +16,7 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
 
   const normalizeRate = (value: number | null | undefined) => {
     if (value == null) return 0;
-    return value <= 1 ? value * 100 : value;
+    return value;
   };
 
   const getCardClass = (index: number) => {
