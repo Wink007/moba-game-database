@@ -13,7 +13,7 @@ interface HeroCardProps {
 export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
   const { i18n } = useTranslation();
   const getLaneIcon = (lane: string): string | undefined => {
-    const laneKey = Object.values(Lanes).find(l => l === lane);
+    const laneKey = Object.values(Lanes).find(l => l.toLowerCase() === lane.toLowerCase());
     return laneKey ? LanesIcons[laneKey as Lanes] : undefined;
   };
 

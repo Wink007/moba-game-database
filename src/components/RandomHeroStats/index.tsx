@@ -2,19 +2,34 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName, translateRoles } from '../../utils/translation';
 import { useGameStore } from '../../store/gameStore';
-import { Loader } from '../Loader';
 import { Chart } from './Chart';
 import { getRange } from './utils';
 import { useHeroStats } from './useHeroStats';
 import styles from './styles.module.scss';
+
+const RandomHeroSkeleton = () => (
+  <div className={styles.container}>
+    <div className={styles.heroSection} style={{ pointerEvents: 'none' }}>
+      <div className={styles.skeletonCircle} />
+      <div className={styles.heroInfo}>
+        <div className={styles.skeletonLine} style={{ width: '120px', height: '20px' }} />
+        <div className={styles.skeletonLine} style={{ width: '80px', height: '14px' }} />
+      </div>
+    </div>
+    <div className={styles.chartsContainer}>
+      <div className={styles.skeletonChart} />
+      <div className={styles.skeletonChart} />
+    </div>
+  </div>
+);
 
 export const RandomHeroStats = () => {
   const { t, i18n } = useTranslation();
   const { selectedGameId } = useGameStore();
   const { isLoading, isError, hero, data } = useHeroStats(selectedGameId);
 
-  if (isLoading) return <Loader />;
-  if (isError || !hero || !data) return null;
+  if (isLoading) return <RandomHeroSkeleton />;
+  if (isError || !hero || !data) return <div className={styles.container} style={{ minHeight: '280px' }} />;
 
   const winRateRange = getRange(data.winRate.data);
   const banRateRange = getRange(data.banRate.data);

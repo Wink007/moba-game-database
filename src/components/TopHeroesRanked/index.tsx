@@ -28,8 +28,6 @@ export const TopHeroesRanked = () => {
     'desc' // descending order
   );
 
-  console.log(heroRanks);
-
   if (!selectedGameId) return null;
   if (isError) return <div className={styles.error}>{t('heroRank.noData')}</div>;
   

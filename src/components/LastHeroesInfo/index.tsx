@@ -106,7 +106,7 @@ export const LastHeroesInfo = () => {
                     <div className={style['hero-preview-wrapper']}>
                         <div className={style['lane-icon-wrapper']}>
                             {latestHeroes?.[currentHeroIndex]?.lane?.map((lane => {
-                                const laneKey = Object.values(Lanes).find(l => l === lane);
+                                const laneKey = Object.values(Lanes).find(l => l.toLowerCase() === lane.toLowerCase());
                                 return (
                                     <img 
                                         key={lane} 

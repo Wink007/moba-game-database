@@ -180,3 +180,32 @@
   height: auto;
   display: block;
 }
+
+// Skeleton styles
+.skeletonCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.15);
+  flex-shrink: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonLine {
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.15);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonChart {
+  height: 200px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
