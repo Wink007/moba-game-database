@@ -2888,10 +2888,6 @@ def update_all_heroes_skills():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-if __name__ == '__main__':
-    # Використовуємо PORT з environment або 8080 для локальної розробки
-    app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
-
 # Hero Ranks
 @app.route('/api/hero-ranks', methods=['GET'])
 def get_hero_ranks_api():
@@ -3263,3 +3259,6 @@ def migrate_equipment_fields():
         return jsonify({'error': str(e)}), 500
 
 
+if __name__ == '__main__':
+    # Використовуємо PORT з environment або 8080 для локальної розробки
+    app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
