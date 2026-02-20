@@ -120,7 +120,7 @@ def add_game(name, description, release_date, genre, background_image=None, vide
     release_connection(conn)
     return game_id
 
-def update_game(game_id, name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None):
+def update_game(game_id, name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None, icon=None):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -131,9 +131,9 @@ def update_game(game_id, name, description, release_date, genre, background_imag
     cursor.execute(f"""
         UPDATE games 
         SET name = {ph}, description = {ph}, release_date = {ph}, genre = {ph},
-            background_image = {ph}, video_intro = {ph}, subtitle = {ph}, preview = {ph}
+            background_image = {ph}, video_intro = {ph}, subtitle = {ph}, preview = {ph}, icon = {ph}
         WHERE id = {ph}
-    """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview, game_id))
+    """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview, icon, game_id))
     conn.commit()
     release_connection(conn)
     return cursor.rowcount > 0
