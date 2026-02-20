@@ -35,7 +35,47 @@ export const getItemName = (item: any, language: string = 'en'): string => {
   if (language === 'uk' && item.name_uk) {
     return item.name_uk;
   }
-  return item.name;
+  return item.display_name || item.name;
+};
+
+/**
+ * Helper function to get translated item description based on current language
+ */
+export const getItemDescription = (item: any, language: string = 'en'): string => {
+  if (language === 'uk' && item.description_uk) {
+    return item.description_uk;
+  }
+  return item.description || '';
+};
+
+/**
+ * Helper function to get translated item passive description based on current language
+ */
+export const getItemPassiveDescription = (item: any, language: string = 'en'): string => {
+  if (language === 'uk' && item.passive_description_uk) {
+    return item.passive_description_uk;
+  }
+  return item.passive_description || '';
+};
+
+/**
+ * Helper function to get translated item active name based on current language
+ */
+export const getItemActiveName = (item: any, language: string = 'en'): string => {
+  if (language === 'uk' && item.active_name_uk) {
+    return item.active_name_uk;
+  }
+  return item.active_name || '';
+};
+
+/**
+ * Helper function to get translated item active description based on current language
+ */
+export const getItemActiveDescription = (item: any, language: string = 'en'): string => {
+  if (language === 'uk' && item.active_description_uk) {
+    return item.active_description_uk;
+  }
+  return item.active_description || '';
 };
 
 /**

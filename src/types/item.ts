@@ -31,6 +31,12 @@ export interface Item {
   category?: string;
   tier?: string;
   
+  // Переклади
+  name_uk?: string | null;
+  description_uk?: string | null;
+  description_en?: string | null;
+  description_ru?: string | null;
+  
   // Ціни
   price_total?: number;
   price_sell?: number;
@@ -62,9 +68,19 @@ export interface Item {
   
   // Пасивка
   passive_name?: string | null;
+  passive_name_uk?: string | null;
   passive_description?: string | null;
+  passive_description_uk?: string | null;
+  passive_description_ru?: string | null;
   passive_type?: string | null;
   passive_effects?: string | null;
+  
+  // Активна абілка
+  active_name?: string | null;
+  active_name_uk?: string | null;
+  active_description?: string | null;
+  active_description_uk?: string | null;
+  active_description_ru?: string | null;
   
   // Рецепт та апгрейди
   recipe?: ItemRecipe[] | string | null;

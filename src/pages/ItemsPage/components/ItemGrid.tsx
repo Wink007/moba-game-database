@@ -1,5 +1,7 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ItemGridProps } from './interface';
+import { getItemName } from '../../../utils/translation';
 import parentStyles from '../styles.module.scss';
 
 export const ItemGrid: React.FC<ItemGridProps> = ({
@@ -7,6 +9,7 @@ export const ItemGrid: React.FC<ItemGridProps> = ({
   selectedItemId,
   onItemClick,
 }) => {
+  const { i18n } = useTranslation();
   return (
     <main className={parentStyles.mainContent}>
       <div className={parentStyles.itemsGrid}>
@@ -21,7 +24,7 @@ export const ItemGrid: React.FC<ItemGridProps> = ({
               {item.icon_url && <img src={item.icon_url} alt={item.name} />}
             </div>
             <div className={parentStyles.itemInfo}>
-              <h4>{item.display_name || item.name}</h4>
+              <h4>{getItemName(item, i18n.language)}</h4>
               {item.price_total && (
                 <div className={parentStyles.itemPrice}>
                   <span className={parentStyles.goldIcon}>💰</span>

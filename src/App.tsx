@@ -13,6 +13,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { Header } from './components/Header';
 import { Breadcrumbs } from './components/Breadcrumbs';
 import { Footer } from './components/Footer';
+import { ScrollToTop } from './components/ScrollToTop';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './App.css';
 
@@ -22,6 +23,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ScrollToTop />
         <div className="app-wrapper">
           <Header />
           <Breadcrumbs />

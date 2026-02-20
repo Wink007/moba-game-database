@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
 import { SearchBar } from '../SearchBar';
-// import { LanguageSwitcher } from '../LanguageSwitcher';
+import { LanguageSwitcher } from '../LanguageSwitcher';
 
 import styles from './styles.module.scss';
 
@@ -56,10 +56,9 @@ export const Header: React.FC = () => {
               <SearchBar onSelect={closeMenu} />
             </div>
 
-            {/* Mobile Language Switcher - temporarily hidden */}
-            {/* <div className={styles['mobile-lang']}>
+            <div className={styles['mobile-lang']}>
               <LanguageSwitcher />
-            </div> */}
+            </div>
 
             <NavLink 
                 to={`/${selectedGameId}/heroes`}
@@ -103,10 +102,9 @@ export const Header: React.FC = () => {
           <SearchBar />
         </div>
 
-        {/* Language Switcher for Desktop - temporarily hidden */}
-        {/* <div className={styles['desktop-lang']}>
+        <div className={styles['desktop-lang']}>
           <LanguageSwitcher />
-        </div> */}
+        </div>
 
         {/* Overlay for mobile */}
         {isMenuOpen && (

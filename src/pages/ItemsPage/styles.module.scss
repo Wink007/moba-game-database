@@ -607,6 +607,11 @@
   line-height: 1.5;
   margin-bottom: 1rem;
 
+  :global(.stat-highlight) {
+    color: #60a5fa;
+    font-weight: 800;
+  }
+
   @media (max-width: 480px) {
     padding: 0.625rem;
     font-size: 0.75rem;
