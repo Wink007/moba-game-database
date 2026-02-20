@@ -29,12 +29,8 @@ import database as db
 # Moonton API configuration
 MOONTON_API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
 
-# Читаємо токен з environment variable
+# Читаємо токен з environment variable (опціонально - API працює і без нього)
 AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN', '')
-
-if not AUTH_TOKEN:
-    print("❌ MOONTON_AUTH_TOKEN not set in environment!")
-    exit(1)
 
 HEADERS = {
     'accept': 'application/json, text/plain, */*',
@@ -42,8 +38,13 @@ HEADERS = {
     'x-actid': '2669607',
     'x-appid': '2669606',
     'x-lang': 'en',
-    'authorization': AUTH_TOKEN
 }
+
+if AUTH_TOKEN:
+    HEADERS['authorization'] = AUTH_TOKEN
+    print(f"🔑 Using auth token: {AUTH_TOKEN[:20]}...")
+else:
+    print("ℹ️  No auth token provided, using public API access")
 
 # Source IDs для різних періодів
 SOURCE_IDS = {
@@ -183,7 +184,6 @@ def main():
     print("=" * 80)
     print("🎮 ОНОВЛЕННЯ HERO RANKS З MOONTON API")
     print("=" * 80)
-    print(f"🔑 Auth Token: {AUTH_TOKEN[:20]}...")
     
     # Кешуємо маппінг hero_game_id → hero_id
     print("📦 Завантажуємо героїв з БД...")

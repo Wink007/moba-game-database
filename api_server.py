@@ -2519,12 +2519,7 @@ def update_hero_ranks_moonton():
     try:
         data = request.get_json() or {}
         game_id = data.get('game_id', 2)
-        auth_token = data.get('auth_token')  # Отримуємо токен з запиту
-        
-        if not auth_token:
-            return jsonify({
-                'error': 'Authorization token is required. Please provide auth_token in request body.'
-            }), 400
+        auth_token = data.get('auth_token', '')  # Опціонально — API працює і без токена
         
         # Запускаємо скрипт в окремому потоці
         import threading
@@ -2534,22 +2529,24 @@ def update_hero_ranks_moonton():
         def run_script():
             try:
                 print("[INFO] Starting update_hero_ranks_from_moonton.py...")
-                # Створюємо копію environment і додаємо токен
                 env = os.environ.copy()
-                env['MOONTON_AUTH_TOKEN'] = auth_token
+                if auth_token:
+                    env['MOONTON_AUTH_TOKEN'] = auth_token
                 
                 result = subprocess.run(
                     [sys.executable, 'update_hero_ranks_from_moonton.py'],
                     capture_output=True,
                     text=True,
                     timeout=300,  # 5 хвилин максимум
-                    env=env  # Передаємо environment з токеном
+                    env=env
                 )
                 print(f"[INFO] Script completed with exit code {result.returncode}")
                 if result.stdout:
-                    print(f"[STDOUT] {result.stdout}")
+                    lines = result.stdout.strip().split('\n')
+                    for line in lines[-15:]:
+                        print(f"[MOONTON] {line}")
                 if result.stderr:
-                    print(f"[STDERR] {result.stderr}")
+                    print(f"[STDERR] {result.stderr[:500]}")
             except Exception as e:
                 print(f"[ERROR] Failed to run script: {e}")
         
@@ -2562,9 +2559,6 @@ def update_hero_ranks_moonton():
             'message': 'Hero ranks update from Moonton API started. This will update all 30 combinations (5 days × 6 ranks). Check server logs for progress.',
             'estimated_time': '1-2 minutes'
         }), 202  # 202 Accepted
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500

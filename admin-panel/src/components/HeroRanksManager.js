@@ -196,11 +196,6 @@ function HeroRanksManager({ selectedGame }) {
       return;
     }
 
-    if (!authToken || authToken.trim() === '') {
-      setMessage('❌ Введіть токен авторизації! Візьміть його з https://m.mobilelegends.com/en/rank (DevTools → Network → rank → Authorization header)');
-      return;
-    }
-
     if (!window.confirm('⚠️ Це оновить ВСІ 30 комбінацій (5 періодів × 6 рангів) з офіційного Moonton API.\n\nПроцес займе 1-2 хвилини.\n\nПродовжити?')) {
       return;
     }
@@ -211,7 +206,7 @@ function HeroRanksManager({ selectedGame }) {
     try {
       const response = await axios.post(`${API_URL}/update-hero-ranks-moonton`, {
         game_id: selectedGame.id,
-        auth_token: authToken.trim()
+        auth_token: authToken ? authToken.trim() : undefined
       });
 
       setLastUpdate(new Date().toLocaleString());
