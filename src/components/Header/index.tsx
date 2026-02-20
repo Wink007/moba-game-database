@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
 import { SearchBar } from '../SearchBar';
-import { LanguageSwitcher } from '../LanguageSwitcher';
+// import { LanguageSwitcher } from '../LanguageSwitcher';
 
 import styles from './styles.module.scss';
 

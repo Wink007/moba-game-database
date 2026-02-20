@@ -21,8 +21,8 @@ function HeroDetailPage() {
   const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(Number(heroId));
   const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(Number(heroId));
   const { data: allHeroes = [] } = useHeroesQuery(hero?.game_id || 0);
-  const { data: counterData } = useHeroCounterDataQuery(hero?.game_id || 0);
-  const { data: compatibilityData } = useHeroCompatibilityDataQuery(hero?.game_id || 0);
+  useHeroCounterDataQuery(hero?.game_id || 0);
+  useHeroCompatibilityDataQuery(hero?.game_id || 0);
   const { data: patches = [] } = usePatchesQuery();
   
   const [showFullDescription, setShowFullDescription] = React.useState(false);
