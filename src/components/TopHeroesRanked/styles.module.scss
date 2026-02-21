@@ -3,18 +3,17 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
   padding: 0.5rem 1rem;
   background: linear-gradient(90deg, rgba(74, 158, 255, 0.2) 0%, rgba(74, 158, 255, 0.01) 90%);
 
   &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(180deg, #4A90E2 0%, #50C9F0 100%);
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #4A90E2 0%, #50C9F0 100%);
   }
 }
 
@@ -31,42 +30,82 @@
   width: 100%;
   justify-content: space-between;
   font-size: 0.7rem;
-  color: #9ca3af;
+  color: #bcc9d8;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 40px 1fr repeat(3, 90px);
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(148, 163, 184, 0.5);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  margin-bottom: 0.25rem;
+}
+
+.headerStat {
+  text-align: center;
 }
 
 .heroList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
+}
+
+// --- Hero Card ---
+
+.heroCard {
+  display: grid;
+  grid-template-columns: 40px 1fr repeat(3, 90px);
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1.25rem;
+  background: linear-gradient(90deg, rgba(74, 158, 255, 0.06) 0%, rgba(74, 158, 255, 0.01) 90%);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  height: 58px;
+
+  &:hover {
+    background: rgba(40, 51, 69, 0.5);
+    transform: translateX(3px);
+  }
+}
+
+.rank {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #64748b;
+  text-align: center;
 }
 
 .heroLink {
   display: flex;
   align-items: center;
-  flex: 1;
-}
-
-.heroCard {
-  display: flex;
-  align-items: center;
-  height: 80px;
-  gap: 1.5rem;
-  padding: 0 2rem;
-  background: linear-gradient(90deg, rgba(74, 158, 255, 0.2) 0%, rgba(74, 158, 255, 0.01) 90%);
-}
-
-.rank {
-  font-size: 1.3rem;
-  font-weight: 800;
-  min-width: 40px;
-  text-align: center;
+  gap: 0.75rem;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
 }
 
 .heroImage {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(74, 158, 255, 0.25);
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.08);
+    border-color: rgba(74, 158, 255, 0.5);
+  }
 
   img {
     width: 100%;
@@ -75,41 +114,51 @@
   }
 }
 
-.heroInfo {
-  min-width: 0;
-  margin-left: var(--spacing-md);
-}
-
 .heroName {
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: #fff;
-  margin: 0 0 0.5rem 0;
-}
-
-.stats {
-  display: flex;
-  gap: 2rem;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.statLabel {
-  font-size: 0.75rem;
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
 }
 
 .statValue {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  text-align: center;
+}
+
+.statsRow {
+  display: contents;
+}
+
+// --- Top 3 accent styles ---
+
+.first {
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.12) 0%, rgba(74, 158, 255, 0.01) 90%);
+
+  .rank {
+    color: #fbbf24;
+  }
+}
+
+.second {
+  background: linear-gradient(90deg, rgba(192, 192, 192, 0.1) 0%, rgba(74, 158, 255, 0.01) 90%);
+
+  .rank {
+    color: #cbd5e1;
+  }
+}
+
+.third {
+  background: linear-gradient(90deg, rgba(205, 127, 50, 0.1) 0%, rgba(74, 158, 255, 0.01) 90%);
+
+  .rank {
+    color: #d97706;
+  }
 }
 
 .error {
@@ -123,14 +172,11 @@
   max-width: 600px;
 }
 
-// Skeleton стилі
+// --- Skeleton ---
+
 @keyframes pulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
 .periodSkeleton {
@@ -142,28 +188,60 @@
 }
 
 .heroCardSkeleton {
-  display: flex;
+  display: grid;
+  grid-template-columns: 40px 1fr repeat(3, 90px);
   align-items: center;
-  height: 80px;
-  padding-right: 1.5rem;
-  background: linear-gradient(90deg, rgba(74, 158, 255, 0.2) 0%, rgba(74, 158, 255, 0.01) 90%);
-  border-radius: 4px;
+  height: 58px;
+  padding: 0.6rem 1.25rem;
+  gap: 1rem;
+  background: linear-gradient(90deg, rgba(74, 158, 255, 0.06) 0%, rgba(74, 158, 255, 0.01) 90%);
+  border-radius: 8px;
   animation: pulse 1.5s ease-in-out infinite;
 }
 
-.first {
-  background: linear-gradient(90deg, rgba(255, 215, 0, 0.2) 0%, rgba(17, 24, 39, 0.01) 90%);
+.skeletonRank {
+  width: 24px;
+  height: 16px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.08);
+  margin: 0 auto;
 }
 
-.second {
-  background: linear-gradient(90deg, rgba(192, 192, 192, 0.2) 0%, rgba(17, 24, 39, 0.01) 90%);
+.skeletonHero {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.third {
-  background: linear-gradient(135deg, rgba(205, 127, 50, 0.2) 0%, rgba(17, 24, 39, 0.01) 100%)
+.skeletonAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.08);
+  flex-shrink: 0;
 }
 
-// Responsive
+.skeletonName {
+  width: 90px;
+  height: 14px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.skeletonStat {
+  width: 50px;
+  height: 14px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.06);
+  margin: 0 auto;
+}
+
+.skeletonStatsRow {
+  display: contents;
+}
+
+// --- Responsive: tablet ---
+
 @media (max-width: 768px) {
   .container {
     margin: 1rem 0;
@@ -173,26 +251,47 @@
   .header {
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     padding: 0.75rem;
   }
 
   .title {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   .period {
     flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .tableHeader {
+    display: none;
   }
 
   .heroList {
-    gap: 0.75rem;
+    gap: 4px;
+  }
+
+  .heroCard {
+    grid-template-columns: 32px 1fr repeat(3, 64px);
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    height: 62px;
+  }
+
+  .heroCardSkeleton {
+    grid-template-columns: 32px 1fr repeat(3, 64px);
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    height: 62px;
   }
 
   .rank {
-    font-size: 1.25rem;
-    min-width: 35px;
-    display: none;
+    font-size: 1rem;
+  }
+
+  .heroLink {
+    gap: 0.5rem;
   }
 
   .heroImage {
@@ -200,32 +299,26 @@
     height: 40px;
   }
 
-  .heroInfo {
-    flex: 1;
-  }
-
   .heroName {
-    font-size: 1rem;
-    margin: 0 0 0.25rem 0.5rem;
-  }
-
-  .stats {
-    width: 70%;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding-top: 0.5rem;
-  }
-
-  .stat {
-    flex: 1;
-  }
-
-  .statLabel {
-    font-size: 0.65rem;
+    font-size: 0.9rem;
   }
 
   .statValue {
-    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.85rem;
+
+    &::before {
+      content: attr(data-label);
+      font-size: 0.55rem;
+      font-weight: 700;
+      color: rgba(148, 163, 184, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      line-height: 1;
+    }
   }
 
   .periodSkeleton {
@@ -233,15 +326,23 @@
     height: 18px;
   }
 
-  .heroCardSkeleton {
-    height: 80px;
+  .skeletonAvatar {
+    width: 40px;
+    height: 40px;
   }
 
-  .heroCard {
-    padding: 0.6rem;
-    gap: 0.5rem;
+  .skeletonName {
+    width: 70px;
+    height: 14px;
+  }
+
+  .skeletonStat {
+    width: 44px;
+    height: 14px;
   }
 }
+
+// --- Responsive: mobile ---
 
 @media (max-width: 480px) {
   .container {
@@ -252,40 +353,125 @@
     font-size: 1.1rem;
   }
 
-  .rank {
-    font-size: 1.1rem;
-    min-width: 30px;
+  .heroList {
+    gap: 6px;
   }
 
-  .heroImage {
-    width: 45px;
-    height: 45px;
-  }
+  .heroCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 0.75rem;
+    height: auto;
+    position: relative;
 
-  .heroName {
-    font-size: 0.9rem;
-  }
-
-  .stats {
-    gap: 0.25rem;
-  }
-
-  .statLabel {
-    font-size: 0.6rem;
-  }
-
-  .statValue {
-    font-size: 0.85rem;
-  }
-
-  // Skeleton мобільні стилі для mobile
-  .periodSkeleton {
-    width: 180px;
-    height: 18px;
+    &:hover {
+      transform: none;
+    }
   }
 
   .heroCardSkeleton {
-    height: 80px;
-    padding: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 0.75rem;
+    height: auto;
+    position: relative;
+  }
+
+  .skeletonRank {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 20px;
+    height: 16px;
+  }
+
+  .skeletonHero {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .rank {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    font-size: 1.2rem;
+  }
+
+  .heroLink {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .heroImage {
+    width: 48px;
+    height: 48px;
+  }
+
+  .heroName {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .statsRow {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .statValue {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 0.5rem 0.25rem;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    font-size: 1rem;
+
+    &::before {
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+    }
+  }
+
+  .periodSkeleton {
+    width: 160px;
+    height: 16px;
+  }
+
+  .skeletonAvatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .skeletonName {
+    width: 60px;
+    height: 14px;
+  }
+
+  .skeletonStatsRow {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .skeletonStat {
+    flex: 1;
+    height: 48px;
+    width: auto;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(148, 163, 184, 0.08);
+    margin: 0;
   }
 }

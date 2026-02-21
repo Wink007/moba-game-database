@@ -7,6 +7,16 @@ import { getRange } from './utils';
 import { useHeroStats } from './useHeroStats';
 import styles from './styles.module.scss';
 
+const SkeletonChartCard = () => (
+  <div className={styles.skeletonChartCard}>
+    <div className={styles.skeletonChartHeader}>
+      <div className={styles.skeletonLine} style={{ width: '140px', height: '16px' }} />
+      <div className={styles.skeletonLine} style={{ width: '60px', height: '24px', marginTop: '8px' }} />
+    </div>
+    <div className={styles.skeletonChartArea} />
+  </div>
+);
+
 const RandomHeroSkeleton = () => (
   <div className={styles.container}>
     <div className={styles.heroSection} style={{ pointerEvents: 'none' }}>
@@ -17,8 +27,8 @@ const RandomHeroSkeleton = () => (
       </div>
     </div>
     <div className={styles.chartsContainer}>
-      <div className={styles.skeletonChart} />
-      <div className={styles.skeletonChart} />
+      <SkeletonChartCard />
+      <SkeletonChartCard />
     </div>
   </div>
 );

@@ -37,10 +37,10 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
   const { t } = useTranslation();
   const [visibleCount, setVisibleCount] = React.useState(BUILDS_PER_PAGE);
 
-  const { data: items = [] } = useItemsQuery(gameId);
-  const { data: emblems = [] } = useEmblems(String(gameId));
-  const { tier1, tier2, tier3 } = useEmblemTalents(String(gameId));
-  const { data: spells = [] } = useQuery<BattleSpell[]>({
+  const { data: items = [], isLoading: itemsLoading } = useItemsQuery(gameId);
+  const { data: emblems = [], isLoading: emblemsLoading } = useEmblems(String(gameId));
+  const { tier1, tier2, tier3, isLoading: talentsLoading } = useEmblemTalents(String(gameId));
+  const { data: spells = [], isLoading: spellsLoading } = useQuery<BattleSpell[]>({
     queryKey: ['battle-spells', gameId],
     queryFn: async () => {
       const res = await fetch(`${API_URL}/battle-spells?game_id=${gameId}`);
@@ -49,6 +49,8 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
     enabled: !!gameId,
     staleTime: 5 * 60 * 1000,
   });
+
+  const isDataLoading = itemsLoading || emblemsLoading || talentsLoading || spellsLoading;
 
   const itemsMap = React.useMemo(() => {
     const map = new Map<number, Item>();
@@ -86,6 +88,46 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
     return (
       <div className={styles.noHistoryData}>
         <p>{t('heroDetail.noBuildsData')}</p>
+      </div>
+    );
+  }
+
+  if (isDataLoading) {
+    return (
+      <div className={styles.pbContainer}>
+        {[...Array(3)].map((_, idx) => (
+          <div key={idx} className={styles.pbSkeletonCard}>
+            <div className={styles.pbSkeletonHeader}>
+              <div className={styles.pbSkeletonRank} />
+              <div className={styles.pbSkeletonLikes} />
+            </div>
+            <div className={styles.pbSkeletonItemsRow}>
+              {[...Array(6)].map((_, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 && <div className={styles.pbSkeletonArrow} />}
+                  <div className={styles.pbSkeletonItem}>
+                    <div className={styles.pbSkeletonItemIcon} />
+                    <div className={styles.pbSkeletonItemLabel} />
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+            <div className={styles.pbSkeletonSetupRow}>
+              <div className={styles.pbSkeletonSetupItem}>
+                <div className={styles.pbSkeletonSetupIcon} />
+                <div className={styles.pbSkeletonSetupLabel} />
+              </div>
+              <div className={styles.pbSkeletonSetupItem}>
+                <div className={styles.pbSkeletonSetupIcon} />
+                <div className={styles.pbSkeletonSetupLabel} />
+              </div>
+              <div className={styles.pbSkeletonSetupItem}>
+                <div className={styles.pbSkeletonSetupIcon} />
+                <div className={styles.pbSkeletonSetupLabel} />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     );
   }

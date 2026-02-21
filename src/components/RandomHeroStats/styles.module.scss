@@ -59,7 +59,7 @@
 
 .heroRoles {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: #bcc9d8;
 }
 
 // Charts Container
@@ -157,7 +157,7 @@
 
 .chartSubtitle {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: #bcc9d8;
   margin: 0;
 }
 
@@ -197,11 +197,26 @@
   animation: pulse 1.5s ease-in-out infinite;
 }
 
-.skeletonChart {
-  height: 200px;
+.skeletonChartCard {
   border-radius: 16px;
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
   border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeletonChartHeader {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.skeletonChartArea {
+  width: 100%;
+  aspect-ratio: 480 / 230;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.08);
   animation: pulse 1.5s ease-in-out infinite;
 }
 

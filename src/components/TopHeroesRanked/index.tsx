@@ -8,7 +8,20 @@ import styles from './styles.module.scss';
 const HeroRankSkeleton = () => (
   <div className={styles.heroList}>
     {[...Array(5)].map((_, index) => (
-      <div key={index} className={styles.heroCardSkeleton} />
+      <div key={index} className={`${styles.heroCardSkeleton} ${
+        index === 0 ? styles.first : index === 1 ? styles.second : index === 2 ? styles.third : ''
+      }`}>
+        <div className={styles.skeletonRank} />
+        <div className={styles.skeletonHero}>
+          <div className={styles.skeletonAvatar} />
+          <div className={styles.skeletonName} />
+        </div>
+        <div className={styles.skeletonStatsRow}>
+          <div className={styles.skeletonStat} />
+          <div className={styles.skeletonStat} />
+          <div className={styles.skeletonStat} />
+        </div>
+      </div>
     ))}
   </div>
 );
@@ -38,7 +51,15 @@ export const TopHeroesRanked = () => {
           <h4 className={styles.title}>{t('home.topHeroesRanking')}</h4>
           <div className={styles.period}>
             <span>{t('home.lastDays', { days: 30 })}</span>
+            <p className={styles.periodSkeleton} />
           </div>
+        </div>
+        <div className={styles.tableHeader}>
+          <div />
+          <div>{t('heroRank.hero')}</div>
+          <div className={styles.headerStat}>{t('heroRank.winRate')}</div>
+          <div className={styles.headerStat}>{t('heroRank.pickRate')}</div>
+          <div className={styles.headerStat}>{t('heroRank.banRate')}</div>
         </div>
         <HeroRankSkeleton />
       </div>
@@ -55,6 +76,14 @@ export const TopHeroesRanked = () => {
           <span>{t('home.lastDays', { days: 30 })}</span>
           <p>{t('home.updatedTime', { time: heroRanks[0].updated_at })}</p>
         </div>
+      </div>
+
+      <div className={styles.tableHeader}>
+        <div />
+        <div>{t('heroRank.hero')}</div>
+        <div className={styles.headerStat}>{t('heroRank.winRate')}</div>
+        <div className={styles.headerStat}>{t('heroRank.pickRate')}</div>
+        <div className={styles.headerStat}>{t('heroRank.banRate')}</div>
       </div>
       
       <div className={styles.heroList}>
@@ -73,32 +102,20 @@ export const TopHeroesRanked = () => {
               <div className={styles.heroImage}>
                 <img src={hero.head || hero.image} alt={getHeroName(hero, i18n.language)} />
               </div>
-              
-              <div className={styles.heroInfo}>
-                <h3 className={styles.heroName}>{getHeroName(hero, i18n.language)}</h3>
-              </div>
+              <span className={styles.heroName}>{getHeroName(hero, i18n.language)}</span>
             </Link>
-            
-            <div className={styles.stats}>
-              <div className={styles.stat}>
-                <span className={styles.statLabel}>{t('home.stats.winRate')}</span>
-                <span className={styles.statValue}>
-                  {hero.win_rate.toFixed(2)}%
-                </span>
+
+            <div className={styles.statsRow}>
+              <div className={styles.statValue} data-label={t('heroRank.winRate')}>
+                {hero.win_rate.toFixed(2)}%
               </div>
-              
-              <div className={styles.stat}>
-                <span className={styles.statLabel}>{t('home.stats.pickRate')}</span>
-                <span className={styles.statValue}>
-                  {hero.appearance_rate.toFixed(2)}%
-                </span>
+
+              <div className={styles.statValue} data-label={t('heroRank.pickRate')}>
+                {hero.appearance_rate.toFixed(2)}%
               </div>
-              
-              <div className={styles.stat}>
-                <span className={styles.statLabel}>{t('home.stats.banRate')}</span>
-                <span className={styles.statValue}>
-                  {hero.ban_rate.toFixed(2)}%
-                </span>
+
+              <div className={styles.statValue} data-label={t('heroRank.banRate')}>
+                {hero.ban_rate.toFixed(2)}%
               </div>
             </div>
           </div>

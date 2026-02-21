@@ -10,9 +10,9 @@ export const roleTranslations: Record<string, { en: string; uk: string }> = {
 };
 
 export const laneTranslations: Record<string, { en: string; uk: string }> = {
-  'Gold Lane': { en: 'Gold Lane', uk: 'Золота лінія' },
+  'Gold Lane': { en: 'Gold Lane', uk: 'Голд лінія' },
   'Jungle': { en: 'Jungle', uk: 'Ліс' },
-  'Mid Lane': { en: 'Mid Lane', uk: 'Центральна лінія' },
+  'Mid Lane': { en: 'Mid Lane', uk: 'Мід лінія' },
   'Exp Lane': { en: 'Exp Lane', uk: 'Лінія досвіду' },
   'Roam': { en: 'Roam', uk: 'Роум' }
 };
@@ -28,7 +28,7 @@ export const specialtyTranslations: Record<string, { en: string; uk: string }> =
   'Crowd Control': { en: 'Crowd Control', uk: 'Контроль натовпу' },
   'Finisher': { en: 'Finisher', uk: 'Добивач' },
   'Charge': { en: 'Charge', uk: 'Штурм' },
-  'Push': { en: 'Push', uk: 'Натиск' },
+  'Push': { en: 'Push', uk: 'Пуш' },
   'Damage': { en: 'Damage', uk: 'Урон' },
   'Burst': { en: 'Burst', uk: 'Вибух' },
   'Poke': { en: 'Poke', uk: 'Тримання дистанції' },
