@@ -162,6 +162,7 @@
     & .hero-skills {
         position: relative;
         display: flex;
+        align-items: center;
         gap: var(--spacing-xl);
         margin: var(--spacing-xl) 0 var(--spacing-xl);
     }
@@ -259,9 +260,55 @@
     & .transform-button {
         position: absolute;
         right: 0;
-        background-color: transparent;
-        border: none;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+        border: 2px solid rgba(96, 165, 250, 0.4);
+        border-radius: 12px;
         cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #60a5fa;
+        flex-shrink: 0;
+
+        svg {
+            transition: transform 0.3s ease;
+        }
+
+        &:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2));
+            border-color: rgba(96, 165, 250, 0.8);
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
+            svg { transform: rotate(180deg); }
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        &--active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(99, 102, 241, 0.25));
+            border-color: rgba(96, 165, 250, 0.8);
+        }
+    }
+
+    & .transform-index {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        background: rgba(59, 130, 246, 0.9);
+        color: white;
+        font-size: 9px;
+        font-weight: 700;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
     }
 }
 
@@ -445,6 +492,7 @@
             gap: var(--spacing-sm);
             margin: var(--spacing-md) 0;
             justify-content: space-around;
+            align-items: center;
             flex-wrap: wrap;
         }
 
@@ -492,16 +540,15 @@
 
         & .transform-button {
             position: static;
-            width: 50px;
-            height: 50px;
-            margin: var(--spacing-md) auto 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            img {
-                width: 100%;
-                height: 100%;
+            width: 40px;
+            height: 40px;
+            margin: 0;
+            border-radius: 10px;
+            flex-shrink: 0;
+
+            svg {
+                width: 16px;
+                height: 16px;
             }
         }
 
@@ -589,9 +636,14 @@
         }
 
         & .transform-button {
-            width: 45px;
-            height: 45px;
-            margin-top: var(--spacing-sm);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+
+            svg {
+                width: 14px;
+                height: 14px;
+            }
         }
 
         & .more-info-link {
@@ -623,6 +675,17 @@
             .skill-icon {
                 width: 45px;
                 height: 45px;
+            }
+        }
+
+        & .transform-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+
+            svg {
+                width: 12px;
+                height: 12px;
             }
         }
     }
