@@ -186,8 +186,8 @@
     }
 
     & .skill-item-skeleton {
-        width: 80px;
-        height: 80px;
+        width: 90px;
+        height: 90px;
         background: rgba(74, 158, 255, 0.2);
         border-radius: 50%;
         animation: pulse 1.5s ease-in-out infinite;
@@ -225,7 +225,7 @@
     
     & .ability-row-skeleton {
         width: 100%;
-        height: 66px;
+        height: 78px;
         background: rgba(74, 158, 255, 0.2);
         border-radius: 4px;
         animation: pulse 1.5s ease-in-out infinite;
@@ -487,7 +487,7 @@
         }
 
         & .ability-row-skeleton {
-            height: 40px;
+            height: 52px;
         }
 
         & .transform-button {
@@ -585,7 +585,7 @@
         }
 
         & .ability-row-skeleton {
-            height: 35px;
+            height: 46px;
         }
 
         & .transform-button {

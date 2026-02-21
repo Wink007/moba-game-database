@@ -107,12 +107,10 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Overlay for mobile */}
-        {isMenuOpen && (
-          <div 
-            className={styles.overlay} 
-            onClick={closeMenu}
-          />
-        )}
+        <div 
+          className={`${styles.overlay} ${isMenuOpen ? styles['overlay--visible'] : ''}`} 
+          onClick={closeMenu}
+        />
     </header>
   );
 };

@@ -103,21 +103,21 @@
 .nav {
   position: fixed;
   top: 0;
-  right: -100%;
+  right: 0;
   width: 100%;
   height: 100vh;
   background: rgba(26, 52, 71, 0.98);
-  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
   padding-top: 80px;
-  transition: right 0.3s ease;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
   z-index: 1000;
-  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+  will-change: transform;
 
   &--open {
-    right: 0;
+    transform: translateX(0);
   }
 }
 
@@ -154,12 +154,14 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
-  animation: fadeIn 0.3s ease;
-}
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  &--visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .nav-links {
