@@ -9,6 +9,7 @@ import { ItemGrid } from './components/ItemGrid';
 import { ItemDetails } from './components/ItemDetails';
 import { Item } from '../../types/item';
 import { useSEO } from '../../hooks/useSEO';
+import { Loader } from '../../components/Loader';
 import styles from './styles.module.scss';
 
 function ItemsPage() {
@@ -77,7 +78,7 @@ function ItemsPage() {
   };
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading items...</div>;
+    return <div className={styles.loading}><Loader /></div>;
   }
 
   return (
