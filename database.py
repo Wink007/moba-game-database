@@ -1047,7 +1047,9 @@ def update_equipment(equipment_id, **kwargs):
                      'movement_speed', 'attack_speed', 'cooldown_reduction', 'lifesteal', 'spell_vamp',
                      'penetration', 'stats_other', 'passive_name', 'passive_type', 'passive_description',
                      'recipe', 'tips', 'in_depth_info', 'countered_by', 'builds', 'tier', 'attributes', 'tags',
-                     'mana_regen', 'crit_chance', 'attributes_json']
+                     'mana_regen', 'crit_chance', 'attributes_json',
+                     'name_uk', 'description_uk', 'passive_name_uk', 'passive_description_uk',
+                     'active_name_uk', 'active_description_uk', 'name_en', 'description_en']
     
     updates = []
     values = []
