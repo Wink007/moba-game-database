@@ -60,7 +60,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
     [t('items.statLabels.lifesteal')]: selectedItem.lifesteal,
     [t('items.statLabels.movementSpeed')]: selectedItem.movement_speed,
   };
-  const filteredStats = Object.entries(stats).filter(([_, value]) => value !== undefined && value !== null);
+  const filteredStats = Object.entries(stats).filter(([_, value]) => value != null && Number(value) !== 0);
 
   const renderRecipeTree = (item: Item, level: number = 0): React.ReactElement[] => {
     const components = getCraftingTree(item);
