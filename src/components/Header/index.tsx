@@ -35,6 +35,7 @@ export const Header: React.FC = () => {
                 className={styles.logo}
                 style={{backgroundImage: `url(/${selectedGameId}.png)`}}
                 onClick={closeMenu}
+                aria-label="MOBA Wiki — Home"
             />
         </div>
 

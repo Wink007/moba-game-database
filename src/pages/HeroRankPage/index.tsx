@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHeroesQuery, useHeroRanksQuery } from '../../queries/useHeroesQuery';
 import LoadMoreButton from '../../components/LoadMoreButton';
@@ -32,15 +32,19 @@ export const HeroRankPage = () => {
 
   const { data: heroes } = useHeroesQuery(selectedGameId);
 
-  if (heroRanksData && !isLoading) {
-    const existingIds = new Set(allHeroes.map(h => h.id));
-    const newHeroes = heroRanksData.filter(h => !existingIds.has(h.id));
-    if (newHeroes.length > 0 && page === 1) {
-      setAllHeroes(heroRanksData);
-    } else if (newHeroes.length > 0) {
-      setAllHeroes(prev => [...prev, ...newHeroes]);
+  useEffect(() => {
+    if (heroRanksData && !isLoading) {
+      if (page === 1) {
+        setAllHeroes(heroRanksData);
+      } else {
+        setAllHeroes(prev => {
+          const existingIds = new Set(prev.map(h => h.id));
+          const newHeroes = heroRanksData.filter(h => !existingIds.has(h.id));
+          return newHeroes.length > 0 ? [...prev, ...newHeroes] : prev;
+        });
+      }
     }
-  }
+  }, [heroRanksData, isLoading, page]);
 
   const handleLoadMore = () => {
     setPage(prev => prev + 1);

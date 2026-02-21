@@ -209,6 +209,7 @@
     "tier": "Tier",
     "stats": "Stats",
     "noTalents": "No talents available",
+    "noData": "No emblems data available",
     "failedToLoad": "Failed to load emblems"
   },
   "spells": {
@@ -216,6 +217,8 @@
     "description": "Battle Spells provide powerful abilities with long cooldowns",
     "cooldown": "CD",
     "noSpells": "No spells available",
+    "unlock": "Unlock",
+    "level": "Lvl",
     "failedToLoad": "Failed to load spells"
   },
   "patches": {
@@ -337,5 +340,10 @@
     "viewAll": "View All",
     "showMore": "Show More",
     "showLess": "Show Less"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to Home"
   }
 }

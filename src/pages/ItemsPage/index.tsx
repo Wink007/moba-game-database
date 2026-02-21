@@ -1,5 +1,6 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import { useItemCategories } from './hooks/useItemCategories';
 import { useItemFilters } from './hooks/useItemFilters';
@@ -13,10 +14,11 @@ import { Loader } from '../../components/Loader';
 import styles from './styles.module.scss';
 
 function ItemsPage() {
+  const { t } = useTranslation();
   const { gameId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   useSEO({ title: 'Items', description: 'Browse all Mobile Legends items — equipment, roaming, jungling and more.' });
-  const { data: items = [], isLoading } = useItemsQuery(Number(gameId));
+  const { data: items = [], isLoading, isError } = useItemsQuery(Number(gameId));
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -79,6 +81,10 @@ function ItemsPage() {
 
   if (isLoading) {
     return <div className={styles.loading}><Loader /></div>;
+  }
+
+  if (isError) {
+    return <div className={styles.loading}><p style={{ color: '#94a3b8' }}>{t('items.failedToLoad')}</p></div>;
   }
 
   return (

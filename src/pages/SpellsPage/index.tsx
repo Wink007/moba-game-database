@@ -46,7 +46,7 @@ function SpellsPage() {
   }
 
   if (spells.length === 0) {
-    return <div className={styles.noData}>No battle spells available</div>;
+    return <div className={styles.noData}>{t('spells.noSpells')}</div>;
   }
 
   return (
@@ -82,8 +82,8 @@ function SpellsPage() {
                   )}
                   {spell.unlocked_level !== undefined && spell.unlocked_level !== null && (
                     <div className={styles.metaItem}>
-                      <span className={styles.metaLabel}>Unlock:</span>
-                      <span className={styles.metaValue}>Lvl {spell.unlocked_level}</span>
+                      <span className={styles.metaLabel}>{t('spells.unlock')}:</span>
+                      <span className={styles.metaValue}>{t('spells.level')} {spell.unlocked_level}</span>
                     </div>
                   )}
                 </div>

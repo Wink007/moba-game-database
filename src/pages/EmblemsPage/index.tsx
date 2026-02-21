@@ -27,7 +27,7 @@ function EmblemsPage() {
   }
 
   if (emblems.length === 0 && tier1.length === 0 && tier2.length === 0 && tier3.length === 0) {
-    return <div className={styles.noData}>No emblems data available</div>;
+    return <div className={styles.noData}>{t('emblems.noData')}</div>;
   }
 
   return (
@@ -48,15 +48,15 @@ function EmblemsPage() {
       )}
 
       {tier1.length > 0 && (
-        <TalentsSection title="Tier 1 Talents" talents={tier1} tier={1} />
+        <TalentsSection title={`${t('emblems.tier')} 1 — ${t('emblems.talents')}`} talents={tier1} tier={1} />
       )}
 
       {tier2.length > 0 && (
-        <TalentsSection title="Tier 2 Talents" talents={tier2} tier={2} />
+        <TalentsSection title={`${t('emblems.tier')} 2 — ${t('emblems.talents')}`} talents={tier2} tier={2} />
       )}
 
       {tier3.length > 0 && (
-        <TalentsSection title="Tier 3 Talents" talents={tier3} tier={3} />
+        <TalentsSection title={`${t('emblems.tier')} 3 — ${t('emblems.talents')}`} talents={tier3} tier={3} />
       )}
     </div>
   );

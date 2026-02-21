@@ -96,7 +96,7 @@ export const DataLoader = ({ gameId, children }: DataLoaderProps) => {
   if (isError) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-        <p>Error loading data</p>
+        <p style={{ color: '#94a3b8' }}>Failed to load data. Please try refreshing.</p>
       </div>
     );
   }
