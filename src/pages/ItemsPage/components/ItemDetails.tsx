@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Item } from '../../../types';
 import { ItemDetailsProps } from './interface';
 import { getItemName, getItemDescription } from '../../../utils/translation';
+import { parseItemDescription } from '../../../utils/parseItemDescription';
 import parentStyles from '../styles.module.scss';
 
 export const ItemDetails: React.FC<ItemDetailsProps> = ({
@@ -119,12 +120,43 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
         </div>
       </div>
 
-      {(selectedItem.description || selectedItem.description_uk) && (
-        <div 
-          className={parentStyles.itemDescription}
-          dangerouslySetInnerHTML={{ __html: highlightValues(cleanDescription(getItemDescription(selectedItem, i18n.language))) }}
-        />
-      )}
+      {(selectedItem.description || selectedItem.description_uk) && (() => {
+        const rawDesc = cleanDescription(getItemDescription(selectedItem, i18n.language));
+        const parsed = parseItemDescription(rawDesc, selectedItem.name);
+        
+        return (
+          <div className={parentStyles.itemDescription}>
+            {parsed.tagline && (
+              <div className={parentStyles.descTagline}>{parsed.tagline}</div>
+            )}
+            
+            {parsed.attributes.length > 0 && (
+              <div className={parentStyles.descAttributes}>
+                {parsed.attributes.map((attr, idx) => (
+                  <span key={idx} className={parentStyles.descAttr}>{attr}</span>
+                ))}
+              </div>
+            )}
+
+            {parsed.abilities.length > 0 && (
+              <div className={parentStyles.descAbilities}>
+                {parsed.abilities.map((ability, idx) => (
+                  <div key={idx} className={parentStyles.descAbility}>
+                    <div className={parentStyles.abilityHeader}>
+                      <span className={parentStyles.abilityType}>{ability.type}</span>
+                      {ability.name && <span className={parentStyles.abilityName}>{ability.name}</span>}
+                    </div>
+                    <div 
+                      className={parentStyles.abilityDesc}
+                      dangerouslySetInnerHTML={{ __html: highlightValues(ability.description) }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {filteredStats.length > 0 && (
         <div className={parentStyles.itemStats}>
