@@ -31,9 +31,10 @@ interface UserBuild {
 interface CommunityBuildsSectionProps {
   heroId: number;
   gameId: number;
+  showOnly?: 'my' | 'community';
 }
 
-export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ heroId, gameId }) => {
+export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ heroId, gameId, showOnly }) => {
   const { t } = useTranslation();
   const { user } = useAuthStore();
   const [showForm, setShowForm] = useState(false);
@@ -301,7 +302,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
   return (
     <div className={styles.cbContainer}>
       {/* My Builds */}
-      {user && (
+      {(!showOnly || showOnly === 'my') && user && (
         <div className={styles.cbSection}>
           <div className={styles.cbSectionHeader}>
             <h3 className={styles.sectionTitle}>{t('builds.myBuilds')}</h3>
@@ -318,14 +319,16 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
       )}
 
       {/* Community Builds */}
-      <div className={styles.cbSection}>
-        <h3 className={styles.sectionTitle}>{t('builds.communityBuilds')}</h3>
-        {communityBuilds.length === 0 ? (
-          <p className={styles.cbEmpty}>{t('builds.noCommunityBuilds')}</p>
-        ) : (
-          communityBuilds.map(b => renderBuildCard(b, false))
-        )}
-      </div>
+      {(!showOnly || showOnly === 'community') && (
+        <div className={styles.cbSection}>
+          <h3 className={styles.sectionTitle}>{t('builds.communityBuilds')}</h3>
+          {communityBuilds.length === 0 ? (
+            <p className={styles.cbEmpty}>{t('builds.noCommunityBuilds')}</p>
+          ) : (
+            communityBuilds.map(b => renderBuildCard(b, false))
+          )}
+        </div>
+      )}
 
       {/* Build Form Modal */}
       {showForm && (

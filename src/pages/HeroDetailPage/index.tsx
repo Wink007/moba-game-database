@@ -13,6 +13,7 @@ import { CommunityBuildsSection } from './components/CommunityBuildsSection';
 import { useHeroSkills } from './hooks/useHeroSkills';
 import { useHeroTabs } from './hooks/useHeroTabs';
 import { useSEO } from '../../hooks/useSEO';
+import { useAuthStore } from '../../store/authStore';
 import styles from './styles.module.scss';
 import type { Patch } from '../../types';
 
@@ -29,6 +30,15 @@ function HeroDetailPage() {
   const [showFullDescription, setShowFullDescription] = React.useState(false);
   
   const { activeTab, counterSubTab, synergySubTab, setActiveTab, setCounterSubTab, setSynergySubTab } = useHeroTabs();
+  const [buildsSubTab, setBuildsSubTab] = React.useState<'builds' | 'my'>('builds');
+  const { user } = useAuthStore();
+
+  // Reset to 'builds' sub-tab when user logs out
+  React.useEffect(() => {
+    if (!user && buildsSubTab === 'my') {
+      setBuildsSubTab('builds');
+    }
+  }, [user, buildsSubTab]);
   
   useSEO({
     title: hero ? `${hero.name} — Hero Guide` : 'Hero',
@@ -747,14 +757,45 @@ function HeroDetailPage() {
             {/* Builds Tab */}
             {activeTab === 'builds' && (
               <div className={styles.contentSection}>
-                <ProBuildsSection 
-                  builds={hero.pro_builds || []} 
-                  gameId={hero.game_id} 
-                />
-                <CommunityBuildsSection
-                  heroId={hero.id}
-                  gameId={hero.game_id}
-                />
+                {/* Sub-tabs: Builds / My Builds */}
+                <div className={styles.relationshipTabs}>
+                  <button
+                    className={`${styles.relationshipTab} ${buildsSubTab === 'builds' ? styles.relationshipTabActive : ''}`}
+                    onClick={() => setBuildsSubTab('builds')}
+                  >
+                    {t('heroDetail.proBuilds')}
+                  </button>
+                  {user && (
+                    <button
+                      className={`${styles.relationshipTab} ${buildsSubTab === 'my' ? styles.relationshipTabActive : ''}`}
+                      onClick={() => setBuildsSubTab('my')}
+                    >
+                      {t('builds.myBuilds')}
+                    </button>
+                  )}
+                </div>
+
+                {buildsSubTab === 'builds' && (
+                  <>
+                    <ProBuildsSection 
+                      builds={hero.pro_builds || []} 
+                      gameId={hero.game_id} 
+                    />
+                    <CommunityBuildsSection
+                      heroId={hero.id}
+                      gameId={hero.game_id}
+                      showOnly="community"
+                    />
+                  </>
+                )}
+
+                {buildsSubTab === 'my' && user && (
+                  <CommunityBuildsSection
+                    heroId={hero.id}
+                    gameId={hero.game_id}
+                    showOnly="my"
+                  />
+                )}
               </div>
             )}
           </div>
