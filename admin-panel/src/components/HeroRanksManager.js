@@ -162,22 +162,16 @@ function HeroRanksManager({ selectedGame }) {
       return;
     }
 
-    if (!authToken || authToken.trim() === '') {
-      setMessage('❌ Введіть токен авторизації! Візьміть його з https://m.mobilelegends.com/en/rank (DevTools → Network → rank → Authorization header)');
-      return;
-    }
-
-    if (!window.confirm('🔄 Оновити статистику героїв (Ban/Pick/Win Rates)?\n\nЦе завантажить свіжі дані з Moonton API та оновить базу даних.\n\n⏱️ Займе ~1-2 хвилини')) {
+    if (!window.confirm('🔄 Оновити статистику героїв (Ban/Pick/Win Rates)?\n\nЦе завантажить свіжі дані з публічного Moonton GMS API (токен не потрібен).\n\n⏱️ Займе ~10-15 секунд')) {
       return;
     }
 
     setLoading(true);
-    setMessage('🔄 Завантаження та оновлення статистик з Moonton API...');
+    setMessage('🔄 Завантаження Ban/Pick/Win Rates з Moonton GMS API...');
 
     try {
       const response = await axios.post(`${API_URL}/mlbb/heroes/fetch-and-update-stats`, {
-        game_id: selectedGame.id,
-        auth_token: authToken.trim()
+        game_id: selectedGame.id
       });
 
       setLastUpdate(new Date().toLocaleString());
@@ -201,7 +195,7 @@ function HeroRanksManager({ selectedGame }) {
     }
 
     setLoading(true);
-    setMessage('🔄 Запуск оновлення з Moonton GMS API... (1-2 хвилини)');
+    setMessage('🔄 Запуск оновлення з Moonton GMS API... (15-20 хвилин)');
 
     try {
       const response = await axios.post(`${API_URL}/update-hero-ranks-moonton`, {
@@ -216,10 +210,10 @@ function HeroRanksManager({ selectedGame }) {
         `📋 Оновлюються всі 30 комбінацій:\n` +
         `   • 5 періодів: 1, 3, 7, 15, 30 днів\n` +
         `   • 6 рангів: All, Epic, Legend, Mythic, Honor, Glory\n\n` +
-        `⏳ Автоматична перевірка через 2 хвилини...`
+        `⏳ Автоматична перевірка через 15 хвилин...`
       );
 
-      // Автоматична перевірка через 2 хвилини
+      // Автоматична перевірка через 15 хвилин
       setTimeout(async () => {
         try {
           setMessage(prev => prev + '\n\n🔍 Перевіряємо оновлення...');
@@ -239,7 +233,7 @@ function HeroRanksManager({ selectedGame }) {
             const now = new Date();
             const diffMinutes = Math.floor((now - updateTime) / 1000 / 60);
             
-            if (diffMinutes < 5) {
+            if (diffMinutes < 20) {
               setMessage(prev => prev + `\n\n✅ ОНОВЛЕНО! Дані свіжі (${diffMinutes} хв тому)\n` +
                 `Приклад: ${hero.name} (30д, Glory): Pick ${hero.appearance_rate.toFixed(2)}%, Win ${hero.win_rate.toFixed(2)}%, Ban ${hero.ban_rate.toFixed(2)}%`);
             } else {
@@ -249,7 +243,7 @@ function HeroRanksManager({ selectedGame }) {
         } catch (error) {
           setMessage(prev => prev + '\n\n⚠️ Помилка перевірки. Перевір дані вручну на фронтенді.');
         }
-      }, 120000); // 2 хвилини
+      }, 900000); // 15 хвилин
 
     } catch (error) {
       console.error('Moonton API update error:', error);

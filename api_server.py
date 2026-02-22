@@ -400,92 +400,94 @@ def get_all_heroes_compatibility_data():
 
 @app.route('/api/mlbb/heroes/fetch-and-update-stats', methods=['POST'])
 def fetch_and_update_stats_direct():
-    """Фетчить свіжі дані з Moonton API і одразу оновлює БД (без файлів)"""
+    """Фетчить свіжі Ban/Pick/Win Rates з публічного Moonton GMS API (без токена) і оновлює heroes таблицю.
+    Використовує той самий API що й update_hero_ranks_from_moonton.py — 7 сторінок по 20 героїв."""
     try:
         data = request.get_json() or {}
-        auth_token = data.get('auth_token')
         game_id = data.get('game_id', 2)
-        
-        if not auth_token:
-            return jsonify({
-                'error': 'Authorization token is required.'
-            }), 400
         
         import requests as req
         
         MOONTON_API = "https://api.gms.moontontech.com/api/gms/source/2669606"
+        SOURCE_ID = "2756569"  # 7 днів — найрелевантніший період
+        
         headers = {
-            'authorization': auth_token,
+            'accept': 'application/json, text/plain, */*',
             'content-type': 'application/json;charset=UTF-8',
+            'x-actid': '2669607',
+            'x-appid': '2669606',
+            'x-lang': 'en',
         }
         
-        # Фетчимо список героїв
-        heroes_url = f"{MOONTON_API}/2756564"
-        heroes_payload = {
-            "pageSize": 200,
-            "pageIndex": 1,
-            "filters": [],
-            "sorts": [{"data": {"field": "hero_id", "order": "desc"}, "type": "sequence"}]
-        }
+        # Фетчимо всіх героїв посторінково (7 сторінок по 20 = ~131 героїв)
+        url = f"{MOONTON_API}/{SOURCE_ID}"
+        all_heroes = []
         
-        heroes_resp = req.post(heroes_url, json=heroes_payload, headers=headers, timeout=30)
-        heroes_data = heroes_resp.json()
+        for page in range(1, 8):
+            payload = {
+                "pageSize": 20,
+                "pageIndex": page,
+                "filters": [
+                    {"field": "bigrank", "operator": "eq", "value": "101"},  # All ranks
+                    {"field": "match_type", "operator": "eq", "value": 1}   # Ranked
+                ],
+                "sorts": [
+                    {"data": {"field": "main_hero_win_rate", "order": "desc"}, "type": "sequence"}
+                ],
+                "fields": [
+                    "main_hero",
+                    "main_hero_appearance_rate",
+                    "main_hero_ban_rate",
+                    "main_hero_win_rate",
+                    "main_heroid"
+                ]
+            }
+            
+            resp = req.post(url, headers=headers, json=payload, timeout=10)
+            resp_data = resp.json()
+            
+            if resp_data.get('code') == 0 and resp_data.get('data', {}).get('records'):
+                records = resp_data['data']['records']
+                all_heroes.extend(records)
+                if len(records) < 20:
+                    break
+            else:
+                break
+            
+            time.sleep(0.2)
         
-        if heroes_data.get('code') != 0:
-            return jsonify({'error': 'Failed to fetch heroes list'}), 500
+        if not all_heroes:
+            return jsonify({'error': 'Failed to fetch hero stats from Moonton GMS API'}), 500
         
-        heroes_list = heroes_data.get('data', {}).get('records', [])
-        
-        # Фетчимо статистику для кожного героя і одразу оновлюємо БД
+        # Оновлюємо heroes таблицю
         conn = db.get_connection()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
         updated = 0
         skipped = 0
-        errors = 0
+        errors_count = 0
         
-        for hero_item in heroes_list:
+        for hero_data in all_heroes:
             try:
-                hero_id = hero_item.get('data', {}).get('hero_id')
-                if not hero_id:
-                    continue
-                
-                # Фетчимо статистику героя
-                stats_url = f"{MOONTON_API}/2756567"
-                stats_payload = {
-                    "pageSize": 20,
-                    "pageIndex": 1,
-                    "filters": [
-                        {"field": "main_heroid", "operator": "eq", "value": hero_id},
-                        {"field": "bigrank", "operator": "eq", "value": 101},
-                        {"field": "match_type", "operator": "eq", "value": 1}
-                    ],
-                    "sorts": []
-                }
-                
-                stats_resp = req.post(stats_url, json=stats_payload, headers=headers, timeout=10)
-                stats_data = stats_resp.json()
-                
-                if stats_data.get('code') != 0 or not stats_data.get('data', {}).get('records'):
+                stats = hero_data.get('data', {})
+                hero_game_id = stats.get('main_heroid')
+                if not hero_game_id:
                     skipped += 1
                     continue
                 
-                stats = stats_data['data']['records'][0]['data']
+                ban_rate = round(stats.get('main_hero_ban_rate', 0) * 100, 2)
+                pick_rate = round(stats.get('main_hero_appearance_rate', 0) * 100, 2)
+                win_rate = round(stats.get('main_hero_win_rate', 0) * 100, 2)
                 
-                win_rate = stats.get('main_hero_win_rate', 0) * 100
-                pick_rate = stats.get('main_hero_appearance_rate', 0) * 100
-                ban_rate = stats.get('main_hero_ban_rate', 0) * 100
-                
-                # Оновлюємо в БД
-                cursor.execute(f"SELECT id FROM heroes WHERE hero_game_id = {ph} AND game_id = {ph}", (hero_id, game_id))
+                cursor.execute(f"SELECT id FROM heroes WHERE hero_game_id = {ph} AND game_id = {ph}", (hero_game_id, game_id))
                 result = cursor.fetchone()
                 
                 if not result:
                     skipped += 1
                     continue
                 
-                hero_db_id = result[0]
+                hero_db_id = result[0] if not isinstance(result, dict) else result['id']
                 
                 cursor.execute(f"""
                     UPDATE heroes 
@@ -497,11 +499,9 @@ def fetch_and_update_stats_direct():
                 
                 updated += 1
                 
-                time.sleep(0.1)  # Rate limiting
-                
             except Exception as e:
-                print(f"Error processing hero {hero_id}: {e}")
-                errors += 1
+                print(f"Error processing hero {hero_data}: {e}")
+                errors_count += 1
                 continue
         
         conn.commit()
@@ -511,8 +511,9 @@ def fetch_and_update_stats_direct():
             'success': True,
             'updated': updated,
             'skipped': skipped,
-            'errors': errors,
-            'message': f'Successfully updated {updated} heroes with fresh data from Moonton API'
+            'errors': errors_count,
+            'total_fetched': len(all_heroes),
+            'message': f'Updated {updated} heroes (Ban/Pick/Win rates) from Moonton GMS API'
         })
         
     except Exception as e:
@@ -2515,51 +2516,41 @@ def update_hero_stats():
 
 @app.route('/api/update-hero-ranks-moonton', methods=['POST'])
 def update_hero_ranks_moonton():
-    """Запустити update_hero_ranks_from_moonton.py для оновлення всіх 30 комбінацій"""
+    """Запустити оновлення hero_ranks з Moonton GMS API (всі 30 комбінацій) в background thread"""
     try:
         data = request.get_json() or {}
         game_id = data.get('game_id', 2)
-        auth_token = data.get('auth_token', '')  # Опціонально — API працює і без токена
-        
-        # Запускаємо скрипт в окремому потоці
+        auth_token = data.get('auth_token', '')
+
         import threading
-        import subprocess
-        import sys
-        
-        def run_script():
+
+        def run_moonton_update():
             try:
-                print("[INFO] Starting update_hero_ranks_from_moonton.py...")
-                env = os.environ.copy()
+                import update_hero_ranks_from_moonton as moonton
+                # Якщо переданий auth token — встановлюємо його
                 if auth_token:
-                    env['MOONTON_AUTH_TOKEN'] = auth_token
-                
-                result = subprocess.run(
-                    [sys.executable, 'update_hero_ranks_from_moonton.py'],
-                    capture_output=True,
-                    text=True,
-                    timeout=300,  # 5 хвилин максимум
-                    env=env
-                )
-                print(f"[INFO] Script completed with exit code {result.returncode}")
-                if result.stdout:
-                    lines = result.stdout.strip().split('\n')
-                    for line in lines[-15:]:
-                        print(f"[MOONTON] {line}")
-                if result.stderr:
-                    print(f"[STDERR] {result.stderr[:500]}")
+                    moonton.AUTH_TOKEN = auth_token
+                    moonton.HEADERS['authorization'] = auth_token
+                    print(f"[MOONTON] Using provided auth token: {auth_token[:20]}...")
+
+                print("[MOONTON] Starting full update (30 combinations)...")
+                moonton.main()
+                print("[MOONTON] Update completed successfully!")
             except Exception as e:
-                print(f"[ERROR] Failed to run script: {e}")
-        
-        thread = threading.Thread(target=run_script)
+                print(f"[MOONTON ERROR] {e}")
+                import traceback
+                traceback.print_exc()
+
+        thread = threading.Thread(target=run_moonton_update)
         thread.daemon = True
         thread.start()
-        
+
         return jsonify({
             'status': 'success',
-            'message': 'Hero ranks update from Moonton API started. This will update all 30 combinations (5 days × 6 ranks). Check server logs for progress.',
-            'estimated_time': '1-2 minutes'
-        }), 202  # 202 Accepted
-        
+            'message': 'Hero ranks update from Moonton API started (30 combinations). Check server logs for progress.',
+            'estimated_time': '15-20 minutes'
+        }), 202
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
