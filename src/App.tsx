@@ -9,6 +9,7 @@ import SpellsPage from './pages/SpellsPage';
 import { HeroRankPage } from './pages/HeroRankPage';
 import { LegalPage } from './pages/LegalPage';
 import { PatchesPage } from './pages/PatchesPage';
+import { FavoritesPage } from './pages/FavoritesPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { Header } from './components/Header';
 import { Breadcrumbs } from './components/Breadcrumbs';
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/:gameId/spells" element={<SpellsPage />} />
                 <Route path="/:gameId/patches" element={<PatchesPage />} />
                 <Route path="/:gameId/patches/:patchVersion" element={<PatchesPage />} />
+                <Route path="/:gameId/favorites" element={<FavoritesPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>

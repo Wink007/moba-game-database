@@ -32,12 +32,14 @@ function HeroDetailPage() {
   const { activeTab, counterSubTab, synergySubTab, setActiveTab, setCounterSubTab, setSynergySubTab } = useHeroTabs();
   const [buildsSubTab, setBuildsSubTab] = React.useState<'builds' | 'my'>('builds');
   const { user } = useAuthStore();
+  const prevUserRef = React.useRef(user);
 
-  // Reset to 'builds' sub-tab when user logs out
+  // Reset to 'builds' sub-tab only when user actually logs out (was logged in → becomes null)
   React.useEffect(() => {
-    if (!user && buildsSubTab === 'my') {
+    if (prevUserRef.current && !user && buildsSubTab === 'my') {
       setBuildsSubTab('builds');
     }
+    prevUserRef.current = user;
   }, [user, buildsSubTab]);
   
   useSEO({
@@ -765,14 +767,12 @@ function HeroDetailPage() {
                   >
                     {t('heroDetail.proBuilds')}
                   </button>
-                  {user && (
-                    <button
-                      className={`${styles.relationshipTab} ${buildsSubTab === 'my' ? styles.relationshipTabActive : ''}`}
-                      onClick={() => setBuildsSubTab('my')}
-                    >
-                      {t('builds.myBuilds')}
-                    </button>
-                  )}
+                  <button
+                    className={`${styles.relationshipTab} ${buildsSubTab === 'my' ? styles.relationshipTabActive : ''}`}
+                    onClick={() => setBuildsSubTab('my')}
+                  >
+                    {t('builds.myBuilds')}
+                  </button>
                 </div>
 
                 {buildsSubTab === 'builds' && (
@@ -789,7 +789,7 @@ function HeroDetailPage() {
                   </>
                 )}
 
-                {buildsSubTab === 'my' && user && (
+                {buildsSubTab === 'my' && (
                   <CommunityBuildsSection
                     heroId={hero.id}
                     gameId={hero.game_id}

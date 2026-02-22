@@ -4,7 +4,8 @@
     "items": "Items",
     "emblems": "Emblems",
     "spells": "Spells",
-    "patches": "Patches"
+    "patches": "Patches",
+    "favorites": "Favorites"
   },
   "footer": {
     "copyright": "Mobile Legends Wiki (Unofficial)",
@@ -353,7 +354,12 @@
   "favorites": {
     "add": "Add to favorites",
     "remove": "Remove from favorites",
-    "loginToAdd": "Sign in to add to favorites"
+    "loginToAdd": "Sign in to add to favorites",
+    "pageTitle": "Favorite Heroes",
+    "pageDescription": "Your favorite Mobile Legends heroes",
+    "loginRequired": "Sign in to see your favorite heroes",
+    "empty": "You haven't added any heroes to favorites yet.",
+    "browseHeroes": "Browse Heroes"
   },
   "builds": {
     "myBuilds": "My Builds",
@@ -368,9 +374,11 @@
     "items": "Items",
     "spells": "Battle Spells",
     "emblem": "Emblem",
+    "talents": "Talents",
     "notes": "Notes",
     "notesPlaceholder": "Strategy tips, situational notes...",
     "noBuilds": "You haven't created any builds for this hero yet.",
+    "loginToCreate": "Log in to create your own builds",
     "noCommunityBuilds": "No community builds yet. Be the first!",
     "searchItems": "Search items...",
     "clickToRemove": "Click to remove",

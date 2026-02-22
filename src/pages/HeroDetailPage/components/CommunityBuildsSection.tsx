@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore, authFetch } from '../../../store/authStore';
 import { useItemsQuery } from '../../../queries/useItemsQuery';
-import { useEmblems } from '../../../hooks/useEmblems';
+import { useEmblems, useEmblemTalents } from '../../../hooks/useEmblems';
+import type { Talent } from '../../../hooks/useEmblems';
 import { API_URL } from '../../../config';
 import { Item } from '../../../types/item';
 import styles from '../styles.module.scss';
@@ -20,6 +22,7 @@ interface UserBuild {
   name: string;
   items: number[];
   emblem_id: number | null;
+  talents: string[];
   spell1_id: number | null;
   spell2_id: number | null;
   notes: string;
@@ -36,8 +39,45 @@ interface CommunityBuildsSectionProps {
 
 export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ heroId, gameId, showOnly }) => {
   const { t } = useTranslation();
-  const { user } = useAuthStore();
+  const { user, setAuth, setLoading: setAuthLoading } = useAuthStore();
   const [showForm, setShowForm] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
+  // Google login for non-auth users
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      setAuthLoading(true);
+      try {
+        const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${response.access_token}` }
+        });
+        const userInfo = await userInfoRes.json();
+        const res = await fetch(`${API_URL}/auth/google`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ credential: response.access_token, user_info: userInfo }),
+        });
+        if (!res.ok) throw new Error('Login failed');
+        const data = await res.json();
+        setAuth(data.user, data.token);
+        setShowLoginPrompt(false);
+      } catch (err) {
+        console.error('Login error:', err);
+      } finally {
+        setAuthLoading(false);
+      }
+    },
+  });
+
+  const handleCreateClick = () => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      setTimeout(() => googleLogin(), 500);
+      setTimeout(() => setShowLoginPrompt(false), 3000);
+      return;
+    }
+    openForm();
+  };
   const [myBuilds, setMyBuilds] = useState<UserBuild[]>([]);
   const [editingBuild, setEditingBuild] = useState<UserBuild | null>(null);
 
@@ -47,6 +87,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
   const [selectedEmblem, setSelectedEmblem] = useState<number | null>(null);
   const [selectedSpell1, setSelectedSpell1] = useState<number | null>(null);
   const [selectedSpell2, setSelectedSpell2] = useState<number | null>(null);
+  const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
   const [saving, setSaving] = useState(false);
   const [itemSearch, setItemSearch] = useState('');
@@ -54,6 +95,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
   // Data queries
   const { data: items = [] } = useItemsQuery(gameId);
   const { data: emblems = [] } = useEmblems(String(gameId));
+  const { tier1, tier2, tier3 } = useEmblemTalents(String(gameId));
   const { data: spells = [] } = useQuery<BattleSpell[]>({
     queryKey: ['battle-spells', gameId],
     queryFn: async () => {
@@ -99,6 +141,12 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
     return map;
   }, [spells]);
 
+  const talentsMap = React.useMemo(() => {
+    const map = new Map<string, Talent>();
+    [...tier1, ...tier2, ...tier3].forEach((t) => map.set(t.name, t));
+    return map;
+  }, [tier1, tier2, tier3]);
+
   // Filter items (only Tier 3 / final items for builds, exclude jungle items usually)
   const filteredItems = React.useMemo(() => {
     let filtered = items.filter((item: Item) => (String(item.tier) === '3' || String(item.tier) === '2'));
@@ -130,6 +178,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
     setSelectedEmblem(null);
     setSelectedSpell1(null);
     setSelectedSpell2(null);
+    setSelectedTalents([]);
     setNotes('');
     setEditingBuild(null);
     setItemSearch('');
@@ -143,6 +192,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
       setSelectedEmblem(build.emblem_id);
       setSelectedSpell1(build.spell1_id);
       setSelectedSpell2(build.spell2_id);
+      setSelectedTalents(build.talents || []);
       setNotes(build.notes || '');
     } else {
       resetForm();
@@ -161,6 +211,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
             name: buildName,
             items: selectedItems,
             emblem_id: selectedEmblem,
+            talents: selectedTalents,
             spell1_id: selectedSpell1,
             spell2_id: selectedSpell2,
             notes,
@@ -174,6 +225,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
             name: buildName,
             items: selectedItems,
             emblem_id: selectedEmblem,
+            talents: selectedTalents,
             spell1_id: selectedSpell1,
             spell2_id: selectedSpell2,
             notes,
@@ -285,9 +337,20 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
               {spell1 && <span className={styles.pbSetupDivider} />}
               <div className={styles.pbSetupGroup}>
                 <span className={styles.pbSetupGroupLabel}>Emblem</span>
-                <div className={styles.pbSetupItem}>
-                  {emblem.icon_url && <img src={emblem.icon_url} alt={emblem.name} className={styles.pbSetupIcon} loading="lazy" />}
-                  <span className={styles.pbSetupLabel}>{emblem.name}</span>
+                <div className={styles.pbSetupGroupItems}>
+                  <div className={`${styles.pbSetupItem} ${styles.pbSetupItemEmblem}`}>
+                    {emblem.icon_url && <img src={emblem.icon_url} alt={emblem.name} className={styles.pbSetupIcon} loading="lazy" />}
+                    <span className={styles.pbSetupLabel}>{emblem.name}</span>
+                  </div>
+                  {build.talents && build.talents.map((name, tIdx) => {
+                    const td = talentsMap.get(name);
+                    return (
+                      <div key={tIdx} className={styles.pbSetupItem}>
+                        {td?.icon_url && <img src={td.icon_url} alt={name} className={styles.pbSetupIcon} loading="lazy" />}
+                        <span className={styles.pbSetupLabel}>{name}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </>
@@ -302,15 +365,20 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
   return (
     <div className={styles.cbContainer}>
       {/* My Builds */}
-      {(!showOnly || showOnly === 'my') && user && (
+      {(!showOnly || showOnly === 'my') && (
         <div className={styles.cbSection}>
           <div className={styles.cbSectionHeader}>
             <h3 className={styles.sectionTitle}>{t('builds.myBuilds')}</h3>
-            <button className={styles.cbCreateBtn} onClick={() => openForm()}>
+            <button className={styles.cbCreateBtn} onClick={handleCreateClick}>
               + {t('builds.create')}
             </button>
           </div>
-          {myBuilds.length === 0 ? (
+          {showLoginPrompt && (
+            <p className={styles.cbLoginPrompt}>{t('builds.loginToCreate')}</p>
+          )}
+          {!user ? (
+            <p className={styles.cbEmpty}>{t('builds.loginToCreate')}</p>
+          ) : myBuilds.length === 0 ? (
             <p className={styles.cbEmpty}>{t('builds.noBuilds')}</p>
           ) : (
             myBuilds.map(b => renderBuildCard(b, true))
@@ -439,7 +507,14 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
                     <button
                       key={emblem.id}
                       className={`${styles.cbEmblemPick} ${selectedEmblem === emblem.id ? styles.cbEmblemPicked : ''}`}
-                      onClick={() => setSelectedEmblem(selectedEmblem === emblem.id ? null : emblem.id)}
+                      onClick={() => {
+                        if (selectedEmblem === emblem.id) {
+                          setSelectedEmblem(null);
+                        } else {
+                          setSelectedEmblem(emblem.id);
+                        }
+                        setSelectedTalents([]);
+                      }}
                       title={emblem.name}
                     >
                       {emblem.icon_url && <img src={emblem.icon_url} alt={emblem.name} loading="lazy" />}
@@ -448,6 +523,42 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
                   ))}
                 </div>
               </div>
+
+              {/* Talent Selection (3 tiers) */}
+              {selectedEmblem && (
+                <div className={styles.cbFormGroup}>
+                  <label>{t('builds.talents')}</label>
+                  {[tier1, tier2, tier3].map((tierTalents, tierIdx) => (
+                    <div key={tierIdx} className={styles.cbTalentTier}>
+                      <span className={styles.cbTalentTierLabel}>Tier {tierIdx + 1}</span>
+                      <div className={styles.cbTalentRow}>
+                        {tierTalents.map((talent) => {
+                          const isSelected = selectedTalents.includes(talent.name);
+                          return (
+                            <button
+                              key={talent.id}
+                              className={`${styles.cbTalentPick} ${isSelected ? styles.cbTalentPicked : ''}`}
+                              onClick={() => {
+                                setSelectedTalents(prev => {
+                                  // Remove any existing talent of this tier
+                                  const otherTierNames = tierTalents.map(t => t.name);
+                                  const withoutThisTier = prev.filter(n => !otherTierNames.includes(n));
+                                  if (isSelected) return withoutThisTier;
+                                  return [...withoutThisTier, talent.name];
+                                });
+                              }}
+                              title={talent.effect || talent.name}
+                            >
+                              {talent.icon_url && <img src={talent.icon_url} alt={talent.name} loading="lazy" />}
+                              <span>{talent.name}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Notes */}
               <div className={styles.cbFormGroup}>
