@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { QueryClient } from '@tanstack/react-query';
 import { API_URL } from '../config';
+
+// Reference to the app's QueryClient, set once from App.tsx or index.tsx
+let _queryClient: QueryClient | null = null;
+export const setQueryClientRef = (qc: QueryClient) => { _queryClient = qc; };
 
 export interface User {
   id: number;
@@ -25,7 +30,10 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       isLoading: false,
       setAuth: (user, token) => set({ user, token, isLoading: false }),
-      logout: () => set({ user: null, token: null }),
+      logout: () => {
+        set({ user: null, token: null });
+        _queryClient?.removeQueries({ queryKey: ['favorites'] });
+      },
       setLoading: (isLoading) => set({ isLoading }),
     }),
     {

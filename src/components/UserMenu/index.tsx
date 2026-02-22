@@ -94,7 +94,7 @@ export const UserMenu: React.FC = () => {
             </div>
           </div>
           <div className={styles.divider} />
-          <button className={styles.menuItem} onClick={() => { navigate(`/${selectedGameId}/favorites`); setIsOpen(false); }}>
+          <button className={`${styles.menuItem} ${styles.desktopOnly}`} onClick={() => { navigate(`/${selectedGameId}/favorites`); setIsOpen(false); }}>
             {t('header.favorites')}
           </button>
           <button className={styles.menuItem} onClick={() => { logout(); setIsOpen(false); }}>

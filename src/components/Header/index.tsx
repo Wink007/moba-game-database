@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
+import { useAuthStore } from '../../store/authStore';
 import { SearchBar } from '../SearchBar';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { UserMenu } from '../UserMenu';
@@ -11,6 +12,7 @@ import styles from './styles.module.scss';
 export const Header: React.FC = () => {
   const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
+  const { user } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -58,12 +60,13 @@ export const Header: React.FC = () => {
               <SearchBar onSelect={closeMenu} />
             </div>
 
-            <div className={styles['mobile-lang']}>
-              <LanguageSwitcher />
-            </div>
-
-            <div className={styles['mobile-user']}>
-              <UserMenu />
+            <div className={styles['mobile-row']}>
+              <div className={styles['mobile-lang']}>
+                <LanguageSwitcher />
+              </div>
+              <div className={styles['mobile-user']}>
+                <UserMenu />
+              </div>
             </div>
 
             <NavLink 
@@ -101,6 +104,15 @@ export const Header: React.FC = () => {
             >
                 {t('header.patches')}
             </NavLink>
+            {user && (
+              <NavLink 
+                  to={`/${selectedGameId}/favorites`}
+                  className={({ isActive }) => `${styles['nav-links']} ${styles['mobile-only-link']} ${isActive ? styles.active : ''}`}
+                  onClick={closeMenu}
+              >
+                  {t('header.favorites')}
+              </NavLink>
+            )}
         </nav>
 
         {/* Search Bar for Desktop */}

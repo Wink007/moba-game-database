@@ -32,6 +32,10 @@
 .userMenu {
   position: relative;
   flex-shrink: 0;
+
+  @media (max-width: 1023px) {
+    width: 100%;
+  }
 }
 
 .avatar {
@@ -67,6 +71,19 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   z-index: 1100;
   overflow: hidden;
+
+  @media (max-width: 1023px) {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: auto;
+    min-width: unset;
+    border-radius: 12px;
+    margin: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    background: rgba(15, 35, 50, 0.97);
+  }
 }
 
 .userInfo {
@@ -115,5 +132,11 @@
   &:hover {
     background: rgba(255, 255, 255, 0.05);
     color: var(--color-text-primary);
+  }
+}
+
+.desktopOnly {
+  @media (max-width: 1023px) {
+    display: none;
   }
 }

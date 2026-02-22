@@ -17,9 +17,11 @@ import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { setQueryClientRef } from './store/authStore';
 import './App.css';
 
 const queryClient = new QueryClient();
+setQueryClientRef(queryClient);
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
 
 function App() {

@@ -79,6 +79,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
     openForm();
   };
   const [myBuilds, setMyBuilds] = useState<UserBuild[]>([]);
+  const [loadingMyBuilds, setLoadingMyBuilds] = useState(false);
   const [editingBuild, setEditingBuild] = useState<UserBuild | null>(null);
 
   // Build form state
@@ -107,7 +108,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
   });
 
   // Community builds (exclude own builds if logged in)
-  const { data: communityBuilds = [], refetch: refetchCommunity } = useQuery<UserBuild[]>({
+  const { data: communityBuilds = [], isLoading: loadingCommunity, refetch: refetchCommunity } = useQuery<UserBuild[]>({
     queryKey: ['community-builds', heroId, user?.id],
     queryFn: async () => {
       const token = useAuthStore.getState().token;
@@ -162,11 +163,14 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
   // Fetch my builds for this hero
   const fetchMyBuilds = useCallback(async () => {
     if (!user) return;
+    setLoadingMyBuilds(true);
     try {
       const data = await authFetch(`/builds?hero_id=${heroId}`);
       setMyBuilds(data);
     } catch {
       // ignore
+    } finally {
+      setLoadingMyBuilds(false);
     }
   }, [user, heroId]);
 
@@ -364,6 +368,38 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
     );
   };
 
+  const renderSkeletonCards = (count: number) => (
+    <>{[...Array(count)].map((_, idx) => (
+      <div key={idx} className={styles.pbSkeletonCard}>
+        <div className={styles.pbSkeletonHeader}>
+          <div className={styles.pbSkeletonRank} />
+          <div className={styles.pbSkeletonLikes} />
+        </div>
+        <div className={styles.pbSkeletonItemsRow}>
+          {[...Array(6)].map((_, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <div className={styles.pbSkeletonArrow} />}
+              <div className={styles.pbSkeletonItem}>
+                <div className={styles.pbSkeletonItemIcon} />
+                <div className={styles.pbSkeletonItemLabel} />
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+        <div className={styles.pbSkeletonSetupRow}>
+          <div className={styles.pbSkeletonSetupItem}>
+            <div className={styles.pbSkeletonSetupIcon} />
+            <div className={styles.pbSkeletonSetupLabel} />
+          </div>
+          <div className={styles.pbSkeletonSetupItem}>
+            <div className={styles.pbSkeletonSetupIcon} />
+            <div className={styles.pbSkeletonSetupLabel} />
+          </div>
+        </div>
+      </div>
+    ))}</>
+  );
+
   return (
     <div className={styles.cbContainer}>
       {/* My Builds */}
@@ -380,6 +416,8 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
           )}
           {!user ? (
             <p className={styles.cbEmpty}>{t('builds.loginToCreate')}</p>
+          ) : loadingMyBuilds ? (
+            renderSkeletonCards(2)
           ) : myBuilds.length === 0 ? (
             <p className={styles.cbEmpty}>{t('builds.noBuilds')}</p>
           ) : (
@@ -392,7 +430,9 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
       {(!showOnly || showOnly === 'community') && (
         <div className={styles.cbSection}>
           <h3 className={styles.sectionTitle}>{t('builds.communityBuilds')}</h3>
-          {communityBuilds.length === 0 ? (
+          {loadingCommunity ? (
+            renderSkeletonCards(3)
+          ) : communityBuilds.length === 0 ? (
             <p className={styles.cbEmpty}>{t('builds.noCommunityBuilds')}</p>
           ) : (
             communityBuilds.map(b => renderBuildCard(b, false))
