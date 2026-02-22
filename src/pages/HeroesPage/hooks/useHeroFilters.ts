@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Hero } from '../../../types';
 import { UseHeroFiltersProps } from './interface';
+import { useFavorites } from '../../../hooks/useFavorites';
 
 const HEROES_PER_PAGE = 24;
 
@@ -11,6 +12,7 @@ export const useHeroFilters = ({ heroes }: UseHeroFiltersProps) => {
   const [sortBy, setSortBy] = useState('name');
   const [searchQuery, setSearchQuery] = useState('');
   const [displayCount, setDisplayCount] = useState(HEROES_PER_PAGE);
+  const { isFavorite } = useFavorites();
 
   const filteredAndSortedHeroes = useMemo(() => {
     if (!heroes) return [];
@@ -38,6 +40,11 @@ export const useHeroFilters = ({ heroes }: UseHeroFiltersProps) => {
     });
 
     filtered.sort((a, b) => {
+      // Favorites always come first
+      const aFav = isFavorite(a.id) ? 0 : 1;
+      const bFav = isFavorite(b.id) ? 0 : 1;
+      if (aFav !== bFav) return aFav - bFav;
+
       switch (sortBy) {
         case 'name':
           return a.name.localeCompare(b.name);
@@ -49,7 +56,7 @@ export const useHeroFilters = ({ heroes }: UseHeroFiltersProps) => {
     });
 
     return filtered;
-  }, [heroes, selectedRole, selectedLane, selectedComplexity, sortBy, searchQuery]);
+  }, [heroes, selectedRole, selectedLane, selectedComplexity, sortBy, searchQuery, isFavorite]);
 
   const displayedHeroes = useMemo(() => {
     return filteredAndSortedHeroes.slice(0, displayCount);

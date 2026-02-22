@@ -31,6 +31,7 @@ export const Header: React.FC = () => {
   }, [isMenuOpen]);
 
   return (
+    <>
     <header className={styles.header}>
         <div className={styles['logo-wrapper']}>
           <Link 
@@ -115,15 +116,6 @@ export const Header: React.FC = () => {
             )}
         </nav>
 
-        {/* Search Bar for Desktop */}
-        <div className={styles['search-wrapper']}>
-          <SearchBar />
-        </div>
-
-        <div className={styles['desktop-lang']}>
-          <LanguageSwitcher />
-        </div>
-
         <div className={styles['desktop-user']}>
           <UserMenu />
         </div>
@@ -134,5 +126,14 @@ export const Header: React.FC = () => {
           onClick={closeMenu}
         />
     </header>
+
+    {/* Sub-header: Search + Language (desktop only) */}
+    <div className={styles.subheader}>
+      <div className={styles['subheader-inner']}>
+        <SearchBar />
+        <LanguageSwitcher />
+      </div>
+    </div>
+    </>
   );
 };
