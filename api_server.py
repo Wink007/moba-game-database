@@ -10,6 +10,7 @@ import io
 import time
 import jwt
 import functools
+import threading
 
 def _load_env_file(file_path: Path) -> None:
     if not file_path.exists():
@@ -3747,6 +3748,189 @@ def get_hero_public_builds(hero_id):
         return jsonify(builds)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+# ============================================================
+# Scheduled Tasks - Auto-update hero stats daily at 18:00 UTC
+# ============================================================
+
+def scheduled_update_hero_ranks():
+    """Запускає update_hero_ranks_from_moonton.py для оновлення всіх 30 комбінацій hero_rank"""
+    print(f"\n{'='*60}")
+    print(f"⏰ [{datetime.utcnow().isoformat()}] CRON: Starting scheduled hero ranks update...")
+    print(f"{'='*60}")
+    try:
+        import subprocess
+        script_path = _base_dir / 'update_hero_ranks_from_moonton.py'
+        result = subprocess.run(
+            ['python3', str(script_path)],
+            capture_output=True, text=True, timeout=600,
+            env={**os.environ}
+        )
+        print(result.stdout[-2000:] if len(result.stdout) > 2000 else result.stdout)
+        if result.returncode != 0:
+            print(f"❌ CRON: hero ranks update failed (exit {result.returncode})")
+            if result.stderr:
+                print(f"STDERR: {result.stderr[-500:]}")
+        else:
+            print(f"✅ CRON: hero ranks update completed successfully")
+    except Exception as e:
+        print(f"❌ CRON: hero ranks update error: {e}")
+
+
+def scheduled_update_hero_stats():
+    """Оновлює Ban/Pick/Win Rates в heroes таблиці через Moonton GMS API"""
+    print(f"\n{'='*60}")
+    print(f"⏰ [{datetime.utcnow().isoformat()}] CRON: Starting scheduled hero stats update...")
+    print(f"{'='*60}")
+    try:
+        import requests as req
+
+        MOONTON_API = "https://api.gms.moontontech.com/api/gms/source/2669606"
+        SOURCE_ID = "2756569"  # 7 днів
+        headers = {
+            'accept': 'application/json, text/plain, */*',
+            'content-type': 'application/json;charset=UTF-8',
+            'x-actid': '2669607',
+            'x-appid': '2669606',
+            'x-lang': 'en',
+        }
+
+        all_heroes = []
+        for page in range(1, 8):
+            payload = {
+                "pageSize": 20, "pageIndex": page,
+                "filters": [
+                    {"field": "bigrank", "operator": "eq", "value": "101"},
+                    {"field": "match_type", "operator": "eq", "value": 1}
+                ],
+                "sorts": [{"data": {"field": "main_hero_win_rate", "order": "desc"}, "type": "sequence"}],
+                "fields": ["main_hero", "main_hero_appearance_rate", "main_hero_ban_rate", "main_hero_win_rate", "main_heroid"]
+            }
+            resp = req.post(f"{MOONTON_API}/{SOURCE_ID}", headers=headers, json=payload, timeout=10)
+            resp_data = resp.json()
+            if resp_data.get('code') == 0 and resp_data.get('data', {}).get('records'):
+                records = resp_data['data']['records']
+                all_heroes.extend(records)
+                if len(records) < 20:
+                    break
+            else:
+                break
+            time.sleep(0.2)
+
+        if not all_heroes:
+            print("❌ CRON: Failed to fetch hero stats")
+            return
+
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        ph = db.get_placeholder()
+        updated = 0
+
+        for hero_data in all_heroes:
+            try:
+                stats = hero_data.get('data', {})
+                hero_game_id = stats.get('main_heroid')
+                if not hero_game_id:
+                    continue
+                ban_rate = round(stats.get('main_hero_ban_rate', 0) * 100, 2)
+                pick_rate = round(stats.get('main_hero_appearance_rate', 0) * 100, 2)
+                win_rate = round(stats.get('main_hero_win_rate', 0) * 100, 2)
+                cursor.execute(f"SELECT id FROM heroes WHERE hero_game_id = {ph} AND game_id = {ph}", (hero_game_id, 2))
+                result = cursor.fetchone()
+                if not result:
+                    continue
+                hero_db_id = result[0] if not isinstance(result, dict) else result['id']
+                cursor.execute(f"""UPDATE heroes SET main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph} WHERE id = {ph}""",
+                    (ban_rate, pick_rate, win_rate, hero_db_id))
+                updated += 1
+            except Exception as e:
+                print(f"CRON: Error processing hero: {e}")
+                continue
+
+        conn.commit()
+        db.release_connection(conn)
+        print(f"✅ CRON: Updated {updated}/{len(all_heroes)} heroes (Ban/Pick/Win rates)")
+
+    except Exception as e:
+        print(f"❌ CRON: hero stats update error: {e}")
+
+
+def run_scheduled_updates():
+    """Запускає обидва оновлення послідовно"""
+    scheduled_update_hero_stats()     # ~15 секунд — оновлює heroes таблицю
+    scheduled_update_hero_ranks()     # ~5 хвилин — оновлює hero_rank (30 комбінацій)
+
+
+@app.route('/api/admin/scheduler/status', methods=['GET'])
+def scheduler_status():
+    """Показує статус scheduler та наступний запуск"""
+    try:
+        if not _scheduler:
+            return jsonify({'enabled': False, 'message': 'Scheduler not initialized'})
+        
+        jobs = []
+        for job in _scheduler.get_jobs():
+            jobs.append({
+                'id': job.id,
+                'name': job.name,
+                'next_run': str(job.next_run_time) if job.next_run_time else None,
+            })
+        
+        return jsonify({
+            'enabled': True,
+            'running': _scheduler.running,
+            'jobs': jobs
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/scheduler/run-now', methods=['POST'])
+def scheduler_run_now():
+    """Ручний запуск оновлення (в фоновому потоці)"""
+    try:
+        t = threading.Thread(target=run_scheduled_updates, daemon=True)
+        t.start()
+        return jsonify({'success': True, 'message': 'Update started in background'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+_scheduler = None
+
+
+def init_scheduler():
+    """Ініціалізує APScheduler для автоматичного оновлення"""
+    try:
+        from apscheduler.schedulers.background import BackgroundScheduler
+        from apscheduler.triggers.cron import CronTrigger
+
+        scheduler = BackgroundScheduler(daemon=True)
+        
+        # Щодня о 18:00 UTC (20:00 Київ зимою, 21:00 літом)
+        scheduler.add_job(
+            run_scheduled_updates,
+            CronTrigger(hour=18, minute=0),
+            id='daily_hero_update',
+            name='Daily hero stats & ranks update',
+            replace_existing=True
+        )
+
+        scheduler.start()
+        print(f"✅ Scheduler started: daily hero update at 18:00 UTC")
+        return scheduler
+    except ImportError:
+        print("⚠️  APScheduler not installed, scheduled updates disabled")
+        return None
+    except Exception as e:
+        print(f"⚠️  Failed to start scheduler: {e}")
+        return None
+
+
+# Запускаємо scheduler тільки на продакшн (gunicorn), не на кожному werkzeug reload
+if os.getenv('DATABASE_TYPE') == 'postgres':
+    _scheduler = init_scheduler()
 
 
 if __name__ == '__main__':

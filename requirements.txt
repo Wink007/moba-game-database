@@ -17,5 +17,8 @@ requests==2.31.0
 PyJWT==2.11.0
 google-auth==2.48.0
 
+# Scheduler
+APScheduler==3.10.4
+
 # HTML парсинг
 beautifulsoup4==4.12.2
