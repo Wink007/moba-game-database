@@ -7,6 +7,9 @@ import json
 import os
 import gzip
 import io
+import time
+import jwt
+import functools
 
 def _load_env_file(file_path: Path) -> None:
     if not file_path.exists():
@@ -31,7 +34,12 @@ _load_env_file(_base_dir / '.env.local')
 import database as db
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {
+    "origins": "*",
+    "allow_headers": ["Content-Type", "Authorization"],
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "max_age": 86400,
+}})
 
 # Gzip compression middleware
 @app.after_request
@@ -61,6 +69,82 @@ def compress_response(response):
 
 # Для Railway: використовуємо PORT з environment
 PORT = int(os.getenv('PORT', 8080))
+
+# ===== AUTH CONFIG =====
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com')
+JWT_SECRET = os.getenv('JWT_SECRET', 'moba-wiki-jwt-secret-change-in-production')
+JWT_EXPIRY_HOURS = 24 * 7  # 7 days
+
+
+def verify_google_token(token):
+    """Verify Google OAuth id_token and return user info"""
+    from google.oauth2 import id_token
+    from google.auth.transport import requests as google_requests
+    try:
+        idinfo = id_token.verify_oauth2_token(token, google_requests.Request(), GOOGLE_CLIENT_ID)
+        return idinfo
+    except Exception as e:
+        print(f"Google id_token verification failed: {e}")
+        return None
+
+
+def verify_google_access_token(access_token, user_info):
+    """Verify Google access_token via tokeninfo endpoint and return user info"""
+    import requests as ext_requests
+    try:
+        resp = ext_requests.get(
+            'https://oauth2.googleapis.com/tokeninfo',
+            params={'access_token': access_token}
+        )
+        if resp.status_code != 200:
+            print(f"Google access_token verification failed: {resp.text}")
+            return None
+        token_info = resp.json()
+        # Security: verify sub from tokeninfo matches sub from user_info
+        if token_info.get('sub') != user_info.get('sub'):
+            print(f"Google token sub mismatch: token={token_info.get('sub')} vs user_info={user_info.get('sub')}")
+            return None
+        return {
+            'sub': user_info.get('sub'),
+            'email': user_info.get('email', ''),
+            'name': user_info.get('name', ''),
+            'picture': user_info.get('picture', ''),
+        }
+    except Exception as e:
+        print(f"Google access_token verification error: {e}")
+        return None
+
+
+def create_jwt(user_id, email):
+    """Create JWT token for our API"""
+    import datetime as dt
+    payload = {
+        'user_id': user_id,
+        'email': email,
+        'exp': dt.datetime.utcnow() + dt.timedelta(hours=JWT_EXPIRY_HOURS),
+        'iat': dt.datetime.utcnow()
+    }
+    return jwt.encode(payload, JWT_SECRET, algorithm='HS256')
+
+
+def require_auth(f):
+    """Decorator: require valid JWT token"""
+    @functools.wraps(f)
+    def decorated(*args, **kwargs):
+        auth_header = request.headers.get('Authorization', '')
+        if not auth_header.startswith('Bearer '):
+            return jsonify({'error': 'Authorization required'}), 401
+        token = auth_header[7:]
+        try:
+            payload = jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
+            request.user_id = payload['user_id']
+            request.user_email = payload['email']
+        except jwt.ExpiredSignatureError:
+            return jsonify({'error': 'Token expired'}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({'error': 'Invalid token'}), 401
+        return f(*args, **kwargs)
+    return decorated
 
 def _log_db_target():
     try:
@@ -3247,6 +3331,409 @@ def migrate_equipment_fields():
         
     except Exception as e:
         print(f"Error migrating fields: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== AUTH ENDPOINTS =====
+
+@app.route('/api/auth/google', methods=['POST'])
+def google_login():
+    """Login/Register via Google OAuth token (supports id_token or access_token flow)"""
+    try:
+        data = request.get_json()
+        credential = data.get('credential')
+        user_info = data.get('user_info')
+
+        if not credential:
+            return jsonify({'error': 'Missing credential'}), 400
+
+        # Try access_token flow first (if user_info is provided from frontend)
+        google_user = None
+        if user_info and user_info.get('sub'):
+            google_user = verify_google_access_token(credential, user_info)
+
+        # Fallback to id_token flow
+        if not google_user:
+            google_user = verify_google_token(credential)
+
+        if not google_user:
+            return jsonify({'error': 'Invalid Google token'}), 401
+
+        google_id = google_user.get('sub')
+        email = google_user.get('email', '')
+        name = google_user.get('name', '')
+        picture = google_user.get('picture', '')
+
+        # Find or create user
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        cursor.execute(f"SELECT id, google_id, email, name, picture FROM users WHERE google_id = {ph}", (google_id,))
+        user = cursor.fetchone()
+
+        if user:
+            # Update last login + info
+            user_id = user['id'] if isinstance(user, dict) else user[0]
+            cursor.execute(f"""
+                UPDATE users SET last_login = CURRENT_TIMESTAMP, name = {ph}, picture = {ph}, email = {ph}
+                WHERE id = {ph}
+            """, (name, picture, email, user_id))
+        else:
+            # Create new user
+            cursor.execute(f"""
+                INSERT INTO users (google_id, email, name, picture) 
+                VALUES ({ph}, {ph}, {ph}, {ph}) RETURNING id
+            """, (google_id, email, name, picture))
+            result = cursor.fetchone()
+            user_id = result['id'] if isinstance(result, dict) else result[0]
+
+        conn.commit()
+        db.release_connection(conn)
+
+        # Create JWT
+        token = create_jwt(user_id, email)
+
+        return jsonify({
+            'token': token,
+            'user': {
+                'id': user_id,
+                'email': email,
+                'name': name,
+                'picture': picture
+            }
+        })
+
+    except Exception as e:
+        print(f"Google login error: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/auth/me', methods=['GET'])
+@require_auth
+def get_current_user():
+    """Get current user info from JWT"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        cursor.execute(f"SELECT id, email, name, picture FROM users WHERE id = {ph}", (request.user_id,))
+        user = cursor.fetchone()
+        db.release_connection(conn)
+
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        user_dict = dict(user) if hasattr(user, 'keys') else {
+            'id': user[0], 'email': user[1], 'name': user[2], 'picture': user[3]
+        }
+        return jsonify(user_dict)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== FAVORITES ENDPOINTS =====
+
+@app.route('/api/favorites', methods=['GET'])
+@require_auth
+def get_favorites():
+    """Get user's favorite heroes"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        cursor.execute(f"""
+            SELECT f.id, f.hero_id, f.created_at, h.name, h.image, h.head, h.hero_game_id
+            FROM favorites f
+            JOIN heroes h ON h.id = f.hero_id
+            WHERE f.user_id = {ph}
+            ORDER BY f.created_at DESC
+        """, (request.user_id,))
+
+        favorites = [dict(row) if hasattr(row, 'keys') else {
+            'id': row[0], 'hero_id': row[1], 'created_at': str(row[2]),
+            'name': row[3], 'image': row[4], 'head': row[5], 'hero_game_id': row[6]
+        } for row in cursor.fetchall()]
+
+        db.release_connection(conn)
+        return jsonify(favorites)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/favorites/<int:hero_id>', methods=['POST'])
+@require_auth
+def add_favorite(hero_id):
+    """Add hero to favorites"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+
+        cursor.execute(f"""
+            INSERT INTO favorites (user_id, hero_id) VALUES ({ph}, {ph})
+            ON CONFLICT (user_id, hero_id) DO NOTHING
+        """, (request.user_id, hero_id))
+
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'success': True}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/favorites/<int:hero_id>', methods=['DELETE'])
+@require_auth
+def remove_favorite(hero_id):
+    """Remove hero from favorites"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+
+        cursor.execute(f"DELETE FROM favorites WHERE user_id = {ph} AND hero_id = {ph}",
+                       (request.user_id, hero_id))
+
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== USER BUILDS ENDPOINTS =====
+
+@app.route('/api/builds', methods=['GET'])
+@require_auth
+def get_user_builds():
+    """Get user's builds"""
+    try:
+        hero_id = request.args.get('hero_id')
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        if hero_id:
+            cursor.execute(f"""
+                SELECT b.*, h.name as hero_name, h.image as hero_image, h.head as hero_head
+                FROM user_builds b
+                JOIN heroes h ON h.id = b.hero_id
+                WHERE b.user_id = {ph} AND b.hero_id = {ph}
+                ORDER BY b.updated_at DESC
+            """, (request.user_id, hero_id))
+        else:
+            cursor.execute(f"""
+                SELECT b.*, h.name as hero_name, h.image as hero_image, h.head as hero_head
+                FROM user_builds b
+                JOIN heroes h ON h.id = b.hero_id
+                WHERE b.user_id = {ph}
+                ORDER BY b.updated_at DESC
+            """, (request.user_id,))
+
+        builds = []
+        for row in cursor.fetchall():
+            build = dict(row) if hasattr(row, 'keys') else dict(zip(
+                ['id', 'user_id', 'hero_id', 'name', 'items', 'emblem_id',
+                 'spell1_id', 'spell2_id', 'notes', 'is_public',
+                 'created_at', 'updated_at', 'hero_name', 'hero_image', 'hero_head'], row))
+            # Parse JSON items if string
+            if isinstance(build.get('items'), str):
+                build['items'] = json.loads(build['items'])
+            # Convert datetime
+            for k in ('created_at', 'updated_at'):
+                if build.get(k) and not isinstance(build[k], str):
+                    build[k] = str(build[k])
+            builds.append(build)
+
+        db.release_connection(conn)
+        return jsonify(builds)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/builds', methods=['POST'])
+@require_auth
+def create_build():
+    """Create a new build"""
+    try:
+        data = request.get_json()
+        hero_id = data.get('hero_id')
+        name = data.get('name', 'My Build')
+        items = json.dumps(data.get('items', []))
+        emblem_id = data.get('emblem_id')
+        spell1_id = data.get('spell1_id')
+        spell2_id = data.get('spell2_id')
+        notes = data.get('notes', '')
+
+        if not hero_id:
+            return jsonify({'error': 'hero_id is required'}), 400
+
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        cursor.execute(f"""
+            INSERT INTO user_builds (user_id, hero_id, name, items, emblem_id, spell1_id, spell2_id, notes)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+            RETURNING id, created_at
+        """, (request.user_id, hero_id, name, items, emblem_id, spell1_id, spell2_id, notes))
+
+        result = cursor.fetchone()
+        build_id = result['id'] if isinstance(result, dict) else result[0]
+
+        conn.commit()
+        db.release_connection(conn)
+
+        return jsonify({'id': build_id, 'success': True}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/builds/<int:build_id>', methods=['PUT'])
+@require_auth
+def update_build(build_id):
+    """Update a build"""
+    try:
+        data = request.get_json()
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+
+        # Verify ownership
+        cursor.execute(f"SELECT user_id FROM user_builds WHERE id = {ph}", (build_id,))
+        build = cursor.fetchone()
+        if not build:
+            db.release_connection(conn)
+            return jsonify({'error': 'Build not found'}), 404
+        owner_id = build['user_id'] if isinstance(build, dict) else build[0]
+        if owner_id != request.user_id:
+            db.release_connection(conn)
+            return jsonify({'error': 'Not authorized'}), 403
+
+        # Build SET clause dynamically
+        fields = []
+        values = []
+        for field in ('name', 'notes', 'emblem_id', 'spell1_id', 'spell2_id'):
+            if field in data:
+                fields.append(f"{field} = {ph}")
+                values.append(data[field])
+        if 'items' in data:
+            fields.append(f"items = {ph}")
+            values.append(json.dumps(data['items']))
+
+        if fields:
+            fields.append("updated_at = CURRENT_TIMESTAMP")
+            values.append(build_id)
+            cursor.execute(f"UPDATE user_builds SET {', '.join(fields)} WHERE id = {ph}", values)
+
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/builds/<int:build_id>', methods=['DELETE'])
+@require_auth
+def delete_build(build_id):
+    """Delete a build"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+
+        cursor.execute(f"DELETE FROM user_builds WHERE id = {ph} AND user_id = {ph}",
+                       (build_id, request.user_id))
+
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# Public builds for a hero
+@app.route('/api/heroes/<int:hero_id>/builds', methods=['GET'])
+def get_hero_public_builds(hero_id):
+    """Get public builds for a hero (excludes current user's own builds)"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        # Optionally exclude current user's builds (they already see them in "My Builds")
+        exclude_user_id = None
+        auth_header = request.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            try:
+                payload = jwt.decode(auth_header[7:], JWT_SECRET, algorithms=['HS256'])
+                exclude_user_id = payload.get('user_id')
+            except Exception:
+                pass  # Not logged in or invalid token — show all
+
+        if exclude_user_id:
+            cursor.execute(f"""
+                SELECT b.id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
+                       b.notes, b.created_at, u.name as author_name, u.picture as author_picture
+                FROM user_builds b
+                JOIN users u ON u.id = b.user_id
+                WHERE b.hero_id = {ph} AND b.is_public = TRUE AND b.user_id != {ph}
+                ORDER BY b.created_at DESC
+                LIMIT 20
+            """, (hero_id, exclude_user_id))
+        else:
+            cursor.execute(f"""
+                SELECT b.id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
+                       b.notes, b.created_at, u.name as author_name, u.picture as author_picture
+                FROM user_builds b
+                JOIN users u ON u.id = b.user_id
+                WHERE b.hero_id = {ph} AND b.is_public = TRUE
+                ORDER BY b.created_at DESC
+                LIMIT 20
+            """, (hero_id,))
+
+        builds = []
+        for row in cursor.fetchall():
+            build = dict(row) if hasattr(row, 'keys') else dict(zip(
+                ['id', 'name', 'items', 'emblem_id', 'spell1_id', 'spell2_id',
+                 'notes', 'created_at', 'author_name', 'author_picture'], row))
+            if isinstance(build.get('items'), str):
+                build['items'] = json.loads(build['items'])
+            if build.get('created_at') and not isinstance(build['created_at'], str):
+                build['created_at'] = str(build['created_at'])
+            builds.append(build)
+
+        db.release_connection(conn)
+        return jsonify(builds)
+    except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
