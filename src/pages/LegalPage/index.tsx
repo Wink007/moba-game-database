@@ -49,7 +49,7 @@ export const LegalPage = () => {
 const PrivacyPolicy = () => (
   <div className={styles.document}>
     <h2>Privacy Policy</h2>
-    <p className={styles.lastUpdated}>Last Updated: February 20, 2026</p>
+    <p className={styles.lastUpdated}>Last Updated: February 22, 2026</p>
 
     <section>
       <h3>Introduction</h3>
@@ -62,54 +62,86 @@ const PrivacyPolicy = () => (
     <section>
       <h3>Information We Collect</h3>
       
-      <h4>Information You Provide</h4>
+      <h4>Account Information (Optional)</h4>
+      <p>If you choose to sign in with Google, we receive and store the following information from your Google account:</p>
       <ul>
-        <li>We do not require user accounts or personal information</li>
-        <li>We do not collect or store any personally identifiable information</li>
+        <li><strong>Display name</strong> — used to personalize your experience</li>
+        <li><strong>Email address</strong> — used as your unique account identifier</li>
+        <li><strong>Profile picture URL</strong> — displayed in the app interface</li>
+      </ul>
+      <p>Sign-in is optional. You can use the app without creating an account.</p>
+
+      <h4>User-Generated Content</h4>
+      <ul>
+        <li>Hero builds you create and publish</li>
+        <li>Your favorites list (liked heroes)</li>
       </ul>
 
       <h4>Automatically Collected Information</h4>
       <ul>
         <li>We may collect anonymous usage statistics through analytics (if enabled)</li>
         <li>Browser type and device information for improving user experience</li>
-        <li>No tracking of individual users</li>
+        <li>Basic server logs (IP address, request timestamps) collected by our hosting provider</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>How We Use Your Information</h3>
+      <ul>
+        <li>To authenticate your identity and maintain your session</li>
+        <li>To save and display your hero builds and favorites</li>
+        <li>To personalize your experience (display name, avatar)</li>
+        <li>We do <strong>not</strong> use your data for advertising or marketing</li>
+        <li>We do <strong>not</strong> sell or share your personal data with third parties</li>
       </ul>
     </section>
 
     <section>
       <h3>Data Storage</h3>
       <ul>
-        <li>All game data (heroes, items, stats) is fetched from our public API</li>
-        <li>No personal user data is stored on our servers</li>
-        <li>No cookies are used for tracking purposes</li>
+        <li>Account data and user content are stored in a PostgreSQL database hosted on Railway</li>
+        <li>Authentication tokens (JWT) are stored locally in your browser</li>
+        <li>Game data (heroes, items, stats) is fetched from our public API</li>
+        <li>All communications use HTTPS encryption</li>
       </ul>
     </section>
 
     <section>
       <h3>Third-Party Services</h3>
-      <p>This app may use third-party services that may collect information:</p>
+      <p>This app uses the following third-party services:</p>
       <ul>
-        <li>Hosting provider (Railway) - may collect basic server logs</li>
+        <li><strong>Google Sign-In (Google OAuth 2.0)</strong> — for authentication. Google's privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a></li>
+        <li><strong>Railway</strong> — hosting provider, may collect basic server logs</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Account Deletion & Your Rights</h3>
+      <ul>
+        <li>You can log out at any time, which clears your local session</li>
+        <li>To request full deletion of your account and all associated data (builds, favorites), contact us via GitHub</li>
+        <li>You can also revoke our app's access to your Google account at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a></li>
       </ul>
     </section>
 
     <section>
       <h3>Children's Privacy</h3>
-      <p>This service does not knowingly collect information from children under 13 years of age.</p>
+      <p>This service is not directed to children under 13 years of age. We do not knowingly collect personal information from children under 13.</p>
     </section>
 
     <section>
       <h3>Data Security</h3>
       <ul>
-        <li>We do not store personal information</li>
         <li>All API communications use HTTPS encryption</li>
-        <li>Game data is publicly available information</li>
+        <li>Passwords are never stored — authentication is handled entirely by Google</li>
+        <li>JWT tokens are used for session management with expiration</li>
+        <li>Database access is restricted and secured</li>
       </ul>
     </section>
 
     <section>
       <h3>Changes to This Policy</h3>
-      <p>We may update this Privacy Policy from time to time. Changes will be posted on this page.</p>
+      <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.</p>
     </section>
 
     <section>
@@ -126,7 +158,7 @@ const PrivacyPolicy = () => (
 
     <section>
       <h3>Contact</h3>
-      <p>For questions about this Privacy Policy, please open an issue on our GitHub repository.</p>
+      <p>For questions about this Privacy Policy or to request data deletion, please open an issue on our <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p>
     </section>
   </div>
 );
@@ -134,7 +166,7 @@ const PrivacyPolicy = () => (
 const TermsOfService = () => (
   <div className={styles.document}>
     <h2>Terms of Service</h2>
-    <p className={styles.lastUpdated}>Last Updated: February 20, 2026</p>
+    <p className={styles.lastUpdated}>Last Updated: February 22, 2026</p>
 
     <section>
       <h3>1. Acceptance of Terms</h3>
@@ -183,18 +215,31 @@ const TermsOfService = () => (
     </section>
 
     <section>
-      <h3>4. User Conduct</h3>
+      <h3>4. User Accounts</h3>
+      <p>You may optionally sign in using your Google account. By signing in, you agree that:</p>
+      <ul>
+        <li>You are responsible for all activity under your account</li>
+        <li>We store your display name, email, and profile picture from Google</li>
+        <li>Your builds and favorites are associated with your account</li>
+        <li>You may request account deletion at any time via GitHub</li>
+        <li>We may suspend or delete accounts that violate these terms</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>5. User Conduct</h3>
       <p>Users agree to:</p>
       <ul>
         <li>Use the service for informational purposes only</li>
         <li>Not attempt to hack, disrupt, or damage the service</li>
         <li>Not use automated tools to scrape data excessively</li>
+        <li>Not create builds with offensive, hateful, or inappropriate content</li>
         <li>Respect intellectual property rights</li>
       </ul>
     </section>
 
     <section>
-      <h3>5. Limitation of Liability</h3>
+      <h3>6. Limitation of Liability</h3>
       <ul>
         <li>We provide this service free of charge</li>
         <li>We are not liable for any damages arising from use of this app</li>
@@ -204,7 +249,7 @@ const TermsOfService = () => (
     </section>
 
     <section>
-      <h3>6. Content Ownership</h3>
+      <h3>7. Content Ownership</h3>
       
       <h4>Game Content</h4>
       <ul>
@@ -219,7 +264,7 @@ const TermsOfService = () => (
     </section>
 
     <section>
-      <h3>7. Service Modifications</h3>
+      <h3>8. Service Modifications</h3>
       <p>We reserve the right to:</p>
       <ul>
         <li>Modify or discontinue the service at any time</li>
@@ -229,7 +274,7 @@ const TermsOfService = () => (
     </section>
 
     <section>
-      <h3>8. Third-Party Links</h3>
+      <h3>9. Third-Party Links</h3>
       <ul>
         <li>May contain links to third-party websites</li>
         <li>We are not responsible for external content</li>
@@ -238,7 +283,7 @@ const TermsOfService = () => (
     </section>
 
     <section>
-      <h3>9. Age Restrictions</h3>
+      <h3>10. Age Restrictions</h3>
       <ul>
         <li>Service intended for users 13 years and older</li>
         <li>Younger users should obtain parental consent</li>
@@ -246,21 +291,20 @@ const TermsOfService = () => (
     </section>
 
     <section>
-      <h3>10. Governing Law</h3>
+      <h3>11. Governing Law</h3>
       <p>These terms are governed by international Fair Use principles and intellectual property law.</p>
     </section>
 
     <section>
-      <h3>11. Contact</h3>
+      <h3>12. Contact</h3>
       <p>For questions or concerns about these Terms:</p>
       <ul>
-        <li>Open an issue on our GitHub repository</li>
-        <li>Contact through official channels listed on the website</li>
+        <li>Open an issue on our <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">GitHub repository</a></li>
       </ul>
     </section>
 
     <section>
-      <h3>12. Severability</h3>
+      <h3>13. Severability</h3>
       <p>If any provision of these terms is found unenforceable, remaining provisions remain in effect.</p>
     </section>
 
