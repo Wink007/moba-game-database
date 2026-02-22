@@ -3555,10 +3555,14 @@ def get_user_builds():
             build = dict(row) if hasattr(row, 'keys') else dict(zip(
                 ['id', 'user_id', 'hero_id', 'name', 'items', 'emblem_id',
                  'spell1_id', 'spell2_id', 'notes', 'is_public',
-                 'created_at', 'updated_at', 'hero_name', 'hero_image', 'hero_head'], row))
+                 'created_at', 'updated_at', 'talents', 'hero_name', 'hero_image', 'hero_head'], row))
             # Parse JSON items if string
             if isinstance(build.get('items'), str):
                 build['items'] = json.loads(build['items'])
+            if isinstance(build.get('talents'), str):
+                build['talents'] = json.loads(build['talents'])
+            elif not build.get('talents'):
+                build['talents'] = []
             # Convert datetime
             for k in ('created_at', 'updated_at'):
                 if build.get(k) and not isinstance(build[k], str):
@@ -3583,6 +3587,7 @@ def create_build():
         emblem_id = data.get('emblem_id')
         spell1_id = data.get('spell1_id')
         spell2_id = data.get('spell2_id')
+        talents = json.dumps(data.get('talents', []))
         notes = data.get('notes', '')
 
         if not hero_id:
@@ -3597,10 +3602,10 @@ def create_build():
             cursor = conn.cursor()
 
         cursor.execute(f"""
-            INSERT INTO user_builds (user_id, hero_id, name, items, emblem_id, spell1_id, spell2_id, notes)
-            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+            INSERT INTO user_builds (user_id, hero_id, name, items, emblem_id, spell1_id, spell2_id, talents, notes)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
             RETURNING id, created_at
-        """, (request.user_id, hero_id, name, items, emblem_id, spell1_id, spell2_id, notes))
+        """, (request.user_id, hero_id, name, items, emblem_id, spell1_id, spell2_id, talents, notes))
 
         result = cursor.fetchone()
         build_id = result['id'] if isinstance(result, dict) else result[0]
@@ -3644,6 +3649,9 @@ def update_build(build_id):
         if 'items' in data:
             fields.append(f"items = {ph}")
             values.append(json.dumps(data['items']))
+        if 'talents' in data:
+            fields.append(f"talents = {ph}")
+            values.append(json.dumps(data['talents']))
 
         if fields:
             fields.append("updated_at = CURRENT_TIMESTAMP")
@@ -3702,7 +3710,7 @@ def get_hero_public_builds(hero_id):
         if exclude_user_id:
             cursor.execute(f"""
                 SELECT b.id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
-                       b.notes, b.created_at, u.name as author_name, u.picture as author_picture
+                       b.talents, b.notes, b.created_at, u.name as author_name, u.picture as author_picture
                 FROM user_builds b
                 JOIN users u ON u.id = b.user_id
                 WHERE b.hero_id = {ph} AND b.is_public = TRUE AND b.user_id != {ph}
@@ -3712,7 +3720,7 @@ def get_hero_public_builds(hero_id):
         else:
             cursor.execute(f"""
                 SELECT b.id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
-                       b.notes, b.created_at, u.name as author_name, u.picture as author_picture
+                       b.talents, b.notes, b.created_at, u.name as author_name, u.picture as author_picture
                 FROM user_builds b
                 JOIN users u ON u.id = b.user_id
                 WHERE b.hero_id = {ph} AND b.is_public = TRUE
@@ -3724,9 +3732,13 @@ def get_hero_public_builds(hero_id):
         for row in cursor.fetchall():
             build = dict(row) if hasattr(row, 'keys') else dict(zip(
                 ['id', 'name', 'items', 'emblem_id', 'spell1_id', 'spell2_id',
-                 'notes', 'created_at', 'author_name', 'author_picture'], row))
+                 'talents', 'notes', 'created_at', 'author_name', 'author_picture'], row))
             if isinstance(build.get('items'), str):
                 build['items'] = json.loads(build['items'])
+            if isinstance(build.get('talents'), str):
+                build['talents'] = json.loads(build['talents'])
+            elif not build.get('talents'):
+                build['talents'] = []
             if build.get('created_at') and not isinstance(build['created_at'], str):
                 build['created_at'] = str(build['created_at'])
             builds.append(build)
