@@ -157,7 +157,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
       const q = itemSearch.toLowerCase();
       filtered = filtered.filter((item: Item) => item.name?.toLowerCase().includes(q));
     }
-    return filtered.slice(0, 30); // limit to 30 results
+    return filtered;
   }, [items, itemSearch]);
 
   // Fetch my builds for this hero
