@@ -9,6 +9,7 @@ import {
   translateSpecialties, 
   getDamageType 
 } from '../../../utils/translation';
+import { FavoriteButton } from '../../../components/FavoriteButton';
 import styles from '../styles.module.scss';
 
 export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
@@ -17,7 +18,10 @@ export const HeroSidebar: React.FC<HeroSidebarProps> = ({ hero }) => {
     <div className={styles.heroSidebar}>
       {/* Hero Name in Sidebar */}
       <div className={styles.sidebarHeroName}>
-        <h2>{getHeroName(hero, i18n.language)}</h2>
+        <div className={styles.sidebarHeroNameRow}>
+          <h2>{getHeroName(hero, i18n.language)}</h2>
+          <FavoriteButton heroId={hero.id} />
+        </div>
         {hero.roles && hero.roles.length > 0 && (
           <p className={styles.sidebarHeroRole}>
             {translateRoles(hero.roles, i18n.language).join(' • ')}

@@ -9,6 +9,7 @@ import { HeroSidebar } from './components/HeroSidebar';
 import { TabsNavigation } from './components/TabsNavigation';
 import { SkillsSection } from './components/SkillsSection';
 import { ProBuildsSection } from './components/ProBuildsSection';
+import { CommunityBuildsSection } from './components/CommunityBuildsSection';
 import { useHeroSkills } from './hooks/useHeroSkills';
 import { useHeroTabs } from './hooks/useHeroTabs';
 import { useSEO } from '../../hooks/useSEO';
@@ -749,6 +750,10 @@ function HeroDetailPage() {
                 <ProBuildsSection 
                   builds={hero.pro_builds || []} 
                   gameId={hero.game_id} 
+                />
+                <CommunityBuildsSection
+                  heroId={hero.id}
+                  gameId={hero.game_id}
                 />
               </div>
             )}

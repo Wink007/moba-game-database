@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
 import { SearchBar } from '../SearchBar';
 import { LanguageSwitcher } from '../LanguageSwitcher';
+import { UserMenu } from '../UserMenu';
 
 import styles from './styles.module.scss';
 
@@ -61,6 +62,10 @@ export const Header: React.FC = () => {
               <LanguageSwitcher />
             </div>
 
+            <div className={styles['mobile-user']}>
+              <UserMenu />
+            </div>
+
             <NavLink 
                 to={`/${selectedGameId}/heroes`}
                 className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
@@ -105,6 +110,10 @@ export const Header: React.FC = () => {
 
         <div className={styles['desktop-lang']}>
           <LanguageSwitcher />
+        </div>
+
+        <div className={styles['desktop-user']}>
+          <UserMenu />
         </div>
 
         {/* Overlay for mobile */}

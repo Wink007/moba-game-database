@@ -139,11 +139,29 @@
   }
 }
 
+.mobile-user {
+  display: flex;
+  padding: var(--spacing-sm) var(--spacing-md);
+  
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
 .desktop-lang {
   display: none;
   
   @media (min-width: 1024px) {
     display: flex;
+  }
+}
+
+.desktop-user {
+  display: none;
+  
+  @media (min-width: 1024px) {
+    display: flex;
+    align-items: center;
   }
 }
 

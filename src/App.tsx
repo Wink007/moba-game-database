@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import {HomePage} from './pages/HomePage';
 import HeroesPage from './pages/HeroesPage';
 import HeroDetailPage from './pages/HeroDetailPage';
@@ -18,9 +19,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './App.css';
 
 const queryClient = new QueryClient();
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
 
 function App() {
   return (
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ErrorBoundary>
@@ -49,6 +52,7 @@ function App() {
         </ErrorBoundary>
       </BrowserRouter>
     </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 }
 

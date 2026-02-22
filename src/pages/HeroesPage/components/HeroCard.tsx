@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Hero } from '../../../types';
 import { Lanes, LanesIcons } from '../../../enum';
 import { getHeroName, translateRoles, translateLanes } from '../../../utils/translation';
+import { FavoriteButton } from '../../../components/FavoriteButton';
 import styles from '../styles.module.scss';
 
 interface HeroCardProps {
@@ -47,6 +48,11 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
             })}
           </div>
         )}
+
+        {/* Favorite button in top right corner */}
+        <div className={styles.heroFavorite} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+          <FavoriteButton heroId={hero.id} />
+        </div>
       </div>
       
       <div className={styles.heroContent}>

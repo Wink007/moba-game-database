@@ -345,5 +345,35 @@
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved.",
     "backHome": "Back to Home"
+  },
+  "auth": {
+    "login": "Sign in",
+    "logout": "Sign out"
+  },
+  "favorites": {
+    "add": "Add to favorites",
+    "remove": "Remove from favorites",
+    "loginToAdd": "Sign in to add to favorites"
+  },
+  "builds": {
+    "myBuilds": "My Builds",
+    "communityBuilds": "Community Builds",
+    "create": "Create Build",
+    "edit": "Edit Build",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "name": "Build Name",
+    "namePlaceholder": "e.g. Tank Build",
+    "items": "Items",
+    "spells": "Battle Spells",
+    "emblem": "Emblem",
+    "notes": "Notes",
+    "notesPlaceholder": "Strategy tips, situational notes...",
+    "noBuilds": "You haven't created any builds for this hero yet.",
+    "noCommunityBuilds": "No community builds yet. Be the first!",
+    "searchItems": "Search items...",
+    "clickToRemove": "Click to remove",
+    "emptySlot": "Empty slot"
   }
 }

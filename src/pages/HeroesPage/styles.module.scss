@@ -302,6 +302,28 @@
   }
 }
 
+.heroFavorite {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  .heroCard:hover & {
+    opacity: 1;
+  }
+
+  // Always show if active (favorited)
+  &:has(button[class*="active"]) {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    opacity: 1;
+  }
+}
+
 .laneIcon {
   width: 28px;
   height: 28px;
