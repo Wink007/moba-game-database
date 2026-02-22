@@ -150,9 +150,9 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
     return map;
   }, [tier1, tier2, tier3]);
 
-  // Filter items (only Tier 3 / final items for builds, exclude jungle items usually)
+  // Filter items (only Tier 3 / final items for builds)
   const filteredItems = React.useMemo(() => {
-    let filtered = items.filter((item: Item) => (String(item.tier) === '3' || String(item.tier) === '2'));
+    let filtered = items.filter((item: Item) => String(item.tier) === '3');
     if (itemSearch) {
       const q = itemSearch.toLowerCase();
       filtered = filtered.filter((item: Item) => item.name?.toLowerCase().includes(q));
