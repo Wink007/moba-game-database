@@ -116,7 +116,9 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
         headers['Authorization'] = `Bearer ${token}`;
       }
       const res = await fetch(`${API_URL}/heroes/${heroId}/builds`, { headers });
-      return res.json();
+      if (!res.ok) throw new Error('Failed to load builds');
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
     },
     enabled: !!heroId,
     staleTime: 60 * 1000,
