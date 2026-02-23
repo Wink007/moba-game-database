@@ -216,6 +216,29 @@ def delete_game(game_id):
 
 def get_heroes():
     game_id = request.args.get('game_id')
+    page = request.args.get('page', type=int)
+
+    # Paginated response (for hero grid)
+    if page is not None:
+        size = request.args.get('size', 24, type=int)
+        role = request.args.get('role')
+        lane = request.args.get('lane')
+        search = request.args.get('search')
+        complexity = request.args.get('complexity')
+        sort = request.args.get('sort', 'name')
+        result = db.get_heroes_paginated(
+            game_id=game_id,
+            page=page,
+            size=size,
+            role=role,
+            lane=lane,
+            search=search,
+            complexity=complexity,
+            sort=sort,
+        )
+        return jsonify(result)
+
+    # Legacy: return all heroes
     name = request.args.get('name')
     limit = request.args.get('limit')
     

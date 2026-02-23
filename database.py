@@ -152,7 +152,92 @@ def delete_game(game_id):
     release_connection(conn)
     return cursor.rowcount > 0
 
-# Heroes
+# Heroes — paginated list (lightweight, for grid view)
+def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, search=None, complexity=None, sort='name'):
+    """Повертає пагіновану відповідь з мінімальним набором полів для списку героїв."""
+    conn = get_connection()
+    if DATABASE_TYPE == 'postgres':
+        from psycopg2.extras import RealDictCursor
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+    else:
+        cursor = conn.cursor()
+
+    ph = get_placeholder()
+    conditions = []
+    params = []
+
+    if game_id:
+        conditions.append(f"game_id = {ph}")
+        params.append(int(game_id))
+
+    if role:
+        conditions.append(f"roles::jsonb @> {ph}::jsonb")
+        params.append(json.dumps(role))
+
+    if lane:
+        conditions.append(f"lane::jsonb @> {ph}::jsonb")
+        params.append(json.dumps(lane))
+
+    if search:
+        conditions.append(f"(name ILIKE {ph} OR COALESCE(name_uk, '') ILIKE {ph})")
+        params.append(f'%{search}%')
+        params.append(f'%{search}%')
+
+    if complexity:
+        if complexity == 'Easy':
+            conditions.append("COALESCE((abilityshow->>3)::integer, 0) <= 33")
+        elif complexity == 'Medium':
+            conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 33 AND COALESCE((abilityshow->>3)::integer, 0) <= 66")
+        elif complexity == 'Hard':
+            conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 66")
+
+    where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+
+    # Count
+    cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
+    total = dict(cursor.fetchone())['cnt']
+
+    # Sort
+    if sort == 'newest':
+        order = "ORDER BY id DESC"
+    else:
+        order = "ORDER BY name ASC"
+
+    # Fetch page
+    offset = (page - 1) * size
+    select_fields = "id, game_id, name, name_uk, image, roles, lane, abilityshow"
+    data_params = params + [size, offset]
+    cursor.execute(
+        f"SELECT {select_fields} FROM heroes {where_clause} {order} LIMIT {ph} OFFSET {ph}",
+        data_params
+    )
+    heroes = [dict(row) for row in cursor.fetchall()]
+    release_connection(conn)
+
+    # Parse JSON text fields
+    for hero in heroes:
+        for field in ['roles', 'lane']:
+            val = hero.get(field)
+            if val and isinstance(val, str) and val.strip():
+                try:
+                    hero[field] = json.loads(val)
+                except Exception:
+                    hero[field] = []
+            elif not val:
+                hero[field] = []
+        # abilityshow is JSONB — psycopg2 returns it as a list already
+        if hero.get('abilityshow') is None:
+            hero['abilityshow'] = []
+
+    return {
+        'data': heroes,
+        'total': total,
+        'page': page,
+        'size': size,
+        'has_more': offset + size < total,
+    }
+
+# Heroes — full list (legacy)
 def get_heroes(game_id=None, include_details=False, include_skills=True, include_relation=True, include_counter_data=True, include_compatibility_data=True):
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
