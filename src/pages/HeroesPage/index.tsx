@@ -27,7 +27,6 @@ function HeroesPage() {
     isError,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   } = useInfiniteHeroesQuery(selectedGameId, { size: HEROES_PER_PAGE, ...apiFilters });
 
   const allHeroes: Hero[] = useMemo(() => {
