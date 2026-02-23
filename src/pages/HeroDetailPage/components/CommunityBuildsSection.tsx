@@ -7,6 +7,7 @@ import { useItemsQuery } from '../../../queries/useItemsQuery';
 import { useEmblems, useEmblemTalents } from '../../../hooks/useEmblems';
 import type { Talent } from '../../../hooks/useEmblems';
 import { API_URL } from '../../../config';
+import { getEmblemName, getTalentName, getTalentEffect } from '../../../utils/translation';
 import { Item } from '../../../types/item';
 import styles from '../styles.module.scss';
 
@@ -38,7 +39,8 @@ interface CommunityBuildsSectionProps {
 }
 
 export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ heroId, gameId, showOnly }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { user, setAuth, setLoading: setAuthLoading } = useAuthStore();
   const [showForm, setShowForm] = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
@@ -345,15 +347,15 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
                 <span className={styles.pbSetupGroupLabel}>Emblem</span>
                 <div className={styles.pbSetupGroupItems}>
                   <div className={`${styles.pbSetupItem} ${styles.pbSetupItemEmblem}`}>
-                    {emblem.icon_url && <img src={emblem.icon_url} alt={emblem.name} className={styles.pbSetupIcon} loading="lazy" />}
-                    <span className={styles.pbSetupLabel}>{emblem.name}</span>
+                    {emblem.icon_url && <img src={emblem.icon_url} alt={getEmblemName(emblem, lang)} className={styles.pbSetupIcon} loading="lazy" />}
+                    <span className={styles.pbSetupLabel}>{getEmblemName(emblem, lang)}</span>
                   </div>
                   {build.talents && build.talents.map((name, tIdx) => {
                     const td = talentsMap.get(name);
                     return (
                       <div key={tIdx} className={styles.pbSetupItem}>
-                        {td?.icon_url && <img src={td.icon_url} alt={name} className={styles.pbSetupIcon} loading="lazy" />}
-                        <span className={styles.pbSetupLabel}>{name}</span>
+                        {td?.icon_url && <img src={td.icon_url} alt={td ? getTalentName(td, lang) : name} className={styles.pbSetupIcon} loading="lazy" />}
+                        <span className={styles.pbSetupLabel}>{td ? getTalentName(td, lang) : name}</span>
                       </div>
                     );
                   })}
@@ -373,7 +375,6 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
       <div key={idx} className={styles.pbSkeletonCard}>
         <div className={styles.pbSkeletonHeader}>
           <div className={styles.pbSkeletonRank} />
-          <div className={styles.pbSkeletonLikes} />
         </div>
         <div className={styles.pbSkeletonItemsRow}>
           {[...Array(6)].map((_, i) => (
@@ -426,14 +427,12 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
         </div>
       )}
 
-      {/* Community Builds */}
-      {(!showOnly || showOnly === 'community') && (
+      {/* Community Builds — hide entire section when empty */}
+      {(!showOnly || showOnly === 'community') && (loadingCommunity || communityBuilds.length > 0) && (
         <div className={styles.cbSection}>
           <h3 className={styles.sectionTitle}>{t('builds.communityBuilds')}</h3>
           {loadingCommunity ? (
             renderSkeletonCards(3)
-          ) : communityBuilds.length === 0 ? (
-            <p className={styles.cbEmpty}>{t('builds.noCommunityBuilds')}</p>
           ) : (
             communityBuilds.map(b => renderBuildCard(b, false))
           )}
@@ -557,10 +556,10 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
                         }
                         setSelectedTalents([]);
                       }}
-                      title={emblem.name}
+                      title={getEmblemName(emblem, lang)}
                     >
-                      {emblem.icon_url && <img src={emblem.icon_url} alt={emblem.name} loading="lazy" />}
-                      <span>{emblem.name}</span>
+                      {emblem.icon_url && <img src={emblem.icon_url} alt={getEmblemName(emblem, lang)} loading="lazy" />}
+                      <span>{getEmblemName(emblem, lang)}</span>
                     </button>
                   ))}
                 </div>
@@ -589,10 +588,10 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
                                   return [...withoutThisTier, talent.name];
                                 });
                               }}
-                              title={talent.effect || talent.name}
+                              title={getTalentEffect(talent, lang) || getTalentName(talent, lang)}
                             >
-                              {talent.icon_url && <img src={talent.icon_url} alt={talent.name} loading="lazy" />}
-                              <span>{talent.name}</span>
+                              {talent.icon_url && <img src={talent.icon_url} alt={getTalentName(talent, lang)} loading="lazy" />}
+                              <span>{getTalentName(talent, lang)}</span>
                             </button>
                           );
                         })}

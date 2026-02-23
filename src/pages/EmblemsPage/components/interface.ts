@@ -8,7 +8,9 @@ export interface EmblemCardProps {
   emblem: {
     id: number;
     name: string;
+    name_uk?: string;
     description?: string;
+    description_uk?: string;
     icon_url?: string;
     base_stats?: BaseStats;
   };

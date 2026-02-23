@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Item } from '../../../types';
 import { ItemDetailsProps } from './interface';
 import { getItemName, getItemDescription } from '../../../utils/translation';
+import { highlightValues } from '../../../utils/highlightValues';
 import { parseItemDescription } from '../../../utils/parseItemDescription';
 import parentStyles from '../styles.module.scss';
 
@@ -38,14 +39,6 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
       }
     }
     return cleanDesc.trim() || t('items.noDescription');
-  };
-
-  const highlightValues = (text: string): string => {
-    // Підсвічуємо числові показники: 30%, +65, 2s, 5 seconds, тощо
-    return text.replace(
-      /(\+?\d+(?:\.\d+)?\s*%|\+\d+(?:\.\d+)?|\d+(?:\.\d+)?\s*(?:seconds?|секунд[иа]?|сек\.?|HP|hp|MP|mp))/g,
-      '<span class="stat-highlight">$1</span>'
-    );
   };
 
   const stats: Record<string, number | undefined> = {

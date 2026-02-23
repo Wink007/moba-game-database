@@ -98,6 +98,105 @@ export const getSkillDescription = (skill: any, language: string = 'en'): string
   return skill.skill_description || '';
 };
 
+/**
+ * Helper function to get translated battle spell name based on current language
+ */
+export const getSpellName = (spell: any, language: string = 'en'): string => {
+  if (language === 'uk' && spell.name_uk) {
+    return spell.name_uk;
+  }
+  return spell.name;
+};
+
+/**
+ * Helper function to get translated battle spell overview based on current language
+ */
+export const getSpellOverview = (spell: any, language: string = 'en'): string => {
+  if (language === 'uk' && spell.overview_uk) {
+    return spell.overview_uk;
+  }
+  return spell.overview || '';
+};
+
+/**
+ * Helper function to get translated battle spell description based on current language
+ */
+export const getSpellDescription = (spell: any, language: string = 'en'): string => {
+  if (language === 'uk' && spell.description_uk) {
+    return spell.description_uk;
+  }
+  return spell.description || '';
+};
+
+/**
+ * Helper function to get translated emblem name based on current language
+ */
+export const getEmblemName = (emblem: any, language: string = 'en'): string => {
+  if (language === 'uk' && emblem.name_uk) {
+    return emblem.name_uk;
+  }
+  return emblem.name;
+};
+
+/**
+ * Helper function to get translated emblem description based on current language
+ */
+export const getEmblemDescription = (emblem: any, language: string = 'en'): string => {
+  if (language === 'uk' && emblem.description_uk) {
+    return emblem.description_uk;
+  }
+  return emblem.description || '';
+};
+
+/**
+ * Helper function to get translated talent name based on current language
+ */
+export const getTalentName = (talent: any, language: string = 'en'): string => {
+  if (language === 'uk' && talent.name_uk) {
+    return talent.name_uk;
+  }
+  return talent.name;
+};
+
+/**
+ * Helper function to get translated talent effect based on current language
+ */
+export const getTalentEffect = (talent: any, language: string = 'en'): string => {
+  if (language === 'uk' && talent.effect_uk) {
+    return talent.effect_uk;
+  }
+  return talent.effect || '';
+};
+
+/**
+ * Translate base stat name to Ukrainian
+ */
+const BASE_STAT_TRANSLATIONS: Record<string, string> = {
+  'Adaptive Attack': 'Адаптивна Атака',
+  'HP': 'Здоров\'я',
+  'Hybrid Regen': 'Гібридне Відновлення',
+  'HP Regen': 'Відновлення Здоров\'я',
+  'Hybrid Defense': 'Гібридний Захист',
+  'Adaptive Penetration': 'Адаптивне Проникнення',
+  'Movement Speed': 'Швидкість Пересування',
+  'Cooldown Reduction': 'Зменшення Перезарядки',
+  'Magic Penetration': 'Магічне Проникнення',
+  'Magic Power': 'Магічна Сила',
+  'Hybrid Lifesteal': 'Гібридний Вампіризм',
+  'Healing Effect': 'Ефект Зцілення',
+  'Attack Speed': 'Швидкість Атаки',
+  'Lifesteal': 'Вампіризм',
+  'Critical Chance': 'Шанс Крит. Удару',
+  'Physical Attack': 'Фізична Атака',
+};
+
+export const getStatName = (stat: string, language: string = 'en'): string => {
+  if (language === 'uk' && BASE_STAT_TRANSLATIONS[stat]) {
+    return BASE_STAT_TRANSLATIONS[stat];
+  }
+  return stat;
+};
+
 // Re-export game terminology translation functions
 export {
   getRole,

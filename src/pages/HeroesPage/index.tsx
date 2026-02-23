@@ -1,25 +1,48 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
-import { useHeroesQuery } from '../../queries/useHeroesQuery';
+import { useInfiniteHeroesQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
 import { useHeroFilters } from './hooks/useHeroFilters';
+import { useFavorites } from '../../hooks/useFavorites';
 import { HeroFilters } from './components/HeroFilters';
 import { HeroGrid } from './components/HeroGrid';
 import { useSEO } from '../../hooks/useSEO';
+import { Hero } from '../../types';
 import styles from './styles.module.scss';
+
+const HEROES_PER_PAGE = 24;
 
 function HeroesPage() {
   const { t } = useTranslation();
   useSEO({ title: 'Heroes', description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty.' });
   const { selectedGameId } = useGameStore();
-  const { data: heroes, isLoading, isError } = useHeroesQuery(selectedGameId);
+  const { isFavorite } = useFavorites();
+
+  const { filters, apiFilters, setters } = useHeroFilters();
 
   const {
-    filters,
-    setters,
-    results,
-    actions,
-  } = useHeroFilters({ heroes });
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteHeroesQuery(selectedGameId, { size: HEROES_PER_PAGE, ...apiFilters });
+
+  const allHeroes: Hero[] = useMemo(() => {
+    if (!data?.pages) return [];
+    const heroes = data.pages.flatMap((page) => page.data);
+    // Sort favorites to top within already-loaded heroes
+    return [...heroes].sort((a, b) => {
+      const aFav = isFavorite(a.id) ? 0 : 1;
+      const bFav = isFavorite(b.id) ? 0 : 1;
+      return aFav - bFav;
+    });
+  }, [data, isFavorite]);
+
+  const total = data?.pages[0]?.total ?? 0;
+  const remaining = total - allHeroes.length;
 
   if (isLoading) return <Loader />;
   if (isError) return <div className={styles.error}>{t('heroes.failedToLoad')}</div>;
@@ -34,32 +57,20 @@ function HeroesPage() {
         selectedLane={filters.selectedLane}
         selectedComplexity={filters.selectedComplexity}
         sortBy={filters.sortBy}
-        onRoleChange={(value) => {
-          setters.setSelectedRole(value);
-          actions.handleFilterChange();
-        }}
-        onLaneChange={(value) => {
-          setters.setSelectedLane(value);
-          actions.handleFilterChange();
-        }}
-        onComplexityChange={(value) => {
-          setters.setSelectedComplexity(value);
-          actions.handleFilterChange();
-        }}
-        onSortChange={(value) => {
-          setters.setSortBy(value);
-          actions.handleFilterChange();
-        }}
-        totalCount={results.filteredAndSortedHeroes.length}
-        displayedCount={results.displayedHeroes.length}
+        onRoleChange={setters.setSelectedRole}
+        onLaneChange={setters.setSelectedLane}
+        onComplexityChange={setters.setSelectedComplexity}
+        onSortChange={setters.setSortBy}
+        totalCount={total}
+        displayedCount={allHeroes.length}
       />
 
       <HeroGrid
-        heroes={results.displayedHeroes}
+        heroes={allHeroes}
         gameId={selectedGameId}
-        hasMore={results.hasMore}
-        remainingCount={results.filteredAndSortedHeroes.length - results.displayedHeroes.length}
-        onLoadMore={actions.handleLoadMore}
+        hasMore={!!hasNextPage}
+        remainingCount={remaining}
+        onLoadMore={() => fetchNextPage()}
       />
     </div>
   );

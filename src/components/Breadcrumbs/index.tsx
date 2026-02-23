@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
 import { useGamesQuery } from '../../queries/useGamesQuery';
-import { useHeroesQuery } from '../../queries/useHeroesQuery';
+import { useHeroQuery } from '../../queries/useHeroesQuery';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import { getHeroName, getItemName } from '../../utils/translation';
 import styles from './styles.module.scss';
@@ -13,10 +13,18 @@ export const Breadcrumbs: React.FC = () => {
   const location = useLocation();
   const { selectedGameId } = useGameStore();
   const { data: games } = useGamesQuery();
-  const { data: heroes } = useHeroesQuery(selectedGameId);
   const { data: items } = useItemsQuery(selectedGameId);
 
   const pathSegments = location.pathname.split('/').filter(Boolean);
+
+  // Determine hero ID from URL if on hero detail page
+  const heroIdFromUrl =
+    pathSegments[0] === String(selectedGameId) &&
+    pathSegments[1] === 'heroes' &&
+    pathSegments[2]
+      ? parseInt(pathSegments[2])
+      : 0;
+  const { data: hero } = useHeroQuery(heroIdFromUrl);
   
   // Don't show breadcrumbs on home page
   if (pathSegments.length === 0) {
@@ -50,11 +58,8 @@ export const Breadcrumbs: React.FC = () => {
           let itemName = decodeURIComponent(pathSegments[2]);
 
           // Get hero name if on hero detail page
-          if (pathSegments[1] === 'heroes' && heroes) {
-            const hero = heroes.find(h => h.id === itemId);
-            if (hero) {
-              itemName = getHeroName(hero, i18n.language);
-            }
+          if (pathSegments[1] === 'heroes' && hero) {
+            itemName = getHeroName(hero, i18n.language);
           }
 
           // Get item name if on item detail page

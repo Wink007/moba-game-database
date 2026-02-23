@@ -7,6 +7,7 @@ import { useItemsQuery } from '../../../queries/useItemsQuery';
 import { useEmblems, useEmblemTalents } from '../../../hooks/useEmblems';
 import type { Talent } from '../../../hooks/useEmblems';
 import { API_URL } from '../../../config';
+import { getEmblemName, getTalentName } from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 interface BattleSpell {
@@ -34,7 +35,8 @@ const RANK_CLASSES: Record<number, string> = {
 };
 
 export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, gameId }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const [visibleCount, setVisibleCount] = React.useState(BUILDS_PER_PAGE);
 
   const { data: items = [], isLoading: itemsLoading } = useItemsQuery(gameId);
@@ -76,9 +78,7 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
     return map;
   }, [tier1, tier2, tier3]);
 
-  const sortedBuilds = React.useMemo(() => {
-    return [...builds].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-  }, [builds]);
+  const sortedBuilds = builds;
 
   const visibleBuilds = sortedBuilds.slice(0, visibleCount);
   const hasMore = visibleCount < sortedBuilds.length;
@@ -99,7 +99,6 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
           <div key={idx} className={styles.pbSkeletonCard}>
             <div className={styles.pbSkeletonHeader}>
               <div className={styles.pbSkeletonRank} />
-              <div className={styles.pbSkeletonLikes} />
             </div>
             <div className={styles.pbSkeletonItemsRow}>
               {[...Array(6)].map((_, i) => (
@@ -149,20 +148,10 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
             key={idx}
             className={`${styles.pbCard} ${isTop3 ? styles.pbCardTop : ''} ${rankClass}`}
           >
-            {/* Header: rank + likes */}
+            {/* Header: rank */}
             <div className={styles.pbHeader}>
               <div className={`${styles.pbRank} ${rankClass}`}>
                 {idx + 1}
-              </div>
-              <div className={styles.pbHeaderRight}>
-                {build.likes != null && build.likes > 0 && (
-                  <div className={styles.pbLikes}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M2 20h2V8H2v12zm22-11a2 2 0 00-2-2h-6.31l.95-4.57.03-.32a1.49 1.49 0 00-.44-1.06L15.17 0 7.59 7.59C7.22 7.95 7 8.45 7 9v10a2 2 0 002 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9z" />
-                    </svg>
-                    {build.likes}
-                  </div>
-                )}
               </div>
             </div>
 
@@ -227,9 +216,9 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
                       {emblem && (
                         <div className={`${styles.pbSetupItem} ${styles.pbSetupItemEmblem}`}>
                           {emblem.icon_url && (
-                            <img src={emblem.icon_url} alt={emblem.name} className={styles.pbSetupIcon} loading="lazy" />
+                            <img src={emblem.icon_url} alt={getEmblemName(emblem, lang)} className={styles.pbSetupIcon} loading="lazy" />
                           )}
-                          <span className={styles.pbSetupLabel}>{emblem.name}</span>
+                          <span className={styles.pbSetupLabel}>{getEmblemName(emblem, lang)}</span>
                         </div>
                       )}
                       {build.emblem_talents && build.emblem_talents.map((name, tIdx) => {
@@ -237,9 +226,9 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
                         return (
                           <div key={tIdx} className={styles.pbSetupItem}>
                             {td?.icon_url && (
-                              <img src={td.icon_url} alt={name} className={styles.pbSetupIcon} loading="lazy" />
+                              <img src={td.icon_url} alt={getTalentName(td, lang)} className={styles.pbSetupIcon} loading="lazy" />
                             )}
-                            <span className={styles.pbSetupLabel}>{name}</span>
+                            <span className={styles.pbSetupLabel}>{td ? getTalentName(td, lang) : name}</span>
                           </div>
                         );
                       })}

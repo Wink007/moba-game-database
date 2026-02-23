@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
 import { useSEO } from '../../hooks/useSEO';
+import { getSpellName, getSpellOverview, getSpellDescription } from '../../utils/translation';
+import { highlightValues } from '../../utils/highlightValues';
 import styles from './styles.module.scss';
 import { API_URL } from '../../config';
 
@@ -10,15 +12,19 @@ interface BattleSpell {
   id: number;
   game_id: number;
   name: string;
+  name_uk?: string;
   overview?: string;
+  overview_uk?: string;
   description?: string;
+  description_uk?: string;
   cooldown?: number;
   unlocked_level?: number;
   icon_url?: string;
 }
 
 function SpellsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { gameId } = useParams();
   useSEO({ title: 'Battle Spells', description: 'All Mobile Legends battle spells — cooldowns, effects and unlock levels.' });
 
@@ -67,12 +73,12 @@ function SpellsPage() {
               {spell.icon_url && (
                 <img
                   src={spell.icon_url}
-                  alt={spell.name}
+                  alt={getSpellName(spell, lang)}
                   className={styles.spellIcon}
                 />
               )}
               <div className={styles.spellInfo}>
-                <h2 className={styles.spellName}>{spell.name}</h2>
+                <h2 className={styles.spellName}>{getSpellName(spell, lang)}</h2>
                 <div className={styles.spellMeta}>
                   {spell.cooldown !== undefined && spell.cooldown !== null && (
                     <div className={styles.metaItem}>
@@ -90,12 +96,15 @@ function SpellsPage() {
               </div>
             </div>
 
-            {spell.overview && (
-              <p className={styles.spellOverview}>{spell.overview}</p>
+            {(spell.overview || spell.overview_uk) && (
+              <p className={styles.spellOverview}>{getSpellOverview(spell, lang)}</p>
             )}
 
-            {spell.description && (
-              <div className={styles.spellDescription}>{spell.description}</div>
+            {(spell.description || spell.description_uk) && (
+              <div
+                className={styles.spellDescription}
+                dangerouslySetInnerHTML={{ __html: highlightValues(getSpellDescription(spell, lang)) }}
+              />
             )}
           </div>
         ))}

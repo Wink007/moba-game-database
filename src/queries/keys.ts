@@ -6,6 +6,8 @@ export const queryKeys = {
   },
   heroes: {
     all: (gameId: number) => ['heroes', { gameId }] as const,
+    paginated: (gameId: number, filters?: Record<string, any>) =>
+      ['heroes', 'paginated', { gameId, ...filters }] as const,
     detail: (id: number) => ['heroes', id] as const,
     skills: (heroId: number) => ['heroes', heroId, 'skills'] as const,
     ranks: (gameId: number, filters?: Record<string, any>) => 

@@ -152,4 +152,10 @@
   background: rgba(15, 23, 42, 0.5);
   border-radius: 8px;
   margin: 0;
+  white-space: pre-line;
+
+  :global(.stat-highlight) {
+    color: #60a5fa;
+    font-weight: 800;
+  }
 }

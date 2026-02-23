@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName, translateRoles } from '../../utils/translation';
 import { useGameStore } from '../../store/gameStore';
-import { useHeroesQuery } from '../../queries/useHeroesQuery';
+import { useHeroSearchQuery } from '../../queries/useHeroesQuery';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import styles from './styles.module.scss';
 
@@ -15,13 +15,18 @@ export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => 
   const searchRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { selectedGameId } = useGameStore();
-  const { data: heroes } = useHeroesQuery(selectedGameId);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(query), 300);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  const { data: heroSearchResult } = useHeroSearchQuery(selectedGameId, debouncedQuery);
   const { data: items } = useItemsQuery(selectedGameId);
 
-  // Фільтруємо героїв по запиту
-  const filteredHeroes = heroes?.filter(hero =>
-    getHeroName(hero, currentLanguage).toLowerCase().includes(query.toLowerCase())
-  ).slice(0, 5) || [];
+  // Heroes from server-side search
+  const filteredHeroes = heroSearchResult?.data?.slice(0, 5) || [];
 
   // Фільтруємо предмети по запиту
   const filteredItems = items?.filter(item =>

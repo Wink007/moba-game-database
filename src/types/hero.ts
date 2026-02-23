@@ -148,3 +148,11 @@ export interface HeroSkill {
   damage?: string;
   duration?: string;
 }
+
+export interface PaginatedHeroesResponse {
+  data: Hero[];
+  total: number;
+  page: number;
+  size: number;
+  has_more: boolean;
+}

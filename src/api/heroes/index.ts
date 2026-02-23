@@ -1,9 +1,33 @@
 import { fetcher } from '../http/fetcher';
-import type { Hero, HeroSkill, HeroRelation, HeroCounterData, HeroCompatibilityData, HeroRank } from '../../types';
+import { fetcherRaw } from '../http/fetcher';
+import type { Hero, HeroSkill, HeroRelation, HeroCounterData, HeroCompatibilityData, HeroRank, PaginatedHeroesResponse } from '../../types';
+
+export interface HeroesFilterParams {
+  page: number;
+  size?: number;
+  role?: string;
+  lane?: string;
+  search?: string;
+  complexity?: string;
+  sort?: string;
+}
 
 export const heroesApi = {
   getHeroes: (gameId: number): Promise<Hero[]> => 
     fetcher(`/heroes?game_id=${gameId}`),
+
+  getHeroesPaginated: (gameId: number, params: HeroesFilterParams): Promise<PaginatedHeroesResponse> => {
+    const qs = new URLSearchParams();
+    qs.append('game_id', gameId.toString());
+    qs.append('page', params.page.toString());
+    if (params.size) qs.append('size', params.size.toString());
+    if (params.role) qs.append('role', params.role);
+    if (params.lane) qs.append('lane', params.lane);
+    if (params.search) qs.append('search', params.search);
+    if (params.complexity) qs.append('complexity', params.complexity);
+    if (params.sort) qs.append('sort', params.sort);
+    return fetcherRaw(`/heroes?${qs.toString()}`);
+  },
   
   getHero: (id: number): Promise<Hero> => 
     fetcher(`/heroes/${id}`),

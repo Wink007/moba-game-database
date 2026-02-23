@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { heroesApi } from '../api/heroes';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { heroesApi, HeroesFilterParams } from '../api/heroes';
 import { queryKeys } from './keys';
 
 export const useHeroesQuery = (gameId: number) => {
@@ -7,6 +7,34 @@ export const useHeroesQuery = (gameId: number) => {
     queryKey: queryKeys.heroes.all(gameId),
     queryFn: () => heroesApi.getHeroes(gameId),
     enabled: !!gameId,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useInfiniteHeroesQuery = (
+  gameId: number,
+  filters: Omit<HeroesFilterParams, 'page'>,
+) => {
+  return useInfiniteQuery({
+    queryKey: queryKeys.heroes.paginated(gameId, filters),
+    queryFn: ({ pageParam }) =>
+      heroesApi.getHeroesPaginated(gameId, {
+        page: pageParam,
+        ...filters,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.has_more ? lastPage.page + 1 : undefined,
+    enabled: !!gameId,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useHeroSearchQuery = (gameId: number, search: string) => {
+  return useQuery({
+    queryKey: queryKeys.heroes.paginated(gameId, { search, size: 5 }),
+    queryFn: () => heroesApi.getHeroesPaginated(gameId, { page: 1, size: 5, search }),
+    enabled: !!gameId && search.length > 0,
     staleTime: 5 * 60 * 1000,
   });
 };

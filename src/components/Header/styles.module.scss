@@ -37,6 +37,8 @@
 
   @media (min-width: 768px) {
     display: block;
+    position: relative;
+    z-index: 100;
     background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.2) 100%);
     border-bottom: 1px solid rgba(74, 158, 255, 0.08);
     backdrop-filter: blur(8px);
@@ -48,7 +50,6 @@
   align-items: center;
   gap: var(--spacing-lg);
   padding: 5px var(--spacing-lg);
-  max-width: 1400px;
   margin: 0 auto;
 
   // Search takes up available space

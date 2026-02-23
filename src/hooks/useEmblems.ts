@@ -8,8 +8,10 @@ interface BaseStats {
 interface Talent {
   id: number;
   name: string;
+  name_uk?: string;
   tier: number;
   effect: string;
+  effect_uk?: string;
   icon_url?: string;
   game_id: number;
 }
@@ -18,7 +20,9 @@ interface Emblem {
   id: number;
   game_id: number;
   name: string;
+  name_uk?: string;
   description: string;
+  description_uk?: string;
   icon_url?: string;
   base_stats?: BaseStats;
   tier1_talents?: Talent[];
