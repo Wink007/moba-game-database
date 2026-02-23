@@ -153,8 +153,12 @@ def delete_game(game_id):
     return cursor.rowcount > 0
 
 # Heroes — paginated list (lightweight, for grid view)
-def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, search=None, complexity=None, sort='name'):
-    """Повертає пагіновану відповідь з мінімальним набором полів для списку героїв."""
+def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, search=None, complexity=None, sort='name', favorite_ids=None):
+    """Повертає пагіновану відповідь з мінімальним набором полів для списку героїв.
+    
+    favorite_ids — список ID героїв-фаворитів. На сторінці 1 вони виводяться першими,
+    на наступних сторінках виключаються з результатів (вже показані).
+    """
     conn = get_connection()
     if DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
@@ -193,25 +197,96 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
 
     where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
-    # Count
-    cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
-    total = dict(cursor.fetchone())['cnt']
-
     # Sort
     if sort == 'newest':
         order = "ORDER BY id DESC"
     else:
         order = "ORDER BY name ASC"
 
-    # Fetch page
-    offset = (page - 1) * size
     select_fields = "id, game_id, name, name_uk, image, roles, lane, abilityshow"
-    data_params = params + [size, offset]
-    cursor.execute(
-        f"SELECT {select_fields} FROM heroes {where_clause} {order} LIMIT {ph} OFFSET {ph}",
-        data_params
-    )
-    heroes = [dict(row) for row in cursor.fetchall()]
+    fav_ids = [int(fid) for fid in (favorite_ids or []) if fid]
+
+    if fav_ids and page == 1:
+        # Page 1: fetch favorites first, then fill remaining slots with non-favorites
+        # 1) Fetch favorite heroes (matching filters)
+        fav_placeholders = ', '.join([ph] * len(fav_ids))
+        fav_conditions = list(conditions) + [f"id IN ({fav_placeholders})"]
+        fav_where = "WHERE " + " AND ".join(fav_conditions)
+        fav_params = params + fav_ids
+        cursor.execute(f"SELECT {select_fields} FROM heroes {fav_where} {order}", fav_params)
+        fav_heroes = [dict(row) for row in cursor.fetchall()]
+        fav_count = len(fav_heroes)
+
+        # 2) Fetch non-favorite heroes for the remaining slots
+        non_fav_conditions = list(conditions) + [f"id NOT IN ({fav_placeholders})"]
+        non_fav_where = "WHERE " + " AND ".join(non_fav_conditions)
+        remaining_size = max(0, size - fav_count)
+        non_fav_params = params + fav_ids + [remaining_size, 0]
+        cursor.execute(
+            f"SELECT {select_fields} FROM heroes {non_fav_where} {order} LIMIT {ph} OFFSET {ph}",
+            non_fav_params
+        )
+        non_fav_heroes = [dict(row) for row in cursor.fetchall()]
+
+        heroes = fav_heroes + non_fav_heroes
+
+        # Total count (all heroes matching filters)
+        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
+        total = dict(cursor.fetchone())['cnt']
+
+        # has_more: are there more non-favorite heroes?
+        non_fav_count_params = params + fav_ids
+        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {non_fav_where}", non_fav_count_params)
+        non_fav_total = dict(cursor.fetchone())['cnt']
+        has_more = remaining_size < non_fav_total
+
+    elif fav_ids and page > 1:
+        # Pages 2+: exclude favorites, adjust offset
+        fav_placeholders = ', '.join([ph] * len(fav_ids))
+        non_fav_conditions = list(conditions) + [f"id NOT IN ({fav_placeholders})"]
+        non_fav_where = "WHERE " + " AND ".join(non_fav_conditions)
+
+        # Count favorites that match filters (to know how many were on page 1)
+        fav_conditions = list(conditions) + [f"id IN ({fav_placeholders})"]
+        fav_where = "WHERE " + " AND ".join(fav_conditions)
+        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {fav_where}", params + fav_ids)
+        fav_count = dict(cursor.fetchone())['cnt']
+
+        # Offset for non-fav: page 1 showed (size - fav_count) non-favs, page 2+ continues from there
+        first_page_non_fav = max(0, size - fav_count)
+        offset = first_page_non_fav + (page - 2) * size
+
+        data_params = params + fav_ids + [size, offset]
+        cursor.execute(
+            f"SELECT {select_fields} FROM heroes {non_fav_where} {order} LIMIT {ph} OFFSET {ph}",
+            data_params
+        )
+        heroes = [dict(row) for row in cursor.fetchall()]
+
+        # Total
+        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
+        total = dict(cursor.fetchone())['cnt']
+
+        # has_more
+        non_fav_count_params = params + fav_ids
+        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {non_fav_where}", non_fav_count_params)
+        non_fav_total = dict(cursor.fetchone())['cnt']
+        has_more = offset + size < non_fav_total
+
+    else:
+        # No favorites — standard pagination
+        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
+        total = dict(cursor.fetchone())['cnt']
+
+        offset = (page - 1) * size
+        data_params = params + [size, offset]
+        cursor.execute(
+            f"SELECT {select_fields} FROM heroes {where_clause} {order} LIMIT {ph} OFFSET {ph}",
+            data_params
+        )
+        heroes = [dict(row) for row in cursor.fetchall()]
+        has_more = offset + size < total
+
     release_connection(conn)
 
     # Parse JSON text fields
@@ -234,7 +309,7 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
         'total': total,
         'page': page,
         'size': size,
-        'has_more': offset + size < total,
+        'has_more': has_more,
     }
 
 # Heroes — full list (legacy)
