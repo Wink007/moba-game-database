@@ -6,7 +6,7 @@ import { Loader } from '../../components/Loader';
 import { useCounterPick } from './useCounterPick';
 import { SingleResults } from './SingleResults';
 import { TeamResults } from './TeamResults';
-import { PlusIcon, SingleIcon, TeamIcon, EmptyIcon } from './icons';
+import { PlusIcon, SingleIcon, TeamIcon } from './icons';
 import styles from './styles.module.scss';
 
 export const CounterPickPage: React.FC = () => {
@@ -174,18 +174,7 @@ export const CounterPickPage: React.FC = () => {
         {mode === 'team' && teamHeroes.length > 0 && teamResults && (
           <TeamResults results={teamResults} lang={lang} gameId={selectedGameId} t={t} enemyCount={teamHeroes.length} />
         )}
-        {mode === 'single' && !selectedHero && (
-          <div className={styles.emptyState}>
-            <EmptyIcon />
-            <p>{t('counterPick.selectHeroPrompt')}</p>
-          </div>
-        )}
-        {mode === 'team' && teamHeroes.length === 0 && (
-          <div className={styles.emptyState}>
-            <EmptyIcon />
-            <p>{t('counterPick.selectEnemyPrompt')}</p>
-          </div>
-        )}
+
       </div>
     </div>
   );
