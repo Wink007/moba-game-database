@@ -42,11 +42,18 @@ const FavoritesIcon = () => (
   </svg>
 );
 
+const CounterPickIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><line x1="9" y1="9" x2="15" y2="15" /><line x1="15" y1="9" x2="9" y2="15" />
+  </svg>
+);
+
 const NAV_ITEMS = [
   { key: 'heroes', path: 'heroes', Icon: HeroesIcon },
   { key: 'items', path: 'items', Icon: ItemsIcon },
   { key: 'emblems', path: 'emblems', Icon: EmblemsIcon },
   { key: 'spells', path: 'spells', Icon: SpellsIcon },
+  { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
   { key: 'patches', path: 'patches', Icon: PatchesIcon },
 ];
 
@@ -71,10 +78,7 @@ export const Header: React.FC = () => {
     } else {
       document.body.style.overflow = '';
     }
-
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [isMenuOpen]);
 
   return (
@@ -96,21 +100,12 @@ export const Header: React.FC = () => {
             <NavLink
               key={key}
               to={`/${selectedGameId}/${path}`}
-              className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
+              className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''} ${key === 'patches' ? styles['patches-link'] : ''}`}
             >
                 <Icon />
                 <span>{t(`header.${key}`)}</span>
             </NavLink>
           ))}
-          {user && (
-            <NavLink
-              to={`/${selectedGameId}/favorites`}
-              className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''}`}
-            >
-              <FavoritesIcon />
-              <span>{t('header.favorites')}</span>
-            </NavLink>
-          )}
         </nav>
 
         {/* Burger button for mobile */}
@@ -158,18 +153,6 @@ export const Header: React.FC = () => {
                 <span className={styles['sheet-label']}>{t(`header.${key}`)}</span>
               </NavLink>
             ))}
-            {user && (
-              <NavLink
-                to={`/${selectedGameId}/favorites`}
-                className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
-                onClick={closeMenu}
-              >
-                <div className={styles['sheet-icon']}>
-                  <FavoritesIcon />
-                </div>
-                <span className={styles['sheet-label']}>{t('header.favorites')}</span>
-              </NavLink>
-            )}
           </div>
 
           {/* Bottom row: language + user */}

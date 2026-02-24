@@ -4,6 +4,7 @@
     "items": "Items",
     "emblems": "Emblems",
     "spells": "Spells",
+    "counterPick": "Counter Pick",
     "patches": "Patches",
     "favorites": "Favorites"
   },
@@ -384,5 +385,25 @@
     "searchItems": "Search items...",
     "clickToRemove": "Click to remove",
     "emptySlot": "Empty slot"
+  },
+  "counterPick": {
+    "title": "Counter Pick Advisor",
+    "description": "Select a hero to see who counters them, or pick an enemy team to find the best counter picks",
+    "singleMode": "Single Hero",
+    "teamMode": "Team Counter",
+    "selectHero": "Select Hero",
+    "searchHero": "Search heroes...",
+    "clearAll": "Clear All",
+    "winRate": "Win Rate",
+    "countersHim": "Countered By",
+    "strongAgainst": "Strong Against",
+    "countersHimDesc": "Heroes that counter {{hero}}. Avoid picking {{hero}} against them.",
+    "strongAgainstDesc": "Heroes that {{hero}} counters. Pick {{hero}} against them for an advantage.",
+    "bestPicks": "Best Counter Picks",
+    "bestPicksDesc": "Best heroes to pick against {{count}} selected enemies, ranked by total counter score",
+    "avgWr": "Avg WR",
+    "selectHeroPrompt": "Select a hero to see their counter picks",
+    "selectEnemyPrompt": "Select enemy heroes to find the best counter picks",
+    "noResults": "No counter data available for selected heroes"
   }
 }

@@ -96,6 +96,20 @@
     flex-shrink: 1;
     min-width: 0;
   }
+
+  /* Hide last nav item on narrower desktops */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    > :nth-last-child(1) {
+      display: none;
+    }
+  }
+
+  /* Hide last 2 on even narrower */
+  @media (min-width: 768px) and (max-width: 899px) {
+    > :nth-last-child(2) {
+      display: none;
+    }
+  }
 }
 
 .desktop-user {
@@ -119,13 +133,14 @@
   text-decoration: none;
   padding: 7px 14px;
   border-radius: 10px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: 0.8rem;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+  font-size: 0.78rem;
   font-weight: 600;
   position: relative;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   border: 1px solid transparent;
+  flex-shrink: 0;
 
   svg {
     width: 16px;

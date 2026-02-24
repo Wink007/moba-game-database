@@ -10,6 +10,7 @@ import { HeroRankPage } from './pages/HeroRankPage';
 import { LegalPage } from './pages/LegalPage';
 import { PatchesPage } from './pages/PatchesPage';
 import { FavoritesPage } from './pages/FavoritesPage';
+import { CounterPickPage } from './pages/CounterPickPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/:gameId/spells" element={<SpellsPage />} />
                 <Route path="/:gameId/patches" element={<PatchesPage />} />
                 <Route path="/:gameId/patches/:patchVersion" element={<PatchesPage />} />
+                <Route path="/:gameId/counter-pick" element={<CounterPickPage />} />
                 <Route path="/:gameId/favorites" element={<FavoritesPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

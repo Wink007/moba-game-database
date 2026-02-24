@@ -94,6 +94,12 @@ export const UserMenu: React.FC = () => {
             </div>
           </div>
           <div className={styles.divider} />
+          <button className={`${styles.menuItem} ${styles.hiddenNavItem} ${styles.hiddenAt900}`} onClick={() => { navigate(`/${selectedGameId}/counter-pick`); setIsOpen(false); }}>
+            {t('header.counterPick')}
+          </button>
+          <button className={`${styles.menuItem} ${styles.hiddenNavItem}`} onClick={() => { navigate(`/${selectedGameId}/patches`); setIsOpen(false); }}>
+            {t('header.patches')}
+          </button>
           <button className={`${styles.menuItem} ${styles.desktopOnly}`} onClick={() => { navigate(`/${selectedGameId}/favorites`); setIsOpen(false); }}>
             {t('header.favorites')}
           </button>
