@@ -203,7 +203,7 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
     else:
         order = "ORDER BY name ASC"
 
-    select_fields = "id, game_id, name, name_uk, image, roles, lane, abilityshow"
+    select_fields = "id, game_id, name, name_uk, image, painting, roles, lane, abilityshow"
     fav_ids = [int(fid) for fid in (favorite_ids or []) if fid]
 
     if fav_ids and page == 1:
