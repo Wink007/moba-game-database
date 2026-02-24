@@ -1361,18 +1361,13 @@ def get_emblems(game_id=None):
         cursor.execute("SELECT * FROM emblems")
     emblems = [dict_from_row(row) for row in cursor.fetchall()]
     
-    # Парсимо JSON поля та додаємо таланти
+    # Парсимо JSON поля
     for emblem in emblems:
         if emblem.get('base_stats'):
             try:
                 emblem['base_stats'] = json.loads(emblem['base_stats'])
             except:
                 emblem['base_stats'] = {}
-        
-        # Додаємо таланти з окремої таблиці
-        emblem['tier1_talents'] = get_emblem_talents(game_id=emblem['game_id'], tier=1)
-        emblem['tier2_talents'] = get_emblem_talents(game_id=emblem['game_id'], tier=2)
-        emblem['tier3_talents'] = get_emblem_talents(game_id=emblem['game_id'], tier=3)
     
     release_connection(conn)
     return emblems
@@ -1396,11 +1391,6 @@ def get_emblem(emblem_id):
                 emblem['base_stats'] = json.loads(emblem['base_stats'])
             except:
                 emblem['base_stats'] = {}
-        
-        # Додаємо таланти з окремої таблиці
-        emblem['tier1_talents'] = get_emblem_talents(game_id=emblem['game_id'], tier=1)
-        emblem['tier2_talents'] = get_emblem_talents(game_id=emblem['game_id'], tier=2)
-        emblem['tier3_talents'] = get_emblem_talents(game_id=emblem['game_id'], tier=3)
         
         return emblem
     return None
