@@ -13,11 +13,13 @@ export const TalentCard: React.FC<TalentCardProps> = ({ talent }) => {
     <div className={styles.talentCard}>
       <div className={styles.talentHeader}>
         {talent.icon_url && (
-          <img
-            src={talent.icon_url}
-            alt={getTalentName(talent, lang)}
-            className={styles.talentIcon}
-          />
+          <div className={styles.talentIconWrapper}>
+            <img
+              src={talent.icon_url}
+              alt={getTalentName(talent, lang)}
+              className={styles.talentIcon}
+            />
+          </div>
         )}
         <h4 className={styles.talentName}>{getTalentName(talent, lang)}</h4>
       </div>

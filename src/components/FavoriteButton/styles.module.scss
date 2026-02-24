@@ -74,6 +74,16 @@
   }
 }
 
+.loginTooltipTop {
+  top: auto;
+  bottom: calc(100% + 6px);
+  animation: tooltipFadeTop 2.5s ease forwards;
+
+  @media (max-width: 480px) {
+    animation: tooltipFadeTopMobile 2.5s ease forwards;
+  }
+}
+
 @keyframes tooltipFade {
   0% { opacity: 0; transform: translateX(-50%) translateY(-4px); }
   10% { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -81,8 +91,22 @@
   100% { opacity: 0; transform: translateX(-50%) translateY(0); }
 }
 
+@keyframes tooltipFadeTop {
+  0% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+}
+
 @keyframes tooltipFadeMobile {
   0% { opacity: 0; transform: translateY(-4px); }
+  10% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes tooltipFadeTopMobile {
+  0% { opacity: 0; transform: translateY(4px); }
   10% { opacity: 1; transform: translateY(0); }
   80% { opacity: 1; }
   100% { opacity: 0; }

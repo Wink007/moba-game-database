@@ -1,12 +1,12 @@
 .heroGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1rem;
   margin-bottom: 2rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.625rem;
   }
 
   @media (max-width: 480px) {
@@ -20,4 +20,7 @@
   text-align: center;
   color: rgba(148, 163, 184, 0.6);
   font-size: 1.125rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.08);
 }

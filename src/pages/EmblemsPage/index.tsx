@@ -40,10 +40,21 @@ function EmblemsPage() {
       </div>
 
       {emblems.length > 0 && (
-        <div className={styles.emblemsGrid}>
-          {emblems.map((emblem) => (
-            <EmblemCard key={emblem.id} emblem={emblem} />
-          ))}
+        <>
+          <div className={styles.sectionLabel}>
+            <span className={styles.sectionLabelText}>{t('emblems.title')}</span>
+          </div>
+          <div className={styles.emblemsGrid}>
+            {emblems.map((emblem) => (
+              <EmblemCard key={emblem.id} emblem={emblem} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {(tier1.length > 0 || tier2.length > 0 || tier3.length > 0) && (
+        <div className={styles.talentsDivider}>
+          <span className={styles.talentsDividerText}>{t('emblems.talents')}</span>
         </div>
       )}
 

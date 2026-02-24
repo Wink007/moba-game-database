@@ -12,6 +12,7 @@ export const HeroGrid: React.FC<HeroGridProps> = ({
   hasMore,
   remainingCount,
   onLoadMore,
+  isFiltering,
 }) => {
   const { t } = useTranslation();
   if (heroes.length === 0) {
@@ -24,7 +25,7 @@ export const HeroGrid: React.FC<HeroGridProps> = ({
 
   return (
     <>
-      <div className={styles.heroGrid}>
+      <div className={styles.heroGrid} style={isFiltering ? { opacity: 0.5, transition: 'opacity 0.2s' } : { transition: 'opacity 0.2s' }}>
         {heroes.map((hero: Hero) => (
           <HeroCard key={hero.id} hero={hero} gameId={gameId} />
         ))}

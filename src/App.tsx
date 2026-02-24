@@ -12,7 +12,6 @@ import { PatchesPage } from './pages/PatchesPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { Header } from './components/Header';
-import { Breadcrumbs } from './components/Breadcrumbs';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -33,7 +32,6 @@ function App() {
           <ScrollToTop />
           <div className="app-wrapper">
             <Header />
-            <Breadcrumbs />
             <main className="main-content">
               <Routes>
                 <Route path="/" element={<HomePage />} />

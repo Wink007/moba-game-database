@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useHeroesQuery, useHeroSkillsQuery } from "../../queries/useHeroesQuery";
+import { useLatestHeroesQuery, useHeroSkillsQuery } from "../../queries/useHeroesQuery";
 import { useGameStore } from "../../store/gameStore";
 import { Lanes, LanesIcons } from "../../enum";
 import { getSkillName, getSkillDescription } from '../../utils/translation';
@@ -8,11 +8,48 @@ import style from './styles.module.scss';
 import { MoreInfoLink } from '../MoreInfoLink';
 import SkillTooltip from '../SkillTooltip';
 
+const LastHeroesInfoSkeleton = ({ title }: { title: string }) => (
+    <div className={style['last-heroes-info-wrapper']}>
+        <h2>{title}</h2>
+        <div className={style.info}>
+            <div className={style['hero-detail']}>
+                <div className={style['hero-preview-wrapper']}>
+                    <div className={style['skeleton-painting']} />
+                </div>
+                <div className={style['hero-info']}>
+                    <div className={style['hero-name-lane']}>
+                        <div className={style['hero-name-lane-wrapper']}>
+                            <div className={style['skeleton-line']} style={{ width: '200px', height: '40px' }} />
+                            <div className={style['hero-roles']}>
+                                <div className={style['skeleton-line']} style={{ width: '60px', height: '24px' }} />
+                                <div className={style['skeleton-line']} style={{ width: '80px', height: '24px' }} />
+                            </div>
+                        </div>
+                        <div className={style['hero-skills']}>
+                            {[0,1,2,3].map(i => <div key={i} className={style['skill-item-skeleton']} />)}
+                        </div>
+                    </div>
+                    <div className={style['abilities-list']}>
+                        {[0,1,2,3].map(i => <div key={i} className={style['ability-row-skeleton']} />)}
+                    </div>
+                    <div className={style['skeleton-line']} style={{ width: '120px', height: '36px', borderRadius: '8px' }} />
+                    <div className={style['hero-list-wrapper']}>
+                        {[0,1,2,3,4,5].map(i => (
+                            <div key={i} className={style['hero-list']}>
+                                <div className={style['skeleton-thumb']} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
 export const LastHeroesInfo = () => {
     const { t, i18n } = useTranslation();
     const { selectedGameId } = useGameStore();
-    const { data: heroes } = useHeroesQuery(selectedGameId);
-    const latestHeroes = heroes?.sort((a, b) => b.id - a.id).slice(0, 6);
+    const { data: latestHeroes, isLoading: heroesLoading } = useLatestHeroesQuery(selectedGameId, 6);
     const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
     const [transformIndex, setTransformIndex] = useState(0);
     const [hoveredSkillId, setHoveredSkillId] = useState<number | null>(null);
@@ -20,7 +57,8 @@ export const LastHeroesInfo = () => {
     const tooltipRef = useRef<HTMLDivElement>(null);
     
     const currentHeroId = latestHeroes?.[currentHeroIndex]?.id || 0;
-    const { data: allSkills, isLoading } = useHeroSkillsQuery(currentHeroId);
+    const { data: allSkills, isLoading, isPlaceholderData } = useHeroSkillsQuery(currentHeroId);
+    const showSkillSkeletons = isLoading && !isPlaceholderData;
 
     const baseSkills = allSkills?.filter(s => !s.is_transformed) || [];
     const transformedSkills = allSkills?.filter(s => s.is_transformed) || [];
@@ -95,6 +133,10 @@ export const LastHeroesInfo = () => {
         t('home.abilities.difficulty')
     ];
 
+    if (heroesLoading || !latestHeroes?.length) {
+        return <LastHeroesInfoSkeleton title={t('home.latestHeroesInfo')} />;
+    }
+
     return (
         <div className={style['last-heroes-info-wrapper']}>
             <h2>{t('home.latestHeroesInfo')}</h2>
@@ -131,10 +173,10 @@ export const LastHeroesInfo = () => {
                                 </div>
                             </div>
                         <div className={style['hero-skills']}>
-                            {isLoading && [0,1,2,3].map((skill) => (
+                            {showSkillSkeletons && [0,1,2,3].map((skill) => (
                                 <div key={skill} className={style['skill-item-skeleton']} />
                             ))}
-                            {!isLoading && displaySkills?.map((skill) => (
+                            {!showSkillSkeletons && displaySkills?.map((skill) => (
                                     <div 
                                         key={skill.id}
                                         data-skill-id={skill.id}
@@ -182,10 +224,10 @@ export const LastHeroesInfo = () => {
                         </div>
                         </div>
                         <div className={style['abilities-list']}>
-                            {isLoading && [0,1,2,3].map((_, index) => (
+                            {showSkillSkeletons && [0,1,2,3].map((_, index) => (
                                 <div key={index} className={style['ability-row-skeleton']} />
                             ))}
-                            {!isLoading && latestHeroes?.[currentHeroIndex]?.abilityshow?.map((ability, index) => (
+                            {!showSkillSkeletons && latestHeroes?.[currentHeroIndex]?.abilityshow?.map((ability, index) => (
                                 <div key={`${ability}-${index}`} className={style['ability-row']}>
                                     <div className={style['ability-label']}>{abilitiesLabel[index]}</div>
                                     <div className={style['ability-item']}>

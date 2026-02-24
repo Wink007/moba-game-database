@@ -1,7 +1,33 @@
 .talentCard {
-  background: rgba(30, 41, 59, 0.6);
-  border-radius: 8px;
-  padding: 1rem;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  border-radius: 12px;
+  padding: 1.125rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 16px;
+    right: 16px;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    background: var(--tier-color, rgba(148, 163, 184, 0.2));
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    border-color: var(--tier-color-border, rgba(148, 163, 184, 0.1));
+
+    &::before {
+      opacity: 1;
+    }
+  }
 }
 
 .talentHeader {
@@ -11,14 +37,26 @@
   margin-bottom: 0.625rem;
 }
 
+.talentIconWrapper {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(148, 163, 184, 0.06);
+}
+
 .talentIcon {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
 .talentName {
-  font-size: 1rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   color: #fff;
   margin: 0;
@@ -26,8 +64,8 @@
 
 .talentEffect {
   font-size: 0.8125rem;
-  color: rgba(148, 163, 184, 0.8);
-  line-height: 1.5;
+  color: rgba(148, 163, 184, 0.75);
+  line-height: 1.55;
   margin: 0;
   white-space: pre-line;
 

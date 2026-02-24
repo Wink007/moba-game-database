@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import { heroesApi, HeroesFilterParams } from '../api/heroes';
 import { queryKeys } from './keys';
 
@@ -6,6 +6,16 @@ export const useHeroesQuery = (gameId: number) => {
   return useQuery({
     queryKey: queryKeys.heroes.all(gameId),
     queryFn: () => heroesApi.getHeroes(gameId),
+    enabled: !!gameId,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useLatestHeroesQuery = (gameId: number, count = 6) => {
+  return useQuery({
+    queryKey: queryKeys.heroes.paginated(gameId, { sort: 'newest', size: count }),
+    queryFn: () => heroesApi.getHeroesPaginated(gameId, { page: 1, size: count, sort: 'newest' }),
+    select: (data) => data.data,
     enabled: !!gameId,
     staleTime: 5 * 60 * 1000,
   });
@@ -27,6 +37,7 @@ export const useInfiniteHeroesQuery = (
       lastPage.has_more ? lastPage.page + 1 : undefined,
     enabled: !!gameId,
     staleTime: 5 * 60 * 1000,
+    placeholderData: keepPreviousData,
   });
 };
 
@@ -54,6 +65,7 @@ export const useHeroSkillsQuery = (heroId: number) => {
     queryFn: () => heroesApi.getHeroSkills(heroId),
     enabled: !!heroId,
     staleTime: 5 * 60 * 1000,
+    placeholderData: keepPreviousData,
   });
 };
 

@@ -7,7 +7,7 @@ import { useItemsQuery } from '../../../queries/useItemsQuery';
 import { useEmblems, useEmblemTalents } from '../../../hooks/useEmblems';
 import type { Talent } from '../../../hooks/useEmblems';
 import { API_URL } from '../../../config';
-import { getEmblemName, getTalentName } from '../../../utils/translation';
+import { getEmblemName, getTalentName, getSpellName, getItemName } from '../../../utils/translation';
 import styles from '../styles.module.scss';
 
 interface BattleSpell {
@@ -97,9 +97,6 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
       <div className={styles.pbContainer}>
         {[...Array(3)].map((_, idx) => (
           <div key={idx} className={styles.pbSkeletonCard}>
-            <div className={styles.pbSkeletonHeader}>
-              <div className={styles.pbSkeletonRank} />
-            </div>
             <div className={styles.pbSkeletonItemsRow}>
               {[...Array(6)].map((_, i) => (
                 <React.Fragment key={i}>
@@ -148,13 +145,6 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
             key={idx}
             className={`${styles.pbCard} ${isTop3 ? styles.pbCardTop : ''} ${rankClass}`}
           >
-            {/* Header: rank */}
-            <div className={styles.pbHeader}>
-              <div className={`${styles.pbRank} ${rankClass}`}>
-                {idx + 1}
-              </div>
-            </div>
-
             {/* Items chain */}
             <div className={styles.pbItemsRow}>
               {build.core_items.map((itemId, iIdx) => {
@@ -162,13 +152,13 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
                 return (
                   <React.Fragment key={iIdx}>
                     {iIdx > 0 && <span className={styles.pbItemArrow}>›</span>}
-                    <div className={styles.pbItem} title={item?.name || `Item #${itemId}`}>
+                    <div className={styles.pbItem} title={item ? getItemName(item, lang) : `Item #${itemId}`}>
                       {item?.icon_url ? (
-                        <img src={item.icon_url} alt={item.name} className={styles.pbItemImg} loading="lazy" />
+                        <img src={item.icon_url} alt={getItemName(item, lang)} className={styles.pbItemImg} loading="lazy" />
                       ) : (
                         <div className={styles.pbItemEmpty}>{iIdx + 1}</div>
                       )}
-                      <span className={styles.pbItemLabel}>{item?.name || '???'}</span>
+                      <span className={styles.pbItemLabel}>{item ? getItemName(item, lang) : '???'}</span>
                     </div>
                   </React.Fragment>
                 );
@@ -180,9 +170,9 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
                   {build.optional_items.map((itemId, iIdx) => {
                     const item = itemsMap.get(itemId);
                     return (
-                      <div key={`opt-${iIdx}`} className={`${styles.pbItem} ${styles.pbItemOptional}`} title={item?.name || `Item #${itemId}`}>
+                      <div key={`opt-${iIdx}`} className={`${styles.pbItem} ${styles.pbItemOptional}`} title={item ? getItemName(item, lang) : `Item #${itemId}`}>
                         {item?.icon_url ? (
-                          <img src={item.icon_url} alt={item?.name || ''} className={styles.pbItemImg} loading="lazy" />
+                          <img src={item.icon_url} alt={item ? getItemName(item, lang) : ''} className={styles.pbItemImg} loading="lazy" />
                         ) : (
                           <div className={styles.pbItemEmpty}>{iIdx + 1}</div>
                         )}
@@ -197,12 +187,12 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
             <div className={styles.pbSetupRow}>
               {spell && (
                 <div className={styles.pbSetupGroup}>
-                  <span className={styles.pbSetupGroupLabel}>Spell</span>
+                  <span className={styles.pbSetupGroupLabel}>{t('heroDetail.battleSpell')}</span>
                   <div className={styles.pbSetupItem}>
                     {spell.icon_url && (
-                      <img src={spell.icon_url} alt={spell.name} className={styles.pbSetupIcon} loading="lazy" />
+                      <img src={spell.icon_url} alt={getSpellName(spell, lang)} className={styles.pbSetupIcon} loading="lazy" />
                     )}
-                    <span className={styles.pbSetupLabel}>{spell.name}</span>
+                    <span className={styles.pbSetupLabel}>{getSpellName(spell, lang)}</span>
                   </div>
                 </div>
               )}
@@ -211,7 +201,7 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
                 <>
                   {spell && <span className={styles.pbSetupDivider} />}
                   <div className={styles.pbSetupGroup}>
-                    <span className={styles.pbSetupGroupLabel}>Emblem</span>
+                    <span className={styles.pbSetupGroupLabel}>{t('heroDetail.emblem')}</span>
                     <div className={styles.pbSetupGroupItems}>
                       {emblem && (
                         <div className={`${styles.pbSetupItem} ${styles.pbSetupItemEmblem}`}>

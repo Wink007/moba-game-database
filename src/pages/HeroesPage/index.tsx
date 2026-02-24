@@ -17,9 +17,14 @@ function HeroesPage() {
   const { t } = useTranslation();
   useSEO({ title: 'Heroes', description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty.' });
   const { selectedGameId } = useGameStore();
-  const { isFavorite } = useFavorites();
+  const { favorites } = useFavorites();
 
   const { filters, apiFilters, setters } = useHeroFilters();
+
+  const favoriteHeroIds = useMemo(
+    () => favorites.map((f) => f.hero_id),
+    [favorites]
+  );
 
   const {
     data,
@@ -27,23 +32,23 @@ function HeroesPage() {
     isError,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteHeroesQuery(selectedGameId, { size: HEROES_PER_PAGE, ...apiFilters });
+    isFetching,
+    isPlaceholderData,
+  } = useInfiniteHeroesQuery(selectedGameId, {
+    size: HEROES_PER_PAGE,
+    ...apiFilters,
+    favorite_ids: favoriteHeroIds,
+  });
 
   const allHeroes: Hero[] = useMemo(() => {
     if (!data?.pages) return [];
-    const heroes = data.pages.flatMap((page) => page.data);
-    // Sort favorites to top within already-loaded heroes
-    return [...heroes].sort((a, b) => {
-      const aFav = isFavorite(a.id) ? 0 : 1;
-      const bFav = isFavorite(b.id) ? 0 : 1;
-      return aFav - bFav;
-    });
-  }, [data, isFavorite]);
+    return data.pages.flatMap((page) => page.data);
+  }, [data]);
 
   const total = data?.pages[0]?.total ?? 0;
   const remaining = total - allHeroes.length;
 
-  if (isLoading) return <Loader />;
+  if (isLoading && !isPlaceholderData) return <Loader />;
   if (isError) return <div className={styles.error}>{t('heroes.failedToLoad')}</div>;
   if (!selectedGameId) return <div className={styles.error}>{t('heroes.selectGame')}</div>;
 
@@ -67,9 +72,10 @@ function HeroesPage() {
       <HeroGrid
         heroes={allHeroes}
         gameId={selectedGameId}
-        hasMore={!!hasNextPage}
+        hasMore={!!hasNextPage && !isPlaceholderData}
         remainingCount={remaining}
         onLoadMore={() => fetchNextPage()}
+        isFiltering={isFetching && isPlaceholderData}
       />
     </div>
   );

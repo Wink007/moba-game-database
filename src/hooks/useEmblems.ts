@@ -43,41 +43,23 @@ export const useEmblems = (gameId: string | undefined) => {
 };
 
 export const useEmblemTalents = (gameId: string | undefined) => {
-  const tier1Query = useQuery<Talent[]>({
-    queryKey: ['emblem-talents', gameId, 1],
+  const allTalentsQuery = useQuery<Talent[]>({
+    queryKey: ['emblem-talents', gameId],
     queryFn: async () => {
-      const res = await fetch(`${API_URL}/emblem-talents?game_id=${gameId}&tier=1`);
+      const res = await fetch(`${API_URL}/emblem-talents?game_id=${gameId}`);
       return res.json();
     },
     enabled: !!gameId,
     staleTime: 5 * 60 * 1000,
   });
 
-  const tier2Query = useQuery<Talent[]>({
-    queryKey: ['emblem-talents', gameId, 2],
-    queryFn: async () => {
-      const res = await fetch(`${API_URL}/emblem-talents?game_id=${gameId}&tier=2`);
-      return res.json();
-    },
-    enabled: !!gameId,
-    staleTime: 5 * 60 * 1000,
-  });
-
-  const tier3Query = useQuery<Talent[]>({
-    queryKey: ['emblem-talents', gameId, 3],
-    queryFn: async () => {
-      const res = await fetch(`${API_URL}/emblem-talents?game_id=${gameId}&tier=3`);
-      return res.json();
-    },
-    enabled: !!gameId,
-    staleTime: 5 * 60 * 1000,
-  });
+  const allTalents = allTalentsQuery.data ?? [];
 
   return {
-    tier1: tier1Query.data ?? [],
-    tier2: tier2Query.data ?? [],
-    tier3: tier3Query.data ?? [],
-    isLoading: tier1Query.isLoading || tier2Query.isLoading || tier3Query.isLoading,
+    tier1: allTalents.filter(t => t.tier === 1),
+    tier2: allTalents.filter(t => t.tier === 2),
+    tier3: allTalents.filter(t => t.tier === 3),
+    isLoading: allTalentsQuery.isLoading,
   };
 };
 

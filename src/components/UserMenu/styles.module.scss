@@ -32,10 +32,6 @@
 .userMenu {
   position: relative;
   flex-shrink: 0;
-
-  @media (max-width: 767px) {
-    width: 100%;
-  }
 }
 
 .avatar {
@@ -73,15 +69,14 @@
   overflow: hidden;
 
   @media (max-width: 767px) {
-    position: fixed;
-    left: 0;
-    right: 0;
     top: auto;
-    min-width: unset;
+    bottom: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    min-width: 220px;
     border-radius: 12px;
-    margin: 12px;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
     background: rgba(15, 35, 50, 0.97);
   }
 }

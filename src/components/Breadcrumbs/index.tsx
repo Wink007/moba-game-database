@@ -92,7 +92,7 @@ export const Breadcrumbs: React.FC = () => {
                   <Link to={crumb.path} className={styles.link}>
                     {crumb.label}
                   </Link>
-                  <span className={styles.separator}> | </span>
+                  <span className={styles.separator}>›</span>
                 </>
               ) : (
                 <span className={styles.current}>{crumb.label}</span>

@@ -1,10 +1,16 @@
 .videoPreview {
   position: relative;
   width: 100%;
+  min-height: 460px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 1200px) {
+    height: calc(65vh - 40px);
+    min-height: 420px;
+  }
 
   @media (max-width: 768px) {
     height: auto;

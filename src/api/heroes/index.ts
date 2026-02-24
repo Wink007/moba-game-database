@@ -10,6 +10,7 @@ export interface HeroesFilterParams {
   search?: string;
   complexity?: string;
   sort?: string;
+  favorite_ids?: number[];
 }
 
 export const heroesApi = {
@@ -26,6 +27,7 @@ export const heroesApi = {
     if (params.search) qs.append('search', params.search);
     if (params.complexity) qs.append('complexity', params.complexity);
     if (params.sort) qs.append('sort', params.sort);
+    if (params.favorite_ids && params.favorite_ids.length > 0) qs.append('favorite_ids', params.favorite_ids.join(','));
     return fetcherRaw(`/heroes?${qs.toString()}`);
   },
   

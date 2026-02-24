@@ -12,11 +12,13 @@ export const EmblemCard = ({ emblem }: EmblemCardProps) => {
     <div className={styles.emblemCard}>
       <div className={styles.emblemHeader}>
         {emblem.icon_url && (
-          <img
-            src={emblem.icon_url}
-            alt={getEmblemName(emblem, lang)}
-            className={styles.emblemIcon}
-          />
+          <div className={styles.emblemIconWrapper}>
+            <img
+              src={emblem.icon_url}
+              alt={getEmblemName(emblem, lang)}
+              className={styles.emblemIcon}
+            />
+          </div>
         )}
         <h2 className={styles.emblemName}>{getEmblemName(emblem, lang)}</h2>
       </div>

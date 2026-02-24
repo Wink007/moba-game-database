@@ -49,10 +49,11 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
           </div>
         )}
 
-        {/* Favorite button in top right corner */}
-        <div className={styles.heroFavorite} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-          <FavoriteButton heroId={hero.id} />
-        </div>
+      </div>
+
+      {/* Favorite button in top right corner — outside heroImageWrapper to avoid overflow clip */}
+      <div className={styles.heroFavorite} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+        <FavoriteButton heroId={hero.id} tooltipPosition="top" />
       </div>
       
       <div className={styles.heroContent}>

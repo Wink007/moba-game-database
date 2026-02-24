@@ -9,9 +9,10 @@ import styles from './styles.module.scss';
 interface FavoriteButtonProps {
   heroId: number;
   className?: string;
+  tooltipPosition?: 'top' | 'bottom';
 }
 
-export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ heroId, className }) => {
+export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ heroId, className, tooltipPosition = 'bottom' }) => {
   const { t } = useTranslation();
   const { user, setAuth, setLoading: setAuthLoading } = useAuthStore();
   const { isFavorite, toggleFavorite, addFavorite, isLoading: favLoading } = useFavorites();
@@ -100,7 +101,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ heroId, classNam
         </svg>
       </button>
       {showTooltip && (
-        <div className={styles.loginTooltip}>
+        <div className={`${styles.loginTooltip} ${tooltipPosition === 'top' ? styles.loginTooltipTop : ''}`}>
           {t('favorites.loginToAdd')}
         </div>
       )}

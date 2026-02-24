@@ -19,4 +19,5 @@ export interface HeroGridProps {
   hasMore: boolean;
   remainingCount: number;
   onLoadMore: () => void;
+  isFiltering?: boolean;
 }

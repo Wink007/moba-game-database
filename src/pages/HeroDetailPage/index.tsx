@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { getHeroName, getHeroFullDescription } from '../../utils/translation';
+import { getHeroName, getHeroShortDescription, getHeroFullDescription, translateRoles, translateLanes, translateSpecialties, getDamageType } from '../../utils/translation';
 import { useHeroQuery, useHeroSkillsQuery, useHeroCounterDataQuery, useHeroCompatibilityDataQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
 import { usePatchesQuery } from '../../queries/usePatchesQuery';
 import { Loader } from '../../components/Loader';
-import { HeroSidebar } from './components/HeroSidebar';
+import { FavoriteButton } from '../../components/FavoriteButton';
 import { TabsNavigation } from './components/TabsNavigation';
 import { SkillsSection } from './components/SkillsSection';
 import { ProBuildsSection } from './components/ProBuildsSection';
@@ -28,6 +28,8 @@ function HeroDetailPage() {
   const { data: patches = [] } = usePatchesQuery();
   
   const [showFullDescription, setShowFullDescription] = React.useState(false);
+  const [lightboxOpen, setLightboxOpen] = React.useState(false);
+  const [bannerLoaded, setBannerLoaded] = React.useState(false);
   
   const { activeTab, counterSubTab, synergySubTab, setActiveTab, setCounterSubTab, setSynergySubTab } = useHeroTabs();
   const [buildsSubTab, setBuildsSubTab] = React.useState<'builds' | 'my'>('builds');
@@ -117,22 +119,118 @@ function HeroDetailPage() {
 
   return (
     <div className={styles.container}>
-      {/* Hero Header */}
-      <div className={styles.heroHeader}>
-        <HeroSidebar hero={hero} />
-
-        <div className={styles.heroMainContent}>
-          {/* Hero Background Image */}
-          {(hero.painting || hero.image) && (
-            <div className={styles.heroBackgroundImage}>
-              <img 
-                src={hero.painting || hero.image} 
-                alt={hero.name} 
-              />
+      {/* Cinematic Banner */}
+      <div className={styles.cinematicBanner}>
+        {(hero.painting || hero.image) && (
+          <img 
+            src={hero.painting || hero.image} 
+            alt={hero.name}
+            className={`${styles.bannerImage} ${bannerLoaded ? styles.bannerImageLoaded : ''}`}
+            onLoad={() => setBannerLoaded(true)}
+          />
+        )}
+        <div className={styles.bannerOverlay} />
+        <div className={styles.bannerContent}>
+          <div className={styles.bannerInfoCard}>
+            <div className={styles.bannerNameRow}>
+              <h1 className={styles.bannerHeroName}>{getHeroName(hero, i18n.language)}</h1>
+              <FavoriteButton heroId={hero.id} />
+            </div>
+            {hero.roles && hero.roles.length > 0 && (
+              <div className={styles.bannerRoleTags}>
+                {translateRoles(hero.roles, i18n.language).map((role, idx) => (
+                  <span key={idx} className={styles.bannerRoleTag}>{role}</span>
+                ))}
+              </div>
+            )}
+            {(hero.short_description || hero.short_description_uk) && (
+              <p className={styles.bannerDescription}>
+                {getHeroShortDescription(hero, i18n.language)}
+              </p>
+            )}
+          </div>
+          {hero.image && (
+            <div className={styles.bannerPortraitWrapper}>
+              {hero.abilityshow && hero.abilityshow.length >= 4 && (
+                <svg className={styles.abilityRings} viewBox="0 0 120 120">
+                  {/* Durability ring — green */}
+                  <circle cx="60" cy="60" r="56" fill="none" stroke="rgba(16, 185, 129, 0.15)" strokeWidth="3" />
+                  <circle cx="60" cy="60" r="56" fill="none" stroke="#10b981" strokeWidth="3"
+                    strokeDasharray={`${(Number(hero.abilityshow[0]) / 100) * 351.86} 351.86`}
+                    strokeLinecap="round" transform="rotate(-90 60 60)" />
+                  {/* Offense ring — red */}
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(239, 68, 68, 0.15)" strokeWidth="3" />
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="#ef4444" strokeWidth="3"
+                    strokeDasharray={`${(Number(hero.abilityshow[1]) / 100) * 326.73} 326.73`}
+                    strokeLinecap="round" transform="rotate(-90 60 60)" />
+                  {/* Ability Effects ring — blue */}
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(96, 165, 250, 0.15)" strokeWidth="3" />
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#60a5fa" strokeWidth="3"
+                    strokeDasharray={`${(Number(hero.abilityshow[2]) / 100) * 301.59} 301.59`}
+                    strokeLinecap="round" transform="rotate(-90 60 60)" />
+                  {/* Difficulty ring — amber */}
+                  <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(245, 158, 11, 0.15)" strokeWidth="3" />
+                  <circle cx="60" cy="60" r="44" fill="none" stroke="#f59e0b" strokeWidth="3"
+                    strokeDasharray={`${(Number(hero.abilityshow[3]) / 100) * 276.46} 276.46`}
+                    strokeLinecap="round" transform="rotate(-90 60 60)" />
+                </svg>
+              )}
+              <div className={styles.bannerPortrait} onClick={() => setLightboxOpen(true)} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setLightboxOpen(true)}>
+                <img src={hero.image} alt={getHeroName(hero, i18n.language)} />
+              </div>
             </div>
           )}
+        </div>
+        <div className={styles.bannerGradientLine} />
+      </div>
 
-          <TabsNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+      {/* Stats Strip */}
+      <div className={styles.statsStrip}>
+        <div className={styles.statsStripLeft}>
+          {hero.hero_stats?.hp && (
+            <div className={styles.statPill} data-type="hp">
+              <span className={styles.statPillValue}>{hero.hero_stats.hp}</span>
+              <span className={styles.statPillLabel}>HP</span>
+              <span className={styles.statPillGrowth}>+{hero.hero_stats?.hp_regen || '0'}</span>
+            </div>
+          )}
+          {!!hero.hero_stats?.mana && (
+            <div className={styles.statPill} data-type="mana">
+              <span className={styles.statPillValue}>{hero.hero_stats.mana}</span>
+              <span className={styles.statPillLabel}>MP</span>
+              <span className={styles.statPillGrowth}>+{hero.hero_stats?.mana_regen || '0'}</span>
+            </div>
+          )}
+        </div>
+        <div className={styles.statsStripRight}>
+          {hero.damage_type && (
+            <div className={styles.tagGroup}>
+              <span className={styles.tagGroupLabel}>{t('heroDetail.damageType')}</span>
+              <span className={styles.tagPill}>{getDamageType(hero.damage_type, i18n.language)}</span>
+            </div>
+          )}
+          {hero.lane && hero.lane.length > 0 && (
+            <div className={styles.tagGroup}>
+              <span className={styles.tagGroupLabel}>{t('heroDetail.lane')}</span>
+              {translateLanes(hero.lane, i18n.language).map((lane, idx) => (
+                <span key={`lane-${idx}`} className={styles.tagPill}>{lane}</span>
+              ))}
+            </div>
+          )}
+          {hero.specialty && hero.specialty.length > 0 && (
+            <div className={styles.tagGroup}>
+              <span className={styles.tagGroupLabel}>{t('heroDetail.specialty')}</span>
+              {translateSpecialties(hero.specialty, i18n.language).map((spec, idx) => (
+                <span key={`spec-${idx}`} className={styles.tagPill} data-accent="true">{spec}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Main Content — full width, no sidebar */}
+      <div className={styles.heroMainContent}>
+        <TabsNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
           {/* Tab Content */}
           <div className={styles.tabContent}>
@@ -420,6 +518,12 @@ function HeroDetailPage() {
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
                               <img src={counterHero.head || counterHero.image} alt={counterHero.name} className={styles.counterListImage} />
+                              <div className={styles.counterListInfo}>
+                                <span className={styles.counterListName}>{getHeroName(counterHero, i18n.language)}</span>
+                                <div className={styles.counterListBar}>
+                                  <div className={styles.counterListBarFill} style={{ width: `${Math.min(increaseWinRate / 3 * 100, 100)}%` }} />
+                                </div>
+                              </div>
                               <span className={styles.counterListScore}>{increaseWinRate.toFixed(2)}</span>
                             </a>
                           );
@@ -438,6 +542,12 @@ function HeroDetailPage() {
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
                               <img src={counterHero.head || counterHero.image} alt={counterHero.name} className={styles.counterListImage} />
+                              <div className={styles.counterListInfo}>
+                                <span className={styles.counterListName}>{getHeroName(counterHero, i18n.language)}</span>
+                                <div className={styles.counterListBar}>
+                                  <div className={styles.counterListBarFill} style={{ width: `${Math.min(normalizedRate / 3 * 100, 100)}%` }} />
+                                </div>
+                              </div>
                               <span className={styles.counterListScore}>{normalizedRate.toFixed(2)}</span>
                             </a>
                           );
@@ -567,6 +677,12 @@ function HeroDetailPage() {
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
                               <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} />
+                              <div className={styles.counterListInfo}>
+                                <span className={styles.counterListName}>{getHeroName(mateHero, i18n.language)}</span>
+                                <div className={styles.counterListBar}>
+                                  <div className={styles.counterListBarFill} style={{ width: `${Math.min((mate.increase_win_rate != null ? mate.increase_win_rate * 100 : 0) / 3 * 100, 100)}%` }} />
+                                </div>
+                              </div>
                                 <span className={styles.counterListScore}>{mate.increase_win_rate != null ? (mate.increase_win_rate * 100).toFixed(2) : '0.00'}</span>
                             </a>
                           );
@@ -583,7 +699,13 @@ function HeroDetailPage() {
                             >
                               <div className={styles.counterListRank}>{idx + 1}</div>
                               <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} />
-                                <span className={styles.counterListScore}>{mate.increase_win_rate != null ? Math.abs(mate.increase_win_rate).toFixed(2) : '0.00'}</span>
+                              <div className={styles.counterListInfo}>
+                                <span className={styles.counterListName}>{getHeroName(mateHero, i18n.language)}</span>
+                                <div className={styles.counterListBar}>
+                                  <div className={styles.counterListBarFill} style={{ width: `${Math.min(Math.abs(mate.increase_win_rate != null ? mate.increase_win_rate : 0) / 3 * 100, 100)}%` }} />
+                                </div>
+                              </div>
+                              <span className={styles.counterListScore}>{mate.increase_win_rate != null ? Math.abs(mate.increase_win_rate).toFixed(2) : '0.00'}</span>
                             </a>
                           );
                         })}
@@ -800,9 +922,8 @@ function HeroDetailPage() {
             )}
           </div>
         </div>
-      </div>
 
-      {/* Skills Section - Below Hero Header */}
+      {/* Skills Section */}
       <SkillsSection
         displaySkills={displaySkills}
         selectedSkillIndex={selectedSkillIndex}
@@ -813,6 +934,23 @@ function HeroDetailPage() {
         onSkillSelect={handleSkillSelect}
         onTransformCycle={cycleTransform}
       />
+
+      {/* Lightbox */}
+      {lightboxOpen && (hero.painting || hero.image) && (
+        <div className={styles.lightboxOverlay} onClick={() => setLightboxOpen(false)}>
+          <button className={styles.lightboxClose} onClick={() => setLightboxOpen(false)} aria-label="Close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <img
+            className={styles.lightboxImage}
+            src={hero.painting || hero.image}
+            alt={getHeroName(hero, i18n.language)}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }
