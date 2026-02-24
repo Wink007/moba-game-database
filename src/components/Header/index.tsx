@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
-import { useAuthStore } from '../../store/authStore';
 import { SearchBar } from '../SearchBar';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { UserMenu } from '../UserMenu';
@@ -41,7 +40,6 @@ const FavoritesIcon = () => (
     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
   </svg>
 );
-
 const CounterPickIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><line x1="9" y1="9" x2="15" y2="15" /><line x1="15" y1="9" x2="9" y2="15" />
@@ -55,12 +53,12 @@ const NAV_ITEMS = [
   { key: 'spells', path: 'spells', Icon: SpellsIcon },
   { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
   { key: 'patches', path: 'patches', Icon: PatchesIcon },
+  { key: 'favorites', path: 'favorites', Icon: FavoritesIcon, mobileOnly: true },
 ];
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
-  const { user } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -96,7 +94,7 @@ export const Header: React.FC = () => {
 
         {/* Desktop navigation */}
         <nav className={styles['desktop-nav']}>
-          {NAV_ITEMS.map(({ key, path, Icon }) => (
+          {NAV_ITEMS.filter(item => !item.mobileOnly).map(({ key, path, Icon }) => (
             <NavLink
               key={key}
               to={`/${selectedGameId}/${path}`}
