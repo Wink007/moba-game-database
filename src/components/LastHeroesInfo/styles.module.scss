@@ -1,767 +1,550 @@
-.last-heroes-info-wrapper {
-    padding: var(--spacing-md);
-    min-height: 500px;
-    overflow-x: hidden;
-    max-width: 100%;
+/* ══════════════════════════════════════════
+   LastHeroesInfo – Modern Redesign
+   ══════════════════════════════════════════ */
 
-    @media (max-width: 768px) {
-      min-height: 400px;
-    }
-
-    > h2 {
-        position: relative;
-        padding: var(--spacing-md);
-        margin: 0;
-        width: 55%;
-        background: linear-gradient(90deg, rgba(74, 158, 255, 0.2) 0%, rgba(74, 158, 255, 0.01) 90%);
-
-        &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, #4A90E2 0%, #50C9F0 100%);
-        }
-    }
-
-    & .info {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: var(--spacing-sm);
-    }
-
-    & .hero-name-lane-wrapper {
-        display: flex;
-        align-items: center;
-    }
-
-    & .hero-roles {
-        display: flex;
-        margin-left: var(--spacing-md);
-        gap: var(--spacing-sm);
-        padding: var(--spacing-sm);
-        color: var(--color-text-secondary);
-    }
-
-    & .hero-role {
-        padding: var(--spacing-sm);
-        margin: 0;
-        border-color: var(--color-text-secondary);
-        background-color: var(--color-bg-primary);
-        border-style: solid;
-        border-width: 1px;
-        font-weight: 600;
-    }
-
-    & .hero-list-wrapper {
-        display: flex;
-        flex-direction: row;
-        gap: var(--spacing-md);
-        margin-top: var(--spacing-2xl);
-        padding: var(--spacing-sm) var(--spacing-md);
-        background: rgba(15, 23, 42, 0.4);
-        border: 1px solid rgba(148, 163, 184, 0.08);
-        border-radius: 16px;
-    }
-
-    & .hero-list {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 72px;
-        height: 72px;
-        border: 2px solid transparent;
-        border-radius: 50%;
-        background-color: transparent;
-        filter: grayscale(100%);
-        opacity: 0.4;
-        cursor: pointer;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-        &:hover {
-            opacity: 0.65;
-            filter: grayscale(50%);
-        }
-
-        &--active {
-            opacity: 1;
-            filter: grayscale(0);
-            border-color: rgba(96, 165, 250, 0.6);
-            box-shadow: 0 0 12px rgba(96, 165, 250, 0.25);
-        }
-    }
-
-    & .hero-item {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+.wrapper {
+  padding: var(--spacing-md);
+  min-height: 480px;
+  overflow-x: hidden;
 }
 
-.hero-info {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+/* ── Title ── */
+.title {
+  position: relative;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: 0 0 var(--spacing-lg);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #f1f5f9;
+  width: fit-content;
+  background: linear-gradient(90deg, rgba(96, 165, 250, 0.12) 0%, transparent 100%);
+  border-radius: 0 8px 8px 0;
 
-    & .hero-name-lane {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: var(--spacing-2xl);
-    }
-
-    .hero-name {
-        font-size: 40px;
-        font-weight: 600;
-        margin: 0 0 0 var(--spacing-sm);
-    }
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #60a5fa, #818cf8);
+  }
 }
 
-.hero-detail {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 50px;
-
-    & .hero-preview-wrapper {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        overflow: hidden;
-    }
-
-    .lane-icon-wrapper {
-        position: absolute;
-        top: var(--spacing-md);
-        right: var(--spacing-md);
-    }
-
-    .lane-icon {
-        width: var(--spacing-3xl);
-        height: var(--spacing-3xl);
-    }
-
-    & .hero-preview {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        filter: drop-shadow(2px 8px 46px rgb(25, 13, 55));
-    }
-
-    & .prev-button, .next-button {
-        position: absolute;
-        top: 25%;
-        background-color: transparent;
-        padding: 10px;
-        border: 0;
-        user-select: auto;
-        z-index: 1;
-        cursor: pointer;
-    }
-
-    & .prev-button {
-        left: var(--spacing-md);
-    }
-
-    & .next-button {
-        right: var(--spacing-md);
-        > img {
-            transform: rotate(180deg);
-        }
-    }
-
-    & .hero-skills {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-xl);
-        margin: var(--spacing-xl) 0 var(--spacing-xl);
-        min-height: 90px;
-    }
-
-    & .skill-item {
-        position: relative;
-        width: 90px;
-        height: 90px;
-        cursor: pointer;
-    }
-
-    & .tooltip-wrapper {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-top: 10px;
-        z-index: 1000;
-        pointer-events: none;
-        width: 500px;
-        max-width: 90vw;
-    }
-
-    & .skill-item-skeleton {
-        width: 90px;
-        height: 90px;
-        background: rgba(74, 158, 255, 0.2);
-        border-radius: 50%;
-        animation: pulse 1.5s ease-in-out infinite;
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 0.4;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-    }
-
-    & .ability-label {
-        margin-bottom: var(--spacing-md);
-        font-size: 24px;
-        font-weight: 600;
-    } 
-
-    & .abilities-list {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: var(--spacing-2xl);
-        margin-bottom: var(--spacing-2xl);
-    }
-
-    & .ability-row {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-sm);
-        padding: 2px;
-    }
-    
-    & .ability-row-skeleton {
-        width: 100%;
-        height: 78px;
-        background: rgba(74, 158, 255, 0.2);
-        border-radius: 4px;
-        animation: pulse 1.5s ease-in-out infinite;
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 0.4;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-    }
-
-    & .ability-item {
-        display: flex;
-        align-items: center;
-        width: 98%;
-        height: 10px;
-        padding: 0 2px;
-        outline: 2px solid var(--color-text-secondary);
-
-    }
-
-    & .ability-bar {
-        display: block;
-        height: 4px;
-        background-color: var(--color-text-secondary);
-    }
-
-    & .transform-button {
-        position: absolute;
-        right: 0;
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
-        border: 2px solid rgba(96, 165, 250, 0.4);
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #60a5fa;
-        flex-shrink: 0;
-
-        svg {
-            transition: transform 0.3s ease;
-        }
-
-        &:hover {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2));
-            border-color: rgba(96, 165, 250, 0.8);
-            box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
-            svg { transform: rotate(180deg); }
-        }
-
-        &:active {
-            transform: scale(0.95);
-        }
-
-        &--active {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(99, 102, 241, 0.25));
-            border-color: rgba(96, 165, 250, 0.8);
-        }
-    }
-
-    & .transform-index {
-        position: absolute;
-        top: 2px;
-        right: 2px;
-        background: rgba(59, 130, 246, 0.9);
-        color: white;
-        font-size: 9px;
-        font-weight: 700;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-    }
+/* ── Card ── */
+.card {
+  display: flex;
+  gap: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.75) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.35);
 }
 
-@media (min-width: 1440px) {
-    .hero-detail {
-        margin-top: var(--spacing-lg);
-        flex-wrap: nowrap;
-
-        & .prev-button, .next-button {
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        & .skill-item, & .skill-item-skeleton {
-            width: 100px;
-            height: 100px;
-            
-            .skill-icon {
-                width: 100px;
-                height: 100px;
-            }
-        }
-
-    }
-
-    .hero-info {
-        & .more-info-link {
-            order: 0;
-        }
-    }
+/* ── Showcase (painting side) ── */
+.showcase {
+  position: relative;
+  flex: 0 0 42%;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 20px 0 0 20px;
 }
+
+.painting {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: drop-shadow(0 4px 40px rgba(15, 23, 42, 0.6));
+}
+
+.paintingOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    transparent 50%,
+    rgba(15, 23, 42, 0.4) 80%,
+    rgba(15, 23, 42, 0.9) 100%
+  );
+  pointer-events: none;
+}
+
+.laneIcons {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.laneIcon {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* Nav buttons */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(96, 165, 250, 0.2);
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 0 16px rgba(96, 165, 250, 0.2);
+  }
+
+  &[data-dir="prev"] { left: var(--spacing-sm); }
+  &[data-dir="next"] { right: var(--spacing-sm); }
+}
+
+/* ── Details (right panel) ── */
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
+  min-width: 0;
+}
+
+.heroName {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #f1f5f9;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.rolesRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.roleTag {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  padding: 4px 12px;
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 8px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Skills ── */
+.skillsRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.skillItem {
+  position: relative;
+  cursor: pointer;
+}
+
+.skillIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  border: 2px solid rgba(148, 163, 184, 0.15);
+  object-fit: cover;
+  transition: all 0.25s ease;
+  display: block;
+
+  &:hover {
+    border-color: rgba(96, 165, 250, 0.6);
+    box-shadow: 0 0 16px rgba(96, 165, 250, 0.25);
+    transform: translateY(-2px);
+  }
+}
+
+.skillSkeleton {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(148, 163, 184, 0.08);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.tooltipWrap {
+  position: absolute;
+  z-index: 10000;
+  pointer-events: none;
+  width: 480px;
+  max-width: 90vw;
+}
+
+.transformBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(96, 165, 250, 0.08);
+  border: 1.5px solid rgba(96, 165, 250, 0.3);
+  color: #60a5fa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+
+  svg { transition: transform 0.3s ease; }
+
+  &:hover {
+    background: rgba(96, 165, 250, 0.15);
+    border-color: rgba(96, 165, 250, 0.6);
+    box-shadow: 0 0 14px rgba(96, 165, 250, 0.2);
+    svg { transform: rotate(180deg); }
+  }
+
+  &:active { transform: scale(0.93); }
+}
+
+.transformBtnActive {
+  background: rgba(96, 165, 250, 0.2);
+  border-color: rgba(96, 165, 250, 0.7);
+}
+
+.transformIdx {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 14px;
+  height: 14px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(59, 130, 246, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ── Stat bars ── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.statLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.statValue {
+  font-weight: 700;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+}
+
+.statTrack {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(148, 163, 184, 0.08);
+  overflow: hidden;
+}
+
+.statFill {
+  height: 100%;
+  border-radius: 3px;
+  width: var(--fill-w);
+  background: var(--fill-color);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--fill-color) 40%, transparent);
+  animation: fillGrow 0.8s ease-out both;
+}
+
+.statItemSkeleton {
+  height: 38px;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.06);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Hero selector (thumbs) ── */
+.thumbs {
+  display: flex;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  border-radius: 16px;
+  margin-top: auto;
+}
+
+.thumb {
+  width: 52px;
+  height: 52px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  filter: grayscale(1);
+  opacity: 0.4;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    opacity: 0.7;
+    filter: grayscale(0.4);
+  }
+}
+
+.thumbActive {
+  opacity: 1;
+  filter: grayscale(0);
+  border-color: rgba(96, 165, 250, 0.6);
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ══ Shimmer skeleton ══ */
+.shimmer {
+  position: relative;
+  background: rgba(148, 163, 184, 0.06);
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.1) 50%, transparent);
+    animation: shimmerSlide 1.8s ease-in-out infinite;
+  }
+}
+
+/* ══ Animations ══ */
+@keyframes shimmerSlide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes fillGrow {
+  from { width: 0; }
+  to { width: var(--fill-w); }
+}
+
+/* ══════════════════════════════
+   Responsive
+   ══════════════════════════════ */
 
 @media (max-width: 991px) {
-    .hero-detail {
-        flex-direction: column;
+  .card {
+    flex-direction: column;
+  }
 
-        & .hero-preview-wrapper {
-            width: 100%;
-        }
+  .showcase {
+    flex: none;
+    min-height: 340px;
+    max-height: 420px;
+    border-radius: 20px 20px 0 0;
+  }
 
-        & .hero-preview {
-            width: 100%;
-        }
+  .paintingOverlay {
+    background: linear-gradient(to bottom, transparent 50%, rgba(15, 23, 42, 0.6) 85%, rgba(15, 23, 42, 0.95) 100%);
+  }
 
-        & .hero-skills {
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-            justify-content: space-around;
-            min-height: 80px;
-        }
+  .details {
+    padding: var(--spacing-lg);
+  }
 
-        & .skill-item, & .skill-item-skeleton {
-            width: 80px;
-            height: 80px;
-            
-            .skill-icon {
-                width: 80px;
-                height: 80px;
-            }
-        }
+  .heroName {
+    font-size: 1.75rem;
+  }
 
-        & .hero-info {
-            width: auto;
-            margin: var(--spacing-lg) var(--spacing-md);
-        }
-    }
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-    .last-heroes-info-wrapper {
-        padding: var(--spacing-sm);
+  .wrapper {
+    padding: var(--spacing-sm);
+  }
 
-        > h2 {
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-md);
-            width: 100%;
-            padding: var(--spacing-sm) var(--spacing-md);
-        }
+  .title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+  }
 
-        & .hero-list-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-lg);
-            padding: var(--spacing-sm);
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(148, 163, 184, 0.08);
-            border-radius: 14px;
-        }
+  .card {
+    border-radius: 16px;
+  }
 
-        & .hero-list {
-            width: 52px;
-            height: 52px;
+  .showcase {
+    min-height: 280px;
+    border-radius: 16px 16px 0 0;
+  }
 
-            &--active {
-                transform: scale(1.08);
-            }
-        }
+  .details {
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+  }
 
-        & .hero-item {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+  .heroName {
+    font-size: 1.5rem;
+  }
+
+  .skillIcon, .skillSkeleton {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+  }
+
+  .skillsRow {
+    gap: 8px;
+  }
+
+  .thumbs {
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .thumb {
+    width: 44px;
+    height: 44px;
+  }
+
+  .navBtn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+
+    svg {
+      width: 16px;
+      height: 16px;
     }
+  }
 
-    .hero-info {
-        margin: 0;
-        width: 100%;
+  .transformBtn {
+    width: 38px;
+    height: 38px;
 
-        & .hero-name-lane {
-            margin-bottom: var(--spacing-md);
-        }
-
-        & .hero-name-lane-wrapper {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .hero-name {
-            font-size: 1.75rem;
-            margin: 0 0 var(--spacing-xs) 0;
-        }
-
-        & .hero-roles {
-            margin-left: 0;
-            padding: var(--spacing-xs) 0;
-            flex-wrap: wrap;
-            gap: var(--spacing-xs);
-        }
-
-        .hero-role {
-            font-size: 0.75rem;
-            padding: var(--spacing-xs) var(--spacing-sm);
-        }
+    svg {
+      width: 15px;
+      height: 15px;
     }
+  }
 
-    .hero-detail {
-        flex-direction: column;
-        gap: var(--spacing-lg);
-        padding-bottom: 0;
+  .tooltipWrap {
+    width: 90vw;
+    max-width: 380px;
+  }
 
-        & .hero-preview-wrapper {
-            width: 100%;
-        }
-        
-
-        .lane-icon-wrapper {
-            top: var(--spacing-xs);
-            right: var(--spacing-xs);
-        }
-
-        .lane-icon {
-            width: var(--spacing-2xl);
-            height: var(--spacing-2xl);
-        }
-
-        & .hero-preview {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        & .hero-info {
-            margin: 0 var(--spacing-md);
-        }
-
-        & .prev-button, .next-button {
-            top: 50%;
-            transform: translateY(-50%);
-            padding: var(--spacing-xs);
-            
-            img {
-                width: 24px;
-                height: 24px;
-            }
-        }
-
-        & .prev-button {
-            left: var(--spacing-xs);
-        }
-
-        & .next-button {
-            right: var(--spacing-xs);
-        }
-
-        & .hero-skills {
-            gap: var(--spacing-sm);
-            margin: var(--spacing-md) 0;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            min-height: 60px;
-        }
-
-        & .skill-item {
-            position: static;
-        }
-
-        & .skill-item, & .skill-item-skeleton {
-            width: 60px;
-            height: 60px;
-            flex-shrink: 0;
-            
-            .skill-icon {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        & .tooltip-wrapper {
-            width: 90vw;
-            max-width: 400px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        & .ability-label {
-            font-size: 1.1rem;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        & .abilities-list {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        & .ability-row {
-            padding: var(--spacing-xs);
-        }
-
-        & .ability-row-skeleton {
-            height: 52px;
-        }
-
-        & .transform-button {
-            position: static;
-            width: 40px;
-            height: 40px;
-            margin: 0;
-            border-radius: 10px;
-            flex-shrink: 0;
-
-            svg {
-                width: 16px;
-                height: 16px;
-            }
-        }
-
-        & .more-info-link {
-            font-size: 1rem;
-            width: auto;
-            justify-content: center;
-            margin: var(--spacing-lg) auto 0;
-            padding: var(--spacing-sm) var(--spacing-lg);
-        }
-
-        .more-info-icon {
-            width: 8px;
-            height: 14px;
-            margin-left: var(--spacing-sm);
-        }
-    }
+  .laneIcon {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 @media (max-width: 480px) {
-    .last-heroes-info-wrapper {
-        > h2 {
-            font-size: 1.25rem;
-            padding: var(--spacing-xs) var(--spacing-sm);
-        }
+  .title {
+    font-size: 1.1rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
 
-        & .hero-list-wrapper {
-            gap: var(--spacing-xs);
-            padding: var(--spacing-xs) var(--spacing-sm);
-        }
+  .showcase {
+    min-height: 220px;
+  }
 
-        & .hero-list {
-            width: 46px;
-            height: 46px;
-        }
+  .heroName {
+    font-size: 1.35rem;
+  }
 
-        & .hero-item {
-            width: 38px;
-            height: 38px;
-        }
-    }
+  .skillIcon, .skillSkeleton {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
 
-    .hero-info {
-        .hero-name {
-            font-size: 1.5rem;
-        }
+  .thumb {
+    width: 40px;
+    height: 40px;
+  }
 
-        .hero-role {
-            font-size: 0.7rem;
-            padding: 4px var(--spacing-xs);
-        }
-    }
+  .transformBtn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
 
-    .hero-detail {
-        gap: var(--spacing-md);
+    svg { width: 13px; height: 13px; }
+  }
 
-        .lane-icon {
-            width: var(--spacing-lg);
-            height: var(--spacing-lg);
-        }
+  .navBtn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
 
-        & .prev-button, .next-button {
-            padding: 4px;
-            
-            img {
-                width: 20px;
-                height: 30px;
-            }
-        }
+    svg { width: 14px; height: 14px; }
+  }
 
-        & .hero-skills {
-            gap: var(--spacing-xs);
-        }
-
-        & .skill-item, & .skill-item-skeleton {
-            width: 50px;
-            height: 50px;
-            
-            .skill-icon {
-                width: 50px;
-                height: 50px;
-            }
-        }
-
-        & .ability-label {
-            font-size: 1rem;
-        }
-
-        & .abilities-list {
-            gap: var(--spacing-sm);
-        }
-
-        & .ability-row-skeleton {
-            height: 46px;
-        }
-
-        & .transform-button {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-
-            svg {
-                width: 14px;
-                height: 14px;
-            }
-        }
-
-        & .more-info-link {
-            font-size: 0.9rem;
-            padding: var(--spacing-xs) var(--spacing-md);
-        }
-    }
-}
-
-/* ── Full skeleton loader ── */
-.skeleton-painting {
-    width: 100%;
-    max-height: 500px;
-    border-radius: 4px;
-    background: rgba(148, 163, 184, 0.08);
-    animation: skeletonPulse 1.5s ease-in-out infinite;
-}
-
-.skeleton-line {
-    border-radius: 6px;
-    background: rgba(148, 163, 184, 0.1);
-    animation: skeletonPulse 1.5s ease-in-out infinite;
-}
-
-.skeleton-thumb {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: rgba(148, 163, 184, 0.06);
-    animation: skeletonPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes skeletonPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+  .laneIcon {
+    width: 22px;
+    height: 22px;
+  }
 }
 
 @media (max-width: 360px) {
-    .last-heroes-info-wrapper {
-        padding: var(--spacing-xs);
+  .skillIcon, .skillSkeleton {
+    width: 40px;
+    height: 40px;
+  }
 
-        & .hero-list-wrapper {
-            gap: 4px;
-            padding: var(--spacing-xs);
-        }
-
-        & .hero-list {
-            width: 42px;
-            height: 42px;
-        }
-
-        & .hero-item {
-            width: 34px;
-            height: 34px;
-        }
-    }
-
-    .hero-detail {
-        & .hero-skills {
-            gap: 4px;
-        }
-
-        & .skill-item, & .skill-item-skeleton {
-            width: 45px;
-            height: 45px;
-            
-            .skill-icon {
-                width: 45px;
-                height: 45px;
-            }
-        }
-
-        & .transform-button {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-
-            svg {
-                width: 12px;
-                height: 12px;
-            }
-        }
-    }
+  .thumb {
+    width: 36px;
+    height: 36px;
+  }
 }

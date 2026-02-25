@@ -52,11 +52,15 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
           loading="eager"
         />
       )}
-      <div className={styles.videoContent}>
-        <h2>{game.subtitle}</h2>
+      <div className={styles.overlay} />
+      <div className={styles.noise} />
+      <div className={styles.content}>
+        <div className={styles.titleBlock}>
+          <h2>{game.subtitle}</h2>
+          <div className={styles.glowLine} />
+        </div>
         {children}
       </div>
-      <div className={styles.videoOverlay} />
     </div>
   );
 };

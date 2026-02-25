@@ -1,477 +1,424 @@
+/* ══════════════════════════════════════════════
+   TopHeroesRanked — Premium Gaming Leaderboard
+   ══════════════════════════════════════════════ */
+
+/* ── Palette ── */
+$gold:   #fcd34d;
+$silver: #cbd5e1;
+$bronze: #f59e0b;
+$bg:     rgba(8, 15, 28, 0.65);
+$glass:  rgba(30, 41, 59, 0.55);
+$border: rgba(148, 163, 184, 0.08);
+
+/* ── Wrapper ── */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* ═══ HEADER ═══ */
 .header {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
-  padding: 0.5rem 1rem;
-  background: linear-gradient(90deg, rgba(74, 158, 255, 0.2) 0%, rgba(74, 158, 255, 0.01) 90%);
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(180deg, #4A90E2 0%, #50C9F0 100%);
-  }
+  gap: 4px;
+  padding: 0 0 10px 16px;
+  margin-bottom: 2px;
+  border-left: 3px solid rgba(96, 165, 250, 0.7);
 }
 
 .title {
-  font-size: 1.3rem;
+  margin: 0;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: #fff;
-  margin: 0 0 var(--spacing-sm);
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-.period {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: #bcc9d8;
+.meta {
+  font-size: 0.95rem;
+  color: rgba(203, 213, 225, 0.75);
+  line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
-.tableHeader {
-  display: grid;
-  grid-template-columns: 40px 1fr repeat(3, 90px);
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(148, 163, 184, 0.5);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-  margin-bottom: 0.25rem;
-}
-
-.headerStat {
-  text-align: center;
-}
-
-.heroList {
+/* ═══ LIST ═══ */
+.list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
-// --- Hero Card ---
-
-.heroCard {
-  display: grid;
-  grid-template-columns: 40px 1fr repeat(3, 90px);
-  align-items: center;
-  gap: 1rem;
-  padding: 0.6rem 1.25rem;
-  background: linear-gradient(90deg, rgba(74, 158, 255, 0.06) 0%, rgba(74, 158, 255, 0.01) 90%);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  height: 58px;
-
-  &:hover {
-    background: rgba(40, 51, 69, 0.5);
-    transform: translateX(3px);
-  }
-}
-
-.rank {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #64748b;
-  text-align: center;
-}
-
-.heroLink {
+/* ═══ CARD ═══ */
+.card {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  min-width: 0;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 22px;
+  min-height: 76px;
+  background: $bg;
+  border: 1px solid $border;
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
   text-decoration: none;
   color: inherit;
-}
-
-.heroImage {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 2px solid rgba(74, 158, 255, 0.25);
-  transition: all 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.25s,
+              border-color 0.25s,
+              box-shadow 0.3s;
+  animation: cardSlide 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--enter-d);
 
   &:hover {
-    transform: scale(1.08);
-    border-color: rgba(74, 158, 255, 0.5);
-  }
+    transform: translateY(-2px) scale(1.01);
+    background: rgba(30, 58, 108, 0.50);
+    border-color: rgba(96, 165, 250, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(96, 165, 250, 0.08);
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    .avatarImg {
+      transform: scale(1.08);
+    }
   }
 }
 
-.heroName {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #f1f5f9;
+@keyframes cardSlide {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Tier accents */
+.gold {
+  border-color: rgba($gold, 0.25);
+  background: linear-gradient(105deg, rgba($gold, 0.10) 0%, $bg 45%);
+  box-shadow: inset 0 0 30px rgba($gold, 0.04);
+
+  &:hover {
+    border-color: rgba($gold, 0.4);
+    box-shadow: 0 8px 32px rgba($gold, 0.10), inset 0 0 30px rgba($gold, 0.06);
+  }
+}
+
+.silver {
+  border-color: rgba($silver, 0.14);
+  background: linear-gradient(105deg, rgba($silver, 0.06) 0%, $bg 45%);
+
+  &:hover {
+    border-color: rgba($silver, 0.28);
+  }
+}
+
+.bronze {
+  border-color: rgba($bronze, 0.16);
+  background: linear-gradient(105deg, rgba($bronze, 0.07) 0%, $bg 45%);
+
+  &:hover {
+    border-color: rgba($bronze, 0.30);
+  }
+}
+
+/* ═══ LEFT SIDE ═══ */
+.cardLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  flex: 1;
+}
+
+/* ── Rank ── */
+.rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #475569;
+  background: rgba(148, 163, 184, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  flex-shrink: 0;
+
+  &.gold {
+    color: $gold;
+    background: rgba($gold, 0.12);
+    border-color: rgba($gold, 0.25);
+    box-shadow: 0 0 14px rgba($gold, 0.12);
+    font-size: 1.25rem;
+  }
+
+  &.silver {
+    color: $silver;
+    background: rgba($silver, 0.08);
+    border-color: rgba($silver, 0.15);
+  }
+
+  &.bronze {
+    color: $bronze;
+    background: rgba($bronze, 0.10);
+    border-color: rgba($bronze, 0.20);
+  }
+}
+
+/* ── Avatar ── */
+.avatarWrap {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  padding: 2px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(148, 163, 184, 0.15), rgba(148, 163, 184, 0.05));
+
+  &.gold {
+    background: linear-gradient(135deg, rgba($gold, 0.50), rgba($gold, 0.15));
+    box-shadow: 0 0 16px rgba($gold, 0.15);
+  }
+
+  &.silver {
+    background: linear-gradient(135deg, rgba($silver, 0.35), rgba($silver, 0.10));
+  }
+
+  &.bronze {
+    background: linear-gradient(135deg, rgba($bronze, 0.40), rgba($bronze, 0.12));
+  }
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Name ── */
+.name {
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin: 0;
+  min-width: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-.statValue {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #e2e8f0;
-  text-align: center;
-}
-
-.statsRow {
-  display: contents;
-}
-
-// --- Top 3 accent styles ---
-
-.first {
-  background: linear-gradient(90deg, rgba(255, 215, 0, 0.12) 0%, rgba(74, 158, 255, 0.01) 90%);
-
-  .rank {
-    color: #fbbf24;
-  }
-}
-
-.second {
-  background: linear-gradient(90deg, rgba(192, 192, 192, 0.1) 0%, rgba(74, 158, 255, 0.01) 90%);
-
-  .rank {
-    color: #cbd5e1;
-  }
-}
-
-.third {
-  background: linear-gradient(90deg, rgba(205, 127, 50, 0.1) 0%, rgba(74, 158, 255, 0.01) 90%);
-
-  .rank {
-    color: #d97706;
-  }
-}
-
-.error {
-  color: #ef4444;
-  text-align: center;
-  padding: 2rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid #ef4444;
-  border-radius: 8px;
-  margin: 2rem auto;
-  max-width: 600px;
-}
-
-// --- Skeleton ---
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-.periodSkeleton {
-  width: 250px;
-  height: 20px;
-  background: rgba(74, 158, 255, 0.2);
-  border-radius: 4px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-.heroCardSkeleton {
-  display: grid;
-  grid-template-columns: 40px 1fr repeat(3, 90px);
-  align-items: center;
-  height: 58px;
-  padding: 0.6rem 1.25rem;
-  gap: 1rem;
-  background: linear-gradient(90deg, rgba(74, 158, 255, 0.06) 0%, rgba(74, 158, 255, 0.01) 90%);
-  border-radius: 8px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-.skeletonRank {
-  width: 24px;
-  height: 16px;
-  border-radius: 4px;
-  background: rgba(148, 163, 184, 0.08);
-  margin: 0 auto;
-}
-
-.skeletonHero {
+/* ═══ RIGHT SIDE — stat pills ═══ */
+.cardRight {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.skeletonAvatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(148, 163, 184, 0.08);
+  gap: 10px;
   flex-shrink: 0;
 }
 
-.skeletonName {
-  width: 90px;
-  height: 14px;
-  border-radius: 4px;
-  background: rgba(148, 163, 184, 0.08);
+.pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 80px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(148, 163, 184, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.skeletonStat {
-  width: 50px;
-  height: 14px;
-  border-radius: 4px;
+.pill_win {
+  border-color: rgba(74, 222, 128, 0.12);
+  background: rgba(74, 222, 128, 0.05);
+
+  .pillValue { color: #4ade80; }
+}
+
+.pill_pick {
+  border-color: rgba(96, 165, 250, 0.12);
+  background: rgba(96, 165, 250, 0.05);
+
+  .pillValue { color: #60a5fa; }
+}
+
+.pill_ban {
+  border-color: rgba(251, 146, 60, 0.12);
+  background: rgba(251, 146, 60, 0.05);
+
+  .pillValue { color: #fb923c; }
+}
+
+.pillLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(203, 213, 225, 0.60);
+  line-height: 1;
+}
+
+.pillValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+/* ═══ ERROR ═══ */
+.error {
+  color: #fca5a5;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 12px;
+}
+
+/* ═══ SKELETON BONES ═══ */
+.bone {
+  position: relative;
   background: rgba(148, 163, 184, 0.06);
-  margin: 0 auto;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(148, 163, 184, 0.10) 45%,
+      rgba(148, 163, 184, 0.10) 55%,
+      transparent 100%
+    );
+    animation: sweep 1.6s ease-in-out infinite;
+  }
 }
 
-.skeletonStatsRow {
-  display: contents;
+.boneRank   { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; }
+.boneAvatar { width: 58px; height: 58px; border-radius: 14px; flex-shrink: 0; }
+.boneName   { width: 120px; height: 18px; border-radius: 6px; }
+.bonePill   { width: 80px; height: 48px; border-radius: 12px; }
+
+@keyframes sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-// --- Responsive: tablet ---
+/* ═══ RESPONSIVE ═══ */
 
 @media (max-width: 768px) {
-  .container {
-    margin: 1rem 0;
-    padding: 0;
-  }
-
   .header {
+    padding: 0 0 8px 12px;
+  }
+
+  .title { font-size: 1.1rem; }
+  .meta  { font-size: 0.75rem; }
+
+  .card {
+    padding: 8px 10px;
+    min-height: 50px;
+    border-radius: 12px;
+    gap: 8px;
+  }
+
+  .cardLeft { gap: 8px; }
+
+  .rank {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+
+    &.gold { font-size: 0.95rem; }
+  }
+
+  .avatarWrap {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+  }
+
+  .avatarImg { border-radius: 8px; }
+
+  .name { font-size: 0.95rem; }
+
+  .cardRight { gap: 5px; }
+
+  .pill {
+    min-width: 52px;
+    padding: 5px 7px;
+    border-radius: 8px;
+  }
+
+  .pillLabel { font-size: 0.5rem; }
+  .pillValue { font-size: 0.85rem; }
+
+  .boneRank   { width: 28px; height: 28px; }
+  .boneAvatar { width: 38px; height: 38px; border-radius: 10px; }
+  .boneName   { width: 64px; height: 12px; }
+  .bonePill   { width: 46px; height: 32px; border-radius: 8px; }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0 0 6px 10px;
+  }
+
+  .card {
     flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem;
+    align-items: stretch;
+    padding: 10px 12px;
+    gap: 8px;
+    border-radius: 12px;
   }
 
-  .title {
-    font-size: 1.15rem;
-  }
-
-  .period {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .tableHeader {
-    display: none;
-  }
-
-  .heroList {
-    gap: 4px;
-  }
-
-  .heroCard {
-    grid-template-columns: 32px 1fr repeat(3, 64px);
-    gap: 0.5rem;
-    padding: 0.6rem 0.85rem;
-    height: 62px;
-  }
-
-  .heroCardSkeleton {
-    grid-template-columns: 32px 1fr repeat(3, 64px);
-    gap: 0.5rem;
-    padding: 0.6rem 0.85rem;
-    height: 62px;
+  .cardLeft {
+    gap: 10px;
   }
 
   .rank {
-    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    border-radius: 7px;
   }
 
-  .heroLink {
-    gap: 0.5rem;
-  }
-
-  .heroImage {
+  .avatarWrap {
     width: 40px;
     height: 40px;
+    border-radius: 10px;
   }
 
-  .heroName {
-    font-size: 0.9rem;
-  }
+  .avatarImg { border-radius: 8px; }
 
-  .statValue {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    font-size: 0.85rem;
+  .name { font-size: 0.95rem; }
 
-    &::before {
-      content: attr(data-label);
-      font-size: 0.55rem;
-      font-weight: 700;
-      color: rgba(148, 163, 184, 0.5);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      line-height: 1;
-    }
-  }
-
-  .periodSkeleton {
-    width: 200px;
-    height: 18px;
-  }
-
-  .skeletonAvatar {
-    width: 40px;
-    height: 40px;
-  }
-
-  .skeletonName {
-    width: 70px;
-    height: 14px;
-  }
-
-  .skeletonStat {
-    width: 44px;
-    height: 14px;
-  }
-}
-
-// --- Responsive: mobile ---
-
-@media (max-width: 480px) {
-  .container {
-    margin: 0.5rem 0;
-  }
-
-  .title {
-    font-size: 1.1rem;
-  }
-
-  .heroList {
+  .cardRight {
+    justify-content: space-between;
     gap: 6px;
   }
 
-  .heroCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 0.75rem;
-    height: auto;
-    position: relative;
-
-    &:hover {
-      transform: none;
-    }
-  }
-
-  .heroCardSkeleton {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 0.75rem;
-    height: auto;
-    position: relative;
-  }
-
-  .skeletonRank {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    width: 20px;
-    height: 16px;
-  }
-
-  .skeletonHero {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  .rank {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    font-size: 1.2rem;
-  }
-
-  .heroLink {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  .heroImage {
-    width: 48px;
-    height: 48px;
-  }
-
-  .heroName {
-    font-size: 0.95rem;
-    text-align: center;
-  }
-
-  .statsRow {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
-  .statValue {
+  .pill {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    padding: 0.5rem 0.25rem;
-    background: rgba(15, 23, 42, 0.5);
+    min-width: 0;
+    padding: 7px 4px;
     border-radius: 8px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    font-size: 1rem;
-
-    &::before {
-      font-size: 0.65rem;
-      letter-spacing: 0.04em;
-    }
   }
 
-  .periodSkeleton {
-    width: 160px;
-    height: 16px;
-  }
+  .pillLabel { font-size: 0.52rem; }
+  .pillValue { font-size: 0.88rem; }
 
-  .skeletonAvatar {
-    width: 36px;
-    height: 36px;
-  }
-
-  .skeletonName {
-    width: 60px;
-    height: 14px;
-  }
-
-  .skeletonStatsRow {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
-  .skeletonStat {
-    flex: 1;
-    height: 48px;
-    width: auto;
-    background: rgba(15, 23, 42, 0.5);
-    border-radius: 8px;
-    border: 1px solid rgba(148, 163, 184, 0.08);
-    margin: 0;
-  }
+  .boneRank   { width: 26px; height: 26px; border-radius: 6px; }
+  .boneAvatar { width: 36px; height: 36px; border-radius: 9px; }
+  .bonePill   { flex: 1; height: 42px; border-radius: 8px; width: auto; }
 }
