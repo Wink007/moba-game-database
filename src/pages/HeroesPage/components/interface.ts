@@ -1,3 +1,5 @@
+import { Hero } from '../../../types';
+
 export interface HeroFiltersProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
@@ -14,7 +16,7 @@ export interface HeroFiltersProps {
 }
 
 export interface HeroGridProps {
-  heroes: any[];
+  heroes: Hero[];
   gameId: number;
   hasMore: boolean;
   remainingCount: number;

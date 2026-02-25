@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { API_URL } from '../config';
+import { STALE_5_MIN, queryKeys } from '../queries/keys';
+import { fetcherRaw } from '../api/http/fetcher';
 
 interface BaseStats {
   [key: string]: string | number;
@@ -32,25 +33,19 @@ interface Emblem {
 
 export const useEmblems = (gameId: string | undefined) => {
   return useQuery<Emblem[]>({
-    queryKey: ['emblems', gameId],
-    queryFn: async () => {
-      const res = await fetch(`${API_URL}/emblems?game_id=${gameId}`);
-      return res.json();
-    },
+    queryKey: queryKeys.emblems.all(Number(gameId)),
+    queryFn: () => fetcherRaw<Emblem[]>(`/emblems?game_id=${gameId}`),
     enabled: !!gameId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: STALE_5_MIN,
   });
 };
 
 export const useEmblemTalents = (gameId: string | undefined) => {
   const allTalentsQuery = useQuery<Talent[]>({
-    queryKey: ['emblem-talents', gameId],
-    queryFn: async () => {
-      const res = await fetch(`${API_URL}/emblem-talents?game_id=${gameId}`);
-      return res.json();
-    },
+    queryKey: queryKeys.emblems.talents(Number(gameId)),
+    queryFn: () => fetcherRaw<Talent[]>(`/emblem-talents?game_id=${gameId}`),
     enabled: !!gameId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: STALE_5_MIN,
   });
 
   const allTalents = allTalentsQuery.data ?? [];

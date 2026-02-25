@@ -5,7 +5,7 @@ import { getRoleOptions, getLaneOptions, getComplexityOptions, getSortOptions } 
 import { HeroFiltersProps } from './interface';
 import styles from './HeroFilters.module.scss';
 
-export const HeroFilters: React.FC<HeroFiltersProps> = ({
+export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
   searchQuery,
   onSearchChange,
   selectedRole,
@@ -82,4 +82,4 @@ export const HeroFilters: React.FC<HeroFiltersProps> = ({
       />
     </div>
   );
-};
+});

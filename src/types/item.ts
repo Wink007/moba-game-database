@@ -85,9 +85,9 @@ export interface Item {
   // Рецепт та апгрейди
   recipe?: ItemRecipe[] | string | null;
   recipe_components?: ItemRecipe[] | string | null;
-  builds?: any | null;
-  upgrades_to?: any | null;
-  countered_by?: any | null;
+  builds?: Record<string, unknown> | null;
+  upgrades_to?: Record<string, unknown> | null;
+  countered_by?: Record<string, unknown> | null;
   
   // Додаткова інформація
   availability_description?: string;

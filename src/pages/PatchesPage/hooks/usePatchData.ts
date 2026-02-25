@@ -1,6 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { fetcherRaw } from '../../../api/http/fetcher';
+import { queryKeys, STALE_5_MIN } from '../../../queries/keys';
+import { useHeroesQuery } from '../../../queries/useHeroesQuery';
+import { useItemsQuery } from '../../../queries/useItemsQuery';
 import { Patch, PatchVersion } from '../types';
+import type { Hero, Item } from '../../../types';
 
 interface UsePatchDataProps {
   gameId: string | undefined;
@@ -15,94 +21,71 @@ interface UsePatchDataReturn {
   selectedPatch: string | null;
   heroNameToId: Record<string, number>;
   itemNameToId: Record<string, number>;
-  handlePatchSelect: (version: string) => Promise<void>;
+  handlePatchSelect: (version: string) => void;
 }
 
 export const usePatchData = ({ gameId, patchVersion }: UsePatchDataProps): UsePatchDataReturn => {
   const navigate = useNavigate();
-  const [patchVersions, setPatchVersions] = useState<PatchVersion[]>([]);
-  const [currentPatchData, setCurrentPatchData] = useState<Patch | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [loadingPatch, setLoadingPatch] = useState(false);
-  const [selectedPatch, setSelectedPatch] = useState<string | null>(null);
-  const [heroNameToId, setHeroNameToId] = useState<Record<string, number>>({});
-  const [itemNameToId, setItemNameToId] = useState<Record<string, number>>({});
 
-  const handlePatchSelect = async (version: string) => {
-    setSelectedPatch(version);
-    navigate(`/${gameId}/patches/patch_${version}`, { replace: true });
-    
-    setLoadingPatch(true);
-    try {
-      const response = await fetch(`https://web-production-8570.up.railway.app/api/patches/${version}`);
-      const patchData = await response.json();
-      setCurrentPatchData(patchData);
-    } catch (error) {
-      console.error('Error fetching patch data:', error);
-    } finally {
-      setLoadingPatch(false);
+  // Fetch minimal patch list via React Query
+  const { data: patchVersions = [], isLoading: loadingVersions } = useQuery<PatchVersion[]>({
+    queryKey: queryKeys.patches.minimal,
+    queryFn: () => fetcherRaw<PatchVersion[]>('/patches?minimal=true&limit=50'),
+    staleTime: STALE_5_MIN,
+  });
+
+  // Determine which version to show
+  const versionFromUrl = patchVersion ? patchVersion.replace('patch_', '') : null;
+  const resolvedVersion = useMemo(() => {
+    if (!patchVersions.length) return null;
+    if (versionFromUrl && patchVersions.find(p => p.version === versionFromUrl)) {
+      return versionFromUrl;
     }
-  };
+    return patchVersions[0]?.version ?? null;
+  }, [patchVersions, versionFromUrl]);
 
+  // Redirect if URL doesn't match resolved version
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch patch versions list
-        const patchesResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches?minimal=true&limit=50`);
-        const patchesData = await patchesResponse.json();
-        setPatchVersions(patchesData);
-        
-        if (patchesData.length > 0) {
-          const versionFromUrl = patchVersion ? patchVersion.replace('patch_', '') : null;
-          const matchedPatch = versionFromUrl && patchesData.find((p: any) => p.version === versionFromUrl);
-          const patchToSelect = matchedPatch
-            ? versionFromUrl!
-            : patchesData[0].version;
-          
-          if (!patchVersion || !matchedPatch) {
-            navigate(`/${gameId}/patches/patch_${patchToSelect}`, { replace: true });
-          }
-          
-          const selectedPatchResponse = await fetch(`https://web-production-8570.up.railway.app/api/patches/${patchToSelect}`);
-          const selectedPatchData = await selectedPatchResponse.json();
-          setCurrentPatchData(selectedPatchData);
-          setSelectedPatch(patchToSelect);
-        }
+    if (resolvedVersion && resolvedVersion !== versionFromUrl) {
+      navigate(`/${gameId}/patches/patch_${resolvedVersion}`, { replace: true });
+    }
+  }, [resolvedVersion, versionFromUrl, gameId, navigate]);
 
-        // Fetch heroes mapping
-        const heroesResponse = await fetch(`https://web-production-8570.up.railway.app/api/heroes?game_id=2`);
-        const heroesData = await heroesResponse.json();
-        const heroMapping: Record<string, number> = {};
-        heroesData.forEach((hero: any) => {
-          heroMapping[hero.name] = hero.id;
-        });
-        setHeroNameToId(heroMapping);
+  // Fetch full patch data
+  const { data: currentPatchData = null, isLoading: loadingPatch } = useQuery<Patch>({
+    queryKey: queryKeys.patches.detail(resolvedVersion || ''),
+    queryFn: () => fetcherRaw<Patch>(`/patches/${resolvedVersion}`),
+    enabled: !!resolvedVersion,
+    staleTime: STALE_5_MIN,
+  });
 
-        // Fetch items mapping
-        const itemsResponse = await fetch(`https://web-production-8570.up.railway.app/api/items?game_id=2`);
-        const itemsData = await itemsResponse.json();
-        const itemMapping: Record<string, number> = {};
-        itemsData.forEach((item: any) => {
-          itemMapping[item.name] = item.id;
-        });
-        setItemNameToId(itemMapping);
+  // Use existing queries for hero/item name mapping (game_id=2 = MLBB)
+  const numericGameId = Number(gameId) || 2;
+  const { data: heroes = [] } = useHeroesQuery(numericGameId);
+  const { data: items = [] } = useItemsQuery(numericGameId);
 
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const heroNameToId = useMemo(() => {
+    const map: Record<string, number> = {};
+    heroes.forEach((hero: Hero) => { map[hero.name] = hero.id; });
+    return map;
+  }, [heroes]);
 
-    fetchData();
-  }, [gameId, patchVersion, navigate]);
+  const itemNameToId = useMemo(() => {
+    const map: Record<string, number> = {};
+    items.forEach((item: Item) => { map[item.name] = item.id; });
+    return map;
+  }, [items]);
+
+  const handlePatchSelect = useCallback((version: string) => {
+    navigate(`/${gameId}/patches/patch_${version}`, { replace: true });
+  }, [gameId, navigate]);
 
   return {
     patchVersions,
     currentPatchData,
-    loading,
+    loading: loadingVersions,
     loadingPatch,
-    selectedPatch,
+    selectedPatch: resolvedVersion,
     heroNameToId,
     itemNameToId,
     handlePatchSelect,

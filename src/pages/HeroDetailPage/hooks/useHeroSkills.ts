@@ -62,6 +62,7 @@ export const useHeroSkills = (
     baseSkills,
     transformedSkills,
     displaySkills,
+    selectedSkillIndex,
     selectedSkill,
     maxTransforms,
     transformIndex,

@@ -5,22 +5,11 @@ import { Loader } from '../../components/Loader';
 import { useSEO } from '../../hooks/useSEO';
 import { getSpellName, getSpellOverview, getSpellDescription } from '../../utils/translation';
 import { highlightValues } from '../../utils/highlightValues';
+import { sanitizeHtml } from '../../utils/sanitize';
 import styles from './styles.module.scss';
-import { API_URL } from '../../config';
-
-interface BattleSpell {
-  id: number;
-  game_id: number;
-  name: string;
-  name_uk?: string;
-  overview?: string;
-  overview_uk?: string;
-  description?: string;
-  description_uk?: string;
-  cooldown?: number;
-  unlocked_level?: number;
-  icon_url?: string;
-}
+import { fetcherRaw } from '../../api/http/fetcher';
+import { STALE_5_MIN, queryKeys } from '../../queries/keys';
+import type { BattleSpell } from '../../types';
 
 function SpellsPage() {
   const { t, i18n } = useTranslation();
@@ -29,16 +18,10 @@ function SpellsPage() {
   useSEO({ title: 'Battle Spells', description: 'All Mobile Legends battle spells — cooldowns, effects and unlock levels.' });
 
   const { data: spells = [], isLoading: loading, error: queryError } = useQuery<BattleSpell[]>({
-    queryKey: ['battle-spells', gameId],
-    queryFn: async () => {
-      const response = await fetch(`${API_URL}/battle-spells?game_id=${gameId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch battle spells from API');
-      }
-      return response.json();
-    },
+    queryKey: queryKeys.spells.all(Number(gameId)),
+    queryFn: () => fetcherRaw<BattleSpell[]>(`/battle-spells?game_id=${gameId}`),
     enabled: !!gameId,
-    staleTime: 5 * 60 * 1000, // 5 хвилин
+    staleTime: STALE_5_MIN,
   });
 
   const error = queryError ? t('spells.failedToLoad') : null;
@@ -103,7 +86,7 @@ function SpellsPage() {
             {(spell.description || spell.description_uk) && (
               <div
                 className={styles.spellDescription}
-                dangerouslySetInnerHTML={{ __html: highlightValues(getSpellDescription(spell, lang)) }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(highlightValues(getSpellDescription(spell, lang))) }}
               />
             )}
           </div>

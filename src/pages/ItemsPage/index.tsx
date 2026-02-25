@@ -1,14 +1,14 @@
 import { useParams, useSearchParams } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useItemsQuery } from '../../queries/useItemsQuery';
+import { Item, ItemRecipe } from '../../types';
 import { useItemCategories } from './hooks/useItemCategories';
 import { useItemFilters } from './hooks/useItemFilters';
 import { useItemRecipe } from './hooks/useItemRecipe';
 import { ItemFilters } from './components/ItemFilters';
 import { ItemGrid } from './components/ItemGrid';
 import { ItemDetails } from './components/ItemDetails';
-import { Item } from '../../types/item';
 import { useSEO } from '../../hooks/useSEO';
 import { Loader } from '../../components/Loader';
 import styles from './styles.module.scss';
@@ -64,7 +64,7 @@ function ItemsPage() {
     
     if (Array.isArray(item.recipe)) {
       return item.recipe
-        .map((recipeItem: any) => {
+        .map((recipeItem: ItemRecipe | number) => {
           const recipeId = typeof recipeItem === 'object' ? recipeItem.id : recipeItem;
           return items.find((i: Item) => i.id === recipeId);
         })

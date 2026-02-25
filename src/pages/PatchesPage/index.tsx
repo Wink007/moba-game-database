@@ -5,6 +5,7 @@ import { Loader } from '../../components/Loader';
 import { usePatchData } from './hooks/usePatchData';
 import { PatchHeader } from './components/PatchHeader';
 import { useSEO } from '../../hooks/useSEO';
+import { sanitizeHtml } from '../../utils/sanitize';
 import styles from './styles.module.scss';
 
 export const PatchesPage: React.FC = () => {
@@ -221,11 +222,11 @@ export const PatchesPage: React.FC = () => {
                     </div>
                     
                     {heroData.summary && heroData.summary.trim() && (
-                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: heroData.summary }} />
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(heroData.summary) }} />
                     )}
                     
                     {heroData.description && heroData.description.trim() && (
-                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: heroData.description }} />
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(heroData.description) }} />
                     )}
 
                     {heroData.skills && heroData.skills.length > 0 && heroData.skills.map((skill, idx) => (
@@ -258,7 +259,7 @@ export const PatchesPage: React.FC = () => {
                           )}
                         </div>
                         {adj.description && (
-                          <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adj.description }} />
+                          <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(adj.description) }} />
                         )}
                       </div>
                     ))}
@@ -274,7 +275,7 @@ export const PatchesPage: React.FC = () => {
                           )}
                         </div>
                         {attr.description && (
-                          <p className={styles.summary} dangerouslySetInnerHTML={{ __html: attr.description }} />
+                          <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(attr.description) }} />
                         )}
                       </div>
                     ))}
@@ -304,7 +305,7 @@ export const PatchesPage: React.FC = () => {
                     </div>
                     
                     {itemData.description && itemData.description.trim() && (
-                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: itemData.description }} />
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(itemData.description) }} />
                     )}
                     
                     {itemData.adjustments && itemData.adjustments.length > 0 && (
@@ -314,7 +315,7 @@ export const PatchesPage: React.FC = () => {
                           if (typeof adj === 'string') {
                             return (
                               <div key={adjIdx} className={styles.skillBlock}>
-                                <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adj }} />
+                                <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(adj) }} />
                               </div>
                             );
                           }
@@ -330,7 +331,7 @@ export const PatchesPage: React.FC = () => {
                                 )}
                               </div>
                               {adj.description && (
-                                <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adj.description }} />
+                                <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(adj.description) }} />
                               )}
                             </div>
                           );
@@ -357,13 +358,13 @@ export const PatchesPage: React.FC = () => {
                     </div>
                     
                     {emblemData.description && emblemData.description.trim() && (
-                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: emblemData.description }} />
+                      <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(emblemData.description) }} />
                     )}
                     
                     {emblemData.adjustments && emblemData.adjustments.length > 0 && (
                       <ul className={styles.changesList}>
                         {emblemData.adjustments.map((adj, adjIdx) => (
-                          <li key={adjIdx} dangerouslySetInnerHTML={{ __html: adj }} />
+                          <li key={adjIdx} dangerouslySetInnerHTML={{ __html: sanitizeHtml(adj) }} />
                         ))}
                       </ul>
                     )}
@@ -382,7 +383,7 @@ export const PatchesPage: React.FC = () => {
                             </div>
                             <ul className={styles.changesList}>
                               {section.changes.map((change, changeIdx) => (
-                                <li key={changeIdx} dangerouslySetInnerHTML={{ __html: change }} />
+                                <li key={changeIdx} dangerouslySetInnerHTML={{ __html: sanitizeHtml(change) }} />
                               ))}
                             </ul>
                           </div>
@@ -474,7 +475,7 @@ export const PatchesPage: React.FC = () => {
                         {desc && (
                           <div className={styles.description}>
                             {isStringDesc ? (
-                              <p dangerouslySetInnerHTML={{ __html: desc }} />
+                              <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(desc) }} />
                             ) : (
                               desc.map((d, idx) => (
                                 <p key={idx}>{d}</p>
@@ -516,7 +517,7 @@ export const PatchesPage: React.FC = () => {
                     <div key={idx} className={styles.itemCard}>
                       <h4>{adjustment.name}</h4>
                       {adjustment.description && adjustment.description.trim() && (
-                        <p className={styles.summary} dangerouslySetInnerHTML={{ __html: adjustment.description }} />
+                        <p className={styles.summary} dangerouslySetInnerHTML={{ __html: sanitizeHtml(adjustment.description) }} />
                       )}
                     </div>
                   );

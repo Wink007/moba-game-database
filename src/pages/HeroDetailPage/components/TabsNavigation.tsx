@@ -48,7 +48,7 @@ const TABS = [
   { key: 'history', Icon: HistoryIcon, label: 'heroDetail.statsHistory' },
 ] as const;
 
-export const TabsNavigation: React.FC<TabsNavigationProps> = ({ activeTab, onTabChange }) => {
+export const TabsNavigation: React.FC<TabsNavigationProps> = React.memo(({ activeTab, onTabChange }) => {
   const { t } = useTranslation();
   return (
     <div className={styles.tabsNavigation}>
@@ -64,4 +64,4 @@ export const TabsNavigation: React.FC<TabsNavigationProps> = ({ activeTab, onTab
       ))}
     </div>
   );
-};
+});

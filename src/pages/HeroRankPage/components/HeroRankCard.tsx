@@ -1,16 +1,17 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles.module.scss';
-import { Hero } from '../../../types';
+import { Hero, HeroRank, HeroSynergy } from '../../../types';
 
 interface HeroRankCardProps {
-  hero: any;
+  hero: HeroRank;
   index: number;
   heroes: Hero[] | undefined;
   selectedGameId: number;
 }
 
-export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCardProps) => {
+export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId }: HeroRankCardProps) => {
   const { t } = useTranslation();
   const counterHero = heroes?.find(h => h.id === hero.hero_id);
 
@@ -55,7 +56,7 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
 
       <div className={styles.synergyHeroes}>
         {hero.synergy_heroes && hero.synergy_heroes.length > 0 ? (
-          hero.synergy_heroes.slice(0, 5).map((synergy: any) => {
+          hero.synergy_heroes.slice(0, 5).map((synergy: HeroSynergy) => {
             const synergyHero = heroes?.find(h => h.id === synergy.hero_id);
 
             return (
@@ -82,4 +83,4 @@ export const HeroRankCard = ({ hero, index, heroes, selectedGameId }: HeroRankCa
       </div>
     </div>
   );
-};
+});

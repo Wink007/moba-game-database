@@ -1,26 +1,38 @@
+import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import {HomePage} from './pages/HomePage';
-import HeroesPage from './pages/HeroesPage';
-import HeroDetailPage from './pages/HeroDetailPage';
-import ItemsPage from './pages/ItemsPage';
-import EmblemsPage from './pages/EmblemsPage';
-import SpellsPage from './pages/SpellsPage';
-import { HeroRankPage } from './pages/HeroRankPage';
-import { LegalPage } from './pages/LegalPage';
-import { PatchesPage } from './pages/PatchesPage';
-import { FavoritesPage } from './pages/FavoritesPage';
-import { CounterPickPage } from './pages/CounterPickPage';
-import { NotFoundPage } from './pages/NotFoundPage';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { RouteErrorBoundary } from './components/RouteErrorBoundary';
+import { Loader } from './components/Loader';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setQueryClientRef } from './store/authStore';
+import { STALE_5_MIN } from './queries/keys';
 import './App.css';
 
-const queryClient = new QueryClient();
+const HomePage = React.lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
+const HeroesPage = React.lazy(() => import('./pages/HeroesPage'));
+const HeroDetailPage = React.lazy(() => import('./pages/HeroDetailPage'));
+const ItemsPage = React.lazy(() => import('./pages/ItemsPage'));
+const EmblemsPage = React.lazy(() => import('./pages/EmblemsPage'));
+const SpellsPage = React.lazy(() => import('./pages/SpellsPage'));
+const HeroRankPage = React.lazy(() => import('./pages/HeroRankPage').then(m => ({ default: m.HeroRankPage })));
+const LegalPage = React.lazy(() => import('./pages/LegalPage').then(m => ({ default: m.LegalPage })));
+const PatchesPage = React.lazy(() => import('./pages/PatchesPage').then(m => ({ default: m.PatchesPage })));
+const FavoritesPage = React.lazy(() => import('./pages/FavoritesPage').then(m => ({ default: m.FavoritesPage })));
+const CounterPickPage = React.lazy(() => import('./pages/CounterPickPage').then(m => ({ default: m.CounterPickPage })));
+const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: STALE_5_MIN,
+      retry: 2,
+    },
+  },
+});
 setQueryClientRef(queryClient);
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
 
@@ -34,22 +46,24 @@ function App() {
           <div className="app-wrapper">
             <Header />
             <main className="main-content">
+              <Suspense fallback={<Loader />}>
               <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/legal" element={<LegalPage />} />
-                <Route path="/:gameId/heroes" element={<HeroesPage />} />
-                <Route path="/:gameId/heroes/:heroId" element={<HeroDetailPage />} />
-                <Route path="/:gameId/hero-ranks" element={<HeroRankPage />} />
-                <Route path="/:gameId/items" element={<ItemsPage />} />
-                <Route path="/:gameId/items/:itemId" element={<ItemsPage />} />
-                <Route path="/:gameId/emblems" element={<EmblemsPage />} />
-                <Route path="/:gameId/spells" element={<SpellsPage />} />
-                <Route path="/:gameId/patches" element={<PatchesPage />} />
-                <Route path="/:gameId/patches/:patchVersion" element={<PatchesPage />} />
-                <Route path="/:gameId/counter-pick" element={<CounterPickPage />} />
-                <Route path="/:gameId/favorites" element={<FavoritesPage />} />
+                <Route path="/" element={<RouteErrorBoundary><HomePage /></RouteErrorBoundary>} />
+                <Route path="/legal" element={<RouteErrorBoundary><LegalPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/heroes" element={<RouteErrorBoundary><HeroesPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/heroes/:heroId" element={<RouteErrorBoundary><HeroDetailPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/hero-ranks" element={<RouteErrorBoundary><HeroRankPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/items" element={<RouteErrorBoundary><ItemsPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/items/:itemId" element={<RouteErrorBoundary><ItemsPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/emblems" element={<RouteErrorBoundary><EmblemsPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/spells" element={<RouteErrorBoundary><SpellsPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/patches" element={<RouteErrorBoundary><PatchesPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/patches/:patchVersion" element={<RouteErrorBoundary><PatchesPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/counter-pick" element={<RouteErrorBoundary><CounterPickPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/favorites" element={<RouteErrorBoundary><FavoritesPage /></RouteErrorBoundary>} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
+              </Suspense>
             </main>
             <Footer />
           </div>

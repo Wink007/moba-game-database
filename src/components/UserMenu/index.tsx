@@ -1,64 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { useGameStore } from '../../store/gameStore';
-import { API_URL } from '../../config';
+import { useClickOutside } from '../../hooks/useClickOutside';
+import { useGoogleAuth } from '../../hooks/useGoogleAuth';
 import styles from './styles.module.scss';
 
 export const UserMenu: React.FC = () => {
   const { t } = useTranslation();
-  const { user, setAuth, logout, isLoading, setLoading } = useAuthStore();
+  const { user, logout, isLoading } = useAuthStore();
   const { selectedGameId } = useGameStore();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close menu on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  useClickOutside(menuRef, useCallback(() => setIsOpen(false), []));
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (response) => {
-      setLoading(true);
-      try {
-        // Exchange access token for id_token via Google's userinfo
-        const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${response.access_token}` }
-        });
-        const userInfo = await userInfoRes.json();
-        
-        // Use access_token flow: send user info to our backend
-        const res = await fetch(`${API_URL}/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            credential: response.access_token,
-            user_info: userInfo
-          }),
-        });
-        
-        if (!res.ok) throw new Error('Login failed');
-        const data = await res.json();
-        setAuth(data.user, data.token);
-      } catch (err) {
-        console.error('Login error:', err);
-      } finally {
-        setLoading(false);
-      }
-    },
-    onError: () => {
-      setLoading(false);
-    }
-  });
+  const googleLogin = useGoogleAuth();
 
   if (!user) {
     return (

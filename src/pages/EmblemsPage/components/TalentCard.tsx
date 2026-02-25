@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { TalentCardProps } from './interface';
 import { getTalentName, getTalentEffect } from '../../../utils/translation';
 import { highlightValues } from '../../../utils/highlightValues';
+import { sanitizeHtml } from '../../../utils/sanitize';
 import styles from './TalentCard.module.scss';
 
 export const TalentCard: React.FC<TalentCardProps> = ({ talent }) => {
@@ -25,7 +26,7 @@ export const TalentCard: React.FC<TalentCardProps> = ({ talent }) => {
       </div>
       <p
         className={styles.talentEffect}
-        dangerouslySetInnerHTML={{ __html: highlightValues(getTalentEffect(talent, lang)) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(highlightValues(getTalentEffect(talent, lang))) }}
       />
     </div>
   );

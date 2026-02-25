@@ -1,4 +1,3 @@
-import React from 'react';
 import parse from 'html-react-parser';
 import styles from './styles.module.scss';
 import { SkillParameter } from '../../types/hero';

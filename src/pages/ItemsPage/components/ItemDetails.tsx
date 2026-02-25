@@ -4,6 +4,7 @@ import { Item } from '../../../types';
 import { ItemDetailsProps } from './interface';
 import { getItemName, getItemDescription } from '../../../utils/translation';
 import { highlightValues } from '../../../utils/highlightValues';
+import { sanitizeHtml } from '../../../utils/sanitize';
 import { parseItemDescription } from '../../../utils/parseItemDescription';
 import parentStyles from '../styles.module.scss';
 
@@ -141,7 +142,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
                     </div>
                     <div 
                       className={parentStyles.abilityDesc}
-                      dangerouslySetInnerHTML={{ __html: highlightValues(ability.description) }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(highlightValues(ability.description)) }}
                     />
                   </div>
                 ))}

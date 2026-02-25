@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { EmblemCardProps } from './interface';
 import { getEmblemName, getEmblemDescription, getStatName } from '../../../utils/translation';
 import { highlightValues } from '../../../utils/highlightValues';
+import { sanitizeHtml } from '../../../utils/sanitize';
 import styles from './EmblemCard.module.scss';
 
 export const EmblemCard = ({ emblem }: EmblemCardProps) => {
@@ -26,7 +27,7 @@ export const EmblemCard = ({ emblem }: EmblemCardProps) => {
       {(emblem.description || emblem.description_uk) && (
         <p
           className={styles.emblemDescription}
-          dangerouslySetInnerHTML={{ __html: highlightValues(getEmblemDescription(emblem, lang)) }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(highlightValues(getEmblemDescription(emblem, lang))) }}
         />
       )}
 

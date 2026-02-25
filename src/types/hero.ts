@@ -1,5 +1,3 @@
-import { Lanes } from "../enum";
-
 export interface SkillParameter {
   label: string;
   value: string;
@@ -55,6 +53,7 @@ export interface HeroRelation {
 
 export interface CounterHero {
   heroid: number;
+  hero_id?: number;
   win_rate: number;
   increase_win_rate: number;
   appearance_rate: number;
@@ -68,6 +67,7 @@ export interface HeroCounterData {
 
 export interface CompatibilityHero {
   heroid: number;
+  hero_id?: number;
   win_rate: number;
   increase_win_rate: number;
   appearance_rate: number;
@@ -113,7 +113,7 @@ export interface Hero {
   hero_stats?: HeroStatsObject;
   skills?: HeroSkill[];
   pro_builds?: ProBuild[];
-  selected_talents?: any;
+  selected_talents?: Record<string, unknown>;
   main_hero_appearance_rate?: number;
   main_hero_ban_rate?: number;
   main_hero_win_rate?: number;

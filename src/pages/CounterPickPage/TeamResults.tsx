@@ -9,7 +9,7 @@ interface TeamResultsProps {
   results: AggregatedCounter[];
   lang: string;
   gameId: number;
-  t: (key: string, options?: any) => string;
+  t: (key: string, options?: Record<string, unknown>) => string;
   enemyCount: number;
 }
 

@@ -114,6 +114,11 @@
     }
 }
 
+.dropdownItemActive {
+    background: rgba(74, 158, 255, 0.15);
+    outline: none;
+}
+
 .heroInfo {
     display: flex;
     align-items: center;

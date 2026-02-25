@@ -1,30 +1,16 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { ProBuild } from '../../../types/hero';
 import { Item } from '../../../types/item';
 import { useItemsQuery } from '../../../queries/useItemsQuery';
 import { useEmblems, useEmblemTalents } from '../../../hooks/useEmblems';
-import type { Talent } from '../../../hooks/useEmblems';
-import { API_URL } from '../../../config';
+import type { Emblem, Talent } from '../../../hooks/useEmblems';
+import { fetcherRaw } from '../../../api/http/fetcher';
 import { getEmblemName, getTalentName, getSpellName, getItemName } from '../../../utils/translation';
 import styles from '../styles.module.scss';
-
-interface BattleSpell {
-  id: number;
-  game_id: number;
-  name: string;
-  overview?: string;
-  description?: string;
-  cooldown?: number;
-  unlocked_level?: number;
-  icon_url?: string;
-}
-
-interface ProBuildsSectionProps {
-  builds: ProBuild[];
-  gameId: number;
-}
+import { STALE_5_MIN, queryKeys } from '../../../queries/keys';
+import type { BattleSpell } from '../../../types';
+import type { ProBuildsSectionProps } from './interface';
 
 const BUILDS_PER_PAGE = 5;
 
@@ -43,13 +29,10 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
   const { data: emblems = [], isLoading: emblemsLoading } = useEmblems(String(gameId));
   const { tier1, tier2, tier3, isLoading: talentsLoading } = useEmblemTalents(String(gameId));
   const { data: spells = [], isLoading: spellsLoading } = useQuery<BattleSpell[]>({
-    queryKey: ['battle-spells', gameId],
-    queryFn: async () => {
-      const res = await fetch(`${API_URL}/battle-spells?game_id=${gameId}`);
-      return res.json();
-    },
+    queryKey: queryKeys.spells.all(gameId),
+    queryFn: () => fetcherRaw<BattleSpell[]>(`/battle-spells?game_id=${gameId}`),
     enabled: !!gameId,
-    staleTime: 5 * 60 * 1000,
+    staleTime: STALE_5_MIN,
   });
 
   const isDataLoading = itemsLoading || emblemsLoading || talentsLoading || spellsLoading;
@@ -67,8 +50,8 @@ export const ProBuildsSection: React.FC<ProBuildsSectionProps> = ({ builds, game
   }, [spells]);
 
   const emblemsMap = React.useMemo(() => {
-    const map = new Map<number, any>();
-    emblems.forEach((emblem: any) => map.set(emblem.id, emblem));
+    const map = new Map<number, Emblem>();
+    emblems.forEach((emblem: Emblem) => map.set(emblem.id, emblem));
     return map;
   }, [emblems]);
 

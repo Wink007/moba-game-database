@@ -4,7 +4,7 @@ import { ItemGridProps } from './interface';
 import { getItemName } from '../../../utils/translation';
 import parentStyles from '../styles.module.scss';
 
-export const ItemGrid: React.FC<ItemGridProps> = ({
+export const ItemGrid: React.FC<ItemGridProps> = React.memo(({
   items,
   selectedItemId,
   onItemClick,
@@ -42,4 +42,4 @@ export const ItemGrid: React.FC<ItemGridProps> = ({
       </div>
     </main>
   );
-};
+});

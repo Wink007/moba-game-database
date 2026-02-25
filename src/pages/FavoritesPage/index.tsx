@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useGoogleLogin } from '@react-oauth/google';
 import { Loader } from '../../components/Loader';
 import { useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
 import { useAuthStore } from '../../store/authStore';
 import { useFavorites } from '../../hooks/useFavorites';
 import { useSEO } from '../../hooks/useSEO';
+import { useGoogleAuth } from '../../hooks/useGoogleAuth';
 import { HeroCard } from '../HeroesPage/components/HeroCard';
-import { API_URL } from '../../config';
 import styles from './styles.module.scss';
 
 export const FavoritesPage: React.FC = () => {
@@ -21,27 +20,10 @@ export const FavoritesPage: React.FC = () => {
 
   const { selectedGameId } = useGameStore();
   const user = useAuthStore((s) => s.user);
-  const setAuth = useAuthStore((s) => s.setAuth);
   const { favorites, isLoading: favLoading } = useFavorites();
   const { data: heroes, isLoading: heroesLoading } = useHeroesQuery(selectedGameId);
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const res = await fetch(`${API_URL}/auth/google`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ access_token: tokenResponse.access_token }),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setAuth(data.user, data.token);
-        }
-      } catch {
-        // ignore
-      }
-    },
-  });
+  const googleLogin = useGoogleAuth();
 
   // Not logged in
   if (!user) {

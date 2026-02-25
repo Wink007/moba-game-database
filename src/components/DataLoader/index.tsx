@@ -1,6 +1,6 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { ReactNode } from 'react';
-import { queryKeys } from '../../queries/keys';
+import { ReactNode, useMemo } from 'react';
+import { queryKeys, STALE_5_MIN } from '../../queries/keys';
 import { heroesApi } from '../../api/heroes';
 import { Loader } from '../Loader';
 
@@ -14,10 +14,13 @@ export const DataLoader = ({ gameId, children }: DataLoaderProps) => {
   const { data: heroes, isLoading: heroesLoading } = useQuery({
     queryKey: queryKeys.heroes.all(gameId),
     queryFn: () => heroesApi.getHeroes(gameId),
-    staleTime: 5 * 60 * 1000,
+    staleTime: STALE_5_MIN,
   });
 
-  const latestHeroId = heroes?.sort((a, b) => b.id - a.id)[0]?.id;
+  const latestHeroId = useMemo(
+    () => heroes ? [...heroes].sort((a, b) => b.id - a.id)[0]?.id : undefined,
+    [heroes]
+  );
 
   const queries = useQueries({
     queries: [
@@ -25,37 +28,37 @@ export const DataLoader = ({ gameId, children }: DataLoaderProps) => {
       {
         queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 100, rank: 'glory' }),
         queryFn: () => heroesApi.getHeroRanks(gameId, 1, 100, undefined, 'glory'),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
         queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 1, rank: 'glory' }),
         queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 1, 'glory'),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
         queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 3, rank: 'glory' }),
         queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 3, 'glory'),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
         queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 7, rank: 'glory' }),
         queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 7, 'glory'),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
         queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 15, rank: 'glory' }),
         queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 15, 'glory'),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
         queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 30, rank: 'glory' }),
         queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 30, 'glory'),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       // TopHeroesRanked query
@@ -69,14 +72,14 @@ export const DataLoader = ({ gameId, children }: DataLoaderProps) => {
           sortOrder: 'desc' 
         }),
         queryFn: () => heroesApi.getHeroRanks(gameId, 1, 5, 30, 'glory', 'win_rate', 'desc'),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       // LastHeroesInfo skills query
       {
         queryKey: queryKeys.heroes.skills(latestHeroId || 0),
         queryFn: () => heroesApi.getHeroSkills(latestHeroId!),
-        staleTime: 5 * 60 * 1000,
+        staleTime: STALE_5_MIN,
         enabled: !!latestHeroId && !heroesLoading,
       },
     ],

@@ -10,6 +10,8 @@
 
 .main-content {
   flex: 1;
+  position: relative;
+  min-height: 50vh;
 }
 
 .App-logo {

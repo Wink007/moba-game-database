@@ -11,7 +11,7 @@ interface SingleResultsProps {
   results: SingleResultsData;
   lang: string;
   gameId: number;
-  t: (key: string, options?: any) => string;
+  t: (key: string, options?: Record<string, unknown>) => string;
 }
 
 export const SingleResults: React.FC<SingleResultsProps> = memo(({ hero, results, lang, gameId, t }) => {

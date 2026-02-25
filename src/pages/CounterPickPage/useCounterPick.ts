@@ -4,6 +4,11 @@ import { getHeroName } from '../../utils/translation';
 import type { Hero, HeroCounterData, CounterHero } from '../../types';
 import type { Mode, AggregatedCounter, SingleResultsData } from './types';
 
+const ROLE_ORDER = ['Tank', 'Fighter', 'Assassin', 'Mage', 'Marksman', 'Support'] as const;
+
+/** Normalize API values that may come as 0..1 fractions or already as percentages */
+const pct = (v: number) => (Math.abs(v) < 1 ? v * 100 : v);
+
 export function useCounterPick(gameId: number, lang: string) {
   const { data: allHeroes, isLoading: heroesLoading } = useHeroesQuery(gameId);
   const { data: counterData, isLoading: counterLoading } = useHeroCounterDataQuery(gameId);
@@ -14,6 +19,7 @@ export function useCounterPick(gameId: number, lang: string) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
   const [selectingSlot, setSelectingSlot] = useState<number | null>(null);
+  const [roleFilter, setRoleFilter] = useState<string | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
 
   // O(1) hero lookup map
@@ -27,36 +33,19 @@ export function useCounterPick(gameId: number, lang: string) {
     return map;
   }, [allHeroes]);
 
-  const findHeroByGameId = useCallback(
-    (heroId: number): Hero | undefined => heroByGameId.get(heroId),
-    [heroByGameId],
-  );
-
-  // Pre-sorted hero list
-  const sortedHeroes = useMemo(() => {
-    if (!allHeroes) return [];
-    return [...allHeroes].sort((a, b) => getHeroName(a, lang).localeCompare(getHeroName(b, lang)));
-  }, [allHeroes, lang]);
-
+  // Sorted + text-search + role filter in one pass
   const filteredHeroes = useMemo(() => {
-    if (!sortedHeroes.length) return [];
-    if (!searchQuery) return sortedHeroes;
-    const q = searchQuery.toLowerCase();
-    return sortedHeroes.filter(h => {
-      const name = getHeroName(h, lang).toLowerCase();
-      const nameEn = h.name.toLowerCase();
-      return name.includes(q) || nameEn.includes(q);
-    });
-  }, [sortedHeroes, searchQuery, lang]);
-
-  // Role filter
-  const ROLE_ORDER = ['Tank', 'Fighter', 'Assassin', 'Mage', 'Marksman', 'Support'] as const;
-  const [roleFilter, setRoleFilter] = useState<string | null>(null);
-
-  const displayedHeroes = useMemo(() => {
-    if (!roleFilter) return filteredHeroes;
-    return filteredHeroes.filter(h => h.roles?.includes(roleFilter));
-  }, [filteredHeroes, roleFilter]);
+    if (!allHeroes) return [];
+    let list = [...allHeroes].sort((a, b) => getHeroName(a, lang).localeCompare(getHeroName(b, lang)));
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(h => getHeroName(h, lang).toLowerCase().includes(q) || h.name.toLowerCase().includes(q));
+    }
+    if (roleFilter) {
+      list = list.filter(h => h.roles?.includes(roleFilter));
+    }
+    return list;
+  }, [allHeroes, lang, searchQuery, roleFilter]);
 
   // Close selector on outside click
   useEffect(() => {
@@ -100,6 +89,7 @@ export function useCounterPick(gameId: number, lang: string) {
     setSelectingSlot(slotIndex ?? null);
     setIsSelectorOpen(true);
     setSearchQuery('');
+    setRoleFilter(null);
   }, []);
 
   const closeSelector = useCallback(() => {
@@ -131,74 +121,55 @@ export function useCounterPick(gameId: number, lang: string) {
     const data: HeroCounterData | undefined = counterData[heroGameId];
     if (!data) return null;
 
-    const enrichCounter = (c: CounterHero) => {
-      const hero = findHeroByGameId(c.heroid);
-      const winRate = Math.abs(c.win_rate) < 1 ? c.win_rate * 100 : c.win_rate;
-      const increaseWinRate = Math.abs(c.increase_win_rate) < 1 ? c.increase_win_rate * 100 : c.increase_win_rate;
-      return { ...c, hero, winRate, increaseWinRate };
-    };
+    const enrich = (c: CounterHero) => ({
+      ...c,
+      hero: heroByGameId.get(c.heroid),
+      winRate: pct(c.win_rate),
+      increaseWinRate: pct(c.increase_win_rate),
+    });
 
     return {
-      mainWinRate: data.main_hero_win_rate
-        ? (data.main_hero_win_rate < 1 ? data.main_hero_win_rate * 100 : data.main_hero_win_rate)
-        : null,
-      bestCounters: (data.best_counters || []).map(enrichCounter).filter(c => c.hero),
-      mostCounteredBy: (data.most_countered_by || []).map(enrichCounter).filter(c => c.hero),
+      mainWinRate: data.main_hero_win_rate ? pct(data.main_hero_win_rate) : null,
+      bestCounters: (data.best_counters || []).map(enrich).filter(c => c.hero),
+      mostCounteredBy: (data.most_countered_by || []).map(enrich).filter(c => c.hero),
     };
-  }, [mode, selectedHero, counterData, findHeroByGameId]);
+  }, [mode, selectedHero, counterData, heroByGameId]);
 
   // --- Team mode results ---
   const teamResults = useMemo((): AggregatedCounter[] | null => {
     if (mode !== 'team' || teamHeroes.length === 0 || !counterData || !allHeroes) return null;
 
     const selectedIds = new Set(teamHeroes.map(h => h.hero_game_id ?? h.id));
-    const scoreMap = new Map<number, { totalScore: number; totalWinRate: number; count: number; details: { enemyHero: Hero; increaseWinRate: number; winRate: number }[] }>();
+    const scoreMap = new Map<number, { totalScore: number; totalWinRate: number; count: number; details: AggregatedCounter['details'] }>();
 
-    teamHeroes.forEach(enemyHero => {
-      const enemyGameId = enemyHero.hero_game_id ?? enemyHero.id;
-      const enemyCounterData = counterData[enemyGameId];
-      if (!enemyCounterData?.most_countered_by) return;
+    for (const enemyHero of teamHeroes) {
+      const data = counterData[enemyHero.hero_game_id ?? enemyHero.id];
+      if (!data?.most_countered_by) continue;
 
-      enemyCounterData.most_countered_by.forEach(counter => {
-        if (selectedIds.has(counter.heroid)) return;
-
-        const increaseWinRate = Math.abs(counter.increase_win_rate) < 1 ? counter.increase_win_rate * 100 : counter.increase_win_rate;
-        const winRate = counter.win_rate < 1 ? counter.win_rate * 100 : counter.win_rate;
-
-        const existing = scoreMap.get(counter.heroid);
-        if (existing) {
-          existing.totalScore += increaseWinRate;
-          existing.totalWinRate += winRate;
-          existing.count += 1;
-          existing.details.push({ enemyHero, increaseWinRate, winRate });
+      for (const c of data.most_countered_by) {
+        if (selectedIds.has(c.heroid)) continue;
+        const iwr = pct(c.increase_win_rate);
+        const wr = pct(c.win_rate);
+        const prev = scoreMap.get(c.heroid);
+        if (prev) {
+          prev.totalScore += iwr;
+          prev.totalWinRate += wr;
+          prev.count += 1;
+          prev.details.push({ enemyHero, increaseWinRate: iwr, winRate: wr });
         } else {
-          scoreMap.set(counter.heroid, {
-            totalScore: increaseWinRate,
-            totalWinRate: winRate,
-            count: 1,
-            details: [{ enemyHero, increaseWinRate, winRate }],
-          });
+          scoreMap.set(c.heroid, { totalScore: iwr, totalWinRate: wr, count: 1, details: [{ enemyHero, increaseWinRate: iwr, winRate: wr }] });
         }
-      });
-    });
+      }
+    }
 
     const results: AggregatedCounter[] = [];
-    scoreMap.forEach((value, heroId) => {
-      const hero = findHeroByGameId(heroId);
-      if (hero) {
-        results.push({
-          heroId,
-          hero,
-          totalScore: value.totalScore,
-          avgWinRate: value.totalWinRate / value.count,
-          details: value.details,
-        });
-      }
+    scoreMap.forEach((v, heroId) => {
+      const hero = heroByGameId.get(heroId);
+      if (hero) results.push({ heroId, hero, totalScore: v.totalScore, avgWinRate: v.totalWinRate / v.count, details: v.details });
     });
-
     results.sort((a, b) => b.totalScore - a.totalScore);
     return results.slice(0, 15);
-  }, [mode, teamHeroes, counterData, allHeroes, findHeroByGameId]);
+  }, [mode, teamHeroes, counterData, allHeroes, heroByGameId]);
 
   return {
     // state
@@ -209,7 +180,7 @@ export function useCounterPick(gameId: number, lang: string) {
     isSelectorOpen,
     selectingSlot,
     selectorRef,
-    filteredHeroes: displayedHeroes,
+    filteredHeroes,
     roleFilter,
     setRoleFilter,
     roles: ROLE_ORDER,

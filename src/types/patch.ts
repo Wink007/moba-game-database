@@ -32,6 +32,8 @@ export interface SystemAdjustment {
 export interface HeroAdjustment {
   badge: 'BUFF' | 'NERF' | 'ADJUST' | 'REVAMP' | 'NEW';
   description: string;
+  summary?: string;
+  skills?: SkillChange[];
   adjustments?: SkillAdjustment[];
   attribute_adjustments?: AttributeAdjustment[];
 }
@@ -42,8 +44,8 @@ export interface Patch {
   url?: string;
   hero_changes?: Record<string, HeroChange>; // Old format
   hero_adjustments?: Record<string, HeroAdjustment>; // New format from admin panel
-  item_changes?: any;
-  system_changes?: any;
+  item_changes?: Record<string, unknown>;
+  system_changes?: Record<string, unknown>;
   system_adjustments?: SystemAdjustment[];
-  new_hero?: any;
+  new_hero?: Record<string, unknown>;
 }

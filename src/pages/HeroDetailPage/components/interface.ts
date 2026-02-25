@@ -1,34 +1,10 @@
-import { Hero, HeroSkill, HeroStat } from '../../../types/hero';
-import { Patch } from '../../../types';
+import { Hero, HeroSkill, Patch, CounterHero, CompatibilityHero, ProBuild } from '../../../types';
 
-export interface HeroSidebarProps {
-  hero: Hero;
-}
-
-export interface HeroBackgroundProps {
-  painting?: string;
-  image?: string;
-  name: string;
-}
+export type HeroTab = 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds';
 
 export interface TabsNavigationProps {
-  activeTab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds';
-  onTabChange: (tab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds') => void;
-}
-
-export interface PerformanceStatsProps {
-  appearanceRate?: number;
-  banRate?: number;
-  winRate?: number;
-}
-
-export interface StatsTableProps {
-  stats: HeroStat;
-}
-
-export interface AbilitiesChartProps {
-  stats: HeroStat;
-  labels: string[];
+  activeTab: HeroTab;
+  onTabChange: (tab: HeroTab) => void;
 }
 
 export interface SkillsSectionProps {
@@ -42,29 +18,62 @@ export interface SkillsSectionProps {
   onTransformCycle: () => void;
 }
 
+export interface InfoTabProps {
+  hero: Hero;
+  abilitiesLabel: string[];
+  getRatingLevel: (rate: number) => { level: string; color: string };
+}
+
 export interface AboutTabProps {
   hero: Hero;
-  showFullDescription: boolean;
-  onToggleDescription: () => void;
 }
 
 export interface CounterTabProps {
   hero: Hero;
   allHeroes: Hero[];
-  counterData: any;
   counterSubTab: 'best' | 'worst';
-  onSubTabChange: (tab: 'best' | 'worst') => void;
+  setCounterSubTab: (tab: 'best' | 'worst') => void;
 }
 
 export interface SynergyTabProps {
   hero: Hero;
   allHeroes: Hero[];
-  compatibilityData: any;
   synergySubTab: 'compatible' | 'incompatible';
-  onSubTabChange: (tab: 'compatible' | 'incompatible') => void;
+  setSynergySubTab: (tab: 'compatible' | 'incompatible') => void;
 }
 
 export interface HistoryTabProps {
   hero: Hero;
-  patches: Patch[];
+  heroPatches: Patch[];
+}
+
+export interface BuildsTabProps {
+  hero: Hero;
+  buildsSubTab: 'builds' | 'my';
+  setBuildsSubTab: (tab: 'builds' | 'my') => void;
+}
+
+export interface CounterData {
+  main_hero_win_rate?: number;
+  best_counters?: CounterHero[];
+  counters?: CounterHero[];
+  most_countered_by?: CounterHero[];
+  allies?: CounterHero[];
+}
+
+export interface CompatibilityData {
+  main_hero_win_rate?: number;
+  compatible?: CompatibilityHero[];
+  not_compatible?: CompatibilityHero[];
+}
+
+export interface CommunityBuildsSectionProps {
+  heroId: number;
+  gameId: number;
+  showOnly?: 'my' | 'community';
+}
+
+export interface ProBuildsSectionProps {
+  builds: ProBuild[];
+  gameId: number;
 }

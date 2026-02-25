@@ -1,8 +1,9 @@
+/** Default stale time for all queries (5 minutes) */
+export const STALE_5_MIN = 5 * 60 * 1000;
+
 export const queryKeys = {
   games: {
     all: ['games'] as const,
-    detail: (id: number) => ['games', id] as const,
-    stats: (id: number) => ['games', id, 'stats'] as const,
   },
   heroes: {
     all: (gameId: number) => ['heroes', { gameId }] as const,
@@ -12,26 +13,26 @@ export const queryKeys = {
     skills: (heroId: number) => ['heroes', heroId, 'skills'] as const,
     ranks: (gameId: number, filters?: Record<string, any>) => 
       ['hero-ranks', { gameId, ...filters }] as const,
-    relations: (gameId: number) => ['heroes', gameId, 'relations'] as const,
     counterData: (gameId: number) => ['heroes', gameId, 'counter-data'] as const,
     compatibilityData: (gameId: number) => ['heroes', gameId, 'compatibility-data'] as const,
-    rank: (heroId: number) => ['heroes', heroId, 'rank'] as const,
-    rankHistory: (gameId: number, heroGameId: number) => ['heroes', gameId, heroGameId, 'rank-history'] as const,
   },
   items: {
     all: (gameId: number) => ['items', { gameId }] as const,
-    detail: (id: number) => ['items', id] as const,
   },
   emblems: {
     all: (gameId: number) => ['emblems', { gameId }] as const,
-    talents: (gameId: number, tier: number) => 
-      ['emblem-talents', { gameId, tier }] as const,
+    talents: (gameId: number) => 
+      ['emblem-talents', { gameId }] as const,
   },
   spells: {
     all: (gameId: number) => ['battle-spells', { gameId }] as const,
   },
+  builds: {
+    community: (heroId: number, userId?: number) => ['community-builds', { heroId, userId }] as const,
+  },
   patches: {
     all: ['patches'] as const,
     detail: (version: string) => ['patches', version] as const,
+    minimal: ['patches', 'minimal'] as const,
   },
 } as const;

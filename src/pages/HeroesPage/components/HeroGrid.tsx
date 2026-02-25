@@ -6,7 +6,7 @@ import { HeroGridProps } from './interface';
 import styles from './HeroGrid.module.scss';
 import { Hero } from '../../../types';
 
-export const HeroGrid: React.FC<HeroGridProps> = ({
+export const HeroGrid: React.FC<HeroGridProps> = React.memo(({
   heroes,
   gameId,
   hasMore,
@@ -38,4 +38,4 @@ export const HeroGrid: React.FC<HeroGridProps> = ({
       )}
     </>
   );
-};
+});

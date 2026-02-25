@@ -1,172 +1,73 @@
 /**
- * Helper function to get translated hero name based on current language
+ * Generic helper: returns the Ukrainian variant of a field when available,
+ * or falls back to the base field (with an optional `fallbackField`).
  */
-export const getHeroName = (hero: any, language: string = 'en'): string => {
-  if (language === 'uk' && hero.name_uk) {
-    return hero.name_uk;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Translatable = { [K: string]: any };
+
+const t = (
+  obj: Translatable,
+  field: string,
+  language: string,
+  fallbackField?: string,
+): string => {
+  if (language === 'uk') {
+    const ukValue = obj[`${field}_uk`];
+    if (ukValue) return String(ukValue);
   }
-  return hero.name;
+  const val = obj[fallbackField ?? field] ?? obj[field] ?? '';
+  return String(val);
 };
 
-/**
- * Helper function to get translated hero short description based on current language
- */
-export const getHeroShortDescription = (hero: any, language: string = 'en'): string => {
-  if (language === 'uk' && hero.short_description_uk) {
-    return hero.short_description_uk;
-  }
-  return hero.short_description || '';
+/* ── Hero ────────────────────────────────────────────────── */
+export const getHeroName = (hero: Translatable, language: string = 'en'): string =>
+  t(hero, 'name', language);
+
+export const getHeroShortDescription = (hero: Translatable, language: string = 'en'): string =>
+  t(hero, 'short_description', language);
+
+export const getHeroFullDescription = (hero: Translatable, language: string = 'en'): string =>
+  t(hero, 'full_description', language);
+
+/* ── Item ────────────────────────────────────────────────── */
+export const getItemName = (item: Translatable, language: string = 'en'): string => {
+  if (language === 'uk' && item.name_uk) return String(item.name_uk);
+  return String(item.display_name || item.name);
 };
 
-/**
- * Helper function to get translated hero full description based on current language
- */
-export const getHeroFullDescription = (hero: any, language: string = 'en'): string => {
-  if (language === 'uk' && hero.full_description_uk) {
-    return hero.full_description_uk;
-  }
-  return hero.full_description || '';
-};
+export const getItemDescription = (item: Translatable, language: string = 'en'): string =>
+  t(item, 'description', language);
 
-/**
- * Helper function to get translated item name based on current language
- */
-export const getItemName = (item: any, language: string = 'en'): string => {
-  if (language === 'uk' && item.name_uk) {
-    return item.name_uk;
-  }
-  return item.display_name || item.name;
-};
+/* ── Skill ───────────────────────────────────────────────── */
+export const getSkillName = (skill: Translatable, language: string = 'en'): string =>
+  t(skill, 'skill_name', language);
 
-/**
- * Helper function to get translated item description based on current language
- */
-export const getItemDescription = (item: any, language: string = 'en'): string => {
-  if (language === 'uk' && item.description_uk) {
-    return item.description_uk;
-  }
-  return item.description || '';
-};
+export const getSkillDescription = (skill: Translatable, language: string = 'en'): string =>
+  t(skill, 'skill_description', language);
 
-/**
- * Helper function to get translated item passive description based on current language
- */
-export const getItemPassiveDescription = (item: any, language: string = 'en'): string => {
-  if (language === 'uk' && item.passive_description_uk) {
-    return item.passive_description_uk;
-  }
-  return item.passive_description || '';
-};
+/* ── Battle Spell ────────────────────────────────────────── */
+export const getSpellName = (spell: Translatable, language: string = 'en'): string =>
+  t(spell, 'name', language);
 
-/**
- * Helper function to get translated item active name based on current language
- */
-export const getItemActiveName = (item: any, language: string = 'en'): string => {
-  if (language === 'uk' && item.active_name_uk) {
-    return item.active_name_uk;
-  }
-  return item.active_name || '';
-};
+export const getSpellOverview = (spell: Translatable, language: string = 'en'): string =>
+  t(spell, 'overview', language);
 
-/**
- * Helper function to get translated item active description based on current language
- */
-export const getItemActiveDescription = (item: any, language: string = 'en'): string => {
-  if (language === 'uk' && item.active_description_uk) {
-    return item.active_description_uk;
-  }
-  return item.active_description || '';
-};
+export const getSpellDescription = (spell: Translatable, language: string = 'en'): string =>
+  t(spell, 'description', language);
 
-/**
- * Helper function to get translated skill name based on current language
- */
-export const getSkillName = (skill: any, language: string = 'en'): string => {
-  if (language === 'uk' && skill.skill_name_uk) {
-    return skill.skill_name_uk;
-  }
-  return skill.skill_name || '';
-};
+/* ── Emblem ──────────────────────────────────────────────── */
+export const getEmblemName = (emblem: Translatable, language: string = 'en'): string =>
+  t(emblem, 'name', language);
 
-/**
- * Helper function to get translated skill description based on current language
- */
-export const getSkillDescription = (skill: any, language: string = 'en'): string => {
-  if (language === 'uk' && skill.skill_description_uk) {
-    return skill.skill_description_uk;
-  }
-  return skill.skill_description || '';
-};
+export const getEmblemDescription = (emblem: Translatable, language: string = 'en'): string =>
+  t(emblem, 'description', language);
 
-/**
- * Helper function to get translated battle spell name based on current language
- */
-export const getSpellName = (spell: any, language: string = 'en'): string => {
-  if (language === 'uk' && spell.name_uk) {
-    return spell.name_uk;
-  }
-  return spell.name;
-};
+/* ── Talent ──────────────────────────────────────────────── */
+export const getTalentName = (talent: Translatable, language: string = 'en'): string =>
+  t(talent, 'name', language);
 
-/**
- * Helper function to get translated battle spell overview based on current language
- */
-export const getSpellOverview = (spell: any, language: string = 'en'): string => {
-  if (language === 'uk' && spell.overview_uk) {
-    return spell.overview_uk;
-  }
-  return spell.overview || '';
-};
-
-/**
- * Helper function to get translated battle spell description based on current language
- */
-export const getSpellDescription = (spell: any, language: string = 'en'): string => {
-  if (language === 'uk' && spell.description_uk) {
-    return spell.description_uk;
-  }
-  return spell.description || '';
-};
-
-/**
- * Helper function to get translated emblem name based on current language
- */
-export const getEmblemName = (emblem: any, language: string = 'en'): string => {
-  if (language === 'uk' && emblem.name_uk) {
-    return emblem.name_uk;
-  }
-  return emblem.name;
-};
-
-/**
- * Helper function to get translated emblem description based on current language
- */
-export const getEmblemDescription = (emblem: any, language: string = 'en'): string => {
-  if (language === 'uk' && emblem.description_uk) {
-    return emblem.description_uk;
-  }
-  return emblem.description || '';
-};
-
-/**
- * Helper function to get translated talent name based on current language
- */
-export const getTalentName = (talent: any, language: string = 'en'): string => {
-  if (language === 'uk' && talent.name_uk) {
-    return talent.name_uk;
-  }
-  return talent.name;
-};
-
-/**
- * Helper function to get translated talent effect based on current language
- */
-export const getTalentEffect = (talent: any, language: string = 'en'): string => {
-  if (language === 'uk' && talent.effect_uk) {
-    return talent.effect_uk;
-  }
-  return talent.effect || '';
-};
+export const getTalentEffect = (talent: Translatable, language: string = 'en'): string =>
+  t(talent, 'effect', language);
 
 /**
  * Translate base stat name to Ukrainian

@@ -28,5 +28,3 @@ export const getSortOptions = (t: (key: string) => string) => [
   { value: 'name', label: t('heroes.filters.name') },
   { value: 'newest', label: t('heroes.filters.newestFirst') },
 ];
-
-export const HEROES_PER_PAGE = 20;

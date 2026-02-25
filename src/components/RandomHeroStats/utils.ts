@@ -1,7 +1,4 @@
-export interface ChartDataPoint {
-  patch: string;
-  value: number;
-}
+import type { ChartDataPoint } from './types';
 
 // Константи для графіків
 export const CHART_CONFIG = {

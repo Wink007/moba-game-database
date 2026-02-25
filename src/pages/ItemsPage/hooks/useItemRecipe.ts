@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Item } from '../../../types';
+import { Item, ItemRecipe } from '../../../types';
 import { RecipeNode } from './interface';
 
 export const useItemRecipe = (selectedItem: Item | null, allItems: Item[]) => {
@@ -8,7 +8,7 @@ export const useItemRecipe = (selectedItem: Item | null, allItems: Item[]) => {
     
     if (Array.isArray(item.recipe)) {
       return item.recipe
-        .map((recipeItem: any) => {
+        .map((recipeItem: ItemRecipe | number) => {
           const recipeId = typeof recipeItem === 'object' ? recipeItem.id : recipeItem;
           return allItems.find((i: Item) => i.id === recipeId);
         })
@@ -63,7 +63,7 @@ export const useItemRecipe = (selectedItem: Item | null, allItems: Item[]) => {
     return allItems.filter(item => {
       if (!item.recipe || !Array.isArray(item.recipe)) return false;
       
-      return item.recipe.some((recipeItem: any) => {
+      return item.recipe.some((recipeItem: ItemRecipe | number) => {
         const recipeId = typeof recipeItem === 'object' ? recipeItem.id : recipeItem;
         return recipeId === selectedItem.id;
       });

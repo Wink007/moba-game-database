@@ -2,9 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SkillsSectionProps } from './interface';
 import { getSkillName, getSkillDescription } from '../../../utils/translation';
+import { sanitizeHtml } from '../../../utils/sanitize';
 import styles from '../styles.module.scss';
 
-export const SkillsSection: React.FC<SkillsSectionProps> = ({ 
+export const SkillsSection: React.FC<SkillsSectionProps> = React.memo(({ 
   displaySkills, 
   selectedSkillIndex, 
   selectedSkill,
@@ -70,7 +71,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
                     selectedSkill.effect_types.map((effectType, idx) => {
                       const displayType = typeof effectType === 'string' 
                         ? effectType 
-                        : ((effectType as any)?.name || JSON.stringify(effectType));
+                        : ((effectType as Record<string, unknown>)?.name as string || JSON.stringify(effectType));
                       return (
                         <div key={idx} className={styles.effectTypeBadge}>
                           {displayType}
@@ -89,8 +90,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
                       }
                       
                       let displayValue: string;
-                      if (typeof value === 'object' && value !== null && 'levels' in value && Array.isArray((value as any).levels)) {
-                        displayValue = (value as any).levels.join(' / ');
+                      if (typeof value === 'object' && value !== null && 'levels' in value && Array.isArray((value as Record<string, unknown>).levels)) {
+                        displayValue = ((value as Record<string, unknown>).levels as string[]).join(' / ');
                       } else {
                         displayValue = String(value);
                       }
@@ -107,7 +108,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
                 {(selectedSkill.skill_description || selectedSkill.skill_description_uk) && (
                   <div 
                     className={styles.skillDetailDescription}
-                    dangerouslySetInnerHTML={{ __html: getSkillDescription(selectedSkill, i18n.language) }}
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(getSkillDescription(selectedSkill, i18n.language)) }}
                   />
                 )}
               </div>
@@ -117,4 +118,4 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
       </div>
     </div>
   );
-};
+});

@@ -4,6 +4,7 @@ import { useGameStore } from '../../store/gameStore';
 import { getHeroName } from '../../utils/translation';
 import { Loader } from '../../components/Loader';
 import { useCounterPick } from './useCounterPick';
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { SingleResults } from './SingleResults';
 import { TeamResults } from './TeamResults';
 import { PlusIcon, SingleIcon, TeamIcon } from './icons';
@@ -21,6 +22,8 @@ export const CounterPickPage: React.FC = () => {
     setSelectedHero, setSearchQuery, handleSelectHero, openSelector, closeSelector,
     removeTeamHero, clearAll, switchMode,
   } = useCounterPick(selectedGameId, lang);
+
+  useEscapeKey(closeSelector, isSelectorOpen);
 
   if (isLoading) return <Loader />;
 

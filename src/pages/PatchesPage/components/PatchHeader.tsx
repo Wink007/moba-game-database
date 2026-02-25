@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { PatchHeaderProps } from './interface';
+import { sanitizeHtml } from '../../../utils/sanitize';
 import styles from '../styles.module.scss';
 
 export const PatchHeader: React.FC<PatchHeaderProps> = ({ 
@@ -20,7 +21,7 @@ export const PatchHeader: React.FC<PatchHeaderProps> = ({
         <div className={styles.section}>
           <div className={styles.designersNote}>
             <h2>Designer's Note</h2>
-            <p className={styles.noteContent} dangerouslySetInnerHTML={{ __html: designersNote }} />
+            <p className={styles.noteContent} dangerouslySetInnerHTML={{ __html: sanitizeHtml(designersNote) }} />
           </div>
         </div>
       )}
