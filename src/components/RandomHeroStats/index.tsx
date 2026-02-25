@@ -7,28 +7,41 @@ import { getRange } from './utils';
 import { useHeroStats } from './useHeroStats';
 import styles from './styles.module.scss';
 
-const SkeletonChartCard = () => (
-  <div className={styles.skeletonChartCard}>
-    <div className={styles.skeletonChartHeader}>
-      <div className={styles.skeletonLine} style={{ width: '140px', height: '16px' }} />
-      <div className={styles.skeletonLine} style={{ width: '60px', height: '24px', marginTop: '8px' }} />
+const SkeletonChartCard = ({ variant }: { variant: 'green' | 'red' }) => {
+  const bars = [38, 52, 44, 65, 48, 72, 56, 60, 42, 68, 50, 58];
+  return (
+    <div className={`${styles.skeletonChartCard} ${styles[`skeletonGlow${variant === 'green' ? 'Green' : 'Red'}`]}`}>
+      <div className={styles.skeletonChartHeader}>
+        <div className={styles.skeletonShimmer} style={{ width: '100px', height: '10px' }} />
+        <div className={styles.skeletonShimmer} style={{ width: '72px', height: '26px', marginTop: '10px', borderRadius: '8px' }} />
+      </div>
+      <div className={styles.skeletonChartWave}>
+        {bars.map((h, i) => (
+          <div
+            key={i}
+            className={`${styles.skeletonBar} ${styles[`skeletonBar${variant === 'green' ? 'Green' : 'Red'}`]}`}
+            style={{ '--bar-h': `${h}%`, '--bar-delay': `${i * 0.12}s` } as React.CSSProperties}
+          />
+        ))}
+      </div>
     </div>
-    <div className={styles.skeletonChartArea} />
-  </div>
-);
+  );
+};
 
 const RandomHeroSkeleton = () => (
   <div className={styles.container}>
     <div className={styles.heroSection} style={{ pointerEvents: 'none' }}>
-      <div className={styles.skeletonCircle} />
+      <div className={styles.skeletonAvatar}>
+        <div className={styles.skeletonAvatarRing} />
+      </div>
       <div className={styles.heroInfo}>
-        <div className={styles.skeletonLine} style={{ width: '120px', height: '20px' }} />
-        <div className={styles.skeletonLine} style={{ width: '80px', height: '14px' }} />
+        <div className={styles.skeletonShimmer} style={{ width: '130px', height: '18px' }} />
+        <div className={styles.skeletonShimmer} style={{ width: '90px', height: '12px' }} />
       </div>
     </div>
     <div className={styles.chartsContainer}>
-      <SkeletonChartCard />
-      <SkeletonChartCard />
+      <SkeletonChartCard variant="green" />
+      <SkeletonChartCard variant="red" />
     </div>
   </div>
 );
