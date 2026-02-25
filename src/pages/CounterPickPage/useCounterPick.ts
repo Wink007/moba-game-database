@@ -108,8 +108,6 @@ export function useCounterPick(gameId: number, lang: string) {
 
   const switchMode = useCallback((newMode: Mode) => {
     setMode(newMode);
-    setSelectedHero(null);
-    setTeamHeroes([]);
     setIsSelectorOpen(false);
     setSelectingSlot(null);
   }, []);
