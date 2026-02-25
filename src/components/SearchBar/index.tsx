@@ -106,7 +106,7 @@ export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => 
   };
 
   return (
-    <div className={styles.searchBar} ref={searchRef} role="combobox" aria-expanded={isOpen && hasResults} aria-haspopup="listbox">
+    <div className={styles.searchBar} ref={searchRef}>
       <div className={styles.searchInput}>
         <svg 
           className={styles.searchIcon} 
@@ -129,9 +129,11 @@ export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => 
           onKeyDown={handleKeyDown}
           placeholder={t('search.placeholder')}
           className={styles.input}
-          role="searchbox"
+          role="combobox"
           aria-autocomplete="list"
-          aria-controls="search-listbox"
+          aria-expanded={!!(isOpen && hasResults)}
+          aria-haspopup="listbox"
+          aria-controls={isOpen && hasResults ? 'search-listbox' : undefined}
           aria-activedescendant={activeIndex >= 0 ? `search-option-${activeIndex}` : undefined}
         />
         {query && (

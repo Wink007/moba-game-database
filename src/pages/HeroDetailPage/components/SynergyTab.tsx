@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../../utils/translation';
 import { parseMaybeJson } from '../../../utils/parseMaybeJson';
-import { Hero, CompatibilityHero } from '../../../types';
+import { CompatibilityHero } from '../../../types';
 import { SynergyTabProps, CompatibilityData } from './interface';
 import styles from '../styles.module.scss';
 
