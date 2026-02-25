@@ -49,6 +49,15 @@ export function useCounterPick(gameId: number, lang: string) {
     });
   }, [sortedHeroes, searchQuery, lang]);
 
+  // Role filter
+  const ROLE_ORDER = ['Tank', 'Fighter', 'Assassin', 'Mage', 'Marksman', 'Support'] as const;
+  const [roleFilter, setRoleFilter] = useState<string | null>(null);
+
+  const displayedHeroes = useMemo(() => {
+    if (!roleFilter) return filteredHeroes;
+    return filteredHeroes.filter(h => h.roles?.includes(roleFilter));
+  }, [filteredHeroes, roleFilter]);
+
   // Close selector on outside click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -200,7 +209,10 @@ export function useCounterPick(gameId: number, lang: string) {
     isSelectorOpen,
     selectingSlot,
     selectorRef,
-    filteredHeroes,
+    filteredHeroes: displayedHeroes,
+    roleFilter,
+    setRoleFilter,
+    roles: ROLE_ORDER,
     isLoading: heroesLoading || counterLoading,
 
     // results

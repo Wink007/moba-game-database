@@ -16,7 +16,8 @@ export const CounterPickPage: React.FC = () => {
 
   const {
     mode, selectedHero, teamHeroes, searchQuery, isSelectorOpen, selectingSlot,
-    selectorRef, filteredHeroes, isLoading, singleResults, teamResults,
+    selectorRef, filteredHeroes, roleFilter, setRoleFilter, roles,
+    isLoading, singleResults, teamResults,
     setSelectedHero, setSearchQuery, handleSelectHero, openSelector, closeSelector,
     removeTeamHero, clearAll, switchMode,
   } = useCounterPick(selectedGameId, lang);
@@ -138,6 +139,23 @@ export const CounterPickPage: React.FC = () => {
                   autoFocus
                 />
                 <button className={styles.selectorClose} onClick={closeSelector}>×</button>
+              </div>
+              <div className={styles.selectorRoleTabs}>
+                <button
+                  className={`${styles.roleTab} ${!roleFilter ? styles.roleTabActive : ''}`}
+                  onClick={() => setRoleFilter(null)}
+                >
+                  {t('heroes.filters.allRoles')}
+                </button>
+                {roles.map(role => (
+                  <button
+                    key={role}
+                    className={`${styles.roleTab} ${roleFilter === role ? styles.roleTabActive : ''}`}
+                    onClick={() => setRoleFilter(roleFilter === role ? null : role)}
+                  >
+                    {t(`heroes.filters.${role.toLowerCase()}`)}
+                  </button>
+                ))}
               </div>
               <div className={styles.selectorGrid}>
                 {filteredHeroes.map(hero => {
