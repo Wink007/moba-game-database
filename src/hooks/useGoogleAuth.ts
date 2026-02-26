@@ -1,15 +1,56 @@
 import { useGoogleLogin } from '@react-oauth/google';
+import { Capacitor } from '@capacitor/core';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { useAuthStore } from '../store/authStore';
 import { API_URL } from '../config';
 
+const WEB_CLIENT_ID = '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
+
 /**
  * Shared Google OAuth hook.
+ * - Web: uses @react-oauth/google popup flow
+ * - Android/iOS (Capacitor): uses native Google Sign-In via capacitor-google-auth
  * @param onSuccess Optional callback (can be async) called after successful login.
  */
 export function useGoogleAuth(onSuccess?: () => void | Promise<void>) {
   const { setAuth, setLoading } = useAuthStore();
 
-  const login = useGoogleLogin({
+  // Native Android/iOS flow
+  const loginNative = async () => {
+    setLoading(true);
+    try {
+      await GoogleAuth.initialize({
+        clientId: WEB_CLIENT_ID,
+        scopes: ['profile', 'email'],
+        grantOfflineAccess: false,
+      });
+      const googleUser = await GoogleAuth.signIn();
+      const accessToken = googleUser.authentication.accessToken;
+
+      const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const userInfo = await userInfoRes.json();
+
+      const res = await fetch(`${API_URL}/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: accessToken, user_info: userInfo }),
+      });
+      if (!res.ok) throw new Error('Login failed');
+
+      const data = await res.json();
+      setAuth(data.user, data.token);
+      onSuccess?.();
+    } catch (err) {
+      console.error('Native login error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Web flow
+  const loginWeb = useGoogleLogin({
     onSuccess: async (response) => {
       setLoading(true);
       try {
@@ -39,5 +80,5 @@ export function useGoogleAuth(onSuccess?: () => void | Promise<void>) {
     },
   });
 
-  return login;
+  return Capacitor.isNativePlatform() ? loginNative : loginWeb;
 }

@@ -4,12 +4,13 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-md);
+  padding-top: calc(var(--spacing-md) + env(safe-area-inset-top, 0px));
   flex-wrap: nowrap;
   gap: var(--spacing-md);
   min-width: 0;
   position: sticky;
   top: 0;
-  z-index: 200;
+  z-index: 1001;
   background: rgba(15, 23, 42, 0.98);
   border-bottom: 1px solid rgba(74, 158, 255, 0.08);
   box-shadow: 0 1px 24px rgba(0, 0, 0, 0.25);
@@ -214,7 +215,7 @@
 
   &--open {
     position: fixed;
-    top: 1rem;
+    top: calc(1rem + env(safe-area-inset-top, 0px));
     right: 1rem;
 
     span:nth-child(1) {
@@ -274,7 +275,7 @@
   will-change: transform;
   box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.4);
   border-top: 1px solid rgba(74, 158, 255, 0.12);
-  max-height: 90vh;
+  max-height: calc(100vh - env(safe-area-inset-top, 24px) - 16px);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
