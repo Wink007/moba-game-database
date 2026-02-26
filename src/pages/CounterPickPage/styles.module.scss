@@ -875,15 +875,16 @@
   }
 
   .selectorOverlay {
-    padding: 0.5rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.5rem) 0.5rem 0.5rem;
     box-sizing: border-box;
+    align-items: flex-start;
   }
 
   .selector {
     width: 100%;
     max-width: calc(100vw - 1rem);
     height: auto;
-    max-height: calc(100dvh - 1rem);
+    max-height: calc(100dvh - env(safe-area-inset-top, 0px) - 1rem);
     border-radius: 14px;
   }
 

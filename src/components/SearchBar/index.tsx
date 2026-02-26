@@ -6,6 +6,7 @@ import { useGameStore } from '../../store/gameStore';
 import { useHeroSearchQuery } from '../../queries/useHeroesQuery';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import { useClickOutside } from '../../hooks/useClickOutside';
+import { useAdBannerPause } from '../../hooks/useAdBannerPause';
 import styles from './styles.module.scss';
 
 export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => {
@@ -14,6 +15,7 @@ export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => 
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  useAdBannerPause(isOpen);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();

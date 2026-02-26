@@ -5,6 +5,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useGameStore } from '../../store/gameStore';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
+import { useAdBannerPause } from '../../hooks/useAdBannerPause';
 import styles from './styles.module.scss';
 
 export const UserMenu: React.FC = () => {
@@ -16,6 +17,7 @@ export const UserMenu: React.FC = () => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(menuRef, useCallback(() => setIsOpen(false), []));
+  useAdBannerPause(isOpen);
 
   const googleLogin = useGoogleAuth();
 

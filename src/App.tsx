@@ -1,6 +1,8 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { Capacitor } from '@capacitor/core';
+import { AnimatedSplash } from './components/AnimatedSplash';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -50,7 +52,11 @@ function AppInner() {
 }
 
 function App() {
+  const [splashDone, setSplashDone] = useState(() => !Capacitor.isNativePlatform());
+
   return (
+    <>
+    {!splashDone && <AnimatedSplash onDone={() => setSplashDone(true)} />}
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -87,6 +93,7 @@ function App() {
       </BrowserRouter>
     </QueryClientProvider>
     </GoogleOAuthProvider>
+    </>
   );
 }
 

@@ -38,7 +38,7 @@ export async function showBanner(): Promise<void> {
   try {
     const options: BannerAdOptions = {
       adId: AD_UNITS.banner,
-      adSize: BannerAdSize.BANNER,
+      adSize: BannerAdSize.ADAPTIVE_BANNER,
       position: BannerAdPosition.BOTTOM_CENTER,
       margin: 0,
       isTesting: IS_TESTING,

@@ -5,13 +5,14 @@ import { initAdMob, showBanner, hideBanner } from '../services/adMobService';
 
 /**
  * Ініціалізує AdMob і управляє видимістю банера.
- * Розміщувати один раз на рівні App.tsx (або нижче).
+ * Автоматично ховає банер коли відкритий будь-який оверлей (bannerPauseCount > 0).
  */
 export function useAdManager() {
-  const adFreeUntil   = useAdStore(s => s.adFreeUntil);
-  const isPaidNoAds   = useAdStore(s => s.isPaidNoAds);
-  const adsEnabled    = useAdStore(selectAdsEnabled);
-  const initializedRef = useRef(false);
+  const adFreeUntil      = useAdStore(s => s.adFreeUntil);
+  const isPaidNoAds      = useAdStore(s => s.isPaidNoAds);
+  const adsEnabled       = useAdStore(selectAdsEnabled);
+  const bannerPauseCount = useAdStore(s => s.bannerPauseCount);
+  const initializedRef   = useRef(false);
 
   // Перша ініціалізація
   useEffect(() => {
@@ -26,14 +27,15 @@ export function useAdManager() {
     })();
   }, []);
 
-  // Реагуємо на зміну стану реклами
+  // Показуємо/ховаємо банер залежно від стану
   useEffect(() => {
     if (!Capacitor.isNativePlatform() || !initializedRef.current) return;
 
-    if (adsEnabled) {
+    const shouldShow = adsEnabled && bannerPauseCount === 0;
+    if (shouldShow) {
       showBanner();
     } else {
       hideBanner();
     }
-  }, [adsEnabled, adFreeUntil, isPaidNoAds]);
+  }, [adsEnabled, adFreeUntil, isPaidNoAds, bannerPauseCount]);
 }

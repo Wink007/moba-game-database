@@ -279,6 +279,12 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
+  &--with-banner {
+    // Піднімаємо шторку на висоту банера AdMob (50dp + safe-area-bottom)
+    bottom: calc(50px + env(safe-area-inset-bottom, 0px));
+    max-height: calc(100vh - env(safe-area-inset-top, 24px) - 50px - env(safe-area-inset-bottom, 0px) - 16px);
+  }
+
   @media (min-width: 768px) {
     display: none;
   }

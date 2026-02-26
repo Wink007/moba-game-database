@@ -498,7 +498,7 @@
     width: 420px;
     max-width: 90vw;
     padding: 1.25rem;
-    padding-top: 3.5rem;
+    padding-top: calc(3.5rem + env(safe-area-inset-top, 0px));
     padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
     border-right: none;
 
@@ -1185,7 +1185,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 1rem;
+    top: calc(1rem + env(safe-area-inset-top, 0px));
     right: 1rem;
     width: 32px;
     height: 32px;
@@ -1205,7 +1205,7 @@
   }
 
   @media (max-width: 480px) {
-    top: 0.75rem;
+    top: calc(0.75rem + env(safe-area-inset-top, 0px));
     right: 0.75rem;
     width: 28px;
     height: 28px;
