@@ -45,12 +45,24 @@ const CounterPickIcon = () => (
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><line x1="9" y1="9" x2="15" y2="15" /><line x1="15" y1="9" x2="9" y2="15" />
   </svg>
 );
+const TierListIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+  </svg>
+);
+const RankingsIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M8 21h8"/><path d="M12 21V11"/><path d="M17 7l-5-5-5 5"/>
+  </svg>
+);
 
 const NAV_ITEMS = [
   { key: 'heroes', path: 'heroes', Icon: HeroesIcon },
   { key: 'items', path: 'items', Icon: ItemsIcon },
   { key: 'emblems', path: 'emblems', Icon: EmblemsIcon },
   { key: 'spells', path: 'spells', Icon: SpellsIcon },
+  { key: 'tierList', path: 'tier-list', Icon: TierListIcon },
+  { key: 'heroRank', path: 'hero-ranks', Icon: RankingsIcon },
   { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
   { key: 'patches', path: 'patches', Icon: PatchesIcon },
   { key: 'favorites', path: 'favorites', Icon: FavoritesIcon, mobileOnly: true },

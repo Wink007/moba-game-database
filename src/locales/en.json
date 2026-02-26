@@ -6,7 +6,9 @@
     "spells": "Spells",
     "counterPick": "Counter Pick",
     "patches": "Patches",
-    "favorites": "Favorites"
+    "favorites": "Favorites",
+    "tierList": "Tier List",
+    "heroRank": "Rankings"
   },
   "footer": {
     "copyright": "Mobile Legends Wiki (Unofficial)",
@@ -388,6 +390,43 @@
     "searchItems": "Search items...",
     "clickToRemove": "Click to remove",
     "emptySlot": "Empty slot"
+  },
+  "tierList": {
+    "title": "Tier List",
+    "description": "Hero tier rankings based on current meta win rates",
+    "tier_S": "S Tier",
+    "tier_A": "A Tier",
+    "tier_B": "B Tier",
+    "tier_C": "C Tier",
+    "tier_D": "D Tier",
+    "tier_S_desc": "Dominant — top win rates, must-pick/ban",
+    "tier_A_desc": "Strong — consistent performers above average",
+    "tier_B_desc": "Average — viable in most situations",
+    "tier_C_desc": "Situational — require specific conditions",
+    "tier_D_desc": "Weak — below average performance",    "label_S": "OP",
+    "label_A": "Strong",
+    "label_B": "Good",
+    "label_C": "Average",
+    "label_D": "Weak",
+    "heroes": "heroes",
+    "noHeroesInTier": "No heroes in this tier",
+    "winRateThresholds": "Win Rate Thresholds:",    "noData": "No ranking data available",
+    "winRate": "Win Rate"
+  },
+  "statsHistory": {
+    "title": "Stats History",
+    "noData": "No historical stats available for this hero yet.",
+    "period": "Period",
+    "wins": "Wins",
+    "bans": "Bans",
+    "picks": "Picks",
+    "balanceHistory": "Balance History",
+    "statsChart": "Stats Trend",
+    "day_1": "1 Day",
+    "day_3": "3 Days",
+    "day_7": "7 Days",
+    "day_15": "15 Days",
+    "day_30": "30 Days"
   },
   "counterPick": {
     "title": "Counter Pick Advisor",

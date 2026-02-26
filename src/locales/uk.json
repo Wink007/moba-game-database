@@ -6,7 +6,9 @@
     "spells": "Закляття",
     "counterPick": "Контр-пік",
     "patches": "Патчі",
-    "favorites": "Обрані"
+    "favorites": "Улюблені",
+    "tierList": "Тір-ліст",
+    "heroRank": "Рейтинг"
   },
   "footer": {
     "copyright": "Mobile Legends Вікі (Неофіційна)",
@@ -39,7 +41,7 @@
       "complexity": "Складність",
       "sortBy": "Сортувати за",
       "name": "Ім'я",
-      "winRate": "% Перемог",
+      "winRate": "Перемоги",
       "popularity": "Популярність",
       "allRoles": "Всі ролі",
       "tank": "Танк",
@@ -81,9 +83,9 @@
     "poorSynergy": "Погана синергія",
     "poorSynergyDescription": "Герої, які погано працюють разом.",
     "matches": "матчів",
-    "winRate": "% Перемог",
-    "pickRate": "% Вибору",
-    "banRate": "% Банів",
+    "winRate": "Перемоги",
+    "pickRate": "Вибір",
+    "banRate": "Бани",
     "games": "Ігор",
     "noData": "Дані недоступні",
     "durability": "Живучість",
@@ -95,7 +97,7 @@
     "ratingAverage": "Середньо",
     "ratingLow": "Низько",
     "performanceStats": "Статистика Продуктивності",
-    "appearanceRate": "% Появи",
+    "appearanceRate": "Поява",
     "pickFrequency": "Частота вибору в матчах",
     "howOftenBanned": "Як часто банять",
     "gamesWonPercentage": "Відсоток виграних ігор",
@@ -251,9 +253,9 @@
     "rank": "Ранг",
     "hero": "Герой",
     "tier": "Рівень",
-    "winRate": "% Перемог",
-    "pickRate": "% Вибору",
-    "banRate": "% Банів",
+    "winRate": "Перемоги",
+    "pickRate": "Вибір",
+    "banRate": "Бани",
     "games": "Ігор",
     "bestWith": "Найкраще З",
     "showMore": "Показати Більше Героїв",
@@ -279,9 +281,9 @@
         "glory": "Міфічна Слава"
       },
       "sort": {
-        "winRate": "% Перемог",
-        "pickRate": "% Вибору",
-        "banRate": "% Банів"
+        "winRate": "Перемоги",
+        "pickRate": "Вибір",
+        "banRate": "Бани"
       }
     },
     "synergyTooltip": "{{hero}}: +{{rate}}% до перемог"
@@ -309,9 +311,9 @@
       "difficulty": "Складність"
     },
     "stats": {
-      "winRate": "% Перемог",
-      "pickRate": "% Вибору",
-      "banRate": "% Банів"
+      "winRate": "Перемоги",
+      "pickRate": "Вибір",
+      "banRate": "Бани"
     }
   },
   "legal": {
@@ -388,6 +390,45 @@
     "searchItems": "Пошук предметів...",
     "clickToRemove": "Натисніть щоб видалити",
     "emptySlot": "Порожній слот"
+  },
+  "tierList": {
+    "title": "Тір-ліст",
+    "description": "Рейтинг героїв на основі поточної мети та відсотка перемог",
+    "tier_S": "Тір S",
+    "tier_A": "Тір A",
+    "tier_B": "Тір B",
+    "tier_C": "Тір C",
+    "tier_D": "Тір D",
+    "tier_S_desc": "Домінуючі — найвищий відсоток перемог, обовʼязкові пік/бан",
+    "tier_A_desc": "Сильні — стабільні вище середнього",
+    "tier_B_desc": "Середні — працюють у більшості ситуацій",
+    "tier_C_desc": "Ситуативні — потребують певних умов",
+    "tier_D_desc": "Слабкі — нижче середнього",
+    "label_S": "Топ",
+    "label_A": "Сильний",
+    "label_B": "Хороший",
+    "label_C": "Середній",
+    "label_D": "Слабкий",
+    "heroes": "героїв",
+    "noHeroesInTier": "Немає героїв у цьому тірі",
+    "winRateThresholds": "Поріг відсотка перемог:",
+    "noData": "Дані рейтингу відсутні",
+    "winRate": "Відсоток перемог"
+  },
+  "statsHistory": {
+    "title": "Історія статистики",
+    "noData": "Історичні дані для цього героя ще відсутні.",
+    "period": "Період",
+    "wins": "Перемоги",
+    "bans": "Бани",
+    "picks": "Вибір",
+    "balanceHistory": "Історія балансу",
+    "statsChart": "Тренд статистики",
+    "day_1": "1 день",
+    "day_3": "3 дні",
+    "day_7": "7 днів",
+    "day_15": "15 днів",
+    "day_30": "30 днів"
   },
   "counterPick": {
     "title": "Контр-пік Радник",

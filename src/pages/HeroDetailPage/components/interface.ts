@@ -1,6 +1,6 @@
 import { Hero, HeroSkill, Patch, CounterHero, CompatibilityHero, ProBuild } from '../../../types';
 
-export type HeroTab = 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds';
+export type HeroTab = 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds' | 'stats';
 
 export interface TabsNavigationProps {
   activeTab: HeroTab;

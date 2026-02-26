@@ -4225,3 +4225,234 @@
     transform: scale(1);
   }
 }
+
+// ─── Stats History Tab ──────────────────────────────────────────
+.statsHistoryFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.statsHistoryRankBtn {
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--color-text-secondary, #94a3b8);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+}
+
+.statsHistoryRankBtnActive {
+  background: rgba(79, 110, 247, 0.2);
+  border-color: #4f6ef7;
+  color: #a5b4fc;
+}
+
+// ─── Table ───────────────────────────────────────────────────
+.statsHistoryTable {
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 1rem;
+}
+
+.statsHistoryTableHeader,
+.statsHistoryTableRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.82rem;
+  align-items: center;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.72rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 0.25rem;
+  }
+}
+
+.statsHistoryTableHeader {
+  color: #64748b;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  @media (max-width: 480px) {
+    font-size: 0.62rem;
+    letter-spacing: 0;
+  }
+}
+
+.statsHistoryTableRow {
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.1s;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: rgba(255,255,255,0.04); }
+}
+
+.statPeriod { color: #94a3b8; font-weight: 500; }
+.statWr     { color: #6ee7a0; font-weight: 500; }
+.statBan    { color: #fca5a5; font-weight: 500; }
+.statPick   { color: #93c5fd; font-weight: 500; }
+
+// ─── Stat cards grid ─────────────────────────────────────────
+.shStatGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 400px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.shStatCard {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 1rem 1.125rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    padding: 0.75rem 0.875rem 0.625rem;
+  }
+}
+
+.shStatCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.shStatDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.shStatLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex: 1;
+}
+
+.shTrend {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+.shTrendUp   { color: #4ade80; background: rgba(74,222,128,0.1); }
+.shTrendDown { color: #f87171; background: rgba(248,113,113,0.1); }
+.shTrendFlat { color: #64748b; background: rgba(100,116,139,0.1); }
+
+.shStatValue {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem;
+
+  @media (max-width: 480px) { font-size: 1.6rem; }
+}
+
+.shSparklineWrap {
+  margin-bottom: 0.375rem;
+}
+
+.shPeriodLabels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2px;
+
+  span {
+    font-size: 0.65rem;
+    color: #475569;
+  }
+}
+
+// ─── Skeleton ────────────────────────────────────────────────
+@keyframes shPulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.85; }
+}
+
+.shPill {
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  animation: shPulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.shSkeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 768px) { grid-template-columns: 1fr; }
+}
+
+.shSkeletonCard {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 1rem 1.125rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.shSkRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 90px;
+  margin-top: 0.75rem;
+}
+
+.shBar {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px 4px 0 0;
+  animation: shPulse 1.6s ease-in-out infinite;
+}
+

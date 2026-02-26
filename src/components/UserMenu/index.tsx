@@ -53,10 +53,16 @@ export const UserMenu: React.FC = () => {
             </div>
           </div>
           <div className={styles.divider} />
-          <button className={`${styles.menuItem} ${styles.hiddenNavItem} ${styles.hiddenAt900}`} onClick={() => { navigate(`/${selectedGameId}/counter-pick`); setIsOpen(false); }}>
+          <button className={`${styles.menuItem} ${styles.hiddenAt900}`} onClick={() => { navigate(`/${selectedGameId}/tier-list`); setIsOpen(false); }}>
+            {t('header.tierList')}
+          </button>
+          <button className={`${styles.menuItem} ${styles.hiddenAt1024}`} onClick={() => { navigate(`/${selectedGameId}/hero-ranks`); setIsOpen(false); }}>
+            {t('header.heroRank')}
+          </button>
+          <button className={`${styles.menuItem} ${styles.hiddenAt1150}`} onClick={() => { navigate(`/${selectedGameId}/counter-pick`); setIsOpen(false); }}>
             {t('header.counterPick')}
           </button>
-          <button className={`${styles.menuItem} ${styles.hiddenNavItem}`} onClick={() => { navigate(`/${selectedGameId}/patches`); setIsOpen(false); }}>
+          <button className={`${styles.menuItem} ${styles.hiddenAt1280}`} onClick={() => { navigate(`/${selectedGameId}/patches`); setIsOpen(false); }}>
             {t('header.patches')}
           </button>
           <button className={`${styles.menuItem} ${styles.desktopOnly}`} onClick={() => { navigate(`/${selectedGameId}/favorites`); setIsOpen(false); }}>

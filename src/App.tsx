@@ -23,6 +23,7 @@ const LegalPage = React.lazy(() => import('./pages/LegalPage').then(m => ({ defa
 const PatchesPage = React.lazy(() => import('./pages/PatchesPage').then(m => ({ default: m.PatchesPage })));
 const FavoritesPage = React.lazy(() => import('./pages/FavoritesPage').then(m => ({ default: m.FavoritesPage })));
 const CounterPickPage = React.lazy(() => import('./pages/CounterPickPage').then(m => ({ default: m.CounterPickPage })));
+const TierListPage = React.lazy(() => import('./pages/TierListPage').then(m => ({ default: m.TierListPage })));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
 const queryClient = new QueryClient({
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/:gameId/patches" element={<RouteErrorBoundary><PatchesPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/patches/:patchVersion" element={<RouteErrorBoundary><PatchesPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/counter-pick" element={<RouteErrorBoundary><CounterPickPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/tier-list" element={<RouteErrorBoundary><TierListPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/favorites" element={<RouteErrorBoundary><FavoritesPage /></RouteErrorBoundary>} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

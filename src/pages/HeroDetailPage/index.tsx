@@ -14,6 +14,7 @@ import { CounterTab } from './components/CounterTab';
 import { SynergyTab } from './components/SynergyTab';
 import { HistoryTab } from './components/HistoryTab';
 import { BuildsTab } from './components/BuildsTab';
+import { StatsHistoryTab } from './components/StatsHistoryTab';
 import { useHeroSkills } from './hooks/useHeroSkills';
 import { useHeroTabs } from './hooks/useHeroTabs';
 import { useSEO } from '../../hooks/useSEO';
@@ -228,6 +229,7 @@ function HeroDetailPage() {
               <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} />
             )}
             {activeTab === 'history' && <HistoryTab hero={hero} heroPatches={heroPatches} />}
+            {activeTab === 'stats' && <StatsHistoryTab hero={hero} />}
             {activeTab === 'builds' && (
               <BuildsTab hero={hero} buildsSubTab={buildsSubTab} setBuildsSubTab={setBuildsSubTab} />
             )}

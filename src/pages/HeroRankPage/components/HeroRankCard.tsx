@@ -32,15 +32,16 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, counterData, sele
 
   return (
     <div className={`${styles.heroCard} ${getCardClass(index)}`}>
-      <div className={styles.rankBadge}>
-        {index + 1}
-      </div>
-
-      <div className={styles.heroInfo}>
-        <Link to={`/${selectedGameId}/heroes/${counterHero?.id}`} className={styles.heroImage}>
-          <img src={hero.head || hero.image} alt={hero.name} />
-        </Link>
-        <div className={styles.heroName}>{hero.name}</div>
+      <div className={styles.heroRow}>
+        <div className={styles.rankBadge}>
+          {index + 1}
+        </div>
+        <div className={styles.heroInfo}>
+          <Link to={`/${selectedGameId}/heroes/${counterHero?.id}`} className={styles.heroImage}>
+            <img src={hero.head || hero.image} alt={hero.name} />
+          </Link>
+          <div className={styles.heroName}>{hero.name}</div>
+        </div>
       </div>
 
       <div className={styles.statsGrid}>
@@ -57,7 +58,7 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, counterData, sele
         </div>
       </div>
 
-      <div className={styles.synergyHeroes}>
+      <div className={styles.synergyHeroes} data-label={t('heroRank.bestWith')}>
         {counters.length > 0 ? (
           counters.slice(0, 5).map((counter) => {
             const counterGameId = counter.heroid ?? counter.hero_id;
