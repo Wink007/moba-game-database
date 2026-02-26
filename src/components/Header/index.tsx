@@ -6,6 +6,8 @@ import { SearchBar } from '../SearchBar';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { UserMenu } from '../UserMenu';
 import { Breadcrumbs } from '../Breadcrumbs';
+import { useAdStore, selectAdsEnabled, selectAdFreeMinutesLeft } from '../../store/adStore';
+import { Capacitor } from '@capacitor/core';
 
 import styles from './styles.module.scss';
 
@@ -73,6 +75,10 @@ export const Header: React.FC = () => {
   const { selectedGameId } = useGameStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const openRemoveAdsModal = useAdStore(s => s.openRemoveAdsModal);
+  const adsEnabled = useAdStore(selectAdsEnabled);
+  const minutesLeft = useAdStore(selectAdFreeMinutesLeft);
+  const isNative = Capacitor.isNativePlatform();
 
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
   const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
@@ -165,9 +171,18 @@ export const Header: React.FC = () => {
             ))}
           </div>
 
-          {/* Bottom row: language + user */}
+          {/* Bottom row: language + user + remove ads */}
           <div className={styles['sheet-footer']}>
             <LanguageSwitcher />
+            {isNative && (
+              <button
+                className={styles['remove-ads-btn']}
+                onClick={() => { openRemoveAdsModal(); closeMenu(); }}
+                title="Прибрати рекламу"
+              >
+                {adsEnabled ? '🚫 Реклама' : minutesLeft ? `✅ ${minutesLeft} хв` : '✅ Без реклами'}
+              </button>
+            )}
             <UserMenu />
           </div>
         </div>

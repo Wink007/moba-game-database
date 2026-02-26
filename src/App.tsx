@@ -7,8 +7,11 @@ import { ScrollToTop } from './components/ScrollToTop';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 import { Loader } from './components/Loader';
+import { RemoveAdsModal } from './components/RemoveAdsModal';
+import { AdBannerSpacer } from './components/AdBannerSpacer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setQueryClientRef } from './store/authStore';
+import { useAdManager } from './hooks/useAdManager';
 import { STALE_5_MIN } from './queries/keys';
 import './App.css';
 
@@ -37,6 +40,15 @@ const queryClient = new QueryClient({
 setQueryClientRef(queryClient);
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
 
+function AppInner() {
+  useAdManager();
+  return (
+    <>
+    <RemoveAdsModal />
+    </>  
+  );
+}
+
 function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
@@ -44,6 +56,7 @@ function App() {
       <BrowserRouter>
         <ErrorBoundary>
           <ScrollToTop />
+          <AppInner />
           <div className="app-wrapper">
             <Header />
             <main className="main-content">
@@ -67,6 +80,7 @@ function App() {
               </Routes>
               </Suspense>
             </main>
+            <AdBannerSpacer />
             <Footer />
           </div>
         </ErrorBoundary>
