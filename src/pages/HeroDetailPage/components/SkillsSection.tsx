@@ -16,7 +16,13 @@ export const SkillsSection: React.FC<SkillsSectionProps> = React.memo(({
   onTransformCycle 
 }) => {
   const { t, i18n } = useTranslation();
-  if (displaySkills.length === 0) return null;
+  if (displaySkills.length === 0) {
+    return (
+      <div className={styles.skillsSection}>
+        <p className={styles.tabEmptyState}>{t('heroDetail.noSkillsData')}</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.skillsSection}>

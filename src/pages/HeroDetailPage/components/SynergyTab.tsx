@@ -14,7 +14,16 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
     allHeroes.find(h => h.hero_game_id === heroId) || allHeroes.find(h => h.id === heroId);
 
   const heroCompatibilityData = parseMaybeJson<CompatibilityData>(hero.compatibility_data);
-  if (!heroCompatibilityData) return null;
+  if (!heroCompatibilityData) {
+    return (
+      <div className={styles.contentSection}>
+        <p className={styles.tabEmptyState}>{t('heroDetail.noSynergyData')}</p>
+      </div>
+    );
+  }
+
+  // TypeScript narrowing helper — heroCompatibilityData is non-null beyond this point
+  const compatData = heroCompatibilityData as CompatibilityData;
 
   const renderComparison = (mates: CompatibilityHero[], isIncompatible: boolean) => {
     if (!mates || mates.length === 0) return null;
@@ -23,7 +32,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
     const mateHero = findHeroByGameId(topMateId);
     if (!mateHero) return null;
 
-    const heroWinRateValue = heroCompatibilityData.main_hero_win_rate || 0.5;
+    const heroWinRateValue = compatData.main_hero_win_rate || 0.5;
     const heroWinRate = heroWinRateValue < 1 ? heroWinRateValue * 100 : heroWinRateValue;
     const teamWinRateValue = topMate.win_rate || 0;
     const teamWinRate = teamWinRateValue < 1 ? teamWinRateValue * 100 : teamWinRateValue;
@@ -83,6 +92,11 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
     });
   };
 
+  const compatible = compatData.compatible || [];
+  const notCompatible = compatData.not_compatible || [];
+  const compatibleItems = renderList(compatible) || [];
+  const notCompatibleItems = renderList(notCompatible) || [];
+
   return (
     <div className={styles.contentSection}>
       <div className={styles.relationshipSection}>
@@ -104,16 +118,16 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
 
         <div className={styles.relationshipContent}>
           <div className={styles.comparisonBlock}>
-            {synergySubTab === 'compatible' && renderComparison(heroCompatibilityData.compatible || [], false)}
-            {synergySubTab === 'incompatible' && renderComparison(heroCompatibilityData.not_compatible || [], true)}
+            {synergySubTab === 'compatible' && renderComparison(compatible, false)}
+            {synergySubTab === 'incompatible' && renderComparison(notCompatible, true)}
           </div>
           <div className={styles.counterList}>
             <div className={styles.counterListHeader}>
               <span>{synergySubTab === 'compatible' ? t('heroDetail.bestTeammates') : t('heroDetail.worstTeammates')}</span>
               <span>{t('heroDetail.teammateScore')}</span>
             </div>
-            {synergySubTab === 'compatible' && renderList(heroCompatibilityData.compatible || [])}
-            {synergySubTab === 'incompatible' && renderList(heroCompatibilityData.not_compatible || [])}
+            {synergySubTab === 'compatible' && (compatibleItems.filter(Boolean).length ? compatibleItems : <p className={styles.tabEmptyState}>{t('heroDetail.noSynergyData')}</p>)}
+            {synergySubTab === 'incompatible' && (notCompatibleItems.filter(Boolean).length ? notCompatibleItems : <p className={styles.tabEmptyState}>{t('heroDetail.noSynergyData')}</p>)}
           </div>
         </div>
       </div>

@@ -1,3 +1,7 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /api/
+Disallow: /legal
+
+Sitemap: https://moba-wiki-production.up.railway.app/sitemap.xml

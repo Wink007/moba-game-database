@@ -146,7 +146,10 @@
     "talents": "Talents",
     "coreItems": "Core Items",
     "optionalItems": "Optional Items",
-    "noBuildsData": "No builds available for this hero"
+    "noBuildsData": "No builds available for this hero",
+    "noCounterData": "No counter data available for this hero yet.",
+    "noSynergyData": "No synergy data available for this hero yet.",
+    "noSkillsData": "Skill data for this hero is not available yet."
   },
   "items": {
     "title": "Items",

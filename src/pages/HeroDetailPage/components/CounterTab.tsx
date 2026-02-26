@@ -14,7 +14,13 @@ export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHero
     allHeroes.find(h => h.hero_game_id === heroId) || allHeroes.find(h => h.id === heroId);
 
   const heroCounterData = parseMaybeJson<CounterData>(hero.counter_data);
-  if (!heroCounterData) return null;
+  if (!heroCounterData) {
+    return (
+      <div className={styles.contentSection}>
+        <p className={styles.tabEmptyState}>{t('heroDetail.noCounterData')}</p>
+      </div>
+    );
+  }
 
   const bestCounters = heroCounterData.best_counters || heroCounterData.counters || [];
   const mostCounteredBy = heroCounterData.most_countered_by || heroCounterData.allies || [];
@@ -88,6 +94,9 @@ export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHero
     });
   };
 
+  const bestCounterItems = renderList(bestCounters, true);
+  const mostCounteredByItems = renderList(mostCounteredBy, false);
+
   return (
     <div className={styles.contentSection}>
       <div className={styles.relationshipSection}>
@@ -117,8 +126,8 @@ export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHero
               <span>{counterSubTab === 'best' ? t('heroDetail.bestCounters') : t('heroDetail.counteredBy')}</span>
               <span>{t('heroDetail.counterScore')}</span>
             </div>
-            {counterSubTab === 'best' && renderList(bestCounters, true)}
-            {counterSubTab === 'worst' && renderList(mostCounteredBy, false)}
+            {counterSubTab === 'best' && (bestCounterItems.filter(Boolean).length ? bestCounterItems : <p className={styles.tabEmptyState}>{t('heroDetail.noCounterData')}</p>)}
+            {counterSubTab === 'worst' && (mostCounteredByItems.filter(Boolean).length ? mostCounteredByItems : <p className={styles.tabEmptyState}>{t('heroDetail.noCounterData')}</p>)}
           </div>
         </div>
       </div>
