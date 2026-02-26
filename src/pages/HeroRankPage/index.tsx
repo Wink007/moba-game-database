@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHeroesQuery, useHeroRanksQuery } from '../../queries/useHeroesQuery';
+import { useHeroesQuery, useHeroRanksQuery, useHeroCounterDataQuery } from '../../queries/useHeroesQuery';
 import LoadMoreButton from '../../components/LoadMoreButton';
 import { FilterSection, FilterGroup } from '../../components/FilterSection';
 import styles from './styles.module.scss';
@@ -31,6 +31,7 @@ export const HeroRankPage = () => {
   );
 
   const { data: heroes } = useHeroesQuery(selectedGameId);
+  const { data: counterData } = useHeroCounterDataQuery(selectedGameId);
 
   useEffect(() => {
     if (heroRanksData && !isLoading) {
@@ -117,7 +118,7 @@ export const HeroRankPage = () => {
         <div className={styles.headerStat}>{t('heroRank.pickRate')}</div>
         <div className={styles.headerStat}>{t('heroRank.winRate')}</div>
         <div className={styles.headerStat}>{t('heroRank.banRate')}</div>
-        <div className={styles.headerSynergy}>{t('heroRank.bestWith')}</div>
+        <div className={styles.headerSynergy}>{t('heroDetail.bestCounters')}</div>
       </div>
 
       <div className={styles.heroGrid}>
@@ -130,6 +131,7 @@ export const HeroRankPage = () => {
               hero={hero}
               index={index}
               heroes={heroes}
+              counterData={counterData}
               selectedGameId={selectedGameId}
             />
           ))

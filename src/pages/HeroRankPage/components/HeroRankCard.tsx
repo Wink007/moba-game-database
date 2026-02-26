@@ -2,18 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles.module.scss';
-import { Hero, HeroRank, HeroSynergy } from '../../../types';
+import { Hero, HeroCounterData, HeroRank } from '../../../types';
 
 interface HeroRankCardProps {
   hero: HeroRank;
   index: number;
   heroes: Hero[] | undefined;
+  counterData: Record<number, HeroCounterData> | undefined;
   selectedGameId: number;
 }
 
-export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId }: HeroRankCardProps) => {
+export const HeroRankCard = React.memo(({ hero, index, heroes, counterData, selectedGameId }: HeroRankCardProps) => {
   const { t } = useTranslation();
   const counterHero = heroes?.find(h => h.id === hero.hero_id);
+  const heroGameId = hero.hero_game_id ?? counterHero?.hero_game_id ?? counterHero?.id;
+  const counters = heroGameId ? (counterData?.[heroGameId]?.best_counters || []) : [];
 
   const normalizeRate = (value: number | null | undefined) => {
     if (value == null) return 0;
@@ -55,24 +58,26 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId }:
       </div>
 
       <div className={styles.synergyHeroes}>
-        {hero.synergy_heroes && hero.synergy_heroes.length > 0 ? (
-          hero.synergy_heroes.slice(0, 5).map((synergy: HeroSynergy) => {
-            const synergyHero = heroes?.find(h => h.id === synergy.hero_id);
+        {counters.length > 0 ? (
+          counters.slice(0, 5).map((counter) => {
+            const counterGameId = counter.heroid ?? counter.hero_id;
+            const enemyHero = heroes?.find(h =>
+              h.hero_game_id === counterGameId || h.id === counter.hero_id || h.id === counterGameId
+            );
+
+            if (!enemyHero) return null;
 
             return (
               <Link
-                to={`/${selectedGameId}/heroes/${synergy.hero_id}`}
-                key={synergy.hero_id}
+                to={`/${selectedGameId}/heroes/${enemyHero.id}`}
+                key={counterGameId}
                 className={styles.synergyHero}
               >
                 <img
-                  src={synergyHero?.head}
-                  alt={synergyHero?.name || `Hero ${synergy.hero_id}`}
+                  src={enemyHero.head || enemyHero.image}
+                  alt={enemyHero.name || `Hero ${counterGameId}`}
                   className={styles.synergyHeroIcon}
-                  title={t('heroRank.synergyTooltip', { 
-                    hero: synergyHero?.name, 
-                    rate: normalizeRate(synergy.increase_win_rate).toFixed(1) 
-                  })}
+                  title={`${enemyHero.name}: ${normalizeRate(counter.increase_win_rate).toFixed(1)}%`}
                 />
               </Link>
             );
