@@ -37,11 +37,11 @@ export const heroesApi = {
   getHeroSkills: (heroId: number): Promise<HeroSkill[]> => 
     fetcher(`/heroes/${heroId}/skills`),
   
-  getHeroCounterData: (gameId: number): Promise<Record<number, HeroCounterData>> => 
-    fetcher(`/heroes/counter-data?game_id=${gameId}`),
-  
-  getHeroCompatibilityData: (gameId: number): Promise<Record<number, HeroCompatibilityData>> => 
-    fetcher(`/heroes/compatibility-data?game_id=${gameId}`),
+  getHeroCounterData: (gameId: number, rank = 'all'): Promise<Record<number, HeroCounterData>> => 
+    fetcher(`/heroes/counter-data?game_id=${gameId}&rank=${rank}`),
+
+  getHeroCompatibilityData: (gameId: number, rank = 'all'): Promise<Record<number, HeroCompatibilityData>> => 
+    fetcher(`/heroes/compatibility-data?game_id=${gameId}&rank=${rank}`),
 
   getHeroRanks: (
     gameId: number,
