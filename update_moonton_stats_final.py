@@ -16,6 +16,16 @@ AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN')
 if not AUTH_TOKEN and len(sys.argv) > 1:
     AUTH_TOKEN = sys.argv[1]
 
+# --start-from N (optional): resume from hero N (1-based), skip already-done ones
+START_FROM = 1
+for _arg in sys.argv[1:]:
+    if _arg.startswith('--start-from='):
+        START_FROM = int(_arg.split('=')[1])
+    elif _arg.startswith('--start-from'):
+        idx = sys.argv.index(_arg)
+        if idx + 1 < len(sys.argv):
+            START_FROM = int(sys.argv[idx + 1])
+
 if not AUTH_TOKEN:
     print("\n⚠️  Authorization token not provided!")
     print("Usage: python3 update_moonton_stats_final.py <AUTH_TOKEN>")
@@ -57,6 +67,9 @@ _load_env()
 
 import database as db
 
+class AuthExpiredError(Exception):
+    pass
+
 def fetch_raw(hero_id, match_type, bigrank):
     """Fetch raw data for a given hero_id, match_type and bigrank"""
     url = f"{API_BASE}/{ENDPOINT}"
@@ -72,12 +85,19 @@ def fetch_raw(hero_id, match_type, bigrank):
     }
     try:
         response = requests.post(url, headers=HEADERS, json=payload, timeout=30)
+        if response.status_code in (401, 403):
+            raise AuthExpiredError(f"HTTP {response.status_code} — token expired or invalid")
         response.raise_for_status()
         data = response.json()
+        # Moonton sometimes returns 200 with error code in body
+        if data.get('code') in (401, 403, 10001, 10002):
+            raise AuthExpiredError(f"Moonton auth error: code={data.get('code')} msg={data.get('msg')}")
         records = data.get('data', {}).get('records', [])
         if records:
             return records[0].get('data', {})
         return None
+    except AuthExpiredError:
+        raise
     except Exception as e:
         print(f"    ❌ Error (match_type={match_type}, bigrank={bigrank}): {e}")
         return None
@@ -146,41 +166,53 @@ for h in db_heroes:
     if gid:
         gameid_to_hero[int(gid) if isinstance(gid, str) and gid.isdigit() else gid] = h
 
-print(f"✅ {len(db_heroes)} heroes loaded from DB\n")
+print(f"✅ {len(db_heroes)} heroes loaded from DB")
+if START_FROM > 1:
+    print(f"▶️  Resuming from hero #{START_FROM}\n")
+else:
+    print()
 
 # Process — fetch all 6 bigranks per hero and store nested JSON
 updated = 0
 skipped = 0
-total = len([h for h in db_heroes if h.get('hero_game_id')])
+heroes_with_id = [h for h in db_heroes if h.get('hero_game_id')]
+total = len(heroes_with_id)
 
-for idx, hero in enumerate(db_heroes):
-    hero_name = hero.get('name', '').strip()
-    moonton_id = hero.get('hero_game_id')
-    if not moonton_id:
+for seq_idx, hero in enumerate(heroes_with_id, start=1):
+    if seq_idx < START_FROM:
         skipped += 1
         continue
 
+    hero_name = hero.get('name', '').strip()
+    moonton_id = hero.get('hero_game_id')
     hero_db_id = hero['id']
-    counter_idx = updated + skipped + 1
-    print(f"[{counter_idx}/{total}] {hero_name} (ID:{moonton_id})")
+    print(f"[{seq_idx}/{total}] {hero_name} (ID:{moonton_id})")
 
     counter_by_rank = {}
     compat_by_rank  = {}
+    auth_failed = False
 
     for rank_name, bigrank_val in BIGRANK_MAP.items():
-        # counter (match_type=0)
-        raw_c = fetch_raw(moonton_id, 0, bigrank_val)
-        time.sleep(0.25)
-        parsed_c = parse_counter(raw_c)
-        if parsed_c:
-            counter_by_rank[rank_name] = parsed_c
+        try:
+            # counter (match_type=0)
+            raw_c = fetch_raw(moonton_id, 0, bigrank_val)
+            time.sleep(0.25)
+            parsed_c = parse_counter(raw_c)
+            if parsed_c:
+                counter_by_rank[rank_name] = parsed_c
 
-        # compat (match_type=1)
-        raw_p = fetch_raw(moonton_id, 1, bigrank_val)
-        time.sleep(0.25)
-        parsed_p = parse_compat(raw_p)
-        if parsed_p:
-            compat_by_rank[rank_name] = parsed_p
+            # compat (match_type=1)
+            raw_p = fetch_raw(moonton_id, 1, bigrank_val)
+            time.sleep(0.25)
+            parsed_p = parse_compat(raw_p)
+            if parsed_p:
+                compat_by_rank[rank_name] = parsed_p
+        except AuthExpiredError as e:
+            print(f"\n🔑 TOKEN EXPIRED at hero #{seq_idx} ({hero_name}): {e}")
+            print(f"   Get a fresh token and resume with:")
+            print(f"   MOONTON_AUTH_TOKEN=\"<new_token>\" python3 update_moonton_stats_final.py --start-from={seq_idx}")
+            print(f"\n✅ Updated before expiry: {updated}")
+            sys.exit(2)
 
     if not counter_by_rank and not compat_by_rank:
         print(f"  ⚠️  No data for any rank\n")
