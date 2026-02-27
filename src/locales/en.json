@@ -267,8 +267,6 @@
       "sortBy": "Sort By",
       "days": {
         "1": "1 Day",
-        "3": "3 Days",
-        "7": "7 Days",
         "15": "15 Days",
         "30": "30 Days"
       },
