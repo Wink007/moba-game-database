@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useBackHandler } from '../../hooks/useBackHandler';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
 import { SearchBar } from '../SearchBar';
@@ -7,7 +8,7 @@ import { LanguageSwitcher } from '../LanguageSwitcher';
 import { UserMenu } from '../UserMenu';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useAdStore, selectAdsEnabled, selectAdFreeMinutesLeft } from '../../store/adStore';
-import { useAdBannerPause } from '../../hooks/useAdBannerPause';
+
 import { Capacitor } from '@capacitor/core';
 
 import styles from './styles.module.scss';
@@ -81,11 +82,9 @@ export const Header: React.FC = () => {
   const minutesLeft = useAdStore(selectAdFreeMinutesLeft);
   const isNative = Capacitor.isNativePlatform();
 
-  // Ховаємо банер AdMob коли шторка меню відкрита
-  useAdBannerPause(isMenuOpen);
-
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
   const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
+  useBackHandler(isMenuOpen, closeMenu);
 
   // Close menu on route change
   useEffect(() => {
@@ -150,7 +149,7 @@ export const Header: React.FC = () => {
         />
 
         {/* Bottom Sheet Menu */}
-        <div className={`${styles.sheet} ${isMenuOpen ? styles['sheet--open'] : ''} ${isNative && adsEnabled ? styles['sheet--with-banner'] : ''}`}>
+        <div className={`${styles.sheet} ${isMenuOpen ? styles['sheet--open'] : ''}`}>
           <div className={styles['sheet-handle']} />
 
           {/* Search */}

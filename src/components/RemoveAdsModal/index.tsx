@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAdStore, AD_FREE_HOURS, selectAdFreeMinutesLeft } from '../../store/adStore';
+import { useBackHandler } from '../../hooks/useBackHandler';
 import { showRewardedAd } from '../../services/adMobService';
-import { useAdBannerPause } from '../../hooks/useAdBannerPause';
 import { Capacitor } from '@capacitor/core';
 import styles from './styles.module.scss';
 
@@ -10,9 +10,7 @@ export const RemoveAdsModal: React.FC = () => {
   const minutesLeft = useAdStore(selectAdFreeMinutesLeft);
   const [watchLoading, setWatchLoading] = useState(false);
   const [watchResult, setWatchResult] = useState<'success' | 'failed' | null>(null);
-
-  // Ховаємо банер поки модалка відкрита
-  useAdBannerPause(removeAdsModalOpen);
+  useBackHandler(removeAdsModalOpen, closeRemoveAdsModal);
 
   if (!removeAdsModalOpen) return null;
 

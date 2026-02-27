@@ -1,11 +1,11 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useBackHandler } from '../../hooks/useBackHandler';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { useGameStore } from '../../store/gameStore';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
-import { useAdBannerPause } from '../../hooks/useAdBannerPause';
 import styles from './styles.module.scss';
 
 export const UserMenu: React.FC = () => {
@@ -15,9 +15,10 @@ export const UserMenu: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const closeMenu = useCallback(() => setIsOpen(false), []);
 
-  useClickOutside(menuRef, useCallback(() => setIsOpen(false), []));
-  useAdBannerPause(isOpen);
+  useClickOutside(menuRef, closeMenu);
+  useBackHandler(isOpen, closeMenu);
 
   const googleLogin = useGoogleAuth();
 

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useBackHandler } from '../../hooks/useBackHandler';
 import { useGameStore } from '../../store/gameStore';
 import { getHeroName } from '../../utils/translation';
 import { Loader } from '../../components/Loader';
@@ -24,6 +25,7 @@ export const CounterPickPage: React.FC = () => {
   } = useCounterPick(selectedGameId, lang);
 
   useEscapeKey(closeSelector, isSelectorOpen);
+  useBackHandler(isSelectorOpen, useCallback(closeSelector, [])); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isLoading) return <Loader />;
 

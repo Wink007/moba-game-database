@@ -4,6 +4,7 @@ import {
   BannerAdOptions,
   BannerAdSize,
   BannerAdPosition,
+  BannerAdPluginEvents,
   AdOptions,
   RewardAdPluginEvents,
 } from '@capacitor-community/admob';
@@ -20,6 +21,16 @@ export const AD_UNITS = {
 
 let _initialized = false;
 let _bannerVisible = false;
+let _sizeListener: { remove: () => void } | null = null;
+
+// Встановлює CSS змінну для динамічного відступу від банера
+function setBannerHeightVar(height: number) {
+  document.documentElement.style.setProperty('--ad-banner-height', `${height}px`);
+}
+
+export function clearBannerHeightVar() {
+  document.documentElement.style.setProperty('--ad-banner-height', '0px');
+}
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 export async function initAdMob(): Promise<void> {
@@ -36,10 +47,19 @@ export async function initAdMob(): Promise<void> {
 export async function showBanner(): Promise<void> {
   if (!Capacitor.isNativePlatform() || _bannerVisible) return;
   try {
+    // Слухаємо реальний розмір банера і встановлюємо CSS змінну
+    _sizeListener?.remove();
+    _sizeListener = await AdMob.addListener(
+      BannerAdPluginEvents.SizeChanged,
+      (info: { width: number; height: number }) => {
+        setBannerHeightVar(info.height);
+      }
+    );
+
     const options: BannerAdOptions = {
       adId: AD_UNITS.banner,
       adSize: BannerAdSize.ADAPTIVE_BANNER,
-      position: BannerAdPosition.BOTTOM_CENTER,
+      position: BannerAdPosition.TOP_CENTER,
       margin: 0,
       isTesting: IS_TESTING,
     };
@@ -47,6 +67,7 @@ export async function showBanner(): Promise<void> {
     _bannerVisible = true;
   } catch (e) {
     console.warn('[AdMob] showBanner error:', e);
+    clearBannerHeightVar();
   }
 }
 
@@ -55,6 +76,7 @@ export async function hideBanner(): Promise<void> {
   try {
     await AdMob.hideBanner();
     _bannerVisible = false;
+    clearBannerHeightVar();
   } catch (e) {
     console.warn('[AdMob] hideBanner error:', e);
   }
@@ -63,8 +85,11 @@ export async function hideBanner(): Promise<void> {
 export async function removeBanner(): Promise<void> {
   if (!Capacitor.isNativePlatform()) return;
   try {
+    _sizeListener?.remove();
+    _sizeListener = null;
     await AdMob.removeBanner();
     _bannerVisible = false;
+    clearBannerHeightVar();
   } catch (e) {
     console.warn('[AdMob] removeBanner error:', e);
   }

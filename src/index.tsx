@@ -7,6 +7,7 @@ import './i18n/config';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { App as CapApp } from '@capacitor/app';
+import { callTopBackHandler } from './utils/backHandlerStack';
 
 // На нативних платформах — статус бар не накладається на контент
 if (Capacitor.isNativePlatform()) {
@@ -14,8 +15,11 @@ if (Capacitor.isNativePlatform()) {
   StatusBar.setStyle({ style: Style.Dark });
   StatusBar.setBackgroundColor({ color: '#0f172a' });
 
-  // Android back button — навігація назад, а не вихід з застосунку
+  // Android back button:
+  // 1. Якщо відкритий overlay/меню — закрити його
+  // 2. Інакше — навігація назад або вихід
   CapApp.addListener('backButton', ({ canGoBack }) => {
+    if (callTopBackHandler()) return;
     if (canGoBack) {
       window.history.back();
     } else {

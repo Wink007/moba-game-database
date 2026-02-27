@@ -63,7 +63,7 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, counterData, sele
           counters.slice(0, 5).map((counter) => {
             const counterGameId = counter.heroid ?? counter.hero_id;
             const enemyHero = heroes?.find(h =>
-              h.hero_game_id === counterGameId || h.id === counter.hero_id || h.id === counterGameId
+              h.hero_game_id === counterGameId
             );
 
             if (!enemyHero) return null;

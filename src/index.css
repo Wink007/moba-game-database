@@ -8,6 +8,9 @@
   --spacing-2xl: 48px;
   --spacing-3xl: 64px;
 
+  /* Ad banner — динамічно змінюється adMobService через BannerAdPluginEvents.SizeChanged */
+  --ad-banner-height: 0px;
+
   /* Colors */
   --color-bg-primary: #243447;
   --color-bg-secondary: #152234;

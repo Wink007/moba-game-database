@@ -1,5 +1,6 @@
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useBackHandler } from '../../hooks/useBackHandler';
 import { useTranslation } from 'react-i18next';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import { Item, ItemRecipe } from '../../types';
@@ -25,6 +26,8 @@ function ItemsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const closePanels = useCallback(() => { setIsFilterOpen(false); setIsDetailsOpen(false); }, []);
+  useBackHandler(isFilterOpen || isDetailsOpen, closePanels);
 
   // Auto-select item from ?item= query param
   useEffect(() => {

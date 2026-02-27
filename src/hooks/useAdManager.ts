@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { useAdStore, selectAdsEnabled } from '../store/adStore';
-import { initAdMob, showBanner, hideBanner } from '../services/adMobService';
+import { initAdMob, showBanner, hideBanner, clearBannerHeightVar } from '../services/adMobService';
 
 /**
  * Ініціалізує AdMob і управляє видимістю банера.
@@ -36,6 +36,7 @@ export function useAdManager() {
       showBanner();
     } else {
       hideBanner();
+      if (!adsEnabled) clearBannerHeightVar();
     }
   }, [adsEnabled, adFreeUntil, isPaidNoAds, bannerPauseCount]);
 }

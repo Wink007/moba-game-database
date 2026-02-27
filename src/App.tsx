@@ -63,7 +63,9 @@ function App() {
         <ErrorBoundary>
           <ScrollToTop />
           <AppInner />
+          <div className="banner-cover" aria-hidden="true" />
           <div className="app-wrapper">
+            <AdBannerSpacer />
             <Header />
             <main className="main-content">
               <Suspense fallback={<Loader />}>
@@ -86,7 +88,6 @@ function App() {
               </Routes>
               </Suspense>
             </main>
-            <AdBannerSpacer />
             <Footer />
           </div>
         </ErrorBoundary>
