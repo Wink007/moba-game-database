@@ -440,15 +440,23 @@ def get_all_heroes_relations():
     return jsonify(relations_by_hero)
 
 VALID_RANKS = {'all', 'epic', 'legend', 'mythic', 'honor', 'glory'}
-VALID_DAYS  = {'1', '3', '7', '15', '30'}
+VALID_DAYS  = {'1', '15', '30'}
 
 def _extract_nested(parsed, days_str, rank):
     """Extract data from nested {days: {rank: {...}}} structure, with fallbacks."""
     if not isinstance(parsed, dict):
         return parsed
     # New format: {"1": {"all": {...}, "epic": {...}}, "7": {...}}
-    if days_str in parsed or '1' in parsed:
-        by_days = parsed.get(days_str) or parsed.get('1') or {}
+    # Try exact day, then fall back to nearest available (descending)
+    fallback_order = ['30', '7', '3', '1']
+    if days_str in parsed or any(d in parsed for d in fallback_order):
+        by_days = parsed.get(days_str)
+        if not by_days:
+            for d in fallback_order:
+                if d in parsed:
+                    by_days = parsed[d]
+                    break
+        by_days = by_days or {}
         return by_days.get(rank) or by_days.get('all') or {}
     # Old format: {"all": {...}, "epic": {...}}
     if 'all' in parsed or rank in parsed:
