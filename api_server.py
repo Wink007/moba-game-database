@@ -440,46 +440,54 @@ def get_all_heroes_relations():
     return jsonify(relations_by_hero)
 
 VALID_RANKS = {'all', 'epic', 'legend', 'mythic', 'honor', 'glory'}
+VALID_DAYS  = {'1', '3', '7', '15', '30'}
+
+def _extract_nested(parsed, days_str, rank):
+    """Extract data from nested {days: {rank: {...}}} structure, with fallbacks."""
+    if not isinstance(parsed, dict):
+        return parsed
+    # New format: {"1": {"all": {...}, "epic": {...}}, "7": {...}}
+    if days_str in parsed or '1' in parsed:
+        by_days = parsed.get(days_str) or parsed.get('1') or {}
+        return by_days.get(rank) or by_days.get('all') or {}
+    # Old format: {"all": {...}, "epic": {...}}
+    if 'all' in parsed or rank in parsed:
+        return parsed.get(rank) or parsed.get('all') or {}
+    # Flat format
+    return parsed
 
 @app.route('/api/heroes/counter-data', methods=['GET'])
 def get_all_heroes_counter_data():
-    """Counter data для всіх героїв гри. Supports ?rank=all|epic|legend|mythic|honor|glory"""
+    """Counter data. Supports ?rank=epic&days=7"""
     game_id = request.args.get('game_id')
     if not game_id:
         return jsonify({'error': 'game_id required'}), 400
     rank = request.args.get('rank', 'all')
     if rank not in VALID_RANKS:
         rank = 'all'
+    days_str = request.args.get('days', '1')
+    if days_str not in VALID_DAYS:
+        days_str = '1'
 
-    # Отримуємо всіх героїв з counter_data
     conn = db.get_connection()
     if db.DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
         cursor = conn.cursor(cursor_factory=RealDictCursor)
     else:
         cursor = conn.cursor()
-
     ph = db.get_placeholder()
     cursor.execute(f"SELECT id, hero_game_id, counter_data FROM heroes WHERE game_id = {ph} AND counter_data IS NOT NULL", (game_id,))
     heroes = cursor.fetchall()
     db.release_connection(conn)
 
-    # Групуємо по hero_game_id, повертаємо rank-specific дані
     counter_data_by_hero = {}
     for hero in heroes:
         hero_dict = db.dict_from_row(hero)
         hero_game_id = hero_dict.get('hero_game_id')
-        counter_data_raw = hero_dict.get('counter_data')
-
-        if hero_game_id and counter_data_raw and counter_data_raw.strip():
+        raw = hero_dict.get('counter_data')
+        if hero_game_id and raw and raw.strip():
             try:
-                parsed = json.loads(counter_data_raw)
-                # Nested format (new): has rank keys like 'all', 'epic', ...
-                if isinstance(parsed, dict) and 'all' in parsed:
-                    counter_data_by_hero[hero_game_id] = parsed.get(rank) or parsed.get('all') or {}
-                else:
-                    # Old flat format — serve as-is
-                    counter_data_by_hero[hero_game_id] = parsed
+                counter_data_by_hero[hero_game_id] = _extract_nested(json.loads(raw), days_str, rank)
             except:
                 counter_data_by_hero[hero_game_id] = None
 
@@ -505,23 +513,21 @@ def get_all_heroes_compatibility_data():
     heroes = cursor.fetchall()
     db.release_connection(conn)
     
-    # Групуємо по hero_game_id, повертаємо rank-specific дані
     rank = request.args.get('rank', 'all')
     if rank not in VALID_RANKS:
         rank = 'all'
+    days_str = request.args.get('days', '1')
+    if days_str not in VALID_DAYS:
+        days_str = '1'
+
     compatibility_data_by_hero = {}
     for hero in heroes:
         hero_dict = db.dict_from_row(hero)
         hero_game_id = hero_dict.get('hero_game_id')
-        compatibility_data = hero_dict.get('compatibility_data')
-
-        if hero_game_id and compatibility_data and compatibility_data.strip():
+        raw = hero_dict.get('compatibility_data')
+        if hero_game_id and raw and raw.strip():
             try:
-                parsed = json.loads(compatibility_data)
-                if isinstance(parsed, dict) and 'all' in parsed:
-                    compatibility_data_by_hero[hero_game_id] = parsed.get(rank) or parsed.get('all') or {}
-                else:
-                    compatibility_data_by_hero[hero_game_id] = parsed
+                compatibility_data_by_hero[hero_game_id] = _extract_nested(json.loads(raw), days_str, rank)
             except:
                 compatibility_data_by_hero[hero_game_id] = None
 

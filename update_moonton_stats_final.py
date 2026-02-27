@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Update counter/compatibility data from Moonton API endpoint 2756569
-Uses GET then PUT to Railway API
+Update counter/compatibility data from Moonton API endpoint 2756567
+Fetches ALL heroes per rank in one paginated sweep (much faster than per-hero)
 """
 import json
 import requests
@@ -9,48 +9,44 @@ import time
 import sys
 import os
 
-# Config
-# Читаємо токен з environment variable або з аргумента командного рядка
 AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN')
-
-if not AUTH_TOKEN and len(sys.argv) > 1:
+if not AUTH_TOKEN and len(sys.argv) > 1 and not sys.argv[1].startswith('--'):
     AUTH_TOKEN = sys.argv[1]
-
-# --start-from N (optional): resume from hero N (1-based), skip already-done ones
-START_FROM = 1
-for _arg in sys.argv[1:]:
-    if _arg.startswith('--start-from='):
-        START_FROM = int(_arg.split('=')[1])
-    elif _arg.startswith('--start-from'):
-        idx = sys.argv.index(_arg)
-        if idx + 1 < len(sys.argv):
-            START_FROM = int(sys.argv[idx + 1])
 
 if not AUTH_TOKEN:
     print("\n⚠️  Authorization token not provided!")
-    print("Usage: python3 update_moonton_stats_final.py <AUTH_TOKEN>")
-    print("   or: MOONTON_AUTH_TOKEN=<token> python3 update_moonton_stats_final.py")
+    print("Usage: MOONTON_AUTH_TOKEN=<token> python3 update_moonton_stats_final.py")
     print("\nGet token from: https://m.mobilelegends.com/en/rank")
-    print("Open DevTools → Network → rank → Headers → authorization")
+    print("Open DevTools → Network → any API request → authorization header")
     sys.exit(1)
 
 API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
-ENDPOINT = "2756569"
+# 2756567 = returns ALL heroes at once with their counter/compat sub_hero data
+ENDPOINT = "2756567"
 
 HEADERS = {
     'authorization': AUTH_TOKEN,
     'content-type': 'application/json;charset=UTF-8',
+    'x-actid': '2669607',
+    'x-appid': '2669606',
+    'x-lang': 'en',
 }
 
-# bigrank values per rank tier
+# bigrank filter values (sent as strings per Moonton API)
 BIGRANK_MAP = {
-    'all':    101,
-    'epic':   5,
-    'legend': 6,
-    'mythic': 7,
-    'honor':  8,
-    'glory':  9,
+    'all':    '101',
+    'epic':   '5',
+    'legend': '6',
+    'mythic': '7',
+    'honor':  '8',
+    'glory':  '9',
 }
+
+FIELDS_COUNTER = [
+    "main_heroid", "main_hero_win_rate",
+    "data.sub_hero.heroid", "data.sub_hero.increase_win_rate",
+    "data.sub_hero_last.heroid", "data.sub_hero_last.increase_win_rate",
+]
 
 # Load .env for database connection
 from pathlib import Path
@@ -70,195 +66,174 @@ import database as db
 class AuthExpiredError(Exception):
     pass
 
-def fetch_raw(hero_id, match_type, bigrank):
-    """Fetch raw data for a given hero_id, match_type and bigrank"""
+def fetch_all_heroes(match_type, bigrank_str):
+    """Fetch all heroes for given match_type and bigrank. Returns dict {main_heroid: record_data}"""
     url = f"{API_BASE}/{ENDPOINT}"
-    payload = {
-        "pageSize": 20,
-        "pageIndex": 1,
-        "filters": [
-            {"field": "match_type", "operator": "eq", "value": match_type},
-            {"field": "main_heroid", "operator": "eq", "value": str(hero_id)},
-            {"field": "bigrank", "operator": "eq", "value": bigrank}
-        ],
-        "sorts": []
-    }
-    try:
-        response = requests.post(url, headers=HEADERS, json=payload, timeout=30)
-        if response.status_code in (401, 403):
-            raise AuthExpiredError(f"HTTP {response.status_code} — token expired or invalid")
-        response.raise_for_status()
-        data = response.json()
-        # Moonton sometimes returns 200 with error code in body
-        if data.get('code') in (401, 403, 10001, 10002):
-            raise AuthExpiredError(f"Moonton auth error: code={data.get('code')} msg={data.get('msg')}")
-        records = data.get('data', {}).get('records', [])
-        if records:
-            return records[0].get('data', {})
-        return None
-    except AuthExpiredError:
-        raise
-    except Exception as e:
-        print(f"    ❌ Error (match_type={match_type}, bigrank={bigrank}): {e}")
-        return None
-
-def parse_counter(raw):
-    if not raw:
-        return None
-    best_counters = []
-    # Sort by increase_win_rate DESC — how much win rate increases specifically against this hero
-    for item in sorted(raw.get('sub_hero', []), key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]:
-        if item.get('heroid'):
-            best_counters.append({
-                'heroid': item['heroid'],
-                'win_rate': round(item.get('hero_win_rate', 0), 4),
-                'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
-                'appearance_rate': round(item.get('hero_appearance_rate', 0), 4),
-            })
-    most_countered = []
-    # Sort by increase_win_rate ASC — heroes that lose worst against this hero
-    for item in sorted(raw.get('sub_hero_last', []), key=lambda x: x.get('increase_win_rate', 1))[:5]:
-        if item.get('heroid'):
-            most_countered.append({
-                'heroid': item['heroid'],
-                'win_rate': round(item.get('hero_win_rate', 0), 4),
-                'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
-                'appearance_rate': round(item.get('hero_appearance_rate', 0), 4),
-            })
-    return {
-        'main_hero_win_rate': round(raw.get('main_hero_win_rate', 0), 4),
-        'best_counters': best_counters,
-        'most_countered_by': most_countered,
-    }
-
-def parse_compat(raw):
-    if not raw:
-        return None
-    compatible = []
-    for item in sorted(raw.get('sub_hero', []), key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]:
-        if item.get('heroid'):
-            compatible.append({
-                'heroid': item['heroid'],
-                'win_rate': round(item.get('hero_win_rate', 0), 4),
-                'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
-                'appearance_rate': round(item.get('hero_appearance_rate', 0), 4),
-            })
-    not_compatible = []
-    for item in sorted(raw.get('sub_hero_last', []), key=lambda x: x.get('increase_win_rate', 1))[:5]:
-        if item.get('heroid'):
-            not_compatible.append({
-                'heroid': item['heroid'],
-                'win_rate': round(item.get('hero_win_rate', 0), 4),
-                'increase_win_rate': round(item.get('increase_win_rate', 0), 4),
-                'appearance_rate': round(item.get('hero_appearance_rate', 0), 4),
-            })
-    return {
-        'main_hero_win_rate': round(raw.get('main_hero_win_rate', 0), 4),
-        'compatible': compatible,
-        'not_compatible': not_compatible,
-    }
+    result = {}
+    page = 1
+    while True:
+        payload = {
+            "pageSize": 20,
+            "pageIndex": page,
+            "filters": [
+                {"field": "bigrank", "operator": "eq", "value": bigrank_str},
+                {"field": "match_type", "operator": "eq", "value": match_type},
+            ],
+            "sorts": [
+                {"data": {"field": "main_hero_win_rate", "order": "desc"}, "type": "sequence"},
+                {"data": {"field": "main_heroid", "order": "desc"}, "type": "sequence"},
+            ],
+            "fields": FIELDS_COUNTER,
+        }
+        try:
+            resp = requests.post(url, headers=HEADERS, json=payload, timeout=30)
+            if resp.status_code in (401, 403):
+                raise AuthExpiredError(f"HTTP {resp.status_code} — token expired")
+            resp.raise_for_status()
+            data = resp.json()
+            if data.get('code') in (401, 403, 10001, 10002):
+                raise AuthExpiredError(f"Moonton code={data.get('code')}: {data.get('msg')}")
+            records = data.get('data', {}).get('records', [])
+            if not records:
+                break
+            for rec in records:
+                hero_id = rec.get('data', {}).get('main_heroid')
+                if hero_id:
+                    result[int(hero_id)] = rec['data']
+            if len(records) < 20:
+                break
+            page += 1
+            time.sleep(0.3)
+        except AuthExpiredError:
+            raise
+        except Exception as e:
+            print(f"  ❌ fetch error (mt={match_type} bigrank={bigrank_str} page={page}): {e}")
+            break
+    return result
 
 print("Loading heroes from database...")
 db_heroes = db.get_heroes(2, include_details=False, include_skills=False, include_relation=False)
+gameid_to_hero = {h['hero_game_id']: h for h in db_heroes if h.get('hero_game_id')}
+print(f"✅ {len(db_heroes)} heroes loaded from DB\n")
 
-# Create game_id to hero mapping (Moonton hero_id -> DB hero)
-gameid_to_hero = {}
-for h in db_heroes:
-    gid = h.get('hero_game_id')
-    if gid:
-        gameid_to_hero[int(gid) if isinstance(gid, str) and gid.isdigit() else gid] = h
+# Accumulate nested data: {hero_game_id: {"counter": {rank: {...}}, "compat": {rank: {...}}}}
+hero_data = {}  # hero_game_id -> {rank_name -> {best_counters, most_countered_by, main_hero_win_rate}}
+compat_data = {}
 
-print(f"✅ {len(db_heroes)} heroes loaded from DB")
-if START_FROM > 1:
-    print(f"▶️  Resuming from hero #{START_FROM}\n")
-else:
-    print()
+total_combos = len(BIGRANK_MAP) * 2
+done = 0
 
-# Process — fetch all 6 bigranks per hero and store nested JSON
+for rank_name, bigrank_str in BIGRANK_MAP.items():
+    # --- COUNTER (match_type=0) ---
+    done += 1
+    print(f"[{done}/{total_combos}] Fetching counter data  rank={rank_name} (bigrank={bigrank_str})...")
+    try:
+        heroes_raw = fetch_all_heroes(0, bigrank_str)
+    except AuthExpiredError as e:
+        print(f"\n🔑 TOKEN EXPIRED: {e}")
+        print("Get a fresh token and re-run the script.")
+        sys.exit(2)
+
+    for hero_id, rec in heroes_raw.items():
+        sub = rec.get('sub_hero', []) or []
+        sub_last = rec.get('sub_hero_last', []) or []
+
+        best_counters = [
+            {'heroid': h['heroid'], 'increase_win_rate': round(h.get('increase_win_rate', 0), 4)}
+            for h in sorted(sub, key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]
+            if h.get('heroid')
+        ]
+        most_countered_by = [
+            {'heroid': h['heroid'], 'increase_win_rate': round(h.get('increase_win_rate', 0), 4)}
+            for h in sorted(sub_last, key=lambda x: x.get('increase_win_rate', 0))[:5]
+            if h.get('heroid')
+        ]
+
+        if hero_id not in hero_data:
+            hero_data[hero_id] = {}
+        hero_data[hero_id][rank_name] = {
+            'main_hero_win_rate': round(rec.get('main_hero_win_rate', 0), 4),
+            'best_counters': best_counters,
+            'most_countered_by': most_countered_by,
+        }
+
+    print(f"  → {len(heroes_raw)} heroes fetched")
+    time.sleep(0.5)
+
+    # --- COMPAT (match_type=1) ---
+    done += 1
+    print(f"[{done}/{total_combos}] Fetching compat data   rank={rank_name} (bigrank={bigrank_str})...")
+    try:
+        heroes_raw = fetch_all_heroes(1, bigrank_str)
+    except AuthExpiredError as e:
+        print(f"\n🔑 TOKEN EXPIRED: {e}")
+        print("Get a fresh token and re-run the script.")
+        sys.exit(2)
+
+    for hero_id, rec in heroes_raw.items():
+        sub = rec.get('sub_hero', []) or []
+        sub_last = rec.get('sub_hero_last', []) or []
+
+        compatible = [
+            {'heroid': h['heroid'], 'increase_win_rate': round(h.get('increase_win_rate', 0), 4)}
+            for h in sorted(sub, key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]
+            if h.get('heroid')
+        ]
+        not_compatible = [
+            {'heroid': h['heroid'], 'increase_win_rate': round(h.get('increase_win_rate', 0), 4)}
+            for h in sorted(sub_last, key=lambda x: x.get('increase_win_rate', 0))[:5]
+            if h.get('heroid')
+        ]
+
+        if hero_id not in compat_data:
+            compat_data[hero_id] = {}
+        compat_data[hero_id][rank_name] = {
+            'main_hero_win_rate': round(rec.get('main_hero_win_rate', 0), 4),
+            'compatible': compatible,
+            'not_compatible': not_compatible,
+        }
+
+    print(f"  → {len(heroes_raw)} heroes fetched")
+    time.sleep(0.5)
+
+print(f"\n✅ All ranks fetched. Writing to DB...")
+
+# Write to DB
 updated = 0
 skipped = 0
-heroes_with_id = [h for h in db_heroes if h.get('hero_game_id')]
-total = len(heroes_with_id)
+all_hero_ids = set(hero_data.keys()) | set(compat_data.keys())
 
-for seq_idx, hero in enumerate(heroes_with_id, start=1):
-    if seq_idx < START_FROM:
-        skipped += 1
+for moonton_id in all_hero_ids:
+    db_hero = gameid_to_hero.get(moonton_id)
+    if not db_hero:
         continue
 
-    hero_name = hero.get('name', '').strip()
-    moonton_id = hero.get('hero_game_id')
-    hero_db_id = hero['id']
-    print(f"[{seq_idx}/{total}] {hero_name} (ID:{moonton_id})")
+    counter_json = json.dumps(hero_data[moonton_id], ensure_ascii=False) if moonton_id in hero_data else None
+    compat_json  = json.dumps(compat_data[moonton_id], ensure_ascii=False) if moonton_id in compat_data else None
 
-    counter_by_rank = {}
-    compat_by_rank  = {}
-    auth_failed = False
-
-    for rank_name, bigrank_val in BIGRANK_MAP.items():
-        try:
-            # counter (match_type=0)
-            raw_c = fetch_raw(moonton_id, 0, bigrank_val)
-            time.sleep(0.25)
-            parsed_c = parse_counter(raw_c)
-            if parsed_c:
-                counter_by_rank[rank_name] = parsed_c
-
-            # compat (match_type=1)
-            raw_p = fetch_raw(moonton_id, 1, bigrank_val)
-            time.sleep(0.25)
-            parsed_p = parse_compat(raw_p)
-            if parsed_p:
-                compat_by_rank[rank_name] = parsed_p
-        except AuthExpiredError as e:
-            print(f"\n🔑 TOKEN EXPIRED at hero #{seq_idx} ({hero_name}): {e}")
-            print(f"   Get a fresh token and resume with:")
-            print(f"   MOONTON_AUTH_TOKEN=\"<new_token>\" python3 update_moonton_stats_final.py --start-from={seq_idx}")
-            print(f"\n✅ Updated before expiry: {updated}")
-            sys.exit(2)
-
-    if not counter_by_rank and not compat_by_rank:
-        print(f"  ⚠️  No data for any rank\n")
-        skipped += 1
-        continue
-
-    # Write nested JSON to DB
     try:
         conn = db.get_connection()
         cursor = conn.cursor()
         ph = db.get_placeholder()
 
-        counter_json = json.dumps(counter_by_rank, ensure_ascii=False) if counter_by_rank else None
-        compat_json  = json.dumps(compat_by_rank,  ensure_ascii=False) if compat_by_rank  else None
-
         if counter_json and compat_json:
             cursor.execute(
                 f"UPDATE heroes SET counter_data = {ph}, compatibility_data = {ph} WHERE id = {ph}",
-                (counter_json, compat_json, hero_db_id)
+                (counter_json, compat_json, db_hero['id'])
             )
         elif counter_json:
-            cursor.execute(
-                f"UPDATE heroes SET counter_data = {ph} WHERE id = {ph}",
-                (counter_json, hero_db_id)
-            )
+            cursor.execute(f"UPDATE heroes SET counter_data = {ph} WHERE id = {ph}", (counter_json, db_hero['id']))
         elif compat_json:
-            cursor.execute(
-                f"UPDATE heroes SET compatibility_data = {ph} WHERE id = {ph}",
-                (compat_json, hero_db_id)
-            )
+            cursor.execute(f"UPDATE heroes SET compatibility_data = {ph} WHERE id = {ph}", (compat_json, db_hero['id']))
 
         conn.commit()
         db.release_connection(conn)
-
-        ranks_done = list(counter_by_rank.keys())
-        sample = counter_by_rank.get('all', {})
-        print(f"  ✅ ranks={ranks_done}, counters(all)={len(sample.get('best_counters', []))}\n")
         updated += 1
     except Exception as e:
-        print(f"  ❌ DB update error: {e}\n")
-        try:
-            db.release_connection(conn)
-        except:
-            pass
+        print(f"  ❌ DB error for hero {moonton_id}: {e}")
+        try: db.release_connection(conn)
+        except: pass
         skipped += 1
 
-print(f"\n✅ Updated: {updated}, Skipped: {skipped}")
+print(f"✅ Updated: {updated}, Skipped/missing: {skipped}")
+
