@@ -23,9 +23,11 @@ API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
 
 # Different endpoints per day period (confirmed from DevTools)
 DAYS_ENDPOINT_MAP = {
-    1:  '2756567',   # confirmed from DevTools
-    15: '2756565',   # confirmed from DevTools
-    30: '2756570',   # confirmed from DevTools
+    1:  '2756567',   # confirmed
+    3:  '2756568',   # confirmed
+    7:  '2756569',   # confirmed
+    15: '2756565',   # confirmed
+    30: '2756570',   # confirmed
 }
 
 HEADERS = {

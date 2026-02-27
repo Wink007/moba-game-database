@@ -440,7 +440,7 @@ def get_all_heroes_relations():
     return jsonify(relations_by_hero)
 
 VALID_RANKS = {'all', 'epic', 'legend', 'mythic', 'honor', 'glory'}
-VALID_DAYS  = {'1', '15', '30'}
+VALID_DAYS  = {'1', '3', '7', '15', '30'}
 
 def _extract_nested(parsed, days_str, rank):
     """Extract data from nested {days: {rank: {...}}} structure, with fallbacks."""
