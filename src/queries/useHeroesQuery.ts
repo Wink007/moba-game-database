@@ -69,19 +69,19 @@ export const useHeroSkillsQuery = (heroId: number) => {
   });
 };
 
-export const useHeroCounterDataQuery = (gameId: number, rank = 'all') => {
+export const useHeroCounterDataQuery = (gameId: number, rank = 'all', days = 1) => {
   return useQuery({
-    queryKey: queryKeys.heroes.counterData(gameId, rank),
-    queryFn: () => heroesApi.getHeroCounterData(gameId, rank),
+    queryKey: queryKeys.heroes.counterData(gameId, rank, days),
+    queryFn: () => heroesApi.getHeroCounterData(gameId, rank, days),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });
 };
 
-export const useHeroCompatibilityDataQuery = (gameId: number, rank = 'all') => {
+export const useHeroCompatibilityDataQuery = (gameId: number, rank = 'all', days = 1) => {
   return useQuery({
-    queryKey: queryKeys.heroes.compatibilityData(gameId, rank),
-    queryFn: () => heroesApi.getHeroCompatibilityData(gameId, rank),
+    queryKey: queryKeys.heroes.compatibilityData(gameId, rank, days),
+    queryFn: () => heroesApi.getHeroCompatibilityData(gameId, rank, days),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });

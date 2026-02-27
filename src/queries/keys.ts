@@ -13,8 +13,8 @@ export const queryKeys = {
     skills: (heroId: number) => ['heroes', heroId, 'skills'] as const,
     ranks: (gameId: number, filters?: Record<string, any>) => 
       ['hero-ranks', { gameId, ...filters }] as const,
-    counterData: (gameId: number, rank = 'all') => ['heroes', gameId, 'counter-data', rank] as const,
-    compatibilityData: (gameId: number, rank = 'all') => ['heroes', gameId, 'compatibility-data', rank] as const,
+    counterData: (gameId: number, rank = 'all', days = 1) => ['heroes', gameId, 'counter-data', rank, days] as const,
+    compatibilityData: (gameId: number, rank = 'all', days = 1) => ['heroes', gameId, 'compatibility-data', rank, days] as const,
   },
   items: {
     all: (gameId: number) => ['items', { gameId }] as const,

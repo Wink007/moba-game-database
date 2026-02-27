@@ -31,7 +31,7 @@ export const HeroRankPage = () => {
   );
 
   const { data: heroes } = useHeroesQuery(selectedGameId);
-  const { data: counterData } = useHeroCounterDataQuery(selectedGameId, rank);
+  const { data: counterData } = useHeroCounterDataQuery(selectedGameId, rank, days);
 
   useEffect(() => {
     if (heroRanksData && !isLoading) {
