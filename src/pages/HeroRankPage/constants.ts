@@ -1,5 +1,7 @@
 export const getDaysOptions = (t: (key: string) => string) => [
   { value: 1, label: t('heroRank.filters.days.1') },
+  { value: 3, label: t('heroRank.filters.days.3') },
+  { value: 7, label: t('heroRank.filters.days.7') },
   { value: 15, label: t('heroRank.filters.days.15') },
   { value: 30, label: t('heroRank.filters.days.30') },
 ];
