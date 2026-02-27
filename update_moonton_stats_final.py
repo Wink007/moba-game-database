@@ -56,7 +56,7 @@ def fetch_counter_data(hero_id):
         "filters": [
             {"field": "match_type", "operator": "eq", "value": 0},
             {"field": "main_heroid", "operator": "eq", "value": str(hero_id)},
-            {"field": "bigrank", "operator": "eq", "value": 7}
+            {"field": "bigrank", "operator": "eq", "value": 101}
         ],
         "sorts": []
     }
@@ -82,7 +82,7 @@ def fetch_compatibility_data(hero_id):
         "filters": [
             {"field": "match_type", "operator": "eq", "value": 1},
             {"field": "main_heroid", "operator": "eq", "value": str(hero_id)},
-            {"field": "bigrank", "operator": "eq", "value": 7}
+            {"field": "bigrank", "operator": "eq", "value": 101}
         ],
         "sorts": []
     }
@@ -142,7 +142,8 @@ for hero in db_heroes:
     counter_data = {}
     if counter_raw:
         best_counters = []
-        for item in counter_raw.get('sub_hero', [])[:5]:
+        sub_heroes_sorted = sorted(counter_raw.get('sub_hero', []), key=lambda x: x.get('hero_win_rate', 0), reverse=True)
+        for item in sub_heroes_sorted[:5]:
             sub_heroid = item.get('heroid')
             if sub_heroid:
                 best_counters.append({
@@ -153,7 +154,8 @@ for hero in db_heroes:
                 })
         
         most_countered = []
-        for item in counter_raw.get('sub_hero_last', [])[:5]:
+        sub_hero_last_sorted = sorted(counter_raw.get('sub_hero_last', []), key=lambda x: x.get('hero_win_rate', 1))
+        for item in sub_hero_last_sorted[:5]:
             sub_heroid = item.get('heroid')
             if sub_heroid:
                 most_countered.append({
@@ -173,7 +175,8 @@ for hero in db_heroes:
     compat_data = {}
     if compat_raw:
         compatible = []
-        for item in compat_raw.get('sub_hero', [])[:5]:
+        sub_hero_compat_sorted = sorted(compat_raw.get('sub_hero', []), key=lambda x: x.get('hero_win_rate', 0), reverse=True)
+        for item in sub_hero_compat_sorted[:5]:
             sub_heroid = item.get('heroid')
             if sub_heroid:
                 compatible.append({
@@ -184,7 +187,8 @@ for hero in db_heroes:
                 })
         
         not_compatible = []
-        for item in compat_raw.get('sub_hero_last', [])[:5]:
+        sub_hero_last_compat_sorted = sorted(compat_raw.get('sub_hero_last', []), key=lambda x: x.get('hero_win_rate', 1))
+        for item in sub_hero_last_compat_sorted[:5]:
             sub_heroid = item.get('heroid')
             if sub_heroid:
                 not_compatible.append({
