@@ -7,11 +7,34 @@ import { CompatibilityHero } from '../../../types';
 import { SynergyTabProps, CompatibilityData } from './interface';
 import styles from '../styles.module.scss';
 
-export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHeroes, synergySubTab, setSynergySubTab }) => {
+const renderSynergySkeletonList = (styles: Record<string, string>) =>
+  Array.from({ length: 5 }, (_, i) => (
+    <div key={i} className={styles.counterListItemSkeleton}>
+      <div className={`${styles.skeletonPulse} ${styles.skeletonRankItem}`} />
+      <div className={`${styles.skeletonPulse} ${styles.skeletonAvatarItem}`} />
+      <div className={styles.skeletonInfoItem}>
+        <div className={`${styles.skeletonPulse} ${styles.skeletonNameItem}`} />
+        <div className={`${styles.skeletonPulse} ${styles.skeletonBarItem}`} />
+      </div>
+      <div className={`${styles.skeletonPulse} ${styles.skeletonScoreItem}`} />
+    </div>
+  ));
+
+export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHeroes, synergySubTab, setSynergySubTab, isLoading }) => {
   const { t, i18n } = useTranslation();
 
   const findHeroByGameId = (heroId: number) =>
     allHeroes.find(h => h.hero_game_id === heroId) || allHeroes.find(h => h.id === heroId);
+
+  if (isLoading) {
+    return (
+      <div className={styles.contentSection}>
+        <div className={styles.counterList}>
+          {renderSynergySkeletonList(styles)}
+        </div>
+      </div>
+    );
+  }
 
   const heroCompatibilityData = parseMaybeJson<CompatibilityData>(hero.compatibility_data);
   if (!heroCompatibilityData) {

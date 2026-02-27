@@ -9,10 +9,11 @@ interface HeroRankCardProps {
   index: number;
   heroes: Hero[] | undefined;
   counterData: Record<number, HeroCounterData> | undefined;
+  counterLoading?: boolean;
   selectedGameId: number;
 }
 
-export const HeroRankCard = React.memo(({ hero, index, heroes, counterData, selectedGameId }: HeroRankCardProps) => {
+export const HeroRankCard = React.memo(({ hero, index, heroes, counterData, counterLoading, selectedGameId }: HeroRankCardProps) => {
   const { t } = useTranslation();
   const counterHero = heroes?.find(h => h.id === hero.hero_id);
   const heroGameId = hero.hero_game_id ?? counterHero?.hero_game_id ?? counterHero?.id;
@@ -59,7 +60,11 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, counterData, sele
       </div>
 
       <div className={styles.synergyHeroes} data-label={t('heroRank.bestWith')}>
-        {counters.length > 0 ? (
+        {counterLoading ? (
+          Array.from({ length: 5 }, (_, i) => (
+            <div key={i} className={styles.synergyHeroSkeleton} />
+          ))
+        ) : counters.length > 0 ? (
           counters.slice(0, 5).map((counter) => {
             const counterGameId = counter.heroid ?? counter.hero_id;
             const enemyHero = heroes?.find(h =>

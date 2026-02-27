@@ -28,7 +28,7 @@ function HeroDetailPage() {
   const { heroId } = useParams();
   const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(Number(heroId));
   const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(Number(heroId));
-  const { data: allHeroes = [] } = useHeroesQuery(hero?.game_id || 0);
+  const { data: allHeroes = [], isLoading: allHeroesLoading } = useHeroesQuery(hero?.game_id || 0);
   useHeroCounterDataQuery(hero?.game_id || 0);
   useHeroCompatibilityDataQuery(hero?.game_id || 0);
   const { data: patches = [] } = usePatchesQuery();
@@ -226,7 +226,7 @@ function HeroDetailPage() {
               <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} />
             )}
             {activeTab === 'synergy' && (
-              <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} />
+              <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} isLoading={allHeroesLoading} />
             )}
             {activeTab === 'history' && <HistoryTab hero={hero} heroPatches={heroPatches} />}
             {activeTab === 'stats' && <StatsHistoryTab hero={hero} />}

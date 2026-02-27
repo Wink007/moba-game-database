@@ -40,6 +40,7 @@ export interface SynergyTabProps {
   allHeroes: Hero[];
   synergySubTab: 'compatible' | 'incompatible';
   setSynergySubTab: (tab: 'compatible' | 'incompatible') => void;
+  isLoading?: boolean;
 }
 
 export interface HistoryTabProps {
