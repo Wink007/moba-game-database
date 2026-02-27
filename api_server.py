@@ -439,13 +439,18 @@ def get_all_heroes_relations():
     
     return jsonify(relations_by_hero)
 
+VALID_RANKS = {'all', 'epic', 'legend', 'mythic', 'honor', 'glory'}
+
 @app.route('/api/heroes/counter-data', methods=['GET'])
 def get_all_heroes_counter_data():
-    """Counter data для всіх героїв гри"""
+    """Counter data для всіх героїв гри. Supports ?rank=all|epic|legend|mythic|honor|glory"""
     game_id = request.args.get('game_id')
     if not game_id:
         return jsonify({'error': 'game_id required'}), 400
-    
+    rank = request.args.get('rank', 'all')
+    if rank not in VALID_RANKS:
+        rank = 'all'
+
     # Отримуємо всіх героїв з counter_data
     conn = db.get_connection()
     if db.DATABASE_TYPE == 'postgres':
@@ -453,25 +458,31 @@ def get_all_heroes_counter_data():
         cursor = conn.cursor(cursor_factory=RealDictCursor)
     else:
         cursor = conn.cursor()
-    
+
     ph = db.get_placeholder()
     cursor.execute(f"SELECT id, hero_game_id, counter_data FROM heroes WHERE game_id = {ph} AND counter_data IS NOT NULL", (game_id,))
     heroes = cursor.fetchall()
     db.release_connection(conn)
-    
-    # Групуємо по hero_game_id
+
+    # Групуємо по hero_game_id, повертаємо rank-specific дані
     counter_data_by_hero = {}
     for hero in heroes:
         hero_dict = db.dict_from_row(hero)
         hero_game_id = hero_dict.get('hero_game_id')
-        counter_data = hero_dict.get('counter_data')
-        
-        if hero_game_id and counter_data and counter_data.strip():
+        counter_data_raw = hero_dict.get('counter_data')
+
+        if hero_game_id and counter_data_raw and counter_data_raw.strip():
             try:
-                counter_data_by_hero[hero_game_id] = json.loads(counter_data)
+                parsed = json.loads(counter_data_raw)
+                # Nested format (new): has rank keys like 'all', 'epic', ...
+                if isinstance(parsed, dict) and 'all' in parsed:
+                    counter_data_by_hero[hero_game_id] = parsed.get(rank) or parsed.get('all') or {}
+                else:
+                    # Old flat format — serve as-is
+                    counter_data_by_hero[hero_game_id] = parsed
             except:
                 counter_data_by_hero[hero_game_id] = None
-    
+
     return jsonify(counter_data_by_hero)
 
 @app.route('/api/heroes/compatibility-data', methods=['GET'])
@@ -494,19 +505,26 @@ def get_all_heroes_compatibility_data():
     heroes = cursor.fetchall()
     db.release_connection(conn)
     
-    # Групуємо по hero_game_id
+    # Групуємо по hero_game_id, повертаємо rank-specific дані
+    rank = request.args.get('rank', 'all')
+    if rank not in VALID_RANKS:
+        rank = 'all'
     compatibility_data_by_hero = {}
     for hero in heroes:
         hero_dict = db.dict_from_row(hero)
         hero_game_id = hero_dict.get('hero_game_id')
         compatibility_data = hero_dict.get('compatibility_data')
-        
+
         if hero_game_id and compatibility_data and compatibility_data.strip():
             try:
-                compatibility_data_by_hero[hero_game_id] = json.loads(compatibility_data)
+                parsed = json.loads(compatibility_data)
+                if isinstance(parsed, dict) and 'all' in parsed:
+                    compatibility_data_by_hero[hero_game_id] = parsed.get(rank) or parsed.get('all') or {}
+                else:
+                    compatibility_data_by_hero[hero_game_id] = parsed
             except:
                 compatibility_data_by_hero[hero_game_id] = None
-    
+
     return jsonify(compatibility_data_by_hero)
 
 @app.route('/api/mlbb/heroes/fetch-and-update-stats', methods=['POST'])
