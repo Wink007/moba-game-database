@@ -106,7 +106,8 @@ def parse_counter(raw):
     if not raw:
         return None
     best_counters = []
-    for item in sorted(raw.get('sub_hero', []), key=lambda x: x.get('hero_win_rate', 0), reverse=True)[:5]:
+    # Sort by increase_win_rate DESC — how much win rate increases specifically against this hero
+    for item in sorted(raw.get('sub_hero', []), key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]:
         if item.get('heroid'):
             best_counters.append({
                 'heroid': item['heroid'],
@@ -115,7 +116,8 @@ def parse_counter(raw):
                 'appearance_rate': round(item.get('hero_appearance_rate', 0), 4),
             })
     most_countered = []
-    for item in sorted(raw.get('sub_hero_last', []), key=lambda x: x.get('hero_win_rate', 1))[:5]:
+    # Sort by increase_win_rate ASC — heroes that lose worst against this hero
+    for item in sorted(raw.get('sub_hero_last', []), key=lambda x: x.get('increase_win_rate', 1))[:5]:
         if item.get('heroid'):
             most_countered.append({
                 'heroid': item['heroid'],
@@ -133,7 +135,7 @@ def parse_compat(raw):
     if not raw:
         return None
     compatible = []
-    for item in sorted(raw.get('sub_hero', []), key=lambda x: x.get('hero_win_rate', 0), reverse=True)[:5]:
+    for item in sorted(raw.get('sub_hero', []), key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]:
         if item.get('heroid'):
             compatible.append({
                 'heroid': item['heroid'],
@@ -142,7 +144,7 @@ def parse_compat(raw):
                 'appearance_rate': round(item.get('hero_appearance_rate', 0), 4),
             })
     not_compatible = []
-    for item in sorted(raw.get('sub_hero_last', []), key=lambda x: x.get('hero_win_rate', 1))[:5]:
+    for item in sorted(raw.get('sub_hero_last', []), key=lambda x: x.get('increase_win_rate', 1))[:5]:
         if item.get('heroid'):
             not_compatible.append({
                 'heroid': item['heroid'],
