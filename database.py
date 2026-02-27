@@ -918,7 +918,7 @@ def get_hero_ranks(game_id=2, days=None, rank=None):
     
     # Базовий SQL запит
     sql = """
-        SELECT hr.*, h.name, h.painting, h.image, h.head, h.roles
+        SELECT hr.*, h.name, h.painting, h.image, h.head, h.roles, h.hero_game_id
         FROM hero_rank hr
         JOIN heroes h ON hr.hero_id = h.id
         WHERE h.game_id = %s
