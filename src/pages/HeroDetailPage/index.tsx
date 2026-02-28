@@ -29,8 +29,10 @@ function HeroDetailPage() {
   const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(Number(heroId));
   const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(Number(heroId));
   const { data: allHeroes = [], isLoading: allHeroesLoading } = useHeroesQuery(hero?.game_id || 0);
-  useHeroCounterDataQuery(hero?.game_id || 0);
-  useHeroCompatibilityDataQuery(hero?.game_id || 0);
+  const { data: allCounterData } = useHeroCounterDataQuery(hero?.game_id || 0, 'mythic', 7);
+  const heroCounterData = hero?.hero_game_id ? (allCounterData?.[hero.hero_game_id] ?? null) : null;
+  const { data: allCompatibilityData } = useHeroCompatibilityDataQuery(hero?.game_id || 0, 'mythic', 7);
+  const heroCompatibilityData = hero?.hero_game_id ? (allCompatibilityData?.[hero.hero_game_id] ?? null) : null;
   const { data: patches = [] } = usePatchesQuery();
   
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
@@ -223,10 +225,10 @@ function HeroDetailPage() {
             )}
             {activeTab === 'about' && <AboutTab hero={hero} />}
             {activeTab === 'counter' && (
-              <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} />
+              <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} counterData={heroCounterData} />
             )}
             {activeTab === 'synergy' && (
-              <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} isLoading={allHeroesLoading} />
+              <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} isLoading={allHeroesLoading} compatibilityData={heroCompatibilityData} />
             )}
             {activeTab === 'history' && <HistoryTab hero={hero} heroPatches={heroPatches} />}
             {activeTab === 'stats' && <StatsHistoryTab hero={hero} />}

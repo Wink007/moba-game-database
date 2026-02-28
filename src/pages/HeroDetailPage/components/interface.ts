@@ -33,6 +33,7 @@ export interface CounterTabProps {
   allHeroes: Hero[];
   counterSubTab: 'best' | 'worst';
   setCounterSubTab: (tab: 'best' | 'worst') => void;
+  counterData?: CounterData | null;
 }
 
 export interface SynergyTabProps {
@@ -41,6 +42,7 @@ export interface SynergyTabProps {
   synergySubTab: 'compatible' | 'incompatible';
   setSynergySubTab: (tab: 'compatible' | 'incompatible') => void;
   isLoading?: boolean;
+  compatibilityData?: CompatibilityData | null;
 }
 
 export interface HistoryTabProps {

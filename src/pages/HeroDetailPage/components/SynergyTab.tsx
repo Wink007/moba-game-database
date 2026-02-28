@@ -20,7 +20,7 @@ const renderSynergySkeletonList = (styles: Record<string, string>) =>
     </div>
   ));
 
-export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHeroes, synergySubTab, setSynergySubTab, isLoading }) => {
+export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHeroes, synergySubTab, setSynergySubTab, isLoading, compatibilityData: compatibilityDataProp }) => {
   const { t, i18n } = useTranslation();
 
   const findHeroByGameId = (heroId: number) =>
@@ -36,7 +36,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
     );
   }
 
-  const heroCompatibilityData = parseMaybeJson<CompatibilityData>(hero.compatibility_data);
+  const heroCompatibilityData = compatibilityDataProp ?? parseMaybeJson<CompatibilityData>(hero.compatibility_data);
   if (!heroCompatibilityData) {
     return (
       <div className={styles.contentSection}>
@@ -57,7 +57,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
 
     const heroWinRateValue = compatData.main_hero_win_rate || 0.5;
     const heroWinRate = heroWinRateValue < 1 ? heroWinRateValue * 100 : heroWinRateValue;
-    const teamWinRateValue = topMate.win_rate || 0;
+    const teamWinRateValue = topMate.win_rate || mateHero?.main_hero_win_rate || 0;
     const teamWinRate = teamWinRateValue < 1 ? teamWinRateValue * 100 : teamWinRateValue;
 
     return (

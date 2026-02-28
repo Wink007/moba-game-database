@@ -7,13 +7,13 @@ import { CounterHero } from '../../../types';
 import { CounterTabProps, CounterData } from './interface';
 import styles from '../styles.module.scss';
 
-export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHeroes, counterSubTab, setCounterSubTab }) => {
+export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHeroes, counterSubTab, setCounterSubTab, counterData: counterDataProp }) => {
   const { t, i18n } = useTranslation();
 
   const findHeroByGameId = (heroId: number) =>
     allHeroes.find(h => h.hero_game_id === heroId) || allHeroes.find(h => h.id === heroId);
 
-  const heroCounterData = parseMaybeJson<CounterData>(hero.counter_data);
+  const heroCounterData = counterDataProp ?? parseMaybeJson<CounterData>(hero.counter_data);
   if (!heroCounterData) {
     return (
       <div className={styles.contentSection}>
@@ -34,7 +34,7 @@ export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHero
 
     const heroWinRateValue = heroCounterData.main_hero_win_rate || 0.5;
     const heroWinRate = heroWinRateValue < 1 ? heroWinRateValue * 100 : heroWinRateValue;
-    const counterWinRateValue = topCounter.win_rate || 0;
+    const counterWinRateValue = topCounter.win_rate || counterHero.main_hero_win_rate || 0;
     const counterWinRate = counterWinRateValue < 1 ? counterWinRateValue * 100 : counterWinRateValue;
 
     return (

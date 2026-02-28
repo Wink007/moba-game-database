@@ -487,10 +487,10 @@
 
   @media (max-width: 1024px) {
     position: fixed;
-    top: calc(3.875rem + env(safe-area-inset-top, 0px) + var(--ad-banner-height, 0px));
+    top: calc(4.5rem + env(safe-area-inset-top, 0px) + var(--ad-banner-height, 0px));
     right: 0;
-    height: calc(100dvh - 3.875rem - env(safe-area-inset-top, 0px) - var(--ad-banner-height, 0px));
-    max-height: calc(100dvh - 3.875rem - env(safe-area-inset-top, 0px) - var(--ad-banner-height, 0px));
+    height: calc(100dvh - 4.5rem - env(safe-area-inset-top, 0px) - var(--ad-banner-height, 0px));
+    max-height: calc(100dvh - 4.5rem - env(safe-area-inset-top, 0px) - var(--ad-banner-height, 0px));
     z-index: 999;
     border-radius: 0;
     transform: translateX(100%);
@@ -1202,7 +1202,7 @@
   }
 
   @media (max-width: 480px) {
-    top: calc(0.75rem + env(safe-area-inset-top, 0px) + var(--ad-banner-height, 0px));
+    top: 0.75rem;
     right: 0.75rem;
     width: 28px;
     height: 28px;

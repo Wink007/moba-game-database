@@ -69,7 +69,7 @@ export const useHeroSkillsQuery = (heroId: number) => {
   });
 };
 
-export const useHeroCounterDataQuery = (gameId: number, rank = 'all', days = 1) => {
+export const useHeroCounterDataQuery = (gameId: number, rank = 'all', days = 7) => {
   return useQuery({
     queryKey: queryKeys.heroes.counterData(gameId, rank, days),
     queryFn: () => heroesApi.getHeroCounterData(gameId, rank, days),
@@ -78,7 +78,7 @@ export const useHeroCounterDataQuery = (gameId: number, rank = 'all', days = 1) 
   });
 };
 
-export const useHeroCompatibilityDataQuery = (gameId: number, rank = 'all', days = 1) => {
+export const useHeroCompatibilityDataQuery = (gameId: number, rank = 'all', days = 7) => {
   return useQuery({
     queryKey: queryKeys.heroes.compatibilityData(gameId, rank, days),
     queryFn: () => heroesApi.getHeroCompatibilityData(gameId, rank, days),

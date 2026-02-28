@@ -84,7 +84,9 @@ export const SingleResults: React.FC<SingleResultsProps> = memo(({ hero, results
             </div>
             <div className={styles.counterStats}>
               <span className={styles.counterScore}>{counter.increaseWinRate > 0 ? '+' : ''}{counter.increaseWinRate.toFixed(1)}%</span>
-              <span className={styles.counterWr}>{counter.winRate.toFixed(1)}% WR</span>
+              {counter.winRate != null && !isNaN(counter.winRate) && (
+                <span className={styles.counterWr}>{counter.winRate.toFixed(1)}% WR</span>
+              )}
             </div>
           </Link>
         ))}

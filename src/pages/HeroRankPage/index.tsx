@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHeroesQuery, useHeroRanksQuery, useHeroCounterDataQuery } from '../../queries/useHeroesQuery';
+import { useHeroesQuery, useHeroRanksQuery } from '../../queries/useHeroesQuery';
 import LoadMoreButton from '../../components/LoadMoreButton';
 import { FilterSection, FilterGroup } from '../../components/FilterSection';
 import styles from './styles.module.scss';
@@ -31,7 +31,6 @@ export const HeroRankPage = () => {
   );
 
   const { data: heroes } = useHeroesQuery(selectedGameId);
-  const { data: counterData, isLoading: counterLoading } = useHeroCounterDataQuery(selectedGameId, rank, days);
 
   useEffect(() => {
     if (heroRanksData && !isLoading) {
@@ -131,8 +130,6 @@ export const HeroRankPage = () => {
               hero={hero}
               index={index}
               heroes={heroes}
-              counterData={counterData}
-              counterLoading={counterLoading}
               selectedGameId={selectedGameId}
             />
           ))
