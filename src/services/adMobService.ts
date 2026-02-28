@@ -10,13 +10,12 @@ import {
 } from '@capacitor-community/admob';
 
 // ─── Ad Unit IDs ─────────────────────────────────────────────────────────────
-// TODO: замінити на реальні після реєстрації в AdMob Console
-const IS_TESTING = true;
+const IS_TESTING = false;
 
 export const AD_UNITS = {
-  banner:      'ca-app-pub-3940256099942544/6300978111',   // Google тест
-  rewarded:    'ca-app-pub-3940256099942544/5224354917',   // Google тест
-  interstitial:'ca-app-pub-3940256099942544/1033173712',   // Google тест
+  banner:      'ca-app-pub-9322014090918199/7923239236',
+  rewarded:    'ca-app-pub-9322014090918199/6610157563',
+  interstitial:'ca-app-pub-3940256099942544/1033173712',   // Google тест (не створено)
 };
 
 let _initialized = false;
