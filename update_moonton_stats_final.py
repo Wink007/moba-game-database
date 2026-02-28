@@ -146,7 +146,7 @@ for days, endpoint in DAYS_ENDPOINT_MAP.items():
                 sub = rec.get('sub_hero') or []
                 sub_last = rec.get('sub_hero_last') or []
                 best_counters = sorted(sub, key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]
-                most_countered_by = sorted(sub_last, key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]
+                most_countered_by = sorted(sub_last, key=lambda x: x.get('increase_win_rate', 0), reverse=False)[:5]
                 if moonton_id not in hero_data:
                     hero_data[moonton_id] = {}
                 if days_str not in hero_data[moonton_id]:
@@ -171,7 +171,7 @@ for days, endpoint in DAYS_ENDPOINT_MAP.items():
                 sub = rec.get('sub_hero') or []
                 sub_last = rec.get('sub_hero_last') or []
                 compatible = sorted(sub, key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]
-                not_compatible = sorted(sub_last, key=lambda x: x.get('increase_win_rate', 0), reverse=True)[:5]
+                not_compatible = sorted(sub_last, key=lambda x: x.get('increase_win_rate', 0), reverse=False)[:5]
                 if moonton_id not in compat_data:
                     compat_data[moonton_id] = {}
                 if days_str not in compat_data[moonton_id]:

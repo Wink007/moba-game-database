@@ -572,7 +572,7 @@ def fetch_and_update_stats_direct():
                 "pageIndex": page,
                 "filters": [
                     {"field": "bigrank", "operator": "eq", "value": "101"},  # All ranks
-                    {"field": "match_type", "operator": "eq", "value": 1}   # Ranked
+                    {"field": "match_type", "operator": "eq", "value": 0}   # Classic
                 ],
                 "sorts": [
                     {"data": {"field": "main_hero_win_rate", "order": "desc"}, "type": "sequence"}
@@ -3860,7 +3860,7 @@ def scheduled_update_hero_stats():
                 "pageSize": 20, "pageIndex": page,
                 "filters": [
                     {"field": "bigrank", "operator": "eq", "value": "101"},
-                    {"field": "match_type", "operator": "eq", "value": 1}
+                    {"field": "match_type", "operator": "eq", "value": 0}  # Classic
                 ],
                 "sorts": [{"data": {"field": "main_hero_win_rate", "order": "desc"}, "type": "sequence"}],
                 "fields": ["main_hero", "main_hero_appearance_rate", "main_hero_ban_rate", "main_hero_win_rate", "main_heroid"]

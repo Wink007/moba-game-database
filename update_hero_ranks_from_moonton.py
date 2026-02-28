@@ -65,14 +65,14 @@ BIGRANK_MAP = {
     'glory': '9'
 }
 
-def fetch_hero_stats(days, rank, match_type=1):
+def fetch_hero_stats(days, rank, match_type=0):
     """
     Збирає статистику героїв з Moonton API
     
     Args:
         days: період (1, 3, 7, 15, 30)
         rank: ранг (all, epic, legend, mythic, honor, glory)
-        match_type: 0=Classic, 1=Ranked (default: 1)
+        match_type: 0=Classic, 1=Ranked (default: 0 — як на сайті Moonton)
     """
     source_id = SOURCE_IDS.get(days)
     bigrank = BIGRANK_MAP.get(rank)
@@ -132,53 +132,44 @@ def fetch_hero_stats(days, rank, match_type=1):
     
     return all_heroes
 
-def update_hero_rank_in_db(hero_game_id, days, rank, ban_rate, pick_rate, win_rate, synergy_data, game_id=2, heroes_cache=None):
-    """Оновлює або додає запис в hero_rank напряму через database.py"""
+def batch_update_hero_ranks(records, days, rank, heroes_cache):
+    """Оновлює всі записи hero_rank для одної комбінації за одне з'єднання."""
+    ph = db.get_placeholder()
+    conn = db.get_connection()
+    cursor = conn.cursor()
+    updated = 0
+    skipped = 0
     try:
-        # Використовуємо кеш героїв для швидкості
-        if heroes_cache is None:
-            heroes_cache = {}
-        
-        hero_game_id_str = str(hero_game_id)
-        hero_id = heroes_cache.get(hero_game_id_str)
-        
-        if not hero_id:
-            return False
-        
-        conn = db.get_connection()
-        cursor = conn.cursor()
-        ph = db.get_placeholder()
-        
-        synergy_json = json.dumps(synergy_data) if synergy_data else None
-        
-        # Перевіряємо чи існує запис
-        cursor.execute(f"""
-            SELECT id FROM hero_rank 
-            WHERE hero_id = {ph} AND days = {ph} AND rank = {ph}
-        """, (hero_id, days, rank))
-        existing = cursor.fetchone()
-        
-        if existing:
-            existing_id = existing[0] if not isinstance(existing, dict) else existing['id']
-            cursor.execute(f"""
-                UPDATE hero_rank 
-                SET ban_rate = {ph}, appearance_rate = {ph}, win_rate = {ph}, 
-                    synergy_heroes = {ph}, updated_at = CURRENT_TIMESTAMP
-                WHERE id = {ph}
-            """, (ban_rate, pick_rate, win_rate, synergy_json, existing_id))
-        else:
-            cursor.execute(f"""
-                INSERT INTO hero_rank (hero_id, days, rank, ban_rate, appearance_rate, win_rate, synergy_heroes)
-                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-            """, (hero_id, days, rank, ban_rate, pick_rate, win_rate, synergy_json))
-        
+        for hero_game_id, ban_rate, pick_rate, win_rate, synergy_data in records:
+            hero_id = heroes_cache.get(str(hero_game_id))
+            if not hero_id:
+                skipped += 1
+                continue
+            synergy_json = json.dumps(synergy_data) if synergy_data else None
+            cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph} AND days = {ph} AND rank = {ph}",
+                           (hero_id, days, rank))
+            existing = cursor.fetchone()
+            if existing:
+                existing_id = existing[0] if not isinstance(existing, dict) else existing['id']
+                cursor.execute(f"""
+                    UPDATE hero_rank
+                    SET ban_rate = {ph}, appearance_rate = {ph}, win_rate = {ph},
+                        synergy_heroes = {ph}, updated_at = CURRENT_TIMESTAMP
+                    WHERE id = {ph}
+                """, (ban_rate, pick_rate, win_rate, synergy_json, existing_id))
+            else:
+                cursor.execute(f"""
+                    INSERT INTO hero_rank (hero_id, days, rank, ban_rate, appearance_rate, win_rate, synergy_heroes)
+                    VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+                """, (hero_id, days, rank, ban_rate, pick_rate, win_rate, synergy_json))
+            updated += 1
         conn.commit()
-        db.release_connection(conn)
-        return True
-        
     except Exception as e:
         print(f"    ❌ DB error: {e}")
-        return False
+        conn.rollback()
+    finally:
+        db.release_connection(conn)
+    return updated, skipped
 
 def main():
     print("=" * 80)
@@ -220,17 +211,15 @@ def main():
         print(f"\n[{idx}/30] 📊 Обробка: {days} днів, ранг {rank}")
         print("-" * 60)
         
-        heroes = fetch_hero_stats(days, rank, match_type=1)
+        heroes = fetch_hero_stats(days, rank, match_type=0)
         
         if not heroes:
             print(f"  ⚠️  Немає даних для {days}д/{rank}")
             continue
         
         print(f"  ✅ Отримано {len(heroes)} героїв")
-        
-        updated = 0
-        skipped = 0
-        
+
+        records = []
         for hero_data in heroes:
             try:
                 data = hero_data.get('data', {})
@@ -238,40 +227,23 @@ def main():
                 ban_rate = round(data.get('main_hero_ban_rate', 0) * 100, 2)
                 pick_rate = round(data.get('main_hero_appearance_rate', 0) * 100, 2)
                 win_rate = round(data.get('main_hero_win_rate', 0) * 100, 2)
-                
-                # Synergy heroes (top 5 allies from sub_hero)
                 synergy_heroes = []
-                sub_hero = data.get('sub_hero', [])
-                if sub_hero and isinstance(sub_hero, list):
-                    for ally in sub_hero[:5]:
-                        ally_id = ally.get('heroid')
-                        increase_wr = ally.get('increase_win_rate', 0) * 100
-                        if ally_id:
-                            synergy_heroes.append({
-                                'hero_id': ally_id,
-                                'synergy': round(increase_wr, 2)
-                            })
-                
-                success = update_hero_rank_in_db(
-                    hero_game_id, days, rank, 
-                    ban_rate, pick_rate, win_rate,
-                    synergy_heroes, heroes_cache=heroes_cache
-                )
-                
-                if success:
-                    updated += 1
-                else:
-                    skipped += 1
-                    
+                for ally in (data.get('sub_hero') or [])[:5]:
+                    ally_id = ally.get('heroid')
+                    if ally_id:
+                        synergy_heroes.append({
+                            'hero_id': ally_id,
+                            'synergy': round(ally.get('increase_win_rate', 0) * 100, 2)
+                        })
+                records.append((hero_game_id, ban_rate, pick_rate, win_rate, synergy_heroes))
             except Exception as e:
                 print(f"    ❌ Помилка обробки героя: {e}")
-                skipped += 1
-        
+
+        updated, skipped = batch_update_hero_ranks(records, days, rank, heroes_cache)
         total_updated += updated
         total_skipped += skipped
-        
         print(f"  ✅ Оновлено: {updated}, Пропущено: {skipped}")
-        time.sleep(0.5)  # Затримка між комбінаціями
+        time.sleep(0.3)  # Затримка між комбінаціями
     
     print("\n" + "=" * 80)
     print("📈 ПІДСУМОК")
