@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../../utils/translation';
@@ -7,8 +7,52 @@ import { CounterHero } from '../../../types';
 import { CounterTabProps, CounterData } from './interface';
 import styles from '../styles.module.scss';
 
-export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHeroes, counterSubTab, setCounterSubTab, counterData: counterDataProp }) => {
+const MIN_SKELETON_MS = 600;
+
+const renderCounterSkeletonList = (styles: Record<string, string>) =>
+  Array.from({ length: 5 }, (_, i) => (
+    <div key={i} className={styles.counterListItemSkeleton}>
+      <div className={`${styles.skeletonPulse} ${styles.skeletonRankItem}`} />
+      <div className={`${styles.skeletonPulse} ${styles.skeletonAvatarItem}`} />
+      <div className={styles.skeletonInfoItem}>
+        <div className={`${styles.skeletonPulse} ${styles.skeletonNameItem}`} />
+        <div className={`${styles.skeletonPulse} ${styles.skeletonBarItem}`} />
+      </div>
+      <div className={`${styles.skeletonPulse} ${styles.skeletonScoreItem}`} />
+    </div>
+  ));
+
+export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHeroes, counterSubTab, setCounterSubTab, counterData: counterDataProp, isLoading }) => {
   const { t, i18n } = useTranslation();
+
+  const mountTimeRef = useRef(Date.now());
+  const [skeletonVisible, setSkeletonVisible] = useState(true);
+
+  useEffect(() => {
+    mountTimeRef.current = Date.now();
+    setSkeletonVisible(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      const elapsed = Date.now() - mountTimeRef.current;
+      const remaining = Math.max(0, MIN_SKELETON_MS - elapsed);
+      const timer = setTimeout(() => setSkeletonVisible(false), remaining);
+      return () => clearTimeout(timer);
+    } else {
+      setSkeletonVisible(true);
+    }
+  }, [isLoading]);
+
+  if (skeletonVisible) {
+    return (
+      <div className={styles.contentSection}>
+        <div className={styles.counterList}>
+          {renderCounterSkeletonList(styles)}
+        </div>
+      </div>
+    );
+  }
 
   const findHeroByGameId = (heroId: number) =>
     allHeroes.find(h => h.hero_game_id === heroId) || allHeroes.find(h => h.id === heroId);

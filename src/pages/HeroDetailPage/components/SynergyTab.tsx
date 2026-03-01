@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../../utils/translation';
@@ -6,6 +6,8 @@ import { parseMaybeJson } from '../../../utils/parseMaybeJson';
 import { CompatibilityHero } from '../../../types';
 import { SynergyTabProps, CompatibilityData } from './interface';
 import styles from '../styles.module.scss';
+
+const MIN_SKELETON_MS = 600;
 
 const renderSynergySkeletonList = (styles: Record<string, string>) =>
   Array.from({ length: 5 }, (_, i) => (
@@ -23,10 +25,30 @@ const renderSynergySkeletonList = (styles: Record<string, string>) =>
 export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHeroes, synergySubTab, setSynergySubTab, isLoading, compatibilityData: compatibilityDataProp }) => {
   const { t, i18n } = useTranslation();
 
+  // Guarantee skeleton is visible for at least MIN_SKELETON_MS on every mount
+  const mountTimeRef = useRef(Date.now());
+  const [skeletonVisible, setSkeletonVisible] = useState(true);
+
+  useEffect(() => {
+    mountTimeRef.current = Date.now();
+    setSkeletonVisible(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading) {
+      const elapsed = Date.now() - mountTimeRef.current;
+      const remaining = Math.max(0, MIN_SKELETON_MS - elapsed);
+      const t = setTimeout(() => setSkeletonVisible(false), remaining);
+      return () => clearTimeout(t);
+    } else {
+      setSkeletonVisible(true);
+    }
+  }, [isLoading]);
+
   const findHeroByGameId = (heroId: number) =>
     allHeroes.find(h => h.hero_game_id === heroId) || allHeroes.find(h => h.id === heroId);
 
-  if (isLoading) {
+  if (skeletonVisible) {
     return (
       <div className={styles.contentSection}>
         <div className={styles.counterList}>

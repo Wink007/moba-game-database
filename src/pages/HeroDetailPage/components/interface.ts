@@ -34,6 +34,7 @@ export interface CounterTabProps {
   counterSubTab: 'best' | 'worst';
   setCounterSubTab: (tab: 'best' | 'worst') => void;
   counterData?: CounterData | null;
+  isLoading?: boolean;
 }
 
 export interface SynergyTabProps {

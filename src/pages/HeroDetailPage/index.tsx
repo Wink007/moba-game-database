@@ -225,7 +225,7 @@ function HeroDetailPage() {
             )}
             {activeTab === 'about' && <AboutTab hero={hero} />}
             {activeTab === 'counter' && (
-              <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} counterData={heroCounterData} />
+              <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} counterData={heroCounterData} isLoading={allHeroesLoading} />
             )}
             {activeTab === 'synergy' && (
               <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} isLoading={allHeroesLoading} compatibilityData={heroCompatibilityData} />
