@@ -17,6 +17,9 @@ import { useAdManager } from './hooks/useAdManager';
 import { STALE_5_MIN } from './queries/keys';
 import './App.css';
 
+// Модульна змінна — не скидається при ремаунті App
+let _splashDone = !Capacitor.isNativePlatform();
+
 const HomePage = React.lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
 const HeroesPage = React.lazy(() => import('./pages/HeroesPage'));
 const HeroDetailPage = React.lazy(() => import('./pages/HeroDetailPage'));
@@ -52,11 +55,11 @@ function AppInner() {
 }
 
 function App() {
-  const [splashDone, setSplashDone] = useState(() => !Capacitor.isNativePlatform());
+  const [splashDone, setSplashDone] = useState(() => _splashDone);
 
   return (
     <>
-    {!splashDone && <AnimatedSplash onDone={() => setSplashDone(true)} />}
+    {!splashDone && <AnimatedSplash onDone={() => { _splashDone = true; setSplashDone(true); }} />}
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
