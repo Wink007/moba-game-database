@@ -7,12 +7,12 @@
     android:viewportHeight="108">
 
     <path
-        android:pathData="M24,24 L84,24 Q86,24 86,26 L86,82 Q86,84 84,84 L24,84 Q22,84 22,82 L22,26 Q22,24 24,24 Z"
+        android:pathData="M22,22 L86,22 Q88,22 88,24 L88,84 Q88,86 86,86 L22,86 Q20,86 20,84 L20,24 Q20,22 22,22 Z"
         android:fillColor="#00000000"
         android:strokeWidth="2.5">
         <aapt:attr name="android:strokeColor">
-            <gradient android:startX="22" android:startY="22"
-                android:endX="86" android:endY="86" android:type="linear">
+            <gradient android:startX="20" android:startY="20"
+                android:endX="88" android:endY="88" android:type="linear">
                 <item android:offset="0" android:color="#9960a5fa"/>
                 <item android:offset="1" android:color="#99818cf8"/>
             </gradient>
@@ -20,14 +20,14 @@
     </path>
 
     <path
-        android:pathData="M26,72 L26,38 L44,60 L62,38 L62,72"
+        android:pathData="M25,73 L25,37 L40,57 L55,37 L55,73"
         android:fillColor="#00000000"
-        android:strokeWidth="6.5"
+        android:strokeWidth="6"
         android:strokeLineCap="round"
         android:strokeLineJoin="round">
         <aapt:attr name="android:strokeColor">
-            <gradient android:startX="26" android:startY="38"
-                android:endX="62" android:endY="72" android:type="linear">
+            <gradient android:startX="25" android:startY="37"
+                android:endX="55" android:endY="73" android:type="linear">
                 <item android:offset="0" android:color="#FF60a5fa"/>
                 <item android:offset="1" android:color="#FF818cf8"/>
             </gradient>
@@ -35,14 +35,14 @@
     </path>
 
     <path
-        android:pathData="M64,38 L72,72 L80,52 L88,72 L96,38"
+        android:pathData="M57,37 L65,73 L72,53 L79,73 L87,37"
         android:fillColor="#00000000"
-        android:strokeWidth="6.5"
+        android:strokeWidth="6"
         android:strokeLineCap="round"
         android:strokeLineJoin="round">
         <aapt:attr name="android:strokeColor">
-            <gradient android:startX="64" android:startY="38"
-                android:endX="96" android:endY="72" android:type="linear">
+            <gradient android:startX="57" android:startY="37"
+                android:endX="87" android:endY="73" android:type="linear">
                 <item android:offset="0" android:color="#FF60a5fa"/>
                 <item android:offset="1" android:color="#FF818cf8"/>
             </gradient>
