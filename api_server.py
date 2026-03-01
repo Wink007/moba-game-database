@@ -3922,26 +3922,17 @@ def run_scheduled_updates():
 
 @app.route('/api/admin/scheduler/status', methods=['GET'])
 def scheduler_status():
-    """Показує статус scheduler та наступний запуск"""
-    try:
-        if not _scheduler:
-            return jsonify({'enabled': False, 'message': 'Scheduler not initialized'})
-        
-        jobs = []
-        for job in _scheduler.get_jobs():
-            jobs.append({
-                'id': job.id,
-                'name': job.name,
-                'next_run': str(job.next_run_time) if job.next_run_time else None,
-            })
-        
-        return jsonify({
-            'enabled': True,
-            'running': _scheduler.running,
-            'jobs': jobs
-        })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    """Показує статус (Railway Cron Job: 0 18 * * *)"""
+    return jsonify({
+        'enabled': True,
+        'type': 'railway_cron',
+        'schedule': '0 18 * * * (UTC)',
+        'jobs': [{
+            'id': 'daily_hero_update',
+            'name': 'Daily hero stats & ranks update',
+            'next_run': 'managed by Railway Cron'
+        }]
+    })
 
 
 @app.route('/api/admin/scheduler/run-now', methods=['POST'])
@@ -3955,40 +3946,8 @@ def scheduler_run_now():
         return jsonify({'error': str(e)}), 500
 
 
-_scheduler = None
-
-
-def init_scheduler():
-    """Ініціалізує APScheduler для автоматичного оновлення"""
-    try:
-        from apscheduler.schedulers.background import BackgroundScheduler
-        from apscheduler.triggers.cron import CronTrigger
-
-        scheduler = BackgroundScheduler(daemon=True)
-        
-        # Щодня о 18:00 UTC (20:00 Київ зимою, 21:00 літом)
-        scheduler.add_job(
-            run_scheduled_updates,
-            CronTrigger(hour=18, minute=0),
-            id='daily_hero_update',
-            name='Daily hero stats & ranks update',
-            replace_existing=True
-        )
-
-        scheduler.start()
-        print(f"✅ Scheduler started: daily hero update at 18:00 UTC")
-        return scheduler
-    except ImportError:
-        print("⚠️  APScheduler not installed, scheduled updates disabled")
-        return None
-    except Exception as e:
-        print(f"⚠️  Failed to start scheduler: {e}")
-        return None
-
-
-# Запускаємо scheduler тільки на продакшн (gunicorn), не на кожному werkzeug reload
-if os.getenv('DATABASE_TYPE') == 'postgres':
-    _scheduler = init_scheduler()
+# Scheduler is managed by Railway Cron Job (0 18 * * *) which calls /api/admin/scheduler/run-now
+# APScheduler removed — unreliable on Railway (lost state on dyno restart)
 
 
 if __name__ == '__main__':
