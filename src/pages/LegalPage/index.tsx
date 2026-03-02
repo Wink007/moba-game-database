@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './styles.module.scss';
 
-type Tab = 'privacy' | 'terms';
+type Tab = 'privacy' | 'terms' | 'cookies';
 
 export const LegalPage = () => {
   const [searchParams] = useSearchParams();
@@ -10,7 +10,7 @@ export const LegalPage = () => {
 
   useEffect(() => {
     const tab = searchParams.get('tab');
-    if (tab === 'terms' || tab === 'privacy') {
+    if (tab === 'terms' || tab === 'privacy' || tab === 'cookies') {
       setActiveTab(tab);
     }
   }, [searchParams]);
@@ -37,10 +37,18 @@ export const LegalPage = () => {
         >
           Terms of Service
         </button>
+        <button
+          className={`${styles.tab} ${activeTab === 'cookies' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('cookies')}
+        >
+          Cookie Policy
+        </button>
       </div>
 
       <div className={styles.content}>
-        {activeTab === 'privacy' ? <PrivacyPolicy /> : <TermsOfService />}
+        {activeTab === 'privacy' && <PrivacyPolicy />}
+        {activeTab === 'terms' && <TermsOfService />}
+        {activeTab === 'cookies' && <CookiePolicy />}
       </div>
     </div>
   );
@@ -49,40 +57,58 @@ export const LegalPage = () => {
 const PrivacyPolicy = () => (
   <div className={styles.document}>
     <h2>Privacy Policy</h2>
-    <p className={styles.lastUpdated}>Last Updated: February 22, 2026</p>
+    <p className={styles.lastUpdated}>Last Updated: March 2, 2026</p>
 
     <section>
       <h3>Introduction</h3>
       <p>
-        This Privacy Policy describes how Mobile Legends Wiki (Unofficial) ("we", "our", or "the app") 
-        handles information when you use our application.
+        This Privacy Policy describes how Mobile Legends Wiki (Unofficial) (&quot;we&quot;, &quot;our&quot;, or &quot;the app&quot;)
+        collects, uses, and protects your information when you use our website and application.
+        We are committed to compliance with the General Data Protection Regulation (GDPR) and other applicable privacy laws.
       </p>
     </section>
 
     <section>
-      <h3>Information We Collect</h3>
-      
-      <h4>Account Information (Optional)</h4>
-      <p>If you choose to sign in with Google, we receive and store the following information from your Google account:</p>
+      <h3>Legal Basis for Processing (GDPR)</h3>
+      <p>We process your personal data on the following legal bases:</p>
       <ul>
-        <li><strong>Display name</strong> — used to personalize your experience</li>
-        <li><strong>Email address</strong> — used as your unique account identifier</li>
+        <li><strong>Consent</strong> — when you choose to sign in with Google or accept cookies</li>
+        <li><strong>Legitimate interests</strong> — for basic server security and fraud prevention</li>
+        <li><strong>Contract performance</strong> — to provide account features (saves, favorites)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Information We Collect</h3>
+
+      <h4>Account Information (Optional)</h4>
+      <p>If you choose to sign in with Google, we receive and store:</p>
+      <ul>
+        <li><strong>Display name</strong> — to personalize your experience</li>
+        <li><strong>Email address</strong> — as your unique account identifier</li>
         <li><strong>Profile picture URL</strong> — displayed in the app interface</li>
       </ul>
-      <p>Sign-in is optional. You can use the app without creating an account.</p>
+      <p>Sign-in is entirely optional. You can use the app without creating an account.</p>
 
       <h4>User-Generated Content</h4>
       <ul>
         <li>Hero builds you create and publish</li>
-        <li>Your favorites list (liked heroes)</li>
+        <li>Your favorites list</li>
       </ul>
 
       <h4>Automatically Collected Information</h4>
       <ul>
-        <li>We may collect anonymous usage statistics through analytics (if enabled)</li>
+        <li>Basic server logs (IP address, request timestamps) — collected by our hosting provider Railway</li>
         <li>Browser type and device information for improving user experience</li>
-        <li>Basic server logs (IP address, request timestamps) collected by our hosting provider</li>
       </ul>
+
+      <h4>Advertising Data</h4>
+      <p>
+        This site uses <strong>Google AdSense</strong> to display advertisements. Google may use cookies
+        and similar technologies to show personalized ads based on your browsing activity.
+        You can manage advertising preferences at{' '}
+        <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">adssettings.google.com</a>.
+      </p>
     </section>
 
     <section>
@@ -91,42 +117,72 @@ const PrivacyPolicy = () => (
         <li>To authenticate your identity and maintain your session</li>
         <li>To save and display your hero builds and favorites</li>
         <li>To personalize your experience (display name, avatar)</li>
-        <li>We do <strong>not</strong> use your data for advertising or marketing</li>
-        <li>We do <strong>not</strong> sell or share your personal data with third parties</li>
+        <li>To display relevant advertisements via Google AdSense</li>
+        <li>We do <strong>not</strong> sell your personal data to third parties</li>
+        <li>We do <strong>not</strong> use your personal data for our own marketing</li>
       </ul>
     </section>
 
     <section>
-      <h3>Data Storage</h3>
+      <h3>Your Rights Under GDPR</h3>
+      <p>If you are located in the European Economic Area (EEA), you have the following rights:</p>
       <ul>
-        <li>Account data and user content are stored in a PostgreSQL database hosted on Railway</li>
-        <li>Authentication tokens (JWT) are stored locally in your browser</li>
-        <li>Game data (heroes, items, stats) is fetched from our public API</li>
+        <li><strong>Right of access</strong> — request a copy of the personal data we hold about you</li>
+        <li><strong>Right to rectification</strong> — request correction of inaccurate personal data</li>
+        <li><strong>Right to erasure</strong> — request deletion of your account and all associated data</li>
+        <li><strong>Right to data portability</strong> — receive your data in a structured, machine-readable format</li>
+        <li><strong>Right to object</strong> — object to processing based on legitimate interests</li>
+        <li><strong>Right to restriction</strong> — request restricted processing of your data</li>
+        <li><strong>Right to withdraw consent</strong> — withdraw consent at any time without affecting prior processing</li>
+      </ul>
+      <p>
+        To exercise any of these rights, contact us at{' '}
+        <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a> or via our{' '}
+        <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
+        We will respond within 30 days.
+      </p>
+    </section>
+
+    <section>
+      <h3>Data Storage &amp; Retention</h3>
+      <ul>
+        <li>Account data is stored in a PostgreSQL database hosted on Railway (EU/US region)</li>
+        <li>Authentication tokens (JWT) are stored locally in your browser and expire automatically</li>
+        <li>We retain account data until you request deletion</li>
+        <li>Server logs are retained for up to 30 days</li>
         <li>All communications use HTTPS encryption</li>
       </ul>
     </section>
 
     <section>
       <h3>Third-Party Services</h3>
-      <p>This app uses the following third-party services:</p>
+      <p>This app uses the following third-party services that may process your data:</p>
       <ul>
-        <li><strong>Google Sign-In (Google OAuth 2.0)</strong> — for authentication. Google's privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a></li>
-        <li><strong>Railway</strong> — hosting provider, may collect basic server logs</li>
+        <li>
+          <strong>Google Sign-In (OAuth 2.0)</strong> — authentication.{' '}
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>
+        </li>
+        <li>
+          <strong>Google AdSense</strong> — advertising.{' '}
+          <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google Ads Policy</a>
+        </li>
+        <li>
+          <strong>Railway</strong> — hosting provider. May collect basic server logs.
+        </li>
       </ul>
     </section>
 
     <section>
-      <h3>Account Deletion & Your Rights</h3>
-      <ul>
-        <li>You can log out at any time, which clears your local session</li>
-        <li>To request full deletion of your account and all associated data (builds, favorites), contact us via GitHub</li>
-        <li>You can also revoke our app's access to your Google account at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">myaccount.google.com/permissions</a></li>
-      </ul>
-    </section>
-
-    <section>
-      <h3>Children's Privacy</h3>
-      <p>This service is not directed to children under 13 years of age. We do not knowingly collect personal information from children under 13.</p>
+      <h3>Cookies</h3>
+      <p>
+        We use cookies for authentication and advertising. For full details, see our{' '}
+        <button
+          style={{ background: 'none', border: 'none', color: '#6b8cff', cursor: 'pointer', padding: 0, textDecoration: 'underline', font: 'inherit' }}
+          onClick={() => document.querySelectorAll('button').forEach(b => { if (b.textContent === 'Cookie Policy') b.click(); })}
+        >
+          Cookie Policy
+        </button>.
+      </p>
     </section>
 
     <section>
@@ -140,25 +196,38 @@ const PrivacyPolicy = () => (
     </section>
 
     <section>
-      <h3>Changes to This Policy</h3>
-      <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date.</p>
+      <h3>Children's Privacy</h3>
+      <p>This service is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us data, contact us to have it removed.</p>
+    </section>
+
+    <section>
+      <h3>International Transfers</h3>
+      <p>
+        Your data may be transferred to and processed in countries outside the EEA (including the United States)
+        by our third-party providers (Google, Railway). These transfers are protected by standard contractual clauses
+        or adequacy decisions.
+      </p>
     </section>
 
     <section>
       <h3>Disclaimer</h3>
-      <p>
-        This app is an unofficial, fan-made project. We are not affiliated with, endorsed by, 
-        or sponsored by Moonton Technology Co., Ltd.
-      </p>
-      <p>
-        All Mobile Legends game content, images, character names, and trademarks are property 
-        of Moonton Technology Co., Ltd.
-      </p>
+      <p>This app is an unofficial, fan-made project not affiliated with, endorsed by, or sponsored by Moonton Technology Co., Ltd.</p>
+      <p>All Mobile Legends game content, images, character names, and trademarks are property of Moonton Technology Co., Ltd.</p>
     </section>
 
     <section>
-      <h3>Contact</h3>
-      <p>For questions about this Privacy Policy or to request data deletion, please open an issue on our <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p>
+      <h3>Changes to This Policy</h3>
+      <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date. Continued use after changes constitutes acceptance.</p>
+    </section>
+
+    <section>
+      <h3>Contact &amp; Data Controller</h3>
+      <p>For privacy questions, data requests, or complaints:</p>
+      <ul>
+        <li>Email: <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a></li>
+        <li>GitHub: <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">github.com/Wink007/moba-game-database</a></li>
+      </ul>
+      <p>You also have the right to lodge a complaint with your local data protection authority.</p>
     </section>
   </div>
 );
@@ -166,7 +235,7 @@ const PrivacyPolicy = () => (
 const TermsOfService = () => (
   <div className={styles.document}>
     <h2>Terms of Service</h2>
-    <p className={styles.lastUpdated}>Last Updated: February 22, 2026</p>
+    <p className={styles.lastUpdated}>Last Updated: March 2, 2026</p>
 
     <section>
       <h3>1. Acceptance of Terms</h3>
@@ -299,7 +368,8 @@ const TermsOfService = () => (
       <h3>12. Contact</h3>
       <p>For questions or concerns about these Terms:</p>
       <ul>
-        <li>Open an issue on our <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">GitHub repository</a></li>
+        <li>Email: <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a></li>
+        <li>GitHub: <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">github.com/Wink007/moba-game-database</a></li>
       </ul>
     </section>
 
@@ -316,5 +386,99 @@ const TermsOfService = () => (
         <li>You accept these terms and conditions</li>
       </ul>
     </div>
+  </div>
+);
+
+const CookiePolicy = () => (
+  <div className={styles.document}>
+    <h2>Cookie Policy</h2>
+    <p className={styles.lastUpdated}>Last Updated: March 2, 2026</p>
+
+    <section>
+      <h3>What Are Cookies?</h3>
+      <p>
+        Cookies are small text files placed on your device when you visit a website. They are widely used
+        to make websites work, improve efficiency, and provide information to site owners.
+      </p>
+    </section>
+
+    <section>
+      <h3>Cookies We Use</h3>
+
+      <h4>1. Essential Cookies</h4>
+      <p>Required for the website to function. Cannot be disabled.</p>
+      <ul>
+        <li>
+          <strong>auth_token</strong> (localStorage) — stores your JWT authentication token to keep you logged in.
+          Expires when you log out or when the token expires.
+        </li>
+        <li>
+          <strong>cookie_consent</strong> (localStorage) — stores your cookie preference (accepted/declined).
+          Expires never (permanent).
+        </li>
+      </ul>
+
+      <h4>2. Advertising Cookies</h4>
+      <p>Used to display personalized advertisements. Only set if you accept cookies.</p>
+      <ul>
+        <li>
+          <strong>Google AdSense</strong> — Google uses cookies (e.g., <code>__gads</code>, <code>__gpi</code>) to
+          serve and measure ads. Google may use your browsing data to show relevant ads.
+        </li>
+        <li>
+          Provider: Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+        </li>
+        <li>
+          More info: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google Advertising Policies</a>
+        </li>
+      </ul>
+
+      <h4>3. Analytics Cookies</h4>
+      <p>Currently not in use. We do not run any analytics tracking tools at this time.</p>
+    </section>
+
+    <section>
+      <h3>Your Choices</h3>
+      <ul>
+        <li>
+          <strong>Cookie banner</strong> — when you first visit, you can Accept or Decline non-essential cookies.
+          If you decline, advertising cookies will not be loaded.
+        </li>
+        <li>
+          <strong>Change your preference</strong> — clear your browser's localStorage to reset your choice
+          and see the banner again.
+        </li>
+        <li>
+          <strong>Browser settings</strong> — you can block or delete cookies via your browser settings.
+          Note: blocking essential cookies may prevent login from working.
+        </li>
+        <li>
+          <strong>Google Ad settings</strong> — manage personalized ad preferences at{' '}
+          <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">adssettings.google.com</a>.
+        </li>
+        <li>
+          <strong>Opt out of interest-based ads</strong> — visit{' '}
+          <a href="https://optout.networkadvertising.org" target="_blank" rel="noopener noreferrer">networkadvertising.org</a>{' '}
+          or{' '}
+          <a href="https://www.youronlinechoices.eu" target="_blank" rel="noopener noreferrer">youronlinechoices.eu</a> (EU).
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Legal Basis (GDPR)</h3>
+      <ul>
+        <li><strong>Essential cookies</strong> — legitimate interest (necessary for service operation)</li>
+        <li><strong>Advertising cookies</strong> — consent (only loaded after you click "Accept")</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Contact</h3>
+      <p>For questions about our cookie usage:</p>
+      <ul>
+        <li>Email: <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a></li>
+      </ul>
+    </section>
   </div>
 );
