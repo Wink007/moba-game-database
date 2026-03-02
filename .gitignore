@@ -26,6 +26,9 @@ yarn-error.log*
 # Log files
 *.log
 
+# Auto-generated at build time
+/public/games-data.js
+
 # Temp data
 *.progress.json
 heroes_topics_progress.json
