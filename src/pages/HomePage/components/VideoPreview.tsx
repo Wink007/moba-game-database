@@ -27,7 +27,16 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
     }
   }, [game?.id]);
 
-  if (!game) return null;
+  if (!game) {
+    return (
+      <div className={styles.videoPreview} style={{ background: 'linear-gradient(180deg, #0d1117 0%, #0a0f1e 100%)' }}>
+        <div className={styles.overlay} />
+        <div className={styles.content}>
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.videoPreview}>
@@ -43,6 +52,8 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
           preload="metadata"
           className={styles.video}
           poster={getVideoPosterUrl(game.video_intro)}
+          // @ts-ignore
+          fetchpriority="high"
         />
       ) : (
         <img 
