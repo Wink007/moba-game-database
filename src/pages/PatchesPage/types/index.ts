@@ -1,108 +1,41 @@
-export interface PatchSkill {
-  type: string | null;
-  name: string;
-  balance: string | null;
-  changes: string[];
-}
+// Reddit patch notes format (from u/Tigreal posts)
+// All *_en/*_uk fields are normalized to plain description by the API (?lang=)
 
 export interface SkillAdjustment {
-  skill_type: string;
-  skill_name?: string;
-  badge?: string;
-  description: string;
-}
-
-export interface AttributeAdjustment {
-  attribute_name: string;
-  badge?: string;
-  description: string;
-}
-
-export interface PatchHeroChanges {
-  summary?: string;
-  skills?: PatchSkill[];
-  badge?: string;
-  description?: string;
-  adjustments?: SkillAdjustment[];
-  attribute_adjustments?: AttributeAdjustment[];
-}
-
-export interface NewHeroSkill {
-  skill_type?: string;
-  type?: string;
-  skill_name?: string;
-  name?: string;
-  description: string;
-}
-
-export interface NewHero {
-  name: string;
-  title: string;
-  description: string;
-  skills: NewHeroSkill[];
-}
-
-export interface BattlefieldSection {
-  name: string;
-  balance: string | null;
-  changes: string[];
-}
-
-export interface BattlefieldItem {
-  description: string[];
-  sections: BattlefieldSection[];
-  changes: string[];
-}
-
-export interface BattlefieldAdjustment {
-  type?: 'section' | 'item';
-  badge?: string;
-  description?: string | string[];
-  items?: Record<string, BattlefieldItem>;
-  changes?: string[];
-}
-
-export interface EquipmentAdjustmentItem {
-  name?: string;
-  badge?: string;
-  description?: string;
-}
-
-export interface ItemAdjustment {
-  badge?: string;
-  description?: string;
-  adjustments?: (string | EquipmentAdjustmentItem)[];
-}
-
-export interface RevampedHeroAdjustment {
-  skill_type: string;
+  badge: string;        // BUFF | NERF | ADJUST | CHANGE
   skill_name: string;
   description: string;
 }
 
-export interface RevampedHeroData {
+export interface HeroAdjustment {
   badge: string;
   description: string;
-  adjustments: RevampedHeroAdjustment[];
+  adjustments?: SkillAdjustment[];
 }
 
-export interface SystemAdjustment {
-  name: string;
+export interface EquipmentAdjustment {
+  badge: string;
+  description: string;
+  adjustments?: SkillAdjustment[];
+}
+
+export interface BattlefieldAdjustment {
+  badge: string;
   description: string;
 }
 
 export interface Patch {
   version: string;
   release_date: string;
-  designers_note?: string;
-  new_hero: NewHero | null;
-  hero_adjustments: Record<string, PatchHeroChanges>;
-  emblem_adjustments: Record<string, { sections?: BattlefieldSection[]; badge?: string; description?: string; adjustments?: string[] }>;
-  equipment_adjustments?: Record<string, ItemAdjustment>;
+  game_id: number;
+  is_adv_server: boolean;
+  reddit_source: boolean;
+  reddit_permalink?: string;
+  hero_adjustments: Record<string, HeroAdjustment>;
+  equipment_adjustments: Record<string, EquipmentAdjustment>;
   battlefield_adjustments: Record<string, BattlefieldAdjustment>;
-  system_adjustments: (string | SystemAdjustment)[];
-  revamped_heroes?: string[];
-  revamped_heroes_data?: Record<string, RevampedHeroData>;
+  system_adjustments: string[];
+  revamped_heroes: string[];
 }
 
 export interface PatchVersion {
