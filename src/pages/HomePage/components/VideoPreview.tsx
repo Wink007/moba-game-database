@@ -44,8 +44,6 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
             preload="metadata"
             className={styles.video}
             poster={getVideoPosterUrl(game.video_intro)}
-            // @ts-ignore
-            fetchpriority="high"
           />
         ) : (
           <img
