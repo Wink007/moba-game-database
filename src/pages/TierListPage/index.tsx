@@ -11,11 +11,21 @@ import { TIERS, TierKey, assignTier } from './constants';
 import { LazyImage } from '../../components/LazyImage';
 import styles from './styles.module.scss';
 
+const LANES = [
+  { value: 'all',    labelKey: 'heroes.filters.allLanes' },
+  { value: 'exp',    labelKey: 'heroes.filters.expLane',  match: ['Exp Lane', 'EXP Lane'] },
+  { value: 'gold',   labelKey: 'heroes.filters.goldLane', match: ['Gold Lane'] },
+  { value: 'mid',    labelKey: 'heroes.filters.midLane',  match: ['Mid Lane'] },
+  { value: 'jungle', labelKey: 'heroes.filters.jungle',   match: ['Jungle'] },
+  { value: 'roam',   labelKey: 'heroes.filters.roam',     match: ['Roam'] },
+];
+
 export const TierListPage: React.FC = () => {
   const { t } = useTranslation();
   const rankOpts = useMemo(() => getRankOptions(t), [t]);
   const { selectedGameId } = useGameStore();
   const [rank, setRank] = useState('glory');
+  const [lane, setLane] = useState('all');
 
   useSEO({
     title: t('tierList.title'),
@@ -45,6 +55,30 @@ export const TierListPage: React.FC = () => {
     return groups;
   }, [rankData]);
 
+  // Build set of hero IDs that belong to selected lane
+  const laneFilteredIds = useMemo(() => {
+    if (lane === 'all' || !heroes) return null;
+    const laneConfig = LANES.find(l => l.value === lane);
+    if (!laneConfig?.match) return null;
+    const ids = new Set<number>();
+    for (const h of heroes) {
+      const heroLanes = (h.lane || []).map((l: string) => l.toLowerCase());
+      if (laneConfig.match.some(m => heroLanes.includes(m.toLowerCase()))) {
+        ids.add(h.id);
+      }
+    }
+    return ids;
+  }, [lane, heroes]);
+
+  const displayTieredHeroes = useMemo(() => {
+    if (!laneFilteredIds) return tieredHeroes;
+    const result: Record<TierKey, HeroRank[]> = { S: [], A: [], B: [], C: [], D: [] };
+    for (const key of Object.keys(tieredHeroes) as TierKey[]) {
+      result[key] = tieredHeroes[key].filter(h => laneFilteredIds.has(h.hero_id));
+    }
+    return result;
+  }, [tieredHeroes, laneFilteredIds]);
+
   if (isLoading) return <Loader />;
   if (isError) return <div className={styles.error}>{t('tierList.noData')}</div>;
 
@@ -56,7 +90,9 @@ export const TierListPage: React.FC = () => {
           <h1 className={styles.title}>{t('tierList.title')}</h1>
           <p className={styles.description}>{t('tierList.description')}</p>
         </div>
-        <span className={styles.totalBadge}>{rankData?.length ?? 0} {t('tierList.heroes')}</span>
+        <span className={styles.totalBadge}>
+          {Object.values(displayTieredHeroes).flat().length} {t('tierList.heroes')}
+        </span>
       </div>
 
       {/* Rank segmented filter */}
@@ -72,10 +108,23 @@ export const TierListPage: React.FC = () => {
         ))}
       </div>
 
+      {/* Lane filter */}
+      <div className={styles.laneFilters}>
+        {LANES.map(({ value, labelKey }) => (
+          <button
+            key={value}
+            className={`${styles.lanePill} ${lane === value ? styles.lanePillActive : ''}`}
+            onClick={() => setLane(value)}
+          >
+            {t(labelKey)}
+          </button>
+        ))}
+      </div>
+
       {/* Tiers */}
       <div className={styles.tierList}>
         {TIERS.map(({ key, color, bg, border }) => {
-          const list = tieredHeroes[key] ?? [];
+          const list = displayTieredHeroes[key] ?? [];
           return (
             <div
               key={key}
