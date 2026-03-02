@@ -10,7 +10,7 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 export const LazyImage = forwardRef<HTMLImageElement, LazyImageProps>(
-  ({ className, wrapperClassName, wrapperStyle, shimmerClassName, fill = false, ...props }, ref) => {
+  ({ className, wrapperClassName, wrapperStyle, shimmerClassName, fill = false, alt, ...props }, ref) => {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
 
@@ -25,8 +25,10 @@ export const LazyImage = forwardRef<HTMLImageElement, LazyImageProps>(
         {!loaded && !error && (
           <span className={`${styles.shimmer} ${shimmerClassName ?? ''}`} aria-hidden="true" />
         )}
+        {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <img
           ref={ref}
+          alt={alt}
           {...props}
           className={`${styles.img} ${loaded ? styles.imgLoaded : ''} ${className ?? ''}`}
           onLoad={(e) => { setLoaded(true); props.onLoad?.(e); }}
