@@ -1785,6 +1785,40 @@ def get_translation_stats():
 
 # ============== PATCHES ==============
 
+def apply_lang(data, lang='en'):
+    """Normalize *_en/*_uk translation field pairs to plain fields based on lang.
+    e.g. description_en + description_uk → description (keeping _uk if lang='uk' and not empty)
+    system_adjustments items {text: "..."} (single-key) → plain string.
+    """
+    if isinstance(data, dict):
+        result = {}
+        processed = set()
+        for k in data:
+            if k in processed:
+                continue
+            if k.endswith('_en') or k.endswith('_uk'):
+                base = k[:-3]
+                en_val = data.get(f'{base}_en', '')
+                uk_val = data.get(f'{base}_uk', '')
+                result[base] = (uk_val if lang == 'uk' and uk_val else en_val) or data.get(base, '')
+                processed.add(f'{base}_en')
+                processed.add(f'{base}_uk')
+            else:
+                result[k] = apply_lang(data[k], lang)
+        return result
+    elif isinstance(data, list):
+        out = []
+        for item in data:
+            item = apply_lang(item, lang)
+            # system_adjustments new format: {text: "..."} → plain string
+            if isinstance(item, dict) and tuple(item.keys()) == ('text',):
+                out.append(item['text'])
+            else:
+                out.append(item)
+        return out
+    return data
+
+
 @app.route('/api/patches', methods=['GET'])
 def get_patches():
     """Отримує список патчів з кешованого JSON файлу"""
@@ -1792,7 +1826,10 @@ def get_patches():
         import os
         from datetime import datetime
         patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
-        
+        lang = request.args.get('lang', 'en').lower()
+        if lang not in ('en', 'uk'):
+            lang = 'en'
+
         if not os.path.exists(patches_file):
             return jsonify({'error': 'Patches data not found. Run fetch_patches_from_liquipedia.py first'}), 404
         
@@ -1829,7 +1866,7 @@ def get_patches():
         # Конвертуємо об'єкт в масив патчів (повні дані)
         if isinstance(patches_data, dict):
             result = [
-                {
+                apply_lang({
                     'version': version,
                     'release_date': data.get('release_date', ''),
                     'highlights': data.get('highlights', []),
@@ -1843,7 +1880,7 @@ def get_patches():
                     'revamped_heroes': data.get('revamped_heroes', []),
                     'revamped_heroes_data': data.get('revamped_heroes_data', {}),
                     'game_id': 1
-                }
+                }, lang)
                 for version, data in patches_data.items()
             ]
         else:
@@ -1875,7 +1912,10 @@ def get_patch_details(version):
     try:
         import os
         patches_file = os.path.join(os.path.dirname(__file__), 'patches_data.json')
-        
+        lang = request.args.get('lang', 'en').lower()
+        if lang not in ('en', 'uk'):
+            lang = 'en'
+
         if not os.path.exists(patches_file):
             return jsonify({'error': 'Patches data not found'}), 404
         
@@ -1884,7 +1924,8 @@ def get_patch_details(version):
         
         # Шукаємо патч за версією (тепер це ключ)
         if version in patches_dict:
-            return jsonify({'version': version, **patches_dict[version]})
+            data = apply_lang({'version': version, **patches_dict[version]}, lang)
+            return jsonify(data)
         
         return jsonify({'error': 'Patch not found'}), 404
         
