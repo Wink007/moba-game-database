@@ -5,6 +5,23 @@ import { Capacitor } from '@capacitor/core';
 import styles from './styles.module.scss';
 
 const STORAGE_KEY = 'cookie_consent';
+const GA_ID = 'G-WR8L7MDVQL';
+
+const initAnalytics = () => {
+  if ((window as any).gaInitialized) return;
+  (window as any).gaInitialized = true;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  document.head.appendChild(script);
+
+  (window as any).dataLayer = (window as any).dataLayer || [];
+  function gtag(...args: any[]) { (window as any).dataLayer.push(args); }
+  (window as any).gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', GA_ID);
+};
 
 export const CookieConsent: React.FC = () => {
   const { t } = useTranslation();
@@ -13,12 +30,17 @@ export const CookieConsent: React.FC = () => {
   useEffect(() => {
     if (Capacitor.isNativePlatform()) return;
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) setVisible(true);
+    if (!saved) {
+      setVisible(true);
+    } else if (saved === 'accepted') {
+      initAnalytics();
+    }
   }, []);
 
   const handleAccept = () => {
     localStorage.setItem(STORAGE_KEY, 'accepted');
     setVisible(false);
+    initAnalytics();
   };
 
   const handleDecline = () => {
