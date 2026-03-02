@@ -41,9 +41,10 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             className={styles.video}
             poster={getVideoPosterUrl(game.video_intro)}
+            {...{ fetchpriority: 'high' } as any}
           />
         ) : (
           <img
@@ -51,6 +52,7 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
             alt={game.name}
             className={styles.posterImage}
             loading="eager"
+            fetchPriority="high"
           />
         )
       )}

@@ -98,6 +98,30 @@
 
     <!-- Prefetched games data for instant LCP (generated at build time) -->
     <script src="%PUBLIC_URL%/games-data.js"></script>
+    <script>
+      /* Preload LCP image (video poster) before React boots */
+      (function(){
+        try{
+          var g=(window.__GAMES_DATA__||[]).find(function(x){return x.id===2;});
+          if(!g) return;
+          var url;
+          if(g.video_intro&&g.video_intro.includes('cloudinary.com')){
+            var m=screen.width<=768;
+            url=g.video_intro
+              .replace('/video/upload/','/video/upload/'+(m?'so_0,w_640,q_auto:low':'so_0,w_1280,q_auto')+'/')
+              .replace(/\.\w+$/,'.jpg');
+          } else {
+            url=g.preview||'';
+          }
+          if(url){
+            var l=document.createElement('link');
+            l.rel='preload'; l.as='image'; l.href=url;
+            l.setAttribute('fetchpriority','high');
+            document.head.appendChild(l);
+          }
+        }catch(e){}
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
