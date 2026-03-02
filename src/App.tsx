@@ -12,6 +12,7 @@ import { Loader } from './components/Loader';
 import { RemoveAdsModal } from './components/RemoveAdsModal';
 import { CookieConsent } from './components/CookieConsent';
 import { AdBannerSpacer } from './components/AdBannerSpacer';
+import { HomePage } from './pages/HomePage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setQueryClientRef } from './store/authStore';
 import { useAdManager } from './hooks/useAdManager';
@@ -21,7 +22,6 @@ import './App.css';
 // Модульна змінна — не скидається при ремаунті App
 let _splashDone = !Capacitor.isNativePlatform();
 
-const HomePage = React.lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
 const HeroesPage = React.lazy(() => import('./pages/HeroesPage'));
 const HeroDetailPage = React.lazy(() => import('./pages/HeroDetailPage'));
 const ItemsPage = React.lazy(() => import('./pages/ItemsPage'));

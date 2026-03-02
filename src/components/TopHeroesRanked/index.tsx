@@ -88,7 +88,9 @@ export const TopHeroesRanked = () => {
                       className={s.avatarImg}
                       src={hero.head || hero.image}
                       alt={getHeroName(hero, i18n.language)}
-                      loading="lazy"
+                      loading="eager"
+                      width={54}
+                      height={54}
                     />
                   </div>
 
