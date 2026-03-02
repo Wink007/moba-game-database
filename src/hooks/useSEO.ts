@@ -8,7 +8,7 @@ interface SEOProps {
 
 const BASE_TITLE = 'Wiki for Mobile Legends (Unofficial)';
 const BASE_DESCRIPTION = 'Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more. Not affiliated with Moonton.';
-const BASE_URL = 'https://moba-wiki-production.up.railway.app';
+const BASE_URL = 'https://mobawiki.com';
 const DEFAULT_IMAGE = `${BASE_URL}/logo512.png`;
 
 const setMetaTag = (property: string, content: string) => {
