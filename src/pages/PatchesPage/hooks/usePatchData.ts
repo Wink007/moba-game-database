@@ -1,6 +1,7 @@
 import { useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { fetcherRaw } from '../../../api/http/fetcher';
 import { queryKeys, STALE_5_MIN } from '../../../queries/keys';
 import { useHeroesQuery } from '../../../queries/useHeroesQuery';
@@ -26,11 +27,13 @@ interface UsePatchDataReturn {
 
 export const usePatchData = ({ gameId, patchVersion }: UsePatchDataProps): UsePatchDataReturn => {
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const lang = i18n.language === 'uk' ? 'uk' : 'en';
 
   // Fetch minimal patch list via React Query
   const { data: patchVersions = [], isLoading: loadingVersions } = useQuery<PatchVersion[]>({
-    queryKey: queryKeys.patches.minimal,
-    queryFn: () => fetcherRaw<PatchVersion[]>('/patches?minimal=true&limit=50'),
+    queryKey: queryKeys.patches.minimal(lang),
+    queryFn: () => fetcherRaw<PatchVersion[]>(`/patches?minimal=true&limit=50&lang=${lang}`),
     staleTime: STALE_5_MIN,
   });
 
@@ -53,8 +56,8 @@ export const usePatchData = ({ gameId, patchVersion }: UsePatchDataProps): UsePa
 
   // Fetch full patch data
   const { data: currentPatchData = null, isLoading: loadingPatch } = useQuery<Patch>({
-    queryKey: queryKeys.patches.detail(resolvedVersion || ''),
-    queryFn: () => fetcherRaw<Patch>(`/patches/${resolvedVersion}`),
+    queryKey: queryKeys.patches.detail(resolvedVersion || '', lang),
+    queryFn: () => fetcherRaw<Patch>(`/patches/${resolvedVersion}?lang=${lang}`),
     enabled: !!resolvedVersion,
     staleTime: STALE_5_MIN,
   });

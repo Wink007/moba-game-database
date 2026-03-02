@@ -31,8 +31,8 @@ export const queryKeys = {
     community: (heroId: number, userId?: number) => ['community-builds', { heroId, userId }] as const,
   },
   patches: {
-    all: ['patches'] as const,
-    detail: (version: string) => ['patches', version] as const,
-    minimal: ['patches', 'minimal'] as const,
+    all: (lang: string) => ['patches', lang] as const,
+    detail: (version: string, lang: string) => ['patches', version, lang] as const,
+    minimal: (lang: string) => ['patches', 'minimal', lang] as const,
   },
 } as const;
