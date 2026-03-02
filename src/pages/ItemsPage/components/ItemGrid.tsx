@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ItemGridProps } from './interface';
 import { getItemName } from '../../../utils/translation';
+import { LazyImage } from '../../../components/LazyImage';
 import parentStyles from '../styles.module.scss';
 
 export const ItemGrid: React.FC<ItemGridProps> = React.memo(({
@@ -21,7 +22,7 @@ export const ItemGrid: React.FC<ItemGridProps> = React.memo(({
             onClick={() => onItemClick(item)}
           >
             <div className={parentStyles.itemIcon}>
-              {item.icon_url && <img src={item.icon_url} alt={item.name} />}
+              {item.icon_url && <LazyImage fill src={item.icon_url} alt={item.name} />}
             </div>
             <div className={parentStyles.itemInfo}>
               <h4>{getItemName(item, i18n.language)}</h4>

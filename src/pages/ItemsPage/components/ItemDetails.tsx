@@ -6,6 +6,7 @@ import { getItemName, getItemDescription } from '../../../utils/translation';
 import { highlightValues } from '../../../utils/highlightValues';
 import { sanitizeHtml } from '../../../utils/sanitize';
 import { parseItemDescription } from '../../../utils/parseItemDescription';
+import { LazyImage } from '../../../components/LazyImage';
 import parentStyles from '../styles.module.scss';
 
 export const ItemDetails: React.FC<ItemDetailsProps> = ({
@@ -70,7 +71,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
           onClick={() => onItemClick(comp)}
         >
           <div className={parentStyles.itemIcon}>
-            {comp.icon_url && <img src={comp.icon_url} alt={comp.name} />}
+            {comp.icon_url && <LazyImage fill src={comp.icon_url} alt={comp.name} />}
           </div>
           <div className={parentStyles.itemInfo}>
               <div className={parentStyles.itemName}>{getItemName(comp, i18n.language)}</div>
@@ -91,7 +92,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
       
       <div className={parentStyles.selectedItemHeader}>
         <div className={parentStyles.selectedItemIcon}>
-          {selectedItem.icon_url && <img src={selectedItem.icon_url} alt={selectedItem.name} />}
+          {selectedItem.icon_url && <LazyImage fill src={selectedItem.icon_url} alt={selectedItem.name} />}
         </div>
         <div>
           <h2>{getItemName(selectedItem, i18n.language)}</h2>
@@ -171,7 +172,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
           <div className={parentStyles.selectedResult}>
             <div className={parentStyles.resultCard} onClick={() => onItemClick(selectedItem)}>
               <div className={parentStyles.itemIcon}>
-                {selectedItem.icon_url && <img src={selectedItem.icon_url} alt={selectedItem.name} />}
+                {selectedItem.icon_url && <LazyImage fill src={selectedItem.icon_url} alt={selectedItem.name} />}
               </div>
               <div className={parentStyles.itemInfo}>
                 <div className={parentStyles.itemTitle}>{getItemName(selectedItem, i18n.language)}</div>
@@ -201,7 +202,7 @@ export const ItemDetails: React.FC<ItemDetailsProps> = ({
                 onClick={() => onItemClick(item)}
               >
                 <div className={parentStyles.itemIcon}>
-                  {item.icon_url && <img src={item.icon_url} alt={item.name} />}
+                  {item.icon_url && <LazyImage fill src={item.icon_url} alt={item.name} />}
                 </div>
                 <div className={parentStyles.itemInfo}>
                   <div className={parentStyles.itemName}>{getItemName(item, i18n.language)}</div>

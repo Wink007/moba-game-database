@@ -177,7 +177,7 @@ export const LastHeroesInfo = () => {
                                 onMouseEnter={() => setHoveredSkillId(skill.id)}
                                 onMouseLeave={() => setHoveredSkillId(null)}
                             >
-                                <img src={skill.image || skill.preview} alt={getSkillName(skill, i18n.language)} title={getSkillName(skill, i18n.language)} className={s.skillIcon} />
+                                <LazyImage src={skill.image || skill.preview} alt={getSkillName(skill, i18n.language)} title={getSkillName(skill, i18n.language)} className={s.skillIcon} wrapperStyle={{ width: '56px', height: '56px', borderRadius: '14px' }} />
                             </div>
                         ))}
                         {hoveredSkillId && !showSkillSkeletons && (() => {
