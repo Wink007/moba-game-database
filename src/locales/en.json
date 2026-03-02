@@ -358,6 +358,18 @@
     "login": "Sign in",
     "logout": "Sign out"
   },
+  "loginConsent": {
+    "title": "Sign in with Google",
+    "description": "To use this feature, we need to access the following data from your Google account:",
+    "data": {
+      "name": "Your name",
+      "email": "Email address",
+      "photo": "Profile photo"
+    },
+    "legalNote": "By continuing, you agree to our <privacy>Privacy Policy</privacy>. We do not share your data with third parties.",
+    "confirm": "Continue with Google",
+    "cancel": "Cancel"
+  },
   "favorites": {
     "add": "Add to favorites",
     "remove": "Remove from favorites",
