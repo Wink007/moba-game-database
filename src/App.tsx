@@ -10,6 +10,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 import { Loader } from './components/Loader';
 import { RemoveAdsModal } from './components/RemoveAdsModal';
+import { CookieConsent } from './components/CookieConsent';
 import { AdBannerSpacer } from './components/AdBannerSpacer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setQueryClientRef } from './store/authStore';
@@ -66,6 +67,7 @@ function App() {
         <ErrorBoundary>
           <ScrollToTop />
           <AppInner />
+          <CookieConsent />
           <div className="banner-cover" aria-hidden="true" />
           <div className="app-wrapper">
             <AdBannerSpacer />

@@ -447,5 +447,11 @@
     "selectHeroPrompt": "Select a hero to see their counter picks",
     "selectEnemyPrompt": "Select enemy heroes to find the best counter picks",
     "noResults": "No counter data available for selected heroes"
+  },
+  "cookie": {
+    "text": "We use cookies to improve your experience and show personalized ads.",
+    "learnMore": "Learn more",
+    "accept": "Accept",
+    "decline": "Decline"
   }
 }
