@@ -18,7 +18,18 @@ function ItemsPage() {
   const { t } = useTranslation();
   const { gameId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  useSEO({ title: 'Items', description: 'Browse all Mobile Legends items — equipment, roaming, jungling and more.' });
+  useSEO({
+    title: 'Items',
+    description: 'Browse all Mobile Legends items — equipment, roaming, jungling and more.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Items', item: `https://mobawiki.com/${gameId}/items` },
+      ],
+    },
+  });
   const { data: items = [], isLoading, isError } = useItemsQuery(Number(gameId));
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);

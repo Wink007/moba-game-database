@@ -11,7 +11,25 @@ import styles from './styles.module.scss';
 
 export const HomePage = () => {
   const { t } = useTranslation();
-  useSEO({ title: 'Home', description: 'Mobile Legends Wiki — heroes stats, builds, counter picks, items, emblems, spells and patch notes.' });
+  useSEO({
+    title: 'Home',
+    description: 'Mobile Legends Wiki — heroes stats, builds, counter picks, items, emblems, spells and patch notes.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'MOBA Wiki',
+      url: 'https://mobawiki.com/',
+      description: 'Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more.',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://mobawiki.com/2/heroes?search={search_term_string}',
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  });
   const { data: games, isError } = useGamesQuery();
   const { selectedGameId, cachedVideoIntro, cachedPreview, cachedSubtitle, setCachedGame } = useGameStore();
   const defaultGame = games?.find(g => g.id === selectedGameId);

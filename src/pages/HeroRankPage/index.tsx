@@ -13,7 +13,18 @@ import { useSEO } from '../../hooks/useSEO';
 export const HeroRankPage = () => {
   const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
-  useSEO({ title: 'Hero Rankings', description: 'Mobile Legends hero tier list — win rates, ban rates and pick rates by rank.' });
+  useSEO({
+    title: 'Hero Rankings',
+    description: 'Mobile Legends hero tier list — win rates, ban rates and pick rates by rank.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Hero Rankings', item: `https://mobawiki.com/${selectedGameId}/hero-ranks` },
+      ],
+    },
+  });
   const [days, setDays] = useState(1);
   const [rank, setRank] = useState('all');
   const [sortField, setSortField] = useState<'win_rate' | 'ban_rate' | 'pick_rate'>('win_rate');

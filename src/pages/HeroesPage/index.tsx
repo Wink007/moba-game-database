@@ -15,8 +15,19 @@ const HEROES_PER_PAGE = 24;
 
 function HeroesPage() {
   const { t } = useTranslation();
-  useSEO({ title: 'Heroes', description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty.' });
   const { selectedGameId } = useGameStore();
+  useSEO({
+    title: 'Heroes',
+    description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Heroes', item: `https://mobawiki.com/${selectedGameId}/heroes` },
+      ],
+    },
+  });
   const { favorites } = useFavorites();
 
   const { filters, apiFilters, setters } = useHeroFilters();

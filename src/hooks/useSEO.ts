@@ -4,12 +4,15 @@ interface SEOProps {
   title?: string;
   description?: string;
   image?: string;
+  /** JSON-LD structured data — single object or array injected as <script type="application/ld+json"> */
+  jsonLd?: object | object[];
 }
 
 const BASE_TITLE = 'Wiki for Mobile Legends (Unofficial)';
 const BASE_DESCRIPTION = 'Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more. Not affiliated with Moonton.';
 const BASE_URL = 'https://mobawiki.com';
 const DEFAULT_IMAGE = `${BASE_URL}/logo512.png`;
+const LD_SCRIPT_ID = '__ld-json__';
 
 const setMetaTag = (property: string, content: string) => {
   let meta = document.querySelector(`meta[property="${property}"]`);
@@ -31,7 +34,7 @@ const setNameMeta = (name: string, content: string) => {
   meta.setAttribute('content', content);
 };
 
-export const useSEO = ({ title, description, image }: SEOProps = {}) => {
+export const useSEO = ({ title, description, image, jsonLd }: SEOProps = {}) => {
   useEffect(() => {
     const fullTitle = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
     const desc = description || BASE_DESCRIPTION;
@@ -62,4 +65,25 @@ export const useSEO = ({ title, description, image }: SEOProps = {}) => {
       setNameMeta('description', BASE_DESCRIPTION);
     };
   }, [title, description, image]);
+
+  // JSON-LD structured data — stable string dep avoids re-run on object identity change
+  const jsonLdStr = jsonLd !== undefined ? JSON.stringify(jsonLd) : undefined;
+
+  useEffect(() => {
+    if (!jsonLdStr) {
+      document.getElementById(LD_SCRIPT_ID)?.remove();
+      return;
+    }
+    let script = document.getElementById(LD_SCRIPT_ID) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = LD_SCRIPT_ID;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = jsonLdStr;
+    return () => {
+      document.getElementById(LD_SCRIPT_ID)?.remove();
+    };
+  }, [jsonLdStr]);
 };

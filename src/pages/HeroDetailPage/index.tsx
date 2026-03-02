@@ -57,6 +57,26 @@ function HeroDetailPage() {
   useSEO({
     title: hero ? `${hero.name} — Hero Guide` : 'Hero',
     description: hero ? `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.` : undefined,
+    image: hero?.image || hero?.painting,
+    jsonLd: hero ? [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Heroes', item: `https://mobawiki.com/${hero.game_id}/heroes` },
+          { '@type': 'ListItem', position: 3, name: hero.name },
+        ],
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: `${hero.name} — Hero Guide | MOBA Wiki`,
+        description: `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.`,
+        url: `https://mobawiki.com/${hero.game_id}/heroes/${heroId}`,
+        ...(hero.image ? { image: hero.image } : {}),
+      },
+    ] : undefined,
   });
   
   const {

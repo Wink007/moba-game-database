@@ -20,6 +20,14 @@ export const TierListPage: React.FC = () => {
   useSEO({
     title: t('tierList.title'),
     description: t('tierList.description'),
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Tier List', item: `https://mobawiki.com/${selectedGameId}/tier-list` },
+      ],
+    },
   });
 
   const { data: rankData, isLoading, isError } = useHeroRanksQuery(
