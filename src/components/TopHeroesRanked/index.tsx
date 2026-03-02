@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../utils/translation';
 import { useHeroRanksQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
+import { LazyImage } from '../LazyImage';
 import s from './styles.module.scss';
 
 /* ── tier helpers ── */
@@ -84,7 +85,8 @@ export const TopHeroesRanked = () => {
                   </div>
 
                   <div className={`${s.avatarWrap} ${TIER_CLS[i < 3 ? i + 1 : 0]}`}>
-                    <img
+                    <LazyImage
+                      fill
                       className={s.avatarImg}
                       src={hero.head || hero.image}
                       alt={getHeroName(hero, i18n.language)}

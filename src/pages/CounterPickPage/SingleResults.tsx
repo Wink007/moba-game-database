@@ -4,6 +4,7 @@ import { getHeroName } from '../../utils/translation';
 import type { Hero } from '../../types';
 import type { SingleResultsData } from './types';
 import { ShieldIcon, SwordIcon } from './icons';
+import { LazyImage } from '../../components/LazyImage';
 import styles from './styles.module.scss';
 
 interface SingleResultsProps {
@@ -21,10 +22,11 @@ export const SingleResults: React.FC<SingleResultsProps> = memo(({ hero, results
   return (
     <div className={styles.resultsSection}>
       <Link to={`/${gameId}/heroes/${hero.id}`} className={styles.resultsHeader}>
-        <img
+        <LazyImage
           src={hero.head || hero.image}
           alt={getHeroName(hero, lang)}
           className={styles.resultsHeroImg}
+          wrapperStyle={{ width: 56, height: 56, borderRadius: 12, flexShrink: 0, overflow: 'hidden' }}
         />
         <div>
           <h2 className={styles.resultsHeroName}>{getHeroName(hero, lang)}</h2>
@@ -68,10 +70,11 @@ export const SingleResults: React.FC<SingleResultsProps> = memo(({ hero, results
             className={styles.counterItem}
           >
             <span className={styles.counterRank}>#{idx + 1}</span>
-            <img
+            <LazyImage
               src={counter.hero!.head || counter.hero!.image}
               alt={getHeroName(counter.hero!, lang)}
               className={styles.counterImg}
+              wrapperStyle={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0, overflow: 'hidden' }}
             />
             <div className={styles.counterInfo}>
               <span className={styles.counterName}>{getHeroName(counter.hero!, lang)}</span>

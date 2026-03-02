@@ -9,6 +9,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { SingleResults } from './SingleResults';
 import { TeamResults } from './TeamResults';
 import { PlusIcon, SingleIcon, TeamIcon } from './icons';
+import { LazyImage } from '../../components/LazyImage';
 import styles from './styles.module.scss';
 
 export const CounterPickPage: React.FC = () => {
@@ -66,7 +67,7 @@ export const CounterPickPage: React.FC = () => {
               {selectedHero ? (
                 <>
                   <div className={styles.slotImageWrap}>
-                    <img
+                    <LazyImage fill
                       src={selectedHero.head || selectedHero.image}
                       alt={getHeroName(selectedHero, lang)}
                       className={styles.slotImage}
@@ -100,7 +101,7 @@ export const CounterPickPage: React.FC = () => {
                   {teamHeroes[i] ? (
                     <>
                       <div className={styles.slotImageWrap}>
-                        <img
+                        <LazyImage fill
                           src={teamHeroes[i].head || teamHeroes[i].image}
                           alt={getHeroName(teamHeroes[i], lang)}
                           className={styles.slotImage}

@@ -5,6 +5,7 @@ import { useLatestHeroesQuery, useHeroSkillsQuery } from "../../queries/useHeroe
 import { useGameStore } from "../../store/gameStore";
 import { Lanes, LanesIcons } from "../../enum";
 import { getSkillName, getSkillDescription } from '../../utils/translation';
+import { LazyImage } from '../LazyImage';
 import s from './styles.module.scss';
 import { MoreInfoLink } from '../MoreInfoLink';
 import SkillTooltip from '../SkillTooltip';
@@ -131,7 +132,7 @@ export const LastHeroesInfo = () => {
             <div className={s.card}>
                 {/* ── Showcase (painting + overlay) ── */}
                 <div className={s.showcase}>
-                    <img className={s.painting} src={hero?.painting} alt={hero?.name} />
+                    <LazyImage fill className={s.painting} src={hero?.painting} alt={hero?.name} />
                     <div className={s.paintingOverlay} />
 
                     {hero?.lane && hero.lane.length > 0 && (
@@ -236,7 +237,7 @@ export const LastHeroesInfo = () => {
                                 className={`${s.thumb} ${idx === currentHeroIndex ? s.thumbActive : ''}`}
                                 onClick={() => changeHero(idx)}
                             >
-                                <img src={h?.head} alt={h.name} className={s.thumbImg} />
+                                <LazyImage fill src={h?.head} alt={h.name} className={s.thumbImg} />
                             </button>
                         ))}
                     </div>

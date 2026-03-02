@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getHeroName } from '../../utils/translation';
 import type { AggregatedCounter } from './types';
 import { ChevronIcon } from './icons';
+import { LazyImage } from '../../components/LazyImage';
 import styles from './styles.module.scss';
 
 interface TeamResultsProps {
@@ -32,10 +33,11 @@ export const TeamResults: React.FC<TeamResultsProps> = memo(({ results, lang, ga
                 className={styles.counterItem}
               >
                 <span className={styles.counterRank}>#{idx + 1}</span>
-                <img
+                <LazyImage
                   src={item.hero.head || item.hero.image}
                   alt={getHeroName(item.hero, lang)}
                   className={styles.counterImg}
+                  wrapperStyle={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0, overflow: 'hidden' }}
                 />
                 <div className={styles.counterInfo}>
                   <span className={styles.counterName}>{getHeroName(item.hero, lang)}</span>
@@ -64,10 +66,11 @@ export const TeamResults: React.FC<TeamResultsProps> = memo(({ results, lang, ga
               <div className={styles.detailsPanel}>
                 {item.details.map(d => (
                   <div key={(d.enemyHero.hero_game_id ?? d.enemyHero.id)} className={styles.detailRow}>
-                    <img
+                    <LazyImage
                       src={d.enemyHero.head || d.enemyHero.image}
                       alt={getHeroName(d.enemyHero, lang)}
                       className={styles.detailImg}
+                      wrapperStyle={{ width: 28, height: 28, borderRadius: 6, flexShrink: 0, overflow: 'hidden' }}
                     />
                     <span className={styles.detailName}>vs {getHeroName(d.enemyHero, lang)}</span>
                     <span className={styles.detailScore}>{d.increaseWinRate > 0 ? '+' : ''}{d.increaseWinRate.toFixed(1)}%</span>

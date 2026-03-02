@@ -4,6 +4,7 @@ import type { Hero } from '../../../types';
 import { Lanes, LanesIcons } from '../../../enum';
 import { getHeroName, translateRoles, translateLanes } from '../../../utils/translation';
 import { FavoriteButton } from '../../../components/FavoriteButton';
+import { LazyImage } from '../../../components/LazyImage';
 import styles from '../styles.module.scss';
 
 interface HeroCardProps {
@@ -22,7 +23,7 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
     <Link to={`/${gameId}/heroes/${hero.id}`} className={styles.heroCard}>
       <div className={styles.heroImageWrapper}>
         {hero.image ? (
-          <img src={hero.image} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} />
+          <LazyImage fill src={hero.image} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} />
         ) : (
           <div className={styles.heroImagePlaceholder}>
             <span>{getHeroName(hero, i18n.language).charAt(0)}</span>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles.module.scss';
+import { LazyImage } from '../../../components/LazyImage';
 import { Hero, HeroRank } from '../../../types';
 
 interface HeroRankCardProps {
@@ -36,7 +37,7 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId }:
         </div>
         <div className={styles.heroInfo}>
           <Link to={`/${selectedGameId}/heroes/${counterHero?.id}`} className={styles.heroImage}>
-            <img src={hero.head || hero.image} alt={hero.name} />
+            <LazyImage fill src={hero.head || hero.image} alt={hero.name} />
           </Link>
           <div className={styles.heroName}>{hero.name}</div>
         </div>
