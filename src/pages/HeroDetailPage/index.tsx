@@ -20,6 +20,7 @@ import { useHeroTabs } from './hooks/useHeroTabs';
 import { useSEO } from '../../hooks/useSEO';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useAuthStore } from '../../store/authStore';
+import { LazyImage } from '../../components/LazyImage';
 import styles from './styles.module.scss';
 import type { Patch } from '../../types';
 
@@ -162,7 +163,7 @@ function HeroDetailPage() {
                 </svg>
               )}
               <div className={styles.bannerPortrait} onClick={() => setLightboxOpen(true)} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setLightboxOpen(true)}>
-                <img src={hero.image} alt={getHeroName(hero, i18n.language)} />
+                <LazyImage src={hero.image} alt={getHeroName(hero, i18n.language)} fill />
               </div>
             </div>
           )}

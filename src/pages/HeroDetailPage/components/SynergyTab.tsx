@@ -5,6 +5,7 @@ import { getHeroName } from '../../../utils/translation';
 import { parseMaybeJson } from '../../../utils/parseMaybeJson';
 import { CompatibilityHero } from '../../../types';
 import { SynergyTabProps, CompatibilityData } from './interface';
+import { LazyImage } from '../../../components/LazyImage';
 import styles from '../styles.module.scss';
 
 const MIN_SKELETON_MS = 600;
@@ -86,7 +87,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
       <>
         <div className={styles.heroComparison}>
           <div className={`${styles.heroComparisonSide} ${styles.left}`}>
-            <img src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} />
+            <LazyImage src={hero.head || hero.image} alt={hero.name} className={styles.leftAvatar} wrapperStyle={{ borderRadius: '50%' }} />
             <div className={styles.comparisonWinRate}>
               <span className={styles.winRateNumber}>{heroWinRate.toFixed(2)}%</span>
               <span className={styles.winRateLabel}>{t('heroDetail.winRate')}</span>
@@ -94,7 +95,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
           </div>
           <div className={styles.heroComparisonDivider}></div>
           <div className={`${styles.heroComparisonSide} ${styles.right}`}>
-            <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.rightAvatar} />
+            <LazyImage src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.rightAvatar} wrapperStyle={{ borderRadius: '50%' }} />
             <div className={styles.comparisonWinRate}>
               <span className={styles.winRateNumber}>{teamWinRate.toFixed(2)}%</span>
               <span className={styles.winRateLabel}>{t('heroDetail.winRate')}</span>
@@ -124,7 +125,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
           className={styles.counterListItem}
         >
           <div className={styles.counterListRank}>{idx + 1}</div>
-          <img src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} />
+          <LazyImage src={mateHero.head || mateHero.image} alt={mateHero.name} className={styles.counterListImage} wrapperStyle={{ borderRadius: '8px' }} />
           <div className={styles.counterListInfo}>
             <span className={styles.counterListName}>{getHeroName(mateHero, i18n.language)}</span>
             <div className={styles.counterListBar}>
