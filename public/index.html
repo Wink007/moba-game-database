@@ -13,6 +13,9 @@
     <meta name="keywords" content="Mobile Legends, MLBB, hero guide, builds, counter pick, items, emblems, patch notes, tier list, hero stats" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://mobawiki.com/" />
+    <link rel="alternate" hreflang="en" href="https://mobawiki.com/" />
+    <link rel="alternate" hreflang="uk" href="https://mobawiki.com/?lang=uk" />
+    <link rel="alternate" hreflang="x-default" href="https://mobawiki.com/" />
 
     <!-- Open Graph / Facebook / Telegram -->
     <meta property="og:type" content="website" />
@@ -46,6 +49,48 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Wiki for Mobile Legends (Unofficial)</title>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://mobawiki.com/#website",
+          "name": "MOBA Wiki",
+          "url": "https://mobawiki.com/",
+          "description": "Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more.",
+          "inLanguage": ["en", "uk"],
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://mobawiki.com/heroes?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://mobawiki.com/#organization",
+          "name": "MOBA Wiki",
+          "url": "https://mobawiki.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://mobawiki.com/logo512.png",
+            "width": 512,
+            "height": 512
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "privacy@mobawiki.com",
+            "contactType": "customer support"
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
