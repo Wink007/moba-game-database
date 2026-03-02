@@ -8,6 +8,7 @@ import { Loader } from '../../components/Loader';
 import { getRankOptions } from '../HeroRankPage/constants';
 import { HeroRank } from '../../types';
 import { TIERS, TierKey, assignTier } from './constants';
+import { LazyImage } from '../../components/LazyImage';
 import styles from './styles.module.scss';
 
 export const TierListPage: React.FC = () => {
@@ -103,11 +104,11 @@ export const TierListPage: React.FC = () => {
                         className={styles.heroCard}
                       >
                         <div className={styles.heroImgWrap}>
-                          <img
+                          <LazyImage
                             src={hero.head || hero.image}
                             alt={hero.name}
                             className={styles.heroImg}
-                            loading="lazy"
+                            fill
                           />
                         </div>
                         <div className={styles.heroInfo}>
