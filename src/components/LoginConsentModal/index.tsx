@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.scss';
@@ -11,7 +12,7 @@ interface Props {
 export const LoginConsentModal: React.FC<Props> = ({ onConfirm, onCancel }) => {
   const { t } = useTranslation();
 
-  return (
+  return ReactDOM.createPortal(
     <div className={styles.backdrop} onClick={onCancel}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <h2 className={styles.title}>{t('loginConsent.title')}</h2>
@@ -48,6 +49,7 @@ export const LoginConsentModal: React.FC<Props> = ({ onConfirm, onCancel }) => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
