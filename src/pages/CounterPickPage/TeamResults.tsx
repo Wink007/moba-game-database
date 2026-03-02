@@ -36,8 +36,8 @@ export const TeamResults: React.FC<TeamResultsProps> = memo(({ results, lang, ga
                 <LazyImage
                   src={item.hero.head || item.hero.image}
                   alt={getHeroName(item.hero, lang)}
+                  wrapperClassName={styles.counterImgWrap}
                   className={styles.counterImg}
-                  wrapperStyle={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0, overflow: 'hidden' }}
                 />
                 <div className={styles.counterInfo}>
                   <span className={styles.counterName}>{getHeroName(item.hero, lang)}</span>

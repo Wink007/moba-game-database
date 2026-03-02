@@ -25,8 +25,8 @@ export const SingleResults: React.FC<SingleResultsProps> = memo(({ hero, results
         <LazyImage
           src={hero.head || hero.image}
           alt={getHeroName(hero, lang)}
+          wrapperClassName={styles.resultsHeroImgWrap}
           className={styles.resultsHeroImg}
-          wrapperStyle={{ width: 56, height: 56, borderRadius: 12, flexShrink: 0, overflow: 'hidden' }}
         />
         <div>
           <h2 className={styles.resultsHeroName}>{getHeroName(hero, lang)}</h2>
