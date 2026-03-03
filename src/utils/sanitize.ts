@@ -10,7 +10,7 @@ export const sanitizeHtml = (dirty: string | undefined | null): string => {
     ALLOWED_TAGS: [
       'b', 'i', 'em', 'strong', 'u', 's', 'br', 'p', 'span', 'div',
       'ul', 'ol', 'li', 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'table', 'thead', 'tbody', 'tr', 'th', 'td', 'img', 'sup', 'sub',
+      'table', 'thead', 'tbody', 'tr', 'th', 'td', 'img', 'sup', 'sub', 'code',
     ],
     ALLOWED_ATTR: ['href', 'target', 'rel', 'class', 'style', 'src', 'alt', 'title'],
   });

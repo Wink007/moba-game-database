@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
@@ -7,6 +7,8 @@ import { useSEO } from '../../hooks/useSEO';
 import { sanitizeHtml } from '../../utils/sanitize';
 import type { HeroAdjustment, EquipmentAdjustment, BattlefieldAdjustment, SkillAdjustment } from './types';
 import styles from './styles.module.scss';
+
+const PAGE_SIZE = 5;
 
 // ─── Badge helpers ─────────────────────────────────────────────────
 
@@ -50,8 +52,8 @@ const SkillBlock: React.FC<SkillBlockProps> = ({ skill }) => (
       <Badge badge={skill.badge} />
     </div>
     {skill.description && (
-      <p className={styles.summary}
-         dangerouslySetInnerHTML={{ __html: sanitizeHtml(skill.description) }} />
+      <div className={styles.summary}
+           dangerouslySetInnerHTML={{ __html: sanitizeHtml(skill.description) }} />
     )}
   </div>
 );
@@ -83,8 +85,8 @@ const HeroCard: React.FC<HeroCardProps> = ({ name, data, heroId, gameId, isRevam
     </div>
 
     {data.description && (
-      <p className={styles.summary}
-         dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.description) }} />
+      <div className={styles.summary}
+           dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.description) }} />
     )}
 
     {data.adjustments?.map((skill, i) => (
@@ -115,8 +117,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ name, data, itemId, gameId }) => (
     </div>
 
     {data.description && (
-      <p className={styles.summary}
-         dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.description) }} />
+      <div className={styles.summary}
+           dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.description) }} />
     )}
 
     {data.adjustments?.map((skill, i) => (
@@ -135,8 +137,8 @@ const BattlefieldCard: React.FC<BattlefieldCardProps> = ({ name, data }) => (
       <Badge badge={data.badge} />
     </div>
     {data.description && (
-      <p className={styles.summary}
-         dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.description) }} />
+      <div className={styles.summary}
+           dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.description) }} />
     )}
   </div>
 );
@@ -146,6 +148,7 @@ const BattlefieldCard: React.FC<BattlefieldCardProps> = ({ name, data }) => (
 export const PatchesPage: React.FC = () => {
   const { t } = useTranslation();
   const { gameId, patchVersion } = useParams<{ gameId: string; patchVersion?: string }>();
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useSEO({
     title: patchVersion ? `Patch ${patchVersion}` : 'Patch Notes',
@@ -162,6 +165,8 @@ export const PatchesPage: React.FC = () => {
     itemNameToId,
     handlePatchSelect,
   } = usePatchData({ gameId, patchVersion });
+
+  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [patchVersions.length]);
 
   // Scroll to anchor after load
   useEffect(() => {
@@ -190,25 +195,34 @@ export const PatchesPage: React.FC = () => {
   const bfEntries     = patch ? Object.entries(patch.battlefield_adjustments) : [];
   const sysEntries    = patch?.system_adjustments ?? [];
 
-  const redditUrl = patch?.reddit_permalink
-    ? `https://www.reddit.com${patch.reddit_permalink}`
-    : null;
+  const visibleVersions = patchVersions.slice(0, visibleCount);
+  const hasMore = visibleCount < patchVersions.length;
 
   return (
     <div className={styles.patchesPage}>
       {/* Sidebar: patch selector */}
       <div className={styles.patchSelector}>
+        <p className={styles.sidebarLabel}>{t('patches.title')}</p>
         <div className={styles.patchVersions}>
-          {patchVersions.map(p => (
+          {visibleVersions.map(p => (
             <button
               key={p.version}
               className={`${styles.patchButton} ${selectedPatch === p.version ? styles.active : ''}`}
               onClick={() => handlePatchSelect(p.version)}
             >
-              {p.version}
+              <span className={styles.versionNum}>{p.version}</span>
+              <span className={styles.versionDate}>{p.release_date}</span>
             </button>
           ))}
         </div>
+        {hasMore && (
+          <button
+            className={styles.sidebarLoadMore}
+            onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
+          >
+            + {Math.min(PAGE_SIZE, patchVersions.length - visibleCount)} more
+          </button>
+        )}
       </div>
 
       {/* Main content */}
@@ -228,16 +242,7 @@ export const PatchesPage: React.FC = () => {
                 )}
               </h1>
               <p className={styles.releaseDate}>{patch.release_date}</p>
-              {redditUrl && (
-                <a
-                  href={redditUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
-                >
-                  reddit.com ↗
-                </a>
-              )}
+
             </div>
 
             {/* Revamped Heroes */}
@@ -303,11 +308,12 @@ export const PatchesPage: React.FC = () => {
             {sysEntries.length > 0 && (
               <div className={styles.section}>
                 <h2>{t('patches.systemChanges')}</h2>
-                <ul className={styles.systemChanges}>
+                <div className={styles.systemChanges}>
                   {sysEntries.map((text, i) => (
-                    <li key={i} dangerouslySetInnerHTML={{ __html: sanitizeHtml(text) }} />
+                    <div key={i} className={styles.systemItem}
+                         dangerouslySetInnerHTML={{ __html: sanitizeHtml(text) }} />
                   ))}
-                </ul>
+                </div>
               </div>
             )}
           </>
