@@ -8,7 +8,7 @@ import { sanitizeHtml } from '../../utils/sanitize';
 import type { HeroAdjustment, EquipmentAdjustment, BattlefieldAdjustment, SkillAdjustment } from './types';
 import styles from './styles.module.scss';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 20;
 
 // ─── Badge helpers ─────────────────────────────────────────────────
 
@@ -149,6 +149,7 @@ export const PatchesPage: React.FC = () => {
   const { t } = useTranslation();
   const { gameId, patchVersion } = useParams<{ gameId: string; patchVersion?: string }>();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useSEO({
     title: patchVersion ? `Patch ${patchVersion}` : 'Patch Notes',
@@ -199,56 +200,86 @@ export const PatchesPage: React.FC = () => {
   const hasMore = visibleCount < patchVersions.length;
 
   return (
-    <div className={styles.patchesPage}>
-      {/* Sidebar: patch selector */}
-      <div className={styles.patchSelector}>
-        <p className={styles.sidebarLabel}>{t('patches.title')}</p>
-        <div className={styles.patchVersions}>
-          {visibleVersions.map(p => (
-            <button
-              key={p.version}
-              className={`${styles.patchButton} ${selectedPatch === p.version ? styles.active : ''}`}
-              onClick={() => handlePatchSelect(p.version)}
-            >
-              <span className={styles.versionNum}>{p.version}</span>
-              <span className={styles.versionDate}>{p.release_date}</span>
-            </button>
-          ))}
-        </div>
-        {hasMore && (
-          <button
-            className={styles.sidebarLoadMore}
-            onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
-          >
-            + {Math.min(PAGE_SIZE, patchVersions.length - visibleCount)} more
-          </button>
+    <div className={styles.pageWrapper}>
+
+      {/* Mobile version dropdown */}
+      <div className={styles.versionDropdown}>
+        <button
+          className={styles.versionDropdownTrigger}
+          onClick={() => setDropdownOpen(o => !o)}
+        >
+          <span>{selectedPatch ?? t('patches.title')}</span>
+          <span className={`${styles.dropdownChevron} ${dropdownOpen ? styles.dropdownChevronOpen : ''}`}>▾</span>
+        </button>
+        {dropdownOpen && (
+          <>
+            <div className={styles.dropdownBackdrop} onClick={() => setDropdownOpen(false)} />
+            <div className={styles.dropdownList}>
+              {patchVersions.map(p => (
+                <button
+                  key={p.version}
+                  className={`${styles.dropdownItem} ${selectedPatch === p.version ? styles.dropdownItemActive : ''}`}
+                  onClick={() => { handlePatchSelect(p.version); setDropdownOpen(false); }}
+                >
+                  <span className={styles.dropdownItemVersion}>{p.version}</span>
+                  <span className={styles.dropdownItemDate}>{p.release_date}</span>
+                </button>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
-      {/* Main content */}
-      <div className={styles.content}>
-        {loadingPatch ? (
-          <Loader />
-        ) : patch ? (
-          <>
-            {/* Header */}
-            <div className={styles.patchHeader}>
-              <h1>
-                {t('patches.version')} {patch.version}
-                {patch.is_adv_server && (
-                  <span style={{ fontSize: '0.55em', marginLeft: 12, opacity: 0.55, fontWeight: 400 }}>
-                    ADV SERVER
-                  </span>
-                )}
-              </h1>
-              <p className={styles.releaseDate}>{patch.release_date}</p>
+      <div className={styles.patchesPage}>
 
-            </div>
+        {/* Desktop sidebar */}
+        <aside className={styles.patchSelector}>
+          <p className={styles.sidebarLabel}>{t('patches.title')}</p>
+          <div className={styles.patchVersions}>
+            {visibleVersions.map(p => (
+              <button
+                key={p.version}
+                className={`${styles.patchButton} ${selectedPatch === p.version ? styles.active : ''}`}
+                onClick={() => handlePatchSelect(p.version)}
+              >
+                <span className={styles.versionNum}>{p.version}</span>
+                <span className={styles.versionDate}>{p.release_date}</span>
+              </button>
+            ))}
+          </div>
+          {hasMore && (
+            <button
+              className={styles.sidebarLoadMore}
+              onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
+            >
+              +{Math.min(PAGE_SIZE, patchVersions.length - visibleCount)} more
+            </button>
+          )}
+        </aside>
+
+        {/* Main content */}
+        <div className={styles.content}>
+          {loadingPatch ? (
+            <Loader />
+          ) : patch ? (
+            <>
+              {/* Header — version big, date small */}
+              <div className={styles.patchHeader}>
+                <div>
+                  <span className={styles.patchVersionLabel}>
+                    {t('patches.version')} <strong>{patch.version}</strong>
+                  </span>
+                </div>
+                {patch.is_adv_server && (
+                  <span className={styles.advBadge}>ADV</span>
+                )}
+                <span className={styles.releaseDate}>{patch.release_date}</span>
+              </div>
 
             {/* Revamped Heroes */}
             {revampedEntries.length > 0 && (
               <div className={styles.section}>
-                <h2>{t('patches.revampedHeroes')}</h2>
+                <h2 className={styles.sectionTitle}>{t('patches.revampedHeroes')}</h2>
                 {revampedEntries.map(([name, data]) => (
                   <HeroCard
                     key={name}
@@ -265,7 +296,7 @@ export const PatchesPage: React.FC = () => {
             {/* Hero Adjustments */}
             {heroEntries.length > 0 && (
               <div className={styles.section}>
-                <h2>{t('patches.heroChanges')}</h2>
+                <h2 className={styles.sectionTitle}>{t('patches.heroChanges')}</h2>
                 {heroEntries.map(([name, data]) => (
                   <HeroCard
                     key={name}
@@ -281,7 +312,7 @@ export const PatchesPage: React.FC = () => {
             {/* Equipment Adjustments */}
             {equipEntries.length > 0 && (
               <div className={styles.section}>
-                <h2>{t('patches.itemChanges')}</h2>
+                <h2 className={styles.sectionTitle}>{t('patches.itemChanges')}</h2>
                 {equipEntries.map(([name, data]) => (
                   <ItemCard
                     key={name}
@@ -297,7 +328,7 @@ export const PatchesPage: React.FC = () => {
             {/* Battlefield Adjustments */}
             {bfEntries.length > 0 && (
               <div className={styles.section}>
-                <h2>{t('patches.battlefieldChanges')}</h2>
+                <h2 className={styles.sectionTitle}>{t('patches.battlefieldChanges')}</h2>
                 {bfEntries.map(([name, data]) => (
                   <BattlefieldCard key={name} name={name} data={data} />
                 ))}
@@ -307,7 +338,7 @@ export const PatchesPage: React.FC = () => {
             {/* System / Mode Adjustments */}
             {sysEntries.length > 0 && (
               <div className={styles.section}>
-                <h2>{t('patches.systemChanges')}</h2>
+                <h2 className={styles.sectionTitle}>{t('patches.systemChanges')}</h2>
                 <div className={styles.systemChanges}>
                   {sysEntries.map((text, i) => (
                     <div key={i} className={styles.systemItem}
@@ -319,6 +350,7 @@ export const PatchesPage: React.FC = () => {
           </>
         ) : null}
       </div>
+    </div>
     </div>
   );
 };

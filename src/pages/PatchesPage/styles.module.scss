@@ -1,105 +1,131 @@
-.patchesPage {
-  display: flex;
-  gap: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px 16px;
-  min-height: calc(100vh - 200px);
+// ═══════════════════════════════════════════════
+//  PatchesPage — redesign v3 (dropdown picker)
+// ══════════════════════════════════════════════════
+
+// ── Outer wrapper (full width) ────────────────────
+.pageWrapper {
+  width: 100%;
 }
 
+// ── Mobile version dropdown (desktop: hidden) ────
+.versionDropdown { display: none; }
+
+// ── Page layout ──────────────────────────────────
+.patchesPage {
+  display: flex;
+  gap: 20px;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  min-height: calc(100vh - 160px);
+  align-items: flex-start;
+}
+
+// ── Desktop sidebar ──────────────────────────────
 .patchSelector {
-  width: 200px;
+  width: 210px;
   flex-shrink: 0;
   position: sticky;
   top: 76px;
-  align-self: flex-start;
-  max-height: calc(100vh - 96px);
+  max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 6px;
 }
 
 .sidebarLabel {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: rgba(255, 255, 255, 0.3);
-  margin: 0 0 8px 4px;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.28);
+  margin: 0 0 4px 4px;
 }
 
 .patchVersions {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 12px;
-  padding: 12px;
-  backdrop-filter: blur(8px);
+  gap: 2px;
+  padding: 6px;
+  background: rgba(15, 20, 35, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
   overflow-y: auto;
   flex: 1;
   min-height: 0;
+  backdrop-filter: blur(12px);
 
-  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar { width: 3px; }
   &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 2px; }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+  }
 }
 
 .patchButton {
   padding: 9px 12px;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.88rem;
-  font-weight: 500;
+  border: none;
+  border-radius: 9px;
+  color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.15s, color 0.15s;
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.85);
   }
 
   &.active {
-    background: rgba(96, 165, 250, 0.1);
-    border-color: rgba(96, 165, 250, 0.25);
+    background: rgba(99, 179, 237, 0.12);
+    color: #fff;
+    position: relative;
 
-    .versionNum { color: #60a5fa; }
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 25%;
+      bottom: 25%;
+      width: 3px;
+      background: #60a5fa;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .versionNum  { color: #60a5fa; }
+    .versionDate { color: rgba(96, 165, 250, 0.55); }
   }
 }
 
 .versionNum {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
-  color: inherit;
   line-height: 1;
 }
 
 .versionDate {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.28);
   line-height: 1;
-  font-weight: 400;
 }
 
 .sidebarLoadMore {
-  margin-top: 8px;
-  width: 100%;
   padding: 8px 12px;
   background: transparent;
-  border: 1px dashed rgba(148, 163, 184, 0.2);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.78rem;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 9px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.76rem;
   font-weight: 600;
   cursor: pointer;
+  letter-spacing: 0.5px;
   transition: all 0.2s;
+  flex-shrink: 0;
 
   &:hover {
     border-color: rgba(96, 165, 250, 0.4);
@@ -108,277 +134,115 @@
   }
 }
 
-.selectorLabel, .patchDropdown, .patchTabs, .sidebar {
-  display: none;
-}
-
+// ── Content ───────────────────────────────────────
 .content {
   flex: 1;
   min-width: 0;
 }
 
-.header,
+// ── Patch header ─────────────────────────────────────
 .patchHeader {
-  margin-bottom: 28px;
-  padding: 24px 28px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, rgba(20, 28, 50, 0.9) 0%, rgba(15, 20, 40, 0.8) 100%);
+  border: 1px solid rgba(96, 165, 250, 0.15);
   border-radius: 14px;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
 
-  h1 {
-    margin: 0 0 8px 0;
-    font-size: 1.9rem;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #60a5fa 0%, #818cf8 50%, transparent 100%);
+  }
+}
+
+.patchVersionLabel {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+
+  strong {
     color: #fff;
-    font-weight: 700;
+    font-weight: 800;
+    font-size: 1.3rem;
+    display: block;
+    line-height: 1.1;
     letter-spacing: -0.5px;
   }
 }
 
-.releaseDate {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.95rem;
-  margin: 0 0 8px 0;
-  margin: 0;
-  font-weight: 400;
+.advBadge {
+  padding: 3px 9px;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+  border-radius: 6px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 4px;
 }
 
+.releaseDate {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  margin: 0;
+  margin-left: auto;
+  align-self: flex-end;
+}
+
+// ── Section block ─────────────────────────────────
 .section {
   margin-bottom: 28px;
-
-  h2 {
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.35);
-    margin: 0 0 10px 2px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
 }
 
-.highlights {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  li {
-    padding: 18px 24px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    color: rgba(255, 255, 255, 0.95);
-    font-size: 1rem;
-    line-height: 1.7;
-    transition: all 0.2s;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-  }
-}
-
-.newHeroCard {
-  padding: 30px;
-  margin-bottom: 30px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-.newHeroHeader {
+.sectionTitle {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  gap: 8px;
 
-  h3 {
-    margin: 0;
-    font-size: 2rem;
-    color: #fff;
-    font-weight: 700;
-  }
-}
-
-.newHeroLink {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.2s;
-
-  &:hover h3 {
-    color: #ba68c8;
-  }
-}
-
-.newHeroBadge {
-  padding: 6px 14px;
-  background: rgba(233, 30, 99, 0.2);
-  color: #e91e63;
-  border-radius: 16px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.newHeroTitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-style: italic;
-  margin: 0 0 14px 0;
-}
-
-.newHeroDescription {
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.7;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
-  margin-bottom: 24px;
-  border-left: none;
-  font-size: 1rem;
-
-  strong {
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 600;
-  }
-}
-
-.newHeroSkills {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.newHeroSkill {
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  padding: 18px;
-  transition: all 0.2s;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.04);
-  }
-}
-
-.newHeroSkillHeader {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 12px;
-
-  .skillType {
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.7);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-  }
-
-  .skillName {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #fff;
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 12px;
+    background: #60a5fa;
+    border-radius: 2px;
     flex-shrink: 0;
   }
 }
 
-.newHeroSkillDescription {
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.7;
-  font-size: 1rem;
-
-  p {
-    margin: 8px 0;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-.designersNote {
-  margin-top: 8px;
-
-  h2 {
-    font-size: 1.3rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 16px 0;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.7;
-  }
-}
-
-.noteContent {
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.7;
-  font-size: 1rem;
-  margin: 0;
-
-  strong {
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 600;
-  }
-}
-
-.revampedHeroCard {
-  padding: 30px;
-  margin-bottom: 24px;
-  background: rgba(255, 255, 255, 0.02);
+// ── Hero card ─────────────────────────────────────
+.heroCard {
+  padding: 14px 16px;
+  margin-bottom: 6px;
+  background: rgba(15, 22, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-.revampBadge {
-  background: rgba(156, 39, 176, 0.2) !important;
-  color: #ba68c8 !important;
-}
-
-.revampDescription {
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.7;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
-  margin-bottom: 24px;
-  border-left: none;
-  font-size: 1rem;
-
-  strong {
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 600;
-  }
-}
-
-.revampedSkills {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.heroCard, .itemCard {
-  padding: 14px 18px;
-  margin-bottom: 8px;
-  background: rgba(15, 23, 42, 0.5);
-  border: 1px solid rgba(148, 163, 184, 0.08);
-  border-radius: 12px;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
   scroll-margin-top: 80px;
 
   &:hover {
-    background: rgba(15, 23, 42, 0.7);
-    border-color: rgba(148, 163, 184, 0.16);
+    background: rgba(20, 28, 55, 0.85);
+    border-color: rgba(96, 165, 250, 0.2);
   }
 
   &:target {
@@ -387,101 +251,130 @@
   }
 }
 
-.heroHeader, .itemHeader {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 12px;
+.revampedHeroCard {
+  padding: 14px 16px;
+  margin-bottom: 6px;
+  background: rgba(120, 60, 140, 0.08);
+  border: 1px solid rgba(186, 104, 200, 0.2);
+  border-radius: 12px;
+  scroll-margin-top: 80px;
+}
 
-  h3, h4 {
+.heroHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+
+  h3 {
     margin: 0;
-    padding: 0;
-    font-size: 1.35rem;
-    color: #fff;
+    font-size: 1.15rem;
     font-weight: 700;
+    color: #e8eeff;
     line-height: 1;
   }
 }
 
-.heroLink, .itemLink {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.2s;
+// ── Item card ─────────────────────────────────────
+.itemCard {
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  background: rgba(15, 20, 35, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: border-color 0.2s, background 0.2s;
 
-  &:hover h3, &:hover h4 {
-    color: #60a5fa;
+  &:hover {
+    background: rgba(15, 20, 35, 0.65);
+    border-color: rgba(255, 255, 255, 0.12);
   }
 }
 
-.summary, .description {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin-bottom: 12px;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
-  border-left: none;
-  font-size: 0.92rem;
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
 
-  // Rich HTML content generated by html_clean
+  h4 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+  }
+}
+
+// ── Links ─────────────────────────────────────────
+.heroLink, .itemLink {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s;
+
+  &:hover h3, &:hover h4 { color: #60a5fa; }
+}
+
+// ── Summary / description ─────────────────────────
+.summary, .description {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.65;
+  margin-bottom: 10px;
+  font-size: 0.91rem;
+
   p {
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     &:last-child { margin-bottom: 0; }
   }
 
   ul, ol {
-    margin: 4px 0 8px 20px;
+    margin: 4px 0 6px 18px;
     padding: 0;
-    li {
-      margin-bottom: 4px;
-      line-height: 1.55;
-    }
+    li { margin-bottom: 3px; line-height: 1.5; }
   }
 
-  strong { color: rgba(255, 255, 255, 0.95); }
+  strong { color: rgba(255, 255, 255, 0.9); font-weight: 600; }
   code {
     background: rgba(255, 255, 255, 0.08);
-    border-radius: 3px;
+    border-radius: 4px;
     padding: 1px 5px;
-    font-size: 0.88em;
-    font-family: monospace;
+    font-size: 0.87em;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
 }
 
-.skillBlock, .sectionBlock {
-  margin: 10px 0;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 6px;
+// ── Skill block ───────────────────────────────────
+.skillBlock {
+  margin: 8px 0 0;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid rgba(78, 205, 196, 0.45);
+  border-radius: 0 8px 8px 0;
 }
 
-.skillHeader, .sectionHeader {
+.skillHeader {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   flex-wrap: wrap;
-}
-
-.skillType, .sectionType {
-  font-weight: 600;
-  color: #fff;
-  font-size: 0.95rem;
 }
 
 .skillName {
   color: #4ecdc4;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
+// ── Badge ─────────────────────────────────────────
 .badge {
-  padding: 3px 9px;
+  padding: 2px 8px;
   border-radius: 20px;
-  font-size: 0.66rem;
-  font-weight: 700;
+  font-size: 0.62rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.7px;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
@@ -505,174 +398,244 @@
   }
 
   &.revamp {
-    background: rgba(186, 104, 200, 0.1);
+    background: rgba(186, 104, 200, 0.12);
     color: #ba68c8;
     border: 1px solid rgba(186, 104, 200, 0.25);
   }
 }
 
-.changesList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  li {
-    padding: 8px 0;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.6;
-    font-size: 0.9rem;
-
-    &:before {
-      content: "•";
-      margin-right: 10px;
-      color: rgba(78, 205, 196, 0.6);
-    }
-  }
-}
-
-.description {
-  margin-bottom: 20px;
-  
-  p {
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.7;
-    font-size: 0.95rem;
-    margin: 8px 0;
-    
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-}
-
-.sections {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.section {
-  padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  
-  h4, h5 {
-    margin: 0 0 12px 0;
-    color: #4ecdc4;
-    font-size: 1.05rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .changesList {
-    margin: 0;
-  }
-}
-
-.battlefieldSection {
-  margin-bottom: 40px;
-  
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.sectionTitle {
-  margin: 0 0 24px 0;
-  color: #ba68c8;
-  font-size: 1.5rem;
-  font-weight: 700;
-  padding-bottom: 12px;
-  border-bottom: 2px solid rgba(186, 104, 200, 0.3);
-}
-
+// ── System adjustments ────────────────────────────
 .systemChanges {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .systemItem {
   padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(15, 20, 35, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.92rem;
   line-height: 1.7;
-  font-size: 0.95rem;
-
-  p {
-    margin: 0 0 8px;
-    &:last-child { margin-bottom: 0; }
-  }
-
-  ul, ol {
-    margin: 6px 0 8px 20px;
-    padding: 0;
-    li { margin-bottom: 4px; line-height: 1.55; }
-  }
 
   strong { color: #f0f0f0; font-weight: 600; }
   code {
     background: rgba(255, 255, 255, 0.08);
-    border-radius: 3px;
+    border-radius: 4px;
     padding: 1px 5px;
-    font-size: 0.88em;
+    font-size: 0.87em;
     font-family: monospace;
   }
+  p { margin: 0 0 8px; &:last-child { margin-bottom: 0; } }
+  ul, ol {
+    margin: 6px 0 8px 18px;
+    padding: 0;
+    li { margin-bottom: 4px; line-height: 1.6; }
+  }
 }
 
+// ── Unused legacy classes (kept for safety) ───────
+.highlights, .newHeroCard, .newHeroHeader, .newHeroLink,
+.newHeroBadge, .newHeroTitle, .newHeroDescription,
+.newHeroSkills, .newHeroSkill, .newHeroSkillHeader,
+.newHeroSkillDescription, .designersNote, .noteContent,
+.revampDescription, .revampedSkills, .changesList,
+.sections, .battlefieldSection, .sectionBlock,
+.skillType, .sectionType, .sectionHeader,
+.selectorLabel, .patchDropdown, .patchTabs, .sidebar,
+.header, .revampBadge, .noteContent { display: none; }
+
+.mobileSelectorLabel, .selectWrapper, .versionSelect, .selectChevron,
+.patchHeaderInner { display: none; }
+
+// ══════════════════════════════════════════════════
+//  MOBILE  ≤ 768px
+// ══════════════════════════════════════════════════
 @media (max-width: 768px) {
+
+  // ── Version dropdown ───────────────────────────────
+  .versionDropdown {
+    display: block;
+    position: sticky;
+    top: calc(var(--ad-banner-height, 0px) + 58px);
+    z-index: 100;
+    padding: 8px 14px;
+    background: rgba(8, 12, 24, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .versionDropdownTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: border-color 0.15s, background 0.15s;
+
+    &:active {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .dropdownChevron {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+
+  .dropdownChevronOpen {
+    transform: rotate(180deg);
+  }
+
+  .dropdownBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+  }
+
+  .dropdownList {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: calc(100% - 2px);
+    z-index: 100;
+    background: rgba(10, 14, 28, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow-y: auto;
+    max-height: 60vh;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    padding: 6px;
+
+    &::-webkit-scrollbar { width: 3px; }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.12);
+      border-radius: 2px;
+    }
+  }
+
+  .dropdownItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+
+    &:active { background: rgba(255, 255, 255, 0.06); }
+  }
+
+  .dropdownItemActive {
+    background: rgba(96, 165, 250, 0.1);
+
+    .dropdownItemVersion { color: #60a5fa; }
+  }
+
+  .dropdownItemVersion {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .dropdownItemDate {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  // Hide desktop sidebar
+  .patchSelector  { display: none; }
+  .sidebarLoadMore { display: none; }
+
+  // ── Page layout ──────────────────────────────────
   .patchesPage {
     flex-direction: column;
-    gap: 16px;
-    padding: 16px 14px 40px;
+    gap: 0;
+    padding: 12px 14px 60px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
-  .patchSelector {
-    width: 100%;
-  }
-
-  .patchVersions {
-    position: static;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 10px;
+  // ── Patch header ──────────────────────────────────
+  .patchHeader {
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    margin-top: 12px;
     gap: 6px;
-
-    &::-webkit-scrollbar { height: 3px; }
-    &::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
-    &::-webkit-scrollbar-thumb { background: rgba(96, 165, 250, 0.3); border-radius: 2px; }
+    border-radius: 12px;
   }
 
-  .patchButton {
-    flex-direction: row;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding: 7px 10px;
+  .patchVersionLabel {
+    font-size: 0.78rem;
+    strong { font-size: 1.2rem; display: block; }
   }
 
-  .versionDate {
+  .advBadge { font-size: 0.57rem; padding: 2px 7px; margin-top: 2px; }
+
+  .releaseDate { font-size: 0.74rem; margin-left: 0; align-self: flex-end; }
+
+  // ── Sections ──────────────────────────────────────
+  .section { margin-bottom: 20px; }
+
+  .sectionTitle {
     font-size: 0.66rem;
-    color: rgba(255, 255, 255, 0.25);
+    letter-spacing: 1.8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
   }
 
-  .sidebarLoadMore {
-    margin: 6px 12px 10px;
-    width: calc(100% - 24px);
+  // ── Hero cards ────────────────────────────────────
+  .heroCard, .revampedHeroCard {
+    padding: 11px 13px;
+    margin-bottom: 5px;
+    border-radius: 10px;
   }
 
-  .header h1, .patchHeader h1 {
-    font-size: 1.6rem;
-  }
+  .heroHeader { gap: 6px; margin-bottom: 7px; h3 { font-size: 1rem; } }
+
+  // ── Item cards ────────────────────────────────────
+  .itemCard { padding: 10px 13px; margin-bottom: 5px; border-radius: 10px; }
+
+  .itemHeader { gap: 6px; margin-bottom: 7px; h4 { font-size: 0.93rem; } }
+
+  // ── Summary ───────────────────────────────────────
+  .summary, .description { font-size: 0.85rem; margin-bottom: 7px; line-height: 1.6; }
+
+  // ── Skill block ───────────────────────────────────
+  .skillBlock { margin: 5px 0; padding: 8px 11px; border-radius: 0 6px 6px 0; }
+  .skillHeader { gap: 6px; margin-bottom: 6px; }
+  .skillName { font-size: 0.83rem; }
+
+  // ── Badge ─────────────────────────────────────────
+  .badge { padding: 2px 6px; font-size: 0.57rem; }
+
+  // ── System ────────────────────────────────────────
+  .systemChanges { gap: 6px; }
+  .systemItem { padding: 11px 13px; font-size: 0.85rem; border-radius: 9px; }
 }
+
+@media (max-width: 400px) {
+  .patchesPage { padding: 8px 10px 60px; }
+  .chip { font-size: 0.73rem; padding: 5px 10px; }
+  .heroCard, .revampedHeroCard, .itemCard { padding: 10px 11px; }
+  .heroHeader h3 { font-size: 0.95rem; }
+  .itemHeader h4 { font-size: 0.88rem; }
+}
+
