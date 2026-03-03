@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useBackHandler } from '../../hooks/useBackHandler';
 import { useTranslation } from 'react-i18next';
@@ -72,15 +72,25 @@ const NAV_ITEMS = [
   { key: 'favorites', path: 'favorites', Icon: FavoritesIcon, mobileOnly: true },
 ];
 
+const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly);
+const MORE_BTN_W = 52; // reserved width (px) for the "..." button
+
 export const Header: React.FC = () => {
   const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [overflowStart, setOverflowStart] = useState(DESKTOP_NAV.length);
+  const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
   const openRemoveAdsModal = useAdStore(s => s.openRemoveAdsModal);
   const adsEnabled = useAdStore(selectAdsEnabled);
   const minutesLeft = useAdStore(selectAdFreeMinutesLeft);
   const isNative = Capacitor.isNativePlatform();
+
+  // Refs for measuring nav items and nav container
+  const navRef = useRef<HTMLElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
   const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
@@ -91,6 +101,9 @@ export const Header: React.FC = () => {
     closeMenu();
   }, [location.pathname, closeMenu]);
 
+  // Close overflow dropdown on route change
+  useEffect(() => { setMoreOpen(false); }, [location.pathname]);
+
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -99,6 +112,67 @@ export const Header: React.FC = () => {
     }
     return () => { document.body.style.overflow = ''; };
   }, [isMenuOpen]);
+
+  // Dynamic overflow: measure items in hidden strip, calc cutoff on resize
+  const recalcOverflow = useCallback(() => {
+    const nav = navRef.current;
+    const measure = measureRef.current;
+    if (!nav || !measure) return;
+    const navW = nav.offsetWidth;
+    // Guard: skip if layout hasn't resolved yet
+    if (navW < 50) return;
+    const items = Array.from(measure.children) as HTMLElement[];
+    if (items.length === 0 || (items[0] as HTMLElement).offsetWidth === 0) return;
+
+    // First pass: check if ALL items fit without a "..." button
+    let totalW = 0;
+    for (let i = 0; i < items.length; i++) {
+      totalW += items[i].offsetWidth + (i > 0 ? 4 : 0);
+    }
+    if (totalW <= navW) {
+      setOverflowStart(DESKTOP_NAV.length);
+      return;
+    }
+
+    // Second pass: find cutoff, reserving space for the "..." button
+    let used = 0;
+    let cut = 0;
+    for (let i = 0; i < items.length; i++) {
+      const itemW = items[i].offsetWidth + (i > 0 ? 4 : 0);
+      if (used + itemW + MORE_BTN_W > navW) {
+        cut = i;
+        break;
+      }
+      used += itemW;
+      cut = i + 1;
+    }
+    setOverflowStart(cut);
+  }, []);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const ro = new ResizeObserver(recalcOverflow);
+    ro.observe(nav);
+    // Double rAF: ensures CSS + layout are fully applied before first measurement
+    let raf2: number;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(recalcOverflow);
+    });
+    return () => { ro.disconnect(); cancelAnimationFrame(raf1); cancelAnimationFrame(raf2); };
+  }, [recalcOverflow]);
+
+  // Close "..." dropdown on outside click
+  useEffect(() => {
+    if (!moreOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [moreOpen]);
 
   return (
     <>
@@ -113,18 +187,55 @@ export const Header: React.FC = () => {
             />
         </div>
 
+        {/* Hidden measurement strip — always renders all items to measure natural widths */}
+        <div ref={measureRef} className={styles['nav-measure']} aria-hidden="true">
+          {DESKTOP_NAV.map(({ key, path, Icon }) => (
+            <NavLink key={key} to={`/${selectedGameId}/${path}`} className={styles['nav-links']} tabIndex={-1}>
+              <Icon /><span>{t(`header.${key}`)}</span>
+            </NavLink>
+          ))}
+        </div>
+
         {/* Desktop navigation */}
-        <nav className={styles['desktop-nav']}>
-          {NAV_ITEMS.filter(item => !item.mobileOnly).map(({ key, path, Icon }) => (
+        <nav ref={navRef} className={styles['desktop-nav']}>
+          {DESKTOP_NAV.slice(0, overflowStart).map(({ key, path, Icon }) => (
             <NavLink
               key={key}
               to={`/${selectedGameId}/${path}`}
               className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''} ${key === 'patches' ? styles['patches-link'] : ''}`}
             >
-                <Icon />
-                <span>{t(`header.${key}`)}</span>
+              <Icon />
+              <span>{t(`header.${key}`)}</span>
             </NavLink>
           ))}
+
+          {/* "..." overflow button */}
+          {overflowStart < DESKTOP_NAV.length && (
+            <div ref={moreRef} className={styles['nav-more']}>
+              <button
+                className={`${styles['nav-more-btn']} ${moreOpen ? styles['nav-more-btn--open'] : ''}`}
+                onClick={() => setMoreOpen(o => !o)}
+                aria-label="More navigation items"
+              >
+                <span>•••</span>
+              </button>
+              {moreOpen && (
+                <div className={styles['nav-more-dropdown']}>
+                  {DESKTOP_NAV.slice(overflowStart).map(({ key, path, Icon }) => (
+                    <NavLink
+                      key={key}
+                      to={`/${selectedGameId}/${path}`}
+                      className={({ isActive }) => `${styles['nav-more-item']} ${isActive ? styles['nav-more-item--active'] : ''}`}
+                      onClick={() => setMoreOpen(false)}
+                    >
+                      <Icon />
+                      <span>{t(`header.${key}`)}</span>
+                    </NavLink>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </nav>
 
         {/* Burger button for mobile */}

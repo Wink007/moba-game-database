@@ -88,6 +88,24 @@
 }
 
 /* ===== Desktop Navigation ===== */
+
+// Hidden measurement strip — absolutely positioned, invisible
+.nav-measure {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    top: 0;
+    left: -9999px;
+  }
+}
+
 .desktop-nav {
   display: none;
 
@@ -95,29 +113,85 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    flex-shrink: 1;
+    flex: 1 1 0;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
+  }
+}
+
+// "..." overflow button
+.nav-more {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.nav-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+  line-height: 1;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+
+  &:hover, &--open {
+    color: var(--color-text-primary);
+    background: rgba(74, 158, 255, 0.08);
+    border-color: rgba(74, 158, 255, 0.12);
+  }
+}
+
+.nav-more-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: rgba(10, 14, 28, 0.98);
+  border: 1px solid rgba(74, 158, 255, 0.12);
+  border-radius: 12px;
+  padding: 6px;
+  z-index: 200;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-more-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+
+  svg { width: 15px; height: 15px; opacity: 0.6; flex-shrink: 0; }
+
+  &:hover {
+    color: var(--color-text-primary);
+    background: rgba(74, 158, 255, 0.08);
+    svg { opacity: 1; }
   }
 
-  /* 768–899px: show only 4 items (hide last 4) */
-  @media (min-width: 768px) and (max-width: 899px) {
-    > :nth-last-child(-n+4) { display: none; }
-  }
-
-  /* 900–1023px: show only 5 items (hide last 3) */
-  @media (min-width: 900px) and (max-width: 1023px) {
-    > :nth-last-child(-n+3) { display: none; }
-  }
-
-  /* 1024–1149px: show only 6 items (hide last 2) */
-  @media (min-width: 1024px) and (max-width: 1149px) {
-    > :nth-last-child(-n+2) { display: none; }
-  }
-
-  /* 1150–1279px: show only 7 items (hide last 1) */
-  @media (min-width: 1150px) and (max-width: 1279px) {
-    > :last-child { display: none; }
+  &--active {
+    color: var(--color-accent, #4a9eff);
+    background: rgba(74, 158, 255, 0.08);
+    svg { opacity: 1; }
   }
 }
 
