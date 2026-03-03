@@ -11,6 +11,7 @@ import { useAdStore, selectAdsEnabled, selectAdFreeMinutesLeft } from '../../sto
 import { ThemeToggle } from '../ThemeToggle';
 import { getDaysOptions, getRankOptions } from '../../pages/HeroRankPage/constants';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
+import { useThemeStore, Theme } from '../../store/themeStore';
 
 import { Capacitor } from '@capacitor/core';
 
@@ -79,18 +80,19 @@ const NAV_ITEMS = [
   { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
   { key: 'patches', path: 'patches', Icon: PatchesIcon },
   { key: 'favorites', path: 'favorites', Icon: FavoritesIcon, mobileOnly: true },
-  { key: 'settings', path: '/settings', Icon: SettingsIcon, mobileOnly: true, staticPath: true },
 ];
 
 const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly);
 const MORE_BTN_W = 52; // reserved width (px) for the "..." button
 
 export const Header: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { selectedGameId } = useGameStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [sheetView, setSheetView] = useState<'main' | 'settings'>('main');
   const [overflowStart, setOverflowStart] = useState(DESKTOP_NAV.length);
   const [moreOpen, setMoreOpen] = useState(false);
+  const { theme, setTheme } = useThemeStore();
   const location = useLocation();
   const openRemoveAdsModal = useAdStore(s => s.openRemoveAdsModal);
   const adsEnabled = useAdStore(selectAdsEnabled);
@@ -105,9 +107,11 @@ export const Header: React.FC = () => {
   const measureRef = useRef<HTMLDivElement>(null);
   const moreRef = useRef<HTMLDivElement>(null);
 
-  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  const closeSettings = useCallback(() => setSheetView('main'), []);
+  const closeMenu = useCallback(() => { setIsMenuOpen(false); setSheetView('main'); }, []);
   const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
-  useBackHandler(isMenuOpen, closeMenu);
+  useBackHandler(isMenuOpen && sheetView === 'main', closeMenu);
+  useBackHandler(isMenuOpen && sheetView === 'settings', closeSettings);
 
   // Close menu on route change
   useEffect(() => {
@@ -276,42 +280,126 @@ export const Header: React.FC = () => {
         <div className={`${styles.sheet} ${isMenuOpen ? styles['sheet--open'] : ''}`}>
           <div className={styles['sheet-handle']} />
 
-          {/* Search */}
-          <div className={styles['sheet-search']}>
-            <SearchBar onSelect={closeMenu} />
-          </div>
+          {sheetView === 'main' ? (
+            <>
+              {/* Search */}
+              <div className={styles['sheet-search']}>
+                <SearchBar onSelect={closeMenu} />
+              </div>
 
-          {/* Nav grid */}
-          <div className={styles['sheet-grid']}>
-            {NAV_ITEMS.map(({ key, path, Icon, staticPath }) => (
-              <NavLink
-                key={key}
-                to={staticPath ? path : `/${selectedGameId}/${path}`}
-                className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
-                onClick={closeMenu}
-              >
-                <div className={styles['sheet-icon']}>
-                  <Icon />
+              {/* Nav grid */}
+              <div className={styles['sheet-grid']}>
+                {NAV_ITEMS.map(({ key, path, Icon }) => (
+                  <NavLink
+                    key={key}
+                    to={`/${selectedGameId}/${path}`}
+                    className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
+                    onClick={closeMenu}
+                  >
+                    <div className={styles['sheet-icon']}><Icon /></div>
+                    <span className={styles['sheet-label']}>{t(`header.${key}`)}</span>
+                  </NavLink>
+                ))}
+              </div>
+
+              {/* Bottom row: settings + user + remove ads */}
+              <div className={styles['sheet-footer']}>
+                <button className={styles['sheet-footer-settings']} onClick={() => setSheetView('settings')}>
+                  <SettingsIcon />
+                  <span>{t('header.settings')}</span>
+                </button>
+                {isNative && (
+                  <button
+                    className={styles['remove-ads-btn']}
+                    onClick={() => { openRemoveAdsModal(); closeMenu(); }}
+                    title="Прибрати рекламу"
+                  >
+                    {adsEnabled ? '🚫 Реклама' : minutesLeft ? `✅ ${minutesLeft} хв` : '✅ Без реклами'}
+                  </button>
+                )}
+                <UserMenu />
+              </div>
+            </>
+          ) : (
+            /* Settings panel */
+            <div className={styles['sheet-settings']}>
+              <div className={styles['sheet-settings-header']}>
+                <button className={styles['sheet-back-btn']} onClick={closeSettings} aria-label={t('common.back')}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6" />
+                  </svg>
+                </button>
+                <span className={styles['sheet-settings-title']}>{t('settings.title')}</span>
+              </div>
+              <div className={styles['sheet-settings-body']}>
+                {/* Theme */}
+                <div className={styles['settings-section']}>
+                  <div className={styles['settings-section-title']}>{t('settings.theme')}</div>
+                  <div className={styles['settings-theme-row']}>
+                    {([
+                      { value: 'dark' as Theme, label: t('settings.themeDark') },
+                      { value: 'light' as Theme, label: t('settings.themeLight') },
+                      { value: 'system' as Theme, label: t('settings.themeSystem') },
+                    ]).map(({ value, label }) => (
+                      <button
+                        key={value}
+                        className={`${styles['settings-pill']} ${theme === value ? styles['settings-pill--active'] : ''}`}
+                        onClick={() => setTheme(value)}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <span className={styles['sheet-label']}>{t(`header.${key}`)}</span>
-              </NavLink>
-            ))}
-          </div>
 
-          {/* Bottom row: language + user + remove ads */}
-          <div className={styles['sheet-footer']}>
-            <LanguageSwitcher />
-            {isNative && (
-              <button
-                className={styles['remove-ads-btn']}
-                onClick={() => { openRemoveAdsModal(); closeMenu(); }}
-                title="Прибрати рекламу"
-              >
-                {adsEnabled ? '🚫 Реклама' : minutesLeft ? `✅ ${minutesLeft} хв` : '✅ Без реклами'}
-              </button>
-            )}
-            <UserMenu />
-          </div>
+                {/* Language */}
+                <div className={styles['settings-section']}>
+                  <div className={styles['settings-section-title']}>{t('settings.language')}</div>
+                  <div className={styles['settings-theme-row']}>
+                    {(['en', 'uk'] as const).map((lng) => (
+                      <button
+                        key={lng}
+                        className={`${styles['settings-pill']} ${i18n.language === lng ? styles['settings-pill--active'] : ''}`}
+                        onClick={() => { i18n.changeLanguage(lng); localStorage.setItem('language', lng); }}
+                      >
+                        {lng === 'en' ? '🇬🇧 English' : '🇺🇦 Українська'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Filter Defaults */}
+                <div className={styles['settings-section']}>
+                  <div className={styles['settings-section-title']}>{t('settings.defaultDays')}</div>
+                  <div className={styles['settings-theme-row']}>
+                    {daysOptions.map(opt => (
+                      <button
+                        key={opt.value}
+                        className={`${styles['settings-pill']} ${defaultDays === opt.value ? styles['settings-pill--active'] : ''}`}
+                        onClick={() => setDefaultDays(Number(opt.value))}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className={styles['settings-section']}>
+                  <div className={styles['settings-section-title']}>{t('settings.defaultRank')}</div>
+                  <div className={styles['settings-theme-row']}>
+                    {rankOptions.map(opt => (
+                      <button
+                        key={opt.value}
+                        className={`${styles['settings-pill']} ${defaultRank === opt.value ? styles['settings-pill--active'] : ''}`}
+                        onClick={() => setDefaultRank(opt.value)}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
     </header>
 
