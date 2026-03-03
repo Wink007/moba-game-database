@@ -246,7 +246,8 @@
     "nerfs": "Послаблення",
     "rework": "Переробка",
     "failedToLoad": "Не вдалося завантажити патчі",
-    "noPatchesAvailable": "Патчі недоступні"
+    "noPatchesAvailable": "Патчі недоступні",
+    "loadMoreCount": "+{{count}} ще"
   },
   "heroRank": {
     "title": "Рейтинг Героїв",

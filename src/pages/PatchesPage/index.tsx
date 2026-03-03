@@ -252,7 +252,7 @@ export const PatchesPage: React.FC = () => {
               className={styles.sidebarLoadMore}
               onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
             >
-              +{Math.min(PAGE_SIZE, patchVersions.length - visibleCount)} more
+              {t('patches.loadMoreCount', { count: Math.min(PAGE_SIZE, patchVersions.length - visibleCount) })}
             </button>
           )}
         </aside>

@@ -246,7 +246,8 @@
     "nerfs": "Nerfs",
     "rework": "Rework",
     "failedToLoad": "Failed to load patches",
-    "noPatchesAvailable": "No patches available"
+    "noPatchesAvailable": "No patches available",
+    "loadMoreCount": "+{{count}} more"
   },
   "heroRank": {
     "title": "Hero Rankings",
