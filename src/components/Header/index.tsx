@@ -282,24 +282,26 @@ export const Header: React.FC = () => {
 
           {sheetView === 'main' ? (
             <>
-              {/* Search */}
-              <div className={styles['sheet-search']}>
-                <SearchBar onSelect={closeMenu} />
-              </div>
+              <div className={styles['sheet-main-scroll']}>
+                {/* Search */}
+                <div className={styles['sheet-search']}>
+                  <SearchBar onSelect={closeMenu} />
+                </div>
 
-              {/* Nav grid */}
-              <div className={styles['sheet-grid']}>
-                {NAV_ITEMS.map(({ key, path, Icon }) => (
-                  <NavLink
-                    key={key}
-                    to={`/${selectedGameId}/${path}`}
-                    className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
-                    onClick={closeMenu}
-                  >
-                    <div className={styles['sheet-icon']}><Icon /></div>
-                    <span className={styles['sheet-label']}>{t(`header.${key}`)}</span>
-                  </NavLink>
-                ))}
+                {/* Nav grid */}
+                <div className={styles['sheet-grid']}>
+                  {NAV_ITEMS.map(({ key, path, Icon }) => (
+                    <NavLink
+                      key={key}
+                      to={`/${selectedGameId}/${path}`}
+                      className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
+                      onClick={closeMenu}
+                    >
+                      <div className={styles['sheet-icon']}><Icon /></div>
+                      <span className={styles['sheet-label']}>{t(`header.${key}`)}</span>
+                    </NavLink>
+                  ))}
+                </div>
               </div>
 
               {/* Bottom row: settings + user + remove ads */}
@@ -369,6 +371,11 @@ export const Header: React.FC = () => {
                 </div>
 
                 {/* Filter Defaults */}
+                <div className={styles['settings-divider']} />
+                <div className={styles['settings-section']}>
+                  <div className={styles['settings-section-title']}>{t('settings.defaults')}</div>
+                  <div className={styles['settings-section-desc']}>{t('settings.defaultsDesc')}</div>
+                </div>
                 <div className={styles['settings-section']}>
                   <div className={styles['settings-section-title']}>{t('settings.defaultDays')}</div>
                   <div className={styles['settings-theme-row']}>
@@ -397,6 +404,22 @@ export const Header: React.FC = () => {
                     ))}
                   </div>
                 </div>
+                <div className={styles['settings-divider']} />
+                <a
+                  href="https://mobawiki.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles['settings-website-link']}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                  </svg>
+                  <span className={styles['settings-website-label']}>{t('settings.website')}</span>
+                  <span className={styles['settings-website-url']}>mobawiki.com</span>
+                  <svg className={styles['settings-website-arrow']} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </a>
               </div>
             </div>
           )}
