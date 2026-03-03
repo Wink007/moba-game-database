@@ -23,18 +23,18 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
-  background: rgba(15, 23, 42, 0.35);
-  border: 1px solid rgba(148, 163, 184, 0.08);
+  background: var(--clr-overlay-35);
+  border: 1px solid var(--clr-border-2);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #e2e8f0;
+  color: var(--clr-text-2);
   font-size: 0.85rem;
   font-weight: 500;
 
   &:hover {
-    background: rgba(15, 23, 42, 0.5);
-    border-color: rgba(148, 163, 184, 0.15);
+    background: var(--clr-overlay-50);
+    border-color: var(--clr-border-5);
   }
 }
 
@@ -49,7 +49,7 @@
 .toggleIcon {
   transition: transform 0.3s ease;
   font-size: 0.75rem;
-  color: rgba(148, 163, 184, 0.7);
+  color: var(--clr-border-9);
   transform: rotate(90deg);
 }
 
@@ -58,9 +58,9 @@
 }
 
 .filtersActiveBadge {
-  background: rgba(96, 165, 250, 0.15);
-  border: 1px solid rgba(96, 165, 250, 0.3);
-  color: #60a5fa;
+  background: var(--clr-accent-15);
+  border: 1px solid var(--clr-accent-30);
+  color: var(--clr-accent);
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.15rem 0.5rem;
@@ -112,7 +112,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(148, 163, 184, 0.7);
+  color: var(--clr-border-9);
 
   span {
     margin-right: 0.35rem;
@@ -127,10 +127,10 @@
 
 .tab {
   padding: 0.5rem 1rem;
-  background: rgba(15, 23, 42, 0.4);
-  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: var(--clr-overlay-40);
+  border: 1px solid var(--clr-border-3);
   border-radius: 8px;
-  color: rgba(203, 213, 225, 0.6);
+  color: var(--clr-surface-3);
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
@@ -138,20 +138,20 @@
   white-space: nowrap;
 
   &:hover {
-    background: rgba(30, 41, 59, 0.6);
-    border-color: rgba(96, 165, 250, 0.2);
-    color: rgba(203, 213, 225, 0.85);
+    background: var(--clr-bg-card-60);
+    border-color: var(--clr-accent-20);
+    color: var(--clr-surface-4);
   }
 }
 
 .tabActive {
-  background: rgba(96, 165, 250, 0.12);
-  border-color: rgba(96, 165, 250, 0.3);
-  color: #60a5fa;
+  background: var(--clr-accent-12);
+  border-color: var(--clr-accent-30);
+  color: var(--clr-accent);
   font-weight: 600;
 
   &:hover {
-    background: rgba(96, 165, 250, 0.18);
-    border-color: rgba(96, 165, 250, 0.4);
+    background: var(--clr-accent-18);
+    border-color: var(--clr-accent-40);
   }
 }

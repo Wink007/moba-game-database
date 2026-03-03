@@ -7,19 +7,19 @@
     padding: 0.55rem 1.25rem;
     font-size: 0.82rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--clr-text-1);
     text-decoration: none;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1));
-    border: 1px solid rgba(96, 165, 250, 0.2);
+    background: linear-gradient(135deg, var(--clr-accent-15), var(--clr-purple-08));
+    border: 1px solid var(--clr-accent-20);
     border-radius: 10px;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.2));
-        border-color: rgba(96, 165, 250, 0.45);
+        background: linear-gradient(135deg, var(--clr-accent-30), var(--clr-purple-20));
+        border-color: var(--clr-accent-45);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.15);
-        color: #fff;
+        box-shadow: 0 6px 20px var(--clr-accent-15);
+        color: var(--clr-text-1);
     }
 
     &:hover .arrow {

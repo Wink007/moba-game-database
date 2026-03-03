@@ -8,7 +8,8 @@
     "patches": "Patches",
     "favorites": "Favorites",
     "tierList": "Tier List",
-    "heroRank": "Rankings"
+    "heroRank": "Rankings",
+    "settings": "Settings"
   },
   "footer": {
     "copyright": "Mobile Legends Wiki (Unofficial)",
@@ -468,5 +469,16 @@
     "learnMore": "Learn more",
     "accept": "Accept",
     "decline": "Decline"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "themeDark": "Dark",
+    "themeLight": "Light",
+    "themeSystem": "System",
+    "language": "Language",
+    "about": "About",
+    "appName": "Mobile Legends Wiki",
+    "unofficial": "Unofficial fan-made guide"
   }
 }

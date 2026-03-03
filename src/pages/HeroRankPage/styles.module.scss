@@ -17,7 +17,7 @@
 .title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--clr-text-1);
   margin: 0 0 0.5rem 0;
 
   @media (max-width: 768px) {
@@ -27,7 +27,7 @@
 
 .subtitle {
   font-size: 1.1rem;
-  color: #bcc9d8;
+  color: var(--clr-text-3);
   margin: 0;
 
   @media (max-width: 768px) {
@@ -46,8 +46,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(148, 163, 184, 0.7);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  color: var(--clr-border-9);
+  border-bottom: 1px solid var(--clr-border-5);
   margin-bottom: 0.5rem;
 
   @media (max-width: 1024px) {
@@ -94,13 +94,13 @@
   align-items: center;
   gap: 1rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(90deg, rgba(74, 158, 255, 0.08) 0%, rgba(74, 158, 255, 0.01) 90%);
+  background: linear-gradient(90deg, var(--clr-accent-08) 0%, var(--clr-accent-04) 90%);
   border-radius: 8px;
   transition: all 0.2s ease;
   height: 70px;
 
   &:hover {
-    background: rgba(40, 51, 69, 0.6);
+    background: var(--clr-bg-card-65);
     transform: translateX(4px);
   }
 
@@ -136,7 +136,7 @@
 .rankBadge {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #8b92a6;
+  color: var(--clr-text-3);
   text-align: center;
 
   @media (max-width: 768px) {
@@ -158,13 +158,13 @@
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid rgba(74, 158, 255, 0.3);
+  border: 2px solid var(--clr-accent-30);
   flex-shrink: 0;
   transition: all 0.2s ease;
 
   &:hover {
     transform: scale(1.1);
-    border-color: rgba(74, 158, 255, 0.6);
+    border-color: var(--clr-accent-60);
   }
 
   img {
@@ -177,7 +177,7 @@
 .heroName {
   font-size: 1rem;
   font-weight: 600;
-  color: #f1f5f9;
+  color: var(--clr-text-1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -197,7 +197,7 @@
 .statValue {
   font-size: 1rem;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--clr-text-2);
   text-align: center;
 
   @media (max-width: 768px) {
@@ -206,15 +206,15 @@
     align-items: center;
     gap: 0.25rem;
     padding: 0.75rem;
-    background: rgba(15, 23, 42, 0.4);
+    background: var(--clr-overlay-40);
     border-radius: 8px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid var(--clr-border-3);
     font-size: 1.1rem;
 
     &::before {
       content: attr(data-label);
       font-size: 0.65rem;
-      color: rgba(148, 163, 184, 0.5);
+      color: var(--clr-border-7);
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 0.1em;
@@ -236,7 +236,7 @@
   @media (max-width: 768px) {
     width: 100%;
     padding: 0.75rem 0 0 0;
-    border-top: 1px solid rgba(148, 163, 184, 0.1);
+    border-top: 1px solid var(--clr-border-3);
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -244,7 +244,7 @@
     &::before {
       content: attr(data-label);
       font-size: 0.65rem;
-      color: rgba(148, 163, 184, 0.5);
+      color: var(--clr-border-7);
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -257,7 +257,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(90deg, rgba(148, 163, 184, 0.1) 25%, rgba(148, 163, 184, 0.2) 50%, rgba(148, 163, 184, 0.1) 75%);
+  background: linear-gradient(90deg, var(--clr-border-3) 25%, var(--clr-border-6) 50%, var(--clr-border-3) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
   flex-shrink: 0;
@@ -284,37 +284,37 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 2px solid rgba(139, 92, 246, 0.3);
+  border: 2px solid var(--clr-purple-30);
   transition: all 0.2s ease;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px var(--clr-black-20);
 
   &:hover {
     transform: scale(1.15);
-    border-color: rgba(139, 92, 246, 0.7);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    border-color: var(--clr-purple-60);
+    box-shadow: 0 4px 12px var(--clr-purple-40);
     z-index: 10;
   }
 }
 
 .noSynergy {
   font-size: 1.2rem;
-  color: rgba(148, 163, 184, 0.4);
+  color: var(--clr-border-40);
   text-align: center;
   width: 100%;
 }
 
 // Top 3 Styles
 .first {
-  background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(74, 158, 255, 0.01) 90%);
+  background: linear-gradient(90deg, var(--clr-warning-soft) 0%, var(--clr-accent-04) 90%);
 }
 
 .second {
-  background: linear-gradient(90deg, rgba(192, 192, 192, 0.15) 0%, rgba(74, 158, 255, 0.01) 90%);
+  background: linear-gradient(90deg, var(--clr-border-3) 0%, var(--clr-accent-04) 90%);
 }
 
 .third {
-  background: linear-gradient(90deg, rgba(205, 127, 50, 0.15) 0%, rgba(74, 158, 255, 0.01) 90%);
+  background: linear-gradient(90deg, var(--clr-warning-soft) 0%, var(--clr-accent-04) 90%);
 }
 
 // Skeleton
@@ -329,7 +329,7 @@
 
 .heroCardSkeleton {
   height: 70px;
-  background: rgba(30, 41, 59, 0.6);
+  background: var(--clr-bg-card-60);
   border-radius: 4px;
   animation: pulse 1.5s ease-in-out infinite;
 }
@@ -344,13 +344,13 @@
 }
 
 .error {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid #ef4444;
+  color: var(--clr-danger);
+  background: var(--clr-danger-soft);
+  border: 1px solid var(--clr-danger);
 }
 
 .noData {
-  color: #bcc9d8;
-  background: rgba(156, 163, 175, 0.1);
-  border: 1px solid #9ca3af;
+  color: var(--clr-text-3);
+  background: var(--clr-border-3);
+  border: 1px solid var(--clr-text-4);
 }

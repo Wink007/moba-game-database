@@ -14,6 +14,7 @@ import { CookieConsent } from './components/CookieConsent';
 import { AdBannerSpacer } from './components/AdBannerSpacer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setQueryClientRef } from './store/authStore';
+import { useThemeStore } from './store/themeStore';
 import { useAdManager } from './hooks/useAdManager';
 import { STALE_5_MIN } from './queries/keys';
 import './App.css';
@@ -35,6 +36,7 @@ const FavoritesPage = React.lazy(() => import('./pages/FavoritesPage').then(m =>
 const CounterPickPage = React.lazy(() => import('./pages/CounterPickPage').then(m => ({ default: m.CounterPickPage })));
 const TierListPage = React.lazy(() => import('./pages/TierListPage').then(m => ({ default: m.TierListPage })));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+const SettingsPage = React.lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,6 +51,8 @@ const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925
 
 function AppInner() {
   useAdManager();
+  // Initialize theme store (applies saved theme + listens for system pref changes)
+  useThemeStore();
   return (
     <>
     <RemoveAdsModal />
@@ -90,6 +94,7 @@ function App() {
                 <Route path="/:gameId/counter-pick" element={<RouteErrorBoundary><CounterPickPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/tier-list" element={<RouteErrorBoundary><TierListPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/favorites" element={<RouteErrorBoundary><FavoritesPage /></RouteErrorBoundary>} />
+                <Route path="/settings" element={<RouteErrorBoundary><SettingsPage /></RouteErrorBoundary>} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
               </Suspense>

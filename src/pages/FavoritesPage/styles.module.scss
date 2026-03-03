@@ -11,7 +11,7 @@
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #e2e8f0;
+  color: var(--clr-text-2);
   margin-bottom: 1.5rem;
 
   @media (max-width: 768px) {
@@ -44,7 +44,7 @@
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
-  color: rgba(148, 163, 184, 0.8);
+  color: var(--clr-border-80);
   font-size: 1.1rem;
   gap: 1.5rem;
 
@@ -55,20 +55,20 @@
 
 .loginButton {
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
-  border: 1px solid rgba(96, 165, 250, 0.4);
+  background: linear-gradient(135deg, var(--clr-accent-20) 0%, var(--clr-accent-20) 100%);
+  border: 1px solid var(--clr-accent-40);
   border-radius: 8px;
-  color: #93c5fd;
+  color: var(--clr-accent);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: linear-gradient(135deg, rgba(96, 165, 250, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
-    border-color: rgba(96, 165, 250, 0.6);
+    background: linear-gradient(135deg, var(--clr-accent-30) 0%, var(--clr-accent-30) 100%);
+    border-color: var(--clr-accent-60);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.2);
+    box-shadow: 0 4px 12px var(--clr-accent-20);
   }
 
   &:active {
@@ -83,7 +83,7 @@
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
-  color: rgba(148, 163, 184, 0.6);
+  color: var(--clr-border-8);
   font-size: 1.1rem;
   gap: 1.5rem;
 
@@ -94,18 +94,18 @@
 
 .browseLink {
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, rgba(96, 165, 250, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
-  border: 1px solid rgba(96, 165, 250, 0.3);
+  background: linear-gradient(135deg, var(--clr-accent-15) 0%, var(--clr-accent-15) 100%);
+  border: 1px solid var(--clr-accent-30);
   border-radius: 8px;
-  color: #93c5fd;
+  color: var(--clr-accent);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
 
   &:hover {
-    background: linear-gradient(135deg, rgba(96, 165, 250, 0.25) 0%, rgba(59, 130, 246, 0.25) 100%);
-    border-color: rgba(96, 165, 250, 0.5);
+    background: linear-gradient(135deg, var(--clr-accent-25) 0%, var(--clr-accent-25) 100%);
+    border-color: var(--clr-accent-50);
     transform: translateY(-1px);
   }
 }

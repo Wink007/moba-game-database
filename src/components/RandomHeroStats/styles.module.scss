@@ -1,12 +1,12 @@
 .container {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.7) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: linear-gradient(135deg, var(--clr-overlay-80) 0%, var(--clr-bg-card-70) 100%);
+  border: 1px solid var(--clr-border-6);
   border-radius: 16px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 24px var(--clr-black-30);
 
   @media (max-width: 968px) {
     padding: 1rem;
@@ -22,19 +22,19 @@
   text-decoration: none;
   padding: 1.25rem;
   border-radius: 12px;
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: var(--clr-bg-card-40);
+  border: 1px solid var(--clr-border-6);
 }
 
 .heroImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: 2px solid rgba(148, 163, 184, 0.3);
+  border: 2px solid var(--clr-border-30);
   transition: all 0.25s ease;
 
   .heroSection:hover & {
-    border-color: rgba(148, 163, 184, 0.5);
+    border-color: var(--clr-border-7);
   }
 }
 
@@ -48,7 +48,7 @@
 .heroName {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #f1f5f9;
+  color: var(--clr-text-1);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -57,7 +57,7 @@
 
 .heroRoles {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--clr-text-4);
 }
 
 // Charts Container
@@ -72,12 +72,12 @@
 }
 
 .chartCard {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  background: linear-gradient(135deg, var(--clr-overlay-95) 0%, var(--clr-bg-card-90) 100%);
   backdrop-filter: blur(20px);
   border-radius: 16px;
   padding: 1.5rem;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--clr-border-6);
+  box-shadow: 0 4px 24px var(--clr-black-40);
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -94,30 +94,30 @@
   }
 
   &:first-child::before {
-    color: #22c55e;
+    color: var(--clr-success);
   }
 
   &:last-child::before {
-    color: #ef4444;
+    color: var(--clr-danger);
   }
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    border-color: rgba(148, 163, 184, 0.3);
+    box-shadow: 0 8px 32px var(--clr-black-50);
+    border-color: var(--clr-border-30);
   }
 }
 
 .chartHeader {
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  border-bottom: 1px solid var(--clr-border-3);
 }
 
 .chartTitle {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--clr-text-2);
   margin: 0 0 0.5rem 0;
   display: flex;
   align-items: center;
@@ -136,26 +136,26 @@
 .trendUp {
   font-size: 1rem;
   font-weight: 700;
-  color: #22c55e;
+  color: var(--clr-success);
   padding: 0.25rem 0.75rem;
-  background: rgba(34, 197, 94, 0.15);
+  background: var(--clr-success-soft);
   border-radius: 6px;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  border: 1px solid var(--clr-success-30);
 }
 
 .trendDown {
   font-size: 1rem;
   font-weight: 700;
-  color: #ef4444;
+  color: var(--clr-danger);
   padding: 0.25rem 0.75rem;
-  background: rgba(239, 68, 68, 0.15);
+  background: var(--clr-danger-soft);
   border-radius: 6px;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid var(--clr-danger-soft);
 }
 
 .chartSubtitle {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: var(--clr-text-4);
   margin: 0;
 }
 
@@ -165,11 +165,11 @@
   text-shadow: 0 2px 8px currentColor;
   
   .chartCard:first-child & {
-    color: #22c55e;
+    color: var(--clr-success);
   }
   
   .chartCard:last-child & {
-    color: #ef4444;
+    color: var(--clr-danger);
   }
 }
 
@@ -198,7 +198,7 @@
 .barChartGridLine {
   width: 100%;
   height: 1px;
-  background: rgba(148, 163, 184, 0.07);
+  background: var(--clr-border-07);
 }
 
 .barChartBars {
@@ -234,13 +234,13 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%) translateY(0);
-  background: rgba(15, 23, 42, 0.95);
-  color: #e2e8f0;
+  background: var(--clr-overlay-95);
+  color: var(--clr-text-2);
   font-size: 0.7rem;
   font-weight: 600;
   padding: 3px 8px;
   border-radius: 6px;
-  border: 1px solid rgba(148, 163, 184, 0.15);
+  border: 1px solid var(--clr-border-5);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -265,24 +265,24 @@
     left: 0;
     right: 0;
     height: 50%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+    background: linear-gradient(180deg, var(--clr-white-12) 0%, transparent 100%);
     border-radius: 4px 4px 0 0;
   }
 }
 
 .barGreen {
-  background: linear-gradient(180deg, #22c55e 0%, rgba(34, 197, 94, 0.3) 100%);
-  box-shadow: 0 0 12px rgba(34, 197, 94, 0.15);
+  background: linear-gradient(180deg, var(--clr-success) 0%, var(--clr-success-30) 100%);
+  box-shadow: 0 0 12px var(--clr-success-soft);
 }
 
 .barRed {
-  background: linear-gradient(180deg, #ef4444 0%, rgba(239, 68, 68, 0.3) 100%);
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+  background: linear-gradient(180deg, var(--clr-danger) 0%, var(--clr-danger-soft) 100%);
+  box-shadow: 0 0 12px var(--clr-danger-soft);
 }
 
 .barChartLabel {
   font-size: 0.6rem;
-  color: #64748b;
+  color: var(--clr-text-5);
   margin-top: 6px;
   white-space: nowrap;
   text-align: center;
@@ -310,7 +310,7 @@
 .skeletonShimmer {
   position: relative;
   border-radius: 6px;
-  background: rgba(148, 163, 184, 0.08);
+  background: var(--clr-border-2);
   overflow: hidden;
 
   &::after {
@@ -320,9 +320,9 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(148, 163, 184, 0.12) 45%,
-      rgba(148, 163, 184, 0.2) 50%,
-      rgba(148, 163, 184, 0.12) 55%,
+      var(--clr-border-4) 45%,
+      var(--clr-border-6) 50%,
+      var(--clr-border-4) 55%,
       transparent 100%
     );
     animation: shimmer 2s ease-in-out infinite;
@@ -334,7 +334,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: rgba(148, 163, 184, 0.08);
+  background: var(--clr-border-2);
   flex-shrink: 0;
   position: relative;
 }
@@ -344,15 +344,15 @@
   inset: -3px;
   border-radius: 50%;
   border: 2px solid transparent;
-  border-top-color: rgba(148, 163, 184, 0.25);
+  border-top-color: var(--clr-border-25);
   animation: spin 1.5s linear infinite;
 }
 
 // Chart card skeleton
 .skeletonChartCard {
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.08);
+  background: linear-gradient(135deg, var(--clr-overlay-95) 0%, var(--clr-bg-card-90) 100%);
+  border: 1px solid var(--clr-border-2);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -374,19 +374,19 @@
 
 .skeletonGlowGreen {
   &::before {
-    background: linear-gradient(90deg, transparent, #22c55e, transparent);
+    background: linear-gradient(90deg, transparent, var(--clr-success), transparent);
   }
 }
 
 .skeletonGlowRed {
   &::before {
-    background: linear-gradient(90deg, transparent, #ef4444, transparent);
+    background: linear-gradient(90deg, transparent, var(--clr-danger), transparent);
   }
 }
 
 .skeletonChartHeader {
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+  border-bottom: 1px solid var(--clr-border-1);
 }
 
 // Wave bars
@@ -403,17 +403,17 @@
   flex: 1;
   height: var(--bar-h);
   border-radius: 3px 3px 0 0;
-  background: rgba(148, 163, 184, 0.06);
+  background: var(--clr-border-1);
   animation: barRise 1.8s ease-in-out infinite;
   animation-delay: var(--bar-delay);
 }
 
 .skeletonBarGreen {
-  background: rgba(34, 197, 94, 0.08);
+  background: var(--clr-success-soft);
 }
 
 .skeletonBarRed {
-  background: rgba(239, 68, 68, 0.08);
+  background: var(--clr-danger-soft);
 }
 
 @keyframes shimmer {

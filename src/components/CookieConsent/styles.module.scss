@@ -11,8 +11,8 @@
 .banner {
   max-width: 960px;
   margin: 0 auto;
-  background: #1e2330;
-  border: 1px solid #2e3650;
+  background: var(--clr-bg-deep);
+  border: 1px solid var(--clr-bg-elevated);
   border-radius: 12px;
   padding: 16px 20px;
   display: flex;
@@ -20,7 +20,7 @@
   gap: 16px;
   justify-content: space-between;
   pointer-events: all;
-  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 -4px 24px var(--clr-black-40);
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -31,17 +31,17 @@
 
 .text {
   font-size: 0.85rem;
-  color: #a0aec0;
+  color: var(--clr-text-4);
   margin: 0;
   line-height: 1.5;
 }
 
 .link {
-  color: #6b8cff;
+  color: var(--clr-accent);
   text-decoration: underline;
 
   &:hover {
-    color: #8aa4ff;
+    color: var(--clr-accent-light);
   }
 }
 
@@ -54,16 +54,16 @@
 .decline {
   padding: 8px 16px;
   border-radius: 8px;
-  border: 1px solid #2e3650;
+  border: 1px solid var(--clr-bg-elevated);
   background: transparent;
-  color: #a0aec0;
+  color: var(--clr-text-4);
   font-size: 0.85rem;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.2s;
 
   &:hover {
-    background: #2e3650;
+    background: var(--clr-bg-elevated);
   }
 }
 
@@ -71,8 +71,8 @@
   padding: 8px 16px;
   border-radius: 8px;
   border: none;
-  background: #6b8cff;
-  color: #fff;
+  background: var(--clr-accent);
+  color: var(--clr-text-1);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -80,6 +80,6 @@
   transition: background 0.2s;
 
   &:hover {
-    background: #5a7aee;
+    background: var(--clr-accent);
   }
 }

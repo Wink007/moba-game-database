@@ -8,6 +8,7 @@ import { LanguageSwitcher } from '../LanguageSwitcher';
 import { UserMenu } from '../UserMenu';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useAdStore, selectAdsEnabled, selectAdFreeMinutesLeft } from '../../store/adStore';
+import { ThemeToggle } from '../ThemeToggle';
 
 import { Capacitor } from '@capacitor/core';
 
@@ -59,6 +60,12 @@ const RankingsIcon = () => (
     <path d="M8 21h8"/><path d="M12 21V11"/><path d="M17 7l-5-5-5 5"/>
   </svg>
 );
+const SettingsIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+);
 
 const NAV_ITEMS = [
   { key: 'heroes', path: 'heroes', Icon: HeroesIcon },
@@ -70,6 +77,7 @@ const NAV_ITEMS = [
   { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
   { key: 'patches', path: 'patches', Icon: PatchesIcon },
   { key: 'favorites', path: 'favorites', Icon: FavoritesIcon, mobileOnly: true },
+  { key: 'settings', path: '/settings', Icon: SettingsIcon, mobileOnly: true, staticPath: true },
 ];
 
 const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly);
@@ -270,10 +278,10 @@ export const Header: React.FC = () => {
 
           {/* Nav grid */}
           <div className={styles['sheet-grid']}>
-            {NAV_ITEMS.map(({ key, path, Icon }) => (
+            {NAV_ITEMS.map(({ key, path, Icon, staticPath }) => (
               <NavLink
                 key={key}
-                to={`/${selectedGameId}/${path}`}
+                to={staticPath ? path : `/${selectedGameId}/${path}`}
                 className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
                 onClick={closeMenu}
               >
@@ -310,6 +318,7 @@ export const Header: React.FC = () => {
         </div>
         <div className={styles['subheader-right']}>
           <SearchBar />
+          <ThemeToggle />
           <LanguageSwitcher />
         </div>
       </div>

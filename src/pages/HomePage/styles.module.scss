@@ -6,9 +6,9 @@
 
 .error {
   padding: 1.5rem;
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--clr-danger-soft);
   border-radius: 8px;
-  color: #fca5a5;
+  color: var(--clr-danger);
   text-align: center;
   font-size: 1rem;
 }
@@ -33,15 +33,15 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.3), transparent);
+        background: linear-gradient(90deg, transparent, var(--clr-accent-30), transparent);
         transition: left 0.5s ease;
     }
     
     &:hover {
-        background: rgba(74, 158, 255, 0.1);
+        background: var(--clr-accent-10);
         outline-width: 3px;
         transform: translateY(-2px);
-        box-shadow: 0 5px 20px rgba(74, 158, 255, 0.3);
+        box-shadow: 0 5px 20px var(--clr-accent-30);
         
         &::before {
             left: 100%;
@@ -118,7 +118,7 @@
         height: 100%;
         top: 0;
         left: 0;
-        background: rgba(0, 0, 0, .7);
+        background: var(--clr-black-70);
         opacity: 0;
     }
 
@@ -147,8 +147,8 @@
         .game-title {
             color: var(--color-accent);
             text-shadow: 
-                0 0 10px rgba(74, 158, 255, 0.5),
-                0 2px 4px rgba(0, 0, 0, 0.8);
+                0 0 10px var(--clr-accent-50),
+                0 2px 4px var(--clr-black-80);
         }
     }
 
@@ -164,7 +164,7 @@
         }
 
         .game-overlay {
-            background: linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.9) 100%);
+            background: linear-gradient(var(--clr-black-30) 0%, var(--clr-black-60) 50%, var(--clr-black-90) 100%);
         }
     }
 
@@ -172,7 +172,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background: linear-gradient(rgba(19, 23, 28, 0) 60%, rgba(19, 23, 28, 0.333) 70%, rgb(19, 23, 28, 0.8) 90%);
+        background: linear-gradient(transparent 60%, var(--clr-overlay-30) 70%, var(--clr-bg-page-80) 90%);
         transition: background 0.3s ease;
     }
 
@@ -190,7 +190,7 @@
         font-size: 1.5rem;
         font-weight: bold;
         color: var(--color-text-primary);
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        text-shadow: 0 2px 4px var(--clr-black-80);
     }
 
     .game-description {
@@ -201,7 +201,7 @@
         max-height: 0;
         overflow: hidden;
         transition: all 0.3s ease;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+        text-shadow: 0 2px 8px var(--clr-black-90);
         line-height: 1.3;
     }
 }

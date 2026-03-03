@@ -18,9 +18,9 @@
 .noData {
   padding: 4rem 2rem;
   text-align: center;
-  color: rgba(148, 163, 184, 0.6);
+  color: var(--clr-border-8);
   font-size: 1.125rem;
-  background: rgba(15, 23, 42, 0.3);
+  background: var(--clr-overlay-30);
   border-radius: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.08);
+  border: 1px solid var(--clr-border-2);
 }

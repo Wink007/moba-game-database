@@ -8,7 +8,8 @@
     "patches": "Патчі",
     "favorites": "Улюблені",
     "tierList": "Тір-ліст",
-    "heroRank": "Рейтинг"
+    "heroRank": "Рейтинг",
+    "settings": "Налаштування"
   },
   "footer": {
     "copyright": "Mobile Legends Вікі (Неофіційна)",
@@ -470,5 +471,16 @@
     "learnMore": "Дізнатись більше",
     "accept": "Прийняти",
     "decline": "Відхилити"
+  },
+  "settings": {
+    "title": "Налаштування",
+    "theme": "Тема",
+    "themeDark": "Темна",
+    "themeLight": "Світла",
+    "themeSystem": "Системна",
+    "language": "Мова",
+    "about": "Про додаток",
+    "appName": "Mobile Legends Wiki",
+    "unofficial": "Неофіційний фанатський довідник"
   }
 }

@@ -1,13 +1,13 @@
 .tooltip {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%);
+    background: linear-gradient(135deg, var(--clr-overlay-98) 0%, var(--clr-bg-card-95) 100%);
     backdrop-filter: blur(20px) saturate(180%);
     border-radius: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 
-                0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    border: 1px solid var(--clr-border-6);
+    box-shadow: 0 8px 32px var(--clr-black-50), 
+                0 1px 0 var(--clr-white-08) inset;
     padding: 1rem;
     // width: 100%;
-    color: #e2e8f0;
+    color: var(--clr-text-2);
     font-size: 0.875rem;
     line-height: 1.5;
 
@@ -22,13 +22,13 @@
     justify-content: space-between;
     margin-bottom: 0.75rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    border-bottom: 1px solid var(--clr-border-5);
 }
 
 .name {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #f1f5f9;
+    color: var(--clr-text-1);
     margin: 0 0 0.5rem 0;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -52,16 +52,16 @@
 
 .stat {
     display: block;
-    color: #bcc9d8;
+    color: var(--clr-text-3);
 }
 
 .effectItem {
-    color: #cbd5e1;
+    color: var(--clr-text-3);
     margin-bottom: 0.75rem;
     padding: 0.5rem;
-    background: rgba(96, 165, 250, 0.08);
+    background: var(--clr-accent-08);
     border-radius: 2px;
-    border: 1px solid rgba(96, 165, 250, 0.2);
+    border: 1px solid var(--clr-accent-20);
     font-size: 0.85rem;
     line-height: 1.4;
     margin-left: 0.5rem;
@@ -73,7 +73,7 @@
 
 .description {
     margin-bottom: 0.75rem;
-    color: #cbd5e1;
+    color: var(--clr-text-3);
 }
 
 .paragraph {
@@ -89,7 +89,7 @@
     flex-direction: column;
     gap: 0.4rem;
     padding-top: 0.75rem;
-    border-top: 1px solid rgba(148, 163, 184, 0.15);
+    border-top: 1px solid var(--clr-border-5);
 }
 
 .parameter {
@@ -104,11 +104,11 @@
 }
 
 .paramLabel {
-    color: #bcc9d8;
+    color: var(--clr-text-3);
     font-weight: 500;
 }
 
 .paramValue {
     font-weight: 700;
-    color: #f1f5f9;
+    color: var(--clr-text-1);
 }

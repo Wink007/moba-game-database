@@ -34,7 +34,7 @@
   opacity: 0.7;
 
   &:hover {
-    color: #60a5fa;
+    color: var(--clr-accent);
     opacity: 1;
   }
 }

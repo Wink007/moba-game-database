@@ -1,0 +1,24 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--clr-border-5);
+  background: var(--clr-white-05);
+  color: var(--clr-text-3);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--clr-accent-10);
+    border-color: var(--clr-accent-30);
+    color: var(--clr-accent);
+  }
+
+  svg {
+    display: block;
+  }
+}

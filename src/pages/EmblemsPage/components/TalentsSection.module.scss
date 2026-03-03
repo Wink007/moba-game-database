@@ -12,7 +12,7 @@
   gap: 0.75rem;
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+  border-bottom: 1px solid var(--clr-border-1);
 }
 
 .tierBadge {
@@ -28,36 +28,36 @@
 }
 
 .tierBadge1 {
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.2);
+  background: var(--clr-success-soft);
+  color: var(--clr-success);
+  border: 1px solid var(--clr-success-20);
 }
 
 .tierBadge2 {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: var(--clr-accent-15);
+  color: var(--clr-accent);
+  border: 1px solid var(--clr-accent-20);
 }
 
 .tierBadge3 {
-  background: rgba(168, 85, 247, 0.15);
-  color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.2);
+  background: var(--clr-purple-15);
+  color: var(--clr-purple-light);
+  border: 1px solid var(--clr-purple-20);
 }
 
 .tierTitle {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--clr-text-1);
   margin: 0;
   flex: 1;
 }
 
 .tierCount {
   font-size: 0.75rem;
-  color: rgba(148, 163, 184, 0.5);
+  color: var(--clr-border-7);
   font-weight: 500;
-  background: rgba(148, 163, 184, 0.06);
+  background: var(--clr-border-1);
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
 }
@@ -70,16 +70,16 @@
 
 /* Tier color variables passed to talent cards */
 .tier1 {
-  --tier-color: rgba(34, 197, 94, 0.6);
-  --tier-color-border: rgba(34, 197, 94, 0.15);
+  --tier-color: var(--clr-success-60);
+  --tier-color-border: var(--clr-success-soft);
 }
 
 .tier2 {
-  --tier-color: rgba(59, 130, 246, 0.6);
-  --tier-color-border: rgba(59, 130, 246, 0.15);
+  --tier-color: var(--clr-accent-60);
+  --tier-color-border: var(--clr-accent-15);
 }
 
 .tier3 {
-  --tier-color: rgba(168, 85, 247, 0.6);
-  --tier-color-border: rgba(168, 85, 247, 0.15);
+  --tier-color: var(--clr-purple-60);
+  --tier-color-border: var(--clr-purple-15);
 }

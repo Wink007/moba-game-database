@@ -1,8 +1,8 @@
 .footer {
     margin-top: auto;
     padding: 1.5rem 0;
-    background: rgba(15, 23, 42, 0.8);
-    border-top: 1px solid rgba(96, 165, 250, 0.1);
+    background: var(--clr-overlay-80);
+    border-top: 1px solid var(--clr-accent-10);
     backdrop-filter: blur(10px);
 }
 
@@ -29,19 +29,19 @@
 .copyright {
     margin: 0;
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--clr-white-90);
     font-weight: 600;
 }
 
 .separator {
-    color: rgba(96, 165, 250, 0.5);
+    color: var(--clr-accent-50);
     font-size: 0.9rem;
 }
 
 .tagline {
     margin: 0;
     font-size: 0.9rem;
-    color: rgba(148, 163, 184, 0.8);
+    color: var(--clr-border-80);
 }
 
 .legal {
@@ -50,19 +50,19 @@
     align-items: center;
     gap: 0.5rem;
     padding-top: 0.5rem;
-    border-top: 1px solid rgba(148, 163, 184, 0.08);
+    border-top: 1px solid var(--clr-border-2);
 }
 
 .disclaimer {
     margin: 0;
     font-size: 0.7rem;
-    color: rgba(148, 163, 184, 0.6);
+    color: var(--clr-border-8);
     text-align: center;
     max-width: 900px;
     line-height: 1.4;
     
     strong {
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--clr-white-80);
         font-weight: 700;
     }
 }
@@ -77,12 +77,12 @@
 
 .link {
     font-size: 0.7rem;
-    color: rgba(96, 165, 250, 0.8);
+    color: var(--clr-accent-80);
     text-decoration: none;
     transition: all 0.2s ease;
     
     &:hover {
-        color: rgba(96, 165, 250, 1);
+        color: var(--clr-accent);
         text-decoration: underline;
     }
 }
@@ -90,7 +90,7 @@
 .trademarks {
     margin: 0;
     font-size: 0.65rem;
-    color: rgba(148, 163, 184, 0.5);
+    color: var(--clr-border-7);
     text-align: center;
     line-height: 1.3;
 }

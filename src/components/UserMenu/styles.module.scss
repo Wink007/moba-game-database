@@ -3,8 +3,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--clr-white-10);
+  border: 1px solid var(--clr-white-20);
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
   font-size: 14px;
@@ -15,8 +15,8 @@
   flex-shrink: 0;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: var(--clr-white-15);
+    border-color: var(--clr-white-30);
   }
 
   &:disabled {
@@ -40,13 +40,13 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--clr-white-20);
   padding: 0;
   background: none;
   transition: border-color 0.2s;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: var(--clr-white-50);
   }
 
   img {
@@ -61,10 +61,10 @@
   top: calc(100% + 8px);
   right: 0;
   background: var(--color-bg-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--clr-white-10);
   border-radius: var(--radius-md);
   min-width: 220px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 32px var(--clr-black-40);
   z-index: 1100;
   overflow: hidden;
 
@@ -75,9 +75,9 @@
     left: auto;
     min-width: 220px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
-    background: rgba(15, 35, 50, 0.97);
+    border: 1px solid var(--clr-white-12);
+    box-shadow: 0 -4px 20px var(--clr-black-35);
+    background: var(--clr-bg-deepest);
   }
 }
 
@@ -109,7 +109,7 @@
 
 .divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--clr-white-10);
 }
 
 .menuItem {
@@ -125,7 +125,7 @@
   border: none;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--clr-white-05);
     color: var(--color-text-primary);
   }
 }

@@ -14,7 +14,7 @@
     transition: all 0.3s ease;
 
     &:focus-within {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--clr-white-05);
     }
 }
 
@@ -66,11 +66,11 @@
     top: calc(100% + var(--spacing-sm));
     left: 0;
     right: 0;
-    background: rgba(26, 52, 71, 0.98);
+    background: var(--clr-bg-deepest);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--clr-white-10);
     border-radius: var(--radius-md);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px var(--clr-black-30);
     overflow-y: auto;
     max-height: 60vh;
     -webkit-overflow-scrolling: touch;
@@ -96,26 +96,26 @@
     color: var(--color-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--clr-white-05);
 }
 
 .dropdownItem {
     padding: var(--spacing-md);
     cursor: pointer;
     transition: all 0.2s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--clr-white-05);
 
     &:last-child {
         border-bottom: none;
     }
 
     &:hover {
-        background: rgba(74, 158, 255, 0.1);
+        background: var(--clr-accent-10);
     }
 }
 
 .dropdownItemActive {
-    background: rgba(74, 158, 255, 0.15);
+    background: var(--clr-accent-15);
     outline: none;
 }
 
@@ -135,7 +135,7 @@
 .heroRole {
     font-size: 12px;
     color: var(--color-text-secondary);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--clr-white-05);
     padding: 2px 8px;
     border-radius: var(--radius-sm);
 }
