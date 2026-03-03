@@ -194,8 +194,8 @@
   font-weight: 800;
   letter-spacing: 1.5px;
   flex-shrink: 0;
-  align-self: flex-start;
-  margin-top: 4px;
+  align-self: flex-end;
+  margin-bottom: 1px;
 }
 
 .releaseDate {
@@ -590,7 +590,7 @@
   .patchVersionLabel { font-size: 0.78rem; }
   .patchVersionNumber { font-size: 1.2rem; }
 
-  .advBadge { font-size: 0.57rem; padding: 2px 7px; margin-top: 2px; }
+  .advBadge { font-size: 0.57rem; padding: 2px 7px; }
 
   .releaseDate { font-size: 0.74rem; margin-left: 0; align-self: flex-end; }
 
