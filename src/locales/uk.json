@@ -241,13 +241,14 @@
     "battlefieldChanges": "Зміни поля бою",
     "systemChanges": "Системні зміни",
     "bugFixes": "Виправлення помилок",
-    "adjustments": "Налаштування",
+    "adjustments": "Коригування",
     "buffs": "Посилення",
     "nerfs": "Послаблення",
-    "rework": "Переробка",
+    "rework": "Реворк",
     "failedToLoad": "Не вдалося завантажити патчі",
     "noPatchesAvailable": "Патчі недоступні",
-    "loadMoreCount": "+{{count}} ще"
+    "loadMoreCount": "+{{count}} ще",
+    "seoDescription": "Примітки до патчів Mobile Legends — посилення та послаблення героїв, зміни предметів та інше."
   },
   "heroRank": {
     "title": "Рейтинг Героїв",

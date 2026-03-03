@@ -152,8 +152,8 @@ export const PatchesPage: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useSEO({
-    title: patchVersion ? `Patch ${patchVersion}` : 'Patch Notes',
-    description: 'Mobile Legends patch notes — hero buffs, nerfs, item changes and more.',
+    title: patchVersion ? `${t('patches.version')} ${patchVersion}` : t('patches.title'),
+    description: t('patches.seoDescription'),
   });
 
   const {

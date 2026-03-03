@@ -247,7 +247,8 @@
     "rework": "Rework",
     "failedToLoad": "Failed to load patches",
     "noPatchesAvailable": "No patches available",
-    "loadMoreCount": "+{{count}} more"
+    "loadMoreCount": "+{{count}} more",
+    "seoDescription": "Mobile Legends patch notes — hero buffs, nerfs, item changes and more."
   },
   "heroRank": {
     "title": "Hero Rankings",
