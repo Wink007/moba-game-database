@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useThemeStore, Theme } from '../../store/themeStore';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
+import { getDaysOptions, getRankOptions } from '../HeroRankPage/constants';
 import styles from './styles.module.scss';
-
-const MOBILE_BREAKPOINT = 768;
 
 const MoonIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -34,15 +34,20 @@ const SystemIcon = () => (
 
 export const SettingsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { theme, setTheme } = useThemeStore();
   const navigate = useNavigate();
+  const { theme, setTheme } = useThemeStore();
+  const { defaultDays, defaultRank, setDefaultDays, setDefaultRank } = useFilterSettingsStore();
 
-  // Settings is a mobile-only page — redirect desktop users to home
   useEffect(() => {
-    if (window.innerWidth > MOBILE_BREAKPOINT) {
-      navigate('/', { replace: true });
-    }
+    const mq = window.matchMedia('(min-width: 768px)');
+    if (mq.matches) navigate('/', { replace: true });
+    const handler = (e: MediaQueryListEvent) => { if (e.matches) navigate('/', { replace: true }); };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, [navigate]);
+
+  const daysOptions = getDaysOptions(t);
+  const rankOptions = getRankOptions(t);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -89,6 +94,42 @@ export const SettingsPage: React.FC = () => {
               {lng === 'en' ? '🇬🇧 English' : '🇺🇦 Українська'}
             </button>
           ))}
+        </div>
+      </section>
+
+      {/* Filter Defaults */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>{t('settings.defaults')}</h2>
+        <p className={styles.sectionDesc}>{t('settings.defaultsDesc')}</p>
+
+        <div className={styles.filterGroup}>
+          <span className={styles.filterLabel}>{t('settings.defaultDays')}</span>
+          <div className={styles.filterPills}>
+            {daysOptions.map((opt) => (
+              <button
+                key={opt.value}
+                className={`${styles.pill} ${defaultDays === opt.value ? styles['pill--active'] : ''}`}
+                onClick={() => setDefaultDays(Number(opt.value))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.filterGroup}>
+          <span className={styles.filterLabel}>{t('settings.defaultRank')}</span>
+          <div className={styles.filterPills}>
+            {rankOptions.map((opt) => (
+              <button
+                key={opt.value}
+                className={`${styles.pill} ${defaultRank === opt.value ? styles['pill--active'] : ''}`}
+                onClick={() => setDefaultRank(opt.value)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 

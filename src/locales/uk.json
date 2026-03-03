@@ -306,7 +306,7 @@
     "viewPatches": "Переглянути оновлення",
     "moreInfo": "Детальніше",
     "failedToLoadGames": "Не вдалося завантажити ігри",
-    "lastDays": "Останні {{days}} днів - Ранги Mythic Glory",
+    "lastDays": "Останні {{days}} днів · {{rank}}",
     "updatedTime": "Час оновлення: {{time}}",
     "abilities": {
       "durability": "Живучість",
@@ -472,6 +472,9 @@
     "accept": "Прийняти",
     "decline": "Відхилити"
   },
+  "randomHeroStats": {
+    "vs3Days": "порівн. з 3 днями тому"
+  },
   "settings": {
     "title": "Налаштування",
     "theme": "Тема",
@@ -479,6 +482,10 @@
     "themeLight": "Світла",
     "themeSystem": "Системна",
     "language": "Мова",
+    "defaults": "Фільтри за замовчуванням",
+    "defaultsDesc": "Застосовуються в Рейтингу, Тір-ліст, Контр-піках, Синергії, Статистиці героя та домашніх віджетах",
+    "defaultDays": "Період часу",
+    "defaultRank": "Ранг",
     "about": "Про додаток",
     "appName": "Mobile Legends Wiki",
     "unofficial": "Неофіційний фанатський довідник"

@@ -1,4 +1,5 @@
 import type { ChartDataPoint } from './types';
+import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 
 interface ChartProps {
@@ -13,6 +14,7 @@ interface ChartProps {
 }
 
 export const Chart = ({ data, min, max, currentValue, trend, title, color }: ChartProps) => {
+  const { t } = useTranslation();
   const isGreen = color === 'green';
   const range = max - min || 1;
 
@@ -26,7 +28,7 @@ export const Chart = ({ data, min, max, currentValue, trend, title, color }: Cha
           <span className={trend >= 0 ? styles.trendUp : styles.trendDown}>
             {trend >= 0 ? '↑' : '↓'} {Math.abs(trend).toFixed(2)}%
           </span>
-          <span className={styles.chartSubtitle}>vs 3 days ago</span>
+          <span className={styles.chartSubtitle}>{t('randomHeroStats.vs3Days')}</span>
         </div>
       </div>
 

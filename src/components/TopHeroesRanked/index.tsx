@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../utils/translation';
 import { useHeroRanksQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
+import { getRankOptions } from '../../pages/HeroRankPage/constants';
 import { LazyImage } from '../LazyImage';
 import s from './styles.module.scss';
 
@@ -46,9 +48,15 @@ const Pill = ({ value, label, type }: { value: number; label: string; type: stri
 export const TopHeroesRanked = () => {
   const { t, i18n } = useTranslation();
   const { selectedGameId } = useGameStore();
+  const { defaultDays, defaultRank } = useFilterSettingsStore();
+
+  const rankLabel = useMemo(() => {
+    const opts = getRankOptions(t);
+    return opts.find(o => o.value === defaultRank)?.label ?? defaultRank;
+  }, [defaultRank, t]);
 
   const { data: heroRanks, isLoading, isError } = useHeroRanksQuery(
-    selectedGameId, 1, 5, 30, 'glory', 'win_rate', 'desc'
+    selectedGameId, 1, 5, defaultDays, defaultRank, 'win_rate', 'desc'
   );
 
   if (!selectedGameId) return null;
@@ -60,7 +68,7 @@ export const TopHeroesRanked = () => {
       <div className={s.header}>
         <h4 className={s.title}>{t('home.topHeroesRanking')}</h4>
         <span className={s.meta}>
-          {t('home.lastDays', { days: 30 })}
+          {t('home.lastDays', { days: defaultDays, rank: rankLabel })}
           {!isLoading && heroRanks?.[0] && (
             <> · {t('home.updatedTime', { time: heroRanks[0].updated_at })}</>
           )}

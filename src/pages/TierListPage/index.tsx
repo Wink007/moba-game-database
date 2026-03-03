@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { useHeroRanksQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useSEO } from '../../hooks/useSEO';
 import { Loader } from '../../components/Loader';
@@ -24,7 +25,8 @@ export const TierListPage: React.FC = () => {
   const { t } = useTranslation();
   const rankOpts = useMemo(() => getRankOptions(t), [t]);
   const { selectedGameId } = useGameStore();
-  const [rank, setRank] = useState('glory');
+  const { defaultRank } = useFilterSettingsStore();
+  const [rank, setRank] = useState(() => defaultRank);
   const [lane, setLane] = useState('all');
 
   useSEO({

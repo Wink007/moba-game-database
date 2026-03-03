@@ -6,10 +6,12 @@ import { StatsHistorySkeleton } from './StatsHistorySkeleton';
 import { useAllPeriodData } from '../hooks/useAllPeriodData';
 import { RANK_OPTIONS } from '../constants';
 import { StatsHistoryTabProps } from './interfaces';
+import { useFilterSettingsStore } from '../../../store/filterSettingsStore';
 
 export const StatsHistoryTab: React.FC<StatsHistoryTabProps> = React.memo(({ hero }) => {
   const { t } = useTranslation();
-  const [rank, setRank] = useState('glory');
+  const { defaultRank } = useFilterSettingsStore();
+  const [rank, setRank] = useState(() => defaultRank);
   const { points, allLoading } = useAllPeriodData(hero, rank);
 
   const hasData = points.length > 0;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useBackHandler } from '../../hooks/useBackHandler';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,8 @@ import { UserMenu } from '../UserMenu';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { useAdStore, selectAdsEnabled, selectAdFreeMinutesLeft } from '../../store/adStore';
 import { ThemeToggle } from '../ThemeToggle';
+import { getDaysOptions, getRankOptions } from '../../pages/HeroRankPage/constants';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 
 import { Capacitor } from '@capacitor/core';
 
@@ -94,6 +96,9 @@ export const Header: React.FC = () => {
   const adsEnabled = useAdStore(selectAdsEnabled);
   const minutesLeft = useAdStore(selectAdFreeMinutesLeft);
   const isNative = Capacitor.isNativePlatform();
+  const { defaultDays, defaultRank, setDefaultDays, setDefaultRank } = useFilterSettingsStore();
+  const daysOptions = useMemo(() => getDaysOptions(t), [t]);
+  const rankOptions = useMemo(() => getRankOptions(t), [t]);
 
   // Refs for measuring nav items and nav container
   const navRef = useRef<HTMLElement>(null);
@@ -318,6 +323,26 @@ export const Header: React.FC = () => {
         </div>
         <div className={styles['subheader-right']}>
           <SearchBar />
+          <select
+            className={styles['filter-select']}
+            value={defaultDays}
+            onChange={e => setDefaultDays(Number(e.target.value))}
+            title={t('settings.defaultDays')}
+          >
+            {daysOptions.map(o => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          <select
+            className={styles['filter-select']}
+            value={defaultRank}
+            onChange={e => setDefaultRank(e.target.value)}
+            title={t('settings.defaultRank')}
+          >
+            {rankOptions.map(o => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
           <ThemeToggle />
           <LanguageSwitcher />
         </div>

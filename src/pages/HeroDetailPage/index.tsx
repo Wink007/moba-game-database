@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { getHeroName, getHeroShortDescription, translateRoles, translateLanes, translateSpecialties, getDamageType } from '../../utils/translation';
 import { useHeroQuery, useHeroSkillsQuery, useHeroCounterDataQuery, useHeroCompatibilityDataQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { usePatchesQuery } from '../../queries/usePatchesQuery';
 import { Loader } from '../../components/Loader';
 import { FavoriteButton } from '../../components/FavoriteButton';
@@ -30,9 +31,10 @@ function HeroDetailPage() {
   const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(Number(heroId));
   const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(Number(heroId));
   const { data: allHeroes = [], isLoading: allHeroesLoading } = useHeroesQuery(hero?.game_id || 0);
-  const { data: allCounterData } = useHeroCounterDataQuery(hero?.game_id || 0, 'mythic', 7);
+  const { defaultDays, defaultRank } = useFilterSettingsStore();
+  const { data: allCounterData } = useHeroCounterDataQuery(hero?.game_id || 0, defaultRank, defaultDays);
   const heroCounterData = hero?.hero_game_id ? (allCounterData?.[hero.hero_game_id] ?? null) : null;
-  const { data: allCompatibilityData } = useHeroCompatibilityDataQuery(hero?.game_id || 0, 'mythic', 7);
+  const { data: allCompatibilityData } = useHeroCompatibilityDataQuery(hero?.game_id || 0, defaultRank, defaultDays);
   const heroCompatibilityData = hero?.hero_game_id ? (allCompatibilityData?.[hero.hero_game_id] ?? null) : null;
   const { data: patches = [] } = usePatchesQuery();
   

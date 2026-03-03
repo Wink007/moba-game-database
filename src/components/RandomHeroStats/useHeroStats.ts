@@ -2,52 +2,54 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { heroesApi } from '../../api/heroes';
 import { queryKeys, STALE_5_MIN } from '../../queries/keys';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import type { HeroRank } from '../../types/heroRank';
 import type { ChartDataPoint } from './types';
 
 export const useHeroStats = (gameId: number | null) => {
   const [selectedHeroId, setSelectedHeroId] = useState<number | null>(null);
+  const { defaultRank } = useFilterSettingsStore();
 
   // Запит списку героїв (shares cache with DataLoader)
   const { data: heroRanks } = useQuery({
-    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 100, rank: 'glory' }),
-    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 100, undefined, 'glory'),
+    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 100, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 100, undefined, defaultRank),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });
 
   // Запити статистики за різні періоди (shares cache with DataLoader)
   const query1Day = useQuery({
-    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 1, rank: 'glory' }),
-    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 1, 'glory'),
+    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 1, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 1, defaultRank),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });
 
   const query3Days = useQuery({
-    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 3, rank: 'glory' }),
-    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 3, 'glory'),
+    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 3, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 3, defaultRank),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });
 
   const query7Days = useQuery({
-    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 7, rank: 'glory' }),
-    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 7, 'glory'),
+    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 7, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 7, defaultRank),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });
 
   const query15Days = useQuery({
-    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 15, rank: 'glory' }),
-    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 15, 'glory'),
+    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 15, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 15, defaultRank),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });
 
   const query30Days = useQuery({
-    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 30, rank: 'glory' }),
-    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 30, 'glory'),
+    queryKey: queryKeys.heroes.ranks(gameId!, { page: 1, size: 200, days: 30, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(gameId!, 1, 200, 30, defaultRank),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
   });

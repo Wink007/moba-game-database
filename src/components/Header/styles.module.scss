@@ -77,6 +77,8 @@
   flex: 1;
   min-width: 0;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .subheader-right {
@@ -85,6 +87,39 @@
   gap: var(--spacing-sm);
   flex-shrink: 0;
   margin-left: auto;
+}
+
+.filter-select {
+  height: 36px;
+  padding: 0 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--clr-border-5);
+  background: var(--clr-white-05);
+  color: var(--clr-text-3);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+
+  &:hover,
+  &:focus {
+    background: var(--clr-accent-10);
+    border-color: var(--clr-accent-30);
+    color: var(--clr-accent);
+    outline: none;
+  }
+
+  option {
+    background: var(--clr-bg-2, #1a1a2e);
+    color: var(--clr-text-1);
+  }
 }
 
 /* ===== Desktop Navigation ===== */

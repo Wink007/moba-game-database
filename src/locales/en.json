@@ -306,7 +306,7 @@
     "viewPatches": "View Patches",
     "moreInfo": "More Info",
     "failedToLoadGames": "Failed to load games",
-    "lastDays": "Last {{days}} Days - Mythic Glory Ranks",
+    "lastDays": "Last {{days}} Days · {{rank}}",
     "updatedTime": "Updated Time: {{time}}",
     "abilities": {
       "durability": "Durability",
@@ -470,6 +470,9 @@
     "accept": "Accept",
     "decline": "Decline"
   },
+  "randomHeroStats": {
+    "vs3Days": "vs 3 days ago"
+  },
   "settings": {
     "title": "Settings",
     "theme": "Theme",
@@ -477,6 +480,10 @@
     "themeLight": "Light",
     "themeSystem": "System",
     "language": "Language",
+    "defaults": "Default Filters",
+    "defaultsDesc": "Applied to Rankings, Tier List, hero Counter Picks, Synergy, Stats History and home widgets",
+    "defaultDays": "Time Period",
+    "defaultRank": "Rank Tier",
     "about": "About",
     "appName": "Mobile Legends Wiki",
     "unofficial": "Unofficial fan-made guide"

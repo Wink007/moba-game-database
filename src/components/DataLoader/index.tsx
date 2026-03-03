@@ -2,6 +2,7 @@ import { useQueries, useQuery } from '@tanstack/react-query';
 import { ReactNode, useMemo } from 'react';
 import { queryKeys, STALE_5_MIN } from '../../queries/keys';
 import { heroesApi } from '../../api/heroes';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { Loader } from '../Loader';
 
 interface DataLoaderProps {
@@ -10,6 +11,8 @@ interface DataLoaderProps {
 }
 
 export const DataLoader = ({ gameId, children }: DataLoaderProps) => {
+  const { defaultRank, defaultDays } = useFilterSettingsStore();
+
   // Спочатку завантажуємо список героїв щоб дізнатися ID останнього
   const { data: heroes, isLoading: heroesLoading } = useQuery({
     queryKey: queryKeys.heroes.all(gameId),
@@ -24,54 +27,54 @@ export const DataLoader = ({ gameId, children }: DataLoaderProps) => {
 
   const queries = useQueries({
     queries: [
-      // RandomHeroStats queries
+      // RandomHeroStats queries — all 5 periods, user's default rank
       {
-        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 100, rank: 'glory' }),
-        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 100, undefined, 'glory'),
+        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 100, rank: defaultRank }),
+        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 100, undefined, defaultRank),
         staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
-        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 1, rank: 'glory' }),
-        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 1, 'glory'),
+        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 1, rank: defaultRank }),
+        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 1, defaultRank),
         staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
-        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 3, rank: 'glory' }),
-        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 3, 'glory'),
+        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 3, rank: defaultRank }),
+        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 3, defaultRank),
         staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
-        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 7, rank: 'glory' }),
-        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 7, 'glory'),
+        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 7, rank: defaultRank }),
+        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 7, defaultRank),
         staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
-        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 15, rank: 'glory' }),
-        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 15, 'glory'),
+        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 15, rank: defaultRank }),
+        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 15, defaultRank),
         staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
       {
-        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 30, rank: 'glory' }),
-        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 30, 'glory'),
+        queryKey: queryKeys.heroes.ranks(gameId, { page: 1, size: 200, days: 30, rank: defaultRank }),
+        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 200, 30, defaultRank),
         staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
-      // TopHeroesRanked query
+      // TopHeroesRanked query — user's default rank + days
       {
-        queryKey: queryKeys.heroes.ranks(gameId, { 
-          page: 1, 
-          size: 5, 
-          days: 30, 
-          rank: 'glory', 
-          sortField: 'win_rate', 
-          sortOrder: 'desc' 
+        queryKey: queryKeys.heroes.ranks(gameId, {
+          page: 1,
+          size: 5,
+          days: defaultDays,
+          rank: defaultRank,
+          sortField: 'win_rate',
+          sortOrder: 'desc'
         }),
-        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 5, 30, 'glory', 'win_rate', 'desc'),
+        queryFn: () => heroesApi.getHeroRanks(gameId, 1, 5, defaultDays, defaultRank, 'win_rate', 'desc'),
         staleTime: STALE_5_MIN,
         enabled: !heroesLoading,
       },
