@@ -265,10 +265,9 @@ export const PatchesPage: React.FC = () => {
             <>
               {/* Header — version big, date small */}
               <div className={styles.patchHeader}>
-                <div>
-                  <span className={styles.patchVersionLabel}>
-                    {t('patches.version')} <strong>{patch.version}</strong>
-                  </span>
+                <div className={styles.patchVersionInfo}>
+                  <span className={styles.patchVersionLabel}>{t('patches.version')}</span>
+                  <strong className={styles.patchVersionNumber}>{patch.version}</strong>
                 </div>
                 {patch.is_adv_server && (
                   <span className={styles.advBadge}>ADV</span>

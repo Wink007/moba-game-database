@@ -164,19 +164,24 @@
   }
 }
 
+.patchVersionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
 .patchVersionLabel {
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.5);
   font-weight: 400;
+}
 
-  strong {
-    color: #fff;
-    font-weight: 800;
-    font-size: 1.3rem;
-    display: block;
-    line-height: 1.1;
-    letter-spacing: -0.5px;
-  }
+.patchVersionNumber {
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.3rem;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
 }
 
 .advBadge {
@@ -582,10 +587,8 @@
     border-radius: 12px;
   }
 
-  .patchVersionLabel {
-    font-size: 0.78rem;
-    strong { font-size: 1.2rem; display: block; }
-  }
+  .patchVersionLabel { font-size: 0.78rem; }
+  .patchVersionNumber { font-size: 1.2rem; }
 
   .advBadge { font-size: 0.57rem; padding: 2px 7px; margin-top: 2px; }
 
