@@ -395,7 +395,6 @@
 
   &--open {
     transform: translateY(0);
-    height: 72vh;
   }
 }
 
@@ -649,7 +648,6 @@
   border-radius: 12px;
   text-decoration: none;
   color: var(--clr-text-1);
-  flex-shrink: 0;
   transition: background 0.2s;
 
   &:active {
