@@ -1,5 +1,7 @@
 .container {
   padding: 1.25rem;
+  max-width: 1536px;
+  margin: 0 auto;
 
   @media (max-width: 768px) {
     padding: 0.75rem;

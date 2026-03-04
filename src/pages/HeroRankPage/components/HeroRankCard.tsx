@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from '../styles.module.scss';
 import { LazyImage } from '../../../components/LazyImage';
-import { Hero, HeroRank, CounterMode, HeroCounterData } from '../../../types';
+import { Hero, HeroRank, HeroCounterData } from '../../../types';
 
 interface HeroRankCardProps {
   hero: HeroRank;
   index: number;
   heroes: Hero[] | undefined;
   selectedGameId: number;
-  counterMode: CounterMode;
-  onToggleCounterMode: () => void;
   counterData: Record<number, HeroCounterData> | undefined;
 }
 
-export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, counterMode, onToggleCounterMode, counterData }: HeroRankCardProps) => {
+export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, counterData }: HeroRankCardProps) => {
   const { t } = useTranslation();
+  const [counterMode, setCounterMode] = useState<'counters' | 'countered_by'>('counters');
+  const onToggleCounterMode = useCallback(() => {
+    setCounterMode(m => m === 'counters' ? 'countered_by' : 'counters');
+  }, []);
   const heroData = heroes?.find(h => h.id === hero.hero_id);
 
   // Get counter list from the dedicated counter-data endpoint keyed by hero_game_id
