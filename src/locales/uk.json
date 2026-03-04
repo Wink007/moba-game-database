@@ -60,7 +60,26 @@
       "simple": "Простий",
       "moderate": "Середній",
       "complex": "Складний",
-      "newestFirst": "Спочатку нові"
+      "newestFirst": "Спочатку нові",
+      "damageType": "Тип урону",
+      "specialty": "Спеціальність",
+      "physical": "Фізичний",
+      "magic": "Магічний",
+      "mixed": "Змішаний",
+      "burst": "Вибух",
+      "chase": "Переслідувач",
+      "charge": "Штурм",
+      "control": "Контроль",
+      "crowdControl": "Контроль натовпу",
+      "damage": "Урон",
+      "finisher": "Добивач",
+      "guard": "Захисник",
+      "initiator": "Ініціатор",
+      "magicDamage": "Магічний урон",
+      "mixedDamage": "Змішаний урон",
+      "poke": "Тримання дистанції",
+      "push": "Пуш",
+      "regen": "Регенерація"
     }
   },
   "heroDetail": {

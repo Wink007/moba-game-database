@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FilterSection, FilterGroup } from '../../../components/FilterSection';
-import { getRoleOptions, getLaneOptions, getComplexityOptions, getSortOptions } from '../constants';
+import { getRoleOptions, getLaneOptions, getComplexityOptions, getSortOptions, getDamageTypeOptions, getSpecialtyOptions } from '../constants';
 import { HeroFiltersProps } from './interface';
 import styles from './HeroFilters.module.scss';
 
@@ -11,10 +11,14 @@ export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
   selectedRole,
   selectedLane,
   selectedComplexity,
+  selectedSpecialty,
+  selectedDamageType,
   sortBy,
   onRoleChange,
   onLaneChange,
   onComplexityChange,
+  onSpecialtyChange,
+  onDamageTypeChange,
   onSortChange,
   totalCount,
   displayedCount,
@@ -34,6 +38,20 @@ export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
       options: getLaneOptions(t),
       selectedValue: selectedLane,
       onChange: onLaneChange,
+    },
+    {
+      label: t('heroes.filters.damageType'),
+      emoji: '⚔️',
+      options: getDamageTypeOptions(t),
+      selectedValue: selectedDamageType,
+      onChange: onDamageTypeChange,
+    },
+    {
+      label: t('heroes.filters.specialty'),
+      emoji: '✨',
+      options: getSpecialtyOptions(t),
+      selectedValue: selectedSpecialty,
+      onChange: onSpecialtyChange,
     },
     {
       label: t('heroes.filters.complexity'),

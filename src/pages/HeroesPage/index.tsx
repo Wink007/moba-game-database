@@ -71,10 +71,14 @@ function HeroesPage() {
         selectedRole={filters.selectedRole}
         selectedLane={filters.selectedLane}
         selectedComplexity={filters.selectedComplexity}
+        selectedSpecialty={filters.selectedSpecialty}
+        selectedDamageType={filters.selectedDamageType}
         sortBy={filters.sortBy}
         onRoleChange={setters.setSelectedRole}
         onLaneChange={setters.setSelectedLane}
         onComplexityChange={setters.setSelectedComplexity}
+        onSpecialtyChange={setters.setSelectedSpecialty}
+        onDamageTypeChange={setters.setSelectedDamageType}
         onSortChange={setters.setSortBy}
         totalCount={total}
         displayedCount={allHeroes.length}

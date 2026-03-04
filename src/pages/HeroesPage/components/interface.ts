@@ -6,10 +6,14 @@ export interface HeroFiltersProps {
   selectedRole: string;
   selectedLane: string;
   selectedComplexity: string;
+  selectedSpecialty: string;
+  selectedDamageType: string;
   sortBy: string;
   onRoleChange: (value: string) => void;
   onLaneChange: (value: string) => void;
   onComplexityChange: (value: string) => void;
+  onSpecialtyChange: (value: string) => void;
+  onDamageTypeChange: (value: string) => void;
   onSortChange: (value: string) => void;
   totalCount: number;
   displayedCount: number;

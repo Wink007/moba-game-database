@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { getHeroName, getHeroShortDescription, translateRoles, translateLanes, translateSpecialties, getDamageType } from '../../utils/translation';
@@ -28,6 +28,7 @@ import type { Patch } from '../../types';
 function HeroDetailPage() {
   const { t, i18n } = useTranslation();
   const { heroId } = useParams();
+  const navigate = useNavigate();
   const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(Number(heroId));
   const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(Number(heroId));
   const { data: allHeroes = [], isLoading: allHeroesLoading } = useHeroesQuery(hero?.game_id || 0);
@@ -215,23 +216,19 @@ function HeroDetailPage() {
           {hero.damage_type && (
             <div className={styles.tagGroup}>
               <span className={styles.tagGroupLabel}>{t('heroDetail.damageType')}</span>
-              <span className={styles.tagPill}>{getDamageType(hero.damage_type, i18n.language)}</span>
+              <span className={styles.tagPill} style={{cursor:'pointer'}} onClick={() => navigate(`/${hero.game_id}/heroes?damage_type=${encodeURIComponent(hero.damage_type!)}`)}>{getDamageType(hero.damage_type, i18n.language)}</span>
             </div>
           )}
           {hero.lane && hero.lane.length > 0 && (
             <div className={styles.tagGroup}>
               <span className={styles.tagGroupLabel}>{t('heroDetail.lane')}</span>
-              {translateLanes(hero.lane, i18n.language).map((lane, idx) => (
-                <span key={`lane-${idx}`} className={styles.tagPill}>{lane}</span>
-              ))}
+              {hero.lane.map((rawLane, idx) => <span key={`lane-${idx}`} className={styles.tagPill} style={{cursor:'pointer'}} onClick={() => navigate(`/${hero.game_id}/heroes?lane=${encodeURIComponent(rawLane)}`)}>{translateLanes([rawLane], i18n.language)[0]}</span>)}
             </div>
           )}
           {hero.specialty && hero.specialty.length > 0 && (
             <div className={styles.tagGroup}>
               <span className={styles.tagGroupLabel}>{t('heroDetail.specialty')}</span>
-              {translateSpecialties(hero.specialty, i18n.language).map((spec, idx) => (
-                <span key={`spec-${idx}`} className={styles.tagPill} data-accent="true">{spec}</span>
-              ))}
+              {hero.specialty.map((rawSpec, idx) => <span key={`spec-${idx}`} className={styles.tagPill} data-accent="true" style={{cursor:'pointer'}} onClick={() => navigate(`/${hero.game_id}/heroes?specialty=${encodeURIComponent(rawSpec)}`)}>{translateSpecialties([rawSpec], i18n.language)[0]}</span>)}
             </div>
           )}
         </div>
