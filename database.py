@@ -153,7 +153,7 @@ def delete_game(game_id):
     return cursor.rowcount > 0
 
 # Heroes — paginated list (lightweight, for grid view)
-def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, search=None, complexity=None, sort='name', favorite_ids=None):
+def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, search=None, complexity=None, sort='name', favorite_ids=None, specialty=None, damage_type=None):
     """Повертає пагіновану відповідь з мінімальним набором полів для списку героїв.
     
     favorite_ids — список ID героїв-фаворитів. На сторінці 1 вони виводяться першими,
@@ -195,6 +195,14 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
         elif complexity == 'Hard':
             conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 66")
 
+    if specialty:
+        conditions.append(f"specialty::jsonb @> {ph}::jsonb")
+        params.append(json.dumps(specialty))
+
+    if damage_type:
+        conditions.append(f"damage_type = {ph}")
+        params.append(damage_type)
+
     where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
     # Sort
@@ -203,7 +211,7 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
     else:
         order = "ORDER BY name ASC"
 
-    select_fields = "id, game_id, name, name_uk, image, painting, head, roles, lane, abilityshow"
+    select_fields = "id, game_id, name, name_uk, image, painting, head, roles, lane, abilityshow, specialty, damage_type"
     fav_ids = [int(fid) for fid in (favorite_ids or []) if fid]
 
     if fav_ids and page == 1:
@@ -291,7 +299,7 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
 
     # Parse JSON text fields
     for hero in heroes:
-        for field in ['roles', 'lane']:
+        for field in ['roles', 'lane', 'specialty']:
             val = hero.get(field)
             if val and isinstance(val, str) and val.strip():
                 try:
