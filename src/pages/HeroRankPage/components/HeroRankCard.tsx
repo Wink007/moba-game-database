@@ -11,9 +11,10 @@ interface HeroRankCardProps {
   heroes: Hero[] | undefined;
   selectedGameId: number;
   counterData: Record<number, HeroCounterData> | undefined;
+  isCounterLoading?: boolean;
 }
 
-export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, counterData }: HeroRankCardProps) => {
+export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, counterData, isCounterLoading }: HeroRankCardProps) => {
   const { t } = useTranslation();
   const [counterMode, setCounterMode] = useState<'counters' | 'countered_by'>('counters');
   const onToggleCounterMode = useCallback(() => {
@@ -68,7 +69,7 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, c
         >
           ⟲
         </button>
-        {counterData === undefined ? (
+        {isCounterLoading || counterData === undefined ? (
           Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className={styles.synergyHeroSkeleton} />
           ))

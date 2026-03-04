@@ -44,7 +44,7 @@ export const HeroRankPage = () => {
   );
 
   const { data: heroes } = useHeroesQuery(selectedGameId);
-  const { data: counterData } = useHeroCounterDataQuery(selectedGameId, rank, days);
+  const { data: counterData, isFetching: isCounterLoading } = useHeroCounterDataQuery(selectedGameId, rank, days);
 
   useEffect(() => {
     if (heroRanksData && !isLoading) {
@@ -148,6 +148,7 @@ export const HeroRankPage = () => {
               heroes={heroes}
               selectedGameId={selectedGameId}
               counterData={counterData}
+              isCounterLoading={isCounterLoading}
             />
           ))
         )}
