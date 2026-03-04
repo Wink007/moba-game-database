@@ -16,7 +16,7 @@ export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabe
             {hero.main_hero_appearance_rate && (
               <div className={styles.ratingCard}>
                 <div className={styles.ratingCardHeader}>
-                  <span className={styles.ratingCardName}>{t('heroDetail.appearanceRate')}</span>
+                  <span className={styles.ratingCardName}>{t('heroDetail.pickShort')}</span>
                   <span className={styles.ratingCardValue}>{hero.main_hero_appearance_rate.toFixed(2)}%</span>
                 </div>
                 <div className={styles.ratingBar}>
@@ -33,7 +33,7 @@ export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabe
             {hero.main_hero_ban_rate && (
               <div className={styles.ratingCard}>
                 <div className={styles.ratingCardHeader}>
-                  <span className={styles.ratingCardName}>{t('heroDetail.banRate')}</span>
+                  <span className={styles.ratingCardName}>{t('heroDetail.banShort')}</span>
                   <span className={styles.ratingCardValue}>{hero.main_hero_ban_rate.toFixed(2)}%</span>
                 </div>
                 <div className={styles.ratingBar}>
@@ -50,7 +50,7 @@ export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabe
             {hero.main_hero_win_rate && (
               <div className={styles.ratingCard}>
                 <div className={styles.ratingCardHeader}>
-                  <span className={styles.ratingCardName}>{t('heroDetail.winRate')}</span>
+                  <span className={styles.ratingCardName}>{t('heroDetail.winShort')}</span>
                   <span className={styles.ratingCardValue}>{hero.main_hero_win_rate.toFixed(2)}%</span>
                 </div>
                 <div className={styles.ratingBar}>

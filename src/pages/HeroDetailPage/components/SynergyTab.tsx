@@ -143,9 +143,53 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
   const compatibleItems = renderList(compatible) || [];
   const notCompatibleItems = renderList(notCompatible) || [];
 
+  const renderMobileGrid = () => {
+    const renderGridHeroes = (heroes: CompatibilityHero[], isPositive: boolean) =>
+      heroes.slice(0, 5).map((mate) => {
+        const id = mate.heroid ?? mate.hero_id;
+        const h = findHeroByGameId(id);
+        if (!h) return null;
+        const raw = mate.increase_win_rate != null ? Math.abs(mate.increase_win_rate) : 0;
+        const delta = raw < 1 ? raw * 100 : raw;
+        return (
+          <Link key={id} to={`/${hero.game_id}/heroes/${h.id}`} className={styles.mobileGridHero}>
+            <LazyImage src={h.head || h.image} alt={h.name} className={styles.mobileGridAvatar} wrapperStyle={{ borderRadius: '50%' }} />
+            <span className={`${styles.mobileGridScore} ${isPositive ? styles.mobileGridScorePos : styles.mobileGridScoreNeg}`}>
+              {isPositive ? '+' : '-'}{delta.toFixed(1)}
+            </span>
+          </Link>
+        );
+      });
+
+    return (
+      <div className={styles.mobileCounterCards}>
+        <div className={styles.mobileCounterCard}>
+          <div className={styles.mobileCardHeader}>
+            <span>{t('heroDetail.notCompatible')}</span>
+          </div>
+          <div className={styles.mobileGridHeroes}>
+            {renderGridHeroes(notCompatible, false)}
+          </div>
+        </div>
+        <div className={styles.mobileCounterCard}>
+          <div className={styles.mobileCardHeader}>
+            <span>{t('heroDetail.compatibility')}</span>
+          </div>
+          <div className={styles.mobileGridHeroes}>
+            {renderGridHeroes(compatible, true)}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.contentSection}>
-      <div className={styles.relationshipSection}>
+      <div className={styles.mobileComparisonBlock}>
+        {renderComparison(compatible, false)}
+      </div>
+      {renderMobileGrid()}
+      <div className={`${styles.relationshipSection} ${styles.desktopCounterContent}`}>
         <h2 className={styles.relationshipMainTitle}>{t('heroDetail.compatibility')}</h2>
         <div className={styles.relationshipTabs}>
           <button

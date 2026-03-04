@@ -142,9 +142,53 @@ export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHero
   const bestCounterItems = renderList(bestCounters, true);
   const mostCounteredByItems = renderList(mostCounteredBy, false);
 
+  const renderMobileGrid = () => {
+    const renderGridHeroes = (heroes: CounterHero[], isPositive: boolean) =>
+      heroes.slice(0, 5).map((counter) => {
+        const id = counter.heroid ?? counter.hero_id;
+        const h = findHeroByGameId(id);
+        if (!h) return null;
+        const raw = counter.increase_win_rate != null ? Math.abs(counter.increase_win_rate) : 0;
+        const delta = raw < 1 ? raw * 100 : raw;
+        return (
+          <Link key={id} to={`/${hero.game_id}/heroes/${h.id}`} className={styles.mobileGridHero}>
+            <LazyImage src={h.head || h.image} alt={h.name} className={styles.mobileGridAvatar} wrapperStyle={{ borderRadius: '50%' }} />
+            <span className={`${styles.mobileGridScore} ${isPositive ? styles.mobileGridScorePos : styles.mobileGridScoreNeg}`}>
+              {isPositive ? '+' : '-'}{delta.toFixed(1)}
+            </span>
+          </Link>
+        );
+      });
+
+    return (
+      <div className={styles.mobileCounterCards}>
+        <div className={styles.mobileCounterCard}>
+          <div className={styles.mobileCardHeader}>
+            <span>{t('heroDetail.mostCounteredBy')}</span>
+          </div>
+          <div className={styles.mobileGridHeroes}>
+            {renderGridHeroes(mostCounteredBy, false)}
+          </div>
+        </div>
+        <div className={styles.mobileCounterCard}>
+          <div className={styles.mobileCardHeader}>
+            <span>{t('heroDetail.bestCounters')}</span>
+          </div>
+          <div className={styles.mobileGridHeroes}>
+            {renderGridHeroes(bestCounters, true)}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.contentSection}>
-      <div className={styles.relationshipSection}>
+      <div className={styles.mobileComparisonBlock}>
+        {renderComparison(bestCounters, false)}
+      </div>
+      {renderMobileGrid()}
+      <div className={`${styles.relationshipSection} ${styles.desktopCounterContent}`}>
         <h2 className={styles.relationshipMainTitle}>{t('heroDetail.counterRelationship')}</h2>
         <div className={styles.relationshipTabs}>
           <button
