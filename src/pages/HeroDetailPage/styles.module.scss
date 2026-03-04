@@ -673,11 +673,11 @@
   max-width: 100%;
 
   @media (max-width: 768px) {
-    padding: 1.5rem 0;
+    padding: 1rem 0 0.5rem;
   }
 
   @media (max-width: 480px) {
-    padding: 1rem 0;
+    padding: 0.75rem 0 0.25rem;
   }
 }
 
@@ -707,8 +707,9 @@
 
   @media (max-width: 767px) {
     gap: 8px;
-    margin-bottom: 1.25rem;
-    padding-bottom: 1.25rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
   }
 }
 
@@ -1715,7 +1716,7 @@
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    min-height: 300px;
+    min-height: 0;
     margin-top: 1rem;
   }
 }
@@ -1979,7 +1980,7 @@
   border: none;
 
   @media (max-width: 768px) {
-    margin-top: 1.25rem;
+    margin-top: 0;
   }
 }
 
@@ -1990,8 +1991,9 @@
   border-bottom: 1px solid var(--clr-surface-1);
 
   @media (max-width: 767px) {
-    margin-bottom: 1.25rem;
-    padding-bottom: 1.25rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
   }
 }
 
@@ -4599,3 +4601,70 @@
   flex-shrink: 0;
 }
 
+
+
+// ─── Collapsible Section ──────────────────────────────────────────────────
+
+.collapsibleSection {
+  // wrapper
+
+  @media (max-width: 768px) { 
+    margin-bottom: 2rem;
+  }
+}
+
+.collapsibleHeader {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.collapsibleTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--clr-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+  }
+}
+
+.collapsibleChevron {
+  display: none;
+  color: var(--clr-text-3);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.collapsibleChevronCollapsed {
+  transform: rotate(-90deg);
+}
+
+.collapsibleContent {
+  // always visible
+}
+
+.collapsibleContentHidden {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}

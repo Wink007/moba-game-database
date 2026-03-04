@@ -4,6 +4,7 @@ import { SkillsSectionProps } from './interface';
 import { getSkillName, getSkillDescription } from '../../../utils/translation';
 import { sanitizeHtml } from '../../../utils/sanitize';
 import styles from '../styles.module.scss';
+import { CollapsibleSection } from './CollapsibleSection';
 
 export const SkillsSection: React.FC<SkillsSectionProps> = React.memo(({ 
   displaySkills, 
@@ -26,8 +27,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = React.memo(({
 
   return (
     <div className={styles.skillsSection}>
-      <h2 className={styles.sectionTitle}>{t('heroDetail.abilities')}</h2>
-      
+      <CollapsibleSection title={t('heroDetail.abilities')}>
       <div className={styles.skillsContainer}>
         {/* Skill Tabs */}
         <div className={styles.skillTabs}>
@@ -122,6 +122,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = React.memo(({
           </div>
         )}
       </div>
+      </CollapsibleSection>
     </div>
   );
 });
