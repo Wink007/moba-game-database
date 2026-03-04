@@ -75,6 +75,7 @@ export const useHeroCounterDataQuery = (gameId: number, rank = 'all', days = 7) 
     queryFn: () => heroesApi.getHeroCounterData(gameId, rank, days),
     staleTime: STALE_5_MIN,
     enabled: !!gameId,
+    placeholderData: keepPreviousData,
   });
 };
 

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHeroesQuery, useHeroRanksQuery } from '../../queries/useHeroesQuery';
+import { useHeroesQuery, useHeroRanksQuery, useHeroCounterDataQuery } from '../../queries/useHeroesQuery';
 import LoadMoreButton from '../../components/LoadMoreButton';
 import { FilterSection, FilterGroup } from '../../components/FilterSection';
 import styles from './styles.module.scss';
@@ -10,6 +10,7 @@ import { getDaysOptions, getRankOptions, getSortOptions, ITEMS_PER_PAGE } from '
 import { HeroRankSkeleton } from './components/HeroRankSkeleton';
 import { HeroRankCard } from './components/HeroRankCard';
 import { useSEO } from '../../hooks/useSEO';
+import { CounterMode } from '../../types';
 
 export const HeroRankPage = () => {
   const { t } = useTranslation();
@@ -32,6 +33,10 @@ export const HeroRankPage = () => {
   const [sortField, setSortField] = useState<'win_rate' | 'ban_rate' | 'pick_rate'>('win_rate');
   const [page, setPage] = useState(1);
   const [allHeroes, setAllHeroes] = useState<any[]>([]);
+  const [counterMode, setCounterMode] = useState<CounterMode>('counters');
+  const toggleCounterMode = useCallback(() => {
+    setCounterMode(m => m === 'counters' ? 'countered_by' : 'counters');
+  }, []);
 
   const { data: heroRanksData, isLoading, isError } = useHeroRanksQuery(
     selectedGameId,
@@ -44,6 +49,7 @@ export const HeroRankPage = () => {
   );
 
   const { data: heroes } = useHeroesQuery(selectedGameId);
+  const { data: counterData } = useHeroCounterDataQuery(selectedGameId, rank, days);
 
   useEffect(() => {
     if (heroRanksData && !isLoading) {
@@ -127,10 +133,12 @@ export const HeroRankPage = () => {
       <div className={styles.tableHeader}>
         <div className={styles.headerRank}>#</div>
         <div className={styles.headerHero}>{t('heroRank.hero')}</div>
-        <div className={styles.headerStat}>{t('heroRank.pickRate')}</div>
-        <div className={styles.headerStat}>{t('heroRank.winRate')}</div>
-        <div className={styles.headerStat}>{t('heroRank.banRate')}</div>
-        <div className={styles.headerSynergy}>{t('heroDetail.bestCounters')}</div>
+        <div className={styles.headerSynergy}>
+          {counterMode === 'counters' ? t('heroDetail.bestCounters') : t('heroDetail.mostCounteredBy')}
+        </div>
+        <div className={styles.headerStat}>{t('heroRank.pick')} <span className={styles.sortArrow}>↓</span></div>
+        <div className={styles.headerStat}>{t('heroRank.win')} <span className={styles.sortArrow}>↓</span></div>
+        <div className={styles.headerStat}>{t('heroRank.ban')} <span className={styles.sortArrow}>↓</span></div>
       </div>
 
       <div className={styles.heroGrid}>
@@ -144,6 +152,9 @@ export const HeroRankPage = () => {
               index={index}
               heroes={heroes}
               selectedGameId={selectedGameId}
+              counterMode={counterMode}
+              onToggleCounterMode={toggleCounterMode}
+              counterData={counterData}
             />
           ))
         )}

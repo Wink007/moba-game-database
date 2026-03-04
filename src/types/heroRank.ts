@@ -1,7 +1,11 @@
 export interface HeroSynergy {
   hero_id: number;
+  heroid?: number;
   increase_win_rate: number;
+  synergy?: number;
 }
+
+export type CounterMode = 'counters' | 'countered_by';
 
 export interface HeroRank {
   id: number;
@@ -18,7 +22,9 @@ export interface HeroRank {
   appearance_rate: number;
   rank_position?: number;
   synergy_heroes: HeroSynergy[];
-  days: number; // Період статистики: 1, 3, 7, 15, 30
-  rank: string; // Rank category: 'all', 'epic', 'legend', 'mythic', 'honor', 'glory'
+  counter_heroes?: HeroSynergy[];
+  countered_by_heroes?: HeroSynergy[];
+  days: number;
+  rank: string;
   updated_at: string;
 }

@@ -40,7 +40,7 @@ const SkeletonCard = ({ i }: { i: number }) => (
 const Pill = ({ value, label, type }: { value: number; label: string; type: string }) => (
   <div className={`${s.pill} ${s[`pill_${type}`]}`}>
     <span className={s.pillLabel}>{label}</span>
-    <span className={s.pillValue}>{value.toFixed(1)}%</span>
+    <span className={s.pillValue}>{value.toFixed(2)}%</span>
   </div>
 );
 

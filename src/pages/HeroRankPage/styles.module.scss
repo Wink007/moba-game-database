@@ -1,346 +1,328 @@
 .container {
-  padding: 2rem;
+  padding: 1.25rem;
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 0.75rem;
   }
 }
 
 .header {
-  margin-bottom: 2rem;
+  margin-bottom: 0.875rem;
 }
 
 .titleSection {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.65rem;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--clr-text-1);
-  margin: 0 0 0.5rem 0;
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
+  margin: 0 0 0.25rem 0;
 }
 
 .subtitle {
-  font-size: 1.1rem;
-  color: var(--clr-text-3);
+  font-size: 0.7rem;
+  color: var(--clr-text-5);
   margin: 0;
-
-  @media (max-width: 768px) {
-    font-size: 0.95rem;
-  }
 }
 
-// Table Header
+// ─── Table Header ─────────────────────────────────────────────────────────────
+$grid: 50px 1fr 220px 90px 90px 90px;
+
 .tableHeader {
   display: grid;
-  grid-template-columns: 60px 1fr 120px 120px 120px 250px;
+  grid-template-columns: $grid;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.7rem;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.6rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--clr-border-9);
-  border-bottom: 1px solid var(--clr-border-5);
-  margin-bottom: 0.5rem;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 60px 1fr 120px 120px 120px;
-  }
+  color: var(--clr-text-5);
+  background: var(--clr-bg-card-30);
+  border-radius: 6px;
+  margin-bottom: 0.35rem;
 
   @media (max-width: 768px) {
     display: none;
   }
 }
 
-.headerRank {
-  text-align: center;
-}
+.headerRank { text-align: center; }
+.headerHero { padding-left: 0.5rem; }
+.headerSynergy { display: flex; align-items: center; gap: 0.5rem; }
+.headerStat { text-align: right; white-space: nowrap; }
+.sortArrow { color: var(--clr-accent); opacity: 0.7; }
 
-.headerHero {
-  padding-left: 0.5rem;
-}
+.headerToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--clr-bg-card-45);
+  border: 1px solid var(--clr-border-5);
+  border-radius: 50%;
+  color: var(--clr-text-4);
+  font-size: 0.8rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+  line-height: 1;
 
-.headerStat {
-  text-align: center;
-}
-
-.headerSynergy {
-  text-align: left;
-
-  @media (max-width: 1024px) {
-    display: none;
+  &:hover {
+    background: var(--clr-accent-12);
+    border-color: var(--clr-accent-35);
+    color: var(--clr-accent);
   }
 }
 
-// Hero Grid
+// ─── Hero Grid ────────────────────────────────────────────────────────────────
 .heroGrid {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+  gap: 2px;
+  margin-bottom: 1.5rem;
 }
 
-// Hero Card
+// ─── Hero Card ────────────────────────────────────────────────────────────────
 .heroCard {
   display: grid;
-  grid-template-columns: 60px 1fr 120px 120px 120px 250px;
+  grid-template-columns: $grid;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(90deg, var(--clr-accent-08) 0%, var(--clr-accent-04) 90%);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  height: 70px;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: var(--clr-bg-card-30);
+  transition: background 0.15s ease;
 
-  &:hover {
-    background: var(--clr-bg-card-65);
-    transform: translateX(4px);
-  }
+  &:hover { background: var(--clr-bg-card-50); }
 
-  @media (max-width: 1024px) {
-    grid-template-columns: 60px 1fr 120px 120px 120px;
-  }
-
+  // ── Mobile layout ──────────────────────────────────────────────────────────
   @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-    padding: 1rem;
-    height: auto;
+    grid-template-columns: 20px minmax(80px, 1fr) 26px auto auto auto;
+    grid-template-rows: auto auto;
+    gap: 0.15rem 0.5rem;
+    padding: 0.45rem 0.6rem;
 
-    &:hover {
-      transform: none;
-    }
+    .rankBadge      { grid-column: 1; grid-row: 1 / 3; align-self: center; }
+    .heroInfo       { grid-column: 2; grid-row: 1 / 3; align-self: center; min-width: 0; }
+    .toggleBtnCell  { grid-column: 3; grid-row: 1 / 3; align-self: center; justify-self: center; display: flex; }
+    .statPick       { grid-column: 4; grid-row: 1; text-align: center; justify-self: center; }
+    .statWin        { grid-column: 5; grid-row: 1; text-align: center; justify-self: center; }
+    .statBan        { grid-column: 6; grid-row: 1; text-align: center; justify-self: center; }
+    .synergyHeroes  { grid-column: 4 / 7; grid-row: 2; padding-top: 0.2rem; justify-content: center; }
   }
 }
 
-.heroRow {
-  display: contents;
-
-  @media (max-width: 768px) {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    width: 100%;
-  }
-}
-
+// ─── Rank Badge ───────────────────────────────────────────────────────────────
 .rankBadge {
-  font-size: 1.5rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--clr-text-3);
+  color: var(--clr-text-4);
   text-align: center;
-
-  @media (max-width: 768px) {
-    font-size: 1.1rem;
-    min-width: 24px;
-    flex-shrink: 0;
-  }
+  flex-shrink: 0;
 }
 
+// ─── Hero Info ────────────────────────────────────────────────────────────────
 .heroInfo {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
   min-width: 0;
 }
 
 .heroImage {
-  width: 50px;
-  height: 50px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--clr-accent-30);
+  border: 2px solid var(--clr-accent-25);
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease;
 
-  &:hover {
-    transform: scale(1.1);
-    border-color: var(--clr-accent-60);
-  }
+  &:hover { border-color: var(--clr-accent-55); }
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  img { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (max-width: 768px) {
+    width: 34px;
+    height: 34px;
   }
 }
 
 .heroName {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--clr-text-1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.statsGrid {
-  display: contents;
+  min-width: 0;
 
   @media (max-width: 768px) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-    width: 100%;
+    font-size: 0.78rem;
   }
 }
 
-.statValue {
-  font-size: 1rem;
+// ─── Stats ────────────────────────────────────────────────────────────────────
+.statPick,
+.statWin,
+.statBan {
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--clr-text-2);
-  text-align: center;
+  text-align: right;
+  white-space: nowrap;
 
   @media (max-width: 768px) {
+    font-size: 0.72rem;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.75rem;
-    background: var(--clr-overlay-40);
-    border-radius: 8px;
-    border: 1px solid var(--clr-border-3);
-    font-size: 1.1rem;
+    gap: 0.05rem;
 
     &::before {
-      content: attr(data-label);
-      font-size: 0.65rem;
-      color: var(--clr-border-7);
-      text-transform: uppercase;
+      content: attr(data-short);
+      font-size: 0.5rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--clr-text-5);
+      line-height: 1;
     }
   }
 }
 
-// Synergy Heroes
+.statPick { color: var(--clr-text-3); }
+.statWin  { color: var(--clr-accent); }
+.statBan  { color: var(--clr-text-3); }
+
+// ─── Synergy / Counter Heroes ─────────────────────────────────────────────────
 .synergyHeroes {
   display: flex;
-  gap: 0.4rem;
   align-items: center;
+  gap: 0.3rem;
+  flex-wrap: nowrap;
+  min-width: 0;
 
-  /* Hide on tablet — no room in 5-col grid */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    display: none;
+  @media (max-width: 768px) {
+    gap: 0.2rem;
+  }
+}
+
+.toggleBtnCell {
+  display: none;
+  @media (max-width: 768px) {
+    display: flex; align-items: center; justify-content: center;
+  }
+}
+
+.toggleCounterBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--clr-bg-card-45);
+  border: 1px solid var(--clr-border-4);
+  border-radius: 50%;
+  color: var(--clr-text-4);
+  font-size: 0.85rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+
+  &:hover {
+    background: var(--clr-accent-12);
+    border-color: var(--clr-accent-35);
+    color: var(--clr-accent);
   }
 
   @media (max-width: 768px) {
-    width: 100%;
-    padding: 0.75rem 0 0 0;
-    border-top: 1px solid var(--clr-border-3);
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-
-    &::before {
-      content: attr(data-label);
-      font-size: 0.65rem;
-      color: var(--clr-border-7);
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      width: 100%;
-    }
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
   }
 }
 
-.synergyHeroSkeleton {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, var(--clr-border-3) 25%, var(--clr-border-6) 50%, var(--clr-border-3) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-  flex-shrink: 0;
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+// Desktop-only button (inside synergyHeroes), hidden on mobile
+.toggleCounterBtnDesktop {
+  @media (max-width: 768px) { display: none; }
 }
 
 .synergyHero {
-  transition: transform 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-4px);
-  }
-  
-  @media (max-width: 1024px) {
-    display: inline-block;
-  }
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+
+  &:hover { transform: translateY(-3px); }
 }
 
 .synergyHeroIcon {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  border: 2px solid var(--clr-purple-30);
-  transition: all 0.2s ease;
+  border: 2px solid var(--clr-border-5);
   cursor: pointer;
-  box-shadow: 0 2px 6px var(--clr-black-20);
+  display: block;
+  transition: border-color 0.15s ease;
 
-  &:hover {
-    transform: scale(1.15);
-    border-color: var(--clr-purple-60);
-    box-shadow: 0 4px 12px var(--clr-purple-40);
-    z-index: 10;
+  &:hover { border-color: var(--clr-accent-50); }
+
+  @media (max-width: 768px) {
+    width: 26px;
+    height: 26px;
+    border-width: 1px;
   }
 }
 
 .noSynergy {
-  font-size: 1.2rem;
-  color: var(--clr-border-40);
-  text-align: center;
-  width: 100%;
+  font-size: 0.9rem;
+  color: var(--clr-text-5);
 }
 
-// Top 3 Styles
-.first {
-  background: linear-gradient(90deg, var(--clr-warning-soft) 0%, var(--clr-accent-04) 90%);
+.synergyHeroSkeleton {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--clr-bg-card-45);
+  flex-shrink: 0;
+  animation: pulse 1.4s ease-in-out infinite;
+
+  @media (max-width: 768px) {
+    width: 26px;
+    height: 26px;
+  }
 }
 
-.second {
-  background: linear-gradient(90deg, var(--clr-border-3) 0%, var(--clr-accent-04) 90%);
-}
+// ─── Top 3 ────────────────────────────────────────────────────────────────────
+.first  { background: linear-gradient(90deg, rgba(250, 204, 21, 0.08) 0%, var(--clr-bg-card-30) 60%); }
+.second { background: linear-gradient(90deg, rgba(148, 163, 184, 0.08) 0%, var(--clr-bg-card-30) 60%); }
+.third  { background: linear-gradient(90deg, rgba(180, 100, 45, 0.08) 0%, var(--clr-bg-card-30) 60%); }
 
-.third {
-  background: linear-gradient(90deg, var(--clr-warning-soft) 0%, var(--clr-accent-04) 90%);
-}
-
-// Skeleton
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
 @keyframes pulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.7; }
 }
 
 .heroCardSkeleton {
-  height: 70px;
-  background: var(--clr-bg-card-60);
-  border-radius: 4px;
+  height: 56px;
+  background: var(--clr-bg-card-45);
+  border-radius: 6px;
   animation: pulse 1.5s ease-in-out infinite;
 }
 
-// Error & No Data
+// ─── Error / Empty ────────────────────────────────────────────────────────────
 .error,
 .noData {
   text-align: center;
-  padding: 3rem;
-  border-radius: 12px;
-  font-size: 1.1rem;
+  padding: 2rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
 }
 
 .error {
@@ -350,7 +332,8 @@
 }
 
 .noData {
-  color: var(--clr-text-3);
-  background: var(--clr-border-3);
-  border: 1px solid var(--clr-text-4);
+  color: var(--clr-text-4);
+  background: var(--clr-bg-card-30);
+  border: 1px solid var(--clr-border-3);
 }
+
