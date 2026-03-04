@@ -4,6 +4,10 @@
     background: var(--clr-overlay-80);
     border-top: 1px solid var(--clr-accent-10);
     backdrop-filter: blur(10px);
+
+    @media (max-width: 767px) {
+        padding-bottom: calc(60px + 32px + env(safe-area-inset-bottom, 0px));
+    }
 }
 
 .container {

@@ -11,6 +11,9 @@ import { useAdStore, selectAdsEnabled, selectAdFreeMinutesLeft } from '../../sto
 import { ThemeToggle } from '../ThemeToggle';
 import { getDaysOptions, getRankOptions } from '../../pages/HeroRankPage/constants';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
+import { useAuthStore } from '../../store/authStore';
+import { useGoogleAuth } from '../../hooks/useGoogleAuth';
+import { LoginConsentModal } from '../LoginConsentModal';
 import { useThemeStore, Theme } from '../../store/themeStore';
 
 import { Capacitor } from '@capacitor/core';
@@ -85,6 +88,16 @@ const NAV_ITEMS = [
 const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly);
 const MORE_BTN_W = 52; // reserved width (px) for the "..." button
 
+// Mobile bottom tab bar — always-visible primary tabs
+const BOTTOM_NAV_MAIN = [
+  { key: 'heroes', path: 'heroes', Icon: HeroesIcon },
+  { key: 'items', path: 'items', Icon: ItemsIcon },
+  { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
+];
+
+const BOTTOM_NAV_KEYS = new Set(BOTTOM_NAV_MAIN.map(i => i.key));
+const SHEET_NAV_ITEMS = NAV_ITEMS.filter(i => !BOTTOM_NAV_KEYS.has(i.key));
+
 export const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { selectedGameId } = useGameStore();
@@ -92,6 +105,12 @@ export const Header: React.FC = () => {
   const [sheetView, setSheetView] = useState<'main' | 'settings'>('main');
   const [overflowStart, setOverflowStart] = useState(DESKTOP_NAV.length);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [fabHidden, setFabHidden] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [fabKey, setFabKey] = useState(0);
+  const [showFabConsent, setShowFabConsent] = useState(false);
+  const { user, isLoading: authLoading } = useAuthStore();
+  const googleLogin = useGoogleAuth();
   const { theme, setTheme } = useThemeStore();
   const location = useLocation();
   const openRemoveAdsModal = useAdStore(s => s.openRemoveAdsModal);
@@ -190,6 +209,23 @@ export const Header: React.FC = () => {
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [moreOpen]);
+
+  // Hide FAB while scrolling, show when stopped; show scroll-to-top when scrolled down
+  useEffect(() => {
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+    const onScroll = () => {
+      setFabHidden(true);
+      setFabKey(k => k + 1);
+      setShowScrollTop(window.scrollY > 250);
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => setFabHidden(false), 400);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (idleTimer) clearTimeout(idleTimer);
+    };
+  }, []);
 
   return (
     <>
@@ -290,7 +326,7 @@ export const Header: React.FC = () => {
 
                 {/* Nav grid */}
                 <div className={styles['sheet-grid']}>
-                  {NAV_ITEMS.map(({ key, path, Icon }) => (
+                  {SHEET_NAV_ITEMS.map(({ key, path, Icon }) => (
                     <NavLink
                       key={key}
                       to={`/${selectedGameId}/${path}`}
@@ -319,7 +355,6 @@ export const Header: React.FC = () => {
                     {adsEnabled ? '🚫 Реклама' : minutesLeft ? `✅ ${minutesLeft} хв` : '✅ Без реклами'}
                   </button>
                 )}
-                <UserMenu />
               </div>
             </>
           ) : (
@@ -425,6 +460,70 @@ export const Header: React.FC = () => {
           )}
         </div>
     </header>
+
+    {/* Mobile Bottom Navigation Bar */}
+    <nav className={styles['bottom-nav']}>
+      {BOTTOM_NAV_MAIN.map(({ key, path, Icon }) => (
+        <NavLink
+          key={key}
+          to={`/${selectedGameId}/${path}`}
+          className={({ isActive }) =>
+            `${styles['bottom-nav-item']} ${isActive ? styles['bottom-nav-item--active'] : ''}`
+          }
+        >
+          <Icon />
+          <span>{t(`header.${key}`)}</span>
+        </NavLink>
+      ))}
+      <button
+        className={`${styles['bottom-nav-item']} ${isMenuOpen ? styles['bottom-nav-item--active'] : ''}`}
+        onClick={toggleMenu}
+        aria-label="More"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>
+        </svg>
+        <span>{t('common.more')}</span>
+      </button>
+    </nav>
+
+    {/* Scroll to top button (mobile only) */}
+    <button
+      className={`${styles['scroll-top-btn']} ${showScrollTop && !fabHidden ? styles['scroll-top-btn--visible'] : ''}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Scroll to top"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="18 15 12 9 6 15" />
+      </svg>
+    </button>
+
+    {/* Floating user button above bottom nav (mobile only) */}
+    {showFabConsent && (
+      <LoginConsentModal
+        onConfirm={() => { setShowFabConsent(false); googleLogin(); }}
+        onCancel={() => setShowFabConsent(false)}
+      />
+    )}
+    <div className={`${styles['mobile-fab']} ${fabHidden ? styles['mobile-fab--hidden'] : ''}`}>
+      {user ? (
+        <div className={styles['fab-avatar-wrap']}>
+          <UserMenu key={fabKey} />
+        </div>
+      ) : (
+        <button
+          className={styles['fab-login-btn']}
+          onClick={() => setShowFabConsent(true)}
+          disabled={authLoading}
+          aria-label="Sign in"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </button>
+      )}
+    </div>
 
     {/* Sub-header: Breadcrumbs + Search + Language (desktop only) */}
     <div className={styles.subheader}>

@@ -101,7 +101,7 @@
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.625rem;
   }
 }
 
@@ -120,7 +120,7 @@
 
   @media (max-width: 768px) {
     border-radius: 12px;
-    padding: 1.25rem;
+    padding: 0.875rem 1rem;
 
     &:hover {
       transform: none;
@@ -133,6 +133,11 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    gap: 0.75rem;
+    margin-bottom: 0.625rem;
+  }
 }
 
 .spellIcon {
@@ -144,6 +149,13 @@
   border: 1px solid var(--clr-border-3);
   background: var(--clr-bg-card-50);
   padding: 4px;
+
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    padding: 3px;
+  }
 }
 
 .spellInfo {
@@ -157,6 +169,10 @@
   color: var(--clr-text-1);
   margin: 0 0 0.4rem 0;
   letter-spacing: -0.01em;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 }
 
 .spellMeta {
@@ -174,6 +190,10 @@
   background: var(--clr-bg-card-50);
   border: 1px solid var(--clr-border-1);
   border-radius: 6px;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 }
 
 .metaLabel {
@@ -191,6 +211,11 @@
   color: var(--clr-border-90);
   line-height: 1.65;
   margin: 0 0 0.75rem 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    margin: 0 0 0.625rem 0;
+  }
 }
 
 .spellDescription {
@@ -203,6 +228,11 @@
   border-radius: 10px;
   margin: 0;
   white-space: pre-line;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    padding: 0.75rem;
+  }
 
   :global(.stat-highlight) {
     color: var(--clr-accent);

@@ -36,7 +36,7 @@ export const EmblemCard = ({ emblem }: EmblemCardProps) => {
           <div className={styles.statsTitle}>{t('emblems.stats')}</div>
           {Object.entries(emblem.base_stats).map(([stat, value]) => (
             <div key={stat} className={styles.statRow}>
-              <span>{getStatName(stat, lang)}</span>
+              <span className={styles.statName}>{getStatName(stat, lang)}</span>
               <span className={styles.statValue}>{value}</span>
             </div>
           ))}
