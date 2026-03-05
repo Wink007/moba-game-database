@@ -41,6 +41,26 @@ function HeroDetailPage() {
   
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
   const [bannerLoaded, setBannerLoaded] = React.useState(false);
+  const [stickyVisible, setStickyVisible] = React.useState(false);
+  const bannerRef = React.useRef<HTMLDivElement>(null);
+
+  // Show sticky bar when banner scrolls out of view
+  React.useEffect(() => {
+    const el = bannerRef.current;
+    if (!el) return;
+
+    // Measure header height to position sticky bar below it
+    const header = document.querySelector('header') || document.querySelector('[class*="header"]');
+    const headerH = header ? header.getBoundingClientRect().height : 57;
+    document.documentElement.style.setProperty('--header-total-height', `${headerH}px`);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setStickyVisible(!entry.isIntersecting),
+      { threshold: 0, rootMargin: `-${Math.round(headerH)}px 0px 0px 0px` }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hero]);
   
   useEscapeKey(React.useCallback(() => setLightboxOpen(false), []), lightboxOpen);
   
@@ -129,8 +149,28 @@ function HeroDetailPage() {
 
   return (
     <div className={styles.container}>
+      {/* Sticky Hero Bar */}
+      <div className={`${styles.stickyHeroBar} ${stickyVisible ? styles.stickyHeroBarVisible : ''}`}>
+        {hero.image && (
+          <div className={styles.stickyPortrait}>
+            <LazyImage src={hero.image} alt={getHeroName(hero, i18n.language)} fill />
+          </div>
+        )}
+        <div className={styles.stickyInfo}>
+          <span className={styles.stickyName}>{getHeroName(hero, i18n.language)}</span>
+          {hero.roles && hero.roles.length > 0 && (
+            <div className={styles.stickyRoles}>
+              {translateRoles(hero.roles, i18n.language).map((role, idx) => (
+                <span key={idx} className={styles.stickyRoleTag}>{role}</span>
+              ))}
+            </div>
+          )}
+        </div>
+        <FavoriteButton heroId={hero.id} />
+      </div>
+
       {/* Cinematic Banner */}
-      <div className={styles.cinematicBanner}>
+      <div className={styles.cinematicBanner} ref={bannerRef}>
         {(hero.painting || hero.image) && (
           <img 
             src={hero.painting || hero.image} 
