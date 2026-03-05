@@ -48,9 +48,9 @@ const queryClient = new QueryClient({
 });
 setQueryClientRef(queryClient);
 
-// Native pull-to-refresh: expose global for Android SwipeRefreshLayout
+// Native pull-to-refresh: reset all queries so skeletons appear + data refetches
 (window as any).__onPullToRefresh = () => {
-  queryClient.invalidateQueries();
+  queryClient.resetQueries();
 };
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
 
