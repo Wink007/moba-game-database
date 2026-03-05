@@ -43,10 +43,13 @@ public class MainActivity extends BridgeActivity {
         );
         swipeRefresh.setProgressBackgroundColorSchemeColor(0xFF1e293b);
 
-        // Reload on swipe
+        // Trigger data refresh on swipe (not full page reload)
         swipeRefresh.setOnRefreshListener(() -> {
-            webView.reload();
-            swipeRefresh.postDelayed(() -> swipeRefresh.setRefreshing(false), 1500);
+            webView.evaluateJavascript(
+                "window.dispatchEvent(new Event('pulltorefresh'))",
+                null
+            );
+            swipeRefresh.postDelayed(() -> swipeRefresh.setRefreshing(false), 1200);
         });
     }
 }

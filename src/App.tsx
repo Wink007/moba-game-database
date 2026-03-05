@@ -47,6 +47,11 @@ const queryClient = new QueryClient({
   },
 });
 setQueryClientRef(queryClient);
+
+// Native pull-to-refresh: invalidate all queries to refetch current page data
+window.addEventListener('pulltorefresh', () => {
+  queryClient.invalidateQueries();
+});
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
 
 function AppInner() {
