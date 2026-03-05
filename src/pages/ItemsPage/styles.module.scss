@@ -75,7 +75,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--clr-surface-4);
+    color: var(--clr-text-3);
     margin: 0;
 
     @media (max-width: 480px) {
@@ -136,7 +136,7 @@
   background: var(--clr-bg-card-40);
   border: 1px solid var(--clr-border-5);
   border-radius: 8px;
-  color: var(--clr-surface-3);
+  color: var(--clr-text-3);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
@@ -146,7 +146,7 @@
   &:hover {
     background: var(--clr-bg-card-60);
     border-color: var(--clr-accent-30);
-    color: var(--clr-surface-4);
+    color: var(--clr-text-2);
   }
 
   &.active {

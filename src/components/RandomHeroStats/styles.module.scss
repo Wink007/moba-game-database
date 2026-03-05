@@ -9,8 +9,9 @@
   box-shadow: 0 4px 24px var(--clr-black-30);
 
   @media (max-width: 968px) {
-    padding: 1rem;
-    gap: 1rem;
+    padding: 0.75rem;
+    gap: 0.75rem;
+    border-radius: 12px;
   }
 }
 
@@ -24,6 +25,12 @@
   border-radius: 12px;
   background: var(--clr-bg-card-40);
   border: 1px solid var(--clr-border-6);
+
+  @media (max-width: 968px) {
+    padding: 0.65rem;
+    gap: 0.75rem;
+    border-radius: 10px;
+  }
 }
 
 .heroImage {
@@ -35,6 +42,16 @@
 
   .heroSection:hover & {
     border-color: var(--clr-border-7);
+  }
+}
+
+.heroAvatarWrapper {
+  width: 60px;
+  height: 60px;
+
+  @media (max-width: 968px) {
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -53,11 +70,19 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 968px) {
+    font-size: 0.95rem;
+  }
 }
 
 .heroRoles {
   font-size: 0.875rem;
   color: var(--clr-text-4);
+
+  @media (max-width: 968px) {
+    font-size: 0.75rem;
+  }
 }
 
 // Charts Container
@@ -67,7 +92,8 @@
   gap: 1.5rem;
 
   @media (max-width: 968px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
   }
 }
 
@@ -81,6 +107,11 @@
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+
+  @media (max-width: 968px) {
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
 
   &::before {
     content: '';
@@ -112,6 +143,11 @@
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--clr-border-3);
+
+  @media (max-width: 968px) {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+  }
 }
 
 .chartTitle {
@@ -124,6 +160,12 @@
   justify-content: space-between;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  @media (max-width: 968px) {
+    font-size: 0.6rem;
+    margin: 0 0 0.2rem 0;
+    letter-spacing: 0.02em;
+  }
 }
 
 .chartTrend {
@@ -131,6 +173,13 @@
   align-items: center;
   gap: 0.75rem;
   margin-top: 0.5rem;
+
+  @media (max-width: 968px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    margin-top: 0.2rem;
+  }
 }
 
 .trendUp {
@@ -141,6 +190,12 @@
   background: var(--clr-success-soft);
   border-radius: 6px;
   border: 1px solid var(--clr-success-30);
+
+  @media (max-width: 968px) {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 5px;
+  }
 }
 
 .trendDown {
@@ -151,18 +206,33 @@
   background: var(--clr-danger-soft);
   border-radius: 6px;
   border: 1px solid var(--clr-danger-soft);
+
+  @media (max-width: 968px) {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 5px;
+  }
 }
 
 .chartSubtitle {
   font-size: 0.75rem;
   color: var(--clr-text-4);
   margin: 0;
+
+  @media (max-width: 968px) {
+    font-size: 0.5rem;
+    line-height: 1.15;
+  }
 }
 
 .chartValue {
   font-size: 1.5rem;
   font-weight: 700;
   text-shadow: 0 2px 8px currentColor;
+
+  @media (max-width: 968px) {
+    font-size: 0.95rem;
+  }
   
   .chartCard:first-child & {
     color: var(--clr-success);
@@ -184,6 +254,10 @@
   position: relative;
   width: 100%;
   aspect-ratio: 480 / 230;
+
+  @media (max-width: 968px) {
+    aspect-ratio: 480 / 200;
+  }
 }
 
 .barChartGrid {
@@ -208,6 +282,11 @@
   align-items: flex-end;
   gap: 4px;
   padding-bottom: 24px;
+
+  @media (max-width: 968px) {
+    gap: 2px;
+    padding-bottom: 16px;
+  }
 }
 
 .barChartCol {
@@ -289,7 +368,8 @@
   letter-spacing: -0.02em;
 
   @media (max-width: 968px) {
-    font-size: 0.5rem;
+    font-size: 0.45rem;
+    margin-top: 3px;
   }
 }
 
@@ -337,6 +417,11 @@
   background: var(--clr-border-2);
   flex-shrink: 0;
   position: relative;
+
+  @media (max-width: 968px) {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .skeletonAvatarRing {

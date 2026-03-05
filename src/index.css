@@ -446,6 +446,7 @@
 
 html, body, #root {
   box-sizing: border-box;
+  overscroll-behavior-y: none;
 }
 
 body {

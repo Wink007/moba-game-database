@@ -61,7 +61,7 @@ export const RandomHeroStats = () => {
   return (
     <div className={styles.container}>
       <Link to={`/${selectedGameId}/heroes/${hero.hero_id}`} className={styles.heroSection}>
-        {hero.head && <LazyImage src={hero.head} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} wrapperStyle={{ width: 60, height: 60, borderRadius: '50%', flexShrink: 0, overflow: 'hidden' }} />}
+        {hero.head && <LazyImage src={hero.head} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} wrapperClassName={styles.heroAvatarWrapper} wrapperStyle={{ borderRadius: '50%', flexShrink: 0, overflow: 'hidden' }} />}
         <div className={styles.heroInfo}>
           <h3 className={styles.heroName}>{getHeroName(hero, i18n.language)}</h3>
           {hero.roles && hero.roles.length > 0 && (

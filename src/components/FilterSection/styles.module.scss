@@ -130,7 +130,7 @@
   background: var(--clr-overlay-40);
   border: 1px solid var(--clr-border-3);
   border-radius: 8px;
-  color: var(--clr-surface-3);
+  color: var(--clr-text-3);
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
@@ -140,7 +140,7 @@
   &:hover {
     background: var(--clr-bg-card-60);
     border-color: var(--clr-accent-20);
-    color: var(--clr-surface-4);
+    color: var(--clr-text-2);
   }
 }
 

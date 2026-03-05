@@ -26,7 +26,7 @@ $border: var(--clr-border-05);
   gap: 4px;
   padding: 0 0 10px 16px;
   margin-bottom: 2px;
-  border-left: 3px solid var(--clr-accent-70);
+  text-align: center;
 }
 
 .title {
@@ -39,6 +39,7 @@ $border: var(--clr-border-05);
 }
 
 .meta {
+  text-align: center;
   font-size: 0.95rem;
   color: var(--clr-text-3);
   line-height: 1.4;

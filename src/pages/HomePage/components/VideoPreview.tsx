@@ -61,7 +61,7 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
       <div className={styles.content}>
         {/* Always reserve space for titleBlock to avoid CLS */}
         <div className={styles.titleBlock} style={!game ? { visibility: 'hidden' } : undefined}>
-          <h2>{game?.subtitle ?? '\u00A0'}</h2>
+          {/* <h2>{game?.subtitle ?? '\u00A0'}</h2> */}
           <div className={styles.glowLine} />
         </div>
         {children}
