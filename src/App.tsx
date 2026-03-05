@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Capacitor } from '@capacitor/core';
@@ -48,10 +48,6 @@ const queryClient = new QueryClient({
 });
 setQueryClientRef(queryClient);
 
-// Native pull-to-refresh: reset all queries so skeletons appear + data refetches
-(window as any).__onPullToRefresh = () => {
-  queryClient.resetQueries();
-};
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com';
 
 function AppInner() {
@@ -67,6 +63,15 @@ function AppInner() {
 
 function App() {
   const [splashDone, setSplashDone] = useState(() => _splashDone);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Native pull-to-refresh: clear cache + remount page components
+  useEffect(() => {
+    (window as any).__onPullToRefresh = () => {
+      queryClient.clear();
+      setRefreshKey(k => k + 1);
+    };
+  }, []);
 
   return (
     <>
@@ -83,7 +88,7 @@ function App() {
             <AdBannerSpacer />
             <Header />
             <main className="main-content">
-              <Suspense fallback={<Loader />}>
+              <Suspense key={refreshKey} fallback={<Loader />}>
               <Routes>
                 <Route path="/" element={<RouteErrorBoundary><HomePage /></RouteErrorBoundary>} />
                 <Route path="/legal" element={<RouteErrorBoundary><LegalPage /></RouteErrorBoundary>} />
