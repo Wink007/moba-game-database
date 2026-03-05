@@ -44,7 +44,10 @@ export const HeroRankPage = () => {
   );
 
   const { data: heroes } = useHeroesQuery(selectedGameId);
-  const { data: counterData, isFetching: isCounterLoading } = useHeroCounterDataQuery(selectedGameId, rank, days);
+  const { data: counterData } = useHeroCounterDataQuery(selectedGameId, rank, days);
+
+  // Simple: shimmer when no data for current filters. TanStack Query v5 sets data=undefined on new queryKey.
+  const isCounterLoading = counterData === undefined;
 
   useEffect(() => {
     if (heroRanksData && !isLoading) {

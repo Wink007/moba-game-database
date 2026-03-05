@@ -74,8 +74,8 @@ export const useHeroCounterDataQuery = (gameId: number, rank = 'all', days = 7) 
     queryKey: queryKeys.heroes.counterData(gameId, rank, days),
     queryFn: () => heroesApi.getHeroCounterData(gameId, rank, days),
     staleTime: STALE_5_MIN,
+    gcTime: 0,           // discard cache immediately on filter change → guarantees shimmer
     enabled: !!gameId,
-    placeholderData: keepPreviousData,
   });
 };
 
