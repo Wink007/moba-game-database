@@ -59,7 +59,7 @@
   @media (min-width: 768px) {
     display: block;
     position: sticky;
-    top: 62px; /* below header */
+    top: calc(var(--ad-banner-height, 0px) + var(--header-total-height, 61px));
     z-index: 199;
     background: var(--clr-overlay-50);
     backdrop-filter: blur(12px) saturate(1.2);

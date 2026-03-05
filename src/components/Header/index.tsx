@@ -122,9 +122,23 @@ export const Header: React.FC = () => {
   const rankOptions = useMemo(() => getRankOptions(t), [t]);
 
   // Refs for measuring nav items and nav container
+  const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const moreRef = useRef<HTMLDivElement>(null);
+
+  // Set --header-total-height CSS variable so subheader sticks right below
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const update = () => {
+      document.documentElement.style.setProperty('--header-total-height', `${el.offsetHeight}px`);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const closeSettings = useCallback(() => setSheetView('main'), []);
   const closeMenu = useCallback(() => { setIsMenuOpen(false); setSheetView('main'); }, []);
@@ -229,7 +243,7 @@ export const Header: React.FC = () => {
 
   return (
     <>
-    <header className={styles.header}>
+    <header ref={headerRef} className={styles.header}>
         <div className={styles['logo-wrapper']}>
           <Link 
                 to={`/`}
