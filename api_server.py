@@ -3689,6 +3689,30 @@ def update_profile_settings():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/users/account', methods=['DELETE'])
+@require_auth
+def delete_account():
+    """Permanently delete the authenticated user's account and all associated data"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+        user_id = request.user_id
+
+        # Delete all user data in order (FK constraints)
+        cursor.execute(f"DELETE FROM build_votes WHERE user_id = {ph}", (user_id,))
+        cursor.execute(f"DELETE FROM builds WHERE user_id = {ph}", (user_id,))
+        cursor.execute(f"DELETE FROM user_main_heroes WHERE user_id = {ph}", (user_id,))
+        cursor.execute(f"DELETE FROM favorites WHERE user_id = {ph}", (user_id,))
+        cursor.execute(f"DELETE FROM users WHERE id = {ph}", (user_id,))
+
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'message': 'Account deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 # ===== FAVORITES ENDPOINTS =====
 
 @app.route('/api/favorites', methods=['GET'])
