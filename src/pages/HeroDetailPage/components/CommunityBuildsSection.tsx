@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '../../../store/authStore';
+import { useAuthStore, authFetch } from '../../../store/authStore';
 import { useItemsQuery } from '../../../queries/useItemsQuery';
 import { useEmblems, useEmblemTalents } from '../../../hooks/useEmblems';
 import type { Emblem, Talent } from '../../../hooks/useEmblems';
@@ -19,6 +19,7 @@ import { BuildSkeleton } from './community-builds/BuildSkeleton';
 import { useBuildForm } from './community-builds/useBuildForm';
 import type { UserBuild } from './community-builds/interface';
 import type { CommunityBuildsSectionProps } from './interface';
+import { FF_SOCIAL } from '../../../config';
 
 export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ heroId, gameId, showOnly }) => {
   const { t } = useTranslation();
@@ -53,6 +54,33 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
 
   // Form state & handlers (extracted hook)
   const form = useBuildForm(heroId, refetchCommunity);
+  const queryClient = useQueryClient();
+
+  // Vote handler
+  const handleVote = useCallback(async (buildId: number, vote: number) => {
+    if (!user) return;
+    try {
+      if (vote === 0) {
+        await authFetch(`/builds/${buildId}/vote`, { method: 'DELETE' });
+      } else {
+        await authFetch(`/builds/${buildId}/vote`, {
+          method: 'POST',
+          body: JSON.stringify({ vote }),
+        });
+      }
+      // Optimistically update the cache
+      queryClient.setQueryData<UserBuild[]>(
+        queryKeys.builds.community(heroId, user?.id),
+        (old) => old?.map(b => b.id === buildId
+          ? { ...b, user_vote: vote, upvotes: (b.upvotes || 0) + (vote === 1 ? 1 : 0) - (b.user_vote === 1 ? 1 : 0), downvotes: (b.downvotes || 0) + (vote === -1 ? 1 : 0) - (b.user_vote === -1 ? 1 : 0) }
+          : b
+        )
+      );
+    } catch (e) {
+      // Refetch on error to sync state
+      refetchCommunity();
+    }
+  }, [user, heroId, queryClient, refetchCommunity]);
 
   useEscapeKey(useCallback(() => form.setShowForm(false), [form]), form.showForm);
 
@@ -158,6 +186,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
                 talentsMap={talentsMap}
                 onEdit={form.openForm}
                 onDelete={form.handleDelete}
+                onVote={FF_SOCIAL ? handleVote : undefined}
               />
             ))
           )}

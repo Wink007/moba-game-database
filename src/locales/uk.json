@@ -431,7 +431,23 @@
     "noCommunityBuilds": "Збірок спільноти ще немає. Будьте першими!",
     "searchItems": "Пошук предметів...",
     "clickToRemove": "Натисніть щоб видалити",
-    "emptySlot": "Порожній слот"
+    "emptySlot": "Порожній слот",
+    "upvote": "За",
+    "downvote": "Проти"
+  },
+  "profile": {
+    "title": "Профіль",
+    "myProfile": "Мій профіль",
+    "memberSince": "Учасник з {{date}}",
+    "builds": "Збірки",
+    "favorites": "Обрані",
+    "mains": "Мейни",
+    "mainHeroes": "Основні герої",
+    "publicBuilds": "Публічні збірки",
+    "favoriteHeroes": "Обрані герої",
+    "notFound": "Користувача не знайдено",
+    "empty": "Цей профіль ще не має активності.",
+    "seoDescription": "Профіль користувача — збірки, обрані герої та основні герої"
   },
   "tierList": {
     "title": "Тір-ліст",

@@ -3951,6 +3951,55 @@
   border-top: 1px solid var(--clr-white-05);
 }
 
+// Vote buttons
+.cbVoteRow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--clr-white-05);
+}
+
+.cbVoteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--clr-white-05);
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--clr-white-12);
+    color: var(--color-text-primary);
+  }
+
+  &.cbVoteActive {
+    color: var(--clr-accent);
+    background: rgba(var(--clr-accent-rgb, 59, 130, 246), 0.15);
+  }
+}
+
+.cbVoteScore {
+  min-width: 24px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+
+  &.cbVotePositive {
+    color: #22c55e;
+  }
+  &.cbVoteNegative {
+    color: #ef4444;
+  }
+}
+
 // Build Form Modal
 .cbOverlay {
   position: fixed;

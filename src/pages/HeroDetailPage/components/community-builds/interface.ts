@@ -14,6 +14,10 @@ export interface UserBuild {
   created_at: string;
   author_name?: string;
   author_picture?: string;
+  author_id?: number;
+  upvotes?: number;
+  downvotes?: number;
+  user_vote?: number; // 1, -1 or 0
 }
 
 export interface BuildCardProps {
@@ -25,6 +29,7 @@ export interface BuildCardProps {
   talentsMap: Map<string, Talent>;
   onEdit: (build: UserBuild) => void;
   onDelete: (buildId: number) => void;
+  onVote?: (buildId: number, vote: number) => void;
 }
 
 export interface BuildFormModalProps {

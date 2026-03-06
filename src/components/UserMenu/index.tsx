@@ -7,6 +7,7 @@ import { useGameStore } from '../../store/gameStore';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
 import { LoginConsentModal } from '../LoginConsentModal';
+import { FF_SOCIAL } from '../../config';
 import styles from './styles.module.scss';
 
 export const UserMenu: React.FC = () => {
@@ -79,6 +80,11 @@ export const UserMenu: React.FC = () => {
             </div>
           </div>
           <div className={styles.divider} />
+          {FF_SOCIAL && (
+            <button className={styles.menuItem} onClick={() => { navigate(`/profile/${user.id}`); setIsOpen(false); }}>
+              {t('profile.myProfile')}
+            </button>
+          )}
           <button className={`${styles.menuItem} ${styles.hiddenAt900}`} onClick={() => { navigate(`/${selectedGameId}/tier-list`); setIsOpen(false); }}>
             {t('header.tierList')}
           </button>

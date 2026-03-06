@@ -431,7 +431,23 @@
     "noCommunityBuilds": "No community builds yet. Be the first!",
     "searchItems": "Search items...",
     "clickToRemove": "Click to remove",
-    "emptySlot": "Empty slot"
+    "emptySlot": "Empty slot",
+    "upvote": "Upvote",
+    "downvote": "Downvote"
+  },
+  "profile": {
+    "title": "Profile",
+    "myProfile": "My Profile",
+    "memberSince": "Member since {{date}}",
+    "builds": "Builds",
+    "favorites": "Favorites",
+    "mains": "Mains",
+    "mainHeroes": "Main Heroes",
+    "publicBuilds": "Public Builds",
+    "favoriteHeroes": "Favorite Heroes",
+    "notFound": "User not found",
+    "empty": "This profile has no activity yet.",
+    "seoDescription": "User profile — builds, favorite heroes, and main heroes"
   },
   "tierList": {
     "title": "Tier List",

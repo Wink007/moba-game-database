@@ -30,6 +30,12 @@ export const queryKeys = {
   builds: {
     community: (heroId: number, userId?: number) => ['community-builds', { heroId, userId }] as const,
   },
+  profile: {
+    user: (userId: number) => ['profile', userId] as const,
+  },
+  mainHeroes: {
+    current: ['main-heroes'] as const,
+  },
   patches: {
     all: (lang: string) => ['patches', lang] as const,
     detail: (version: string, lang: string) => ['patches', version, lang] as const,

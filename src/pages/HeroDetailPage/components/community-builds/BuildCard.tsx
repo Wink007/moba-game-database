@@ -1,11 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { getEmblemName, getTalentName } from '../../../../utils/translation';
 import type { BuildCardProps } from './interface';
 import styles from '../../styles.module.scss';
 
 export const BuildCard: React.FC<BuildCardProps> = React.memo(({
-  build, isOwn, itemsMap, emblemsMap, spellsMap, talentsMap, onEdit, onDelete,
+  build, isOwn, itemsMap, emblemsMap, spellsMap, talentsMap, onEdit, onDelete, onVote,
 }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
@@ -15,18 +16,25 @@ export const BuildCard: React.FC<BuildCardProps> = React.memo(({
   const spell1 = build.spell1_id ? spellsMap.get(build.spell1_id) : null;
   const spell2 = build.spell2_id ? spellsMap.get(build.spell2_id) : null;
 
+  const score = (build.upvotes || 0) - (build.downvotes || 0);
+  const userVote = build.user_vote || 0;
+
   return (
     <div className={styles.cbCard}>
       <div className={styles.cbCardHeader}>
         <div className={styles.cbCardTitle}>
           <strong>{build.name}</strong>
           {build.author_name && !isOwn && (
-            <span className={styles.cbAuthor}>
+            <Link
+              to={build.author_id ? `/profile/${build.author_id}` : '#'}
+              className={styles.cbAuthor}
+              onClick={(e) => !build.author_id && e.preventDefault()}
+            >
               {build.author_picture && (
                 <img src={build.author_picture} alt="" className={styles.cbAuthorPic} referrerPolicy="no-referrer" />
               )}
               {build.author_name}
-            </span>
+            </Link>
           )}
         </div>
         {isOwn && (
@@ -106,6 +114,33 @@ export const BuildCard: React.FC<BuildCardProps> = React.memo(({
       </div>
 
       {build.notes && <div className={styles.cbNotes}>{build.notes}</div>}
+
+      {/* Vote buttons — only for community builds (not own) */}
+      {!isOwn && onVote && (
+        <div className={styles.cbVoteRow}>
+          <button
+            className={`${styles.cbVoteBtn} ${userVote === 1 ? styles.cbVoteActive : ''}`}
+            onClick={() => onVote(build.id, userVote === 1 ? 0 : 1)}
+            title={t('builds.upvote')}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill={userVote === 1 ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+              <path d="M12 4l-8 8h5v8h6v-8h5z" />
+            </svg>
+          </button>
+          <span className={`${styles.cbVoteScore} ${score > 0 ? styles.cbVotePositive : score < 0 ? styles.cbVoteNegative : ''}`}>
+            {score}
+          </span>
+          <button
+            className={`${styles.cbVoteBtn} ${userVote === -1 ? styles.cbVoteActive : ''}`}
+            onClick={() => onVote(build.id, userVote === -1 ? 0 : -1)}
+            title={t('builds.downvote')}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill={userVote === -1 ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+              <path d="M12 20l8-8h-5V4H9v8H4z" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 });

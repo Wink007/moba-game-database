@@ -17,6 +17,7 @@ import { setQueryClientRef } from './store/authStore';
 import { useThemeStore } from './store/themeStore';
 import { useAdManager } from './hooks/useAdManager';
 import { STALE_5_MIN } from './queries/keys';
+import { FF_SOCIAL } from './config';
 import './App.css';
 
 // Модульна змінна — не скидається при ремаунті App
@@ -37,6 +38,7 @@ const CounterPickPage = React.lazy(() => import('./pages/CounterPickPage').then(
 const TierListPage = React.lazy(() => import('./pages/TierListPage').then(m => ({ default: m.TierListPage })));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
+const ProfilePage = React.lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -105,6 +107,7 @@ function App() {
                 <Route path="/:gameId/tier-list" element={<RouteErrorBoundary><TierListPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/favorites" element={<RouteErrorBoundary><FavoritesPage /></RouteErrorBoundary>} />
                 <Route path="/settings" element={<RouteErrorBoundary><SettingsPage /></RouteErrorBoundary>} />
+                {FF_SOCIAL && <Route path="/profile/:userId" element={<RouteErrorBoundary><ProfilePage /></RouteErrorBoundary>} />}
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
               </Suspense>
