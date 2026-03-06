@@ -19,7 +19,6 @@ import { BuildSkeleton } from './community-builds/BuildSkeleton';
 import { useBuildForm } from './community-builds/useBuildForm';
 import type { UserBuild } from './community-builds/interface';
 import type { CommunityBuildsSectionProps } from './interface';
-import { FF_SOCIAL } from '../../../config';
 
 export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ heroId, gameId, showOnly }) => {
   const { t } = useTranslation();
