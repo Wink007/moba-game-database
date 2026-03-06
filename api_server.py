@@ -8,6 +8,9 @@ import os
 import gzip
 import io
 import time
+
+# Deploy version marker — bump to force Railway rebuild
+API_VERSION = "2026.03.06-activity-titles"
 import jwt
 import functools
 import threading
@@ -41,6 +44,10 @@ CORS(app, resources={r"/api/*": {
     "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     "max_age": 86400,
 }})
+
+@app.route('/api/version')
+def get_api_version():
+    return jsonify({'version': API_VERSION})
 
 # Gzip compression middleware
 @app.after_request
