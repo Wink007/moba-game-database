@@ -72,6 +72,8 @@ interface ProfileData {
     image?: string;
     game_id?: number;
   }>;
+  activity_title?: string;
+  activity_score?: number;
 }
 
 export const ProfilePage: React.FC = () => {
@@ -276,6 +278,11 @@ export const ProfilePage: React.FC = () => {
           </div>
           {user.nickname && (
             <span className={styles.realName}>{user.name}</span>
+          )}
+          {profile.activity_title && (
+            <span className={styles.activityTitle} title={`Score: ${profile.activity_score || 0}`}>
+              {t(`profile.${profile.activity_title}`)}
+            </span>
           )}
           {isOwnProfile && !editingNickname && !user.nickname && (
             <button className={styles.setNicknameBtn} onClick={startEditNickname}>

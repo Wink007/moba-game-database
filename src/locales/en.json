@@ -463,7 +463,22 @@
     "bannerChooseHero": "Choose a hero for your banner",
     "accentColor": "Profile Theme",
     "accentColorDefault": "Default",
-    "customize": "Customize"
+    "customize": "Customize",
+    "title_loading_screen": "Loading Screen",
+    "title_fresh_meat": "Fresh Meat",
+    "title_curious_cat": "Curious Cat",
+    "title_button_masher": "Button Masher",
+    "title_casual_enjoyer": "Casual Enjoyer",
+    "title_tryhard": "Tryhard",
+    "title_hero_collector": "Hero Collector",
+    "title_soloq_survivor": "SoloQ Survivor",
+    "title_wiki_addict": "Wiki Addict",
+    "title_build_maniac": "Build Maniac",
+    "title_meta_slave": "Meta Slave",
+    "title_touch_grass": "Touch Grass",
+    "title_lord_of_dawn": "Lord of the Dawn",
+    "title_no_life": "No Life",
+    "title_living_legend": "Living Legend"
   },
   "tierList": {
     "title": "Tier List",
