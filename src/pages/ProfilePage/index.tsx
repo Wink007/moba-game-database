@@ -518,7 +518,7 @@ export const ProfilePage: React.FC = () => {
                   onClick={async () => {
                     setDeleting(true);
                     try {
-                      const res = await authFetch(`${API_URL}/users/account`, { method: 'DELETE' });
+                      const res = await authFetch('/users/account', { method: 'DELETE' });
                       if (res.ok) {
                         logout();
                         navigate('/');
