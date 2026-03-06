@@ -276,14 +276,16 @@ export const ProfilePage: React.FC = () => {
               </button>
             )}
           </div>
-          {user.nickname && (
-            <span className={styles.realName}>{user.name}</span>
-          )}
-          {profile.activity_title && (
-            <span className={styles.activityTitle} title={`Score: ${profile.activity_score || 0}`}>
-              {t(`profile.${profile.activity_title}`)}
-            </span>
-          )}
+          <div className={styles.subtitleRow}>
+            {user.nickname && (
+              <span className={styles.realName}>{user.name}</span>
+            )}
+            {profile.activity_title && (
+              <span className={styles.activityTitle} title={`Score: ${profile.activity_score || 0}`}>
+                {t(`profile.${profile.activity_title}`)}
+              </span>
+            )}
+          </div>
           {isOwnProfile && !editingNickname && !user.nickname && (
             <button className={styles.setNicknameBtn} onClick={startEditNickname}>
               {t('profile.nicknamePlaceholder')}
@@ -317,20 +319,22 @@ export const ProfilePage: React.FC = () => {
               {t('profile.memberSince', { date: memberSince })}
             </span>
           )}
-          <div className={styles.statsRow}>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{builds.length}</span>
-              <span className={styles.statLabel}>{t('profile.builds')}</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{favorites_count}</span>
-              <span className={styles.statLabel}>{t('profile.favorites')}</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statValue}>{main_heroes.length}</span>
-              <span className={styles.statLabel}>{t('profile.mains')}</span>
-            </div>
-          </div>
+        </div>
+      </div>
+
+      {/* Stats bar — separate from header */}
+      <div className={styles.statsBar}>
+        <div className={styles.stat}>
+          <span className={styles.statValue}>{builds.length}</span>
+          <span className={styles.statLabel}>{t('profile.builds')}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statValue}>{favorites_count}</span>
+          <span className={styles.statLabel}>{t('profile.favorites')}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statValue}>{main_heroes.length}</span>
+          <span className={styles.statLabel}>{t('profile.mains')}</span>
         </div>
       </div>
 
