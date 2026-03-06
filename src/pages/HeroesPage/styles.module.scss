@@ -220,6 +220,18 @@
 
   @media (max-width: 768px) {
     opacity: 1;
+    top: 0.2rem;
+    right: 0.2rem;
+
+    button {
+      width: 24px;
+      height: 24px;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
   }
 }
 
@@ -313,6 +325,45 @@
   color: var(--clr-border-9);
   background: var(--clr-overlay-30);
   border: 1px solid var(--clr-border-2);
+}
+
+// ── Light theme overrides ──────────────────────────────────
+:global([data-theme="light"]) {
+  .heroCard {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06),
+                0 2px 8px rgba(0, 0, 0, 0.04);
+
+    &:hover {
+      border-color: rgba(37, 99, 235, 0.35);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10),
+                  0 0 0 1px rgba(37, 99, 235, 0.15);
+    }
+  }
+
+  .heroImageOverlay {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      transparent 35%,
+      rgba(0, 0, 0, 0.25) 60%,
+      rgba(0, 0, 0, 0.60) 85%,
+      rgba(0, 0, 0, 0.80) 100%);
+  }
+
+  .heroName {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+
+  .heroRoles {
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  .heroImage {
+    filter: brightness(1) contrast(1.02);
+  }
 }
 
 // Load More — see LoadMoreButton component

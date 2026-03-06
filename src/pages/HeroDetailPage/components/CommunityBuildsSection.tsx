@@ -186,7 +186,7 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
                 talentsMap={talentsMap}
                 onEdit={form.openForm}
                 onDelete={form.handleDelete}
-                onVote={FF_SOCIAL ? handleVote : undefined}
+                onVote={handleVote}
               />
             ))
           )}

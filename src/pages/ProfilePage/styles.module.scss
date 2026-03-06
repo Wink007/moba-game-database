@@ -171,6 +171,22 @@
   border-radius: 10px;
   background: var(--color-bg-secondary);
   border: 1px solid var(--clr-white-08);
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    border-color: var(--clr-accent-30);
+    box-shadow: 0 2px 8px var(--clr-black-10);
+  }
+}
+
+.buildLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
 }
 
 .buildHero {
@@ -195,9 +211,6 @@
 
 .buildInfo {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   min-width: 0;
 
   strong {
@@ -206,20 +219,44 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: block;
+  }
+}
+
+.buildItemIcons {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+
+  img {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid var(--clr-white-08);
   }
 }
 
 .buildScore {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
   font-size: 13px;
   font-weight: 600;
-  margin-left: 0.5rem;
   color: var(--color-text-secondary);
+
+  svg {
+    flex-shrink: 0;
+  }
 
   &.positive {
     color: #22c55e;
+    svg { opacity: 1 !important; }
   }
   &.negative {
     color: #ef4444;
+    svg { opacity: 1 !important; }
   }
 }
 

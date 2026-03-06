@@ -27,8 +27,8 @@ export const BuildsTab: React.FC<BuildsTabProps> = React.memo(({ hero, buildsSub
 
       {buildsSubTab === 'builds' && (
         <>
-          <ProBuildsSection builds={hero.pro_builds || []} gameId={hero.game_id} />
           <CommunityBuildsSection heroId={hero.id} gameId={hero.game_id} showOnly="community" />
+          <ProBuildsSection builds={hero.pro_builds || []} gameId={hero.game_id} />
         </>
       )}
 
