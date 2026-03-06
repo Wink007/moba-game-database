@@ -3477,12 +3477,14 @@ def google_login():
         else:
             cursor = conn.cursor()
 
-        cursor.execute(f"SELECT id, google_id, email, name, picture FROM users WHERE google_id = {ph}", (google_id,))
+        cursor.execute(f"SELECT id, google_id, email, name, picture, nickname FROM users WHERE google_id = {ph}", (google_id,))
         user = cursor.fetchone()
 
+        nickname = None
         if user:
             # Update last login + info
             user_id = user['id'] if isinstance(user, dict) else user[0]
+            nickname = user['nickname'] if isinstance(user, dict) else user[5]
             cursor.execute(f"""
                 UPDATE users SET last_login = CURRENT_TIMESTAMP, name = {ph}, picture = {ph}, email = {ph}
                 WHERE id = {ph}
@@ -3508,7 +3510,8 @@ def google_login():
                 'id': user_id,
                 'email': email,
                 'name': name,
-                'picture': picture
+                'picture': picture,
+                'nickname': nickname
             }
         })
 
@@ -3532,7 +3535,7 @@ def get_current_user():
         else:
             cursor = conn.cursor()
 
-        cursor.execute(f"SELECT id, email, name, picture FROM users WHERE id = {ph}", (request.user_id,))
+        cursor.execute(f"SELECT id, email, name, picture, nickname FROM users WHERE id = {ph}", (request.user_id,))
         user = cursor.fetchone()
         db.release_connection(conn)
 
@@ -3540,9 +3543,68 @@ def get_current_user():
             return jsonify({'error': 'User not found'}), 404
 
         user_dict = dict(user) if hasattr(user, 'keys') else {
-            'id': user[0], 'email': user[1], 'name': user[2], 'picture': user[3]
+            'id': user[0], 'email': user[1], 'name': user[2], 'picture': user[3], 'nickname': user[4]
         }
         return jsonify(user_dict)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== NICKNAME ENDPOINT =====
+
+@app.route('/api/users/nickname', methods=['PUT'])
+@require_auth
+def update_nickname():
+    """Update current user's nickname (max 20 chars, alphanumeric + underscores)"""
+    try:
+        data = request.get_json()
+        nickname = (data.get('nickname') or '').strip()
+
+        if not nickname:
+            # Allow clearing nickname
+            nickname = None
+        else:
+            if len(nickname) > 20:
+                return jsonify({'error': 'Nickname must be 20 characters or less'}), 400
+            if len(nickname) < 2:
+                return jsonify({'error': 'Nickname must be at least 2 characters'}), 400
+            import re as _re
+            if not _re.match(r'^[a-zA-Z0-9_а-яА-ЯіІїЇєЄґҐёЁ]+$', nickname):
+                return jsonify({'error': 'Nickname can only contain letters, numbers, and underscores'}), 400
+
+            # Check uniqueness
+            conn = db.get_connection()
+            ph = db.get_placeholder()
+            if db.DATABASE_TYPE == 'postgres':
+                from psycopg2.extras import RealDictCursor
+                cursor = conn.cursor(cursor_factory=RealDictCursor)
+            else:
+                cursor = conn.cursor()
+
+            cursor.execute(f"SELECT id FROM users WHERE LOWER(nickname) = LOWER({ph}) AND id != {ph}",
+                           (nickname, request.user_id))
+            existing = cursor.fetchone()
+            if existing:
+                db.release_connection(conn)
+                return jsonify({'error': 'Nickname already taken'}), 409
+
+            cursor.execute(f"UPDATE users SET nickname = {ph} WHERE id = {ph}", (nickname, request.user_id))
+            conn.commit()
+            db.release_connection(conn)
+            return jsonify({'nickname': nickname})
+
+        # Clear nickname
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        cursor.execute(f"UPDATE users SET nickname = NULL WHERE id = {ph}", (request.user_id,))
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'nickname': None})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -4063,13 +4125,13 @@ def get_user_profile(user_id):
             cursor = conn.cursor()
 
         # User info
-        cursor.execute(f"SELECT id, name, picture, created_at FROM users WHERE id = {ph}", (user_id,))
+        cursor.execute(f"SELECT id, name, picture, created_at, nickname FROM users WHERE id = {ph}", (user_id,))
         user_row = cursor.fetchone()
         if not user_row:
             db.release_connection(conn)
             return jsonify({'error': 'User not found'}), 404
         user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
-            ['id', 'name', 'picture', 'created_at'], user_row))
+            ['id', 'name', 'picture', 'created_at', 'nickname'], user_row))
         if user_info.get('created_at') and not isinstance(user_info['created_at'], str):
             user_info['created_at'] = str(user_info['created_at'])
 
