@@ -3,6 +3,16 @@ apply plugin: 'com.android.application'
 android {
     namespace = "com.mobawiki.mlbb"
     compileSdk = rootProject.ext.compileSdkVersion
+
+    signingConfigs {
+        release {
+            storeFile file('moba-wiki-release.jks')
+            storePassword 'moba2026wiki'
+            keyAlias 'moba-wiki'
+            keyPassword 'moba2026wiki'
+        }
+    }
+
     defaultConfig {
         applicationId "com.mobawiki.mlbb"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -20,6 +30,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
