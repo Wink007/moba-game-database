@@ -76,6 +76,7 @@
 .heroImageWrapper {
   position: relative;
   width: 100%;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius:4px;
   background: linear-gradient(135deg, var(--clr-bg-deepest) 0%, var(--clr-bg-deepest) 100%);
