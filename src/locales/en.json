@@ -9,7 +9,8 @@
     "favorites": "Favorites",
     "tierList": "Tier List",
     "heroRank": "Rankings",
-    "settings": "Settings"
+    "settings": "Settings",
+    "players": "Players"
   },
   "footer": {
     "copyright": "Mobile Legends Wiki (Unofficial)",
@@ -547,6 +548,12 @@
   },
   "randomHeroStats": {
     "vs3Days": "vs 3 days ago"
+  },
+  "players": {
+    "pageTitle": "Players",
+    "pageDescription": "MOBA Wiki community — all registered players",
+    "totalCount": "Total players: {{count}}",
+    "joinedDate": "Since {{date}}"
   },
   "settings": {
     "title": "Settings",

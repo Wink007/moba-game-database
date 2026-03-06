@@ -51,17 +51,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/81</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/104</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/85</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -76,12 +66,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/8</loc>
+    <loc>https://mobawiki.com/2/heroes/81</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/95</loc>
+    <loc>https://mobawiki.com/2/heroes/85</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -91,12 +81,27 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/95</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/39</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/8</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/19</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/113</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -111,17 +116,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/113</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/30</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/51</loc>
+    <loc>https://mobawiki.com/2/heroes/98</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -131,7 +131,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/98</loc>
+    <loc>https://mobawiki.com/2/heroes/51</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/93</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -146,17 +151,17 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/93</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/56</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/83</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/115</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -171,7 +176,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/115</loc>
+    <loc>https://mobawiki.com/2/heroes/105</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -186,7 +191,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/105</loc>
+    <loc>https://mobawiki.com/2/heroes/122</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -197,11 +202,6 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/91</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/122</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -246,12 +246,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/54</loc>
+    <loc>https://mobawiki.com/2/heroes/108</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/108</loc>
+    <loc>https://mobawiki.com/2/heroes/54</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -266,12 +266,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/52</loc>
+    <loc>https://mobawiki.com/2/heroes/123</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/123</loc>
+    <loc>https://mobawiki.com/2/heroes/52</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -291,12 +291,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/4</loc>
+    <loc>https://mobawiki.com/2/heroes/33</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/33</loc>
+    <loc>https://mobawiki.com/2/heroes/4</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -346,12 +346,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/70</loc>
+    <loc>https://mobawiki.com/2/heroes/110</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/110</loc>
+    <loc>https://mobawiki.com/2/heroes/70</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -386,12 +386,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/3</loc>
+    <loc>https://mobawiki.com/2/heroes/58</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/58</loc>
+    <loc>https://mobawiki.com/2/heroes/3</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -431,12 +431,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/63</loc>
+    <loc>https://mobawiki.com/2/heroes/107</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/107</loc>
+    <loc>https://mobawiki.com/2/heroes/63</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>

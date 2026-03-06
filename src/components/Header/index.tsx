@@ -13,6 +13,7 @@ import { getDaysOptions, getRankOptions } from '../../pages/HeroRankPage/constan
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { useAuthStore } from '../../store/authStore';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
+import { FF_SOCIAL } from '../../config';
 import { LoginConsentModal } from '../LoginConsentModal';
 import { useThemeStore, Theme } from '../../store/themeStore';
 
@@ -351,6 +352,18 @@ export const Header: React.FC = () => {
                       <span className={styles['sheet-label']}>{t(`header.${key}`)}</span>
                     </NavLink>
                   ))}
+                  {FF_SOCIAL && (
+                    <NavLink
+                      to="/players"
+                      className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
+                      onClick={closeMenu}
+                    >
+                      <div className={styles['sheet-icon']}>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                      </div>
+                      <span className={styles['sheet-label']}>{t('header.players')}</span>
+                    </NavLink>
+                  )}
                 </div>
               </div>
 

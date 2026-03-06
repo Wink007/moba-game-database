@@ -39,6 +39,7 @@ const TierListPage = React.lazy(() => import('./pages/TierListPage').then(m => (
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
+const PlayersPage = React.lazy(() => import('./pages/PlayersPage').then(m => ({ default: m.PlayersPage })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -108,6 +109,7 @@ function App() {
                 <Route path="/:gameId/favorites" element={<RouteErrorBoundary><FavoritesPage /></RouteErrorBoundary>} />
                 <Route path="/settings" element={<RouteErrorBoundary><SettingsPage /></RouteErrorBoundary>} />
                 {FF_SOCIAL && <Route path="/profile/:userId" element={<RouteErrorBoundary><ProfilePage /></RouteErrorBoundary>} />}
+                {FF_SOCIAL && <Route path="/players" element={<RouteErrorBoundary><PlayersPage /></RouteErrorBoundary>} />}
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
               </Suspense>
