@@ -4310,6 +4310,59 @@ def get_user_profile(user_id):
                 ['id', 'name', 'head', 'image', 'hero_game_id', 'game_id'], row))
             favorites.append(hero)
 
+        # Total upvotes received across all builds
+        cursor.execute(f"""
+            SELECT COALESCE(SUM(CASE WHEN bv.vote = 1 THEN 1 ELSE 0 END), 0) as total_upvotes
+            FROM build_votes bv
+            JOIN user_builds ub ON ub.id = bv.build_id
+            WHERE ub.user_id = {ph}
+        """, (user_id,))
+        vote_row = cursor.fetchone()
+        total_upvotes = vote_row['total_upvotes'] if isinstance(vote_row, dict) else (vote_row[0] if vote_row else 0)
+
+        # Compute activity title
+        # Score: days_on_site*1 + builds*5 + favorites*1 + mains*2 + total_upvotes*3
+        from datetime import datetime as _dt
+        days_on_site = 0
+        if user_info.get('created_at'):
+            try:
+                created = _dt.fromisoformat(str(user_info['created_at']).replace('Z', '+00:00').split('+')[0])
+                days_on_site = (_dt.utcnow() - created).days
+            except Exception:
+                pass
+        activity_score = (
+            days_on_site * 1 +
+            len(builds) * 5 +
+            int(fav_count) * 1 +
+            len(mains) * 2 +
+            int(total_upvotes) * 3
+        )
+
+        # Title tiers (key => min score)
+        # Titles are i18n keys — frontend translates them
+        TITLE_TIERS = [
+            (800, 'title_living_legend'),         # 800+ Жива легенда
+            (600, 'title_no_life'),                # 600+ Без особистого життя
+            (500, 'title_lord_of_dawn'),            # 500+ Лорд Світанку
+            (400, 'title_touch_grass'),             # 400+ Торкнись трави
+            (350, 'title_meta_slave'),              # 350+ Мета-раб
+            (250, 'title_build_maniac'),             # 250+ Білд-маніяк
+            (180, 'title_wiki_addict'),              # 180+ Вікі-наркоман
+            (140, 'title_soloq_survivor'),           # 140+ Вижив у соло-Q
+            (120, 'title_hero_collector'),            # 120+ Колекціонер героїв
+            (80,  'title_tryhard'),                   # 80+  Тріхард
+            (50,  'title_casual_enjoyer'),            # 50+  Казуальний ентузіаст
+            (30,  'title_button_masher'),             # 30+  Тикає кнопки
+            (25,  'title_curious_cat'),               # 25+  Цікавий котик
+            (10,  'title_fresh_meat'),                # 10+  Свіже м'ясо
+            (0,   'title_loading_screen'),            # 0+   Екран завантаження
+        ]
+        title_key = 'title_loading_screen'
+        for threshold, key in TITLE_TIERS:
+            if activity_score >= threshold:
+                title_key = key
+                break
+
         db.release_connection(conn)
         return jsonify({
             'user': user_info,
@@ -4317,6 +4370,8 @@ def get_user_profile(user_id):
             'builds': builds,
             'favorites_count': fav_count,
             'favorites': favorites,
+            'activity_title': title_key,
+            'activity_score': activity_score,
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
