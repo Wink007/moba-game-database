@@ -223,7 +223,7 @@ export const ProfilePage: React.FC = () => {
 
   const bannerImg = user.banner_painting || user.banner_image;
   const accentStyle = getAccentVar(user.accent_color)
-    ? { '--profile-accent': getAccentVar(user.accent_color) } as React.CSSProperties
+    ? { '--pa': getAccentVar(user.accent_color) } as React.CSSProperties
     : undefined;
 
   const filteredHeroes = bannerSearch
@@ -238,8 +238,9 @@ export const ProfilePage: React.FC = () => {
           <img src={bannerImg} alt={user.banner_hero_name || ''} className={styles.bannerImg} />
           <div className={styles.bannerOverlay} />
           {isOwnProfile && (
-            <button className={styles.bannerEditBtn} onClick={() => setShowBannerPicker(true)} title={t('profile.bannerChange')}>
+            <button className={styles.bannerEditBtn} onClick={() => { setBannerSearch(''); setShowBannerPicker(true); }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.33a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z"/></svg>
+              {t('profile.bannerChange')}
             </button>
           )}
         </div>
