@@ -15,21 +15,6 @@ import { API_URL } from '../../config';
 import type { Item } from '../../types';
 import styles from './styles.module.scss';
 
-const ACCENT_COLORS: { key: string; label: string; color: string }[] = [
-  { key: 'fighter', label: 'Fighter', color: '#f59e0b' },
-  { key: 'mage', label: 'Mage', color: '#6366f1' },
-  { key: 'tank', label: 'Tank', color: '#3b82f6' },
-  { key: 'assassin', label: 'Assassin', color: '#ef4444' },
-  { key: 'marksman', label: 'Marksman', color: '#f97316' },
-  { key: 'support', label: 'Support', color: '#22c55e' },
-];
-
-function getAccentVar(accentColor?: string | null): string | undefined {
-  if (!accentColor) return undefined;
-  const found = ACCENT_COLORS.find(c => c.key === accentColor);
-  return found?.color;
-}
-
 interface ProfileData {
   user: {
     id: number;
@@ -38,7 +23,6 @@ interface ProfileData {
     created_at: string;
     nickname?: string | null;
     banner_hero_id?: number | null;
-    accent_color?: string | null;
     banner_image?: string | null;
     banner_painting?: string | null;
     banner_hero_name?: string | null;
@@ -115,25 +99,10 @@ export const ProfilePage: React.FC = () => {
         body: JSON.stringify({ banner_hero_id: heroId }),
       });
       if (currentUser && token) {
-        setAuth({ ...currentUser, banner_hero_id: res.banner_hero_id, accent_color: res.accent_color }, token);
+        setAuth({ ...currentUser, banner_hero_id: res.banner_hero_id }, token);
       }
       queryClient.invalidateQueries({ queryKey: queryKeys.profile.user(numericUserId) });
       setShowBannerPicker(false);
-    } catch { /* ignore */ }
-    finally { setSaving(false); }
-  }, [currentUser, token, setAuth, queryClient, numericUserId]);
-
-  const saveAccentColor = useCallback(async (color: string | null) => {
-    setSaving(true);
-    try {
-      const res = await authFetch('/users/profile-settings', {
-        method: 'PUT',
-        body: JSON.stringify({ accent_color: color }),
-      });
-      if (currentUser && token) {
-        setAuth({ ...currentUser, banner_hero_id: res.banner_hero_id, accent_color: res.accent_color }, token);
-      }
-      queryClient.invalidateQueries({ queryKey: queryKeys.profile.user(numericUserId) });
     } catch { /* ignore */ }
     finally { setSaving(false); }
   }, [currentUser, token, setAuth, queryClient, numericUserId]);
@@ -228,16 +197,12 @@ export const ProfilePage: React.FC = () => {
     : '';
 
   const bannerImg = user.banner_painting || user.banner_image;
-  const accentStyle = getAccentVar(user.accent_color)
-    ? { '--pa': getAccentVar(user.accent_color) } as React.CSSProperties
-    : undefined;
-
   const filteredHeroes = bannerSearch
     ? heroes.filter((h: any) => h.name.toLowerCase().includes(bannerSearch.toLowerCase()))
     : heroes;
 
   return (
-    <div className={styles.container} style={accentStyle}>
+    <div className={styles.container}>
       {/* Hero Banner */}
       {bannerImg && (
         <div className={styles.banner}>
@@ -371,28 +336,6 @@ export const ProfilePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Accent color */}
-          <div className={styles.customizeRow}>
-            <span className={styles.customizeLabel}>{t('profile.accentColor')}</span>
-            <div className={styles.colorSwatches}>
-              <button
-                className={`${styles.colorSwatch} ${styles.colorDefault} ${!user.accent_color ? styles.active : ''}`}
-                onClick={() => saveAccentColor(null)}
-                title={t('profile.accentColorDefault')}
-                disabled={saving}
-              />
-              {ACCENT_COLORS.map(c => (
-                <button
-                  key={c.key}
-                  className={`${styles.colorSwatch} ${user.accent_color === c.key ? styles.active : ''}`}
-                  style={{ background: c.color }}
-                  onClick={() => saveAccentColor(c.key)}
-                  title={c.label}
-                  disabled={saving}
-                />
-              ))}
-            </div>
-          </div>
         </div>
       )}
 

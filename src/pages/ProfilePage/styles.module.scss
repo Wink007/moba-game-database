@@ -583,38 +583,6 @@
   &:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 
-// Color swatches
-.colorSwatches {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.colorSwatch {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: transform 0.15s, border-color 0.15s;
-  position: relative;
-
-  &:hover { transform: scale(1.15); }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  &.active {
-    border-color: #fff;
-    box-shadow: 0 0 0 2px var(--pa, var(--clr-accent));
-  }
-}
-
-.colorDefault {
-  background: conic-gradient(
-    from 0deg,
-    #6366f1, #3b82f6, #22c55e, #f59e0b, #ef4444, #6366f1
-  );
-}
-
 // ===== BANNER PICKER MODAL =====
 .pickerOverlay {
   position: fixed;
