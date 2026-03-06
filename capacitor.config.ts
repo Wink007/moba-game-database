@@ -17,9 +17,7 @@ const config: CapacitorConfig = {
       androidSplashResourceName: 'splash',
     },
     AdMob: {
-      // Замінити на реальний App ID з AdMob консолі після реєстрації
-      // Тест App ID (Google офіційний тест):
-      appId: 'ca-app-pub-3940256099942544~3347511713',
+      appId: 'ca-app-pub-9322014090918199~5496386441',
     },
     GoogleAuth: {
       scopes: ['profile', 'email'],
