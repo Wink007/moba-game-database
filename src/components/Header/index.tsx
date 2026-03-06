@@ -13,7 +13,7 @@ import { getDaysOptions, getRankOptions } from '../../pages/HeroRankPage/constan
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { useAuthStore } from '../../store/authStore';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
-import { FF_SOCIAL } from '../../config';
+import { FF_SOCIAL, FF_PLAYERS } from '../../config';
 import { LoginConsentModal } from '../LoginConsentModal';
 import { useThemeStore, Theme } from '../../store/themeStore';
 
@@ -79,7 +79,7 @@ const PlayersIcon = () => (
   </svg>
 );
 
-const NAV_ITEMS: { key: string; path: string; Icon: React.FC; mobileOnly?: boolean; absolute?: boolean; socialOnly?: boolean }[] = [
+const NAV_ITEMS: { key: string; path: string; Icon: React.FC; mobileOnly?: boolean; absolute?: boolean; socialOnly?: boolean; playersOnly?: boolean }[] = [
   { key: 'heroes', path: 'heroes', Icon: HeroesIcon },
   { key: 'items', path: 'items', Icon: ItemsIcon },
   { key: 'emblems', path: 'emblems', Icon: EmblemsIcon },
@@ -89,10 +89,10 @@ const NAV_ITEMS: { key: string; path: string; Icon: React.FC; mobileOnly?: boole
   { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
   { key: 'patches', path: 'patches', Icon: PatchesIcon },
   { key: 'favorites', path: 'favorites', Icon: FavoritesIcon, mobileOnly: true },
-  { key: 'players', path: '/players', Icon: PlayersIcon, absolute: true, socialOnly: true },
+  { key: 'players', path: '/players', Icon: PlayersIcon, absolute: true, playersOnly: true },
 ];
 
-const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly && (!i.socialOnly || FF_SOCIAL));
+const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly && (!i.socialOnly || FF_SOCIAL) && (!i.playersOnly || FF_PLAYERS));
 const MORE_BTN_W = 52; // reserved width (px) for the "..." button
 
 // Mobile bottom tab bar — always-visible primary tabs
@@ -103,7 +103,7 @@ const BOTTOM_NAV_MAIN = [
 ];
 
 const BOTTOM_NAV_KEYS = new Set(BOTTOM_NAV_MAIN.map(i => i.key));
-const SHEET_NAV_ITEMS = NAV_ITEMS.filter(i => !BOTTOM_NAV_KEYS.has(i.key) && (!i.socialOnly || FF_SOCIAL));
+const SHEET_NAV_ITEMS = NAV_ITEMS.filter(i => !BOTTOM_NAV_KEYS.has(i.key) && (!i.socialOnly || FF_SOCIAL) && (!i.playersOnly || FF_PLAYERS));
 
 export const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
