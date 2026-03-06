@@ -281,7 +281,6 @@
 .buildItem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   padding: 0.6rem 0.75rem;
   border-radius: 10px;
   background: var(--color-bg-secondary);
@@ -297,9 +296,10 @@
 .buildLink {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   flex: 1;
   min-width: 0;
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
 }
@@ -320,12 +320,11 @@
   span {
     font-size: 13px;
     color: var(--color-text-secondary);
-    min-width: 60px;
   }
 }
 
 .buildInfo {
-  flex: 1;
+  flex-shrink: 1;
   min-width: 0;
 
   strong {
@@ -342,10 +341,11 @@
   display: flex;
   gap: 3px;
   flex-shrink: 0;
+  margin-left: auto;
 
   img {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 4px;
     object-fit: cover;
     border: 1px solid var(--clr-white-08);
@@ -357,6 +357,7 @@
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
+  padding-left: 10px;
   font-size: 13px;
   font-weight: 600;
   color: var(--color-text-secondary);
@@ -372,6 +373,30 @@
   &.negative {
     color: #ef4444;
     svg { opacity: 1 !important; }
+  }
+}
+
+@media (max-width: 480px) {
+  .buildItem {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .buildHero span {
+    font-size: 12px;
+  }
+
+  .buildInfo {
+    display: none;
+  }
+
+  .buildItemIcons img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .buildScore {
+    padding-left: 6px;
+    font-size: 12px;
   }
 }
 
