@@ -54,10 +54,16 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
   // Form state & handlers (extracted hook)
   const form = useBuildForm(heroId, refetchCommunity);
   const queryClient = useQueryClient();
+  const googleLogin = useGoogleAuth(() => setShowLoginPrompt(false));
 
   // Vote handler
   const handleVote = useCallback(async (buildId: number, vote: number) => {
-    if (!user) return;
+    if (!user) {
+      setShowLoginPrompt(true);
+      setTimeout(() => googleLogin(), 500);
+      setTimeout(() => setShowLoginPrompt(false), 3000);
+      return;
+    }
     try {
       if (vote === 0) {
         await authFetch(`/builds/${buildId}/vote`, { method: 'DELETE' });
@@ -79,11 +85,9 @@ export const CommunityBuildsSection: React.FC<CommunityBuildsSectionProps> = ({ 
       // Refetch on error to sync state
       refetchCommunity();
     }
-  }, [user, heroId, queryClient, refetchCommunity]);
+  }, [user, heroId, queryClient, refetchCommunity, googleLogin]);
 
   useEscapeKey(useCallback(() => form.setShowForm(false), [form]), form.showForm);
-
-  const googleLogin = useGoogleAuth(() => setShowLoginPrompt(false));
 
   const handleCreateClick = () => {
     if (!user) {
