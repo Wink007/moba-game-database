@@ -20,6 +20,7 @@ interface PlayerUser {
   picture: string;
   nickname?: string | null;
   created_at: string;
+  activity_title?: string | null;
   main_heroes: MainHero[];
 }
 
@@ -63,13 +64,14 @@ export const PlayersPage: React.FC = () => {
         <p className={styles.count}>{t('players.totalCount', { count: data.total })}</p>
       )}
 
-      <div className={styles.grid}>
-        {users.map(user => (
+      <div className={styles.table}>
+        {users.map((user, idx) => (
           <Link
             key={user.id}
             to={`/profile/${user.id}`}
-            className={styles.card}
+            className={styles.row}
           >
+            <span className={styles.rowNum}>{(page - 1) * 20 + idx + 1}</span>
             <img
               src={user.picture}
               alt={user.nickname || user.name}
@@ -78,34 +80,30 @@ export const PlayersPage: React.FC = () => {
             />
             <div className={styles.info}>
               <span className={styles.nickname}>{user.nickname || user.name}</span>
-              {user.nickname && (
-                <span className={styles.realName}>{user.name}</span>
-              )}
-              {user.created_at && (
-                <span className={styles.joined}>
-                  {t('players.joinedDate', {
-                    date: new Date(user.created_at).toLocaleDateString(undefined, {
-                      year: 'numeric',
-                      month: 'short',
-                    }),
-                  })}
-                </span>
-              )}
-              {user.main_heroes.length > 0 && (
-                <div className={styles.heroes}>
-                  {user.main_heroes.map(h => (
-                    <img
-                      key={h.hero_id}
-                      src={h.head || h.image || ''}
-                      alt={h.name}
-                      className={styles.heroIcon}
-                      title={h.name}
-                      loading="lazy"
-                    />
-                  ))}
-                </div>
+              {user.activity_title && (
+                <span className={styles.activityTitle}>{t(`profile.${user.activity_title}`)}</span>
               )}
             </div>
+            <div className={styles.heroes}>
+              {user.main_heroes.map(h => (
+                <img
+                  key={h.hero_id}
+                  src={h.head || h.image || ''}
+                  alt={h.name}
+                  className={styles.heroIcon}
+                  title={h.name}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+            {user.created_at && (
+              <span className={styles.joined}>
+                {new Date(user.created_at).toLocaleDateString(undefined, {
+                  year: 'numeric',
+                  month: 'short',
+                })}
+              </span>
+            )}
           </Link>
         ))}
       </div>
