@@ -3814,21 +3814,42 @@ def get_hero_public_builds(hero_id):
         if exclude_user_id:
             cursor.execute(f"""
                 SELECT b.id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
-                       b.talents, b.notes, b.created_at, u.name as author_name, u.picture as author_picture
+                       b.talents, b.notes, b.created_at, u.name as author_name, u.picture as author_picture,
+                       u.id as author_id,
+                       COALESCE(vc.upvotes, 0) as upvotes,
+                       COALESCE(vc.downvotes, 0) as downvotes,
+                       COALESCE(mv.vote, 0) as user_vote
                 FROM user_builds b
                 JOIN users u ON u.id = b.user_id
+                LEFT JOIN (
+                    SELECT build_id,
+                           SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END) as upvotes,
+                           SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END) as downvotes
+                    FROM build_votes GROUP BY build_id
+                ) vc ON vc.build_id = b.id
+                LEFT JOIN build_votes mv ON mv.build_id = b.id AND mv.user_id = {ph}
                 WHERE b.hero_id = {ph} AND b.is_public = TRUE AND b.user_id != {ph}
-                ORDER BY b.created_at DESC
+                ORDER BY (COALESCE(vc.upvotes, 0) - COALESCE(vc.downvotes, 0)) DESC, b.created_at DESC
                 LIMIT 20
-            """, (hero_id, exclude_user_id))
+            """, (exclude_user_id, hero_id, exclude_user_id))
         else:
             cursor.execute(f"""
                 SELECT b.id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
-                       b.talents, b.notes, b.created_at, u.name as author_name, u.picture as author_picture
+                       b.talents, b.notes, b.created_at, u.name as author_name, u.picture as author_picture,
+                       u.id as author_id,
+                       COALESCE(vc.upvotes, 0) as upvotes,
+                       COALESCE(vc.downvotes, 0) as downvotes,
+                       0 as user_vote
                 FROM user_builds b
                 JOIN users u ON u.id = b.user_id
+                LEFT JOIN (
+                    SELECT build_id,
+                           SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END) as upvotes,
+                           SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END) as downvotes
+                    FROM build_votes GROUP BY build_id
+                ) vc ON vc.build_id = b.id
                 WHERE b.hero_id = {ph} AND b.is_public = TRUE
-                ORDER BY b.created_at DESC
+                ORDER BY (COALESCE(vc.upvotes, 0) - COALESCE(vc.downvotes, 0)) DESC, b.created_at DESC
                 LIMIT 20
             """, (hero_id,))
 
@@ -3836,7 +3857,8 @@ def get_hero_public_builds(hero_id):
         for row in cursor.fetchall():
             build = dict(row) if hasattr(row, 'keys') else dict(zip(
                 ['id', 'name', 'items', 'emblem_id', 'spell1_id', 'spell2_id',
-                 'talents', 'notes', 'created_at', 'author_name', 'author_picture'], row))
+                 'talents', 'notes', 'created_at', 'author_name', 'author_picture',
+                 'author_id', 'upvotes', 'downvotes', 'user_vote'], row))
             if isinstance(build.get('items'), str):
                 build['items'] = json.loads(build['items'])
             if isinstance(build.get('talents'), str):
@@ -3849,6 +3871,275 @@ def get_hero_public_builds(hero_id):
 
         db.release_connection(conn)
         return jsonify(builds)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== BUILD VOTES ENDPOINTS =====
+
+@app.route('/api/builds/<int:build_id>/vote', methods=['POST'])
+@require_auth
+def vote_build(build_id):
+    """Upvote or downvote a build (upsert). Body: { "vote": 1 or -1 }"""
+    try:
+        data = request.get_json()
+        vote = data.get('vote')
+        if vote not in (1, -1):
+            return jsonify({'error': 'vote must be 1 or -1'}), 400
+
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+
+        # Don't allow voting on own builds
+        cursor.execute(f"SELECT user_id FROM user_builds WHERE id = {ph}", (build_id,))
+        build = cursor.fetchone()
+        if not build:
+            db.release_connection(conn)
+            return jsonify({'error': 'Build not found'}), 404
+        owner_id = build['user_id'] if isinstance(build, dict) else build[0]
+        if owner_id == request.user_id:
+            db.release_connection(conn)
+            return jsonify({'error': 'Cannot vote on your own build'}), 400
+
+        # Upsert vote
+        if db.DATABASE_TYPE == 'postgres':
+            cursor.execute(f"""
+                INSERT INTO build_votes (user_id, build_id, vote)
+                VALUES ({ph}, {ph}, {ph})
+                ON CONFLICT (user_id, build_id)
+                DO UPDATE SET vote = {ph}
+            """, (request.user_id, build_id, vote, vote))
+        else:
+            cursor.execute(f"""
+                INSERT OR REPLACE INTO build_votes (user_id, build_id, vote)
+                VALUES ({ph}, {ph}, {ph})
+            """, (request.user_id, build_id, vote))
+
+        conn.commit()
+
+        # Return updated counts
+        cursor.execute(f"""
+            SELECT
+                COALESCE(SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END), 0) as upvotes,
+                COALESCE(SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END), 0) as downvotes
+            FROM build_votes WHERE build_id = {ph}
+        """, (build_id,))
+        row = cursor.fetchone()
+        upvotes = row['upvotes'] if isinstance(row, dict) else row[0]
+        downvotes = row['downvotes'] if isinstance(row, dict) else row[1]
+
+        db.release_connection(conn)
+        return jsonify({'success': True, 'upvotes': upvotes, 'downvotes': downvotes, 'user_vote': vote})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/builds/<int:build_id>/vote', methods=['DELETE'])
+@require_auth
+def remove_vote(build_id):
+    """Remove own vote from a build"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+        cursor.execute(f"DELETE FROM build_votes WHERE user_id = {ph} AND build_id = {ph}",
+                       (request.user_id, build_id))
+        conn.commit()
+
+        # Return updated counts
+        cursor.execute(f"""
+            SELECT
+                COALESCE(SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END), 0) as upvotes,
+                COALESCE(SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END), 0) as downvotes
+            FROM build_votes WHERE build_id = {ph}
+        """, (build_id,))
+        row = cursor.fetchone()
+        upvotes = row['upvotes'] if isinstance(row, dict) else row[0]
+        downvotes = row['downvotes'] if isinstance(row, dict) else row[1]
+
+        db.release_connection(conn)
+        return jsonify({'success': True, 'upvotes': upvotes, 'downvotes': downvotes, 'user_vote': 0})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== USER MAIN HEROES ENDPOINTS =====
+
+@app.route('/api/user/main-heroes', methods=['GET'])
+@require_auth
+def get_main_heroes():
+    """Get current user's main heroes (1-3)"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        cursor.execute(f"""
+            SELECT m.hero_id, m.position, h.name, h.head, h.image, h.hero_game_id
+            FROM user_main_heroes m
+            JOIN heroes h ON h.id = m.hero_id
+            WHERE m.user_id = {ph}
+            ORDER BY m.position
+        """, (request.user_id,))
+
+        mains = []
+        for row in cursor.fetchall():
+            hero = dict(row) if hasattr(row, 'keys') else dict(zip(
+                ['hero_id', 'position', 'name', 'head', 'image', 'hero_game_id'], row))
+            mains.append(hero)
+
+        db.release_connection(conn)
+        return jsonify(mains)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/user/main-heroes', methods=['PUT'])
+@require_auth
+def set_main_heroes():
+    """Set main heroes (max 3). Body: { "heroes": [heroId1, heroId2, heroId3] }"""
+    try:
+        data = request.get_json()
+        hero_ids = data.get('heroes', [])
+        if not isinstance(hero_ids, list) or len(hero_ids) > 3:
+            return jsonify({'error': 'Provide 1-3 hero IDs'}), 400
+        # Remove duplicates preserving order
+        seen = set()
+        unique_ids = []
+        for hid in hero_ids:
+            if hid not in seen:
+                seen.add(hid)
+                unique_ids.append(hid)
+        hero_ids = unique_ids
+
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        cursor = conn.cursor()
+
+        # Delete existing mains
+        cursor.execute(f"DELETE FROM user_main_heroes WHERE user_id = {ph}", (request.user_id,))
+
+        # Insert new mains
+        for idx, hero_id in enumerate(hero_ids):
+            cursor.execute(f"""
+                INSERT INTO user_main_heroes (user_id, hero_id, position)
+                VALUES ({ph}, {ph}, {ph})
+            """, (request.user_id, hero_id, idx + 1))
+
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'success': True, 'count': len(hero_ids)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== PUBLIC PROFILE ENDPOINT =====
+
+@app.route('/api/users/<int:user_id>/profile', methods=['GET'])
+def get_user_profile(user_id):
+    """Get public profile: user info, main heroes, public builds, favorites count"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        # User info
+        cursor.execute(f"SELECT id, name, picture, created_at FROM users WHERE id = {ph}", (user_id,))
+        user_row = cursor.fetchone()
+        if not user_row:
+            db.release_connection(conn)
+            return jsonify({'error': 'User not found'}), 404
+        user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
+            ['id', 'name', 'picture', 'created_at'], user_row))
+        if user_info.get('created_at') and not isinstance(user_info['created_at'], str):
+            user_info['created_at'] = str(user_info['created_at'])
+
+        # Main heroes
+        cursor.execute(f"""
+            SELECT m.hero_id, m.position, h.name, h.head, h.image, h.hero_game_id, h.game_id
+            FROM user_main_heroes m
+            JOIN heroes h ON h.id = m.hero_id
+            WHERE m.user_id = {ph}
+            ORDER BY m.position
+        """, (user_id,))
+        mains = []
+        for row in cursor.fetchall():
+            hero = dict(row) if hasattr(row, 'keys') else dict(zip(
+                ['hero_id', 'position', 'name', 'head', 'image', 'hero_game_id', 'game_id'], row))
+            mains.append(hero)
+
+        # Public builds with vote counts
+        cursor.execute(f"""
+            SELECT b.id, b.hero_id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
+                   b.talents, b.notes, b.created_at,
+                   h.name as hero_name, h.head as hero_head, h.image as hero_image,
+                   COALESCE(v.upvotes, 0) as upvotes,
+                   COALESCE(v.downvotes, 0) as downvotes
+            FROM user_builds b
+            JOIN heroes h ON h.id = b.hero_id
+            LEFT JOIN (
+                SELECT build_id,
+                       SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END) as upvotes,
+                       SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END) as downvotes
+                FROM build_votes GROUP BY build_id
+            ) v ON v.build_id = b.id
+            WHERE b.user_id = {ph} AND b.is_public = TRUE
+            ORDER BY b.created_at DESC
+            LIMIT 50
+        """, (user_id,))
+        builds = []
+        for row in cursor.fetchall():
+            build = dict(row) if hasattr(row, 'keys') else dict(zip(
+                ['id', 'hero_id', 'name', 'items', 'emblem_id', 'spell1_id', 'spell2_id',
+                 'talents', 'notes', 'created_at', 'hero_name', 'hero_head', 'hero_image',
+                 'upvotes', 'downvotes'], row))
+            if isinstance(build.get('items'), str):
+                build['items'] = json.loads(build['items'])
+            if isinstance(build.get('talents'), str):
+                build['talents'] = json.loads(build['talents'])
+            elif not build.get('talents'):
+                build['talents'] = []
+            if build.get('created_at') and not isinstance(build['created_at'], str):
+                build['created_at'] = str(build['created_at'])
+            builds.append(build)
+
+        # Favorites count
+        cursor.execute(f"SELECT COUNT(*) FROM favorites WHERE user_id = {ph}", (user_id,))
+        fav_row = cursor.fetchone()
+        fav_count = fav_row['count'] if isinstance(fav_row, dict) and 'count' in fav_row else (fav_row[0] if fav_row else 0)
+
+        # Favorite heroes (names + images)
+        cursor.execute(f"""
+            SELECT h.id, h.name, h.head, h.image, h.hero_game_id, h.game_id
+            FROM favorites f
+            JOIN heroes h ON h.id = f.hero_id
+            WHERE f.user_id = {ph}
+            ORDER BY f.created_at DESC
+            LIMIT 20
+        """, (user_id,))
+        favorites = []
+        for row in cursor.fetchall():
+            hero = dict(row) if hasattr(row, 'keys') else dict(zip(
+                ['id', 'name', 'head', 'image', 'hero_game_id', 'game_id'], row))
+            favorites.append(hero)
+
+        db.release_connection(conn)
+        return jsonify({
+            'user': user_info,
+            'main_heroes': mains,
+            'builds': builds,
+            'favorites_count': fav_count,
+            'favorites': favorites,
+        })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
