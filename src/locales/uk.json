@@ -456,7 +456,14 @@
     "nicknameTaken": "Цей нікнейм вже зайнятий",
     "nicknameInvalid": "Тільки літери, цифри та підкреслення",
     "nicknameTooShort": "Мінімум 2 символи",
-    "nicknameTooLong": "Максимум 20 символів"
+    "nicknameTooLong": "Максимум 20 символів",
+    "banner": "Банер профілю",
+    "bannerChange": "Змінити банер",
+    "bannerRemove": "Прибрати",
+    "bannerChooseHero": "Обери героя для банера",
+    "accentColor": "Тема профілю",
+    "accentColorDefault": "Стандартна",
+    "customize": "Налаштувати"
   },
   "tierList": {
     "title": "Тір-ліст",
