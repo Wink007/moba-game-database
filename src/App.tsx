@@ -17,7 +17,7 @@ import { setQueryClientRef } from './store/authStore';
 import { useThemeStore } from './store/themeStore';
 import { useAdManager } from './hooks/useAdManager';
 import { STALE_5_MIN } from './queries/keys';
-import { FF_SOCIAL } from './config';
+import { FF_SOCIAL, FF_PLAYERS } from './config';
 import './App.css';
 
 // Модульна змінна — не скидається при ремаунті App
@@ -109,7 +109,7 @@ function App() {
                 <Route path="/:gameId/favorites" element={<RouteErrorBoundary><FavoritesPage /></RouteErrorBoundary>} />
                 <Route path="/settings" element={<RouteErrorBoundary><SettingsPage /></RouteErrorBoundary>} />
                 {FF_SOCIAL && <Route path="/profile/:userId" element={<RouteErrorBoundary><ProfilePage /></RouteErrorBoundary>} />}
-                {FF_SOCIAL && <Route path="/players" element={<RouteErrorBoundary><PlayersPage /></RouteErrorBoundary>} />}
+                {FF_PLAYERS && <Route path="/players" element={<RouteErrorBoundary><PlayersPage /></RouteErrorBoundary>} />}
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
               </Suspense>

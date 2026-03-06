@@ -553,7 +553,10 @@
     "pageTitle": "Players",
     "pageDescription": "MOBA Wiki community — all registered players",
     "totalCount": "Total players: {{count}}",
-    "joinedDate": "Since {{date}}"
+    "joinedDate": "Since {{date}}",
+    "colPlayer": "Player",
+    "colHeroes": "Heroes",
+    "colDate": "Date"
   },
   "settings": {
     "title": "Settings",

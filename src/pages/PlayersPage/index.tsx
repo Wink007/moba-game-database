@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
@@ -31,6 +31,14 @@ interface PlayersResponse {
   pages: number;
 }
 
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  return `${dd}.${mm}.${yyyy}`;
+}
+
 async function fetchPlayers(page: number): Promise<PlayersResponse> {
   const res = await fetch(`${API_URL}/users?page=${page}&limit=20`);
   if (!res.ok) throw new Error('Failed to fetch players');
@@ -40,6 +48,7 @@ async function fetchPlayers(page: number): Promise<PlayersResponse> {
 export const PlayersPage: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
+  const [sortAsc, setSortAsc] = useState(false);
 
   useSEO({
     title: t('players.pageTitle'),
@@ -51,10 +60,18 @@ export const PlayersPage: React.FC = () => {
     queryFn: () => fetchPlayers(page),
   });
 
+  const users = useMemo(() => {
+    const list = [...(data?.users ?? [])];
+    list.sort((a, b) => {
+      const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      return sortAsc ? diff : -diff;
+    });
+    return list;
+  }, [data, sortAsc]);
+
   if (isLoading) return <Loader />;
   if (isError) return <div className={styles.error}>{t('common.error')}</div>;
 
-  const users = data?.users ?? [];
   const totalPages = data?.pages ?? 1;
 
   return (
@@ -64,7 +81,18 @@ export const PlayersPage: React.FC = () => {
         <p className={styles.count}>{t('players.totalCount', { count: data.total })}</p>
       )}
 
+      <div className={styles.headerRow}>
+        <span className={styles.rowNum}>#</span>
+        <span />
+        <span>{t('players.colPlayer')}</span>
+        <span className={styles.headerCell} style={{ textAlign: 'right' }}>{t('players.colHeroes')}</span>
+        <button className={`${styles.headerCell} ${styles.sortBtn}`} onClick={() => setSortAsc(v => !v)}>
+          {t('players.colDate')} {sortAsc ? '↑' : '↓'}
+        </button>
+      </div>
+
       <div className={styles.table}>
+
         {users.map((user, idx) => (
           <Link
             key={user.id}
@@ -97,12 +125,7 @@ export const PlayersPage: React.FC = () => {
               ))}
             </div>
             {user.created_at && (
-              <span className={styles.joined}>
-                {new Date(user.created_at).toLocaleDateString(undefined, {
-                  year: 'numeric',
-                  month: 'short',
-                })}
-              </span>
+              <span className={styles.joined}>{formatDate(user.created_at)}</span>
             )}
           </Link>
         ))}
@@ -130,5 +153,3 @@ export const PlayersPage: React.FC = () => {
     </div>
   );
 };
-
-export default PlayersPage;

@@ -553,7 +553,10 @@
     "pageTitle": "Гравці",
     "pageDescription": "Спільнота MOBA Wiki — всі зареєстровані гравці",
     "totalCount": "Всього гравців: {{count}}",
-    "joinedDate": "З {{date}}"
+    "joinedDate": "З {{date}}",
+    "colPlayer": "Гравець",
+    "colHeroes": "Герої",
+    "colDate": "Дата"
   },
   "settings": {
     "title": "Налаштування",
