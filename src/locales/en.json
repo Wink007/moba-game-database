@@ -447,7 +447,16 @@
     "favoriteHeroes": "Favorite Heroes",
     "notFound": "User not found",
     "empty": "This profile has no activity yet.",
-    "seoDescription": "User profile — builds, favorite heroes, and main heroes"
+    "seoDescription": "User profile — builds, favorite heroes, and main heroes",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Set nickname",
+    "nicknameEdit": "Edit nickname",
+    "nicknameSave": "Save",
+    "nicknameCancel": "Cancel",
+    "nicknameTaken": "This nickname is already taken",
+    "nicknameInvalid": "Letters, numbers, and underscores only",
+    "nicknameTooShort": "At least 2 characters",
+    "nicknameTooLong": "Max 20 characters"
   },
   "tierList": {
     "title": "Tier List",

@@ -65,13 +65,128 @@
 .userInfo {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .userName {
   font-size: 22px;
   font-weight: 700;
   color: var(--color-text-primary);
-  margin: 0 0 4px;
+  margin: 0;
+}
+
+.realName {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.nicknameEditBtn {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: 4px;
+  font-size: 12px;
+  transition: color 0.15s;
+  border-radius: 4px;
+
+  &:hover {
+    color: var(--clr-accent);
+    background: var(--clr-white-06);
+  }
+}
+
+.setNicknameBtn {
+  align-self: flex-start;
+  background: none;
+  border: 1px dashed var(--clr-border-5);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--clr-accent);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover {
+    border-color: var(--clr-accent);
+    background: var(--clr-accent-10, rgba(99, 102, 241, 0.1));
+  }
+}
+
+.nicknameForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.nicknameInput {
+  padding: 4px 8px;
+  font-size: 13px;
+  border: 1px solid var(--clr-border-5);
+  border-radius: 6px;
+  background: var(--clr-bg-card-30);
+  color: var(--color-text-primary);
+  width: 140px;
+  outline: none;
+
+  &:focus {
+    border-color: var(--clr-accent);
+  }
+}
+
+.nicknameSaveBtn {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--clr-accent);
+  color: #0f172a;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.nicknameCancelBtn {
+  padding: 4px 10px;
+  font-size: 12px;
+  background: none;
+  border: 1px solid var(--clr-border-5);
+  border-radius: 5px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--clr-border-8);
+    color: var(--color-text-primary);
+  }
+}
+
+.nicknameError {
+  width: 100%;
+  font-size: 11px;
+  color: #ef4444;
+  margin-top: 2px;
 }
 
 .memberSince {

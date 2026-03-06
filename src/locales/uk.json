@@ -447,7 +447,16 @@
     "favoriteHeroes": "Обрані герої",
     "notFound": "Користувача не знайдено",
     "empty": "Цей профіль ще не має активності.",
-    "seoDescription": "Профіль користувача — збірки, обрані герої та основні герої"
+    "seoDescription": "Профіль користувача — збірки, обрані герої та основні герої",
+    "nickname": "Нікнейм",
+    "nicknamePlaceholder": "Вказати нікнейм",
+    "nicknameEdit": "Редагувати нікнейм",
+    "nicknameSave": "Зберегти",
+    "nicknameCancel": "Скасувати",
+    "nicknameTaken": "Цей нікнейм вже зайнятий",
+    "nicknameInvalid": "Тільки літери, цифри та підкреслення",
+    "nicknameTooShort": "Мінімум 2 символи",
+    "nicknameTooLong": "Максимум 20 символів"
   },
   "tierList": {
     "title": "Тір-ліст",
