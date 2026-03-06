@@ -3699,11 +3699,7 @@ def delete_account():
         cursor = conn.cursor()
         user_id = request.user_id
 
-        # Delete all user data in order (FK constraints)
-        cursor.execute(f"DELETE FROM build_votes WHERE user_id = {ph}", (user_id,))
-        cursor.execute(f"DELETE FROM builds WHERE user_id = {ph}", (user_id,))
-        cursor.execute(f"DELETE FROM user_main_heroes WHERE user_id = {ph}", (user_id,))
-        cursor.execute(f"DELETE FROM favorites WHERE user_id = {ph}", (user_id,))
+        # All related tables have ON DELETE CASCADE, just delete the user
         cursor.execute(f"DELETE FROM users WHERE id = {ph}", (user_id,))
 
         conn.commit()
