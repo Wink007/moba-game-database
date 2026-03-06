@@ -4044,6 +4044,16 @@ def set_main_heroes():
 def get_user_profile(user_id):
     """Get public profile: user info, main heroes, public builds, favorites count"""
     try:
+        # Optional auth — to include user_vote
+        current_uid = None
+        auth_header = request.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            try:
+                payload = jwt.decode(auth_header[7:], JWT_SECRET, algorithms=['HS256'])
+                current_uid = payload.get('user_id')
+            except Exception:
+                pass
+
         conn = db.get_connection()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
@@ -4077,31 +4087,55 @@ def get_user_profile(user_id):
                 ['hero_id', 'position', 'name', 'head', 'image', 'hero_game_id', 'game_id'], row))
             mains.append(hero)
 
-        # Public builds with vote counts
-        cursor.execute(f"""
-            SELECT b.id, b.hero_id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
-                   b.talents, b.notes, b.created_at,
-                   h.name as hero_name, h.head as hero_head, h.image as hero_image,
-                   COALESCE(v.upvotes, 0) as upvotes,
-                   COALESCE(v.downvotes, 0) as downvotes
-            FROM user_builds b
-            JOIN heroes h ON h.id = b.hero_id
-            LEFT JOIN (
-                SELECT build_id,
-                       SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END) as upvotes,
-                       SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END) as downvotes
-                FROM build_votes GROUP BY build_id
-            ) v ON v.build_id = b.id
-            WHERE b.user_id = {ph} AND b.is_public = TRUE
-            ORDER BY b.created_at DESC
-            LIMIT 50
-        """, (user_id,))
+        # Public builds with vote counts + optional user_vote
+        if current_uid:
+            cursor.execute(f"""
+                SELECT b.id, b.hero_id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
+                       b.talents, b.notes, b.created_at,
+                       h.name as hero_name, h.head as hero_head, h.image as hero_image,
+                       COALESCE(v.upvotes, 0) as upvotes,
+                       COALESCE(v.downvotes, 0) as downvotes,
+                       uv.vote as user_vote
+                FROM user_builds b
+                JOIN heroes h ON h.id = b.hero_id
+                LEFT JOIN (
+                    SELECT build_id,
+                           SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END) as upvotes,
+                           SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END) as downvotes
+                    FROM build_votes GROUP BY build_id
+                ) v ON v.build_id = b.id
+                LEFT JOIN build_votes uv ON uv.build_id = b.id AND uv.user_id = {ph}
+                WHERE b.user_id = {ph} AND b.is_public = TRUE
+                ORDER BY b.created_at DESC
+                LIMIT 50
+            """, (current_uid, user_id))
+        else:
+            cursor.execute(f"""
+                SELECT b.id, b.hero_id, b.name, b.items, b.emblem_id, b.spell1_id, b.spell2_id,
+                       b.talents, b.notes, b.created_at,
+                       h.name as hero_name, h.head as hero_head, h.image as hero_image,
+                       COALESCE(v.upvotes, 0) as upvotes,
+                       COALESCE(v.downvotes, 0) as downvotes
+                FROM user_builds b
+                JOIN heroes h ON h.id = b.hero_id
+                LEFT JOIN (
+                    SELECT build_id,
+                           SUM(CASE WHEN vote = 1 THEN 1 ELSE 0 END) as upvotes,
+                           SUM(CASE WHEN vote = -1 THEN 1 ELSE 0 END) as downvotes
+                    FROM build_votes GROUP BY build_id
+                ) v ON v.build_id = b.id
+                WHERE b.user_id = {ph} AND b.is_public = TRUE
+                ORDER BY b.created_at DESC
+                LIMIT 50
+            """, (user_id,))
+        build_cols = ['id', 'hero_id', 'name', 'items', 'emblem_id', 'spell1_id', 'spell2_id',
+                      'talents', 'notes', 'created_at', 'hero_name', 'hero_head', 'hero_image',
+                      'upvotes', 'downvotes']
+        if current_uid:
+            build_cols.append('user_vote')
         builds = []
         for row in cursor.fetchall():
-            build = dict(row) if hasattr(row, 'keys') else dict(zip(
-                ['id', 'hero_id', 'name', 'items', 'emblem_id', 'spell1_id', 'spell2_id',
-                 'talents', 'notes', 'created_at', 'hero_name', 'hero_head', 'hero_image',
-                 'upvotes', 'downvotes'], row))
+            build = dict(row) if hasattr(row, 'keys') else dict(zip(build_cols, row))
             if isinstance(build.get('items'), str):
                 build['items'] = json.loads(build['items'])
             if isinstance(build.get('talents'), str):
