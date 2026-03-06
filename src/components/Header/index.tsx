@@ -73,8 +73,13 @@ const SettingsIcon = () => (
     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
   </svg>
 );
+const PlayersIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+  </svg>
+);
 
-const NAV_ITEMS = [
+const NAV_ITEMS: { key: string; path: string; Icon: React.FC; mobileOnly?: boolean; absolute?: boolean; socialOnly?: boolean }[] = [
   { key: 'heroes', path: 'heroes', Icon: HeroesIcon },
   { key: 'items', path: 'items', Icon: ItemsIcon },
   { key: 'emblems', path: 'emblems', Icon: EmblemsIcon },
@@ -84,9 +89,10 @@ const NAV_ITEMS = [
   { key: 'counterPick', path: 'counter-pick', Icon: CounterPickIcon },
   { key: 'patches', path: 'patches', Icon: PatchesIcon },
   { key: 'favorites', path: 'favorites', Icon: FavoritesIcon, mobileOnly: true },
+  { key: 'players', path: '/players', Icon: PlayersIcon, absolute: true, socialOnly: true },
 ];
 
-const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly);
+const DESKTOP_NAV = NAV_ITEMS.filter(i => !i.mobileOnly && (!i.socialOnly || FF_SOCIAL));
 const MORE_BTN_W = 52; // reserved width (px) for the "..." button
 
 // Mobile bottom tab bar — always-visible primary tabs
@@ -97,7 +103,7 @@ const BOTTOM_NAV_MAIN = [
 ];
 
 const BOTTOM_NAV_KEYS = new Set(BOTTOM_NAV_MAIN.map(i => i.key));
-const SHEET_NAV_ITEMS = NAV_ITEMS.filter(i => !BOTTOM_NAV_KEYS.has(i.key));
+const SHEET_NAV_ITEMS = NAV_ITEMS.filter(i => !BOTTOM_NAV_KEYS.has(i.key) && (!i.socialOnly || FF_SOCIAL));
 
 export const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -257,8 +263,8 @@ export const Header: React.FC = () => {
 
         {/* Hidden measurement strip — always renders all items to measure natural widths */}
         <div ref={measureRef} className={styles['nav-measure']} aria-hidden="true">
-          {DESKTOP_NAV.map(({ key, path, Icon }) => (
-            <NavLink key={key} to={`/${selectedGameId}/${path}`} className={styles['nav-links']} tabIndex={-1}>
+          {DESKTOP_NAV.map(({ key, path, Icon, absolute }) => (
+            <NavLink key={key} to={absolute ? path : `/${selectedGameId}/${path}`} className={styles['nav-links']} tabIndex={-1}>
               <Icon /><span>{t(`header.${key}`)}</span>
             </NavLink>
           ))}
@@ -266,10 +272,10 @@ export const Header: React.FC = () => {
 
         {/* Desktop navigation */}
         <nav ref={navRef} className={styles['desktop-nav']}>
-          {DESKTOP_NAV.slice(0, overflowStart).map(({ key, path, Icon }) => (
+          {DESKTOP_NAV.slice(0, overflowStart).map(({ key, path, Icon, absolute }) => (
             <NavLink
               key={key}
-              to={`/${selectedGameId}/${path}`}
+              to={absolute ? path : `/${selectedGameId}/${path}`}
               className={({ isActive }) => `${styles['nav-links']} ${isActive ? styles.active : ''} ${key === 'patches' ? styles['patches-link'] : ''}`}
             >
               <Icon />
@@ -289,10 +295,10 @@ export const Header: React.FC = () => {
               </button>
               {moreOpen && (
                 <div className={styles['nav-more-dropdown']}>
-                  {DESKTOP_NAV.slice(overflowStart).map(({ key, path, Icon }) => (
+                  {DESKTOP_NAV.slice(overflowStart).map(({ key, path, Icon, absolute }) => (
                     <NavLink
                       key={key}
-                      to={`/${selectedGameId}/${path}`}
+                      to={absolute ? path : `/${selectedGameId}/${path}`}
                       className={({ isActive }) => `${styles['nav-more-item']} ${isActive ? styles['nav-more-item--active'] : ''}`}
                       onClick={() => setMoreOpen(false)}
                     >
@@ -341,10 +347,10 @@ export const Header: React.FC = () => {
 
                 {/* Nav grid */}
                 <div className={styles['sheet-grid']}>
-                  {SHEET_NAV_ITEMS.map(({ key, path, Icon }) => (
+                  {SHEET_NAV_ITEMS.map(({ key, path, Icon, absolute }) => (
                     <NavLink
                       key={key}
-                      to={`/${selectedGameId}/${path}`}
+                      to={absolute ? path : `/${selectedGameId}/${path}`}
                       className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
                       onClick={closeMenu}
                     >
@@ -352,18 +358,6 @@ export const Header: React.FC = () => {
                       <span className={styles['sheet-label']}>{t(`header.${key}`)}</span>
                     </NavLink>
                   ))}
-                  {FF_SOCIAL && (
-                    <NavLink
-                      to="/players"
-                      className={({ isActive }) => `${styles['sheet-item']} ${isActive ? styles['sheet-item--active'] : ''}`}
-                      onClick={closeMenu}
-                    >
-                      <div className={styles['sheet-icon']}>
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                      </div>
-                      <span className={styles['sheet-label']}>{t('header.players')}</span>
-                    </NavLink>
-                  )}
                 </div>
               </div>
 
