@@ -4200,6 +4200,80 @@ def set_main_heroes():
         return jsonify({'error': str(e)}), 500
 
 
+# ===== PLAYERS LIST ENDPOINT =====
+
+@app.route('/api/users', methods=['GET'])
+def get_users_list():
+    """Get paginated list of all users with their main heroes"""
+    try:
+        page = int(request.args.get('page', 1))
+        limit = min(int(request.args.get('limit', 20)), 50)
+        offset = (page - 1) * limit
+
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        # Total count
+        cursor.execute("SELECT COUNT(*) FROM users")
+        total = cursor.fetchone()
+        total_count = list(total.values())[0] if hasattr(total, 'keys') else total[0]
+
+        # Users with limit/offset
+        cursor.execute(f"""
+            SELECT id, name, picture, nickname, created_at
+            FROM users
+            ORDER BY created_at DESC
+            LIMIT {ph} OFFSET {ph}
+        """, (limit, offset))
+
+        users = []
+        for row in cursor.fetchall():
+            u = dict(row) if hasattr(row, 'keys') else dict(zip(
+                ['id', 'name', 'picture', 'nickname', 'created_at'], row))
+            if u.get('created_at') and not isinstance(u['created_at'], str):
+                u['created_at'] = str(u['created_at'])
+            u['main_heroes'] = []
+            users.append(u)
+
+        # Fetch main heroes for all users in one query
+        if users:
+            user_ids = [u['id'] for u in users]
+            placeholders = ','.join([ph] * len(user_ids))
+            cursor.execute(f"""
+                SELECT m.user_id, m.hero_id, m.position, h.name, h.head, h.image
+                FROM user_main_heroes m
+                JOIN heroes h ON h.id = m.hero_id
+                WHERE m.user_id IN ({placeholders})
+                ORDER BY m.user_id, m.position
+            """, tuple(user_ids))
+            heroes_map = {}
+            for row in cursor.fetchall():
+                hero = dict(row) if hasattr(row, 'keys') else dict(zip(
+                    ['user_id', 'hero_id', 'position', 'name', 'head', 'image'], row))
+                uid = hero['user_id']
+                if uid not in heroes_map:
+                    heroes_map[uid] = []
+                heroes_map[uid].append(hero)
+            for u in users:
+                u['main_heroes'] = heroes_map.get(u['id'], [])
+
+        db.release_connection(conn)
+        return jsonify({
+            'users': users,
+            'total': total_count,
+            'page': page,
+            'limit': limit,
+            'pages': (total_count + limit - 1) // limit
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 # ===== PUBLIC PROFILE ENDPOINT =====
 
 @app.route('/api/users/<int:user_id>/profile', methods=['GET'])
