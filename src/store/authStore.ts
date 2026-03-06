@@ -13,6 +13,8 @@ export interface User {
   name: string;
   picture: string;
   nickname?: string | null;
+  banner_hero_id?: number | null;
+  accent_color?: string | null;
 }
 
 interface AuthState {

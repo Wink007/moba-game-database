@@ -456,7 +456,14 @@
     "nicknameTaken": "This nickname is already taken",
     "nicknameInvalid": "Letters, numbers, and underscores only",
     "nicknameTooShort": "At least 2 characters",
-    "nicknameTooLong": "Max 20 characters"
+    "nicknameTooLong": "Max 20 characters",
+    "banner": "Profile Banner",
+    "bannerChange": "Change Banner",
+    "bannerRemove": "Remove",
+    "bannerChooseHero": "Choose a hero for your banner",
+    "accentColor": "Profile Theme",
+    "accentColorDefault": "Default",
+    "customize": "Customize"
   },
   "tierList": {
     "title": "Tier List",
