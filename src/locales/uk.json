@@ -463,7 +463,22 @@
     "bannerChooseHero": "Обери героя для банера",
     "accentColor": "Тема профілю",
     "accentColorDefault": "Стандартна",
-    "customize": "Налаштувати"
+    "customize": "Налаштувати",
+    "title_loading_screen": "Екран завантаження",
+    "title_fresh_meat": "Свіже м'ясо",
+    "title_curious_cat": "Цікавий котик",
+    "title_button_masher": "Тикає кнопки",
+    "title_casual_enjoyer": "Казуальний ентузіаст",
+    "title_tryhard": "Тріхард",
+    "title_hero_collector": "Колекціонер героїв",
+    "title_soloq_survivor": "Вижив у соло-Q",
+    "title_wiki_addict": "Вікі-наркоман",
+    "title_build_maniac": "Білд-маніяк",
+    "title_meta_slave": "Мета-раб",
+    "title_touch_grass": "Торкнись трави",
+    "title_lord_of_dawn": "Лорд Світанку",
+    "title_no_life": "Без особистого життя",
+    "title_living_legend": "Жива легенда"
   },
   "tierList": {
     "title": "Тір-ліст",
