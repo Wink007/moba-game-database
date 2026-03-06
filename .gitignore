@@ -37,3 +37,6 @@ heroes_topics_progress.json
 *.backup
 *.bak
 *.broken
+# Keystore
+*.jks
+*.keystore

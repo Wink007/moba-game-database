@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
@@ -98,6 +98,10 @@ export const ProfilePage: React.FC = () => {
   const [bannerSearch, setBannerSearch] = useState('');
   const [showCustomize, setShowCustomize] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
+  const logout = useAuthStore(s => s.logout);
 
   const { data: heroes = [] } = useHeroesQuery(selectedGameId);
 
@@ -494,6 +498,44 @@ export const ProfilePage: React.FC = () => {
       {builds.length === 0 && favorites.length === 0 && main_heroes.length === 0 && (
         <div className={styles.empty}>
           <p>{t('profile.empty')}</p>
+        </div>
+      )}
+
+      {/* Delete account */}
+      {isOwnProfile && (
+        <div className={styles.dangerZone}>
+          {!deleteConfirm ? (
+            <button className={styles.deleteAccountBtn} onClick={() => setDeleteConfirm(true)}>
+              {t('profile.deleteAccount', 'Видалити акаунт')}
+            </button>
+          ) : (
+            <div className={styles.deleteConfirm}>
+              <p>{t('profile.deleteConfirmText', 'Всі ваші дані буде видалено назавжди. Продовжити?')}</p>
+              <div className={styles.deleteConfirmBtns}>
+                <button
+                  className={styles.deleteConfirmYes}
+                  disabled={deleting}
+                  onClick={async () => {
+                    setDeleting(true);
+                    try {
+                      const res = await authFetch(`${API_URL}/users/account`, { method: 'DELETE' });
+                      if (res.ok) {
+                        logout();
+                        navigate('/');
+                      }
+                    } finally {
+                      setDeleting(false);
+                    }
+                  }}
+                >
+                  {deleting ? '...' : t('profile.deleteConfirmYes', 'Так, видалити')}
+                </button>
+                <button className={styles.deleteConfirmNo} onClick={() => setDeleteConfirm(false)}>
+                  {t('profile.deleteConfirmNo', 'Скасувати')}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

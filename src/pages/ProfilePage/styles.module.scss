@@ -745,3 +745,68 @@
     max-height: calc(80vh - 120px);
   }
 }
+
+// ─── Delete Account ────────────────────────────────────────────────────────────
+.dangerZone {
+  margin: 2rem 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--clr-white-08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.deleteAccountBtn {
+  background: none;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: rgba(239, 68, 68, 0.7);
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    border-color: rgb(239, 68, 68);
+    color: rgb(239, 68, 68);
+  }
+}
+
+.deleteConfirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  p {
+    font-size: 13px;
+    color: var(--clr-white-60);
+    text-align: center;
+    margin: 0;
+  }
+}
+
+.deleteConfirmBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.deleteConfirmYes {
+  background: rgb(239, 68, 68);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.deleteConfirmNo {
+  background: var(--clr-white-08);
+  color: var(--clr-white-80);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 13px;
+  cursor: pointer;
+}
