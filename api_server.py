@@ -3477,14 +3477,18 @@ def google_login():
         else:
             cursor = conn.cursor()
 
-        cursor.execute(f"SELECT id, google_id, email, name, picture, nickname FROM users WHERE google_id = {ph}", (google_id,))
+        cursor.execute(f"SELECT id, google_id, email, name, picture, nickname, banner_hero_id, accent_color FROM users WHERE google_id = {ph}", (google_id,))
         user = cursor.fetchone()
 
         nickname = None
+        banner_hero_id = None
+        accent_color = None
         if user:
             # Update last login + info
             user_id = user['id'] if isinstance(user, dict) else user[0]
             nickname = user['nickname'] if isinstance(user, dict) else user[5]
+            banner_hero_id = user['banner_hero_id'] if isinstance(user, dict) else user[6]
+            accent_color = user['accent_color'] if isinstance(user, dict) else user[7]
             cursor.execute(f"""
                 UPDATE users SET last_login = CURRENT_TIMESTAMP, name = {ph}, picture = {ph}, email = {ph}
                 WHERE id = {ph}
@@ -3511,7 +3515,9 @@ def google_login():
                 'email': email,
                 'name': name,
                 'picture': picture,
-                'nickname': nickname
+                'nickname': nickname,
+                'banner_hero_id': banner_hero_id,
+                'accent_color': accent_color
             }
         })
 
@@ -3535,7 +3541,7 @@ def get_current_user():
         else:
             cursor = conn.cursor()
 
-        cursor.execute(f"SELECT id, email, name, picture, nickname FROM users WHERE id = {ph}", (request.user_id,))
+        cursor.execute(f"SELECT id, email, name, picture, nickname, banner_hero_id, accent_color FROM users WHERE id = {ph}", (request.user_id,))
         user = cursor.fetchone()
         db.release_connection(conn)
 
@@ -3543,7 +3549,8 @@ def get_current_user():
             return jsonify({'error': 'User not found'}), 404
 
         user_dict = dict(user) if hasattr(user, 'keys') else {
-            'id': user[0], 'email': user[1], 'name': user[2], 'picture': user[3], 'nickname': user[4]
+            'id': user[0], 'email': user[1], 'name': user[2], 'picture': user[3], 'nickname': user[4],
+            'banner_hero_id': user[5], 'accent_color': user[6]
         }
         return jsonify(user_dict)
     except Exception as e:
@@ -3605,6 +3612,72 @@ def update_nickname():
         conn.commit()
         db.release_connection(conn)
         return jsonify({'nickname': None})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ===== PROFILE SETTINGS ENDPOINT =====
+
+@app.route('/api/users/profile-settings', methods=['PUT'])
+@require_auth
+def update_profile_settings():
+    """Update profile customization: banner_hero_id and/or accent_color"""
+    try:
+        data = request.get_json()
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        updates = []
+        params = []
+
+        # Banner hero
+        if 'banner_hero_id' in data:
+            hero_id = data['banner_hero_id']
+            if hero_id is not None:
+                # Verify hero exists
+                cursor.execute(f"SELECT id FROM heroes WHERE id = {ph}", (hero_id,))
+                if not cursor.fetchone():
+                    db.release_connection(conn)
+                    return jsonify({'error': 'Hero not found'}), 404
+            updates.append(f"banner_hero_id = {ph}")
+            params.append(hero_id)
+
+        # Accent color
+        if 'accent_color' in data:
+            color = data['accent_color']
+            valid_colors = [None, 'fighter', 'mage', 'tank', 'assassin', 'marksman', 'support', 'purple', 'red', 'green', 'gold', 'blue', 'cyan']
+            if color not in valid_colors:
+                db.release_connection(conn)
+                return jsonify({'error': f'Invalid color. Valid: {[c for c in valid_colors if c]}'}), 400
+            updates.append(f"accent_color = {ph}")
+            params.append(color)
+
+        if not updates:
+            db.release_connection(conn)
+            return jsonify({'error': 'No valid fields to update'}), 400
+
+        params.append(request.user_id)
+        cursor.execute(f"UPDATE users SET {', '.join(updates)} WHERE id = {ph}", tuple(params))
+        conn.commit()
+
+        # Return updated info
+        cursor.execute(f"""
+            SELECT u.banner_hero_id, u.accent_color,
+                   bh.image as banner_image, bh.painting as banner_painting, bh.name as banner_hero_name
+            FROM users u
+            LEFT JOIN heroes bh ON bh.id = u.banner_hero_id
+            WHERE u.id = {ph}
+        """, (request.user_id,))
+        row = cursor.fetchone()
+        result = dict(row) if hasattr(row, 'keys') else dict(zip(
+            ['banner_hero_id', 'accent_color', 'banner_image', 'banner_painting', 'banner_hero_name'], row))
+        db.release_connection(conn)
+        return jsonify(result)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -4124,14 +4197,23 @@ def get_user_profile(user_id):
         else:
             cursor = conn.cursor()
 
-        # User info
-        cursor.execute(f"SELECT id, name, picture, created_at, nickname FROM users WHERE id = {ph}", (user_id,))
+        # User info (with banner hero image)
+        cursor.execute(f"""
+            SELECT u.id, u.name, u.picture, u.created_at, u.nickname,
+                   u.banner_hero_id, u.accent_color,
+                   bh.image as banner_image, bh.painting as banner_painting, bh.name as banner_hero_name
+            FROM users u
+            LEFT JOIN heroes bh ON bh.id = u.banner_hero_id
+            WHERE u.id = {ph}
+        """, (user_id,))
         user_row = cursor.fetchone()
         if not user_row:
             db.release_connection(conn)
             return jsonify({'error': 'User not found'}), 404
         user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
-            ['id', 'name', 'picture', 'created_at', 'nickname'], user_row))
+            ['id', 'name', 'picture', 'created_at', 'nickname',
+             'banner_hero_id', 'accent_color',
+             'banner_image', 'banner_painting', 'banner_hero_name'], user_row))
         if user_info.get('created_at') and not isinstance(user_info['created_at'], str):
             user_info['created_at'] = str(user_info['created_at'])
 
