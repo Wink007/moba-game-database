@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
 import { MainHeroSelector } from '../../components/MainHeroSelector';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore, authFetch } from '../../store/authStore';
 import { useSEO } from '../../hooks/useSEO';
 import { useItemsQuery } from '../../queries/useItemsQuery';
 import { queryKeys } from '../../queries/keys';
@@ -18,6 +18,7 @@ interface ProfileData {
     name: string;
     picture: string;
     created_at: string;
+    nickname?: string | null;
   };
   main_heroes: Array<{
     hero_id: number;
@@ -54,8 +55,62 @@ export const ProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const { userId } = useParams<{ userId: string }>();
   const currentUser = useAuthStore(s => s.user);
+  const setAuth = useAuthStore(s => s.setAuth);
+  const token = useAuthStore(s => s.token);
   const numericUserId = Number(userId);
   const isOwnProfile = currentUser?.id === numericUserId;
+  const queryClient = useQueryClient();
+
+  // Nickname editing
+  const [editingNickname, setEditingNickname] = useState(false);
+  const [nicknameInput, setNicknameInput] = useState('');
+  const [nicknameError, setNicknameError] = useState('');
+  const [nicknameSaving, setNicknameSaving] = useState(false);
+
+  const startEditNickname = useCallback(() => {
+    setNicknameInput(currentUser?.nickname || '');
+    setNicknameError('');
+    setEditingNickname(true);
+  }, [currentUser?.nickname]);
+
+  const saveNickname = useCallback(async () => {
+    const val = nicknameInput.trim();
+    if (val && val.length < 2) {
+      setNicknameError(t('profile.nicknameTooShort'));
+      return;
+    }
+    if (val && val.length > 20) {
+      setNicknameError(t('profile.nicknameTooLong'));
+      return;
+    }
+    if (val && !/^[a-zA-Z0-9_\u0430-\u044f\u0410-\u042f\u0456\u0406\u0457\u0407\u0454\u0404\u0491\u0490\u0451\u0401]+$/.test(val)) {
+      setNicknameError(t('profile.nicknameInvalid'));
+      return;
+    }
+    setNicknameSaving(true);
+    try {
+      const res = await authFetch('/users/nickname', {
+        method: 'PUT',
+        body: JSON.stringify({ nickname: val || null }),
+      });
+      // Update local auth store
+      if (currentUser && token) {
+        setAuth({ ...currentUser, nickname: res.nickname }, token);
+      }
+      // Refresh profile
+      queryClient.invalidateQueries({ queryKey: queryKeys.profile.user(numericUserId) });
+      setEditingNickname(false);
+    } catch (err: any) {
+      const msg = err?.message || '';
+      if (msg.includes('already taken') || msg.includes('409')) {
+        setNicknameError(t('profile.nicknameTaken'));
+      } else {
+        setNicknameError(msg);
+      }
+    } finally {
+      setNicknameSaving(false);
+    }
+  }, [nicknameInput, t, currentUser, token, setAuth, queryClient, numericUserId]);
 
   const { data: profile, isLoading, error } = useQuery<ProfileData>({
     queryKey: queryKeys.profile.user(numericUserId),
@@ -123,7 +178,45 @@ export const ProfilePage: React.FC = () => {
           )}
         </div>
         <div className={styles.userInfo}>
-          <h1 className={styles.userName}>{user.name}</h1>
+          <div className={styles.nameRow}>
+            <h1 className={styles.userName}>{user.nickname || user.name}</h1>
+            {isOwnProfile && !editingNickname && user.nickname && (
+              <button className={styles.nicknameEditBtn} onClick={startEditNickname} title={t('profile.nicknameEdit')}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.33a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z"/></svg>
+              </button>
+            )}
+          </div>
+          {user.nickname && (
+            <span className={styles.realName}>{user.name}</span>
+          )}
+          {isOwnProfile && !editingNickname && !user.nickname && (
+            <button className={styles.setNicknameBtn} onClick={startEditNickname}>
+              {t('profile.nicknamePlaceholder')}
+            </button>
+          )}
+          {isOwnProfile && editingNickname && (
+            <div className={styles.nicknameForm}>
+              <input
+                className={styles.nicknameInput}
+                value={nicknameInput}
+                onChange={e => { setNicknameInput(e.target.value); setNicknameError(''); }}
+                placeholder={t('profile.nicknamePlaceholder')}
+                maxLength={20}
+                autoFocus
+                onKeyDown={e => {
+                  if (e.key === 'Enter') saveNickname();
+                  if (e.key === 'Escape') setEditingNickname(false);
+                }}
+              />
+              <button className={styles.nicknameSaveBtn} onClick={saveNickname} disabled={nicknameSaving}>
+                {t('profile.nicknameSave')}
+              </button>
+              <button className={styles.nicknameCancelBtn} onClick={() => setEditingNickname(false)}>
+                {t('profile.nicknameCancel')}
+              </button>
+              {nicknameError && <span className={styles.nicknameError}>{nicknameError}</span>}
+            </div>
+          )}
           {memberSince && (
             <span className={styles.memberSince}>
               {t('profile.memberSince', { date: memberSince })}

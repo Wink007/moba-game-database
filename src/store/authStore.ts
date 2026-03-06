@@ -12,6 +12,7 @@ export interface User {
   email: string;
   name: string;
   picture: string;
+  nickname?: string | null;
 }
 
 interface AuthState {
