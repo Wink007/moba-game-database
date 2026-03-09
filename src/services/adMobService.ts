@@ -44,7 +44,7 @@ export async function initAdMob(): Promise<void> {
 
 // ─── Banner ───────────────────────────────────────────────────────────────────
 export async function showBanner(): Promise<void> {
-  if (!Capacitor.isNativePlatform() || _bannerVisible) return;
+  if (!Capacitor.isNativePlatform() || !_initialized || _bannerVisible) return;
   try {
     // Слухаємо реальний розмір банера і встановлюємо CSS змінну
     _sizeListener?.remove();
