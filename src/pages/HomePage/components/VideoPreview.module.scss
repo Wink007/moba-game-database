@@ -114,6 +114,25 @@
   animation: titlePulse 4s ease-in-out infinite alternate;
 }
 
+.welcomeText {
+  text-align: center;
+  font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+  color: var(--clr-text-3);
+  letter-spacing: 0.04em;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.welcomeName {
+  text-transform: capitalize;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--clr-accent-80), #a78bfa);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px var(--clr-accent-35));
+}
+
 .glowLine {
   width: 120px;
   height: 2px;

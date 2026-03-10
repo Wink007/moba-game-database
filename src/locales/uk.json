@@ -320,7 +320,7 @@
     "synergyTooltip": "{{hero}}: +{{rate}}% до перемог"
   },
   "home": {
-    "welcome": "Ласкаво просимо до MOBA Вікі",
+    "welcome": "<0>{{name}}</0>, вікі готова до твого наступного піку.",
     "description": "Ваш найкращий довідник з Mobile Legends, Dota 2 та League of Legends",
     "latestHeroes": "Останні герої",
     "latestHeroesInfo": "Інформація про останніх героїв",

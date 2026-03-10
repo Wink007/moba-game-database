@@ -35,6 +35,11 @@ public class MainActivity extends BridgeActivity {
 
         parent.addView(swipeRefresh, index);
 
+        // Push spinner below the top AdMob banner (~56dp)
+        int density = (int) getResources().getDisplayMetrics().density;
+        int bannerOffset = 56 * density;
+        swipeRefresh.setProgressViewOffset(false, bannerOffset, bannerOffset + 64 * density);
+
         // Style
         swipeRefresh.setColorSchemeResources(
             android.R.color.holo_blue_bright,

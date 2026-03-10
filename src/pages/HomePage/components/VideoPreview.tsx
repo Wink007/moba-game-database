@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useAuthStore } from '../../../store/authStore';
 import { VideoPreviewProps } from './interface';
 import styles from './VideoPreview.module.scss';
 
@@ -21,6 +23,9 @@ const getVideoPosterUrl = (url: string): string => {
 };
 
 export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) => {
+  const { t } = useTranslation();
+  const user = useAuthStore(s => s.user);
+  const displayName = user ? (user.nickname || user.name) : '';
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -58,8 +63,15 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
       )}
       <div className={styles.overlay} />
       <div className={styles.noise} />
-      <div className={styles.content}>
-        {/* Always reserve space for titleBlock to avoid CLS */}
+      <div className={styles.content}>        {user && (
+          <p className={styles.welcomeText}>
+            <Trans
+              i18nKey="home.welcome"
+              values={{ name: displayName }}
+              components={[<span className={styles.welcomeName} />]}
+            />
+          </p>
+        )}        {/* Always reserve space for titleBlock to avoid CLS */}
         <div className={styles.titleBlock} style={!game ? { visibility: 'hidden' } : undefined}>
           {/* <h2>{game?.subtitle ?? '\u00A0'}</h2> */}
           <div className={styles.glowLine} />
