@@ -23,7 +23,7 @@ const getVideoPosterUrl = (url: string): string => {
 };
 
 export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) => {
-  const { t } = useTranslation();
+  useTranslation();
   const user = useAuthStore(s => s.user);
   const displayName = user ? (user.nickname || user.name) : '';
   const videoRef = useRef<HTMLVideoElement>(null);
