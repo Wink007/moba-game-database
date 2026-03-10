@@ -565,14 +565,14 @@
     "until": "until",
     "paidActive": "Ads are permanently disabled",
     "watchTitle": "Watch an ad",
-    "watchDesc": "Disables ads for {{hours}} hours",
+    "watchDesc": "Disables ads for {{minutes}} min",
     "watch": "Watch",
     "min": "min",
     "or": "or",
     "buyTitle": "Remove forever",
     "buyDesc": "One-time purchase — no more ads",
     "buy": "Purchase",
-    "successResult": "Ads disabled for {{hours}} hours!",
+    "successResult": "Ads disabled for {{minutes}} min!",
     "failedResult": "Video not completed. Please try again."
   },
   "settings": {
