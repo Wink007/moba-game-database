@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { setQueryClientRef } from './store/authStore';
 import { useThemeStore } from './store/themeStore';
 import { useAdManager } from './hooks/useAdManager';
+import { useInterstitialAd } from './hooks/useInterstitialAd';
 import { STALE_5_MIN } from './queries/keys';
 import { FF_SOCIAL, FF_PLAYERS } from './config';
 import './App.css';
@@ -55,6 +56,7 @@ const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || '298925088925
 
 function AppInner() {
   useAdManager();
+  useInterstitialAd();
   // Initialize theme store (applies saved theme + listens for system pref changes)
   useThemeStore();
   return (
