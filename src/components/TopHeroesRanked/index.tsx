@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../utils/translation';
+import { heroToSlug } from '../../utils/heroSlug';
 import { useHeroRanksQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
@@ -82,7 +83,7 @@ export const TopHeroesRanked = () => {
           : heroRanks?.map((hero, i) => (
               <Link
                 key={hero.id}
-                to={`${selectedGameId}/heroes/${hero.hero_id}`}
+                to={`${selectedGameId}/heroes/${heroToSlug(hero.name)}`}
                 className={`${s.card} ${TIER_CLS[i < 3 ? i + 1 : 0]}`}
                 style={{ '--enter-d': `${i * 90}ms` } as React.CSSProperties}
               >

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { useLatestHeroesQuery, useHeroSkillsQuery } from "../../queries/useHeroesQuery";
+import { heroToSlug } from "../../utils/heroSlug";
 import { useGameStore } from "../../store/gameStore";
 import { Lanes, LanesIcons } from "../../enum";
 import { getSkillName, getSkillDescription } from '../../utils/translation';
@@ -227,7 +228,7 @@ export const LastHeroesInfo = () => {
                         ))}
                     </div>
 
-                    <MoreInfoLink linkTo={`${selectedGameId}/heroes/${hero?.id}`} />
+                    <MoreInfoLink linkTo={`${selectedGameId}/heroes/${hero ? heroToSlug(hero.name) : ''}`} />
 
                     {/* Hero selector */}
                     <div className={s.thumbs}>

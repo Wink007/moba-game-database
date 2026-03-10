@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { heroToSlug } from '../../../utils/heroSlug';
 import styles from '../styles.module.scss';
 import { LazyImage } from '../../../components/LazyImage';
 import { Hero, HeroRank, HeroCounterData } from '../../../types';
@@ -41,7 +42,7 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, c
 
       {/* Col 2 — Hero */}
       <div className={styles.heroInfo}>
-        <Link to={`/${selectedGameId}/heroes/${heroData?.id}`} className={styles.heroImage}>
+        <Link to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.heroImage}>
           <LazyImage fill src={hero.head || hero.image} alt={hero.name} />
         </Link>
         <div className={styles.heroName}>{hero.name}</div>
@@ -81,7 +82,7 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, c
             const rate = counter.win_rate ?? counter.increase_win_rate ?? 0;
             return (
               <Link
-                to={`/${selectedGameId}/heroes/${enemy.id}`}
+                to={`/${selectedGameId}/heroes/${heroToSlug(enemy.name)}`}
                 key={gameId}
                 className={styles.synergyHero}
               >

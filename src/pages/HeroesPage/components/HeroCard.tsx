@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Hero } from '../../../types';
 import { Lanes, LanesIcons } from '../../../enum';
+import { heroToSlug } from '../../../utils/heroSlug';
 import { getHeroName, translateRoles, translateLanes } from '../../../utils/translation';
 import { FavoriteButton } from '../../../components/FavoriteButton';
 import { LazyImage } from '../../../components/LazyImage';
@@ -20,7 +21,7 @@ export const HeroCard = ({ hero, gameId }: HeroCardProps) => {
   };
 
   return (
-    <Link to={`/${gameId}/heroes/${hero.id}`} className={styles.heroCard}>
+    <Link to={`/${gameId}/heroes/${heroToSlug(hero.name)}`} className={styles.heroCard}>
       <div className={styles.heroImageWrapper}>
         {hero.image ? (
           <LazyImage fill src={hero.image} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} />

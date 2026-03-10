@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { heroToSlug } from '../../utils/heroSlug';
 import { Loader } from '../../components/Loader';
 import { usePatchData } from './hooks/usePatchData';
 import { useSEO } from '../../hooks/useSEO';
@@ -67,15 +68,15 @@ interface HeroCardProps {
   gameId?: string;
   isRevamped?: boolean;
 }
-const HeroCard: React.FC<HeroCardProps> = ({ name, data, heroId, gameId, isRevamped }) => (
+const HeroCard: React.FC<HeroCardProps> = ({ name, data, gameId, isRevamped }) => (
   <div
     id={name}
     className={isRevamped ? styles.revampedHeroCard : styles.heroCard}
     style={isRevamped ? { scrollMarginTop: 80 } : undefined}
   >
     <div className={styles.heroHeader}>
-      {heroId ? (
-        <Link to={`/${gameId}/heroes/${heroId}`} className={styles.heroLink}>
+      {gameId ? (
+        <Link to={`/${gameId}/heroes/${heroToSlug(name)}`} className={styles.heroLink}>
           <h3>{name}</h3>
         </Link>
       ) : (

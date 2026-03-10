@@ -32,6 +32,14 @@ function loc(url, priority = '0.7', changefreq = 'weekly') {
   return `  <url>\n    <loc>${url}</loc>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
 }
 
+function heroToSlug(name) {
+  return name
+    .toLowerCase()
+    .replace(/['\u2019]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 async function generate() {
   console.log('[sitemap] Fetching games...');
   const games = await fetchJSON(`${API_URL}/games`);
@@ -61,7 +69,7 @@ async function generate() {
       console.log(`[sitemap] Fetching heroes for game ${gid} (${game.name})...`);
       const heroes = await fetchJSON(`${API_URL}/heroes?game_id=${gid}&lang=en`);
       for (const hero of heroes) {
-        urls.push(loc(`${prefix}/heroes/${hero.id}`, '0.85', 'weekly'));
+        urls.push(loc(`${prefix}/heroes/${heroToSlug(hero.name)}`, '0.85', 'weekly'));
       }
       console.log(`[sitemap]   → ${heroes.length} heroes`);
     } catch (e) {
