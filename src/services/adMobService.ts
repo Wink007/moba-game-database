@@ -8,6 +8,7 @@ import {
   AdOptions,
   RewardAdPluginEvents,
   InterstitialAdPluginEvents,
+  AdMobError,
 } from '@capacitor-community/admob';
 
 // ─── Ad Unit IDs ─────────────────────────────────────────────────────────────
@@ -104,11 +105,21 @@ export async function showInterstitialAd(): Promise<boolean> {
   if (!Capacitor.isNativePlatform() || !_initialized) return false;
 
   return new Promise(async (resolve) => {
+    const cleanup = (result: boolean) => {
+      onDismissed.remove();
+      onFailed.remove();
+      resolve(result);
+    };
+
     const onDismissed = await AdMob.addListener(
       InterstitialAdPluginEvents.Dismissed,
-      () => {
-        onDismissed.remove();
-        resolve(true);
+      () => cleanup(true)
+    );
+    const onFailed = await AdMob.addListener(
+      InterstitialAdPluginEvents.FailedToLoad,
+      (e: AdMobError) => {
+        console.warn('[AdMob] interstitial FailedToLoad:', e);
+        cleanup(false);
       }
     );
 
@@ -121,8 +132,7 @@ export async function showInterstitialAd(): Promise<boolean> {
       await AdMob.showInterstitial();
     } catch (e) {
       console.warn('[AdMob] interstitialAd error:', e);
-      onDismissed.remove();
-      resolve(false);
+      cleanup(false);
     }
   });
 }
@@ -133,7 +143,7 @@ export async function showInterstitialAd(): Promise<boolean> {
  * @returns true якщо користувач отримав нагороду (досивився до кінця)
  */
 export async function showRewardedAd(): Promise<boolean> {
-  if (!Capacitor.isNativePlatform()) return false;
+  if (!Capacitor.isNativePlatform() || !_initialized) return false;
 
   return new Promise(async (resolve) => {
     let rewarded = false;
