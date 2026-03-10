@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAdStore, AD_FREE_HOURS, selectAdFreeMinutesLeft } from '../../store/adStore';
+import { useAdStore, AD_FREE_MINUTES, selectAdFreeMinutesLeft } from '../../store/adStore';
 import { useBackHandler } from '../../hooks/useBackHandler';
 import { showRewardedAd } from '../../services/adMobService';
 import { Capacitor } from '@capacitor/core';
@@ -19,7 +19,7 @@ export const RemoveAdsModal: React.FC = () => {
   const handleWatchAd = async () => {
     if (!Capacitor.isNativePlatform()) {
       // На веб — вмикаємо одразу (для тесту)
-      setAdFreeFor(AD_FREE_HOURS);
+      setAdFreeFor(AD_FREE_MINUTES);
       setWatchResult('success');
       return;
     }
@@ -28,7 +28,7 @@ export const RemoveAdsModal: React.FC = () => {
     const earned = await showRewardedAd();
     setWatchLoading(false);
     if (earned) {
-      setAdFreeFor(AD_FREE_HOURS);
+      setAdFreeFor(AD_FREE_MINUTES);
       setWatchResult('success');
     } else {
       setWatchResult('failed');
@@ -72,7 +72,7 @@ export const RemoveAdsModal: React.FC = () => {
             <div className={styles.optionInfo}>
               <div className={styles.optionTitle}>{t('removeAds.watchTitle')}</div>
               <div className={styles.optionDesc}>
-                {t('removeAds.watchDesc', { hours: AD_FREE_HOURS })}
+                {t('removeAds.watchDesc', { minutes: AD_FREE_MINUTES })}
               </div>
             </div>
             <button
@@ -104,7 +104,7 @@ export const RemoveAdsModal: React.FC = () => {
 
         {watchResult === 'success' && (
           <div className={`${styles.result} ${styles.resultSuccess}`}>
-            ✅ {t('removeAds.successResult', { hours: AD_FREE_HOURS })}
+            ✅ {t('removeAds.successResult', { minutes: AD_FREE_MINUTES })}
           </div>
         )}
         {watchResult === 'failed' && (

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export const AD_FREE_HOURS = 1; // годин без реклами після перегляду відео
+export const AD_FREE_MINUTES = 30; // хвилин без реклами після перегляду відео
 
 interface AdState {
   adFreeUntil: number | null; // timestamp (ms)
@@ -9,7 +9,7 @@ interface AdState {
   removeAdsModalOpen: boolean;
   bannerPauseCount: number;   // лічильник відкритих оверлеїв
 
-  setAdFreeFor: (hours: number) => void;
+  setAdFreeFor: (minutes: number) => void;
   setPaidNoAds: (value: boolean) => void;
   openRemoveAdsModal: () => void;
   closeRemoveAdsModal: () => void;
@@ -25,8 +25,8 @@ export const useAdStore = create<AdState>()(
       removeAdsModalOpen: false,
       bannerPauseCount: 0,
 
-      setAdFreeFor: (hours: number) => {
-        set({ adFreeUntil: Date.now() + hours * 60 * 60 * 1000 });
+      setAdFreeFor: (minutes: number) => {
+        set({ adFreeUntil: Date.now() + minutes * 60 * 1000 });
       },
 
       setPaidNoAds: (value: boolean) => {
