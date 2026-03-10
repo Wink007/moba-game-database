@@ -558,6 +558,23 @@
     "colHeroes": "Heroes",
     "colDate": "Date"
   },
+  "removeAds": {
+    "title": "Remove Ads",
+    "subtitle": "Choose a convenient option",
+    "activeFor": "Ads disabled for {{minutes}} more min",
+    "until": "until",
+    "paidActive": "Ads are permanently disabled",
+    "watchTitle": "Watch an ad",
+    "watchDesc": "Disables ads for {{hours}} hours",
+    "watch": "Watch",
+    "min": "min",
+    "or": "or",
+    "buyTitle": "Remove forever",
+    "buyDesc": "One-time purchase — no more ads",
+    "buy": "Purchase",
+    "successResult": "Ads disabled for {{hours}} hours!",
+    "failedResult": "Video not completed. Please try again."
+  },
   "settings": {
     "title": "Settings",
     "theme": "Theme",

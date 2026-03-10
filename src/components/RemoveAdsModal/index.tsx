@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAdStore, AD_FREE_HOURS, selectAdFreeMinutesLeft } from '../../store/adStore';
 import { useBackHandler } from '../../hooks/useBackHandler';
 import { showRewardedAd } from '../../services/adMobService';
@@ -6,6 +7,7 @@ import { Capacitor } from '@capacitor/core';
 import styles from './styles.module.scss';
 
 export const RemoveAdsModal: React.FC = () => {
+  const { t } = useTranslation();
   const { isPaidNoAds, adFreeUntil, removeAdsModalOpen, closeRemoveAdsModal, setAdFreeFor } = useAdStore();
   const minutesLeft = useAdStore(selectAdFreeMinutesLeft);
   const [watchLoading, setWatchLoading] = useState(false);
@@ -48,29 +50,29 @@ export const RemoveAdsModal: React.FC = () => {
 
         <div className={styles.header}>
           <span className={styles.icon}>🚫</span>
-          <h2 className={styles.title}>Прибрати рекламу</h2>
-          <p className={styles.subtitle}>Оберіть зручний спосіб</p>
+          <h2 className={styles.title}>{t('removeAds.title')}</h2>
+          <p className={styles.subtitle}>{t('removeAds.subtitle')}</p>
         </div>
 
         {minutesLeft !== null && (
           <div className={styles.activeBanner}>
-            ✅ Реклама вимкнена ще на <strong>{minutesLeft} хв</strong>
+            ✅ {t('removeAds.activeFor', { minutes: minutesLeft })}
             {adFreeUntilDate && (
-              <span> (до {adFreeUntilDate.toLocaleTimeString('uk', { hour: '2-digit', minute: '2-digit' })})</span>
+              <span> ({t('removeAds.until')} {adFreeUntilDate.toLocaleTimeString('uk', { hour: '2-digit', minute: '2-digit' })})</span>
             )}
           </div>
         )}
         {isPaidNoAds && (
-          <div className={styles.activeBanner}>⭐ У вас назавжди вимкнена реклама</div>
+          <div className={styles.activeBanner}>⭐ {t('removeAds.paidActive')}</div>
         )}
 
         <div className={styles.options}>
           <div className={styles.option}>
             <div className={styles.optionIcon}>📺</div>
             <div className={styles.optionInfo}>
-              <div className={styles.optionTitle}>Подивитись рекламу</div>
+              <div className={styles.optionTitle}>{t('removeAds.watchTitle')}</div>
               <div className={styles.optionDesc}>
-                Вимкне рекламу на <strong>{AD_FREE_HOURS} години</strong>
+                {t('removeAds.watchDesc', { hours: AD_FREE_HOURS })}
               </div>
             </div>
             <button
@@ -78,36 +80,36 @@ export const RemoveAdsModal: React.FC = () => {
               onClick={handleWatchAd}
               disabled={watchLoading || !!minutesLeft}
             >
-              {watchLoading ? <span className={styles.spinner} /> : minutesLeft ? `${minutesLeft} хв` : 'Дивитись'}
+              {watchLoading ? <span className={styles.spinner} /> : minutesLeft ? `${minutesLeft} ${t('removeAds.min')}` : t('removeAds.watch')}
             </button>
           </div>
 
-          <div className={styles.divider}><span>або</span></div>
+          <div className={styles.divider}><span>{t('removeAds.or')}</span></div>
 
           <div className={styles.option}>
             <div className={styles.optionIcon}>⭐</div>
             <div className={styles.optionInfo}>
-              <div className={styles.optionTitle}>Прибрати назавжди</div>
-              <div className={styles.optionDesc}>Одноразова покупка — реклами більше не буде</div>
+              <div className={styles.optionTitle}>{t('removeAds.buyTitle')}</div>
+              <div className={styles.optionDesc}>{t('removeAds.buyDesc')}</div>
             </div>
             <button
               className={`${styles.btn} ${styles.btnBuy}`}
               onClick={handleBuy}
               disabled={isPaidNoAds}
             >
-              {isPaidNoAds ? '✓' : 'Придбати'}
+              {isPaidNoAds ? '✓' : t('removeAds.buy')}
             </button>
           </div>
         </div>
 
         {watchResult === 'success' && (
           <div className={`${styles.result} ${styles.resultSuccess}`}>
-            ✅ Реклама вимкнена на {AD_FREE_HOURS} год!
+            ✅ {t('removeAds.successResult', { hours: AD_FREE_HOURS })}
           </div>
         )}
         {watchResult === 'failed' && (
           <div className={`${styles.result} ${styles.resultFailed}`}>
-            ❌ Відео не завершено. Спробуйте ще раз.
+            ❌ {t('removeAds.failedResult')}
           </div>
         )}
       </div>
