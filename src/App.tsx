@@ -98,7 +98,7 @@ function App() {
                 <Route path="/" element={<RouteErrorBoundary><HomePage /></RouteErrorBoundary>} />
                 <Route path="/legal" element={<RouteErrorBoundary><LegalPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/heroes" element={<RouteErrorBoundary><HeroesPage /></RouteErrorBoundary>} />
-                <Route path="/:gameId/heroes/:heroId" element={<RouteErrorBoundary><HeroDetailPage /></RouteErrorBoundary>} />
+                <Route path="/:gameId/heroes/:heroSlug" element={<RouteErrorBoundary><HeroDetailPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/hero-ranks" element={<RouteErrorBoundary><HeroRankPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/items" element={<RouteErrorBoundary><ItemsPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/items/:itemId" element={<RouteErrorBoundary><ItemsPage /></RouteErrorBoundary>} />

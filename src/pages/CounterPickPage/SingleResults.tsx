@@ -1,6 +1,7 @@
 import React, { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { getHeroName } from '../../utils/translation';
+import { heroToSlug } from '../../utils/heroSlug';
 import type { Hero } from '../../types';
 import type { SingleResultsData } from './types';
 import { ShieldIcon, SwordIcon } from './icons';
@@ -21,7 +22,7 @@ export const SingleResults: React.FC<SingleResultsProps> = memo(({ hero, results
 
   return (
     <div className={styles.resultsSection}>
-      <Link to={`/${gameId}/heroes/${hero.id}`} className={styles.resultsHeader}>
+      <Link to={`/${gameId}/heroes/${heroToSlug(hero.name)}`} className={styles.resultsHeader}>
         <LazyImage
           src={hero.head || hero.image}
           alt={getHeroName(hero, lang)}
@@ -66,7 +67,7 @@ export const SingleResults: React.FC<SingleResultsProps> = memo(({ hero, results
         {list.slice(0, 10).map((counter, idx) => (
           <Link
             key={counter.heroid}
-            to={`/${gameId}/heroes/${counter.hero!.id}`}
+            to={`/${gameId}/heroes/${heroToSlug(counter.hero!.name)}`}
             className={styles.counterItem}
           >
             <span className={styles.counterRank}>#{idx + 1}</span>

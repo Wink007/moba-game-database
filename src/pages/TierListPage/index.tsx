@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { heroToSlug } from '../../utils/heroSlug';
 import { useGameStore } from '../../store/gameStore';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { useHeroRanksQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
@@ -159,7 +160,7 @@ export const TierListPage: React.FC = () => {
                     return (
                       <Link
                         key={hero.id}
-                        to={`/${selectedGameId}/heroes/${heroData?.id ?? hero.hero_id}`}
+                        to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`}
                         className={styles.heroCard}
                       >
                         <div className={styles.heroImgWrap}>

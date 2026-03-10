@@ -2,6 +2,7 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { heroToSlug } from '../../utils/heroSlug';
 import { Loader } from '../../components/Loader';
 import { MainHeroSelector } from '../../components/MainHeroSelector';
 import { useAuthStore, authFetch } from '../../store/authStore';
@@ -374,7 +375,7 @@ export const ProfilePage: React.FC = () => {
           <h2 className={styles.sectionTitle}>{t('profile.mainHeroes')}</h2>
           <div className={styles.heroesRow}>
             {main_heroes.map(h => (
-              <Link key={h.hero_id} to={`/${h.game_id || 2}/heroes/${h.hero_id}`} className={styles.heroCard}>
+              <Link key={h.hero_id} to={`/${h.game_id || 2}/heroes/${heroToSlug(h.name)}`} className={styles.heroCard}>
                 <img src={h.head || h.image || ''} alt={h.name} loading="lazy" />
                 <span>{h.name}</span>
               </Link>
@@ -393,7 +394,7 @@ export const ProfilePage: React.FC = () => {
               const buildItems = (b.items || []).map(id => itemsMap.get(id)).filter(Boolean);
               return (
                 <div key={b.id} className={styles.buildItem}>
-                  <Link to={`/2/heroes/${b.hero_id}`} className={styles.buildLink}>
+                  <Link to={`/2/heroes/${heroToSlug(b.hero_name)}`} className={styles.buildLink}>
                     <div className={styles.buildHero}>
                       {b.hero_head && <img src={b.hero_head} alt={b.hero_name} loading="lazy" />}
                       <span>{b.hero_name}</span>
@@ -428,7 +429,7 @@ export const ProfilePage: React.FC = () => {
           <h2 className={styles.sectionTitle}>{t('profile.favoriteHeroes')}</h2>
           <div className={styles.heroesRow}>
             {favorites.map(h => (
-              <Link key={h.id} to={`/${h.game_id || 2}/heroes/${h.id}`} className={styles.heroCard}>
+              <Link key={h.id} to={`/${h.game_id || 2}/heroes/${heroToSlug(h.name)}`} className={styles.heroCard}>
                 <img src={h.head || h.image || ''} alt={h.name} loading="lazy" />
                 <span>{h.name}</span>
               </Link>

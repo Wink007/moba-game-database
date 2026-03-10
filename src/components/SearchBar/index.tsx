@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName, translateRoles } from '../../utils/translation';
+import { heroToSlug } from '../../utils/heroSlug';
 import { useGameStore } from '../../store/gameStore';
 import { useHeroSearchQuery } from '../../queries/useHeroesQuery';
 import { useItemsQuery } from '../../queries/useItemsQuery';
@@ -46,8 +47,8 @@ export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => 
     setActiveIndex(-1);
   }, [filteredHeroes.length, filteredItems.length]);
 
-  const handleSelect = (heroId: number) => {
-    navigate(`/${selectedGameId}/heroes/${heroId}`);
+  const handleSelect = (heroSlug: string) => {
+    navigate(`/${selectedGameId}/heroes/${heroSlug}`);
     setQuery('');
     setIsOpen(false);
     setActiveIndex(-1);
@@ -91,7 +92,7 @@ export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => 
         e.preventDefault();
         if (activeIndex >= 0) {
           if (activeIndex < filteredHeroes.length) {
-            handleSelect(filteredHeroes[activeIndex].id);
+            handleSelect(heroToSlug(filteredHeroes[activeIndex].name));
           } else {
             handleSelectItem(filteredItems[activeIndex - filteredHeroes.length].id);
           }
@@ -161,7 +162,7 @@ export const SearchBar: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => 
                   key={hero.id}
                   id={`search-option-${idx}`}
                   className={`${styles.dropdownItem} ${activeIndex === idx ? styles.dropdownItemActive : ''}`}
-                  onClick={() => handleSelect(hero.id)}
+                  onClick={() => handleSelect(heroToSlug(hero.name))}
                   role="option"
                   aria-selected={activeIndex === idx}
                 >

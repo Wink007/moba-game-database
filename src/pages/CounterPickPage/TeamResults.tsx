@@ -1,6 +1,7 @@
 import React, { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { getHeroName } from '../../utils/translation';
+import { heroToSlug } from '../../utils/heroSlug';
 import type { AggregatedCounter } from './types';
 import { ChevronIcon } from './icons';
 import { LazyImage } from '../../components/LazyImage';
@@ -29,7 +30,7 @@ export const TeamResults: React.FC<TeamResultsProps> = memo(({ results, lang, ga
           <div key={item.heroId} className={styles.teamCounterItem}>
             <div className={styles.teamCounterRow}>
               <Link
-                to={`/${gameId}/heroes/${item.hero.id}`}
+                to={`/${gameId}/heroes/${heroToSlug(item.hero.name)}`}
                 className={styles.counterItem}
               >
                 <span className={styles.counterRank}>#{idx + 1}</span>

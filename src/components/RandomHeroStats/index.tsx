@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName, translateRoles } from '../../utils/translation';
+import { heroToSlug } from '../../utils/heroSlug';
 import { useGameStore } from '../../store/gameStore';
 import { Chart } from './Chart';
 import { getRange } from './utils';
@@ -60,7 +61,7 @@ export const RandomHeroStats = () => {
 
   return (
     <div className={styles.container}>
-      <Link to={`/${selectedGameId}/heroes/${hero.hero_id}`} className={styles.heroSection}>
+      <Link to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.heroSection}>
         {hero.head && <LazyImage src={hero.head} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} wrapperClassName={styles.heroAvatarWrapper} wrapperStyle={{ borderRadius: '50%', flexShrink: 0, overflow: 'hidden' }} />}
         <div className={styles.heroInfo}>
           <h3 className={styles.heroName}>{getHeroName(hero, i18n.language)}</h3>

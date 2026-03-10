@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { heroToSlug } from '../../utils/heroSlug';
 import { getHeroName, getHeroShortDescription, translateRoles, translateLanes, translateSpecialties, getDamageType } from '../../utils/translation';
 import { useHeroQuery, useHeroSkillsQuery, useHeroCounterDataQuery, useHeroCompatibilityDataQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
@@ -27,11 +28,27 @@ import type { Patch } from '../../types';
 
 function HeroDetailPage() {
   const { t, i18n } = useTranslation();
-  const { heroId } = useParams();
+  const { gameId: gameIdParam, heroSlug } = useParams<{ gameId: string; heroSlug: string }>();
   const navigate = useNavigate();
-  const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(Number(heroId));
-  const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(Number(heroId));
-  const { data: allHeroes = [], isLoading: allHeroesLoading } = useHeroesQuery(hero?.game_id || 0);
+  const numericGameId = Number(gameIdParam);
+  const isLegacyId = /^\d+$/.test(heroSlug ?? '');
+
+  // Get full heroes list — needed for slug resolution and counter/synergy tabs
+  const { data: allHeroes = [], isLoading: allHeroesLoading } = useHeroesQuery(numericGameId);
+
+  // Resolve heroId: from slug (text) or legacy numeric URL
+  const heroFromSlug = !isLegacyId ? allHeroes.find(h => heroToSlug(h.name) === heroSlug) : undefined;
+  const heroId = isLegacyId ? Number(heroSlug) : heroFromSlug?.id;
+
+  const { data: hero, isLoading: heroLoading, isError: heroError } = useHeroQuery(heroId ?? 0);
+  const { data: skills = [], isLoading: skillsLoading } = useHeroSkillsQuery(heroId ?? 0);
+
+  // Redirect legacy numeric URLs to slug URLs
+  React.useEffect(() => {
+    if (isLegacyId && hero) {
+      navigate(`/${gameIdParam}/heroes/${heroToSlug(hero.name)}`, { replace: true });
+    }
+  }, [isLegacyId, hero, gameIdParam, navigate]);
   const { defaultDays, defaultRank } = useFilterSettingsStore();
   const { data: allCounterData } = useHeroCounterDataQuery(hero?.game_id || 0, defaultRank, defaultDays);
   const heroCounterData = hero?.hero_game_id ? (allCounterData?.[hero.hero_game_id] ?? null) : null;
@@ -96,7 +113,7 @@ function HeroDetailPage() {
         '@type': 'WebPage',
         name: `${hero.name} — Hero Guide | MOBA Wiki`,
         description: `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.`,
-        url: `https://mobawiki.com/${hero.game_id}/heroes/${heroId}`,
+        url: `https://mobawiki.com/${hero.game_id}/heroes/${heroToSlug(hero.name)}`,
         ...(hero.image ? { image: hero.image } : {}),
       },
     ] : undefined,
@@ -138,8 +155,8 @@ function HeroDetailPage() {
     return { level: t('heroDetail.ratingLow'), color: 'low' };
   };
 
-  if (heroLoading || skillsLoading) return <Loader />;
-  if (heroError || !hero) {
+  if (heroLoading || skillsLoading || (!isLegacyId && allHeroesLoading)) return <Loader />;
+  if (heroError || (!isLegacyId && !allHeroesLoading && !heroId) || !hero) {
     return (
       <div className={styles.container}>
         <div className={styles.error}>{t('heroDetail.notFound')}</div>

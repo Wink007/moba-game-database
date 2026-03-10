@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../../utils/translation';
+import { heroToSlug } from '../../../utils/heroSlug';
 import { parseMaybeJson } from '../../../utils/parseMaybeJson';
 import { CounterHero } from '../../../types';
 import { CounterTabProps, CounterData } from './interface';
@@ -122,7 +123,7 @@ export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHero
       return (
         <Link
           key={counterHeroId}
-          to={`/${hero.game_id}/heroes/${counterHero.id}`}
+          to={`/${hero.game_id}/heroes/${heroToSlug(counterHero.name)}`}
           className={styles.counterListItem}
         >
           <div className={styles.counterListRank}>{idx + 1}</div>
@@ -151,7 +152,7 @@ export const CounterTab: React.FC<CounterTabProps> = React.memo(({ hero, allHero
         const raw = counter.increase_win_rate != null ? Math.abs(counter.increase_win_rate) : 0;
         const delta = raw < 1 ? raw * 100 : raw;
         return (
-          <Link key={id} to={`/${hero.game_id}/heroes/${h.id}`} className={styles.mobileGridHero}>
+          <Link key={id} to={`/${hero.game_id}/heroes/${heroToSlug(h.name)}`} className={styles.mobileGridHero}>
             <LazyImage src={h.head || h.image} alt={h.name} className={styles.mobileGridAvatar} wrapperStyle={{ borderRadius: '50%' }} />
             <span className={`${styles.mobileGridScore} ${isPositive ? styles.mobileGridScorePos : styles.mobileGridScoreNeg}`}>
               {isPositive ? '+' : '-'}{delta.toFixed(1)}

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getHeroName } from '../../../utils/translation';
+import { heroToSlug } from '../../../utils/heroSlug';
 import { parseMaybeJson } from '../../../utils/parseMaybeJson';
 import { CompatibilityHero } from '../../../types';
 import { SynergyTabProps, CompatibilityData } from './interface';
@@ -121,7 +122,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
       return (
         <Link
           key={mateId ?? mate.heroid}
-          to={`/${hero.game_id}/heroes/${mateHero.id}`}
+          to={`/${hero.game_id}/heroes/${heroToSlug(mateHero.name)}`}
           className={styles.counterListItem}
         >
           <div className={styles.counterListRank}>{idx + 1}</div>
@@ -152,7 +153,7 @@ export const SynergyTab: React.FC<SynergyTabProps> = React.memo(({ hero, allHero
         const raw = mate.increase_win_rate != null ? Math.abs(mate.increase_win_rate) : 0;
         const delta = raw < 1 ? raw * 100 : raw;
         return (
-          <Link key={id} to={`/${hero.game_id}/heroes/${h.id}`} className={styles.mobileGridHero}>
+          <Link key={id} to={`/${hero.game_id}/heroes/${heroToSlug(h.name)}`} className={styles.mobileGridHero}>
             <LazyImage src={h.head || h.image} alt={h.name} className={styles.mobileGridAvatar} wrapperStyle={{ borderRadius: '50%' }} />
             <span className={`${styles.mobileGridScore} ${isPositive ? styles.mobileGridScorePos : styles.mobileGridScoreNeg}`}>
               {isPositive ? '+' : '-'}{delta.toFixed(1)}
