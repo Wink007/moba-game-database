@@ -7,6 +7,7 @@ import {
   BannerAdPluginEvents,
   AdOptions,
   RewardAdPluginEvents,
+  InterstitialAdPluginEvents,
 } from '@capacitor-community/admob';
 
 // ─── Ad Unit IDs ─────────────────────────────────────────────────────────────
@@ -15,7 +16,7 @@ const IS_TESTING = false;
 export const AD_UNITS = {
   banner:      'ca-app-pub-9322014090918199/7923239236',
   rewarded:    'ca-app-pub-9322014090918199/6610157563',
-  interstitial:'ca-app-pub-3940256099942544/1033173712',   // Google тест (не створено)
+  interstitial:'ca-app-pub-9322014090918199/4084774414',
 };
 
 let _initialized = false;
@@ -92,6 +93,38 @@ export async function removeBanner(): Promise<void> {
   } catch (e) {
     console.warn('[AdMob] removeBanner error:', e);
   }
+}
+
+// ─── Interstitial Ad ─────────────────────────────────────────────────────────
+/**
+ * Показує interstitial рекламу.
+ * @returns true якщо реклама показалась успішно
+ */
+export async function showInterstitialAd(): Promise<boolean> {
+  if (!Capacitor.isNativePlatform() || !_initialized) return false;
+
+  return new Promise(async (resolve) => {
+    const onDismissed = await AdMob.addListener(
+      InterstitialAdPluginEvents.Dismissed,
+      () => {
+        onDismissed.remove();
+        resolve(true);
+      }
+    );
+
+    try {
+      const options: AdOptions = {
+        adId: AD_UNITS.interstitial,
+        isTesting: IS_TESTING,
+      };
+      await AdMob.prepareInterstitial(options);
+      await AdMob.showInterstitial();
+    } catch (e) {
+      console.warn('[AdMob] interstitialAd error:', e);
+      onDismissed.remove();
+      resolve(false);
+    }
+  });
 }
 
 // ─── Rewarded Ad ──────────────────────────────────────────────────────────────
