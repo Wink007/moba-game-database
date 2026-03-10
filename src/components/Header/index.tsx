@@ -371,9 +371,9 @@ export const Header: React.FC = () => {
                   <button
                     className={styles['remove-ads-btn']}
                     onClick={() => { openRemoveAdsModal(); closeMenu(); }}
-                    title="Прибрати рекламу"
+                    title={t('removeAds.title')}
                   >
-                    {adsEnabled ? '🚫 Реклама' : minutesLeft ? `✅ ${minutesLeft} хв` : '✅ Без реклами'}
+                    {adsEnabled ? t('removeAds.btnAds') : minutesLeft ? `✅ ${minutesLeft} ${t('removeAds.min')}` : t('removeAds.btnNoAds')}
                   </button>
                 )}
               </div>

@@ -563,6 +563,8 @@
     "subtitle": "Choose a convenient option",
     "activeFor": "Ads disabled for {{minutes}} more min",
     "until": "until",
+    "btnAds": "🚫 Ads",
+    "btnNoAds": "✅ No Ads",
     "paidActive": "Ads are permanently disabled",
     "watchTitle": "Watch an ad",
     "watchDesc": "Disables ads for {{minutes}} min",
