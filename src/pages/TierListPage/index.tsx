@@ -154,9 +154,6 @@ export const TierListPage: React.FC = () => {
                   <span className={styles.emptyMsg}>{t('tierList.noHeroesInTier')}</span>
                 ) : (
                   list.map((hero) => {
-                    const heroData = heroes?.find(
-                      h => h.id === hero.hero_id || h.hero_game_id === hero.hero_game_id
-                    );
                     return (
                       <Link
                         key={hero.id}
