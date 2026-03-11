@@ -657,6 +657,15 @@ def get_hero(hero_id):
             except:
                 hero['compatibility_data'] = None
         
+        # Парсимо abilityshow з string в list
+        if hero.get('abilityshow') is None:
+            hero['abilityshow'] = []
+        elif isinstance(hero['abilityshow'], str):
+            try:
+                hero['abilityshow'] = json.loads(hero['abilityshow'])
+            except:
+                hero['abilityshow'] = []
+        
         return hero
     return None
 
