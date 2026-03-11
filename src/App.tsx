@@ -17,6 +17,7 @@ import { setQueryClientRef } from './store/authStore';
 import { useThemeStore } from './store/themeStore';
 import { useAdManager } from './hooks/useAdManager';
 import { useInterstitialAd } from './hooks/useInterstitialAd';
+import { checkAndStartFlexibleUpdate } from './services/appUpdateService';
 import { STALE_5_MIN } from './queries/keys';
 import { FF_SOCIAL, FF_PLAYERS } from './config';
 import './App.css';
@@ -59,6 +60,10 @@ function AppInner() {
   useInterstitialAd();
   // Initialize theme store (applies saved theme + listens for system pref changes)
   useThemeStore();
+
+  useEffect(() => {
+    checkAndStartFlexibleUpdate();
+  }, []);
   return (
     <>
     <RemoveAdsModal />
