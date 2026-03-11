@@ -308,9 +308,14 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
                     hero[field] = []
             elif not val:
                 hero[field] = []
-        # abilityshow is JSONB — psycopg2 returns it as a list already
+        # abilityshow — parse explicitly like other JSONB fields
         if hero.get('abilityshow') is None:
             hero['abilityshow'] = []
+        elif isinstance(hero['abilityshow'], str):
+            try:
+                hero['abilityshow'] = json.loads(hero['abilityshow'])
+            except:
+                hero['abilityshow'] = []
 
     return {
         'data': heroes,
@@ -698,8 +703,7 @@ def update_hero(hero_id, name, hero_game_id, image, short_description, full_desc
     hero_stats_json = json.dumps(hero_stats) if hero_stats else None
     counter_data_json = json.dumps(counter_data) if counter_data else None
     compatibility_data_json = json.dumps(compatibility_data) if compatibility_data else None
-    from psycopg2.extras import Json as PgJson
-    abilityshow_json = PgJson(abilityshow) if abilityshow is not None else None
+    abilityshow_json = json.dumps(abilityshow) if abilityshow is not None else None
     
     # Convert hero_game_id to integer if it's a string
     hero_game_id_int = int(hero_game_id) if hero_game_id else None
