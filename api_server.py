@@ -1172,7 +1172,8 @@ def update_hero(hero_id):
             data.get('name_uk', None),  # Ukrainian name
             data.get('short_description_uk', None),  # Ukrainian short description
             data.get('full_description_uk', None),  # Ukrainian full description
-            data.get('compatibility_data', None)
+            data.get('compatibility_data', None),
+            data.get('abilityshow', None)
         )
         
         # Note: hero_stats is now a JSONB field in heroes table, updated in the main UPDATE query
@@ -4223,20 +4224,68 @@ def get_users_list():
         total = cursor.fetchone()
         total_count = list(total.values())[0] if hasattr(total, 'keys') else total[0]
 
-        # Users with limit/offset
+        # Users with limit/offset + basic activity counts for title
         cursor.execute(f"""
-            SELECT id, name, picture, nickname, created_at
-            FROM users
-            ORDER BY created_at DESC
+            SELECT u.id, u.name, u.picture, u.nickname, u.created_at,
+                   COUNT(DISTINCT b.id) as builds_count,
+                   COUNT(DISTINCT f.hero_id) as fav_count,
+                   COUNT(DISTINCT m.hero_id) as mains_count,
+                   COALESCE(SUM(bv.upvotes), 0) as total_upvotes
+            FROM users u
+            LEFT JOIN user_builds b ON b.user_id = u.id
+            LEFT JOIN favorites f ON f.user_id = u.id
+            LEFT JOIN user_main_heroes m ON m.user_id = u.id
+            LEFT JOIN (
+                SELECT build_id, COUNT(*) as upvotes FROM build_votes WHERE vote=1 GROUP BY build_id
+            ) bv ON bv.build_id = b.id
+            GROUP BY u.id, u.name, u.picture, u.nickname, u.created_at
+            ORDER BY u.created_at DESC
             LIMIT {ph} OFFSET {ph}
         """, (limit, offset))
+
+        TITLE_TIERS = [
+            (800, 'title_living_legend'),
+            (600, 'title_no_life'),
+            (500, 'title_lord_of_dawn'),
+            (400, 'title_touch_grass'),
+            (350, 'title_meta_slave'),
+            (250, 'title_build_maniac'),
+            (180, 'title_wiki_addict'),
+            (140, 'title_soloq_survivor'),
+            (120, 'title_hero_collector'),
+            (80,  'title_tryhard'),
+            (50,  'title_casual_enjoyer'),
+            (30,  'title_button_masher'),
+            (25,  'title_curious_cat'),
+            (10,  'title_fresh_meat'),
+            (0,   'title_loading_screen'),
+        ]
+        from datetime import datetime as _dt
 
         users = []
         for row in cursor.fetchall():
             u = dict(row) if hasattr(row, 'keys') else dict(zip(
-                ['id', 'name', 'picture', 'nickname', 'created_at'], row))
+                ['id', 'name', 'picture', 'nickname', 'created_at',
+                 'builds_count', 'fav_count', 'mains_count', 'total_upvotes'], row))
             if u.get('created_at') and not isinstance(u['created_at'], str):
                 u['created_at'] = str(u['created_at'])
+            # Compute activity score & title
+            days_on_site = 0
+            if u.get('created_at'):
+                try:
+                    created = _dt.fromisoformat(str(u['created_at']).split('+')[0].replace('Z', ''))
+                    days_on_site = (_dt.utcnow() - created).days
+                except Exception:
+                    pass
+            score = (days_on_site * 1 + int(u.get('builds_count') or 0) * 5 +
+                     int(u.get('fav_count') or 0) * 1 + int(u.get('mains_count') or 0) * 2 +
+                     int(u.get('total_upvotes') or 0) * 3)
+            title_key = 'title_loading_screen'
+            for threshold, key in TITLE_TIERS:
+                if score >= threshold:
+                    title_key = key
+                    break
+            u['activity_title'] = title_key
             u['main_heroes'] = []
             users.append(u)
 
