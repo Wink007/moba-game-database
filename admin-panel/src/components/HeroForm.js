@@ -366,7 +366,7 @@ function HeroForm({ hero, gameId, onClose, onSave }) {
     if (skillsModified) payload.skills = skills;
     try {
       if (hero) {
-        await axios.put(`${API_URL}/heroes/${hero.id}`, payload);
+        const res = await axios.put(`${API_URL}/heroes/${hero.id}`, payload);
         alert('Hero updated!');
         setSkillsModified(false);
       } else {

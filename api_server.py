@@ -10,7 +10,7 @@ import io
 import time
 
 # Deploy version marker — bump to force Railway rebuild
-API_VERSION = "2026.03.06-activity-titles"
+API_VERSION = "2026.03.11-abilityshow-fix"
 import jwt
 import functools
 import threading
