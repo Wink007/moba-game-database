@@ -6770,5 +6770,1168 @@
     ],
     "revamped_heroes": [],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1m2fg1a/patch_notes_2104_adv_server/"
+  },
+  "2.1.61": {
+    "version": "2.1.61",
+    "release_date": "2026-03-11",
+    "game_id": 1,
+    "is_adv_server": false,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Aurora": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have reduced the cooldown of Skill 2.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Physical Defense Growth: 4.1 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 45-70 <code→></code> 60-85",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 14-11s <code→></code> 12-8s",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 120-160 <code→></code> 140-180<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Cecilion": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the hero to align with Mage Attributes adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2335 <code→></code> 2380<br>Base Physical Defense: 18 <code→></code> 17<br>Physical Defense Growth: 4.1 <code→></code> 4<br>Movement Speed: 255 <code→></code> 250<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Chang'e": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the hero to align with Mage Attributes and Mana Cost adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2380 <code→></code> 2320<br>HP Growth: 145.5 <code→></code> 145<br>Base Physical Defense: 16 <code→></code> 17<br>Physical Defense Growth: 3.7 <code→></code> 4<br>Movement Speed: 250 <code→></code> 240",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 70-95 <code→></code> 60-85",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 60-110 <code→></code> 60 at all levels",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 150-250 <code→></code> 120-160<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Claude": {
+        "badge": "ADJUST",
+        "description_en": "Fixed some issues and adjusted the damage structure of the Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "Fixed an issue where the number of hits would be missing at certain Attack Speeds. The number of hits of the Ultimate now scales with Attack Speed.<br>Attack Effects: 50% <code→></code> 40%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Cyclops": {
+        "badge": "ADJUST",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have reduced Skill 1's cooldown and damage, and adjusted Skill 2's damage scaling ratio across the early and late game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2400 <code→></code> 2440<br>HP Growth: 175.1 <code→></code> 175<br>Physical Defense Growth: 4.2 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 8.5s <code→></code> 7.5s<br>Base Damage: 275-400 <code→></code> 240-400",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Decay Ratio: 60%-90% of original damage <code→></code> 60%-80% of original damage<br>Magic Bonus: 40% <code→></code> 65%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Eudora": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have also reduced her skill downtime in the early and mid game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2403 <code→></code> 2440<br>HP Growth: 173 <code→></code> 175<br>Base Physical Defense: 19 <code→></code> 18<br>Physical Defense Growth: 4.2 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 7-5s <code→></code> 5s at all levels<br>Mana Cost: 50-70 <code→></code> 70-95",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 70-95 <code→></code> 80-105<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Faramis": {
+        "badge": "ADJUST",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Costs, we've adjusted the Ultimate's early and late game cooldown.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2422 <code→></code> 2500<br>HP Growth: 181 <code→></code> 185<br>Physical Defense Growth: 4.2 <code→></code> 4.5<br>Movement Speed: 245 <code→></code> 240",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 70-120 <code→></code> 85-135",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 45-70 <code→></code> 60-90",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: 80s at all levels <code→></code> 90-70s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Freya": {
+        "badge": "NERF",
+        "description_en": "Freya's HP Regen in the early to mid game was a bit too high, so we have reduced the HP Regen during her Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base HP Regen per Basic Attack: 60-120 <code→></code> 40-80<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Gloo": {
+        "badge": "NERF",
+        "description_en": "Gloo was exceptionally durable given his high damage, making him frustrating to play against.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Damage Reduction per Stack: 4% <code→></code> 3%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Gord": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have adjusted the damage distribution and reduced the cooldown of Skill 1.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2357 <code→></code> 2380<br>HP Growth: 142.5 <code→></code> 145<br>Base Physical Defense: 13 <code→></code> 17<br>Movement Speed: 240 <code→></code> 250",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Damage: 140 (+ 60% Total Magic Power) <code→></code> 140 +(8* Hero Level) (+ 40% Total Magic Power)",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Damage: 270-495 (+ Total 80% Magic Power) <code→></code> 225-425 (+ 65% Total Magic Power)<br>Cooldown: 10 - 7.5s <code→></code> 8-6s<br>Mana Cost: 90-115 <code→></code> 80-110",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Damage: 30-80 (+14% Total Magic Power) <code→></code> 30-60 (+10% Total Magic Power)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hilda": {
+        "badge": "BUFF",
+        "description_en": "We've optimized the visual effects of Hilda's Passive Enhanced Basic Attack for better visibility.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Added visual effects to indicate when the Enhanced Basic Attack is active.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ixia": {
+        "badge": "NERF",
+        "description_en": "Ixia's laning ability was too strong, so we've reduced the Base Damage of Skill 1 and reduced the HP Regen from her Passive when hitting non-hero units.<br>Further reduced the damage of Skill 1.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "HP Regen Against Non-Hero Units: 20 (+150* Lifesteal)% <code→></code> 10 (+150* Lifesteal)%",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Damage: 75-300 (+ 80% Total Physical Attack) <code→></code> 50-250 (+70% Total Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Kadita": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the hero to align with Mage Attributes adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2370 <code→></code> 2440<br>HP Growth: 169.7 <code→></code> 165<br>Movement Speed: 255 <code→></code> 250<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Kagura": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have adjusted the damage distribution: enhanced early-game laning and wave clearing; reduced Ultimate cooldown and damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2375 <code→></code> 2380<br>HP Growth: 146.8 <code→></code> 145<br>Base Physical Defense: 19 <code→></code> 17<br>Physical Defense Growth: 3.9 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 315-590 <code→></code> 365-590<br>Mana Cost: 50-80 <code→></code> 45-70",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate (When Holding the Umbrella)",
+            "description_en": "Base Damage: 330-470 (+105% Total Magic Power) <code→></code> 250-420 (+95% Total Magic Power)<br>Cooldown: 43-33s <code→></code> 36-30s<br>Mana Cost: 85-115 <code→></code> 60-90",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate (Without Umbrella)",
+            "description_en": "Base Damage: 290-390 (+70% Total Magic Power) <code→></code> 235-355 (+60% Total Magic Power)<br>Extra Damage: 550-800 (+170% Total Magic Power) <code→></code> 480-720 (+155% Total Magic Power)<br>Cooldown: 43-33s <code→></code> 36-30s<br>Mana Cost: 85-115 <code→></code> 60-90<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Kimmy": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the hero to align with Mage Attributes adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2450 <code→></code> 2380<br>HP Growth: 117.5 <code→></code> 145<br>Base Physical Defense: 22 <code→></code> 17<br>Physical Defense Growth: 4.3 <code→></code> 4<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Lunox": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the hero to align with Mage Attributes adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2621 <code→></code> 2440<br>HP Growth: 151 <code→></code> 165<br>Base Physical Defense: 15 <code→></code> 18<br>Physical Defense Growth: 3.6 <code→></code> 4<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Luo Yi": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have adjusted the damage distribution and increased Skill 1 damage to improve wave clearing.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2480 <code→></code> 2440<br>HP Growth: 195 <code→></code> 175<br>Base Physical Defense: 20 <code→></code> 18<br>Physical Defense Growth: 4.3 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Base Damage: 365 (+ 20* Hero Level) <code→></code> 300 (+ 25* Hero Level)",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 210-510 <code→></code> 285-510<br>Mana Cost: 50-90 <code→></code> 50-80",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 120-170 <code→></code> 75-100<br>Cooldown: 12s at all levels <code→></code> 12-10s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Lylia": {
+        "badge": "BUFF",
+        "description_en": "Adjusted the hero to align with Mage Attributes and Mana Cost adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "HP Growth: 147 <code→></code> 145<br>Physical Defense Growth: 4.1 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 50-75 <code→></code> 40-70",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 32-72 <code→></code> 32-62<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Nana": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have increased Skill 2's damage and cast frequency in the late game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "HP Growth: 142.5 <code→></code> 155<br>Physical Defense Growth: 3.9 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 5.5-4s <code→></code> 6-4.5s<br>Mana Cost: 50-75 <code→></code> 55-80",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 14.5-12s <code→></code> 12-9s<br>Damage: 150-275 (+ 30% Total Magic Power) <code→></code> 250-375 (+50% Total Magic Power)<br>Magic Defense Reduction: 30%-40% <code→></code> 30% at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Novaria": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have increased the slow effect of Skill 1 and the late-game damage of Skill 2.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2280 <code→></code> 2260<br>HP Growth: 143 <code→></code> 135<br>Base Physical Defense: 12 <code→></code> 15<br>Physical Defense Growth: 3.6 <code→></code> 3.5",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "Slow Effect: 20% (base)/50% (explosion) <code→></code> 20%-50% (increases over time)<br>Explosion Damage Based on Target's Max HP: 4%-6% <code→></code> 4% at all levels<br>Mana Cost: 60-110 <code→></code> 60-100",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Damage: 230-340 (+ 70% Total Magic Power) (+4%-6% of target's Max HP) <code→></code> 230-380 (+90% Total Magic Power) (+ 4% of target's Max HP)<br>Mana Cost: 100-200 <code→></code> 60-110",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 100-0 <code→></code> 100 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Obsidia": {
+        "badge": "ADJUST",
+        "description_en": "To improve the low pick rate of Obsidia's Attack Speed build, we've increased the growth of Bone Shard speed based on Attack Speed and Basic Attack effect damage, allowing Attack Speed to boost Bone Shard's performance. Meanwhile, to balance her late-game strength, we've reduced Basic Attack and Bone Shard Base Damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "Bone Shard Speed: 18-22 <code→></code> 15-45 (scales with Attack Speed, capped at 5.0)<br>Bone Shard Speed Growth: Every 10% Attack Speed increases Bone Shard speed by 0.1 <code→></code> Every 10% Attack Speed increases Bone Shard speed by 0.75<br>Bone Shard Damage: 7% Total Physical Attack (inherits 7% Attack Effects) <code→></code> 6% Total Physical Attack (inherits 6% Attack Effects)<br>Ratio of Attack Effects Inherited: 70% <code→></code>100%<br>Basic Attack Base Damage: 80 <code→></code> 70<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Odette": {
+        "badge": "ADJUST",
+        "description_en": "As a Mage with short range and no mobility skill, we have increased her HP and Movement Speed, and significantly reduced her Mana Cost, but also slightly reduced her excessive Ultimate damage for balance.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2370 <code→></code> 2440<br>HP Growth: 154.7 <code→></code> 175<br>Physical Defense Growth: 4.1 <code→></code> 4<br>Movement Speed: 240 <code→></code> 250",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 80-105 <code→></code> 65-90",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 90-115 <code→></code> 75-100",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base Shield: 1400-1800 <code→></code> 1200-1800<br>Damage: 2400-3200 (+900% Total Magic Power) <code→></code> 2000-3000 (+750% Total Magic Power)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Pharsa": {
+        "badge": "NERF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have increased the cooldown of Skill 2 and reduced her burst potential in the early and mid game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2300 <code→></code> 2320<br>HP Growth: 143.5 <code→></code> 145<br>Base Physical Defense: 17 <code→></code> 16",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 5s at all levels <code→></code> 6.5-5s<br>Base Damage: 525-700 <code→></code> 475-700<br>Mana Cost: 50-80 <code→></code> 60-85",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base Damage: 570-870 <code→></code> 530-870<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Phoveus": {
+        "badge": "BUFF",
+        "description_en": "Phoveus is strong in the early and mid game but struggles in the late game. We have increased his late-game potential.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Magic Damage Based on Target's Max HP: 4% <code→></code> 4-6%<br>Shield Based on Phoveus' Max HP: 8% <code→></code> 8-12%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Saber": {
+        "badge": "ADJUST",
+        "description_en": "Fixed an issue where the piercing damage of Saber's Skill 1 was too low against the Turtle and Lord.<br>",
+        "description_uk": ""
+      },
+      "Selena": {
+        "badge": "NERF",
+        "description_en": "Adjusted the hero to align with Mage Mana Cost adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 50-75 <code→></code> 70-95",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 80-120 <code→></code> 80-130<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Vale": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Costs, we've increased the early-game cooldown of Skill 2 and reduced the Ultimate's cooldown.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2280 <code→></code> 2380<br>HP Growth: 145.5 <code→></code> 145<br>Base Physical Defense: 15 <code→></code> 17",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 10-8s <code→></code> 12-8s<br>Mana Cost: 90-115 <code→></code> 70-90",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: 44-36s <code→></code> 36-30s<br>Mana Cost: 150-250 <code→></code> 120-160<br>Base Damage: 1000-1500 <code→></code> 900-1400<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Valentina": {
+        "badge": "ADJUST",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have adjusted the damage distribution and increased the damage of Skill 1 to enhance early laning and wave-clearing capabilities.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2580 <code→></code> 2500<br>HP Growth: 200 <code→></code> 185<br>Base Physical Defense: 21 <code→></code> 20<br>Physical Defense Growth: 4.3 <code→></code> 4.5",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Damage: 300-600 (+165% Total Magic Power) <code→></code> 475-700 (+145% Total Magic Power)",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Base Damage: 125-225 <code→></code> 90-180<br>Mana Cost: 45-70 <code→></code> 40-60<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Valir": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have reduced Skill 1 cooldown in the mid and late game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2395 <code→></code> 2380<br>Base Physical Defense: 20 <code→></code> 17<br>Physical Defense Growth: 4.1 <code→></code> 4<br>Movement Speed: 245 <code→></code> 250",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Recharge Interval: 9s at all levels <code→></code> 9-7s<br>Mana Cost: 50-90 <code→></code> 45-70",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 80-110 <code→></code> 75-100<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Vexana": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the hero to align with Mage Attributes and Mana Cost adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2360 <code→></code> 2380<br>HP Growth: 150 <code→></code> 155<br>Physical Defense Growth: 4.2 <code→></code> 4<br>Movement Speed: 245 <code→></code> 250",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 60-90 <code→></code> 60-100<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Xavier": {
+        "badge": "ADJUST",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have reduced the cooldown of Skill 2 in the late game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2495 <code→></code> 2380<br>Base Physical Defense: 15 <code→></code> 17<br>Physical Defense Growth: 4.1 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 30-55 <code→></code> 45-70",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 13s at all levels <code→></code> 13-11s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Yi Sun-shin": {
+        "badge": "ADJUST",
+        "description_en": "Slightly reduced the strategic importance of Yi Sun-shin's Ultimate. Yi Sun-shin now needs to cast his Ultimate closer to the target to land hits more easily.<br>Fixed an issue where the number of Enhanced Basic Attacks was abnormal at high Attack Speed.<br>We will continue to monitor the effects of this change and may make balance adjustments in future updates.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Enhanced Basic Attacks now benefit from Attack Speed.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Turtle Ship Max Duration: 15s <code→></code> 10s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Yve": {
+        "badge": "NERF",
+        "description_en": "To align with the adjustments to Mage attributes, we have reduced the Slow Effect and optimized the casting experience of the Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2530 <code→></code> 2320<br>HP Growth: 185 <code→></code> 145<br>Base Physical Defense: 19 <code→></code> 16<br>Physical Defense Growth: 4.3 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Shield: 50 (+ 10* Hero Level) (+ 20% Total Magic Power) <code→></code> 120 (+ 10* Hero Level) (+50% Total Magic Power)",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 14-12s <code→></code> 14-10s<br>Base Slow Effect: 30% <code→></code> 20%<br>Max Slow Effect: 60% <code→></code> 40%",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Slow Effect: 60% <code→></code> 40%<br>Optimized the camera angle when casting the Ultimate. Moved Killing Notifications to the left during the Ultimate.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Zetian": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the hero to align with Mage Attributes and Mana Cost adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2550 <code→></code> 2380<br>HP Growth: 135 <code→></code> 155<br>Base Physical Defense: 18 <code→></code> 17<br>Physical Defense Growth: 3.9 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 50-75 <code→></code> 60-85<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Zhask": {
+        "badge": "BUFF",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have reduced the cooldown of the Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2280 <code→></code> 2380<br>Base Physical Defense: 15 <code→></code> 17<br>Physical Defense Growth: 3.5 <code→></code> 4<br>Movement Speed: 240 <code→></code> 250",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 3",
+            "description_en": "Mana Cost: 60-120 <code→></code> 60-105",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: 60-50s <code→></code> 48-40s<br>Mana Cost: 100-200 <code→></code> 120-180<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Zhuxin": {
+        "badge": "ADJUST",
+        "description_en": "To align with the adjustments to Mage attributes and Mana Cost, we have reduced early and mid game damage and wave-clearing speed.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2480 <code→></code> 2440<br>HP Growth: 145 <code→></code> 165<br>Base Physical Defense: 20 <code→></code> 18<br>Physical Defense Growth: 3.5 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Base Damage When Hold: 45-95 <code→></code> 35-80<br>Base Damage When Release: 200-300 <code→></code> 200-400<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Concentrated Energy": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased its Magic Power bonus.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Magic Power: 70 <code→></code> 75<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Dominance Ice": {
+        "badge": "ADJUST",
+        "description_en": "Increased the range of the equipment's Healing Reduction effect, and reduced the Hybrid Defense range to match it.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Unique Passive - Fortress Shield",
+            "description_en": "Trigger Range: 5 units <code→></code> 3.5 units",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Unique Passive - Lifebane",
+            "description_en": "Reduces attacker's HP Regen when taking damage <code→></code> Reduces HP Regen of enemies within 3.5 units<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Enchanted Talisman": {
+        "badge": "BUFF",
+        "description_en": "For Mages with Cooldown Reduction builds, equipping 10% Cooldown Reduction from Talents and purchasing Enchanted Talisman often leads to a 5% excess in Cooldown Reduction. Therefore, we have reduced the Cooldown Reduction while significantly increasing Magic Power, to ensure that Mages using this equipment do not lose too much damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Magic Power: 50 <code→></code> 75<br>Max HP: 250 <code→></code> 300<br>Cooldown Reduction: 20% <code→></code> 15%",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Price",
+            "description_en": "1870 <code→></code> 2070",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Build Path",
+            "description_en": "Tome of Evil + Magic Necklace + Book of Sages <code→></code> Tome of Evil + Magic Necklace + Magic Wand<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Feather of Heaven": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased its Magic Power bonus.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Magic Power: 55 <code→></code> 60<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Glowing Wand": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased its Magic Power bonus and reduced its HP bonus.<br>Adjusted price to align with the Sea Halberd.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Magic Power: 50 <code→></code> 60<br>Max HP: 400 <code→></code> 300",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Price",
+            "description_en": "2150 <code→></code> 2050<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Guardian Helmet": {
+        "badge": "BUFF",
+        "description_en": "Improved survivability against burst damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Unique Passive - Defender",
+            "description_en": "HP Regen from Excess Damage: 20% <code→></code> 30%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Holy Crystal": {
+        "badge": "NERF",
+        "description_en": "The Magic Power provided by this equipment far exceeds its price. We have reduced its Magic Power and reallocated some of it to other Mage equipment.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Magic Power: 185 <code→></code> 165<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ice Queen Wand": {
+        "badge": "ADJUST",
+        "description_en": "Increased the control effects and reduced its Magic Power bonus.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Magic Power: 75 <code→></code> 60",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Unique Passive - Ice Bound",
+            "description_en": "Internal Cooldown per Stack: 1s <code→></code> 0.4s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Oracle": {
+        "badge": "NERF",
+        "description_en": "Slightly reduced the equipment's shield and HP Regen effect.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Unique Passive - Bless",
+            "description_en": "Increased Shield and HP Regen Effect: 30% <code→></code> 25%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Starlium Scythe": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased its Magic Power bonus.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Magic Power: 70 <code→></code> 75<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Tome of Evil": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted its attributes and build path for smoother Mana Regen growth.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Magic Power: 35 <code→></code> 30<br>Cooldown Reduction: 8% <code→></code> 10%<br>Mana Regen: 4 <code→></code> 2",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Build Path",
+            "description_en": "Mystery Codex + Book of Sages <code→></code> Magic Necklace + Book of Sages<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "battlefield_adjustments": {
+      "Ranged Minion": {
+        "badge": "CHANGE",
+        "description_en": "Slightly increased the lane clearing speed of Mid Lane mage minions.<br>Base HP: 1288 <code→></code> 1188<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>From The Designers</strong><br/><br>In this patch, we have adjusted the attributes and Mana Costs of most Mid Lane Mages to bring them closer to the average level. We have also made specific adjustments to certain strong and weak Mages. We hope to see more heroes picked in the Mid Lane.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>In-Match System Optimizations</strong><br/><p><code>1-</code> <strong>Scoreboard</strong>: Tap the Team Gold area at the top to send a signal showing the Gold difference.</p><p><code>2-</code> <strong>Scoreboard</strong>: Tap the Bounty area on a hero's avatar to send the hero's Bounty amount.</p><p><code>3-</code> When your team is behind in Gold and the enemy has a hero with a high Bounty, the system will automatically send a chat message regarding that hero.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>A. Ranked Mode</strong><br/><p>S39 will end at <code>21:59:59</code> on <code>03/10</code> (Server Time).</p><p>S40 will start from <code>00:00:00</code> on <code>03/11</code> (Server Time). Complete Ranked matches to claim rewards, including S40 Seasonal Skin: <strong>Chip \"Player One\"</strong> and <strong>S40 Avatar Border \"Decisive Moment\"</strong>.</p><p>We wish you an enjoyable gaming experience and smooth rank progression!</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>B. Battle Loading Adjustments</strong><br/><br>To bring you a better gaming experience, we have optimized the battle loading interface experience and revamped the art style.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>New Chat System</strong><br/>During battle loading, you can chat with teammates to discuss tactics in real-time and send Battle Emotes visible to all players. You can also cast fun Interactive Effects on allies and enemies (only available on high-performance devices).<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Customizable Honor Badges</strong><br/>During battle loading, you can customize and select multiple Honor Badges to display, showing off your various honors.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Supreme Sacred Statue Portrait Display</strong><br/>Supreme Sacred Statues have been fully upgraded. After obtaining such a statue, you can enable the Portrait Rotation feature in [Preparation], allowing it to alternate with your hero skin portrait during battle loading.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>New Interface Style</strong><br/>The art style of the battle loading interface has been fully revamped, with cool visual effects bringing a fresh battle experience.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Beginner Experience Optimization</strong><br/>Optimized the tip tutorials during battle loading: The new tips system will customize gameplay recommendations and strategies based on your hero and combat habits.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Restriction</strong><br/>To ensure a smooth gaming experience, this optimization is only available on devices with more than 2 GB of RAM.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>C. Mlbb Rising Open New Season Available</strong><br/><p><code>1-</code> The new season of MLBB Rising Open begins on <code>03/09</code> at <code>00:00:00</code>. Top honorary titles and massive Diamond rewards await!</p><p><code>2-</code> Added Season and Division displays to the MLBB Rising Open bracket.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>D. Other System Optimizations</strong><br/><p><code>1-</code>Added an \"In Practice\" online status to the Friend List for friends who are in Practice mode.</p><p><code>2-</code> Optimized some interaction experiences for Season Achievements.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>V. Mode Adjustments</strong><br/><br><ul><br><li><strong>Mayhem Mode Returns</strong></li><br></ul><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Available Time</strong><br/><p>To meet the passionate expectations of our players, [Mayhem] mode will return for a limited time with some new heroes!</p><p>Available: <code>03/27/2026</code> - <code>04/22/2026</code></p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Guide</strong><br/><p>In [Mayhem] mode, players can freely choose their favorite heroes from owned heroes, mode-specific free heroes, and heroes unlocked by Trial Cards.</p><p>Heroes will receive tailored super skill enhancements. Heroes start at Lv.4 with faster Gold gain and reduced Arrival cooldown. Let the mayhem begin!</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>New Heroes</strong><br/><strong>New available heroes</strong>: Freya, Eudora, Granger, Alpha, Layla, Yu Zhong, Cici, Leomord, Belerick, Badang, X.Borg, Nolan, Zetian, Obsidia, and Sora.<br>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1rqrm1e/patch_notes_2161_org_server/"
+  },
+  "2.1.62-adv": {
+    "version": "2.1.62-adv",
+    "release_date": "2026-03-06",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Freya": {
+        "badge": "NERF",
+        "description_en": "Freya's HP Regen in the early to mid game was a bit too high, so we have reduced the HP Regen during her Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base HP Regen per Basic Attack: 60-120 <code→></code> 40-80<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Melissa": {
+        "badge": "BUFF",
+        "description_en": "We've optimized her control experience to make chaining Skill 1 and 2 smoother. We also removed the cooldown reduction effect from Skill 1 and adjusted her Ultimate to help her better deal with counter heroes.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "Removed the cooldown reduction effect from attacking Muddles.<br>Cooldown: 7.5-5s <code→></code> 5-3.5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Skill 2 can now be cast during Skill 1.",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "Removed the Passive effect. Casting the Ultimate now grants a shield.<br>Shield: 300-700 (+200% Extra Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ruby": {
+        "badge": "CHANGE",
+        "description_en": "Reverted adjustments from the last patch.<br>",
+        "description_uk": ""
+      },
+      "Saber": {
+        "badge": "CHANGE",
+        "description_en": "Reverted adjustments from the last patch.<br>",
+        "description_uk": ""
+      },
+      "Terizla": {
+        "badge": "BUFF",
+        "description_en": "Terizla relies heavily on Spell Vamp, often finding himself with full HP but empty Mana. Since Mana management isn't core to his gameplay, we've removed his Mana system and made his skills Mana-free.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Removed Mana.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Xavier": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased the hero's damage output.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Damage: 480-650 (+100% Total Magic Power) <code→></code> 480-705 (+110% Total Magic Power)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Yi Sun-shin": {
+        "badge": "ADJUST",
+        "description_en": "Slightly reduced the strategic importance of Yi Sun-shin's Ultimate. Yi Sun-shin now needs to cast his Ultimate closer to the target to land hits more easily.<br>Fixed an issue where the number of Enhanced Basic Attacks was abnormal at high Attack Speed.<br>We will continue to monitor the effects of this change and may make balance adjustments in future updates.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Enhanced Basic Attacks now benefit from Attack Speed.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Turtle Ship Max Duration: 15s <code→></code> 10s<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {},
+    "system_adjustments": [
+      {
+        "text_en": "<strong>Ii. Mode Adjustments</strong><br/><br><ul><br><li><strong>Tide Siege</strong></li><br></ul><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>New Available Heroes</code>: Gord, Benedetta, Harith, Clint, and Eudora.</p><p><code>1-</code> Slightly increased the strength of monsters in some waves.</p><p><code>2-</code> Slightly reduced Cecilion's strength.</p><p><code>3-</code> Monsters no longer drop Hybrid Lifesteal Buffs. They now drop Adaptive Penetration Buffs.</p><ul>\n<li><strong>Frozen Sea Showdown</strong></li>\n</ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>1-</code> Flicker can now cross the river at the narrowest point.</p><p><code>2-</code> Added Cyclone Eyes near the enemy Chests on both sides. Players can use Cyclone Eyes to attack or escape.</p><p><code>3-</code> Added a new skill from the ordinary crab. <strong>[The Hunt]</strong>: Immediately enters Conceal state and becomes semi-transparent until taking damage or using hero skills. Flicker will not break the Conceal state.</p><p><code>4-</code> Increased the immobilization duration when casting hook skills from 0.3s to 0.4s.</p><p><code>5-</code> Removed the display of the Glacial Hook buff in the buff bar. Player level now determines the base range and size of the hook, as well as the hero's size.</p><p><code>6-</code> Increased the frequency of the kill count warning ticker when the match is ending.</p><p><code>7-</code> Fixed an issue where displacement would stop when a player was hooked by different targets in succession.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1rnbim1/patch_notes_2162_adv_server/"
   }
 }
