@@ -50,9 +50,11 @@ export const TeamResults: React.FC<TeamResultsProps> = memo(({ results, lang, ga
                 </div>
                 <div className={styles.counterStats}>
                   <span className={styles.counterScore}>{item.totalScore > 0 ? '+' : ''}{item.totalScore.toFixed(1)}%</span>
-                  <span className={styles.counterWr}>
-                    {t('counterPick.avgWr')}: {item.avgWinRate.toFixed(1)}%
-                  </span>
+                  {!isNaN(item.avgWinRate) && (
+                    <span className={styles.counterWr}>
+                      {t('counterPick.avgWr')}: {item.avgWinRate.toFixed(1)}%
+                    </span>
+                  )}
                 </div>
               </Link>
               <button
@@ -75,7 +77,7 @@ export const TeamResults: React.FC<TeamResultsProps> = memo(({ results, lang, ga
                     />
                     <span className={styles.detailName}>vs {getHeroName(d.enemyHero, lang)}</span>
                     <span className={styles.detailScore}>{d.increaseWinRate > 0 ? '+' : ''}{d.increaseWinRate.toFixed(1)}%</span>
-                    <span className={styles.detailWr}>{d.winRate.toFixed(1)}% WR</span>
+                    {!isNaN(d.winRate) && <span className={styles.detailWr}>{d.winRate.toFixed(1)}% WR</span>}
                   </div>
                 ))}
               </div>

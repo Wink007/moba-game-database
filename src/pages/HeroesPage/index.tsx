@@ -8,7 +8,6 @@ import { useFavorites } from '../../hooks/useFavorites';
 import { HeroFilters } from './components/HeroFilters';
 import { HeroGrid } from './components/HeroGrid';
 import { useSEO } from '../../hooks/useSEO';
-import { heroToSlug } from '../../utils/heroSlug';
 import { Hero } from '../../types';
 import styles from './styles.module.scss';
 
