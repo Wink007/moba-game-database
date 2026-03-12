@@ -4,6 +4,61 @@
   margin: 0 auto;
 }
 
+/* ── New Hero announcement strip ── */
+.newHeroStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(90deg, var(--clr-accent-08) 0%, var(--clr-accent-15) 50%, var(--clr-accent-08) 100%);
+  border-bottom: 1px solid var(--clr-accent-20);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(90deg, var(--clr-accent-12) 0%, var(--clr-accent-20) 50%, var(--clr-accent-12) 100%);
+
+    .stripArrow {
+      transform: translateX(3px);
+    }
+  }
+}
+
+.stripDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--clr-accent);
+  box-shadow: 0 0 6px var(--clr-accent-60);
+  animation: dotBlink 2s ease-in-out infinite;
+}
+
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.stripLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--clr-accent);
+}
+
+.stripName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--clr-text-2);
+}
+
+.stripArrow {
+  color: var(--clr-text-4);
+  transition: transform 0.2s ease;
+}
+
 .error {
   padding: 1.5rem;
   background: var(--clr-danger-soft);

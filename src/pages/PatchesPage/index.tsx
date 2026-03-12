@@ -154,7 +154,9 @@ export const PatchesPage: React.FC = () => {
 
   useSEO({
     title: patchVersion ? `${t('patches.version')} ${patchVersion}` : t('patches.title'),
-    description: t('patches.seoDescription'),
+    description: patchVersion
+      ? `Patch ${patchVersion} — hero adjustments, item changes and balance updates for Mobile Legends.`
+      : t('patches.seoDescription'),
   });
 
   const {

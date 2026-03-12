@@ -20,15 +20,24 @@ function ItemsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   useSEO({
     title: 'Items',
-    description: 'Browse all Mobile Legends items — equipment, roaming, jungling and more.',
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Items', item: `https://mobawiki.com/${gameId}/items` },
-      ],
-    },
+    description: 'Browse all Mobile Legends items — equipment, roaming, jungling and more. Stats, passives and build paths.',
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Items', item: `https://mobawiki.com/${gameId}/items` },
+        ],
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Mobile Legends Items',
+        description: 'Complete list of all Mobile Legends items with stats and passives.',
+        url: `https://mobawiki.com/${gameId}/items`,
+      },
+    ],
   });
   const { data: items = [], isLoading, isError } = useItemsQuery(Number(gameId));
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);

@@ -10,12 +10,26 @@ import { SingleResults } from './SingleResults';
 import { TeamResults } from './TeamResults';
 import { PlusIcon, SingleIcon, TeamIcon } from './icons';
 import { LazyImage } from '../../components/LazyImage';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
 export const CounterPickPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const { selectedGameId } = useGameStore();
+
+  useSEO({
+    title: 'Counter Pick Tool',
+    description: 'Find the best counter picks for any Mobile Legends hero — analyze matchups for solo or full team compositions.',
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Counter Pick', item: `https://mobawiki.com/${selectedGameId}/counter-pick` },
+      ],
+    },
+  });
 
   const {
     mode, selectedHero, teamHeroes, searchQuery, isSelectorOpen, selectingSlot,

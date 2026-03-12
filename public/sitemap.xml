@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mobawiki.com/</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,12 +13,14 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/hero-ranks</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
@@ -37,6 +40,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/patches</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -47,8 +51,14 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/tier-list</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/hanabi</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/yi-sun-shin</loc>
@@ -61,17 +71,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/cecilion</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/chou</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/moskov</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -81,42 +81,17 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/gatotkaca</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/faramis</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/argus</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/aamon</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/bane</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/guinevere</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/freya</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/angela</loc>
+    <loc>https://mobawiki.com/2/heroes/cecilion</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/moskov</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -126,7 +101,52 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/aamon</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/gatotkaca</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/argus</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/bane</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/faramis</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/angela</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/hilda</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/guinevere</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/pharsa</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/aldous</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -141,32 +161,17 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/pharsa</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/hanabi</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/aldous</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/khufra</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/marcel</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/aurora</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/khufra</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -186,6 +191,11 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/yve</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/lolita</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -196,12 +206,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/yve</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/baxia</loc>
+    <loc>https://mobawiki.com/2/heroes/novaria</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -211,7 +216,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/novaria</loc>
+    <loc>https://mobawiki.com/2/heroes/baxia</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -286,6 +291,11 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/cici</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/kadita</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -296,17 +306,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/cici</loc>
+    <loc>https://mobawiki.com/2/heroes/nolan</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/kagura</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/nolan</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -336,12 +341,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/masha</loc>
+    <loc>https://mobawiki.com/2/heroes/harley</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/harley</loc>
+    <loc>https://mobawiki.com/2/heroes/masha</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -376,12 +381,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/yu-zhong</loc>
+    <loc>https://mobawiki.com/2/heroes/suyou</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/suyou</loc>
+    <loc>https://mobawiki.com/2/heroes/yu-zhong</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -396,12 +401,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/hylos</loc>
+    <loc>https://mobawiki.com/2/heroes/uranus</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/uranus</loc>
+    <loc>https://mobawiki.com/2/heroes/hylos</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -711,13 +716,231 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/patches/2.1.61</loc>
+    <lastmod>2026-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.62-adv</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.60-adv</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.58-adv</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.56-adv</loc>
+    <lastmod>2026-01-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.47</loc>
+    <lastmod>2026-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.54-adv</loc>
+    <lastmod>2026-01-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.52-adv</loc>
+    <lastmod>2026-01-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.50-adv</loc>
+    <lastmod>2026-01-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.48-adv</loc>
+    <lastmod>2025-12-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.46-adv</loc>
+    <lastmod>2025-12-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.40</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.44-adv</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.42-adv</loc>
+    <lastmod>2025-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.40-adv</loc>
+    <lastmod>2025-12-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.38-adv</loc>
+    <lastmod>2025-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.36-adv</loc>
+    <lastmod>2025-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.34-adv</loc>
+    <lastmod>2025-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.32-adv</loc>
+    <lastmod>2025-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.30</loc>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.30-adv</loc>
+    <lastmod>2025-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.28-adv</loc>
+    <lastmod>2025-10-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.26-adv</loc>
+    <lastmod>2025-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.24-adv</loc>
+    <lastmod>2025-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.22-adv</loc>
+    <lastmod>2025-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.18</loc>
+    <lastmod>2025-09-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.20-adv</loc>
+    <lastmod>2025-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.18-adv</loc>
+    <lastmod>2025-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.16-adv</loc>
+    <lastmod>2025-08-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.14-adv</loc>
+    <lastmod>2025-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.12-adv</loc>
+    <lastmod>2025-08-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.10-adv</loc>
+    <lastmod>2025-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/1.9.99</loc>
+    <lastmod>2025-08-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.08-adv</loc>
+    <lastmod>2025-08-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.06-adv</loc>
+    <lastmod>2025-07-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.04-adv</loc>
+    <lastmod>2025-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/7/heroes</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/7/hero-ranks</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
@@ -737,6 +960,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/7/patches</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -747,17 +971,20 @@
   </url>
   <url>
     <loc>https://mobawiki.com/7/tier-list</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/8/heroes</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/8/hero-ranks</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
@@ -777,6 +1004,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/8/patches</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -787,17 +1015,20 @@
   </url>
   <url>
     <loc>https://mobawiki.com/8/tier-list</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/10/heroes</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/10/hero-ranks</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
@@ -817,6 +1048,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/10/patches</loc>
+    <lastmod>2026-03-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -827,7 +1059,8 @@
   </url>
   <url>
     <loc>https://mobawiki.com/10/tier-list</loc>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-12</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>

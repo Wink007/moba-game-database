@@ -60,6 +60,34 @@ export const useSEO = ({ title, description, image, jsonLd }: SEOProps = {}) => 
     setNameMeta('twitter:description', desc);
     setNameMeta('twitter:image', img);
 
+    // Canonical + hreflang per route
+    const pathname = window.location.pathname;
+    const canonicalUrl = `${BASE_URL}${pathname}`;
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl;
+
+    const hreflangs: Record<string, string> = {
+      en: canonicalUrl,
+      uk: `${canonicalUrl}${pathname === '/' ? '' : ''}?lang=uk`,
+      'x-default': canonicalUrl,
+    };
+    for (const [lang, href] of Object.entries(hreflangs)) {
+      let link = document.querySelector(`link[hreflang="${lang}"]`) as HTMLLinkElement | null;
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'alternate';
+        link.hreflang = lang;
+        document.head.appendChild(link);
+      }
+      link.href = href;
+    }
+
     return () => {
       document.title = BASE_TITLE;
       setNameMeta('description', BASE_DESCRIPTION);

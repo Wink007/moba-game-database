@@ -6,6 +6,7 @@ import { LastHeroesInfo } from '../../components/LastHeroesInfo';
 import { RandomHeroStats } from '../../components/RandomHeroStats';
 import { VideoPreview } from './components/VideoPreview';
 import { HeroRankSection } from './components/HeroRankSection';
+import { NewHeroStrip } from './components/NewHeroStrip';
 import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
@@ -50,6 +51,7 @@ export const HomePage = () => {
 
   return (
     <div className={styles.homePageWrapper}>
+      <NewHeroStrip gameId={selectedGameId} />
       <VideoPreview game={defaultGame ?? cachedGame}>
         <HeroRankSection gameId={selectedGameId} />
       </VideoPreview>
