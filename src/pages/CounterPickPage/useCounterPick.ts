@@ -7,7 +7,10 @@ import type { Mode, AggregatedCounter, SingleResultsData } from './types';
 const ROLE_ORDER = ['Tank', 'Fighter', 'Assassin', 'Mage', 'Marksman', 'Support'] as const;
 
 /** Normalize API values that may come as 0..1 fractions or already as percentages */
-const pct = (v: number) => (Math.abs(v) < 1 ? v * 100 : v);
+const pct = (v: number | undefined | null): number => {
+  if (v == null || isNaN(v)) return NaN;
+  return Math.abs(v) < 1 ? v * 100 : v;
+};
 
 export function useCounterPick(gameId: number, lang: string) {
   const { data: allHeroes, isLoading: heroesLoading } = useHeroesQuery(gameId);
@@ -138,7 +141,7 @@ export function useCounterPick(gameId: number, lang: string) {
     if (mode !== 'team' || teamHeroes.length === 0 || !counterData || !allHeroes) return null;
 
     const selectedIds = new Set(teamHeroes.map(h => h.hero_game_id ?? h.id));
-    const scoreMap = new Map<number, { totalScore: number; totalWinRate: number; count: number; details: AggregatedCounter['details'] }>();
+    const scoreMap = new Map<number, { totalScore: number; totalWinRate: number; wrCount: number; details: AggregatedCounter['details'] }>();
 
     for (const enemyHero of teamHeroes) {
       const data = counterData[enemyHero.hero_game_id ?? enemyHero.id];
@@ -147,15 +150,16 @@ export function useCounterPick(gameId: number, lang: string) {
       for (const c of data.most_countered_by) {
         if (selectedIds.has(c.heroid)) continue;
         const iwr = pct(c.increase_win_rate);
+        if (isNaN(iwr)) continue;
         const wr = pct(c.win_rate);
+        const hasWr = !isNaN(wr);
         const prev = scoreMap.get(c.heroid);
         if (prev) {
           prev.totalScore += iwr;
-          prev.totalWinRate += wr;
-          prev.count += 1;
+          if (hasWr) { prev.totalWinRate += wr; prev.wrCount += 1; }
           prev.details.push({ enemyHero, increaseWinRate: iwr, winRate: wr });
         } else {
-          scoreMap.set(c.heroid, { totalScore: iwr, totalWinRate: wr, count: 1, details: [{ enemyHero, increaseWinRate: iwr, winRate: wr }] });
+          scoreMap.set(c.heroid, { totalScore: iwr, totalWinRate: hasWr ? wr : 0, wrCount: hasWr ? 1 : 0, details: [{ enemyHero, increaseWinRate: iwr, winRate: wr }] });
         }
       }
     }
@@ -163,7 +167,7 @@ export function useCounterPick(gameId: number, lang: string) {
     const results: AggregatedCounter[] = [];
     scoreMap.forEach((v, heroId) => {
       const hero = heroByGameId.get(heroId);
-      if (hero) results.push({ heroId, hero, totalScore: v.totalScore, avgWinRate: v.totalWinRate / v.count, details: v.details });
+      if (hero) results.push({ heroId, hero, totalScore: v.totalScore, avgWinRate: v.wrCount > 0 ? v.totalWinRate / v.wrCount : NaN, details: v.details });
     });
     results.sort((a, b) => b.totalScore - a.totalScore);
     return results.slice(0, 15);
