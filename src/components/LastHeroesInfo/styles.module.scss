@@ -88,6 +88,10 @@
   width: 32px;
   height: 32px;
   filter: drop-shadow(0 2px 4px var(--clr-black-50));
+
+  [data-theme="light"] & {
+    filter: brightness(0.4) drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+  }
 }
 
 /* Nav buttons */
