@@ -28,8 +28,9 @@ function fetchJSON(url) {
   });
 }
 
-function loc(url, priority = '0.7', changefreq = 'weekly') {
-  return `  <url>\n    <loc>${url}</loc>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+function loc(url, priority = '0.7', changefreq = 'weekly', lastmod = null) {
+  const lastmodTag = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : '';
+  return `  <url>\n    <loc>${url}</loc>${lastmodTag}\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
 }
 
 function heroToSlug(name) {
@@ -44,10 +45,11 @@ async function generate() {
   console.log('[sitemap] Fetching games...');
   const games = await fetchJSON(`${API_URL}/games`);
 
+  const today = new Date().toISOString().split('T')[0];
   const urls = [];
 
   // Static pages
-  urls.push(loc(`${BASE_URL}/`, '1.0', 'daily'));
+  urls.push(loc(`${BASE_URL}/`, '1.0', 'daily', today));
   urls.push(loc(`${BASE_URL}/legal`, '0.3', 'monthly'));
 
   for (const game of games) {
@@ -55,14 +57,14 @@ async function generate() {
     const prefix = `${BASE_URL}/${gid}`;
 
     // Section pages
-    urls.push(loc(`${prefix}/heroes`,     '0.9', 'daily'));
-    urls.push(loc(`${prefix}/hero-ranks`, '0.8', 'weekly'));
+    urls.push(loc(`${prefix}/heroes`,     '0.9', 'daily', today));
+    urls.push(loc(`${prefix}/hero-ranks`, '0.8', 'daily', today));
     urls.push(loc(`${prefix}/items`,      '0.7', 'weekly'));
     urls.push(loc(`${prefix}/emblems`,    '0.7', 'weekly'));
     urls.push(loc(`${prefix}/spells`,     '0.7', 'weekly'));
-    urls.push(loc(`${prefix}/patches`,    '0.8', 'weekly'));
+    urls.push(loc(`${prefix}/patches`,    '0.8', 'weekly', today));
     urls.push(loc(`${prefix}/counter-pick`, '0.8', 'weekly'));
-    urls.push(loc(`${prefix}/tier-list`,  '0.8', 'weekly'));
+    urls.push(loc(`${prefix}/tier-list`,  '0.8', 'daily', today));
 
     // Hero detail pages (only for games that have heroes in our DB)
     try {
@@ -74,6 +76,25 @@ async function generate() {
       console.log(`[sitemap]   → ${heroes.length} heroes`);
     } catch (e) {
       console.warn(`[sitemap]   → no heroes for game ${gid}: ${e.message}`);
+    }
+
+    // Patch detail pages (only for primary game — MLBB)
+    if (gid === 2) {
+      try {
+        console.log(`[sitemap] Fetching patches...`);
+        const patches = await fetchJSON(`${API_URL}/patches?minimal=true`);
+        for (const patch of patches) {
+          urls.push(loc(
+            `${prefix}/patches/${patch.version}`,
+            '0.7',
+            'monthly',
+            patch.release_date || null
+          ));
+        }
+        console.log(`[sitemap]   → ${patches.length} patches`);
+      } catch (e) {
+        console.warn(`[sitemap]   → no patches: ${e.message}`);
+      }
     }
   }
 

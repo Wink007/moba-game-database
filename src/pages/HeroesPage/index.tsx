@@ -8,6 +8,7 @@ import { useFavorites } from '../../hooks/useFavorites';
 import { HeroFilters } from './components/HeroFilters';
 import { HeroGrid } from './components/HeroGrid';
 import { useSEO } from '../../hooks/useSEO';
+import { heroToSlug } from '../../utils/heroSlug';
 import { Hero } from '../../types';
 import styles from './styles.module.scss';
 
@@ -18,15 +19,24 @@ function HeroesPage() {
   const { selectedGameId } = useGameStore();
   useSEO({
     title: 'Heroes',
-    description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty.',
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Heroes', item: `https://mobawiki.com/${selectedGameId}/heroes` },
-      ],
-    },
+    description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty. Stats, skills, builds and counters for every hero.',
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Heroes', item: `https://mobawiki.com/${selectedGameId}/heroes` },
+        ],
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Mobile Legends Heroes',
+        description: 'Complete list of all Mobile Legends heroes with stats, skills and builds.',
+        url: `https://mobawiki.com/${selectedGameId}/heroes`,
+      },
+    ],
   });
   const { favorites } = useFavorites();
 

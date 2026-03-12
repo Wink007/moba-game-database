@@ -16,7 +16,7 @@ export const HeroRankPage = () => {
   const { selectedGameId } = useGameStore();
   useSEO({
     title: 'Hero Rankings',
-    description: 'Mobile Legends hero tier list — win rates, ban rates and pick rates by rank.',
+    description: 'Mobile Legends hero rankings — win rates, ban rates and pick rates by rank. Updated daily with the latest meta stats.',
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',

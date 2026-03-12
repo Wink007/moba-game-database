@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
 type Tab = 'privacy' | 'terms' | 'cookies';
@@ -7,6 +8,11 @@ type Tab = 'privacy' | 'terms' | 'cookies';
 export const LegalPage = () => {
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<Tab>('privacy');
+
+  useSEO({
+    title: 'Legal Information',
+    description: 'Privacy policy, terms of service and cookie policy for MOBA Wiki.',
+  });
 
   useEffect(() => {
     const tab = searchParams.get('tab');
