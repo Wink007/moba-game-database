@@ -4,10 +4,9 @@ import { InfoTabProps } from './interface';
 import styles from '../styles.module.scss';
 import { CollapsibleSection } from './CollapsibleSection';
 import { LaneMap } from './LaneMap';
-import { getHeroName } from '../../../utils/translation';
 
 export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabel, getRatingLevel }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className={styles.contentSection}>
