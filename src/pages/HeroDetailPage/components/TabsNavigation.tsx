@@ -45,6 +45,12 @@ const StatsIcon = () => (
   </svg>
 );
 
+const CommentsIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+);
+
 const TABS = [
   { key: 'info', Icon: InfoIcon, label: 'heroDetail.baseInformation' },
   { key: 'builds', Icon: BuildsIcon, label: 'heroDetail.proBuilds' },
@@ -53,6 +59,7 @@ const TABS = [
   { key: 'stats', Icon: StatsIcon, label: 'heroDetail.statsHistory' },
   { key: 'about', Icon: AboutIcon, label: 'heroDetail.aboutTab' },
   { key: 'history', Icon: HistoryIcon, label: 'heroDetail.balanceHistory' },
+  { key: 'comments', Icon: CommentsIcon, label: 'comments.title' },
 ] as const;
 
 export const TabsNavigation: React.FC<TabsNavigationProps> = React.memo(({ activeTab, onTabChange }) => {

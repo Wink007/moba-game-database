@@ -15,10 +15,10 @@ export interface UseHeroSkillsReturn {
 }
 
 export interface UseHeroTabsReturn {
-  activeTab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds' | 'stats';
+  activeTab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds' | 'stats' | 'comments';
   counterSubTab: 'best' | 'worst';
   synergySubTab: 'compatible' | 'incompatible';
-  setActiveTab: (tab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds' | 'stats') => void;
+  setActiveTab: (tab: 'info' | 'about' | 'counter' | 'synergy' | 'history' | 'builds' | 'stats' | 'comments') => void;
   setCounterSubTab: (tab: 'best' | 'worst') => void;
   setSynergySubTab: (tab: 'compatible' | 'incompatible') => void;
 }

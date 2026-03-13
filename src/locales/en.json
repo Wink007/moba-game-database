@@ -593,5 +593,13 @@
     "about": "About",
     "appName": "Mobile Legends Wiki",
     "unofficial": "Unofficial fan-made guide"
+  },
+  "comments": {
+    "title": "Comments",
+    "placeholder": "Share your thoughts about this hero...",
+    "loginToComment": "Sign in to leave a comment",
+    "loginRequired": "Sign in to post a comment",
+    "post": "Post",
+    "empty": "No comments yet. Be the first!"
   }
 }

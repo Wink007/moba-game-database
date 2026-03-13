@@ -30,6 +30,9 @@ export const queryKeys = {
   builds: {
     community: (heroId: number, userId?: number) => ['community-builds', { heroId, userId }] as const,
   },
+  comments: {
+    hero: (heroId: number) => ['comments', 'hero', heroId] as const,
+  },
   profile: {
     user: (userId: number) => ['profile', userId] as const,
   },
