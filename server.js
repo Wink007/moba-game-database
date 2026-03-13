@@ -8,6 +8,9 @@ const PORT = process.env.PORT || 3000;
 const API_URL = 'https://web-production-8570.up.railway.app/api';
 const BUILD_DIR = path.join(__dirname, 'build');
 
+// Read once at startup — not on every request
+const INDEX_HTML = fs.readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8');
+
 function fetchJSON(url) {
   return new Promise((resolve) => {
     https.get(url, (res) => {
@@ -41,13 +44,13 @@ function heroToSlug(name) {
     .replace(/^-+|-+$/g, '');
 }
 
-function injectMeta(html, { title, description, image, canonical }) {
+function injectMeta(html, { title, description, image, canonical, jsonLd }) {
   const fullTitle = title ? `${title} | MOBA Wiki` : 'Wiki for Mobile Legends (Unofficial)';
   const desc = description || 'Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more. Not affiliated with Moonton.';
   const img = image || 'https://mobawiki.com/logo512.png';
   const canon = canonical || 'https://mobawiki.com/';
 
-  return html
+  let result = html
     .replace(/<title>[^<]*<\/title>/, `<title>${fullTitle}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(")/,  `$1${desc}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(")/,  `$1${fullTitle}$2`)
@@ -58,6 +61,13 @@ function injectMeta(html, { title, description, image, canonical }) {
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/,  `$1${fullTitle}$2`)
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/,  `$1${desc}$2`)
     .replace(/(<meta name="twitter:image" content=")[^"]*(")/,  `$1${img}$2`);
+
+  if (jsonLd) {
+    const script = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
+    result = result.replace('</head>', `${script}</head>`);
+  }
+
+  return result;
 }
 
 // Serve static assets (js, css, images etc.) directly — no meta injection needed
@@ -65,8 +75,7 @@ app.use(express.static(BUILD_DIR, { index: false }));
 
 // All HTML routes go through meta injection
 app.get('/{*path}', async (req, res) => {
-  const htmlPath = path.join(BUILD_DIR, 'index.html');
-  let html = fs.readFileSync(htmlPath, 'utf8');
+  let html = INDEX_HTML;
 
   const url = req.path;
 
@@ -88,11 +97,34 @@ app.get('/{*path}', async (req, res) => {
       if (heroes) {
         const hero = heroes.find(h => heroToSlug(h.name) === heroSlug);
         if (hero) {
+          const winRate = hero.main_hero_win_rate ? ` Win Rate ${parseFloat(hero.main_hero_win_rate).toFixed(1)}%.` : '';
+          const shortDesc = hero.short_description ? ` ${hero.short_description}` : '';
+          const heroImg = hero.image || hero.head || undefined;
+          const heroUrl = `https://mobawiki.com${url}`;
           html = injectMeta(html, {
             title: `${hero.name} — Hero Guide`,
-            description: `${hero.name} guide for Mobile Legends — skills, builds, counters, synergies and stats.`,
-            image: hero.image || undefined,
-            canonical: `https://mobawiki.com${url}`,
+            description: `${hero.name} guide for Mobile Legends — skills, builds, counters, synergies and stats.${winRate}${shortDesc}`,
+            image: heroImg,
+            canonical: heroUrl,
+            jsonLd: [
+              {
+                '@context': 'https://schema.org',
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+                  { '@type': 'ListItem', position: 2, name: 'Heroes', item: `https://mobawiki.com/${gameId}/heroes` },
+                  { '@type': 'ListItem', position: 3, name: hero.name, item: heroUrl },
+                ],
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'WebPage',
+                name: `${hero.name} — Hero Guide | MOBA Wiki`,
+                description: `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.`,
+                url: heroUrl,
+                ...(heroImg ? { image: heroImg } : {}),
+              },
+            ],
           });
         }
       }
