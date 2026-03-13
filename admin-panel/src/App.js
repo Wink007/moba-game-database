@@ -13,6 +13,12 @@ import BattleSpellForm from './components/BattleSpellForm';
 import HeroRanksManager from './components/HeroRanksManager';
 import PatchList from './components/PatchList';
 import PatchForm from './components/PatchForm';
+import MapLaneList from './components/MapLaneList';
+import MapLaneForm from './components/MapLaneForm';
+import MapCreepList from './components/MapCreepList';
+import MapCreepForm from './components/MapCreepForm';
+import MapBattlefieldList from './components/MapBattlefieldList';
+import MapBattlefieldForm from './components/MapBattlefieldForm';
 
 // Railway API URL (online) or localhost for local development
 const API_URL = process.env.REACT_APP_API_URL || 'https://web-production-8570.up.railway.app/api';
@@ -46,6 +52,17 @@ function App() {
   const [showPatchForm, setShowPatchForm] = useState(false);
   const [editingPatch, setEditingPatch] = useState(null);
 
+  const [mapSubTab, setMapSubTab] = useState('lanes');
+  const [mapLanes, setMapLanes] = useState([]);
+  const [showMapLaneForm, setShowMapLaneForm] = useState(false);
+  const [editingMapLane, setEditingMapLane] = useState(null);
+  const [mapCreeps, setMapCreeps] = useState([]);
+  const [showMapCreepForm, setShowMapCreepForm] = useState(false);
+  const [editingMapCreep, setEditingMapCreep] = useState(null);
+  const [mapBattlefields, setMapBattlefields] = useState([]);
+  const [showMapBattlefieldForm, setShowMapBattlefieldForm] = useState(false);
+  const [editingMapBattlefield, setEditingMapBattlefield] = useState(null);
+
   // Load games on startup
   useEffect(() => {
     loadGames();
@@ -59,6 +76,9 @@ function App() {
       loadItems(selectedGame.id);
       loadEmblems(selectedGame.id);
       loadBattleSpells(selectedGame.id);
+      loadMapLanes(selectedGame.id);
+      loadMapCreeps(selectedGame.id);
+      loadMapBattlefields(selectedGame.id);
     }
   }, [selectedGame]);
 
@@ -133,6 +153,36 @@ function App() {
     } catch (error) {
       console.error('Error loading battle spells:', error);
       setBattleSpells([]);
+    }
+  };
+
+  const loadMapLanes = async (gameId) => {
+    try {
+      const response = await axios.get(`${API_URL}/map/lanes?game_id=${gameId}`);
+      setMapLanes(response.data || []);
+    } catch (error) {
+      console.error('Error loading map lanes:', error);
+      setMapLanes([]);
+    }
+  };
+
+  const loadMapCreeps = async (gameId) => {
+    try {
+      const response = await axios.get(`${API_URL}/map/creeps?game_id=${gameId}`);
+      setMapCreeps(response.data || []);
+    } catch (error) {
+      console.error('Error loading map creeps:', error);
+      setMapCreeps([]);
+    }
+  };
+
+  const loadMapBattlefields = async (gameId) => {
+    try {
+      const response = await axios.get(`${API_URL}/map/battlefield?game_id=${gameId}`);
+      setMapBattlefields(response.data || []);
+    } catch (error) {
+      console.error('Error loading map battlefields:', error);
+      setMapBattlefields([]);
     }
   };
 
@@ -298,6 +348,13 @@ function App() {
           onClick={() => setActiveTab('patches')}
         >
           📋 Patches
+        </button>
+        <button 
+          className={activeTab === 'map' ? 'active' : ''} 
+          onClick={() => setActiveTab('map')}
+          disabled={!selectedGame}
+        >
+          🗺️ Map
         </button>
       </div>
 
@@ -888,6 +945,155 @@ function App() {
               onDelete={deletePatch}
               onRefresh={loadPatches}
             />
+          </div>
+        )}
+
+        {activeTab === 'map' && (
+          <div className="tab-content">
+            <div className="tab-header">
+              <h2>🗺️ Map</h2>
+            </div>
+
+            {/* Sub-tabs */}
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', borderBottom: '2px solid #e5e7eb', paddingBottom: '8px' }}>
+              {['lanes', 'creeps', 'battlefield'].map((sub) => (
+                <button
+                  key={sub}
+                  className={mapSubTab === sub ? 'active' : ''}
+                  onClick={() => setMapSubTab(sub)}
+                  style={{
+                    padding: '8px 18px',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    background: mapSubTab === sub ? '#3b82f6' : '#f3f4f6',
+                    color: mapSubTab === sub ? 'white' : '#374151',
+                    fontWeight: mapSubTab === sub ? '600' : '400',
+                    fontSize: '0.9rem',
+                    textTransform: 'capitalize',
+                  }}
+                >
+                  {sub === 'lanes' ? '🛣️ Lanes' : sub === 'creeps' ? '👾 Creeps' : '⚔️ Battlefield'}
+                </button>
+              ))}
+            </div>
+
+            {/* Lanes */}
+            {mapSubTab === 'lanes' && (
+              <>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => { setEditingMapLane(null); setShowMapLaneForm(true); }}
+                  >
+                    + Add Lane
+                  </button>
+                </div>
+
+                {showMapLaneForm && (
+                  <MapLaneForm
+                    lane={editingMapLane}
+                    gameId={selectedGame.id}
+                    onClose={() => { setShowMapLaneForm(false); setEditingMapLane(null); }}
+                    onSave={() => { setShowMapLaneForm(false); setEditingMapLane(null); loadMapLanes(selectedGame.id); }}
+                  />
+                )}
+
+                <MapLaneList
+                  lanes={mapLanes}
+                  onEdit={(lane) => { setEditingMapLane(lane); setShowMapLaneForm(true); }}
+                  onDelete={async (id) => {
+                    if (window.confirm('Delete this lane?')) {
+                      try {
+                        await axios.delete(`${API_URL}/map/lanes/${id}`);
+                        loadMapLanes(selectedGame.id);
+                      } catch (error) {
+                        console.error('Error deleting lane:', error);
+                        alert('Помилка видалення lane');
+                      }
+                    }
+                  }}
+                />
+              </>
+            )}
+
+            {/* Creeps */}
+            {mapSubTab === 'creeps' && (
+              <>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => { setEditingMapCreep(null); setShowMapCreepForm(true); }}
+                  >
+                    + Add Creep
+                  </button>
+                </div>
+
+                {showMapCreepForm && (
+                  <MapCreepForm
+                    creep={editingMapCreep}
+                    gameId={selectedGame.id}
+                    onClose={() => { setShowMapCreepForm(false); setEditingMapCreep(null); }}
+                    onSave={() => { setShowMapCreepForm(false); setEditingMapCreep(null); loadMapCreeps(selectedGame.id); }}
+                  />
+                )}
+
+                <MapCreepList
+                  creeps={mapCreeps}
+                  onEdit={(creep) => { setEditingMapCreep(creep); setShowMapCreepForm(true); }}
+                  onDelete={async (id) => {
+                    if (window.confirm('Delete this creep?')) {
+                      try {
+                        await axios.delete(`${API_URL}/map/creeps/${id}`);
+                        loadMapCreeps(selectedGame.id);
+                      } catch (error) {
+                        console.error('Error deleting creep:', error);
+                        alert('Помилка видалення creep');
+                      }
+                    }
+                  }}
+                />
+              </>
+            )}
+
+            {/* Mythical Honor Battlefield */}
+            {mapSubTab === 'battlefield' && (
+              <>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => { setEditingMapBattlefield(null); setShowMapBattlefieldForm(true); }}
+                  >
+                    + Add Battlefield
+                  </button>
+                </div>
+
+                {showMapBattlefieldForm && (
+                  <MapBattlefieldForm
+                    battlefield={editingMapBattlefield}
+                    gameId={selectedGame.id}
+                    onClose={() => { setShowMapBattlefieldForm(false); setEditingMapBattlefield(null); }}
+                    onSave={() => { setShowMapBattlefieldForm(false); setEditingMapBattlefield(null); loadMapBattlefields(selectedGame.id); }}
+                  />
+                )}
+
+                <MapBattlefieldList
+                  battlefields={mapBattlefields}
+                  onEdit={(bf) => { setEditingMapBattlefield(bf); setShowMapBattlefieldForm(true); }}
+                  onDelete={async (id) => {
+                    if (window.confirm('Delete this battlefield?')) {
+                      try {
+                        await axios.delete(`${API_URL}/map/battlefield/${id}`);
+                        loadMapBattlefields(selectedGame.id);
+                      } catch (error) {
+                        console.error('Error deleting battlefield:', error);
+                        alert('Помилка видалення battlefield');
+                      }
+                    }
+                  }}
+                />
+              </>
+            )}
           </div>
         )}
       </div>
