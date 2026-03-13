@@ -9,7 +9,7 @@ const API_URL = 'https://web-production-8570.up.railway.app/api';
 const BUILD_DIR = path.join(__dirname, 'build');
 
 function fetchJSON(url) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     https.get(url, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
@@ -19,6 +19,18 @@ function fetchJSON(url) {
       });
     }).on('error', () => resolve(null));
   });
+}
+
+const cache = new Map();
+const CACHE_TTL = 15 * 60 * 1000; // 15 хвилин
+
+async function cachedFetch(url) {
+  const now = Date.now();
+  const hit = cache.get(url);
+  if (hit && now - hit.ts < CACHE_TTL) return hit.data;
+  const data = await fetchJSON(url);
+  if (data) cache.set(url, { data, ts: now });
+  return data;
 }
 
 function heroToSlug(name) {
@@ -42,7 +54,10 @@ function injectMeta(html, { title, description, image, canonical }) {
     .replace(/(<meta property="og:description" content=")[^"]*(")/,  `$1${desc}$2`)
     .replace(/(<meta property="og:image" content=")[^"]*(")/,  `$1${img}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/,  `$1${canon}$2`)
-    .replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${canon}$2`);
+    .replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${canon}$2`)
+    .replace(/(<meta name="twitter:title" content=")[^"]*(")/,  `$1${fullTitle}$2`)
+    .replace(/(<meta name="twitter:description" content=")[^"]*(")/,  `$1${desc}$2`)
+    .replace(/(<meta name="twitter:image" content=")[^"]*(")/,  `$1${img}$2`);
 }
 
 // Serve static assets (js, css, images etc.) directly — no meta injection needed
@@ -56,11 +71,20 @@ app.get('/{*path}', async (req, res) => {
   const url = req.path;
 
   try {
+    // noindex для приватних сторінок
+    if (url.match(/^\/(players|profile|favorites)(\/.+)?$/)) {
+      html = html.replace(
+        /(<meta name="robots" content=")[^"]*(")/,
+        '$1noindex, nofollow$2'
+      );
+      return res.send(html);
+    }
+
     // /:gameId/heroes/:heroSlug
     const heroMatch = url.match(/^\/(\d+)\/heroes\/([^/]+)$/);
     if (heroMatch) {
       const [, gameId, heroSlug] = heroMatch;
-      const heroes = await fetchJSON(`${API_URL}/heroes?game_id=${gameId}&lang=en`);
+      const heroes = await cachedFetch(`${API_URL}/heroes?game_id=${gameId}&lang=en`);
       if (heroes) {
         const hero = heroes.find(h => heroToSlug(h.name) === heroSlug);
         if (hero) {
