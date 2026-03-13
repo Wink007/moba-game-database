@@ -2,8 +2,10 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
+const compression = require('compression');
 
 const app = express();
+app.use(compression());
 const PORT = process.env.PORT || 3000;
 const API_URL = 'https://web-production-8570.up.railway.app/api';
 const BUILD_DIR = path.join(__dirname, 'build');
