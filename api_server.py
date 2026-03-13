@@ -415,6 +415,137 @@ def get_all_heroes_skills():
 
 # Hero Ranks endpoints moved to the end of file (around line 1214)
 
+# ─── Hero Comments ────────────────────────────────────────────────────────────
+
+@app.route('/api/heroes/<int:hero_id>/comments', methods=['GET'])
+def get_hero_comments(hero_id):
+    """Get paginated comments for a hero"""
+    page = max(1, int(request.args.get('page', 1)))
+    size = min(50, int(request.args.get('size', 20)))
+    offset = (page - 1) * size
+    ph = db.get_placeholder()
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"""
+            SELECT c.id, c.hero_id, c.user_id, c.text, c.likes, c.created_at,
+                   u.name as author_name, u.picture as author_picture
+            FROM hero_comments c
+            JOIN users u ON u.id = c.user_id
+            WHERE c.hero_id = {ph}
+            ORDER BY c.likes DESC, c.created_at DESC
+            LIMIT {ph} OFFSET {ph}
+        """, (hero_id, size, offset))
+        rows = cursor.fetchall()
+        cols = ['id', 'hero_id', 'user_id', 'text', 'likes', 'created_at', 'author_name', 'author_picture']
+        comments = []
+        for row in rows:
+            c = dict(zip(cols, row)) if not isinstance(row, dict) else dict(row)
+            c['created_at'] = c['created_at'].isoformat() if c['created_at'] else None
+            comments.append(c)
+
+        cursor.execute(f"SELECT COUNT(*) FROM hero_comments WHERE hero_id = {ph}", (hero_id,))
+        total = cursor.fetchone()[0]
+        db.release_connection(conn)
+        return jsonify({'comments': comments, 'total': total, 'page': page, 'size': size})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/heroes/<int:hero_id>/comments', methods=['POST'])
+@require_auth
+def post_hero_comment(hero_id):
+    """Post a new comment (requires auth)"""
+    data = request.get_json() or {}
+    text = (data.get('text') or '').strip()
+    if not text:
+        return jsonify({'error': 'Comment text is required'}), 400
+    if len(text) > 1000:
+        return jsonify({'error': 'Comment too long (max 1000 chars)'}), 400
+    ph = db.get_placeholder()
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"""
+            INSERT INTO hero_comments (hero_id, user_id, text)
+            VALUES ({ph}, {ph}, {ph}) RETURNING id, created_at
+        """, (hero_id, request.user_id, text))
+        row = cursor.fetchone()
+        comment_id = row[0] if not isinstance(row, dict) else row['id']
+        created_at = row[1] if not isinstance(row, dict) else row['created_at']
+
+        cursor.execute(f"SELECT name, picture FROM users WHERE id = {ph}", (request.user_id,))
+        user_row = cursor.fetchone()
+        author_name = user_row[0] if not isinstance(user_row, dict) else user_row['name']
+        author_picture = user_row[1] if not isinstance(user_row, dict) else user_row['picture']
+
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({
+            'id': comment_id, 'hero_id': hero_id, 'user_id': request.user_id,
+            'text': text, 'likes': 0,
+            'created_at': created_at.isoformat() if created_at else None,
+            'author_name': author_name, 'author_picture': author_picture,
+        }), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/comments/<int:comment_id>', methods=['DELETE'])
+@require_auth
+def delete_hero_comment(comment_id):
+    """Delete own comment (requires auth)"""
+    ph = db.get_placeholder()
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT user_id FROM hero_comments WHERE id = {ph}", (comment_id,))
+        row = cursor.fetchone()
+        if not row:
+            db.release_connection(conn)
+            return jsonify({'error': 'Comment not found'}), 404
+        owner_id = row[0] if not isinstance(row, dict) else row['user_id']
+        if owner_id != request.user_id:
+            db.release_connection(conn)
+            return jsonify({'error': 'Forbidden'}), 403
+        cursor.execute(f"DELETE FROM hero_comments WHERE id = {ph}", (comment_id,))
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'ok': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/comments/<int:comment_id>/like', methods=['POST'])
+@require_auth
+def like_hero_comment(comment_id):
+    """Toggle like on a comment (requires auth)"""
+    ph = db.get_placeholder()
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        # Check if already liked
+        cursor.execute(f"SELECT id FROM comment_likes WHERE comment_id = {ph} AND user_id = {ph}", (comment_id, request.user_id))
+        existing = cursor.fetchone()
+        if existing:
+            cursor.execute(f"DELETE FROM comment_likes WHERE comment_id = {ph} AND user_id = {ph}", (comment_id, request.user_id))
+            cursor.execute(f"UPDATE hero_comments SET likes = GREATEST(0, likes - 1) WHERE id = {ph}", (comment_id,))
+            liked = False
+        else:
+            cursor.execute(f"INSERT INTO comment_likes (comment_id, user_id) VALUES ({ph}, {ph})", (comment_id, request.user_id))
+            cursor.execute(f"UPDATE hero_comments SET likes = likes + 1 WHERE id = {ph}", (comment_id,))
+            liked = True
+        cursor.execute(f"SELECT likes FROM hero_comments WHERE id = {ph}", (comment_id,))
+        row = cursor.fetchone()
+        likes = row[0] if not isinstance(row, dict) else row['likes']
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'liked': liked, 'likes': likes})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ─────────────────────────────────────────────────────────────────────────────
+
 @app.route('/api/heroes/relations', methods=['GET'])
 def get_all_heroes_relations():
     """Relations для всіх героїв гри"""
