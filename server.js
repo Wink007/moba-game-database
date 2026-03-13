@@ -85,6 +85,53 @@ function injectMeta(html, { title, description, image, canonical, jsonLd, lang, 
   return result;
 }
 
+function buildHeroFAQ(hero, heroName) {
+  const faq = [];
+  const roles = Array.isArray(hero.roles) ? hero.roles.join('/') : hero.roles;
+  const lanes = Array.isArray(hero.lane) ? hero.lane.join(' and ') : hero.lane;
+  const wr = hero.main_hero_win_rate ? parseFloat(hero.main_hero_win_rate).toFixed(1) : null;
+
+  if (roles) {
+    faq.push({
+      '@type': 'Question',
+      name: `What role is ${heroName} in Mobile Legends?`,
+      acceptedAnswer: { '@type': 'Answer', text: `${heroName} is a ${roles} hero in Mobile Legends.` },
+    });
+  }
+  if (lanes) {
+    faq.push({
+      '@type': 'Question',
+      name: `What lane does ${heroName} play?`,
+      acceptedAnswer: { '@type': 'Answer', text: `${heroName} is typically played in the ${lanes} lane.` },
+    });
+  }
+  if (wr) {
+    const tier = parseFloat(wr) >= 52 ? 'strong' : parseFloat(wr) >= 49 ? 'decent' : 'situational';
+    faq.push({
+      '@type': 'Question',
+      name: `Is ${heroName} good in Mobile Legends?`,
+      acceptedAnswer: { '@type': 'Answer', text: `${heroName} has a win rate of ${wr}%, making them ${tier} in the current meta. Check the tier list and builds for the latest recommendations.` },
+    });
+  }
+  if (hero.damage_type) {
+    faq.push({
+      '@type': 'Question',
+      name: `What type of damage does ${heroName} deal?`,
+      acceptedAnswer: { '@type': 'Answer', text: `${heroName} deals ${hero.damage_type} damage.` },
+    });
+  }
+  if (hero.specialty) {
+    const specialty = Array.isArray(hero.specialty) ? hero.specialty.join(', ') : hero.specialty;
+    faq.push({
+      '@type': 'Question',
+      name: `What is ${heroName}'s specialty?`,
+      acceptedAnswer: { '@type': 'Answer', text: `${heroName}'s specialty is ${specialty}.` },
+    });
+  }
+
+  return faq;
+}
+
 // Serve static assets (js, css, images etc.) directly — no meta injection needed
 app.use(express.static(BUILD_DIR, { index: false }));
 
@@ -143,6 +190,11 @@ app.get('/{*path}', async (req, res) => {
                 description: `${heroName} guide — skills, builds, counters and stats for Mobile Legends.`,
                 url: heroUrl,
                 ...(heroImg ? { image: heroImg } : {}),
+              },
+              {
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: buildHeroFAQ(hero, heroName),
               },
             ],
           });
