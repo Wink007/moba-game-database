@@ -11,6 +11,16 @@ const BUILD_DIR = path.join(__dirname, 'build');
 // Read once at startup — not on every request
 const INDEX_HTML = fs.readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8');
 
+// Preload heroes into cache at startup so first request is instant
+(async () => {
+  const url = `${API_URL}/heroes?game_id=2&lang=en`;
+  const data = await fetchJSON(url);
+  if (data) {
+    cache.set(url, { data, ts: Date.now() });
+    console.log(`Preloaded ${data.length} heroes into cache`);
+  }
+})();
+
 function fetchJSON(url) {
   return new Promise((resolve) => {
     https.get(url, (res) => {
@@ -34,6 +44,16 @@ async function cachedFetch(url) {
   const data = await fetchJSON(url);
   if (data) cache.set(url, { data, ts: now });
   return data;
+}
+
+// Preload heroes into cache at startup so first request is instant
+async function preloadCache() {
+  const url = `${API_URL}/heroes?game_id=2&lang=en`;
+  const data = await fetchJSON(url);
+  if (data) {
+    cache.set(url, { data, ts: Date.now() });
+    console.log(`Preloaded ${data.length} heroes into cache`);
+  }
 }
 
 function heroToSlug(name) {
@@ -300,9 +320,19 @@ app.get('/{*path}', async (req, res) => {
     // fallback to default html
   }
 
+  // Unknown route — could be 404, mark noindex
+  const knownRoutes = /^\/(\d+\/(heroes|items|patches|tier-list|counter-pick|hero-ranks|emblems|spells)|legal|$)/;
+  if (!knownRoutes.test(url.slice(1))) {
+    html = html.replace(
+      /(<meta name="robots" content=")[^"]*(")/,
+      '$1noindex, nofollow$2'
+    );
+  }
+
   res.send(html);
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  preloadCache();
 });
