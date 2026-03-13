@@ -134,6 +134,7 @@
     "movementSpeed": "Movement Speed",
     "attackSpeedRatio": "Attack Speed Ratio",
     "abilityRatings": "Ability Ratings",
+    "lanePosition": "Lane Position",
     "about": "About {{name}}",
     "showMore": "Show More",
     "showLess": "Show Less",

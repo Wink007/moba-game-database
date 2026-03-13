@@ -134,6 +134,7 @@
     "movementSpeed": "Швидкість Руху",
     "attackSpeedRatio": "Коефіцієнт Швидкості Атаки",
     "abilityRatings": "Рейтинги Здібностей",
+    "lanePosition": "Позиція на Карті",
     "about": "Про {{name}}",
     "showMore": "Показати Більше",
     "showLess": "Показати Менше",
