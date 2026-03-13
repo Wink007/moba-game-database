@@ -44,13 +44,28 @@ function heroToSlug(name) {
     .replace(/^-+|-+$/g, '');
 }
 
-function injectMeta(html, { title, description, image, canonical, jsonLd }) {
+function truncateDesc(text, max = 155) {
+  if (text.length <= max) return text;
+  return text.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+}
+
+function injectMeta(html, { title, description, image, canonical, jsonLd, lang, removeImgDimensions }) {
   const fullTitle = title ? `${title} | MOBA Wiki` : 'Wiki for Mobile Legends (Unofficial)';
-  const desc = description || 'Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more. Not affiliated with Moonton.';
+  const desc = truncateDesc(description || 'Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more. Not affiliated with Moonton.');
   const img = image || 'https://mobawiki.com/logo512.png';
   const canon = canonical || 'https://mobawiki.com/';
 
-  let result = html
+  // Switch html lang attribute for Ukrainian
+  let result = lang === 'uk' ? html.replace(/<html lang="[^"]*"/, '<html lang="uk"') : html;
+
+  // Remove hardcoded og:image dimensions when we have a custom image (they were for the 512x512 logo)
+  if (removeImgDimensions) {
+    result = result
+      .replace(/<meta property="og:image:width" content="[^"]*"\/>/, '')
+      .replace(/<meta property="og:image:height" content="[^"]*"\/>/, '');
+  }
+
+  result = result
     .replace(/<title>[^<]*<\/title>/, `<title>${fullTitle}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(")/,  `$1${desc}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(")/,  `$1${fullTitle}$2`)
@@ -78,6 +93,7 @@ app.get('/{*path}', async (req, res) => {
   let html = INDEX_HTML;
 
   const url = req.path;
+  const lang = req.query.lang === 'uk' ? 'uk' : 'en';
 
   try {
     // noindex для приватних сторінок
@@ -97,15 +113,19 @@ app.get('/{*path}', async (req, res) => {
       if (heroes) {
         const hero = heroes.find(h => heroToSlug(h.name) === heroSlug);
         if (hero) {
+          const isUk = lang === 'uk';
+          const heroName = (isUk && hero.name_uk) ? hero.name_uk : hero.name;
+          const shortDesc = (isUk && hero.short_description_uk) ? hero.short_description_uk : (hero.short_description || '');
           const winRate = hero.main_hero_win_rate ? ` Win Rate ${parseFloat(hero.main_hero_win_rate).toFixed(1)}%.` : '';
-          const shortDesc = hero.short_description ? ` ${hero.short_description}` : '';
           const heroImg = hero.image || hero.head || undefined;
           const heroUrl = `https://mobawiki.com${url}`;
           html = injectMeta(html, {
-            title: `${hero.name} — Hero Guide`,
-            description: `${hero.name} guide for Mobile Legends — skills, builds, counters, synergies and stats.${winRate}${shortDesc}`,
+            title: `${heroName} — Hero Guide`,
+            description: `${heroName} guide for Mobile Legends — skills, builds, counters, synergies and stats.${winRate} ${shortDesc}`,
             image: heroImg,
             canonical: heroUrl,
+            lang,
+            removeImgDimensions: true,
             jsonLd: [
               {
                 '@context': 'https://schema.org',
@@ -113,14 +133,14 @@ app.get('/{*path}', async (req, res) => {
                 itemListElement: [
                   { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
                   { '@type': 'ListItem', position: 2, name: 'Heroes', item: `https://mobawiki.com/${gameId}/heroes` },
-                  { '@type': 'ListItem', position: 3, name: hero.name, item: heroUrl },
+                  { '@type': 'ListItem', position: 3, name: heroName, item: heroUrl },
                 ],
               },
               {
                 '@context': 'https://schema.org',
                 '@type': 'WebPage',
-                name: `${hero.name} — Hero Guide | MOBA Wiki`,
-                description: `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.`,
+                name: `${heroName} — Hero Guide | MOBA Wiki`,
+                description: `${heroName} guide — skills, builds, counters and stats for Mobile Legends.`,
                 url: heroUrl,
                 ...(heroImg ? { image: heroImg } : {}),
               },
