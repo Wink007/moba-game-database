@@ -6,6 +6,17 @@ const compression = require('compression');
 
 const app = express();
 app.use(compression());
+
+// Security headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  next();
+});
+
 const PORT = process.env.PORT || 3000;
 const API_URL = 'https://web-production-8570.up.railway.app/api';
 const BUILD_DIR = path.join(__dirname, 'build');
@@ -154,8 +165,17 @@ function buildHeroFAQ(hero, heroName) {
   return faq;
 }
 
-// Serve static assets (js, css, images etc.) directly — no meta injection needed
-app.use(express.static(BUILD_DIR, { index: false }));
+// Static assets: JS/CSS get 1-year cache (hashed filenames), others 1 day
+app.use(express.static(BUILD_DIR, {
+  index: false,
+  setHeaders(res, filePath) {
+    if (filePath.match(/\.(js|css)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (filePath.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|woff2|woff|ttf)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+  },
+}));
 
 // All HTML routes go through meta injection
 app.get('/{*path}', async (req, res) => {
