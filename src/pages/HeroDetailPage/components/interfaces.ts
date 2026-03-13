@@ -17,3 +17,12 @@ export interface StatCardProps {
 export interface StatsHistoryTabProps {
   hero: Hero;
 }
+
+export interface LaneMapProps {
+  lanes: string[];
+}
+
+export interface LaneArrowProps {
+  lane: string;
+  isMobile?: boolean;
+}

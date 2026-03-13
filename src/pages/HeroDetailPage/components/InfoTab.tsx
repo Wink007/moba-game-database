@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { InfoTabProps } from './interface';
 import styles from '../styles.module.scss';
 import { CollapsibleSection } from './CollapsibleSection';
+import { LaneMap } from './LaneMap';
+import { getHeroName } from '../../../utils/translation';
 
 export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabel, getRatingLevel }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className={styles.contentSection}>
@@ -133,6 +135,17 @@ export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabe
                 </div>
               ))}
             </div>
+          </CollapsibleSection>
+        </div>
+      )}
+
+      {/* Lane Position Map */}
+      {hero.lane && hero.lane.length > 0 && (
+        <div className={styles.laneMapSection}>
+          <CollapsibleSection title={t('heroDetail.lanePosition', 'Lane Position')}>
+            <LaneMap
+              lanes={hero.lane}
+            />
           </CollapsibleSection>
         </div>
       )}
