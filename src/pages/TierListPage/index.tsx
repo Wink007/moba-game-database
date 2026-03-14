@@ -140,8 +140,8 @@ export const TierListPage: React.FC = () => {
   }, [tieredHeroes, laneFilteredIds]);
 
   // ─── Community grouping ───────────────────────────────────────────────────
-  const communityVotes = communityVotesData?.votes ?? {};
-  const myVotes = myVotesData?.votes ?? {};
+  const communityVotes = useMemo(() => communityVotesData?.votes ?? {}, [communityVotesData]);
+  const myVotes = useMemo(() => myVotesData?.votes ?? {}, [myVotesData]);
 
   const communityTieredHeroes = useMemo(() => {
     const groups: Record<TierKey | 'Unranked', Hero[]> = { S: [], A: [], B: [], C: [], D: [], Unranked: [] };
