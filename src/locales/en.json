@@ -504,7 +504,17 @@
     "noHeroesInTier": "No heroes in this tier",
     "winRateThresholds": "Win Rate Thresholds:",
     "noData": "No ranking data available",
-    "winRate": "Win Rate"
+    "winRate": "Win Rate",
+    "community": "Community",
+    "stats": "Stats",
+    "communityDesc": "Hero tier rankings voted by the community",
+    "totalVotes": "total votes",
+    "votes": "votes",
+    "vote": "Vote",
+    "noVotes": "no votes",
+    "unranked": "Unranked",
+    "placeTo": "Place hero in tier:",
+    "loginToVote": "Sign in to vote in the community tier list"
   },
   "statsHistory": {
     "title": "Stats History",
