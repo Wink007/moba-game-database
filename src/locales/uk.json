@@ -161,6 +161,8 @@
     "version": "Версія",
     "viewFullPatchNotes": "Переглянути Повні Примітки Патча →",
     "noBalanceHistory": "Історія балансу для цього героя недоступна",
+    "balanceScore": "Баланс рейтинг",
+    "patchesCount": "патчів",
     "damageType": "Шкода",
     "lane": "Лінія",
     "specialty": "Спеціальність",

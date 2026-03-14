@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { sanitizeHtml } from '../../../utils/sanitize';
 import { HistoryTabProps } from './interface';
 import type { Patch, SkillChange } from '../../../types';
+import { BalanceChart } from './BalanceChart';
 import styles from '../styles.module.scss';
 
 export const HistoryTab: React.FC<HistoryTabProps> = React.memo(({ hero, heroPatches }) => {
@@ -24,6 +25,16 @@ export const HistoryTab: React.FC<HistoryTabProps> = React.memo(({ hero, heroPat
           </Link>
         </div>
 
+        {/* Balance Chart */}
+        <BalanceChart
+          heroName={hero.name}
+          patches={heroPatches}
+          onPatchClick={(version) => {
+            const el = document.getElementById(`patch-${version}`);
+            el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }}
+        />
+
         {heroPatches.length > 0 ? (
           <div className={styles.patchesTimeline}>
             {heroPatches.map((patch: Patch) => {
@@ -33,7 +44,7 @@ export const HistoryTab: React.FC<HistoryTabProps> = React.memo(({ hero, heroPat
               if (!heroChange && !heroAdjustment) return null;
 
               return (
-                <div key={patch.version} className={styles.patchCard}>
+                <div key={patch.version} id={`patch-${patch.version}`} className={styles.patchCard}>
                   <div className={styles.patchHeader}>
                     <div className={styles.patchVersion}>
                       <span className={styles.patchVersionLabel}>{t('heroDetail.version')}</span>

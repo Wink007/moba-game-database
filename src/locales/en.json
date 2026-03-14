@@ -161,6 +161,8 @@
     "version": "Version",
     "viewFullPatchNotes": "View in Full Patch Notes →",
     "noBalanceHistory": "No balance history available for this hero",
+    "balanceScore": "Balance Score",
+    "patchesCount": "patches",
     "damageType": "Damage",
     "lane": "Lane",
     "specialty": "Specialty",
