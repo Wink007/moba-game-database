@@ -544,6 +544,101 @@ def like_hero_comment(comment_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# ─── Tier Votes ───────────────────────────────────────────────────────────────
+
+@app.route('/api/<int:game_id>/tier-votes', methods=['GET'])
+def get_community_tier_votes(game_id):
+    """Get aggregated community tier votes for all heroes in a game"""
+    ph = db.get_placeholder()
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"""
+            SELECT hero_id, tier, COUNT(*) as cnt
+            FROM tier_votes
+            WHERE game_id = {ph}
+            GROUP BY hero_id, tier
+        """, (game_id,))
+        rows = cursor.fetchall()
+        db.release_connection(conn)
+
+        from collections import defaultdict
+        raw = defaultdict(lambda: {'S': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0})
+        for row in rows:
+            hero_id = row[0] if not isinstance(row, dict) else row['hero_id']
+            tier = row[1] if not isinstance(row, dict) else row['tier']
+            cnt = row[2] if not isinstance(row, dict) else row['cnt']
+            raw[hero_id][tier] = int(cnt)
+
+        votes = {}
+        for hero_id, breakdown in raw.items():
+            total = sum(breakdown.values())
+            majority_tier = max(breakdown, key=lambda k: breakdown[k]) if total > 0 else None
+            votes[str(hero_id)] = {
+                'tier': majority_tier,
+                'total': total,
+                'breakdown': breakdown,
+            }
+        return jsonify({'votes': votes})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/<int:game_id>/tier-votes', methods=['POST'])
+@require_auth
+def post_tier_vote(game_id):
+    """Cast or update a tier vote for a hero"""
+    data = request.get_json() or {}
+    hero_id = data.get('hero_id')
+    tier = data.get('tier')
+    if not hero_id or tier not in ('S', 'A', 'B', 'C', 'D'):
+        return jsonify({'error': 'Invalid hero_id or tier'}), 400
+    ph = db.get_placeholder()
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        if db.DATABASE_TYPE == 'postgres':
+            cursor.execute(f"""
+                INSERT INTO tier_votes (user_id, hero_id, game_id, tier)
+                VALUES ({ph}, {ph}, {ph}, {ph})
+                ON CONFLICT (user_id, hero_id, game_id)
+                DO UPDATE SET tier = EXCLUDED.tier, updated_at = NOW()
+            """, (request.user_id, hero_id, game_id, tier))
+        else:
+            cursor.execute(f"""
+                INSERT OR REPLACE INTO tier_votes (user_id, hero_id, game_id, tier)
+                VALUES ({ph}, {ph}, {ph}, {ph})
+            """, (request.user_id, hero_id, game_id, tier))
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'ok': True, 'tier': tier})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/<int:game_id>/tier-votes/mine', methods=['GET'])
+@require_auth
+def get_my_tier_votes(game_id):
+    """Get current user's tier votes for a game"""
+    ph = db.get_placeholder()
+    try:
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"""
+            SELECT hero_id, tier FROM tier_votes
+            WHERE user_id = {ph} AND game_id = {ph}
+        """, (request.user_id, game_id))
+        rows = cursor.fetchall()
+        db.release_connection(conn)
+        votes = {}
+        for row in rows:
+            hero_id = row[0] if not isinstance(row, dict) else row['hero_id']
+            tier = row[1] if not isinstance(row, dict) else row['tier']
+            votes[str(hero_id)] = tier
+        return jsonify({'votes': votes})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # ─────────────────────────────────────────────────────────────────────────────
 
 @app.route('/api/heroes/relations', methods=['GET'])
