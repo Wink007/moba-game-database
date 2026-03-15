@@ -597,6 +597,8 @@
     "themeLight": "Light",
     "themeSystem": "System",
     "language": "Language",
+    "lang_en": "English",
+    "lang_uk": "Ukrainian",
     "defaults": "Default Filters",
     "defaultsDesc": "Applied to Rankings, Tier List, hero Counter Picks, Synergy, Stats History and home widgets",
     "defaultDays": "Time Period",

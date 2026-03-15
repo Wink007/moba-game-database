@@ -356,7 +356,7 @@
       position: absolute;
       inset: 0;
       border-radius: 20px;
-      background: rgba(10, 14, 26, 0.97);
+      background: var(--clr-overlay-98, rgba(10, 14, 26, 0.97));
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       z-index: -1;

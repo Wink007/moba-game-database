@@ -91,7 +91,7 @@ export const SettingsPage: React.FC = () => {
               className={`${styles.langBtn} ${i18n.language === lng ? styles['langBtn--active'] : ''}`}
               onClick={() => changeLanguage(lng)}
             >
-              {lng === 'en' ? '🇬🇧 English' : '🇺🇦 Українська'}
+              {lng === 'en' ? `🇬🇧 ${t('settings.lang_en')}` : `🇺🇦 ${t('settings.lang_uk')}`}
             </button>
           ))}
         </div>
