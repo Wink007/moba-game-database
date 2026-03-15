@@ -15,6 +15,33 @@
   border-bottom: 1px solid var(--clr-accent-08);
   box-shadow: 0 1px 24px var(--clr-black-25);
 
+  overflow: visible;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 30%,
+      var(--clr-accent-40) 40%,
+      var(--clr-accent) 50%,
+      var(--clr-accent-40) 60%,
+      transparent 70%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-position: -100% 0;
+    filter: blur(0.5px);
+    animation: headerDischarge 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
   @media (max-width: 767px) {
     justify-content: center;
   }
@@ -26,6 +53,13 @@
     padding: 10px var(--spacing-lg);
     gap: var(--spacing-lg);
   }
+}
+
+@keyframes headerDischarge {
+  0%   { background-position: -100% 0; opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { background-position: 200% 0; opacity: 0; }
 }
 
 .logo-wrapper {

@@ -562,6 +562,13 @@
   "randomHeroStats": {
     "vs3Days": "vs 3 days ago"
   },
+  "metaReport": {
+    "title": "Meta Report",
+    "subtitle": "Win rate change vs 7 days ago",
+    "rising": "Rising",
+    "falling": "Falling",
+    "mostBanned": "Most Banned"
+  },
   "players": {
     "pageTitle": "Players",
     "pageDescription": "MOBA Wiki community — all registered players",

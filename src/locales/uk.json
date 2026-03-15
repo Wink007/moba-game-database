@@ -562,6 +562,13 @@
   "randomHeroStats": {
     "vs3Days": "порівн. з 3 днями тому"
   },
+  "metaReport": {
+    "title": "Мета Звіт",
+    "subtitle": "Зміна win rate за 7 днів",
+    "rising": "Зростають",
+    "falling": "Падають",
+    "mostBanned": "Найбільше банять"
+  },
   "players": {
     "pageTitle": "Гравці",
     "pageDescription": "Спільнота MOBA Wiki — всі зареєстровані гравці",

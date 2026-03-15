@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { authFetch, useAuthStore } from '../../store/authStore';
 import { useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
-import { queryKeys } from '../../queries/keys';
+import { queryKeys, STALE_5_MIN } from '../../queries/keys';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { heroesApi } from '../../api/heroes';
+import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import styles from './styles.module.scss';
 
 interface MainHero {
@@ -20,6 +22,7 @@ export const MainHeroSelector: React.FC = () => {
   const { t } = useTranslation();
   const user = useAuthStore(s => s.user);
   const { selectedGameId } = useGameStore();
+  const { defaultRank } = useFilterSettingsStore();
   const queryClient = useQueryClient();
   const [showPicker, setShowPicker] = useState(false);
   const [search, setSearch] = useState('');
@@ -31,6 +34,28 @@ export const MainHeroSelector: React.FC = () => {
   });
 
   const { data: heroes = [] } = useHeroesQuery(selectedGameId);
+
+  // Stats for main heroes
+  const { data: ranks1d } = useQuery({
+    queryKey: queryKeys.heroes.ranks(selectedGameId!, { page: 1, size: 999, days: 1, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(selectedGameId!, 1, 999, 1, defaultRank),
+    staleTime: STALE_5_MIN,
+    enabled: !!selectedGameId && mainHeroes.length > 0,
+  });
+  const { data: ranks7d } = useQuery({
+    queryKey: queryKeys.heroes.ranks(selectedGameId!, { page: 1, size: 999, days: 7, rank: defaultRank }),
+    queryFn: () => heroesApi.getHeroRanks(selectedGameId!, 1, 999, 7, defaultRank),
+    staleTime: STALE_5_MIN,
+    enabled: !!selectedGameId && mainHeroes.length > 0,
+  });
+
+  const getHeroStats = useCallback((heroId: number) => {
+    const r1 = ranks1d?.find(r => r.hero_id === heroId);
+    const r7 = ranks7d?.find(r => r.hero_id === heroId);
+    if (!r1) return null;
+    const delta = r7 ? +(r1.win_rate - r7.win_rate).toFixed(2) : null;
+    return { winRate: r1.win_rate, delta };
+  }, [ranks1d, ranks7d]);
 
   const mutation = useMutation({
     mutationFn: (heroIds: number[]) =>
@@ -84,6 +109,7 @@ export const MainHeroSelector: React.FC = () => {
       <div className={styles.mainHeroSlots}>
         {[0, 1, 2].map(idx => {
           const hero = mainHeroes[idx];
+          const stats = hero ? getHeroStats(hero.hero_id) : null;
           return (
             <div key={idx} className={`${styles.mainHeroSlot} ${hero ? styles.mainHeroSlotFilled : ''}`}>
               {hero ? (
@@ -95,6 +121,16 @@ export const MainHeroSelector: React.FC = () => {
                     loading="lazy"
                   />
                   <span className={styles.mainHeroName}>{hero.name}</span>
+                  {stats && (
+                    <div className={styles.mainHeroStats}>
+                      <span className={styles.mainHeroWr}>{stats.winRate.toFixed(1)}%</span>
+                      {stats.delta !== null && stats.delta !== 0 && (
+                        <span className={`${styles.mainHeroDelta} ${stats.delta > 0 ? styles.mainHeroDeltaUp : styles.mainHeroDeltaDown}`}>
+                          {stats.delta > 0 ? '▲' : '▼'} {Math.abs(stats.delta).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  )}
                   {showPicker && (
                     <button className={styles.mainHeroRemove} onClick={() => handleRemove(hero.hero_id)}>×</button>
                   )}

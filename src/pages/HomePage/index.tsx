@@ -4,6 +4,7 @@ import { useGamesQuery } from '../../queries/useGamesQuery';
 import { useGameStore } from '../../store/gameStore';
 import { LastHeroesInfo } from '../../components/LastHeroesInfo';
 import { RandomHeroStats } from '../../components/RandomHeroStats';
+import { MetaReport } from '../../components/MetaReport';
 import { VideoPreview } from './components/VideoPreview';
 import { HeroRankSection } from './components/HeroRankSection';
 import { NewHeroStrip } from './components/NewHeroStrip';
@@ -55,6 +56,7 @@ export const HomePage = () => {
       <VideoPreview game={defaultGame ?? cachedGame}>
         <HeroRankSection gameId={selectedGameId} />
       </VideoPreview>
+      <MetaReport />
       <RandomHeroStats />
       <LastHeroesInfo />
     </div>

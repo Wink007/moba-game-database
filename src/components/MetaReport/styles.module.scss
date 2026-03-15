@@ -1,0 +1,388 @@
+.wrapper {
+  background: linear-gradient(135deg, var(--clr-overlay-80) 0%, var(--clr-bg-card-70) 100%);
+  border: 1px solid var(--clr-border-6);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 4px 24px var(--clr-black-30);
+
+  @media (max-width: 968px) {
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 12px;
+  }
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--clr-accent);
+  box-shadow: 0 0 8px var(--clr-accent-60);
+  flex-shrink: 0;
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.75); }
+}
+
+.title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--clr-text-2);
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--clr-text-4);
+  letter-spacing: 0.03em;
+}
+
+/* ── Columns ── */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  @media (max-width: 580px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--clr-bg-card-40);
+  border: 1px solid var(--clr-border-6);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.columnHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.columnHeaderRising {
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.1) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.columnHeaderFalling {
+  background: linear-gradient(90deg, rgba(248, 113, 113, 0.1) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(248, 113, 113, 0.15);
+  color: #f87171;
+}
+
+.columnIcon {
+  font-size: 0.65rem;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  gap: 2px;
+}
+
+/* ── Hero Row ── */
+.heroRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--clr-bg-card-60);
+
+    .heroName {
+      color: var(--clr-accent);
+    }
+  }
+}
+
+.rank {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--clr-text-5);
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--clr-border-6);
+  background: var(--clr-bg-card-60);
+
+  @media (max-width: 968px) {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--clr-text-4);
+  background: var(--clr-bg-card-60);
+}
+
+.heroMeta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.heroName {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.heroRole {
+  font-size: 0.68rem;
+  color: var(--clr-text-5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.heroStats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.winRate {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--clr-text-3);
+}
+
+.delta {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+
+.deltaUp {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.deltaDown {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.12);
+}
+
+/* ── Most Banned ── */
+.bannedSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--clr-bg-card-40);
+  border: 1px solid var(--clr-border-6);
+  border-radius: 12px;
+}
+
+.bannedLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--clr-text-4);
+}
+
+.bannedList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bannedCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: var(--clr-bg-card-40);
+  border: 1px solid var(--clr-border-6);
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background: var(--clr-bg-card-60);
+    border-color: rgba(248, 113, 113, 0.25);
+
+    .bannedCardName {
+      color: #f87171;
+    }
+  }
+}
+
+.bannedCardTop {
+  background: linear-gradient(90deg, rgba(248, 113, 113, 0.08) 0%, transparent 100%);
+  border-color: rgba(248, 113, 113, 0.2);
+}
+
+.bannedCardAvatarWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.bannedCrown {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  line-height: 1;
+  z-index: 1;
+}
+
+.bannedCardAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--clr-border-6);
+  background: var(--clr-bg-card-60);
+
+  @media (max-width: 480px) {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.bannedCardInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bannedCardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.bannedCardName {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.bannedCardRate {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(248, 113, 113, 0.7);
+  flex-shrink: 0;
+}
+
+.bannedCardRateTop {
+  color: #f87171;
+}
+
+.bannedBar {
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--clr-border-6);
+  overflow: hidden;
+}
+
+.bannedBarFill {
+  height: 100%;
+  border-radius: 3px;
+  background: rgba(248, 113, 113, 0.5);
+  transition: width 0.6s ease;
+}
+
+.bannedBarFillTop {
+  background: linear-gradient(90deg, #f87171, #fb923c);
+}
+
+/* ── Skeleton ── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeletonShimmer {
+  background: linear-gradient(
+    90deg,
+    var(--clr-bg-card-40) 25%,
+    var(--clr-border-6) 50%,
+    var(--clr-bg-card-40) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

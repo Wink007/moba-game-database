@@ -38,20 +38,22 @@
 
 .mainHeroSlot {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 96px;
   border-radius: 12px;
   border: 2px dashed var(--clr-white-12);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 10px 6px 8px;
   overflow: hidden;
   transition: border-color 0.15s;
+  min-height: 80px;
 
   &.mainHeroSlotFilled {
     border-style: solid;
-    border-color: var(--clr-accent);
+    border-color: var(--clr-accent-40);
+    background: var(--clr-bg-card-40);
   }
 }
 
@@ -101,6 +103,37 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
+}
+
+.mainHeroStats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.mainHeroWr {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--clr-text-2);
+}
+
+.mainHeroDelta {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
+.mainHeroDeltaUp {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.mainHeroDeltaDown {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.12);
 }
 
 .mainHeroPicker {

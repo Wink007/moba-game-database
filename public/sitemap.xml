@@ -56,11 +56,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/hanabi</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/chou</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -71,12 +66,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/cecilion</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/odette</loc>
+    <loc>https://mobawiki.com/2/heroes/hanabi</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -87,6 +77,16 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/moskov</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/odette</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/cecilion</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -111,6 +111,21 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/hilda</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/angela</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/guinevere</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/popol-and-kupa</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -121,22 +136,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/angela</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/hilda</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/guinevere</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/pharsa</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/brody</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -147,11 +152,6 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/kimmy</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/brody</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -171,17 +171,17 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/marcel</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/franco</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/fanny</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/marcel</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -306,17 +306,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/nolan</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/kagura</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/floryn</loc>
+    <loc>https://mobawiki.com/2/heroes/nolan</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -327,6 +322,11 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes/belerick</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/floryn</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -401,12 +401,12 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/uranus</loc>
+    <loc>https://mobawiki.com/2/heroes/hylos</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/hylos</loc>
+    <loc>https://mobawiki.com/2/heroes/uranus</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>

@@ -562,6 +562,13 @@
   "randomHeroStats": {
     "vs3Days": "vs 3 hari lalu"
   },
+  "metaReport": {
+    "title": "Laporan Meta",
+    "subtitle": "Perubahan win rate vs 7 hari lalu",
+    "rising": "Naik",
+    "falling": "Turun",
+    "mostBanned": "Paling Sering Di-ban"
+  },
   "players": {
     "pageTitle": "Pemain",
     "pageDescription": "Komunitas MOBA Wiki — semua pemain terdaftar",
