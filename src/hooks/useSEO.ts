@@ -75,6 +75,7 @@ export const useSEO = ({ title, description, image, jsonLd }: SEOProps = {}) => 
     const hreflangs: Record<string, string> = {
       en: canonicalUrl,
       uk: `${canonicalUrl}${pathname === '/' ? '' : ''}?lang=uk`,
+      id: `${canonicalUrl}${pathname === '/' ? '' : ''}?lang=id`,
       'x-default': canonicalUrl,
     };
     for (const [lang, href] of Object.entries(hreflangs)) {

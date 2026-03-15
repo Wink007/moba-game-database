@@ -414,13 +414,13 @@ export const Header: React.FC = () => {
                 <div className={styles['settings-section']}>
                   <div className={styles['settings-section-title']}>{t('settings.language')}</div>
                   <div className={styles['settings-theme-row']}>
-                    {(['en', 'uk'] as const).map((lng) => (
+                    {(['en', 'uk', 'id'] as const).map((lng) => (
                       <button
                         key={lng}
                         className={`${styles['settings-pill']} ${i18n.language === lng ? styles['settings-pill--active'] : ''}`}
                         onClick={() => { i18n.changeLanguage(lng); localStorage.setItem('language', lng); }}
                       >
-                        {lng === 'en' ? '🇬🇧 English' : '🇺🇦 Українська'}
+                        {lng === 'en' ? `🇬🇧 ${t('settings.lang_en')}` : lng === 'uk' ? `🇺🇦 ${t('settings.lang_uk')}` : `🇮🇩 ${t('settings.lang_id')}`}
                       </button>
                     ))}
                   </div>
@@ -461,7 +461,7 @@ export const Header: React.FC = () => {
                   </div>
                 </div>
                 <div className={styles['settings-divider']} />
-                <a
+                {isNative && <a
                   href="https://mobawiki.com"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -475,7 +475,7 @@ export const Header: React.FC = () => {
                   <svg className={styles['settings-website-arrow']} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6" />
                   </svg>
-                </a>
+                </a>}
               </div>
             </div>
           )}

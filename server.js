@@ -88,8 +88,9 @@ function injectMeta(html, { title, description, image, canonical, jsonLd, lang, 
   const img = image || 'https://mobawiki.com/logo512.png';
   const canon = canonical || 'https://mobawiki.com/';
 
-  // Switch html lang attribute for Ukrainian
-  let result = lang === 'uk' ? html.replace(/<html lang="[^"]*"/, '<html lang="uk"') : html;
+  // Switch html lang attribute based on language
+  const htmlLang = lang === 'uk' ? 'uk' : lang === 'id' ? 'id' : 'en';
+  let result = html.replace(/<html lang="[^"]*"/, `<html lang="${htmlLang}"`);
 
   // Remove hardcoded og:image dimensions when we have a custom image (they were for the 512x512 logo)
   if (removeImgDimensions) {
@@ -105,7 +106,17 @@ function injectMeta(html, { title, description, image, canonical, jsonLd, lang, 
     .replace(/(<meta property="og:description" content=")[^"]*(")/,  `$1${desc}$2`)
     .replace(/(<meta property="og:image" content=")[^"]*(")/,  `$1${img}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/,  `$1${canon}$2`)
-    .replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${canon}$2`)
+    .replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${canon}$2`);
+
+  // og:locale
+  const ogLocale = lang === 'uk' ? 'uk_UA' : lang === 'id' ? 'id_ID' : 'en_US';
+  const localeTag = `<meta property="og:locale" content="${ogLocale}"/>`;
+  if (result.includes('og:locale')) {
+    result = result.replace(/(<meta property="og:locale" content=")[^"]*("\/>)/, `$1${ogLocale}$2`);
+  } else {
+    result = result.replace('</head>', `  ${localeTag}\n</head>`);
+  }
+  result = result
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/,  `$1${fullTitle}$2`)
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/,  `$1${desc}$2`)
     .replace(/(<meta name="twitter:image" content=")[^"]*(")/,  `$1${img}$2`);
@@ -182,7 +193,7 @@ app.get('/{*path}', async (req, res) => {
   let html = INDEX_HTML;
 
   const url = req.path;
-  const lang = req.query.lang === 'uk' ? 'uk' : 'en';
+  const lang = ['uk', 'id'].includes(req.query.lang) ? req.query.lang : 'en';
 
   try {
     // noindex для приватних сторінок

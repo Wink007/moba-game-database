@@ -85,13 +85,13 @@ export const SettingsPage: React.FC = () => {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>{t('settings.language')}</h2>
         <div className={styles.langOptions}>
-          {(['en', 'uk'] as const).map((lng) => (
+          {(['en', 'uk', 'id'] as const).map((lng) => (
             <button
               key={lng}
               className={`${styles.langBtn} ${i18n.language === lng ? styles['langBtn--active'] : ''}`}
               onClick={() => changeLanguage(lng)}
             >
-              {lng === 'en' ? `🇬🇧 ${t('settings.lang_en')}` : `🇺🇦 ${t('settings.lang_uk')}`}
+              {lng === 'en' ? `🇬🇧 ${t('settings.lang_en')}` : lng === 'uk' ? `🇺🇦 ${t('settings.lang_uk')}` : `🇮🇩 ${t('settings.lang_id')}`}
             </button>
           ))}
         </div>

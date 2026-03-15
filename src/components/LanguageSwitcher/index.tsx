@@ -23,6 +23,12 @@ export const LanguageSwitcher = () => {
       >
         UA
       </button>
+      <button
+        className={`${styles.langButton} ${i18n.language === 'id' ? styles.active : ''}`}
+        onClick={() => changeLanguage('id')}
+      >
+        ID
+      </button>
     </div>
   );
 };

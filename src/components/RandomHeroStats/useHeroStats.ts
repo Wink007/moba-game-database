@@ -107,8 +107,8 @@ export const useHeroStats = (gameId: number | null) => {
     { patch: '1d', value: hero1Day.ban_rate },
   ];
 
-  const winRateTrend = (hero1Day.win_rate - hero3Days.win_rate) * 100;
-  const banRateTrend = (hero1Day.ban_rate - hero3Days.ban_rate) * 100;
+  const winRateTrend = +(hero1Day.win_rate - hero3Days.win_rate).toFixed(2);
+  const banRateTrend = +(hero1Day.ban_rate - hero3Days.ban_rate).toFixed(2);
 
   return {
     isLoading,
