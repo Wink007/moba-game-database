@@ -26,6 +26,7 @@ export const MainHeroSelector: React.FC = () => {
   const queryClient = useQueryClient();
   const [showPicker, setShowPicker] = useState(false);
   const [search, setSearch] = useState('');
+  const [pendingRemoveId, setPendingRemoveId] = useState<number | null>(null);
 
   const { data: mainHeroes = [] } = useQuery<MainHero[]>({
     queryKey: queryKeys.mainHeroes.current,
@@ -84,6 +85,7 @@ export const MainHeroSelector: React.FC = () => {
   const handleRemove = useCallback((heroId: number) => {
     const next = selectedIds.filter(id => id !== heroId);
     mutation.mutate(next);
+    setPendingRemoveId(null);
   }, [selectedIds, mutation]);
 
   useEscapeKey(useCallback(() => setShowPicker(false), []), showPicker);
@@ -131,8 +133,13 @@ export const MainHeroSelector: React.FC = () => {
                       )}
                     </div>
                   )}
-                  {showPicker && (
-                    <button className={styles.mainHeroRemove} onClick={() => handleRemove(hero.hero_id)}>×</button>
+                  {showPicker && pendingRemoveId === hero.hero_id ? (
+                    <div className={styles.mainHeroConfirm}>
+                      <button className={styles.mainHeroConfirmYes} onClick={() => handleRemove(hero.hero_id)}>✓</button>
+                      <button className={styles.mainHeroConfirmNo} onClick={() => setPendingRemoveId(null)}>✕</button>
+                    </div>
+                  ) : showPicker && (
+                    <button className={styles.mainHeroRemove} onClick={() => setPendingRemoveId(hero.hero_id)}>×</button>
                   )}
                 </>
               ) : (

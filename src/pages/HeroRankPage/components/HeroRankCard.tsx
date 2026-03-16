@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { heroToSlug } from '../../../utils/heroSlug';
 import styles from '../styles.module.scss';
 import { LazyImage } from '../../../components/LazyImage';
-import { Hero, HeroRank, HeroCounterData } from '../../../types';
+import { Hero, HeroRank, HeroCounterData, CounterHero } from '../../../types';
 
 interface HeroRankCardProps {
   hero: HeroRank;
@@ -75,7 +75,7 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, c
             <div key={i} className={styles.synergyHeroSkeleton} />
           ))
         ) : counterList.length > 0 ? (
-          counterList.slice(0, 5).map((counter: any) => {
+          counterList.slice(0, 5).map((counter: CounterHero) => {
             const gameId = counter.heroid ?? counter.hero_id;
             const enemy = heroes?.find(h => h.hero_game_id === gameId);
             if (!enemy) return null;

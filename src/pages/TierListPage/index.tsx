@@ -371,16 +371,20 @@ export const TierListPage: React.FC = () => {
                                 style={myTier ? { '--vc': tierColor } as React.CSSProperties : undefined}
                                 onClick={(e) => { e.preventDefault(); togglePicker(hero.id); }}
                                 title={t('tierList.vote')}
+                                aria-haspopup="listbox"
+                                aria-expanded={isOpen}
                               >
                                 <span className={styles.castVoteBtnText}>{myTier ? myTier : '+'}</span>
                               </button>
                               {isOpen && (
-                                <div className={styles.votePicker}>
+                                <div className={styles.votePicker} role="listbox" aria-label={t('tierList.placeTo')}>
                                   <span className={styles.votePickerLabel}>{t('tierList.placeTo')}</span>
                                   <div className={styles.votePickerBtns}>
                                     {TIERS.map(t2 => (
                                       <button
                                         key={t2.key}
+                                        role="option"
+                                        aria-selected={myTier === t2.key}
                                         className={`${styles.votePickerBtn} ${myTier === t2.key ? styles.votePickerBtnActive : ''}`}
                                         style={{ '--tc': t2.color, '--tbg': t2.bg } as React.CSSProperties}
                                         onClick={() => handleVote(hero.id, t2.key)}
@@ -432,16 +436,20 @@ export const TierListPage: React.FC = () => {
                             style={myTier ? { '--vc': tierColor } as React.CSSProperties : undefined}
                             onClick={(e) => { e.preventDefault(); togglePicker(hero.id); }}
                             title={t('tierList.vote')}
+                            aria-haspopup="listbox"
+                            aria-expanded={isOpen}
                           >
                             <span className={styles.castVoteBtnText}>{myTier ? myTier : '+'}</span>
                           </button>
                           {isOpen && (
-                            <div className={styles.votePicker}>
+                            <div className={styles.votePicker} role="listbox" aria-label={t('tierList.placeTo')}>
                               <span className={styles.votePickerLabel}>{t('tierList.placeTo')}</span>
                               <div className={styles.votePickerBtns}>
                                 {TIERS.map(t2 => (
                                   <button
                                     key={t2.key}
+                                    role="option"
+                                    aria-selected={myTier === t2.key}
                                     className={`${styles.votePickerBtn} ${myTier === t2.key ? styles.votePickerBtnActive : ''}`}
                                     style={{ '--tc': t2.color, '--tbg': t2.bg } as React.CSSProperties}
                                     onClick={() => handleVote(hero.id, t2.key)}

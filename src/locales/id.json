@@ -626,6 +626,7 @@
     "justNow": "baru saja",
     "minutesAgo": "{{n}}m lalu",
     "hoursAgo": "{{n}}j lalu",
-    "daysAgo": "{{n}}h lalu"
+    "daysAgo": "{{n}}h lalu",
+    "loadMore": "Muat lebih banyak"
   }
 }

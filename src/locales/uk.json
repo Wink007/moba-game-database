@@ -626,6 +626,7 @@
     "justNow": "щойно",
     "minutesAgo": "{{n}}хв тому",
     "hoursAgo": "{{n}}год тому",
-    "daysAgo": "{{n}}д тому"
+    "daysAgo": "{{n}}д тому",
+    "loadMore": "Завантажити більше"
   }
 }

@@ -105,6 +105,37 @@
   line-height: 1;
 }
 
+.mainHeroConfirm {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  gap: 2px;
+}
+
+.mainHeroConfirmYes,
+.mainHeroConfirmNo {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: white;
+  border: none;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.mainHeroConfirmYes {
+  background: var(--clr-green, #22c55e);
+}
+
+.mainHeroConfirmNo {
+  background: var(--clr-red, #ef4444);
+}
+
 .mainHeroStats {
   display: flex;
   flex-direction: column;

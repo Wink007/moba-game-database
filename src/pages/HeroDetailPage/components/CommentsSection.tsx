@@ -40,6 +40,7 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
   const [text, setText] = useState('');
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
+  const [visibleCount, setVisibleCount] = useState(20);
   const queryClient = useQueryClient();
   const googleLogin = useGoogleAuth(() => setShowLoginPrompt(false));
 
@@ -52,6 +53,7 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
   });
 
   const comments = data?.comments ?? [];
+  const visibleComments = comments.slice(0, visibleCount);
 
   const postMutation = useMutation({
     mutationFn: (commentText: string) =>
@@ -185,8 +187,9 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
       ) : comments.length === 0 ? (
         <p className={styles.commentsEmpty}>{t('comments.empty')}</p>
       ) : (
-        <ul className={styles.commentsList}>
-          {comments.map(c => (
+        <>
+          <ul className={styles.commentsList}>
+            {visibleComments.map(c => (
             <li key={c.id} className={styles.commentItem}>
               <img
                 className={styles.commentAvatar}
@@ -226,7 +229,16 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
               </div>
             </li>
           ))}
-        </ul>
+          </ul>
+          {visibleCount < comments.length && (
+            <button
+              className={styles.commentsLoadMore}
+              onClick={() => setVisibleCount(v => v + 20)}
+            >
+              {t('comments.loadMore')}
+            </button>
+          )}
+        </>
       )}
     </div>
   );

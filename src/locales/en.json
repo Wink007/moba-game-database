@@ -626,6 +626,7 @@
     "justNow": "just now",
     "minutesAgo": "{{n}}m ago",
     "hoursAgo": "{{n}}h ago",
-    "daysAgo": "{{n}}d ago"
+    "daysAgo": "{{n}}d ago",
+    "loadMore": "Load more comments"
   }
 }

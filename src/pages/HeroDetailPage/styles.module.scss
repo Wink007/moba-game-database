@@ -5159,6 +5159,25 @@
   gap: 12px;
 }
 
+.commentsLoadMore {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border, rgba(255,255,255,0.12));
+  border-radius: 8px;
+  color: var(--clr-text-2);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: var(--clr-accent, #818cf8);
+    color: var(--clr-accent, #818cf8);
+  }
+}
+
 .commentItem {
   display: flex;
   gap: 10px;

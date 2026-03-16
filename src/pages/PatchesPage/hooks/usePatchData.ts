@@ -28,7 +28,7 @@ interface UsePatchDataReturn {
 export const usePatchData = ({ gameId, patchVersion }: UsePatchDataProps): UsePatchDataReturn => {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
-  const lang = i18n.language === 'uk' ? 'uk' : 'en';
+  const lang = ['uk', 'id'].includes(i18n.language) ? i18n.language : 'en';
 
   // Fetch minimal patch list via React Query
   const { data: patchVersions = [], isLoading: loadingVersions } = useQuery<PatchVersion[]>({
