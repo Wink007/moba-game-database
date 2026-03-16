@@ -28,7 +28,6 @@ export interface HeroGridProps {
   heroes: Hero[];
   gameId: number;
   hasMore: boolean;
-  remainingCount: number;
   onLoadMore: () => void;
   isFiltering?: boolean;
   viewMode: ViewMode;

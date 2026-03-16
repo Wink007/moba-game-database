@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeroCard } from './HeroCard';
 import { HeroListRow } from './HeroListRow';
-import LoadMoreButton from '../../../components/LoadMoreButton';
 import { HeroGridProps } from './interface';
 import styles from './HeroGrid.module.scss';
 import { Hero } from '../../../types';
@@ -11,12 +10,25 @@ export const HeroGrid: React.FC<HeroGridProps> = React.memo(({
   heroes,
   gameId,
   hasMore,
-  remainingCount,
   onLoadMore,
   isFiltering,
   viewMode,
 }) => {
   const { t } = useTranslation();
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => { if (entries[0].isIntersecting) onLoadMore(); },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore, onLoadMore]);
+
   if (heroes.length === 0) {
     return (
       <div className={styles.noData}>
@@ -41,11 +53,7 @@ export const HeroGrid: React.FC<HeroGridProps> = React.memo(({
         </div>
       )}
 
-      {hasMore && (
-        <LoadMoreButton onClick={onLoadMore}>
-          {t('heroes.showMore', { count: remainingCount })}
-        </LoadMoreButton>
-      )}
+      {hasMore && <div ref={sentinelRef} className={styles.sentinel} aria-hidden="true" />}
     </>
   );
 });

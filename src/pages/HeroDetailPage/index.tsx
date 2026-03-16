@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { heroToSlug } from '../../utils/heroSlug';
+import { getOptimizedImageUrl } from '../../utils/cloudinary';
 import { getHeroName, getHeroShortDescription, translateRoles, translateLanes, translateSpecialties, getDamageType } from '../../utils/translation';
 import { useHeroQuery, useHeroSkillsQuery, useHeroCounterDataQuery, useHeroCompatibilityDataQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
@@ -98,7 +99,7 @@ function HeroDetailPage() {
   useSEO({
     title: hero ? `${hero.name} — Hero Guide` : 'Hero',
     description: hero ? `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.` : undefined,
-    image: hero?.image || hero?.painting,
+    image: getOptimizedImageUrl(hero?.image || hero?.painting, 1200),
     jsonLd: hero ? [
       {
         '@context': 'https://schema.org',

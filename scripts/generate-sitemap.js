@@ -28,14 +28,15 @@ function fetchJSON(url) {
   });
 }
 
-function loc(url, priority = '0.7', changefreq = 'weekly', lastmod = null, hreflang = true) {
+function loc(url, priority = '0.7', changefreq = 'weekly', lastmod = null, hreflang = true, imageUrl = null, imageTitle = null) {
   const lastmodTag = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : '';
   const hreflangTags = hreflang ? `
     <xhtml:link rel="alternate" hreflang="en" href="${url}"/>
     <xhtml:link rel="alternate" hreflang="uk" href="${url}?lang=uk"/>
     <xhtml:link rel="alternate" hreflang="id" href="${url}?lang=id"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${url}"/>` : '';
-  return `  <url>\n    <loc>${url}</loc>${lastmodTag}${hreflangTags}\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+  const imageTag = imageUrl ? `\n    <image:image>\n      <image:loc>${imageUrl}</image:loc>${imageTitle ? `\n      <image:title>${imageTitle}</image:title>` : ''}\n    </image:image>` : '';
+  return `  <url>\n    <loc>${url}</loc>${lastmodTag}${hreflangTags}${imageTag}\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
 }
 
 function heroToSlug(name) {
@@ -76,7 +77,8 @@ async function generate() {
       console.log(`[sitemap] Fetching heroes for game ${gid} (${game.name})...`);
       const heroes = await fetchJSON(`${API_URL}/heroes?game_id=${gid}&lang=en`);
       for (const hero of heroes) {
-        urls.push(loc(`${prefix}/heroes/${heroToSlug(hero.name)}`, '0.85', 'weekly'));
+        const imageUrl = hero.head || hero.image || null;
+        urls.push(loc(`${prefix}/heroes/${heroToSlug(hero.name)}`, '0.85', 'weekly', null, true, imageUrl, hero.name));
       }
       console.log(`[sitemap]   → ${heroes.length} heroes`);
     } catch (e) {
@@ -105,7 +107,8 @@ async function generate() {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls.join('\n')}
 </urlset>`;
 

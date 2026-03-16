@@ -77,7 +77,6 @@ function HeroesPage() {
   }, [data]);
 
   const total = data?.pages[0]?.total ?? 0;
-  const remaining = total - allHeroes.length;
 
   if (isLoading && !isPlaceholderData) return <Loader />;
   if (isError) return <div className={styles.error}>{t('heroes.failedToLoad')}</div>;
@@ -111,7 +110,6 @@ function HeroesPage() {
         heroes={allHeroes}
         gameId={selectedGameId}
         hasMore={!!hasNextPage && !isPlaceholderData}
-        remainingCount={remaining}
         onLoadMore={() => fetchNextPage()}
         isFiltering={isFetching && isPlaceholderData}
         viewMode={viewMode}
