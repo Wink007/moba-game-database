@@ -280,7 +280,7 @@
   },
   "heroRank": {
     "title": "Hero Rankings",
-    "description": "Current meta rankings based on win rate, pick rate, and performance",
+    "description": "Mobile Legends hero rankings 2026 — win rate, pick rate and ban rate for all heroes. Real-time Mythic rank statistics updated daily.",
     "rank": "Rank",
     "hero": "Hero",
     "tier": "Tier",
@@ -486,7 +486,7 @@
   },
   "tierList": {
     "title": "Tier List",
-    "description": "Hero tier rankings based on current meta win rates",
+    "description": "Mobile Legends tier list 2026 — best heroes ranked S/A/B/C by win rate and current meta. Updated daily for Mythic rank.",
     "tier_S": "S Tier",
     "tier_A": "A Tier",
     "tier_B": "B Tier",

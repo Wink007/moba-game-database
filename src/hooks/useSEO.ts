@@ -4,6 +4,8 @@ interface SEOProps {
   title?: string;
   description?: string;
   image?: string;
+  /** Prevent search engines from indexing this page */
+  noindex?: boolean;
   /** JSON-LD structured data — single object or array injected as <script type="application/ld+json"> */
   jsonLd?: object | object[];
 }
@@ -34,7 +36,7 @@ const setNameMeta = (name: string, content: string) => {
   meta.setAttribute('content', content);
 };
 
-export const useSEO = ({ title, description, image, jsonLd }: SEOProps = {}) => {
+export const useSEO = ({ title, description, image, noindex, jsonLd }: SEOProps = {}) => {
   useEffect(() => {
     const fullTitle = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
     const desc = description || BASE_DESCRIPTION;
@@ -42,6 +44,9 @@ export const useSEO = ({ title, description, image, jsonLd }: SEOProps = {}) => 
     const url = window.location.href;
 
     document.title = fullTitle;
+
+    // Robots
+    setNameMeta('robots', noindex ? 'noindex, nofollow' : 'index, follow');
 
     // Standard meta
     setNameMeta('description', desc);
@@ -92,8 +97,9 @@ export const useSEO = ({ title, description, image, jsonLd }: SEOProps = {}) => 
     return () => {
       document.title = BASE_TITLE;
       setNameMeta('description', BASE_DESCRIPTION);
+      setNameMeta('robots', 'index, follow');
     };
-  }, [title, description, image]);
+  }, [title, description, image, noindex]);
 
   // JSON-LD structured data — stable string dep avoids re-run on object identity change
   const jsonLdStr = jsonLd !== undefined ? JSON.stringify(jsonLd) : undefined;

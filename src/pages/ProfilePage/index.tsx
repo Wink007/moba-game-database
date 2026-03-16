@@ -177,6 +177,7 @@ export const ProfilePage: React.FC = () => {
   useSEO({
     title: profile?.user?.name ? `${profile.user.name} — ${t('profile.title')}` : t('profile.title'),
     description: t('profile.seoDescription'),
+    noindex: true,
   });
 
   if (isLoading) return <Loader />;

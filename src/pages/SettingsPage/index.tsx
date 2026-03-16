@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useThemeStore, Theme } from '../../store/themeStore';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { getDaysOptions, getRankOptions } from '../HeroRankPage/constants';
+import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
 const MoonIcon = () => (
@@ -48,6 +49,8 @@ export const SettingsPage: React.FC = () => {
 
   const daysOptions = getDaysOptions(t);
   const rankOptions = getRankOptions(t);
+
+  useSEO({ title: t('settings.title'), noindex: true });
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);

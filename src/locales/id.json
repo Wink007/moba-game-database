@@ -280,7 +280,7 @@
   },
   "heroRank": {
     "title": "Peringkat Hero",
-    "description": "Peringkat meta saat ini berdasarkan win rate, pick rate, dan performa",
+    "description": "Peringkat hero Mobile Legends 2026 — win rate, pick rate dan ban rate semua hero. Statistik rank Mythic real-time, diperbarui setiap hari.",
     "rank": "Peringkat",
     "hero": "Hero",
     "tier": "Tier",
@@ -486,7 +486,7 @@
   },
   "tierList": {
     "title": "Tier List",
-    "description": "Peringkat tier hero berdasarkan win rate meta saat ini",
+    "description": "Tier list Mobile Legends 2026 — hero terbaik peringkat S/A/B/C berdasarkan win rate dan meta saat ini. Diperbarui setiap hari untuk rank Mythic.",
     "tier_S": "Tier S",
     "tier_A": "Tier A",
     "tier_B": "Tier B",

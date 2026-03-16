@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 
 export const NotFoundPage: React.FC = () => {
   const { t } = useTranslation();
-  useSEO({ title: t('notFound.title') });
+  useSEO({ title: t('notFound.title'), noindex: true });
 
   return (
     <div className={styles.container}>

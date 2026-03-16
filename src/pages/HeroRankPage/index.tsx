@@ -14,17 +14,41 @@ import { useSEO } from '../../hooks/useSEO';
 export const HeroRankPage = () => {
   const { t } = useTranslation();
   const { selectedGameId } = useGameStore();
+  const year = new Date().getFullYear();
   useSEO({
     title: 'Hero Rankings',
-    description: 'Mobile Legends hero rankings — win rates, ban rates and pick rates by rank. Updated daily with the latest meta stats.',
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Hero Rankings', item: `https://mobawiki.com/${selectedGameId}/hero-ranks` },
-      ],
-    },
+    description: `Mobile Legends hero rankings ${year} — win rate, pick rate and ban rate for all heroes. Real-time Mythic rank statistics updated daily.`,
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Hero Rankings', item: `https://mobawiki.com/${selectedGameId}/hero-ranks` },
+        ],
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: `Which Mobile Legends hero has the highest win rate in ${year}?`,
+            acceptedAnswer: { '@type': 'Answer', text: `Hero win rates change daily. Check our live hero rankings at mobawiki.com — updated every day with real Mythic rank data.` },
+          },
+          {
+            '@type': 'Question',
+            name: 'What is the current Mobile Legends meta?',
+            acceptedAnswer: { '@type': 'Answer', text: 'The current MLBB meta is reflected in hero win rates, pick rates and ban rates. High win rate + high ban rate heroes define the meta. See the full breakdown on MOBA Wiki.' },
+          },
+          {
+            '@type': 'Question',
+            name: 'How is Mobile Legends win rate calculated?',
+            acceptedAnswer: { '@type': 'Answer', text: 'Win rate is the percentage of games a hero wins out of all games played. MOBA Wiki shows win rates from Mythic rank games for the most accurate competitive data.' },
+          },
+        ],
+      },
+    ],
   });
   const { defaultDays, defaultRank } = useFilterSettingsStore();
   const [days, setDays] = useState(() => defaultDays);

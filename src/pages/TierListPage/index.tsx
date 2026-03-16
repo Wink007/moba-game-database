@@ -47,17 +47,41 @@ export const TierListPage: React.FC = () => {
   const [showLoginHint, setShowLoginHint] = useState(false);
   const [showUnranked, setShowUnranked] = useState(false);
 
+  const year = new Date().getFullYear();
   useSEO({
     title: t('tierList.title'),
     description: t('tierList.description'),
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Tier List', item: `https://mobawiki.com/${selectedGameId}/tier-list` },
-      ],
-    },
+    jsonLd: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Tier List', item: `https://mobawiki.com/${selectedGameId}/tier-list` },
+        ],
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: `What is the best hero in Mobile Legends in ${year}?`,
+            acceptedAnswer: { '@type': 'Answer', text: `The best heroes change with each patch. Check our S-tier list on MOBA Wiki — updated daily based on Mythic rank win rates at mobawiki.com.` },
+          },
+          {
+            '@type': 'Question',
+            name: 'How often is the MLBB tier list updated?',
+            acceptedAnswer: { '@type': 'Answer', text: 'The MOBA Wiki tier list is updated daily, reflecting the latest Mythic rank statistics and patch changes.' },
+          },
+          {
+            '@type': 'Question',
+            name: 'What makes a hero S tier in Mobile Legends?',
+            acceptedAnswer: { '@type': 'Answer', text: 'S tier heroes typically have win rates above 52%, high ban rates, and are dominant in the current meta.' },
+          },
+        ],
+      },
+    ],
   });
 
   // ─── Stats mode data ─────────────────────────────────────────────────────

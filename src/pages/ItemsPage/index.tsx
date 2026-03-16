@@ -112,6 +112,7 @@ function ItemsPage() {
 
   return (
     <div className={styles.itemsPage}>
+      <h1 className="sr-only">{t('items.title')}</h1>
       {(isFilterOpen || isDetailsOpen) && (
         <div 
           className={styles.overlay} 

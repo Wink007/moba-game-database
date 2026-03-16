@@ -16,6 +16,7 @@ export const FavoritesPage: React.FC = () => {
   useSEO({
     title: t('favorites.pageTitle'),
     description: t('favorites.pageDescription'),
+    noindex: true,
   });
 
   const { selectedGameId } = useGameStore();

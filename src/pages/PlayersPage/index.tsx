@@ -53,6 +53,7 @@ export const PlayersPage: React.FC = () => {
   useSEO({
     title: t('players.pageTitle'),
     description: t('players.pageDescription'),
+    noindex: true,
   });
 
   const { data, isLoading, isError } = useQuery({
