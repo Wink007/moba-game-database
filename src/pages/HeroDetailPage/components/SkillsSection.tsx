@@ -118,26 +118,6 @@ export const SkillsSection: React.FC<SkillsSectionProps> = React.memo(({
                   />
                 )}
 
-                {/* Cooldown / Mana / Cast range */}
-                {(selectedSkill.cooldown || selectedSkill.mana_cost || selectedSkill.cast_range) && (
-                  <div className={styles.skillMetaPills}>
-                    {selectedSkill.cooldown && (
-                      <span className={styles.skillMetaPill} title={t('heroDetail.cooldown')}>
-                        ⏱ {selectedSkill.cooldown}
-                      </span>
-                    )}
-                    {selectedSkill.mana_cost && (
-                      <span className={`${styles.skillMetaPill} ${styles.skillMetaPillMana}`} title={t('heroDetail.manaCost')}>
-                        💧 {selectedSkill.mana_cost}
-                      </span>
-                    )}
-                    {selectedSkill.cast_range && (
-                      <span className={`${styles.skillMetaPill} ${styles.skillMetaPillRange}`} title={t('heroDetail.castRange')}>
-                        🎯 {selectedSkill.cast_range}
-                      </span>
-                    )}
-                  </div>
-                )}
               </div>
             </div>
           </div>

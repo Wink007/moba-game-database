@@ -180,10 +180,7 @@
     "noBuildsData": "No builds available for this hero",
     "noCounterData": "No counter data available for this hero yet.",
     "noSynergyData": "No synergy data available for this hero yet.",
-    "noSkillsData": "Skill data for this hero is not available yet.",
-    "cooldown": "Cooldown",
-    "manaCost": "Mana Cost",
-    "castRange": "Cast Range"
+    "noSkillsData": "Skill data for this hero is not available yet."
   },
   "items": {
     "title": "Items",

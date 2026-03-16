@@ -180,10 +180,7 @@
     "noBuildsData": "Tidak ada build untuk hero ini",
     "noCounterData": "Belum ada data counter untuk hero ini.",
     "noSynergyData": "Belum ada data sinergi untuk hero ini.",
-    "noSkillsData": "Data skill untuk hero ini belum tersedia.",
-    "cooldown": "Cooldown",
-    "manaCost": "Biaya Mana",
-    "castRange": "Jangkauan"
+    "noSkillsData": "Data skill untuk hero ini belum tersedia."
   },
   "items": {
     "title": "Item",
