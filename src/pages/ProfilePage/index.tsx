@@ -207,7 +207,7 @@ export const ProfilePage: React.FC = () => {
       {/* Hero Banner */}
       {bannerImg && (
         <div className={styles.banner}>
-          <img src={bannerImg} alt={user.banner_hero_name || ''} className={styles.bannerImg} />
+          <img src={bannerImg} alt={user.banner_hero_name || ''} className={styles.bannerImg} loading="lazy" decoding="async" />
           <div className={styles.bannerOverlay} />
           {isOwnProfile && (
             <button className={styles.bannerEditBtn} onClick={() => { setBannerSearch(''); setShowBannerPicker(true); }}>
@@ -221,7 +221,7 @@ export const ProfilePage: React.FC = () => {
       {/* Profile header */}
       <div className={`${styles.profileHeader} ${bannerImg ? styles.withBanner : ''}`}>
         <div className={styles.avatarSection}>
-          <img src={user.picture} alt={user.name} className={styles.avatar} referrerPolicy="no-referrer" />
+          <img src={user.picture} alt={user.name} className={styles.avatar} referrerPolicy="no-referrer" decoding="async" />
           {main_heroes.length > 0 && (
             <div className={styles.mainBadges}>
               {main_heroes.map(h => (

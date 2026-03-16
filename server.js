@@ -186,6 +186,8 @@ app.use(express.static(BUILD_DIR, {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     } else if (filePath.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|woff2|woff|ttf)$/)) {
       res.setHeader('Cache-Control', 'public, max-age=86400');
+    } else if (filePath.match(/\.(xml|txt|json)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=3600');
     }
   },
 }));

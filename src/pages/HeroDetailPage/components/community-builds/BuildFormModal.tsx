@@ -58,7 +58,7 @@ export const BuildFormModal: React.FC<BuildFormModalProps> = ({
                     onClick={() => item && toggleItem(item.id)}
                     title={item ? `${item.name} (${t('builds.clickToRemove')})` : t('builds.emptySlot')}
                   >
-                    {item?.icon_url ? <img src={item.icon_url} alt={item.name} /> : <span>{slot + 1}</span>}
+                    {item?.icon_url ? <img src={item.icon_url} alt={item.name} loading="lazy" decoding="async" /> : <span>{slot + 1}</span>}
                   </div>
                 );
               })}

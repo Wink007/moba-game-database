@@ -194,6 +194,8 @@ function HeroDetailPage() {
             src={hero.painting || hero.image} 
             alt={hero.name}
             className={`${styles.bannerImage} ${bannerLoaded ? styles.bannerImageLoaded : ''}`}
+            fetchPriority="high"
+            decoding="async"
             onLoad={() => setBannerLoaded(true)}
           />
         )}
@@ -343,6 +345,8 @@ function HeroDetailPage() {
             className={styles.lightboxImage}
             src={hero.painting || hero.image}
             alt={getHeroName(hero, i18n.language)}
+            loading="lazy"
+            decoding="async"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

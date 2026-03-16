@@ -67,13 +67,13 @@ export const UserMenu: React.FC = () => {
   return (
     <div className={styles.userMenu} ref={menuRef}>
       <button className={styles.avatar} onClick={() => setIsOpen(!isOpen)}>
-        <img src={user.picture} alt={user.name} referrerPolicy="no-referrer" />
+        <img src={user.picture} alt={user.name} referrerPolicy="no-referrer" decoding="async" />
       </button>
 
       {isOpen && (
         <div className={styles.dropdown}>
           <div className={styles.userInfo}>
-            <img src={user.picture} alt={user.name} referrerPolicy="no-referrer" />
+            <img src={user.picture} alt={user.name} referrerPolicy="no-referrer" loading="lazy" decoding="async" />
             <div>
               <div className={styles.userName}>{user.name}</div>
               <div className={styles.userEmail}>{user.email}</div>

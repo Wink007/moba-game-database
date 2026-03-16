@@ -38,7 +38,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = React.memo(({
               onClick={() => onSkillSelect(index)}
             >
               {skill.image && (
-                <img src={skill.image} alt={getSkillName(skill, i18n.language)} />
+                <img src={skill.image} alt={getSkillName(skill, i18n.language)} loading="lazy" decoding="async" />
               )}
               {skill.skill_type && (
                 <div className={`${styles.skillTabBadge} ${styles[skill.skill_type]}`}>
