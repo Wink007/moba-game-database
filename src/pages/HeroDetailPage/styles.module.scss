@@ -3393,6 +3393,36 @@
   }
 }
 
+.skillMetaPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.skillMetaPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--clr-bg-card-60);
+  border: 1px solid var(--clr-border-3);
+  color: var(--clr-text-3);
+}
+
+.skillMetaPillMana {
+  border-color: rgba(96, 165, 250, 0.3);
+  color: #93c5fd;
+}
+
+.skillMetaPillRange {
+  border-color: rgba(167, 139, 250, 0.3);
+  color: #c4b5fd;
+}
+
 .levelScaling {
   margin-top: 1.5rem;
   background: var(--clr-overlay-30);

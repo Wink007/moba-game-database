@@ -13,6 +13,8 @@ import { getRankOptions } from '../HeroRankPage/constants';
 import { HeroRank, Hero } from '../../types';
 import { TIERS, TierKey, assignTier } from './constants';
 import { LazyImage } from '../../components/LazyImage';
+import { getOptimizedImageUrl } from '../../utils/cloudinary';
+import { getHeroName } from '../../utils/translation';
 import styles from './styles.module.scss';
 
 const LANES = [
@@ -33,7 +35,7 @@ interface VoteInfo {
 }
 
 export const TierListPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const rankOpts = useMemo(() => getRankOptions(t), [t]);
   const { selectedGameId } = useGameStore();
   const { defaultRank } = useFilterSettingsStore();
@@ -300,7 +302,7 @@ export const TierListPage: React.FC = () => {
                       list.map((hero) => (
                         <Link key={hero.id} to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.heroCard}>
                           <div className={styles.heroImgWrap}>
-                            <LazyImage src={hero.head || hero.image} alt={hero.name} className={styles.heroImg} fill />
+                            <LazyImage src={getOptimizedImageUrl(hero.head || hero.image, 80)} alt={getHeroName(hero as any, i18n.language)} className={styles.heroImg} fill />
                           </div>
                           <div className={styles.heroInfo}>
                             <span className={styles.heroName}>{hero.name}</span>
@@ -357,7 +359,7 @@ export const TierListPage: React.FC = () => {
                             <div key={hero.id} className={styles.communityCard} data-vote-wrap="">
                               <Link to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.communityCardLink}>
                                 <div className={styles.heroImgWrap}>
-                                  <LazyImage src={hero.head || hero.image} alt={hero.name} className={styles.heroImg} fill />
+                                  <LazyImage src={getOptimizedImageUrl(hero.head || hero.image, 80)} alt={getHeroName(hero as any, i18n.language)} className={styles.heroImg} fill />
                                 </div>
                                 <div className={styles.heroInfo}>
                                   <span className={styles.heroName}>{hero.name}</span>
@@ -424,7 +426,7 @@ export const TierListPage: React.FC = () => {
                         <div key={hero.id} className={styles.communityCard} data-vote-wrap="">
                           <Link to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.communityCardLink}>
                             <div className={styles.heroImgWrap}>
-                              <LazyImage src={hero.head || hero.image} alt={hero.name} className={styles.heroImg} fill />
+                              <LazyImage src={getOptimizedImageUrl(hero.head || hero.image, 80)} alt={getHeroName(hero as any, i18n.language)} className={styles.heroImg} fill />
                             </div>
                             <div className={styles.heroInfo}>
                               <span className={styles.heroName}>{hero.name}</span>

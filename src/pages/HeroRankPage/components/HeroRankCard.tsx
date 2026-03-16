@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { heroToSlug } from '../../../utils/heroSlug';
+import { getHeroName } from '../../../utils/translation';
+import { getOptimizedImageUrl } from '../../../utils/cloudinary';
 import styles from '../styles.module.scss';
 import { LazyImage } from '../../../components/LazyImage';
 import { Hero, HeroRank, HeroCounterData, CounterHero } from '../../../types';
@@ -16,7 +18,7 @@ interface HeroRankCardProps {
 }
 
 export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, counterData, isCounterLoading }: HeroRankCardProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [counterMode, setCounterMode] = useState<'counters' | 'countered_by'>('counters');
   const onToggleCounterMode = useCallback(() => {
     setCounterMode(m => m === 'counters' ? 'countered_by' : 'counters');
@@ -43,9 +45,9 @@ export const HeroRankCard = React.memo(({ hero, index, heroes, selectedGameId, c
       {/* Col 2 — Hero */}
       <div className={styles.heroInfo}>
         <Link to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.heroImage}>
-          <LazyImage fill src={hero.head || hero.image} alt={hero.name} />
+          <LazyImage fill src={getOptimizedImageUrl(hero.head || hero.image, 80)} alt={getHeroName(heroData ?? hero as any, i18n.language)} />
         </Link>
-        <div className={styles.heroName}>{hero.name}</div>
+        <div className={styles.heroName}>{getHeroName(heroData ?? hero as any, i18n.language)}</div>
       </div>
 
       {/* Mobile-only: toggle button between hero and stats */}
