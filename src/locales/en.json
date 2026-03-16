@@ -622,6 +622,10 @@
     "loginToComment": "Sign in to leave a comment",
     "loginRequired": "Sign in to post a comment",
     "post": "Post",
-    "empty": "No comments yet. Be the first!"
+    "empty": "No comments yet. Be the first!",
+    "justNow": "just now",
+    "minutesAgo": "{{n}}m ago",
+    "hoursAgo": "{{n}}h ago",
+    "daysAgo": "{{n}}d ago"
   }
 }

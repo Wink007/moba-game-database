@@ -622,6 +622,10 @@
     "loginToComment": "Masuk untuk meninggalkan komentar",
     "loginRequired": "Masuk untuk memposting komentar",
     "post": "Posting",
-    "empty": "Belum ada komentar. Jadilah yang pertama!"
+    "empty": "Belum ada komentar. Jadilah yang pertama!",
+    "justNow": "baru saja",
+    "minutesAgo": "{{n}}m lalu",
+    "hoursAgo": "{{n}}j lalu",
+    "daysAgo": "{{n}}h lalu"
   }
 }

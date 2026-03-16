@@ -65,10 +65,12 @@ const TABS = [
 export const TabsNavigation: React.FC<TabsNavigationProps> = React.memo(({ activeTab, onTabChange }) => {
   const { t } = useTranslation();
   return (
-    <div className={styles.tabsNavigation}>
+    <div className={styles.tabsNavigation} role="tablist" aria-label="Hero information tabs">
       {TABS.map(({ key, Icon, label }) => (
         <button
           key={key}
+          role="tab"
+          aria-selected={activeTab === key}
           className={`${styles.tabButton} ${activeTab === key ? styles.tabButtonActive : ''}`}
           onClick={() => onTabChange(key)}
         >

@@ -26,12 +26,12 @@ interface CommentsSectionProps {
   heroId: number;
 }
 
-function timeAgo(dateStr: string) {
+function timeAgo(dateStr: string, t: (key: string, opts?: object) => string) {
   const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
-  if (diff < 60) return 'only now';
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-  return `${Math.floor(diff / 86400)}d ago`;
+  if (diff < 60) return t('comments.justNow');
+  if (diff < 3600) return t('comments.minutesAgo', { n: Math.floor(diff / 60) });
+  if (diff < 86400) return t('comments.hoursAgo', { n: Math.floor(diff / 3600) });
+  return t('comments.daysAgo', { n: Math.floor(diff / 86400) });
 }
 
 export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
@@ -193,12 +193,14 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
                 src={c.author_picture || ''}
                 alt={c.author_name}
                 referrerPolicy="no-referrer"
+                loading="lazy"
+                decoding="async"
                 onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
               <div className={styles.commentBody}>
                 <div className={styles.commentMeta}>
                   <span className={styles.commentAuthor}>{c.author_name}</span>
-                  <span className={styles.commentTime}>{timeAgo(c.created_at)}</span>
+                  <span className={styles.commentTime}>{timeAgo(c.created_at, t)}</span>
                 </div>
                 <p className={styles.commentText}>{c.text}</p>
                 <div className={styles.commentActions}>
