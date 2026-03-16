@@ -40,7 +40,7 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
   const [text, setText] = useState('');
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
-  const [visibleCount, setVisibleCount] = useState(20);
+  const [visibleCount, setVisibleCount] = useState(5);
   const queryClient = useQueryClient();
   const googleLogin = useGoogleAuth(() => setShowLoginPrompt(false));
 
@@ -233,7 +233,7 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
           {visibleCount < comments.length && (
             <button
               className={styles.commentsLoadMore}
-              onClick={() => setVisibleCount(v => v + 20)}
+              onClick={() => setVisibleCount(v => v + 5)}
             >
               {t('comments.loadMore')}
             </button>
