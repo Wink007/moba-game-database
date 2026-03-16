@@ -205,6 +205,38 @@ app.get('/{*path}', async (req, res) => {
       return res.send(html);
     }
 
+    // Home page
+    if (url === '/' || url === '') {
+      html = injectMeta(html, {
+        title: undefined, // uses default full site title
+        description: 'MOBA Wiki — unofficial fan guide for Mobile Legends. Hero stats, tier list, counter picks, item builds, patch notes and ranked statistics. Updated daily.',
+        canonical: 'https://mobawiki.com/',
+        lang,
+        jsonLd: [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'MOBA Wiki',
+            url: 'https://mobawiki.com/',
+            description: 'Unofficial fan guide for Mobile Legends — hero stats, tier list, counter picks and ranked statistics.',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://mobawiki.com/2/heroes?q={search_term_string}',
+              'query-input': 'required name=search_term_string',
+            },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'MOBA Wiki',
+            url: 'https://mobawiki.com/',
+            logo: 'https://mobawiki.com/logo512.png',
+          },
+        ],
+      });
+      return res.send(html);
+    }
+
     // /:gameId/heroes/:heroSlug
     const heroMatch = url.match(/^\/(\d+)\/heroes\/([^/]+)$/);
     if (heroMatch) {
@@ -261,8 +293,9 @@ app.get('/{*path}', async (req, res) => {
     if (heroesMatch) {
       html = injectMeta(html, {
         title: 'Heroes',
-        description: 'All Mobile Legends heroes — stats, roles, lanes, builds and guides.',
+        description: 'Complete list of all Mobile Legends heroes — roles, lanes, skills, win rates and guides. Browse every MLBB hero by role or attribute.',
         canonical: `https://mobawiki.com${url}`,
+        lang,
       });
       return res.send(html);
     }
@@ -271,8 +304,9 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/items/)) {
       html = injectMeta(html, {
         title: 'Items',
-        description: 'All Mobile Legends items — stats, effects, and builds.',
+        description: 'All Mobile Legends items for 2026 — stats, effects, tier list and best builds. Find the strongest items for every hero role.',
         canonical: `https://mobawiki.com${url}`,
+        lang,
       });
       return res.send(html);
     }
@@ -283,8 +317,9 @@ app.get('/{*path}', async (req, res) => {
       const [, , version] = patchVersionMatch;
       html = injectMeta(html, {
         title: `Patch ${version}`,
-        description: `Mobile Legends patch ${version} — hero changes, item updates and new content.`,
+        description: `Mobile Legends patch ${version} notes — hero buffs, nerfs, item changes and new content. Stay up to date with the latest MLBB meta.`,
         canonical: `https://mobawiki.com${url}`,
+        lang,
       });
       return res.send(html);
     }
@@ -293,18 +328,29 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/patches$/)) {
       html = injectMeta(html, {
         title: 'Patch Notes',
-        description: 'Mobile Legends patch notes history — all hero and item changes.',
+        description: 'Mobile Legends patch notes history — all hero buffs, nerfs and item changes. Track every MLBB update since release.',
         canonical: `https://mobawiki.com${url}`,
+        lang,
       });
       return res.send(html);
     }
 
     // /:gameId/tier-list
     if (url.match(/^\/\d+\/tier-list$/)) {
+      const tierYear = new Date().getFullYear();
       html = injectMeta(html, {
-        title: 'Tier List',
-        description: 'Mobile Legends tier list — best heroes ranked by win rate and performance.',
+        title: `Tier List ${tierYear}`,
+        description: `Mobile Legends tier list ${tierYear} — best heroes ranked S/A/B/C by win rate, ban rate and current meta. Updated daily for Mythic rank.`,
         canonical: `https://mobawiki.com${url}`,
+        lang,
+        jsonLd: {
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: `Mobile Legends Tier List ${tierYear}`,
+          description: `Mobile Legends tier list ${tierYear} — best heroes ranked by win rate and current meta.`,
+          url: `https://mobawiki.com${url}`,
+          publisher: { '@type': 'Organization', name: 'MOBA Wiki', url: 'https://mobawiki.com' },
+        },
       });
       return res.send(html);
     }
@@ -313,18 +359,37 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/counter-pick$/)) {
       html = injectMeta(html, {
         title: 'Counter Pick',
-        description: 'Mobile Legends counter pick tool — find the best hero to counter your opponents.',
+        description: 'Mobile Legends counter pick tool — find the best heroes to counter your enemies. Check counters and synergies for every MLBB hero.',
         canonical: `https://mobawiki.com${url}`,
+        lang,
+        jsonLd: {
+          '@context': 'https://schema.org',
+          '@type': 'WebApplication',
+          name: 'Mobile Legends Counter Pick Tool',
+          description: 'Find the best hero to counter your opponents in Mobile Legends.',
+          url: `https://mobawiki.com${url}`,
+          applicationCategory: 'GameApplication',
+        },
       });
       return res.send(html);
     }
 
     // /:gameId/hero-ranks
     if (url.match(/^\/\d+\/hero-ranks$/)) {
+      const rankYear = new Date().getFullYear();
       html = injectMeta(html, {
-        title: 'Hero Ranks',
-        description: 'Mobile Legends hero rank statistics — win rate, pick rate and ban rate.',
+        title: 'Hero Rankings',
+        description: `Mobile Legends hero rankings ${rankYear} — win rate, pick rate and ban rate for all heroes. Real-time Mythic rank statistics updated daily.`,
         canonical: `https://mobawiki.com${url}`,
+        lang,
+        jsonLd: {
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: `Mobile Legends Hero Rankings ${rankYear}`,
+          description: `Win rate, pick rate and ban rate for all Mobile Legends heroes in ${rankYear}.`,
+          url: `https://mobawiki.com${url}`,
+          publisher: { '@type': 'Organization', name: 'MOBA Wiki', url: 'https://mobawiki.com' },
+        },
       });
       return res.send(html);
     }
@@ -333,8 +398,9 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/emblems$/)) {
       html = injectMeta(html, {
         title: 'Emblems',
-        description: 'All Mobile Legends emblems and talents — find the best emblem setup for your hero.',
+        description: 'All Mobile Legends emblems and talents — find the best emblem setup for your hero role. Complete MLBB emblem guide.',
         canonical: `https://mobawiki.com${url}`,
+        lang,
       });
       return res.send(html);
     }
@@ -343,8 +409,9 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/spells$/)) {
       html = injectMeta(html, {
         title: 'Battle Spells',
-        description: 'All Mobile Legends battle spells — cooldowns, effects and unlock levels.',
+        description: 'All Mobile Legends battle spells — cooldowns, effects and best picks for every hero role. MLBB spell guide.',
         canonical: `https://mobawiki.com${url}`,
+        lang,
       });
       return res.send(html);
     }
