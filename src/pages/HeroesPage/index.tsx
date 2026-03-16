@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../../components/Loader';
 import { useInfiniteHeroesQuery } from '../../queries/useHeroesQuery';
@@ -9,6 +9,7 @@ import { HeroFilters } from './components/HeroFilters';
 import { HeroGrid } from './components/HeroGrid';
 import { useSEO } from '../../hooks/useSEO';
 import { Hero } from '../../types';
+import type { ViewMode } from './components/interface';
 import styles from './styles.module.scss';
 
 const HEROES_PER_PAGE = 24;
@@ -40,6 +41,16 @@ function HeroesPage() {
   const { favorites } = useFavorites();
 
   const { filters, apiFilters, setters } = useHeroFilters();
+
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    const saved = localStorage.getItem('heroes-view-mode');
+    return saved === 'list' ? 'list' : 'grid';
+  });
+
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    localStorage.setItem('heroes-view-mode', mode);
+  };
 
   const favoriteHeroIds = useMemo(
     () => favorites.map((f) => f.hero_id),
@@ -92,6 +103,8 @@ function HeroesPage() {
         onClearAll={setters.clearAll}
         totalCount={total}
         displayedCount={allHeroes.length}
+        viewMode={viewMode}
+        onViewModeChange={handleViewModeChange}
       />
 
       <HeroGrid
@@ -101,6 +114,7 @@ function HeroesPage() {
         remainingCount={remaining}
         onLoadMore={() => fetchNextPage()}
         isFiltering={isFetching && isPlaceholderData}
+        viewMode={viewMode}
       />
     </div>
   );

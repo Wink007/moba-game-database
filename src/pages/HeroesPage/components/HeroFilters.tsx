@@ -23,6 +23,8 @@ export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
   onClearAll,
   totalCount,
   displayedCount,
+  viewMode,
+  onViewModeChange,
 }) => {
   const { t } = useTranslation();
   const hasActiveFilters = selectedRole !== 'all' || selectedLane !== 'all' || selectedComplexity !== 'all' || selectedSpecialty !== 'all' || selectedDamageType !== 'all' || sortBy !== 'name' || !!searchQuery;
@@ -78,6 +80,35 @@ export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
         <p className={styles.subtitle}>
           {t('heroes.browse')} • {t('heroes.showing', { displayed: displayedCount, total: totalCount })}
         </p>
+        <div className={styles.viewToggle} role="group" aria-label="View mode">
+          <button
+            className={`${styles.viewToggleBtn} ${viewMode === 'grid' ? styles.viewToggleBtnActive : ''}`}
+            onClick={() => onViewModeChange('grid')}
+            aria-label="Grid view"
+            aria-pressed={viewMode === 'grid'}
+            title="Grid view"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="1" y="1" width="6" height="6" rx="1"/>
+              <rect x="9" y="1" width="6" height="6" rx="1"/>
+              <rect x="1" y="9" width="6" height="6" rx="1"/>
+              <rect x="9" y="9" width="6" height="6" rx="1"/>
+            </svg>
+          </button>
+          <button
+            className={`${styles.viewToggleBtn} ${viewMode === 'list' ? styles.viewToggleBtnActive : ''}`}
+            onClick={() => onViewModeChange('list')}
+            aria-label="List view"
+            aria-pressed={viewMode === 'list'}
+            title="List view"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="1" y="2" width="14" height="2" rx="1"/>
+              <rect x="1" y="7" width="14" height="2" rx="1"/>
+              <rect x="1" y="12" width="14" height="2" rx="1"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       {hasActiveFilters && (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeroCard } from './HeroCard';
+import { HeroListRow } from './HeroListRow';
 import LoadMoreButton from '../../../components/LoadMoreButton';
 import { HeroGridProps } from './interface';
 import styles from './HeroGrid.module.scss';
@@ -13,6 +14,7 @@ export const HeroGrid: React.FC<HeroGridProps> = React.memo(({
   remainingCount,
   onLoadMore,
   isFiltering,
+  viewMode,
 }) => {
   const { t } = useTranslation();
   if (heroes.length === 0) {
@@ -25,11 +27,19 @@ export const HeroGrid: React.FC<HeroGridProps> = React.memo(({
 
   return (
     <>
-      <div className={styles.heroGrid} style={isFiltering ? { opacity: 0.5, transition: 'opacity 0.2s' } : { transition: 'opacity 0.2s' }}>
-        {heroes.map((hero: Hero) => (
-          <HeroCard key={hero.id} hero={hero} gameId={gameId} />
-        ))}
-      </div>
+      {viewMode === 'grid' ? (
+        <div className={styles.heroGrid} style={isFiltering ? { opacity: 0.5, transition: 'opacity 0.2s' } : { transition: 'opacity 0.2s' }}>
+          {heroes.map((hero: Hero) => (
+            <HeroCard key={hero.id} hero={hero} gameId={gameId} />
+          ))}
+        </div>
+      ) : (
+        <div className={styles.heroList} style={isFiltering ? { opacity: 0.5, transition: 'opacity 0.2s' } : { transition: 'opacity 0.2s' }}>
+          {heroes.map((hero: Hero) => (
+            <HeroListRow key={hero.id} hero={hero} gameId={gameId} />
+          ))}
+        </div>
+      )}
 
       {hasMore && (
         <LoadMoreButton onClick={onLoadMore}>

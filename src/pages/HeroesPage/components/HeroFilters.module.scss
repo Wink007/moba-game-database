@@ -3,7 +3,17 @@
 }
 
 .titleSection {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
   margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+
+  // push viewToggle to the right
+  > *:nth-last-child(1) {
+    margin-left: auto;
+    align-self: center;
+  }
 }
 
 .title {
@@ -92,5 +102,43 @@
 
   &:hover {
     background: rgba(239, 68, 68, 0.08);
+  }
+}
+
+.viewToggle {
+  display: flex;
+  gap: 2px;
+  background: var(--clr-bg-card-40);
+  border: 1px solid var(--clr-border-3);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.viewToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--clr-text-4);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    color: var(--clr-text-2);
+    background: var(--clr-bg-card-60);
+  }
+}
+
+.viewToggleBtnActive {
+  background: var(--clr-accent-15);
+  color: var(--clr-accent);
+
+  &:hover {
+    background: var(--clr-accent-20);
+    color: var(--clr-accent);
   }
 }

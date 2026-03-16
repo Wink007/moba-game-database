@@ -1,5 +1,7 @@
 import { Hero } from '../../../types';
 
+export type ViewMode = 'grid' | 'list';
+
 export interface HeroFiltersProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
@@ -18,6 +20,8 @@ export interface HeroFiltersProps {
   onClearAll: () => void;
   totalCount: number;
   displayedCount: number;
+  viewMode: ViewMode;
+  onViewModeChange: (mode: ViewMode) => void;
 }
 
 export interface HeroGridProps {
@@ -27,4 +31,5 @@ export interface HeroGridProps {
   remainingCount: number;
   onLoadMore: () => void;
   isFiltering?: boolean;
+  viewMode: ViewMode;
 }
