@@ -6,8 +6,11 @@ import styles from '../styles.module.scss';
 
 export const NewHeroStrip = ({ gameId }: { gameId: number }) => {
   const { t } = useTranslation();
-  const { data: latestHeroes } = useLatestHeroesQuery(gameId, 1);
+  const { data: latestHeroes, isLoading } = useLatestHeroesQuery(gameId, 1);
   const hero = latestHeroes?.[0];
+
+  // Reserve the same height during loading to prevent CLS
+  if (isLoading) return <div className={styles.newHeroStrip} style={{ visibility: 'hidden' }} aria-hidden="true" />;
   if (!hero) return null;
 
   return (

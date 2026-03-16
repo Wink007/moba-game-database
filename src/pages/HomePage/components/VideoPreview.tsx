@@ -38,19 +38,28 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
     <div className={styles.videoPreview} style={!game ? { background: 'linear-gradient(180deg, #0d1117 0%, #0a0f1e 100%)' } : undefined}>
       {game && (
         game.video_intro ? (
-          <video
-            ref={videoRef}
-            key={game.id}
-            src={getOptimizedVideoUrl(game.video_intro)}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="none"
-            className={styles.video}
-            poster={getVideoPosterUrl(game.video_intro)}
-            {...{ fetchpriority: 'high' } as any}
-          />
+          <>
+            {/* Poster loads immediately as LCP element — video plays on top once ready */}
+            <img
+              src={getVideoPosterUrl(game.video_intro)}
+              alt=""
+              aria-hidden="true"
+              fetchPriority="high"
+              className={styles.video}
+              style={{ objectFit: 'cover', opacity: 0.35, filter: 'brightness(1.1) saturate(1.2)' }}
+            />
+            <video
+              ref={videoRef}
+              key={game.id}
+              src={getOptimizedVideoUrl(game.video_intro)}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="none"
+              className={styles.video}
+            />
+          </>
         ) : (
           <img
             src={game.preview}
@@ -73,7 +82,6 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
           </p>
         )}        {/* Always reserve space for titleBlock to avoid CLS */}
         <div className={styles.titleBlock} style={!game ? { visibility: 'hidden' } : undefined}>
-          {/* <h2>{game?.subtitle ?? '\u00A0'}</h2> */}
           <div className={styles.glowLine} />
         </div>
         {children}

@@ -8,6 +8,7 @@ import { useGameStore } from '../../store/gameStore';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { getRankOptions } from '../../pages/HeroRankPage/constants';
 import { LazyImage } from '../LazyImage';
+import { getOptimizedImageUrl } from '../../utils/cloudinary';
 import s from './styles.module.scss';
 
 /* ── tier helpers ── */
@@ -97,8 +98,9 @@ export const TopHeroesRanked = () => {
                     <LazyImage
                       fill
                       className={s.avatarImg}
-                      src={hero.head || hero.image}
+                      src={getOptimizedImageUrl(hero.head || hero.image, 80)}
                       alt={getHeroName(hero, i18n.language)}
+                      priority={i < 5}
                       loading="eager"
                       width={54}
                       height={54}

@@ -26,6 +26,20 @@ const BUILD_DIR = path.join(__dirname, 'build');
 // Read once at startup — not on every request
 const INDEX_HTML = fs.readFileSync(path.join(BUILD_DIR, 'index.html'), 'utf8');
 
+// Read locale chunk filenames for preload hints
+const LOCALE_CHUNKS = (() => {
+  try {
+    const manifest = JSON.parse(fs.readFileSync(path.join(BUILD_DIR, 'asset-manifest.json'), 'utf8'));
+    return {
+      en: manifest.files['locale-en.js'] || null,
+      uk: manifest.files['locale-uk.js'] || null,
+      id: manifest.files['locale-id.js'] || null,
+    };
+  } catch (e) {
+    return { en: null, uk: null, id: null };
+  }
+})();
+
 // Preload heroes into cache at startup so first request is instant
 (async () => {
   const url = `${API_URL}/heroes?game_id=2&lang=en`;
@@ -198,6 +212,13 @@ app.get('/{*path}', async (req, res) => {
 
   const url = req.path;
   const lang = ['uk', 'id'].includes(req.query.lang) ? req.query.lang : 'en';
+
+  // Preload the active locale chunk so it loads in parallel with main.js
+  const localeChunk = LOCALE_CHUNKS[lang] || LOCALE_CHUNKS.en;
+  if (localeChunk) {
+    const preloadTag = `<link rel="preload" href="${localeChunk}" as="script"/>`;
+    html = html.replace('</head>', `${preloadTag}</head>`);
+  }
 
   try {
     // noindex для приватних сторінок

@@ -68,6 +68,24 @@
   font-size: 1rem;
 }
 
+.retryBtn {
+  display: block;
+  margin: 12px auto 0;
+  padding: 8px 24px;
+  background: transparent;
+  border: 1px solid var(--clr-border-4);
+  border-radius: 8px;
+  color: var(--clr-text-2);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: var(--clr-accent, #818cf8);
+    color: var(--clr-accent, #818cf8);
+  }
+}
+
 .explore-heroes-link {
     display: inline-block;
     font-weight: 600;

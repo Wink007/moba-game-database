@@ -4,6 +4,7 @@ import { useGameStore } from '../../store/gameStore';
 import { heroToSlug } from '../../utils/heroSlug';
 import { getHeroName } from '../../utils/translation';
 import { LazyImage } from '../LazyImage';
+import { getOptimizedImageUrl } from '../../utils/cloudinary';
 import { useMetaReport, MetaHero } from './useMetaReport';
 import styles from './styles.module.scss';
 
@@ -19,7 +20,7 @@ const HeroRow = ({ item, rank, mode }: { item: MetaHero; rank: number; mode: 'ri
       <span className={styles.rank}>{rank}</span>
       <div className={styles.avatar}>
         {item.hero.head
-          ? <LazyImage src={item.hero.head} alt={name} className={styles.avatarImg} />
+          ? <LazyImage src={getOptimizedImageUrl(item.hero.head, 80)} alt={name} className={styles.avatarImg} />
           : <div className={styles.avatarPlaceholder}>{name[0]}</div>
         }
       </div>
@@ -59,7 +60,13 @@ const SkeletonRow = () => (
 export const MetaReport = () => {
   const { t, i18n } = useTranslation();
   const { selectedGameId } = useGameStore();
-  const { isLoading, rising, falling, topBanned } = useMetaReport(selectedGameId);
+  const { isLoading, isError, rising, falling, topBanned } = useMetaReport(selectedGameId);
+
+  if (isError) return (
+    <div className={styles.wrapper}>
+      <div className={styles.errorState}>{t('common.error')}</div>
+    </div>
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -133,7 +140,7 @@ export const MetaReport = () => {
                     <div className={styles.bannedCardAvatarWrap}>
                       {isTop && <span className={styles.bannedCrown}>👑</span>}
                       {item.hero.head
-                        ? <LazyImage src={item.hero.head} alt={name} className={styles.bannedCardAvatar} />
+                        ? <LazyImage src={getOptimizedImageUrl(item.hero.head, 80)} alt={name} className={styles.bannedCardAvatar} />
                         : <div className={`${styles.bannedCardAvatar} ${styles.avatarPlaceholder}`}>{name[0]}</div>
                       }
                     </div>

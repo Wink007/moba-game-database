@@ -16,17 +16,25 @@
 .shimmer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    var(--clr-bg-card-80) 25%,
-    var(--clr-bg-elevated) 50%,
-    var(--clr-bg-card-80) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.6s ease-in-out infinite;
+  overflow: hidden;
+  background: var(--clr-bg-card-80);
   border-radius: inherit;
   z-index: 1;
   pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--clr-bg-elevated) 50%,
+      transparent 100%
+    );
+    animation: shimmer 1.6s ease-in-out infinite;
+    will-change: transform;
+  }
 }
 
 .img {
@@ -48,6 +56,6 @@
 }
 
 @keyframes shimmer {
-  0%   { background-position: 200% center; }
-  100% { background-position: -200% center; }
+  0%   { transform: translateX(-200%); }
+  100% { transform: translateX(200%); }
 }

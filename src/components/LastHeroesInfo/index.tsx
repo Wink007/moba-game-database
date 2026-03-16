@@ -5,8 +5,9 @@ import { useLatestHeroesQuery, useHeroSkillsQuery } from "../../queries/useHeroe
 import { heroToSlug } from "../../utils/heroSlug";
 import { useGameStore } from "../../store/gameStore";
 import { Lanes, LanesIcons } from "../../enum";
-import { getSkillName, getSkillDescription } from '../../utils/translation';
+import { getSkillName, getSkillDescription, getHeroName, translateRoles } from '../../utils/translation';
 import { LazyImage } from '../LazyImage';
+import { getOptimizedImageUrl } from '../../utils/cloudinary';
 import s from './styles.module.scss';
 import { MoreInfoLink } from '../MoreInfoLink';
 import SkillTooltip from '../SkillTooltip';
@@ -157,11 +158,11 @@ export const LastHeroesInfo = () => {
 
                 {/* ── Details panel ── */}
                 <div className={s.details}>
-                    <p className={s.heroName}>{hero?.name}</p>
+                    <p className={s.heroName}>{getHeroName(hero, i18n.language)}</p>
 
                     {hero?.roles && hero.roles.length > 0 && (
                         <div className={s.rolesRow}>
-                            {hero.roles.map(role => (
+                            {translateRoles(hero.roles, i18n.language).map(role => (
                                 <span key={role} className={s.roleTag}>{role}</span>
                             ))}
                         </div>
@@ -238,7 +239,7 @@ export const LastHeroesInfo = () => {
                                 className={`${s.thumb} ${idx === currentHeroIndex ? s.thumbActive : ''}`}
                                 onClick={() => changeHero(idx)}
                             >
-                                <LazyImage fill src={h?.head} alt={h.name} className={s.thumbImg} />
+                                <LazyImage fill src={getOptimizedImageUrl(h?.head, 60)} alt={h.name} className={s.thumbImg} />
                             </button>
                         ))}
                     </div>

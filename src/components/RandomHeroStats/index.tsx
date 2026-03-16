@@ -7,6 +7,7 @@ import { Chart } from './Chart';
 import { getRange } from './utils';
 import { useHeroStats } from './useHeroStats';
 import { LazyImage } from '../LazyImage';
+import { getOptimizedImageUrl } from '../../utils/cloudinary';
 import styles from './styles.module.scss';
 
 const SkeletonChartCard = ({ variant }: { variant: 'green' | 'red' }) => {
@@ -62,7 +63,7 @@ export const RandomHeroStats = () => {
   return (
     <div className={styles.container}>
       <Link to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.heroSection}>
-        {hero.head && <LazyImage src={hero.head} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} wrapperClassName={styles.heroAvatarWrapper} wrapperStyle={{ borderRadius: '50%', flexShrink: 0, overflow: 'hidden' }} />}
+        {hero.head && <LazyImage src={getOptimizedImageUrl(hero.head, 120)} alt={getHeroName(hero, i18n.language)} className={styles.heroImage} wrapperClassName={styles.heroAvatarWrapper} wrapperStyle={{ borderRadius: '50%', flexShrink: 0, overflow: 'hidden' }} />}
         <div className={styles.heroInfo}>
           <h3 className={styles.heroName}>{getHeroName(hero, i18n.language)}</h3>
           {hero.roles && hero.roles.length > 0 && (

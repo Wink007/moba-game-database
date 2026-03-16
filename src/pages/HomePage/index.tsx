@@ -48,7 +48,14 @@ export const HomePage = () => {
     ? { id: selectedGameId, video_intro: cachedVideoIntro, preview: cachedPreview, subtitle: cachedSubtitle, name: '' } as any
     : undefined;
 
-  if (isError) return <div className={styles.error}>{t('home.failedToLoadGames')}</div>;
+  if (isError) return (
+    <div className={styles.error}>
+      {t('home.failedToLoadGames')}
+      <button className={styles.retryBtn} onClick={() => window.location.reload()}>
+        {t('common.retry')}
+      </button>
+    </div>
+  );
 
   return (
     <div className={styles.homePageWrapper}>
