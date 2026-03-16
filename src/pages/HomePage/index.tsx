@@ -14,8 +14,8 @@ import styles from './styles.module.scss';
 export const HomePage = () => {
   const { t } = useTranslation();
   useSEO({
-    title: 'Home',
-    description: 'Mobile Legends Wiki — heroes stats, builds, counter picks, items, emblems, spells and patch notes.',
+    description: 'MOBA Wiki — unofficial fan guide for Mobile Legends. Hero stats, tier list, counter picks, item builds, patch notes and ranked statistics. Updated daily.',
+    // no title → uses full site name as title (best for home page)
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'WebSite',

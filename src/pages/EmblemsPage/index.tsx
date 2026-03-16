@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 function EmblemsPage() {
   const { t } = useTranslation();
   const { gameId } = useParams();
-  useSEO({ title: 'Emblems', description: 'All Mobile Legends emblems and talents — find the best emblem setup for your hero.' });
+  useSEO({ title: 'Emblems', description: 'All Mobile Legends emblems and talents — find the best emblem setup for your hero role. Complete MLBB emblem build guide.' });
 
   const { data: emblems = [], isLoading: emblemsLoading, error: emblemsError } = useEmblems(gameId);
   const { tier1, tier2, tier3, isLoading: talentsLoading } = useEmblemTalents(gameId);

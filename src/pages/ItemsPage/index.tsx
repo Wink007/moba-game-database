@@ -20,7 +20,7 @@ function ItemsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   useSEO({
     title: 'Items',
-    description: 'Browse all Mobile Legends items — equipment, roaming, jungling and more. Stats, passives and build paths.',
+    description: 'All Mobile Legends items — stats, passives and best builds for every hero role. Find the strongest MLBB items for the current meta.',
     jsonLd: [
       {
         '@context': 'https://schema.org',

@@ -15,7 +15,7 @@ function SpellsPage() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const { gameId } = useParams();
-  useSEO({ title: 'Battle Spells', description: 'All Mobile Legends battle spells — cooldowns, effects and unlock levels.' });
+  useSEO({ title: 'Battle Spells', description: 'All Mobile Legends battle spells — cooldowns, effects and best picks for every hero role. Complete MLBB spell guide.' });
 
   const { data: spells = [], isLoading: loading, error: queryError } = useQuery<BattleSpell[]>({
     queryKey: queryKeys.spells.all(Number(gameId)),
