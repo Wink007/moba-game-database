@@ -291,11 +291,39 @@ app.get('/{*path}', async (req, res) => {
     // /:gameId/heroes
     const heroesMatch = url.match(/^\/(\d+)\/heroes$/);
     if (heroesMatch) {
+      const [, hgid] = heroesMatch;
+      const heroesForList = await cachedFetch(`${API_URL}/heroes?game_id=${hgid}&lang=en`);
+      const heroListUrl = `https://mobawiki.com${url}`;
+      const itemListJsonLd = heroesForList ? {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'Mobile Legends Heroes',
+        description: 'Complete list of all Mobile Legends heroes with roles, lanes and stats.',
+        url: heroListUrl,
+        numberOfItems: heroesForList.length,
+        itemListElement: heroesForList.map((h, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: h.name,
+          url: `https://mobawiki.com/${hgid}/heroes/${heroToSlug(h.name)}`,
+        })),
+      } : null;
       html = injectMeta(html, {
         title: 'Heroes',
-        description: 'Complete list of all Mobile Legends heroes — roles, lanes, skills, win rates and guides. Browse every MLBB hero by role or attribute.',
-        canonical: `https://mobawiki.com${url}`,
+        description: `All ${heroesForList ? heroesForList.length + ' ' : ''}Mobile Legends heroes — roles, lanes, skills, win rates and guides. Browse every MLBB hero by role or attribute.`,
+        canonical: heroListUrl,
         lang,
+        jsonLd: itemListJsonLd ? [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Heroes', item: heroListUrl },
+            ],
+          },
+          itemListJsonLd,
+        ] : undefined,
       });
       return res.send(html);
     }
@@ -338,38 +366,97 @@ app.get('/{*path}', async (req, res) => {
     // /:gameId/tier-list
     if (url.match(/^\/\d+\/tier-list$/)) {
       const tierYear = new Date().getFullYear();
+      const tierUrl = `https://mobawiki.com${url}`;
       html = injectMeta(html, {
         title: `Tier List ${tierYear}`,
         description: `Mobile Legends tier list ${tierYear} — best heroes ranked S/A/B/C by win rate, ban rate and current meta. Updated daily for Mythic rank.`,
-        canonical: `https://mobawiki.com${url}`,
+        canonical: tierUrl,
         lang,
-        jsonLd: {
-          '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name: `Mobile Legends Tier List ${tierYear}`,
-          description: `Mobile Legends tier list ${tierYear} — best heroes ranked by win rate and current meta.`,
-          url: `https://mobawiki.com${url}`,
-          publisher: { '@type': 'Organization', name: 'MOBA Wiki', url: 'https://mobawiki.com' },
-        },
+        jsonLd: [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+              { '@type': 'ListItem', position: 2, name: `Tier List ${tierYear}`, item: tierUrl },
+            ],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: `Mobile Legends Tier List ${tierYear}`,
+            description: `Mobile Legends tier list ${tierYear} — best heroes ranked by win rate and current meta.`,
+            url: tierUrl,
+            publisher: { '@type': 'Organization', name: 'MOBA Wiki', url: 'https://mobawiki.com' },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: `What is the best hero in Mobile Legends in ${tierYear}?`,
+                acceptedAnswer: { '@type': 'Answer', text: `The best heroes change with each patch. Check our S-tier list on MOBA Wiki — updated daily based on Mythic rank win rates at mobawiki.com.` },
+              },
+              {
+                '@type': 'Question',
+                name: 'How often is the MLBB tier list updated?',
+                acceptedAnswer: { '@type': 'Answer', text: 'The MOBA Wiki tier list is updated daily, reflecting the latest Mythic rank statistics and patch changes.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'What makes a hero S tier in Mobile Legends?',
+                acceptedAnswer: { '@type': 'Answer', text: 'S tier heroes typically have win rates above 52%, high ban rates, and are dominant in the current meta. They are consistently strong across most game situations.' },
+              },
+            ],
+          },
+        ],
       });
       return res.send(html);
     }
 
     // /:gameId/counter-pick
     if (url.match(/^\/\d+\/counter-pick$/)) {
+      const cpUrl = `https://mobawiki.com${url}`;
       html = injectMeta(html, {
         title: 'Counter Pick',
         description: 'Mobile Legends counter pick tool — find the best heroes to counter your enemies. Check counters and synergies for every MLBB hero.',
-        canonical: `https://mobawiki.com${url}`,
+        canonical: cpUrl,
         lang,
-        jsonLd: {
-          '@context': 'https://schema.org',
-          '@type': 'WebApplication',
-          name: 'Mobile Legends Counter Pick Tool',
-          description: 'Find the best hero to counter your opponents in Mobile Legends.',
-          url: `https://mobawiki.com${url}`,
-          applicationCategory: 'GameApplication',
-        },
+        jsonLd: [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Counter Pick', item: cpUrl },
+            ],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: 'Mobile Legends Counter Pick Tool',
+            description: 'Find the best hero to counter your opponents in Mobile Legends.',
+            url: cpUrl,
+            applicationCategory: 'GameApplication',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'How do I counter pick in Mobile Legends?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Use our MLBB counter pick tool — select any hero to instantly see which heroes counter them and which synergize with them. Available at mobawiki.com.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'What hero counters most assassins in Mobile Legends?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Tanks and fighters with crowd control abilities like Khufra, Jawhead, and Chou are strong counters to most assassins in Mobile Legends.' },
+              },
+            ],
+          },
+        ],
       });
       return res.send(html);
     }
@@ -377,19 +464,51 @@ app.get('/{*path}', async (req, res) => {
     // /:gameId/hero-ranks
     if (url.match(/^\/\d+\/hero-ranks$/)) {
       const rankYear = new Date().getFullYear();
+      const rankUrl = `https://mobawiki.com${url}`;
       html = injectMeta(html, {
         title: 'Hero Rankings',
         description: `Mobile Legends hero rankings ${rankYear} — win rate, pick rate and ban rate for all heroes. Real-time Mythic rank statistics updated daily.`,
-        canonical: `https://mobawiki.com${url}`,
+        canonical: rankUrl,
         lang,
-        jsonLd: {
-          '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name: `Mobile Legends Hero Rankings ${rankYear}`,
-          description: `Win rate, pick rate and ban rate for all Mobile Legends heroes in ${rankYear}.`,
-          url: `https://mobawiki.com${url}`,
-          publisher: { '@type': 'Organization', name: 'MOBA Wiki', url: 'https://mobawiki.com' },
-        },
+        jsonLd: [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Hero Rankings', item: rankUrl },
+            ],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: `Mobile Legends Hero Rankings ${rankYear}`,
+            description: `Win rate, pick rate and ban rate for all Mobile Legends heroes in ${rankYear}.`,
+            url: rankUrl,
+            publisher: { '@type': 'Organization', name: 'MOBA Wiki', url: 'https://mobawiki.com' },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: `Which Mobile Legends hero has the highest win rate in ${rankYear}?`,
+                acceptedAnswer: { '@type': 'Answer', text: `Hero win rates change daily. Check our live hero rankings at mobawiki.com — updated every day with real Mythic rank data.` },
+              },
+              {
+                '@type': 'Question',
+                name: 'What is the current Mobile Legends meta?',
+                acceptedAnswer: { '@type': 'Answer', text: 'The current MLBB meta is reflected in hero win rates, pick rates and ban rates. High win rate + high ban rate heroes define the meta. See the full breakdown on MOBA Wiki.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'How is Mobile Legends win rate calculated?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Win rate is the percentage of games a hero wins out of all games played. MOBA Wiki shows win rates from Mythic rank games for the most accurate competitive data.' },
+              },
+            ],
+          },
+        ],
       });
       return res.send(html);
     }
