@@ -136,6 +136,7 @@ export const HeroRankPage = () => {
     return (
       <div className={styles.container}>
         <div className={styles.error}>{t('common.error')}</div>
+        <button className={styles.retryBtn} onClick={() => window.location.reload()}>{t('common.retry')}</button>
       </div>
     );
   }

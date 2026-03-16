@@ -5274,3 +5274,25 @@
   &:hover { opacity: 1; color: #e57373; }
 }
 
+.commentConfirmYes,
+.commentConfirmNo {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.commentConfirmYes {
+  background: var(--clr-green, #22c55e);
+}
+
+.commentConfirmNo {
+  background: var(--clr-red, #ef4444);
+}
+

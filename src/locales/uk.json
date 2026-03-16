@@ -80,7 +80,8 @@
       "mixedDamage": "Змішаний урон",
       "poke": "Тримання дистанції",
       "push": "Пуш",
-      "regen": "Регенерація"
+      "regen": "Регенерація",
+      "clearAll": "Скинути всі фільтри"
     }
   },
   "heroDetail": {
@@ -627,6 +628,8 @@
     "minutesAgo": "{{n}}хв тому",
     "hoursAgo": "{{n}}год тому",
     "daysAgo": "{{n}}д тому",
-    "loadMore": "Завантажити більше"
+    "loadMore": "Завантажити більше",
+    "hint": "Enter — надіслати, Shift+Enter — новий рядок",
+    "signInGoogle": "Увійти через Google"
   }
 }

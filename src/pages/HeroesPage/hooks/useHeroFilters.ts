@@ -42,6 +42,11 @@ export const useHeroFilters = () => {
     sort: sortBy,
   };
 
+  const clearAll = () => {
+    setSearchParams({}, { replace: true });
+    setSearchQuery('');
+  };
+
   return {
     filters: {
       selectedRole,
@@ -61,6 +66,7 @@ export const useHeroFilters = () => {
       setSelectedDamageType: (v: string) => updateParam('damage_type', v),
       setSortBy: (v: string) => updateParam('sort', v),
       setSearchQuery,
+      clearAll,
     },
   };
 };

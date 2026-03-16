@@ -41,6 +41,7 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
   const [visibleCount, setVisibleCount] = useState(5);
+  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const googleLogin = useGoogleAuth(() => setShowLoginPrompt(false));
 
@@ -161,7 +162,7 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
             )}
           </div>
           {text.trim() && (
-            <p className={styles.commentHint}>Enter — send, Shift+Enter — new line</p>
+            <p className={styles.commentHint}>{t('comments.hint')}</p>
           )}
         </div>
       </form>
@@ -171,8 +172,8 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
         <div className={styles.commentLoginPrompt}>
           <span>{t('comments.loginRequired')}</span>
           <button className={styles.commentLoginBtn} onClick={() => googleLogin()}>
-            Sign in with Google
-          </button>
+              {t('comments.signInGoogle')}
+            </button>
           <button className={styles.commentDismissBtn} onClick={() => setShowLoginPrompt(false)}>✕</button>
         </div>
       )}
@@ -218,12 +219,25 @@ export const CommentsSection: React.FC<CommentsSectionProps> = ({ heroId }) => {
                     {c.likes > 0 && <span>{c.likes}</span>}
                   </button>
                   {user?.id === c.user_id && (
-                    <button
-                      className={styles.commentDeleteBtn}
-                      onClick={() => deleteMutation.mutate(c.id)}
-                    >
-                      {t('common.delete')}
-                    </button>
+                    pendingDeleteId === c.id ? (
+                      <>
+                        <button
+                          className={styles.commentConfirmYes}
+                          onClick={() => { deleteMutation.mutate(c.id); setPendingDeleteId(null); }}
+                        >✓</button>
+                        <button
+                          className={styles.commentConfirmNo}
+                          onClick={() => setPendingDeleteId(null)}
+                        >✕</button>
+                      </>
+                    ) : (
+                      <button
+                        className={styles.commentDeleteBtn}
+                        onClick={() => setPendingDeleteId(c.id)}
+                      >
+                        {t('common.delete')}
+                      </button>
+                    )
                   )}
                 </div>
               </div>

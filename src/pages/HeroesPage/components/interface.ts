@@ -15,6 +15,7 @@ export interface HeroFiltersProps {
   onSpecialtyChange: (value: string) => void;
   onDamageTypeChange: (value: string) => void;
   onSortChange: (value: string) => void;
+  onClearAll: () => void;
   totalCount: number;
   displayedCount: number;
 }

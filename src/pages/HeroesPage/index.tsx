@@ -89,6 +89,7 @@ function HeroesPage() {
         onSpecialtyChange={setters.setSelectedSpecialty}
         onDamageTypeChange={setters.setSelectedDamageType}
         onSortChange={setters.setSortBy}
+        onClearAll={setters.clearAll}
         totalCount={total}
         displayedCount={allHeroes.length}
       />

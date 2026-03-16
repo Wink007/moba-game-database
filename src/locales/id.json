@@ -80,7 +80,8 @@
       "mixedDamage": "Mixed Damage",
       "poke": "Poke",
       "push": "Push",
-      "regen": "Regen"
+      "regen": "Regen",
+      "clearAll": "Hapus semua filter"
     }
   },
   "heroDetail": {
@@ -627,6 +628,8 @@
     "minutesAgo": "{{n}}m lalu",
     "hoursAgo": "{{n}}j lalu",
     "daysAgo": "{{n}}h lalu",
-    "loadMore": "Muat lebih banyak"
+    "loadMore": "Muat lebih banyak",
+    "hint": "Enter — kirim, Shift+Enter — baris baru",
+    "signInGoogle": "Masuk dengan Google"
   }
 }

@@ -75,3 +75,22 @@
     color: var(--clr-text-1);
   }
 }
+
+.clearAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1rem;
+  padding: 5px 14px;
+  background: transparent;
+  border: 1px solid var(--clr-danger, #ef4444);
+  border-radius: 20px;
+  color: var(--clr-danger, #ef4444);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.08);
+  }
+}

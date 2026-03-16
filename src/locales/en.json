@@ -80,7 +80,8 @@
       "mixedDamage": "Mixed Damage",
       "poke": "Poke",
       "push": "Push",
-      "regen": "Regen"
+      "regen": "Regen",
+      "clearAll": "Clear all filters"
     }
   },
   "heroDetail": {
@@ -627,6 +628,8 @@
     "minutesAgo": "{{n}}m ago",
     "hoursAgo": "{{n}}h ago",
     "daysAgo": "{{n}}d ago",
-    "loadMore": "Load more comments"
+    "loadMore": "Load more comments",
+    "hint": "Enter — send, Shift+Enter — new line",
+    "signInGoogle": "Sign in with Google"
   }
 }

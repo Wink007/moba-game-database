@@ -20,10 +20,12 @@ export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
   onSpecialtyChange,
   onDamageTypeChange,
   onSortChange,
+  onClearAll,
   totalCount,
   displayedCount,
 }) => {
   const { t } = useTranslation();
+  const hasActiveFilters = selectedRole !== 'all' || selectedLane !== 'all' || selectedComplexity !== 'all' || selectedSpecialty !== 'all' || selectedDamageType !== 'all' || sortBy !== 'name' || !!searchQuery;
   const filterGroups: FilterGroup[] = [
     {
       label: t('heroes.filters.role'),
@@ -77,6 +79,12 @@ export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
           {t('heroes.browse')} • {t('heroes.showing', { displayed: displayedCount, total: totalCount })}
         </p>
       </div>
+
+      {hasActiveFilters && (
+        <button className={styles.clearAllBtn} onClick={onClearAll}>
+          ✕ {t('heroes.filters.clearAll')}
+        </button>
+      )}
 
       <div className={styles.searchWrapper}>
         <input
