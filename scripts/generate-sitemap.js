@@ -58,7 +58,7 @@ async function generate() {
   urls.push(loc(`${BASE_URL}/`, '1.0', 'daily', today));
   urls.push(loc(`${BASE_URL}/legal`, '0.3', 'monthly', null, false));
 
-  for (const game of games) {
+  for (const game of games.filter(g => g.id === 2)) {
     const gid = game.id;
     const prefix = `${BASE_URL}/${gid}`;
 
