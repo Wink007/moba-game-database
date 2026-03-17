@@ -11,7 +11,7 @@ interface CommentItemProps {
   onDelete: () => void;
 }
 
-function timeAgo(dateStr: string, t: (key: string, opts?: object) => string) {
+function timeAgo(dateStr: string, t: (key: string, opts?: Record<string, unknown>) => string) {
   const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
   if (diff < 60) return t('comments.justNow');
   if (diff < 3600) return t('comments.minutesAgo', { n: Math.floor(diff / 60) });

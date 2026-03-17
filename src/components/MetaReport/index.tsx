@@ -115,44 +115,33 @@ export const MetaReport = () => {
       {/* Most Banned */}
       <div className={styles.bannedSection}>
         <span className={styles.bannedLabel}>{t('metaReport.mostBanned')}</span>
-        <div className={styles.bannedList}>
+        <div className={styles.bannedGrid}>
           {isLoading
             ? Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className={styles.bannedCard}>
-                  <div className={`${styles.bannedCardAvatar} ${styles.skeletonShimmer}`} />
-                  <div className={styles.bannedCardInfo}>
-                    <div className={`${styles.skeletonShimmer}`} style={{ width: 70, height: 11, borderRadius: 4 }} />
-                    <div className={`${styles.skeletonShimmer}`} style={{ width: '100%', height: 4, borderRadius: 4, marginTop: 6 }} />
+                <div key={i} className={styles.bannedPortrait} style={{ pointerEvents: 'none' }}>
+                  <div className={styles.bannedAvatarWrap}>
+                    <div className={`${styles.bannedPortraitAvatar} ${styles.skeletonShimmer}`} />
                   </div>
+                  <div className={`${styles.skeletonShimmer}`} style={{ width: 48, height: 10, borderRadius: 4 }} />
+                  <div className={`${styles.skeletonShimmer}`} style={{ width: 32, height: 10, borderRadius: 4 }} />
                 </div>
               ))
-            : topBanned.map((item, i) => {
+            : topBanned.slice(0, 5).map((item, i) => {
                 const name = getHeroName(item.hero as any, i18n.language);
                 const slug = heroToSlug(item.hero.name);
-                const maxBan = topBanned[0]?.banRate || 1;
-                const pct = Math.round((item.banRate / maxBan) * 100);
-                const isTop = i === 0;
+                const rankCls = i === 0 ? styles.rankGold : i === 1 ? styles.rankSilver : i === 2 ? styles.rankBronze : '';
                 return (
                   <Link key={item.hero.hero_id} to={`/${selectedGameId}/heroes/${slug}`}
-                    className={`${styles.bannedCard} ${isTop ? styles.bannedCardTop : ''}`}
-                    title={name}
+                    className={`${styles.bannedPortrait} ${rankCls}`}
                   >
-                    <div className={styles.bannedCardAvatarWrap}>
-                      {isTop && <span className={styles.bannedCrown}>👑</span>}
+                    <div className={styles.bannedAvatarWrap}>
                       {item.hero.head
-                        ? <LazyImage src={getOptimizedImageUrl(item.hero.head, 80)} alt={name} className={styles.bannedCardAvatar} />
-                        : <div className={`${styles.bannedCardAvatar} ${styles.avatarPlaceholder}`}>{name[0]}</div>
+                        ? <LazyImage src={getOptimizedImageUrl(item.hero.head, 80)} alt={name} className={styles.bannedPortraitAvatar} />
+                        : <div className={`${styles.bannedPortraitAvatar} ${styles.avatarPlaceholder}`}>{name[0]}</div>
                       }
                     </div>
-                    <div className={styles.bannedCardInfo}>
-                      <div className={styles.bannedCardRow}>
-                        <span className={styles.bannedCardName}>{name}</span>
-                        <span className={`${styles.bannedCardRate} ${isTop ? styles.bannedCardRateTop : ''}`}>{item.banRate.toFixed(1)}%</span>
-                      </div>
-                      <div className={styles.bannedBar}>
-                        <div className={`${styles.bannedBarFill} ${isTop ? styles.bannedBarFillTop : ''}`} style={{ width: `${pct}%` }} />
-                      </div>
-                    </div>
+                    <span className={styles.bannedPortraitName}>{name}</span>
+                    <span className={styles.bannedPortraitRate}>{item.banRate.toFixed(1)}%</span>
                   </Link>
                 );
               })

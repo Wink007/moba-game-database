@@ -4,6 +4,23 @@
   margin: 0 auto;
 }
 
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 0 40px;
+
+  @media (max-width: 968px) {
+    gap: 16px;
+    padding: 16px 0 32px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 12px;
+    padding: 12px 0 24px;
+  }
+}
+
 /* ── New Hero announcement strip ── */
 .newHeroStrip {
   display: flex;

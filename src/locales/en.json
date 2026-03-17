@@ -631,5 +631,17 @@
     "loadMore": "Load more comments",
     "hint": "Enter — send, Shift+Enter — new line",
     "signInGoogle": "Sign in with Google"
+  },
+  "matchesWidget": {
+    "title": "MLBB Esports",
+    "upcoming": "Upcoming",
+    "results": "Results",
+    "today": "Today",
+    "gameResults": "Game results",
+    "lineups": "Lineups",
+    "stream": "Stream",
+    "vod": "VOD",
+    "error": "Could not load matches",
+    "empty": "No matches on this date"
   }
 }

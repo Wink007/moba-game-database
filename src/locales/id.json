@@ -631,5 +631,17 @@
     "loadMore": "Muat lebih banyak",
     "hint": "Enter — kirim, Shift+Enter — baris baru",
     "signInGoogle": "Masuk dengan Google"
+  },
+  "matchesWidget": {
+    "title": "MLBB Esports",
+    "upcoming": "Mendatang",
+    "results": "Hasil",
+    "today": "Hari Ini",
+    "gameResults": "Hasil game",
+    "lineups": "Susunan pemain",
+    "stream": "Siaran",
+    "vod": "VOD",
+    "error": "Gagal memuat pertandingan",
+    "empty": "Tidak ada pertandingan hari ini"
   }
 }

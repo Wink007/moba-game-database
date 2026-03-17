@@ -2,15 +2,15 @@
   background: linear-gradient(135deg, var(--clr-overlay-80) 0%, var(--clr-bg-card-70) 100%);
   border: 1px solid var(--clr-border-6);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.75rem;
   box-shadow: 0 4px 24px var(--clr-black-30);
 
   @media (max-width: 968px) {
     padding: 0.75rem;
-    gap: 0.75rem;
+    gap: 0.5rem;
     border-radius: 12px;
   }
 }
@@ -19,16 +19,16 @@
 .heroSection {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   text-decoration: none;
-  padding: 1.25rem;
+  padding: 0.65rem 0.875rem;
   border-radius: 12px;
   background: var(--clr-bg-card-40);
   border: 1px solid var(--clr-border-6);
 
   @media (max-width: 968px) {
-    padding: 0.65rem;
-    gap: 0.75rem;
+    padding: 0.5rem 0.65rem;
+    gap: 0.65rem;
     border-radius: 10px;
   }
 }
@@ -46,12 +46,12 @@
 }
 
 .heroAvatarWrapper {
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
 
   @media (max-width: 968px) {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -63,7 +63,7 @@
 }
 
 .heroName {
-  font-size: 1.125rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--clr-text-1);
   margin: 0;
@@ -72,7 +72,7 @@
   text-overflow: ellipsis;
 
   @media (max-width: 968px) {
-    font-size: 0.95rem;
+    font-size: 0.82rem;
   }
 }
 
@@ -89,7 +89,7 @@
 .chartsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 0.75rem;
 
   @media (max-width: 968px) {
     grid-template-columns: 1fr 1fr;
@@ -100,8 +100,8 @@
 .chartCard {
   background: linear-gradient(135deg, var(--clr-overlay-95) 0%, var(--clr-bg-card-90) 100%);
   backdrop-filter: blur(20px);
-  border-radius: 16px;
-  padding: 1.5rem;
+  border-radius: 12px;
+  padding: 0.875rem;
   border: 1px solid var(--clr-border-6);
   box-shadow: 0 4px 24px var(--clr-black-40);
   position: relative;
@@ -109,7 +109,7 @@
   transition: all 0.3s ease;
 
   @media (max-width: 968px) {
-    padding: 0.75rem;
+    padding: 0.6rem;
     border-radius: 10px;
   }
 
@@ -140,13 +140,13 @@
 }
 
 .chartHeader {
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--clr-border-3);
 
   @media (max-width: 968px) {
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.4rem;
+    margin-bottom: 0.35rem;
+    padding-bottom: 0.3rem;
   }
 }
 
@@ -183,33 +183,33 @@
 }
 
 .trendUp {
-  font-size: 1rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--clr-success);
-  padding: 0.25rem 0.75rem;
+  padding: 0.18rem 0.55rem;
   background: var(--clr-success-soft);
   border-radius: 6px;
   border: 1px solid var(--clr-success-30);
 
   @media (max-width: 968px) {
-    font-size: 0.75rem;
-    padding: 0.15rem 0.45rem;
+    font-size: 0.72rem;
+    padding: 0.12rem 0.4rem;
     border-radius: 5px;
   }
 }
 
 .trendDown {
-  font-size: 1rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--clr-danger);
-  padding: 0.25rem 0.75rem;
+  padding: 0.18rem 0.55rem;
   background: var(--clr-danger-soft);
   border-radius: 6px;
   border: 1px solid var(--clr-danger-soft);
 
   @media (max-width: 968px) {
-    font-size: 0.75rem;
-    padding: 0.15rem 0.45rem;
+    font-size: 0.72rem;
+    padding: 0.12rem 0.4rem;
     border-radius: 5px;
   }
 }
@@ -226,12 +226,12 @@
 }
 
 .chartValue {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
   font-weight: 700;
   text-shadow: 0 2px 8px currentColor;
 
   @media (max-width: 968px) {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
   }
   
   .chartCard:first-child & {
@@ -253,10 +253,10 @@
 .barChartArea {
   position: relative;
   width: 100%;
-  aspect-ratio: 480 / 230;
+  aspect-ratio: 480 / 160;
 
   @media (max-width: 968px) {
-    aspect-ratio: 480 / 200;
+    aspect-ratio: 480 / 140;
   }
 }
 

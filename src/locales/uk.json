@@ -631,5 +631,17 @@
     "loadMore": "Завантажити більше",
     "hint": "Enter — надіслати, Shift+Enter — новий рядок",
     "signInGoogle": "Увійти через Google"
+  },
+  "matchesWidget": {
+    "title": "MLBB Esports",
+    "upcoming": "Найближчі",
+    "results": "Результати",
+    "today": "Сьогодні",
+    "gameResults": "Результати ігор",
+    "lineups": "Склади",
+    "stream": "Стрім",
+    "vod": "VOD",
+    "error": "Не вдалося завантажити матчі",
+    "empty": "Немає матчів на цю дату"
   }
 }

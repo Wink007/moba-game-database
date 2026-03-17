@@ -8,7 +8,9 @@ import { MetaReport } from '../../components/MetaReport';
 import { VideoPreview } from './components/VideoPreview';
 import { HeroRankSection } from './components/HeroRankSection';
 import { NewHeroStrip } from './components/NewHeroStrip';
+import { MatchesWidget } from './components/MatchesWidget';
 import { useSEO } from '../../hooks/useSEO';
+import { FF_MATCHES_WIDGET } from '../../config';
 import styles from './styles.module.scss';
 
 export const HomePage = () => {
@@ -63,9 +65,12 @@ export const HomePage = () => {
       <VideoPreview game={defaultGame ?? cachedGame}>
         <HeroRankSection gameId={selectedGameId} />
       </VideoPreview>
-      <MetaReport />
-      <RandomHeroStats />
-      <LastHeroesInfo />
+      <div className={styles.contentSection}>
+        {FF_MATCHES_WIDGET && <MatchesWidget />}
+        <MetaReport />
+        <RandomHeroStats />
+        <LastHeroesInfo />
+      </div>
     </div>
   );
 };
