@@ -10,7 +10,6 @@ import { HeroRankSection } from './components/HeroRankSection';
 import { NewHeroStrip } from './components/NewHeroStrip';
 import { MatchesWidget } from './components/MatchesWidget';
 import { useSEO } from '../../hooks/useSEO';
-import { FF_MATCHES_WIDGET } from '../../config';
 import styles from './styles.module.scss';
 
 export const HomePage = () => {
@@ -66,7 +65,7 @@ export const HomePage = () => {
         <HeroRankSection gameId={selectedGameId} />
       </VideoPreview>
       <div className={styles.contentSection}>
-        {FF_MATCHES_WIDGET && <MatchesWidget />}
+        <MatchesWidget />
         <MetaReport />
         <RandomHeroStats />
         <LastHeroesInfo />
