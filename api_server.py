@@ -8,6 +8,7 @@ import os
 import gzip
 import io
 import time
+import requests as _requests
 
 # Deploy version marker — bump to force Railway rebuild
 API_VERSION = "2026.03.11-abilityshow-fix"
@@ -4893,6 +4894,109 @@ def scheduler_run_now():
 
 # Scheduler is managed by Railway Cron Job (0 18 * * *) which calls /api/admin/scheduler/run-now
 # APScheduler removed — unreliable on Railway (lost state on dyno restart)
+
+
+
+import time as _time
+
+# In-memory cache for bo3.gg proxy responses
+# { key: (timestamp, bytes) }
+_bo3_cache: dict = {}
+_BO3_TTL_UPCOMING = 60        # 1 min — live matches possible
+_BO3_TTL_FINISHED = 5 * 60   # 5 min — results don't change
+_BO3_TTL_DETAIL   = 30        # 30 s — live game detail
+
+
+def _bo3_cached(key: str, ttl: int, fetch_fn):
+    """Return cached bytes or call fetch_fn() and cache the result."""
+    entry = _bo3_cache.get(key)
+    if entry and (_time.time() - entry[0]) < ttl:
+        return entry[1]
+    data = fetch_fn()
+    _bo3_cache[key] = (_time.time(), data)
+    # Evict entries older than 10 min to prevent unbounded growth
+    now = _time.time()
+    stale = [k for k, (ts, _) in _bo3_cache.items() if now - ts > 600]
+    for k in stale:
+        _bo3_cache.pop(k, None)
+    return data
+
+
+@app.route('/api/matches/detail/<slug>', methods=['GET'])
+def proxy_match_detail(slug):
+    """Proxy for bo3.gg MLBB match detail (avoids CORS in browser)"""
+    bo3_url = (
+        f'https://api.bo3.gg/api/v1/matches/{slug}'
+        f'?scope=show-match&prefer_locale=en'
+        f'&with=teams_and_players,tournament_deep,stage,insights,ai_predictions,mlbb_games'
+    )
+    def fetch():
+        resp = _requests.get(bo3_url, headers={
+            'Referer': f'https://bo3.gg/mlbb/matches/{slug}',
+            'User-Agent': 'Mozilla/5.0',
+            'Accept': 'application/json',
+        }, timeout=10)
+        resp.raise_for_status()
+        return resp.content
+    try:
+        data = _bo3_cached(f'detail:{slug}', _BO3_TTL_DETAIL, fetch)
+        return app.response_class(data, status=200, mimetype='application/json')
+    except Exception as e:
+        return jsonify({'error': str(e)}), 502
+
+
+@app.route('/api/matches/finished', methods=['GET'])
+def proxy_matches_finished():
+    """Proxy for bo3.gg MLBB finished matches (avoids CORS in browser)"""
+    date = request.args.get('date', '')
+    utc_offset = request.args.get('utc_offset', '0')
+    if not date:
+        return jsonify({'error': 'date param required'}), 400
+    bo3_url = (
+        f'https://api.bo3.gg/api/v2/matches/finished'
+        f'?date={date}&utc_offset={utc_offset}'
+        f'&filter%5Bdiscipline_id%5D%5Beq%5D=8'
+    )
+    def fetch():
+        resp = _requests.get(bo3_url, headers={
+            'Referer': 'https://bo3.gg/mlbb/matches/finished',
+            'User-Agent': 'Mozilla/5.0',
+            'Accept': 'application/json',
+        }, timeout=10)
+        resp.raise_for_status()
+        return resp.content
+    try:
+        data = _bo3_cached(f'finished:{date}:{utc_offset}', _BO3_TTL_FINISHED, fetch)
+        return app.response_class(data, status=200, mimetype='application/json')
+    except Exception as e:
+        return jsonify({'error': str(e)}), 502
+
+
+@app.route('/api/matches/upcoming', methods=['GET'])
+def proxy_matches_upcoming():
+    """Proxy for bo3.gg MLBB upcoming matches (avoids CORS in browser)"""
+    date = request.args.get('date', '')
+    utc_offset = request.args.get('utc_offset', '0')
+    if not date:
+        return jsonify({'error': 'date param required'}), 400
+    bo3_url = (
+        f'https://api.bo3.gg/api/v2/matches/upcoming'
+        f'?date={date}&utc_offset={utc_offset}'
+        f'&filter%5Bdiscipline_id%5D%5Beq%5D=8'
+    )
+    def fetch():
+        resp = _requests.get(bo3_url, headers={
+            'Referer': 'https://bo3.gg/mlbb/matches/current',
+            'User-Agent': 'Mozilla/5.0',
+            'Accept': 'application/json',
+        }, timeout=10)
+        resp.raise_for_status()
+        return resp.content
+    try:
+        data = _bo3_cached(f'upcoming:{date}:{utc_offset}', _BO3_TTL_UPCOMING, fetch)
+        return app.response_class(data, status=200, mimetype='application/json')
+    except Exception as e:
+        return jsonify({'error': str(e)}), 502
 
 
 if __name__ == '__main__':
