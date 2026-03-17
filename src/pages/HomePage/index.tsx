@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { useGamesQuery } from '../../queries/useGamesQuery';
 import { useGameStore } from '../../store/gameStore';
 import { LastHeroesInfo } from '../../components/LastHeroesInfo';
-import { RandomHeroStats } from '../../components/RandomHeroStats';
 import { MetaReport } from '../../components/MetaReport';
+import { NewsWidget } from './components/NewsWidget';
 import { VideoPreview } from './components/VideoPreview';
 import { HeroRankSection } from './components/HeroRankSection';
 import { NewHeroStrip } from './components/NewHeroStrip';
@@ -67,7 +67,7 @@ export const HomePage = () => {
       <div className={styles.contentSection}>
         <MatchesWidget />
         <MetaReport />
-        <RandomHeroStats />
+        <NewsWidget />
         <LastHeroesInfo />
       </div>
     </div>

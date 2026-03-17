@@ -13,7 +13,7 @@ import s from './styles.module.scss';
 
 /* ── tier helpers ── */
 const TIER_CLS  = ['', s.gold, s.silver, s.bronze];
-const TIER_ICON = ['', '👑', '', ''];
+const TIER_ICON = ['', '', '', ''];
 
 /* ── Skeleton ── */
 const Bone = ({ cls, delay }: { cls: string; delay?: number }) => (

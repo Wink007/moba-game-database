@@ -390,7 +390,7 @@
 .skeletonShimmer {
   position: relative;
   border-radius: 6px;
-  background: var(--clr-border-2);
+  background: var(--clr-skeleton-base);
   overflow: hidden;
 
   &::after {
@@ -400,9 +400,8 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      var(--clr-border-4) 45%,
-      var(--clr-border-6) 50%,
-      var(--clr-border-4) 55%,
+      var(--clr-skeleton-shine) 45%,
+      var(--clr-skeleton-shine) 55%,
       transparent 100%
     );
     animation: shimmer 2s ease-in-out infinite;
@@ -411,16 +410,16 @@
 
 // Avatar with animated ring
 .skeletonAvatar {
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: var(--clr-border-2);
+  background: var(--clr-skeleton-base);
   flex-shrink: 0;
   position: relative;
 
   @media (max-width: 968px) {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -488,7 +487,7 @@
   flex: 1;
   height: var(--bar-h);
   border-radius: 3px 3px 0 0;
-  background: var(--clr-border-1);
+  background: var(--clr-skeleton-base);
   animation: barRise 1.8s ease-in-out infinite;
   animation-delay: var(--bar-delay);
 }

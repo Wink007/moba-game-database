@@ -643,5 +643,11 @@
     "vod": "VOD",
     "error": "Gagal memuat pertandingan",
     "empty": "Tidak ada pertandingan hari ini"
+  },
+  "newsWidget": {
+    "title": "Berita MLBB",
+    "viewAll": "Lihat semua",
+    "error": "Gagal memuat berita",
+    "source": "Baca di bo3.gg"
   }
 }

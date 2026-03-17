@@ -643,5 +643,11 @@
     "vod": "VOD",
     "error": "Could not load matches",
     "empty": "No matches on this date"
+  },
+  "newsWidget": {
+    "title": "MLBB News",
+    "viewAll": "View all",
+    "error": "Could not load news",
+    "source": "View on bo3.gg"
   }
 }

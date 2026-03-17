@@ -121,6 +121,10 @@
   --body-bg-color: #0f172a;
   --body-text-color: #ffffff;
 
+  /* ── Skeleton ── */
+  --clr-skeleton-base:  rgba(255, 255, 255, 0.07);
+  --clr-skeleton-shine: rgba(255, 255, 255, 0.13);
+
 
   /* ── Extended overlays ── */
   --clr-bg-page-65:   rgba(8, 15, 28, 0.65);
@@ -357,6 +361,10 @@
   --body-bg-image:    none;
   --body-bg-color:    #f1f5f9;
   --body-text-color:  #0f172a;
+
+  /* ── Skeleton ── */
+  --clr-skeleton-base:  rgba(148, 163, 184, 0.25);
+  --clr-skeleton-shine: rgba(148, 163, 184, 0.45);
 
 
   /* ── Extended overlays ── */

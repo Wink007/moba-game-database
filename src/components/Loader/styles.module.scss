@@ -14,13 +14,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   animation: float 3s ease-in-out infinite;
 }
 
 .letters {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   position: relative;
 }
 
@@ -33,10 +33,10 @@
   font-size: 22px;
   font-weight: 900;
   letter-spacing: -0.02em;
-  color: var(--clr-border-5);
+  color: var(--clr-text-4);
   border-radius: 12px;
-  background: var(--clr-bg-card-50);
-  border: 1px solid var(--clr-border-1);
+  background: var(--clr-bg-card-60);
+  border: 1px solid var(--clr-border-4);
   position: relative;
   animation: letterWave 2.4s ease-in-out infinite;
 
@@ -48,23 +48,22 @@
 }
 
 .l1 { animation-delay: 0s; }
-.l2 { animation-delay: 0.18s; }
-.l3 { animation-delay: 0.36s; }
-.l4 { animation-delay: 0.54s; }
+.l2 { animation-delay: 0.2s; }
+.l3 { animation-delay: 0.4s; }
+.l4 { animation-delay: 0.6s; }
 
 .glow {
   width: 140px;
-  height: 4px;
+  height: 3px;
   border-radius: 4px;
   background: linear-gradient(90deg,
     transparent 0%,
-    var(--clr-accent-40) 20%,
-    var(--clr-accent) 45%,
-    var(--clr-purple-60) 55%,
-    var(--clr-accent-40) 80%,
+    rgba(245, 158, 11, 0.4) 20%,
+    #f59e0b 50%,
+    rgba(245, 158, 11, 0.4) 80%,
     transparent 100%
   );
-  filter: blur(2px);
+  filter: blur(1.5px);
   animation: glowPulse 2.4s ease-in-out infinite;
 
   @media (max-width: 480px) {
@@ -74,36 +73,32 @@
 
 @keyframes letterWave {
   0%, 100% {
-    color: var(--clr-border-5);
-    background: var(--clr-bg-card-50);
-    border-color: var(--clr-border-1);
+    color: var(--clr-text-4);
+    background: var(--clr-bg-card-60);
+    border-color: var(--clr-border-4);
     box-shadow: none;
     transform: translateY(0) scale(1);
   }
   25% {
-    color: #fff;
-    background: linear-gradient(135deg, var(--clr-accent-20) 0%, var(--clr-purple-15) 100%);
-    border-color: var(--clr-accent-50);
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.5);
     box-shadow:
-      0 0 16px var(--clr-accent-30),
-      0 0 40px var(--clr-purple-15),
-      0 8px 24px rgba(0,0,0,0.35),
-      inset 0 1px 0 rgba(255,255,255,0.12);
-    transform: translateY(-8px) scale(1.08);
+      0 0 18px rgba(245, 158, 11, 0.3),
+      0 8px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-8px) scale(1.1);
   }
   55% {
-    color: var(--clr-accent-60);
-    background: var(--clr-accent-08);
-    border-color: var(--clr-accent-20);
-    box-shadow:
-      0 0 8px var(--clr-accent-10),
-      inset 0 0 8px var(--clr-accent-05);
+    color: rgba(245, 158, 11, 0.7);
+    background: rgba(245, 158, 11, 0.06);
+    border-color: rgba(245, 158, 11, 0.2);
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.15);
     transform: translateY(-2px) scale(1.02);
   }
   75% {
-    color: var(--clr-border-25);
-    background: var(--clr-bg-card-50);
-    border-color: var(--clr-border-2);
+    color: var(--clr-text-4);
+    background: var(--clr-bg-card-60);
+    border-color: var(--clr-border-3);
     box-shadow: none;
     transform: translateY(0) scale(1);
   }
@@ -111,27 +106,20 @@
 
 @keyframes glowPulse {
   0%, 100% {
-    opacity: 0.2;
-    transform: scaleX(0.6);
-    filter: blur(2px);
+    opacity: 0.15;
+    transform: scaleX(0.5);
   }
   35% {
     opacity: 1;
     transform: scaleX(1);
-    filter: blur(1px);
   }
   60% {
-    opacity: 0.6;
-    transform: scaleX(0.85);
-    filter: blur(2px);
+    opacity: 0.5;
+    transform: scaleX(0.8);
   }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
 }

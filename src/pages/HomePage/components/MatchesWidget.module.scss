@@ -384,10 +384,10 @@
   animation: shimmer 1.4s ease-in-out infinite;
 }
 @keyframes shimmer { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.18; } }
-.skelTime { height: 16px; width: 36px; background: var(--clr-border-6); border-radius: 4px; }
-.skelTeam { height: 15px; width: 100px; background: var(--clr-border-6); border-radius: 4px; }
-.skelCenter { height: 20px; width: 44px; background: var(--clr-border-6); border-radius: 4px; }
-.skelTourn { height: 13px; width: 100%; background: var(--clr-border-6); border-radius: 4px; }
+.skelTime { height: 16px; width: 36px; background: var(--clr-skeleton-base); border-radius: 4px; }
+.skelTeam { height: 15px; width: 100px; background: var(--clr-skeleton-base); border-radius: 4px; }
+.skelCenter { height: 20px; width: 44px; background: var(--clr-skeleton-base); border-radius: 4px; }
+.skelTourn { height: 13px; width: 100%; background: var(--clr-skeleton-base); border-radius: 4px; }
 .skelOdds { height: 48px; width: 44px; background: var(--clr-border-6); border-radius: 5px; margin-left: auto; }
 
 /* ─── Detail panel ─── */

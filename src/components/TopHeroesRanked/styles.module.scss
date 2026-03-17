@@ -31,7 +31,7 @@ $border: var(--clr-border-05);
 
 .title {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--clr-text-1);
@@ -40,7 +40,7 @@ $border: var(--clr-border-05);
 
 .meta {
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
   color: var(--clr-text-3);
   line-height: 1.4;
 }
@@ -57,9 +57,9 @@ $border: var(--clr-border-05);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  padding: 14px 22px;
-  min-height: 76px;
+  gap: 12px;
+  padding: 8px 14px;
+  min-height: 56px;
   background: $bg;
   border: 1px solid $border;
   border-radius: 16px;
@@ -130,7 +130,7 @@ $border: var(--clr-border-05);
 .cardLeft {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
   min-width: 0;
   flex: 1;
 }
@@ -140,10 +140,10 @@ $border: var(--clr-border-05);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  font-size: 1.1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 0.85rem;
   font-weight: 800;
   color: var(--clr-text-3);
   background: var(--clr-border-25);
@@ -155,7 +155,7 @@ $border: var(--clr-border-05);
     background: rgba($gold, 0.12);
     border-color: rgba($gold, 0.25);
     box-shadow: 0 0 14px rgba($gold, 0.12);
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 
   &.silver {
@@ -173,9 +173,9 @@ $border: var(--clr-border-05);
 
 /* ── Avatar ── */
 .avatarWrap {
-  width: 58px;
-  height: 58px;
-  border-radius: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
   padding: 2px;
   flex-shrink: 0;
   overflow: hidden;
@@ -204,7 +204,7 @@ $border: var(--clr-border-05);
 
 /* ── Name ── */
 .name {
-  font-size: 1.15rem;
+  font-size: 0.92rem;
   font-weight: 650;
   color: var(--clr-text-1);
   white-space: nowrap;
@@ -216,7 +216,7 @@ $border: var(--clr-border-05);
 /* ═══ RIGHT SIDE — stat pills ═══ */
 .cardRight {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
@@ -225,10 +225,10 @@ $border: var(--clr-border-05);
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  min-width: 80px;
-  padding: 8px 12px;
-  border-radius: 12px;
+  gap: 2px;
+  min-width: 62px;
+  padding: 5px 8px;
+  border-radius: 8px;
   background: var(--clr-surface-1c);
   border: 1px solid var(--clr-border-3);
   transition: background 0.2s, border-color 0.2s;
@@ -265,7 +265,7 @@ $border: var(--clr-border-05);
 }
 
 .pillValue {
-  font-size: 1.1rem;
+  font-size: 0.85rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
