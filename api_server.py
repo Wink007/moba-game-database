@@ -4999,6 +4999,62 @@ def proxy_matches_upcoming():
         return jsonify({'error': str(e)}), 502
 
 
+_BO3_TTL_NEWS = 300  # 5 min
+
+
+@app.route('/api/news/<slug>', methods=['GET'])
+def proxy_news_detail(slug):
+    """Proxy for bo3.gg MLBB news article detail (avoids CORS in browser)"""
+    locale = request.args.get('locale', 'en')
+    bo3_url = f'https://api.bo3.gg/api/v1/base_news/{slug}?locale={locale}'
+
+    def fetch():
+        resp = _requests.get(bo3_url, headers={
+            'Referer': f'https://bo3.gg/mlbb/news/{slug}',
+            'User-Agent': 'Mozilla/5.0',
+            'Accept': 'application/json',
+        }, timeout=10)
+        resp.raise_for_status()
+        return resp.content
+
+    try:
+        data = _bo3_cached(f'news_detail:{slug}:{locale}', 600, fetch)
+        return app.response_class(data, status=200, mimetype='application/json')
+    except Exception as e:
+        return jsonify({'error': str(e)}), 502
+
+
+@app.route('/api/news', methods=['GET'])
+def proxy_news():
+    """Proxy for bo3.gg MLBB news (avoids CORS in browser)"""
+    limit = request.args.get('limit', '4')
+    locale = request.args.get('locale', 'en')  # en | ua | id
+    bo3_url = (
+        'https://api.bo3.gg/api/v1/base_news'
+        '?page%5Boffset%5D=0&page%5Blimit%5D=' + limit +
+        '&sort=-pinned,-published_at'
+        '&filter%5Bnews.rank%5D%5Bin%5D=0,1,2'
+        '&filter%5Bnews.locale%5D%5Beq%5D=' + locale +
+        '&filter%5Bbase_news.discipline_id%5D%5Bin%5D=8'
+        '&filter%5Bbase_news.section%5D%5Bin%5D=1'
+    )
+
+    def fetch():
+        resp = _requests.get(bo3_url, headers={
+            'Referer': 'https://bo3.gg/mlbb/news',
+            'User-Agent': 'Mozilla/5.0',
+            'Accept': 'application/json',
+        }, timeout=10)
+        resp.raise_for_status()
+        return resp.content
+
+    try:
+        data = _bo3_cached('news:' + limit + ':' + locale, _BO3_TTL_NEWS, fetch)
+        return app.response_class(data, status=200, mimetype='application/json')
+    except Exception as e:
+        return jsonify({'error': str(e)}), 502
+
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')
