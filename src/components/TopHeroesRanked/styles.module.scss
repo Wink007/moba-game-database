@@ -416,3 +416,37 @@ $border: var(--clr-border-05);
   .boneAvatar { width: 36px; height: 36px; border-radius: 9px; }
   .bonePill   { flex: 1; height: 42px; border-radius: 8px; width: auto; }
 }
+
+/* ═══ LIGHT THEME ═══ */
+:global([data-theme="light"]) {
+  .card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    &.gold   { border-color: rgba(#fcd34d, 0.7); }
+    &.silver { border-color: rgba(#94a3b8, 0.5); }
+    &.bronze { border-color: rgba(#f59e0b, 0.55); }
+  }
+
+  .rank {
+    background: rgba(255,255,255,0.6);
+    border-color: rgba(0,0,0,0.1);
+    color: var(--clr-text-3);
+  }
+
+  .pill {
+    background: rgba(255,255,255,0.55);
+    border-color: rgba(0,0,0,0.08);
+  }
+
+  .pill_win  { background: rgba(#16a34a, 0.10); border-color: rgba(#16a34a, 0.22); }
+  .pill_pick { background: rgba(#2563eb, 0.08); border-color: rgba(#2563eb, 0.20); }
+  .pill_ban  { background: rgba(#d97706, 0.10); border-color: rgba(#d97706, 0.22); }
+}

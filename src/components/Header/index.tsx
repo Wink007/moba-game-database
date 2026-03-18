@@ -18,8 +18,13 @@ import { LoginConsentModal } from '../LoginConsentModal';
 import { useThemeStore, Theme } from '../../store/themeStore';
 
 import { Capacitor } from '@capacitor/core';
-
 import styles from './styles.module.scss';
+
+const headerLocaleLoaders: Record<string, () => Promise<{ default: Record<string, unknown> }>> = {
+  en: () => import(/* webpackChunkName: "locale-en" */ '../../locales/en.json'),
+  uk: () => import(/* webpackChunkName: "locale-uk" */ '../../locales/uk.json'),
+  id: () => import(/* webpackChunkName: "locale-id" */ '../../locales/id.json'),
+};
 
 /* SVG icons for menu items */
 const HeroesIcon = () => (
@@ -418,7 +423,17 @@ export const Header: React.FC = () => {
                       <button
                         key={lng}
                         className={`${styles['settings-pill']} ${i18n.language === lng ? styles['settings-pill--active'] : ''}`}
-                        onClick={() => { i18n.changeLanguage(lng); localStorage.setItem('language', lng); }}
+                        onClick={async () => {
+                          if (!i18n.hasResourceBundle(lng, 'translation')) {
+                            const loader = headerLocaleLoaders[lng];
+                            if (loader) {
+                              const { default: data } = await loader();
+                              i18n.addResourceBundle(lng, 'translation', data, true, true);
+                            }
+                          }
+                          i18n.changeLanguage(lng);
+                          localStorage.setItem('language', lng);
+                        }}
                       >
                         {lng === 'en' ? `🇬🇧 ${t('settings.lang_en')}` : lng === 'uk' ? `🇺🇦 ${t('settings.lang_uk')}` : `🇮🇩 ${t('settings.lang_id')}`}
                       </button>

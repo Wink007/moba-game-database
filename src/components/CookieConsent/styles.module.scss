@@ -1,3 +1,5 @@
+@use '../../styles/btn' as b;
+
 .overlay {
   position: fixed;
   bottom: 0;
@@ -52,34 +54,13 @@
 }
 
 .decline {
+  @include b.btn-outline;
   padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--clr-bg-elevated);
-  background: transparent;
-  color: var(--clr-text-4);
   font-size: 0.85rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s;
-
-  &:hover {
-    background: var(--clr-bg-elevated);
-  }
 }
 
 .accept {
+  @include b.btn-primary;
   padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  background: var(--clr-accent);
-  color: var(--clr-text-1);
   font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s;
-
-  &:hover {
-    background: var(--clr-accent);
-  }
 }

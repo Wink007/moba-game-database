@@ -29,6 +29,18 @@
     @media (max-width: 768px) {
         align-self: center;
     }
+
+    :global([data-theme="light"]) & {
+        background: var(--clr-bg-elevated);
+        border-color: var(--clr-border-6);
+        color: var(--clr-text-2);
+
+        &:hover {
+            background: var(--clr-bg-deep);
+            border-color: var(--clr-border-8);
+            color: var(--clr-text-1);
+        }
+    }
 }
 
 .arrow {

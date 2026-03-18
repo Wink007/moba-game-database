@@ -153,3 +153,23 @@
         max-width: none;
     }
 }
+
+:global([data-theme="light"]) {
+  .dropdown {
+    background: #f5ede2;
+    border-color: rgba(90, 68, 40, 0.12);
+    box-shadow: 0 8px 24px rgba(60, 40, 10, 0.12);
+  }
+
+  .dropdownHeader {
+    border-bottom-color: rgba(90, 68, 40, 0.08);
+  }
+
+  .dropdownItem {
+    border-bottom-color: rgba(90, 68, 40, 0.06);
+  }
+
+  .heroRole {
+    background: rgba(90, 68, 40, 0.08);
+  }
+}

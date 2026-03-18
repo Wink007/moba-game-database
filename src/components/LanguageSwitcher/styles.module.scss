@@ -31,3 +31,26 @@
     box-shadow: 0 0 8px var(--clr-accent-10);
   }
 }
+
+:global([data-theme="light"]) {
+  .languageSwitcher {
+    background: rgba(210, 192, 168, 0.30);
+    border-color: rgba(90, 68, 40, 0.16);
+  }
+
+  .langButton {
+    color: var(--clr-text-3);
+
+    &:hover {
+      color: var(--clr-text-1);
+      background: rgba(90, 68, 40, 0.08);
+    }
+
+    &.active {
+      background: rgba(90, 68, 40, 0.14);
+      color: var(--clr-text-1);
+      box-shadow: none;
+      font-weight: 700;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useBackHandler } from '../../../hooks/useBackHandler';
 import { useNewsDetailQuery, NewsBodyBlock } from '../hooks/useNewsDetailQuery';
 import styles from './NewsModal.module.scss';
 
@@ -63,6 +64,8 @@ interface Props {
 export const NewsModal = memo<Props>(({ slug, onClose }) => {
   const { i18n, t } = useTranslation();
   const { data, isLoading } = useNewsDetailQuery(slug, i18n.language);
+
+  useBackHandler(true, onClose);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };

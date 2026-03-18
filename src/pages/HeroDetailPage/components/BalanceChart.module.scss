@@ -11,6 +11,15 @@
   box-shadow:
     0 0 40px rgba(0, 100, 200, 0.08),
     inset 0 1px 0 rgba(0, 229, 255, 0.07);
+  /* Color tokens used by inline SVG and JS styles */
+  --c-buff:    #00e5ff;
+  --c-nerf:    #ff4d6d;
+  --c-neutral: #94a3b8;
+  --c-revamp:  #c084fc;
+  --c-buff-bg:    rgba(0,229,255,0.08);
+  --c-buff-bdr:   rgba(0,229,255,0.30);
+  --c-nerf-bg:    rgba(255,77,109,0.08);
+  --c-nerf-bdr:   rgba(255,77,109,0.30);
 }
 
 // ─── Header ──────────────────────────────────────────────────
@@ -191,4 +200,34 @@
   height: auto;
   display: block;
   overflow: visible;
+}
+
+// ─── Light theme ─────────────────────────────────────────────────────────────
+:global([data-theme="light"]) {
+  .wrap {
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(180, 140, 80, 0.07) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(253, 250, 246, 0.98) 0%, rgba(242, 237, 230, 0.97) 100%);
+    border-color: rgba(90, 68, 40, 0.14);
+    box-shadow: 0 2px 16px rgba(60, 40, 10, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    --balance-axis-text: rgba(90, 68, 40, 0.55);
+    --balance-zero-text: rgba(37, 99, 235, 0.60);
+    --balance-grid: rgba(90, 68, 40, 0.07);
+    --balance-zero-line: rgba(37, 99, 235, 0.20);
+    /* Color token overrides for warm light palette */
+    --c-buff:    #1d6db5;
+    --c-nerf:    #c0354e;
+    --c-neutral: #7a6050;
+    --c-revamp:  #7c3aed;
+    --c-buff-bg:    rgba(29,109,181,0.10);
+    --c-buff-bdr:   rgba(29,109,181,0.30);
+    --c-nerf-bg:    rgba(192,53,78,0.10);
+    --c-nerf-bdr:   rgba(192,53,78,0.30);
+  }
+  .heroLabel   { color: rgba(90, 68, 40, 0.55); }
+  .patchCount  { color: rgba(90, 68, 40, 0.65); }
+  .patchLabel  { color: rgba(90, 68, 40, 0.45); }
+  .lastVer     { color: rgba(90, 68, 40, 0.55); }
+  .statSub     { color: rgba(90, 68, 40, 0.45); }
+  .sep         { background: rgba(90, 68, 40, 0.12); }
 }

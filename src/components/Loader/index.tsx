@@ -4,13 +4,19 @@ export const Loader = () => {
   return (
     <div className={styles.loader} role="status" aria-label="Loading">
       <div className={styles.scene}>
-        <div className={styles.letters}>
+        <div className={styles.ringWrap}>
+          <div className={styles.ringTrack} />
+          <div className={styles.ring} />
+          <div className={styles.ring2} />
+          <div className={styles.core} />
+        </div>
+        <div className={styles.brand}>
           <span className={`${styles.letter} ${styles.l1}`}>M</span>
           <span className={`${styles.letter} ${styles.l2}`}>O</span>
           <span className={`${styles.letter} ${styles.l3}`}>B</span>
           <span className={`${styles.letter} ${styles.l4}`}>A</span>
         </div>
-        <div className={styles.glow} />
+        <span className={styles.sub}>WIKI</span>
       </div>
     </div>
   );

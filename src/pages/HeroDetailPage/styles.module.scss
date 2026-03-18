@@ -2257,10 +2257,10 @@
 
 .ratingCardName {
   font-size: 0.6875rem;
-  font-weight: 600;
-  color: var(--clr-text-3);
+  font-weight: 700;
+  color: var(--clr-text-2);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
 .ratingCardValue {
@@ -2276,7 +2276,7 @@
 
 .ratingCardDescription {
   font-size: 0.75rem;
-  color: var(--clr-surface-3);
+  color: var(--clr-text-4);
   margin-top: 0.25rem;
 }
 
@@ -2905,22 +2905,24 @@
 .viewAllPatchesBtn {
   display: inline-flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, var(--clr-accent) 0%, var(--clr-accent-deep) 100%);
-  color: var(--clr-text-1);
-  font-size: 0.9rem;
+  padding: 9px 18px;
+  background: var(--clr-accent);
+  border: none;
+  color: #fff;
+  font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
   white-space: nowrap;
-  box-shadow: 0 2px 8px var(--clr-accent-30);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--clr-accent-50);
-    background: linear-gradient(135deg, var(--clr-accent-deep) 0%, var(--clr-accent-deep) 100%);
+    background: var(--clr-accent-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--clr-accent-30);
   }
+
+  &:active { transform: translateY(0); }
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -2928,7 +2930,7 @@
 
   @media (max-width: 480px) {
     font-size: 0.85rem;
-    padding: 0.625rem 1.25rem;
+    padding: 8px 16px;
   }
 }
 
@@ -5027,18 +5029,27 @@
 }
 
 .commentSubmitBtn {
-  background: var(--accent, #5c6bc0);
+  background: var(--clr-accent);
   border: none;
   color: #fff;
   cursor: pointer;
-  font-size: 0.82rem;
-  padding: 5px 14px;
-  border-radius: 6px;
+  font-size: 0.88rem;
+  padding: 9px 18px;
+  border-radius: 8px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
 
   &:disabled { opacity: 0.45; cursor: not-allowed; }
-  &:hover:not(:disabled) { background: var(--accent-hover, #7986cb); }
+  &:hover:not(:disabled) {
+    background: var(--clr-accent-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--clr-accent-30);
+  }
+  &:active:not(:disabled) { transform: translateY(0); }
 }
 
 .commentHint {
@@ -5086,17 +5097,26 @@
 }
 
 .commentLoginBtn {
-  background: var(--accent, #5c6bc0);
+  background: var(--clr-accent);
   border: none;
   color: #fff;
   cursor: pointer;
-  padding: 5px 14px;
-  border-radius: 6px;
-  font-size: 0.82rem;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 0.88rem;
   font-weight: 600;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
 
-  &:hover { background: var(--accent-hover, #7986cb); }
+  &:hover:not(:disabled) {
+    background: var(--clr-accent-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--clr-accent-30);
+  }
+  &:active:not(:disabled) { transform: translateY(0); }
 }
 
 .commentDismissBtn {
@@ -5163,18 +5183,21 @@
   display: block;
   width: 100%;
   margin-top: 12px;
-  padding: 8px 16px;
+  padding: 9px 18px;
   background: transparent;
-  border: 1px solid var(--border, rgba(255,255,255,0.12));
+  border: 1.5px solid var(--clr-white-15);
   border-radius: 8px;
-  color: var(--clr-text-2);
-  font-size: 0.85rem;
+  color: var(--clr-text-3);
+  font-size: 0.88rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  text-align: center;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
 
   &:hover {
-    border-color: var(--clr-accent, #818cf8);
-    color: var(--clr-accent, #818cf8);
+    border-color: var(--clr-accent);
+    color: var(--clr-accent);
+    background: var(--clr-accent-08);
   }
 }
 
@@ -5294,5 +5317,67 @@
 
 .commentConfirmNo {
   background: var(--clr-red, #ef4444);
+}
+
+// ─── Comments — light theme override ─────────────────────────────────────────
+:global([data-theme="light"]) {
+  .commentInputBox {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.12);
+    &:focus-within {
+      border-color: var(--clr-accent, #818cf8);
+      box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.12);
+    }
+  }
+  .commentInput {
+    color: var(--clr-text-1);
+    &::placeholder { color: var(--clr-text-4); }
+  }
+  .commentInputActions {
+    border-top-color: rgba(0, 0, 0, 0.07);
+  }
+  .commentCharCount { color: var(--clr-text-4); }
+  .commentHint      { color: var(--clr-text-4); }
+  .commentCancelBtn {
+    color: var(--clr-text-3);
+    &:hover { background: rgba(0, 0, 0, 0.05); }
+  }
+  .commentBody {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 0, 0, 0.08);
+    &:hover { border-color: rgba(0, 0, 0, 0.15); }
+  }
+  .commentAuthor { color: var(--clr-text-1); }
+  .commentText   { color: var(--clr-text-1); }
+  .commentTime   { color: var(--clr-text-4); }
+  .commentAvatarPlaceholder {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+  .commentLoginPrompt {
+    background: rgba(129, 140, 248, 0.06);
+    border-color: rgba(129, 140, 248, 0.2);
+    color: var(--clr-text-3);
+  }
+  .commentDismissBtn {
+    color: var(--clr-text-3);
+    &:hover { background: rgba(0, 0, 0, 0.05); }
+  }
+  .commentSkeleton {
+    background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.06) 25%,
+      rgba(0, 0, 0, 0.02) 50%,
+      rgba(0, 0, 0, 0.06) 75%
+    );
+    background-size: 200% 100%;
+  }
+  .commentsLoadMore {
+    border-color: rgba(0, 0, 0, 0.12);
+    color: var(--clr-text-2);
+    &:hover {
+      border-color: var(--clr-accent);
+      color: var(--clr-accent);
+    }
+  }
 }
 

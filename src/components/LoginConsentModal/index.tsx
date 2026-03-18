@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useBackHandler } from '../../hooks/useBackHandler';
 import styles from './styles.module.scss';
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 
 export const LoginConsentModal: React.FC<Props> = ({ onConfirm, onCancel }) => {
   const { t } = useTranslation();
+  useBackHandler(true, onCancel);
 
   return ReactDOM.createPortal(
     <div className={styles.backdrop} onClick={onCancel}>

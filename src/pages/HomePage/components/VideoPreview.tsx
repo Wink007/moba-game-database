@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../../store/authStore';
 import { VideoPreviewProps } from './interface';
@@ -27,8 +27,10 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
   const user = useAuthStore(s => s.user);
   const displayName = user ? (user.nickname || user.name) : '';
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   useEffect(() => {
+    setVideoPlaying(false);
     if (videoRef.current) {
       videoRef.current.play().catch(() => {});
     }
@@ -39,15 +41,17 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
       {game && (
         game.video_intro ? (
           <>
-            {/* Poster loads immediately as LCP element — video plays on top once ready */}
-            <img
-              src={getVideoPosterUrl(game.video_intro)}
-              alt=""
-              aria-hidden="true"
-              fetchPriority="high"
-              className={styles.video}
-              style={{ objectFit: 'cover', opacity: 0.35, filter: 'brightness(1.1) saturate(1.2)' }}
-            />
+            {/* Poster — visible until video starts playing */}
+            {!videoPlaying && (
+              <img
+                src={getVideoPosterUrl(game.video_intro)}
+                alt=""
+                aria-hidden="true"
+                fetchPriority="high"
+                className={styles.video}
+                style={{ objectFit: 'cover', opacity: 0.35, filter: 'brightness(1.1) saturate(1.2)' }}
+              />
+            )}
             <video
               ref={videoRef}
               key={game.id}
@@ -58,6 +62,7 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ game, children }) =>
               playsInline
               preload="none"
               className={styles.video}
+              onPlay={() => setVideoPlaying(true)}
             />
           </>
         ) : (

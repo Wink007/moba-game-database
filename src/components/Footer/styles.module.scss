@@ -33,7 +33,7 @@
 .copyright {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--clr-white-90);
+    color: var(--clr-text-3);
     font-weight: 600;
 }
 
@@ -45,7 +45,7 @@
 .tagline {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--clr-border-80);
+    color: var(--clr-text-4);
 }
 
 .legal {
@@ -60,13 +60,13 @@
 .disclaimer {
     margin: 0;
     font-size: 0.7rem;
-    color: var(--clr-border-8);
+    color: var(--clr-text-5);
     text-align: center;
     max-width: 900px;
     line-height: 1.4;
     
     strong {
-        color: var(--clr-white-80);
+        color: var(--clr-text-3);
         font-weight: 700;
     }
 }
@@ -81,11 +81,13 @@
 
 .link {
     font-size: 0.7rem;
-    color: var(--clr-accent-80);
+    color: var(--clr-accent);
+    opacity: 0.7;
     text-decoration: none;
     transition: all 0.2s ease;
     
     &:hover {
+        opacity: 1;
         color: var(--clr-accent);
         text-decoration: underline;
     }

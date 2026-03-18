@@ -265,25 +265,25 @@
    DESIGN TOKENS — Light theme
    ═══════════════════════════════════════════════════════════ */
 [data-theme="light"] {
-  /* ── Backgrounds ── */
-  --clr-bg-page:      #f1f5f9;
-  --clr-bg-base:      #ffffff;
-  --clr-bg-elevated:  #f8fafc;
-  --clr-bg-deep:      #e2e8f0;
-  --clr-bg-card-40:   rgba(255, 255, 255, 0.55);
-  --clr-bg-card-50:   rgba(255, 255, 255, 0.75);
-  --clr-bg-card-60:   rgba(255, 255, 255, 0.90);
-  --clr-overlay-40:   rgba(241, 245, 249, 0.70);
-  --clr-overlay-60:   rgba(241, 245, 249, 0.95);
+  /* ── Backgrounds — warm linen/parchment palette ── */
+  --clr-bg-page:      #f2ede6;
+  --clr-bg-base:      #fdfaf6;
+  --clr-bg-elevated:  #f8f4ef;
+  --clr-bg-deep:      #e8e0d5;
+  --clr-bg-card-40:   rgba(253, 250, 246, 0.60);
+  --clr-bg-card-50:   rgba(253, 250, 246, 0.80);
+  --clr-bg-card-60:   rgba(253, 250, 246, 0.92);
+  --clr-overlay-40:   rgba(242, 237, 230, 0.70);
+  --clr-overlay-60:   rgba(242, 237, 230, 0.95);
 
-  /* ── Text ── */
-  --clr-text-1: #0f172a;
-  --clr-text-2: #1e293b;
-  --clr-text-3: #334155;
-  --clr-text-4: #64748b;
-  --clr-text-5: #94a3b8;
+  /* ── Text — warm ink tones ── */
+  --clr-text-1: #1c1208;
+  --clr-text-2: #2e1f0f;
+  --clr-text-3: #5a4430;
+  --clr-text-4: #8a7260;
+  --clr-text-5: #b0a090;
 
-  /* ── Accent (blue, slightly deeper for light bg)  ── */
+  /* ── Accent ── */
   --clr-accent:      #2563eb;
   --clr-accent-deep: #1d4ed8;
   --clr-accent-08: rgba(37, 99, 235, 0.08);
@@ -296,159 +296,151 @@
   --clr-accent-40: rgba(37, 99, 235, 0.40);
   --clr-accent-50: rgba(37, 99, 235, 0.50);
 
-  /* ── Borders ── */
-  --clr-border-1: rgba(15, 23, 42, 0.04);
-  --clr-border-2: rgba(15, 23, 42, 0.06);
-  --clr-border-3: rgba(15, 23, 42, 0.08);
-  --clr-border-4: rgba(15, 23, 42, 0.10);
-  --clr-border-5: rgba(15, 23, 42, 0.13);
-  --clr-border-6: rgba(15, 23, 42, 0.17);
-  --clr-border-7: rgba(15, 23, 42, 0.35);
-  --clr-border-8: rgba(15, 23, 42, 0.45);
-  --clr-border-9: rgba(15, 23, 42, 0.55);
+  /* ── Borders — warm taupe ── */
+  --clr-border-1: rgba(90, 68, 40, 0.04);
+  --clr-border-2: rgba(90, 68, 40, 0.06);
+  --clr-border-3: rgba(90, 68, 40, 0.09);
+  --clr-border-4: rgba(90, 68, 40, 0.12);
+  --clr-border-5: rgba(90, 68, 40, 0.16);
+  --clr-border-6: rgba(90, 68, 40, 0.22);
+  --clr-border-7: rgba(90, 68, 40, 0.38);
+  --clr-border-8: rgba(90, 68, 40, 0.48);
+  --clr-border-9: rgba(90, 68, 40, 0.58);
 
-  /* ── Surfaces ── */
-  --clr-surface-1: rgba(203, 213, 225, 0.40);
-  --clr-surface-2: rgba(203, 213, 225, 0.70);
+  /* ── Surfaces — warm sand ── */
+  --clr-surface-1:  rgba(210, 192, 168, 0.38);
+  --clr-surface-1b: rgba(210, 192, 168, 0.18);
+  --clr-surface-1c: rgba(210, 192, 168, 0.28);
+  --clr-surface-2:  rgba(210, 192, 168, 0.65);
+  --clr-surface-25: rgba(210, 192, 168, 0.50);
+  --clr-surface-3:  rgba(120, 90, 55, 0.50);
+  --clr-surface-4:  rgba(120, 90, 55, 0.62);
 
-  /* ── "White" overlays → dark on light bg ── */
-  --clr-white-05: rgba(0, 0, 0, 0.03);
-  --clr-white-08: rgba(0, 0, 0, 0.05);
-  --clr-white-10: rgba(0, 0, 0, 0.06);
-  --clr-white-50: rgba(0, 0, 0, 0.35);
+  /* ── "White" overlays → warm dark on light bg ── */
+  --clr-white-03:  rgba(28, 18, 8, 0.02);
+  --clr-white-04:  rgba(28, 18, 8, 0.03);
+  --clr-white-05:  rgba(28, 18, 8, 0.04);
+  --clr-white-06:  rgba(28, 18, 8, 0.05);
+  --clr-white-07:  rgba(28, 18, 8, 0.05);
+  --clr-white-08:  rgba(28, 18, 8, 0.06);
+  --clr-white-10:  rgba(28, 18, 8, 0.07);
+  --clr-white-12:  rgba(28, 18, 8, 0.08);
+  --clr-white-15:  rgba(28, 18, 8, 0.10);
+  --clr-white-20:  rgba(28, 18, 8, 0.13);
+  --clr-white-25:  rgba(28, 18, 8, 0.16);
+  --clr-white-30:  rgba(28, 18, 8, 0.19);
+  --clr-white-40:  rgba(28, 18, 8, 0.25);
+  --clr-white-50:  rgba(28, 18, 8, 0.32);
+  --clr-white-60:  rgba(28, 18, 8, 0.38);
+  --clr-white-70:  rgba(28, 18, 8, 0.44);
+  --clr-white-75:  rgba(28, 18, 8, 0.47);
+  --clr-white-80:  rgba(28, 18, 8, 0.50);
+  --clr-white-90:  rgba(28, 18, 8, 0.56);
 
   /* ── Black overlays ── */
-  --clr-black-30: rgba(0, 0, 0, 0.12);
-  --clr-black-50: rgba(0, 0, 0, 0.22);
+  --clr-black-10:  rgba(0, 0, 0, 0.05);
+  --clr-black-15:  rgba(0, 0, 0, 0.08);
+  --clr-black-20:  rgba(0, 0, 0, 0.11);
+  --clr-black-25:  rgba(0, 0, 0, 0.14);
+  --clr-black-30:  rgba(0, 0, 0, 0.14);
+  --clr-black-35:  rgba(0, 0, 0, 0.18);
+  --clr-black-40:  rgba(0, 0, 0, 0.20);
+  --clr-black-50:  rgba(0, 0, 0, 0.24);
+  --clr-black-55:  rgba(0, 0, 0, 0.27);
+  --clr-black-60:  rgba(0, 0, 0, 0.30);
+  --clr-black-70:  rgba(0, 0, 0, 0.34);
+  --clr-black-75:  rgba(0, 0, 0, 0.36);
+  --clr-black-80:  rgba(0, 0, 0, 0.38);
+  --clr-black-90:  rgba(0, 0, 0, 0.42);
 
   /* ── Status ── */
-  --clr-success:      #16a34a;
-  --clr-success-soft: rgba(22, 163, 74, 0.12);
-  --clr-danger:       #dc2626;
-  --clr-danger-soft:  rgba(220, 38, 38, 0.12);
-  --clr-warning:      #d97706;
-  --clr-warning-soft: rgba(217, 119, 6, 0.12);
-  --clr-gold:         #b45309;
+  --clr-success:      #15803d;
+  --clr-success-soft: rgba(21, 128, 61, 0.12);
+  --clr-success-soft-04: rgba(21, 128, 61, 0.04);
+  --clr-success-soft-05: rgba(21, 128, 61, 0.05);
+  --clr-danger:       #b91c1c;
+  --clr-danger-soft:  rgba(185, 28, 28, 0.12);
+  --clr-danger-soft-04:  rgba(185, 28, 28, 0.04);
+  --clr-danger-soft-05:  rgba(185, 28, 28, 0.05);
+  --clr-warning:      #b45309;
+  --clr-warning-soft: rgba(180, 83, 9, 0.12);
+  --clr-warning-soft-04: rgba(180, 83, 9, 0.04);
+  --clr-warning-soft-05: rgba(180, 83, 9, 0.05);
+  --clr-gold:         #92400e;
 
-  /* ── Overlay ── */
-  --clr-overlay-30:   rgba(241, 245, 249, 0.35);
-  --clr-overlay-35:   rgba(241, 245, 249, 0.42);
-  --clr-overlay-50:   rgba(241, 245, 249, 0.60);
-  --clr-overlay-75:   rgba(241, 245, 249, 0.82);
-  --clr-overlay-80:   rgba(241, 245, 249, 0.88);
-  --clr-overlay-85:   rgba(241, 245, 249, 0.92);
-  --clr-overlay-90:   rgba(241, 245, 249, 0.94);
-  --clr-overlay-70:   rgba(241, 245, 249, 0.78);
-  --clr-overlay-95:   rgba(248, 250, 252, 0.97);
-  --clr-overlay-96:   rgba(248, 250, 252, 0.98);
-  --clr-overlay-98:   rgba(248, 250, 252, 0.99);
-  --clr-overlay-99:   rgba(255, 255, 255, 1.0);
+  /* ── Overlays ── */
+  --clr-overlay-30:  rgba(242, 237, 230, 0.35);
+  --clr-overlay-35:  rgba(242, 237, 230, 0.42);
+  --clr-overlay-50:  rgba(242, 237, 230, 0.60);
+  --clr-overlay-70:  rgba(242, 237, 230, 0.78);
+  --clr-overlay-75:  rgba(242, 237, 230, 0.82);
+  --clr-overlay-80:  rgba(242, 237, 230, 0.88);
+  --clr-overlay-85:  rgba(242, 237, 230, 0.92);
+  --clr-overlay-90:  rgba(242, 237, 230, 0.94);
+  --clr-overlay-95:  rgba(248, 244, 238, 0.97);
+  --clr-overlay-96:  rgba(248, 244, 238, 0.98);
+  --clr-overlay-98:  rgba(253, 250, 246, 0.99);
+  --clr-overlay-99:  rgba(253, 250, 246, 1.0);
 
   /* ── Card surfaces ── */
-  --clr-bg-card-25:   rgba(255, 255, 255, 0.35);
-  --clr-bg-card-30:   rgba(255, 255, 255, 0.50);
-  --clr-bg-card-45:   rgba(255, 255, 255, 0.65);
-  --clr-bg-card-55:   rgba(255, 255, 255, 0.75);
-  --clr-bg-card-70:   rgba(255, 255, 255, 0.85);
-  --clr-bg-card-80:   rgba(255, 255, 255, 0.90);
-  --clr-bg-card-90:   rgba(248, 250, 252, 0.95);
-  --clr-bg-card-95:   rgba(248, 250, 252, 0.98);
+  --clr-bg-card-25:  rgba(253, 250, 246, 0.35);
+  --clr-bg-card-30:  rgba(253, 250, 246, 0.48);
+  --clr-bg-card-35:  rgba(253, 250, 246, 0.55);
+  --clr-bg-card-45:  rgba(253, 250, 246, 0.68);
+  --clr-bg-card-55:  rgba(253, 250, 246, 0.78);
+  --clr-bg-card-65:  rgba(253, 250, 246, 0.85);
+  --clr-bg-card-70:  rgba(253, 250, 246, 0.88);
+  --clr-bg-card-75:  rgba(253, 250, 246, 0.90);
+  --clr-bg-card-80:  rgba(253, 250, 246, 0.92);
+  --clr-bg-card-85:  rgba(253, 250, 246, 0.94);
+  --clr-bg-card-90:  rgba(253, 250, 246, 0.96);
+  --clr-bg-card-95:  rgba(253, 250, 246, 0.98);
 
-  /* ── Deep void ── */
-  --clr-bg-void-65:   rgba(255, 255, 255, 0.75);
+  /* ── Deep/void ── */
+  --clr-bg-void-65:  rgba(253, 250, 246, 0.75);
+  --clr-bg-deeper:   #dfd6c8;
+  --clr-bg-deepest:  #d4c9b8;
 
   /* ── Body bg ── */
-  --body-bg-image:    none;
-  --body-bg-color:    #f1f5f9;
-  --body-text-color:  #0f172a;
+  --body-bg-image:   none;
+  --body-bg-color:   #f2ede6;
+  --body-text-color: #1c1208;
 
   /* ── Skeleton ── */
-  --clr-skeleton-base:  rgba(148, 163, 184, 0.25);
-  --clr-skeleton-shine: rgba(148, 163, 184, 0.45);
+  --clr-skeleton-base:  rgba(160, 138, 110, 0.22);
+  --clr-skeleton-shine: rgba(160, 138, 110, 0.42);
 
+  /* ── Page overlays ── */
+  --clr-bg-page-65:  rgba(242, 237, 230, 0.65);
+  --clr-bg-page-70:  rgba(242, 237, 230, 0.70);
+  --clr-bg-page-80:  rgba(242, 237, 230, 0.80);
+  --clr-bg-page-85:  rgba(242, 237, 230, 0.85);
+  --clr-bg-page-90:  rgba(242, 237, 230, 0.90);
+  --clr-bg-page-95:  rgba(242, 237, 230, 0.95);
 
-  /* ── Extended overlays ── */
-  --clr-bg-page-65:   rgba(241, 245, 249, 0.65);
-  --clr-bg-page-70:   rgba(241, 245, 249, 0.70);
-  --clr-bg-page-80:   rgba(241, 245, 249, 0.80);
-  --clr-bg-page-85:   rgba(241, 245, 249, 0.85);
-  --clr-bg-page-90:   rgba(241, 245, 249, 0.90);
-  --clr-bg-page-95:   rgba(241, 245, 249, 0.95);
-  --clr-overlay-30:   rgba(241, 245, 249, 0.30);
-  --clr-overlay-50:   rgba(241, 245, 249, 0.50);
-  --clr-overlay-70:   rgba(241, 245, 249, 0.70);
-  --clr-overlay-80:   rgba(241, 245, 249, 0.80);
-  --clr-overlay-90:   rgba(241, 245, 249, 0.90);
-  --clr-overlay-95:   rgba(241, 245, 249, 0.95);
-  --clr-bg-card-30:   rgba(255, 255, 255, 0.30);
-  --clr-bg-card-35:   rgba(255, 255, 255, 0.35);
-  --clr-bg-card-45:   rgba(255, 255, 255, 0.45);
-  --clr-bg-card-55:   rgba(255, 255, 255, 0.55);
-  --clr-bg-card-65:   rgba(255, 255, 255, 0.65);
-  --clr-bg-card-70:   rgba(255, 255, 255, 0.70);
-  --clr-bg-card-75:   rgba(255, 255, 255, 0.75);
-  --clr-bg-card-80:   rgba(255, 255, 255, 0.80);
-  --clr-bg-card-85:   rgba(255, 255, 255, 0.85);
-  --clr-bg-card-90:   rgba(255, 255, 255, 0.90);
-  --clr-bg-deeper:    #dde4ed;
-  --clr-bg-deepest:   #d0d9e4;
-  --clr-text-3b:      #64748b;
+  /* ── Accent extras ── */
   --clr-accent-card:  rgba(37, 99, 235, 0.08);
   --clr-accent-04:    rgba(37, 99, 235, 0.04);
   --clr-accent-05:    rgba(37, 99, 235, 0.05);
   --clr-accent-06:    rgba(37, 99, 235, 0.06);
   --clr-accent-07:    rgba(37, 99, 235, 0.07);
   --clr-accent-18:    rgba(37, 99, 235, 0.18);
-  --clr-border-04:    rgba(15, 23, 42, 0.03);
-  --clr-border-05:    rgba(15, 23, 42, 0.04);
-  --clr-border-07:    rgba(15, 23, 42, 0.05);
-  --clr-border-25:    rgba(15, 23, 42, 0.18);
-  --clr-border-30:    rgba(15, 23, 42, 0.22);
-  --clr-border-40:    rgba(15, 23, 42, 0.28);
-  --clr-surface-1b:   rgba(203, 213, 225, 0.15);
-  --clr-surface-1c:   rgba(203, 213, 225, 0.25);
-  --clr-surface-25:   rgba(203, 213, 225, 0.50);
-  --clr-surface-3:    rgba(71, 85, 105, 0.55);
-  --clr-surface-4:    rgba(71, 85, 105, 0.65);
-  --clr-white-03:     rgba(0, 0, 0, 0.02);
-  --clr-white-04:     rgba(0, 0, 0, 0.03);
-  --clr-white-06:     rgba(0, 0, 0, 0.04);
-  --clr-white-07:     rgba(0, 0, 0, 0.05);
-  --clr-white-12:     rgba(0, 0, 0, 0.07);
-  --clr-white-15:     rgba(0, 0, 0, 0.09);
-  --clr-white-20:     rgba(0, 0, 0, 0.12);
-  --clr-white-25:     rgba(0, 0, 0, 0.15);
-  --clr-white-30:     rgba(0, 0, 0, 0.18);
-  --clr-white-40:     rgba(0, 0, 0, 0.24);
-  --clr-white-60:     rgba(0, 0, 0, 0.36);
-  --clr-white-70:     rgba(0, 0, 0, 0.42);
-  --clr-white-75:     rgba(0, 0, 0, 0.45);
-  --clr-white-80:     rgba(0, 0, 0, 0.48);
-  --clr-white-90:     rgba(0, 0, 0, 0.54);
-  --clr-black-10:     rgba(0, 0, 0, 0.06);
-  --clr-black-15:     rgba(0, 0, 0, 0.09);
-  --clr-black-20:     rgba(0, 0, 0, 0.12);
-  --clr-black-25:     rgba(0, 0, 0, 0.15);
-  --clr-black-35:     rgba(0, 0, 0, 0.20);
-  --clr-black-40:     rgba(0, 0, 0, 0.22);
-  --clr-black-55:     rgba(0, 0, 0, 0.28);
-  --clr-black-60:     rgba(0, 0, 0, 0.30);
-  --clr-black-70:     rgba(0, 0, 0, 0.35);
-  --clr-black-75:     rgba(0, 0, 0, 0.38);
-  --clr-black-80:     rgba(0, 0, 0, 0.40);
-  --clr-black-90:     rgba(0, 0, 0, 0.45);
-  --clr-success-soft-04: rgba(22, 163, 74, 0.04);
-  --clr-success-soft-05: rgba(22, 163, 74, 0.05);
-  --clr-danger-soft-04:  rgba(220, 38, 38, 0.04);
-  --clr-danger-soft-05:  rgba(220, 38, 38, 0.05);
-  --clr-warning-soft-04: rgba(217, 119, 6, 0.04);
-  --clr-warning-soft-05: rgba(217, 119, 6, 0.05);
 
+  /* ── Border extras ── */
+  --clr-border-04:    rgba(90, 68, 40, 0.03);
+  --clr-border-05:    rgba(90, 68, 40, 0.04);
+  --clr-border-07:    rgba(90, 68, 40, 0.05);
+  --clr-border-25:    rgba(90, 68, 40, 0.18);
+  --clr-border-30:    rgba(90, 68, 40, 0.22);
+  --clr-border-40:    rgba(90, 68, 40, 0.28);
 
-/* Legacy aliases */
-  --color-bg-primary:    var(--clr-bg-elevated);
-  --color-bg-secondary:  var(--clr-bg-deep);
-  --color-text-primary:  var(--clr-text-1);
+  /* ── Text extra ── */
+  --clr-text-3b:      #7a6350;
+
+  /* ── Legacy aliases ── */
+  --color-bg-primary:     var(--clr-bg-elevated);
+  --color-bg-secondary:   var(--clr-bg-deep);
+  --color-text-primary:   var(--clr-text-1);
   --color-text-secondary: var(--clr-text-3);
 }
 

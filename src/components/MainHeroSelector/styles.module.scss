@@ -199,6 +199,31 @@
   overflow-y: auto;
 }
 
+:global([data-theme="light"]) {
+  .mainHeroPicker {
+    background: #f5ede2;
+    border-color: rgba(90, 68, 40, 0.12);
+  }
+
+  .mainHeroSearch {
+    background: rgba(253, 250, 246, 0.80);
+    border-color: rgba(90, 68, 40, 0.16);
+    color: var(--clr-text-1);
+
+    &::placeholder { color: var(--clr-text-5); }
+  }
+
+  .mainHeroDeltaUp {
+    color: var(--clr-success);
+    background: var(--clr-success-soft);
+  }
+
+  .mainHeroDeltaDown {
+    color: var(--clr-danger);
+    background: var(--clr-danger-soft);
+  }
+}
+
 .mainHeroOption {
   display: flex;
   flex-direction: column;

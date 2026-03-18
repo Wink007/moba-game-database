@@ -11,7 +11,7 @@ interface Props {
 
 const SCORE: Record<string, number> = { BUFF: 1, NERF: -1, ADJUST: 0, CHANGE: 0, REVAMP: 0, NEW: 1 };
 const COLORS: Record<string, string> = {
-  BUFF: '#00e5ff', NERF: '#ff4d6d', ADJUST: '#94a3b8', CHANGE: '#94a3b8', REVAMP: '#c084fc', NEW: '#00e5ff',
+  BUFF: 'var(--c-buff)', NERF: 'var(--c-nerf)', ADJUST: 'var(--c-neutral)', CHANGE: 'var(--c-neutral)', REVAMP: 'var(--c-revamp)', NEW: 'var(--c-buff)',
 };
 
 // Build smooth bezier path through points
@@ -88,7 +88,7 @@ export const BalanceChart: React.FC<Props> = ({ heroName, patches, onPatchClick 
   if (pts.length === 0) return null;
 
   const netPositive = stats.net >= 0;
-  const mainColor = netPositive ? '#00e5ff' : '#ff4d6d';
+  const mainColor = netPositive ? 'var(--c-buff)' : 'var(--c-nerf)';
   const lastBadge = stats.last?.badge ?? 'ADJUST';
   const lastColor = COLORS[lastBadge];
 
@@ -97,14 +97,14 @@ export const BalanceChart: React.FC<Props> = ({ heroName, patches, onPatchClick 
       {/* Header row: big net score left, patch count right */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <span className={styles.netScore} style={{ color: stats.net > 0 ? '#00e5ff' : stats.net < 0 ? '#ff4d6d' : '#94a3b8' }}>
+          <span className={styles.netScore} style={{ color: stats.net > 0 ? 'var(--c-buff)' : stats.net < 0 ? 'var(--c-nerf)' : 'var(--c-neutral)' }}>
             {stats.net > 0 ? '+' : ''}{stats.net}
           </span>
           <div className={styles.headerMeta}>
             <span className={styles.heroLabel}>{t('heroDetail.balanceScore')}</span>
             <div className={styles.pillsRow}>
-              {stats.buffs > 0 && <span className={styles.pill} style={{ color: '#00e5ff', borderColor: 'rgba(0,229,255,0.3)', background: 'rgba(0,229,255,0.08)' }}>↑{stats.buffs} buff</span>}
-              {stats.nerfs > 0 && <span className={styles.pill} style={{ color: '#ff4d6d', borderColor: 'rgba(255,77,109,0.3)', background: 'rgba(255,77,109,0.08)' }}>↓{stats.nerfs} nerf</span>}
+              {stats.buffs > 0 && <span className={styles.pill} style={{ color: 'var(--c-buff)', borderColor: 'var(--c-buff-bdr)', background: 'var(--c-buff-bg)' }}>↑{stats.buffs} buff</span>}
+              {stats.nerfs > 0 && <span className={styles.pill} style={{ color: 'var(--c-nerf)', borderColor: 'var(--c-nerf-bdr)', background: 'var(--c-nerf-bg)' }}>↓{stats.nerfs} nerf</span>}
             </div>
           </div>
         </div>
@@ -139,10 +139,10 @@ export const BalanceChart: React.FC<Props> = ({ heroName, patches, onPatchClick 
             {/* Grid */}
             {Array.from({ length: 5 }, (_, k) => PT + k * (cH / 4)).map((y, k) => (
               <line key={k} x1={PL} y1={y} x2={W - PR} y2={y}
-                stroke="rgba(0,229,255,0.05)" strokeWidth="1" />
+                stroke="var(--balance-grid, rgba(0,229,255,0.05))" strokeWidth="1" />
             ))}
             <line x1={PL} y1={chart.zeroY} x2={W - PR} y2={chart.zeroY}
-              stroke="rgba(0,229,255,0.18)" strokeWidth="1" strokeDasharray="4 6" />
+              stroke="var(--balance-zero-line, rgba(0,229,255,0.18))" strokeWidth="1" strokeDasharray="4 6" />
 
             {/* Low-poly triangles */}
             {chart.tris.map((d, i) => (
@@ -214,7 +214,7 @@ export const BalanceChart: React.FC<Props> = ({ heroName, patches, onPatchClick 
               if (n > 7 && i !== 0 && i !== n - 1 && i % Math.ceil(n / 5) !== 0) return null;
               return (
                 <text key={`x${i}`} x={dp.x} y={H - 6} textAnchor="middle"
-                  fontSize="9" fill="rgba(148,163,184,0.5)" fontWeight="500">
+                  fontSize="9" fill="var(--balance-axis-text, rgba(148,163,184,0.5))" fontWeight="500">
                   {dp.version.replace('-adv', '')}
                 </text>
               );
@@ -229,7 +229,7 @@ export const BalanceChart: React.FC<Props> = ({ heroName, patches, onPatchClick 
                 return (
                   <text key={`y${v}`} x={PL - 8} y={y + 3.5}
                     textAnchor="end" fontSize="9"
-                    fill={v === 0 ? 'rgba(0,229,255,0.45)' : 'rgba(148,163,184,0.3)'}
+                    fill={v === 0 ? 'var(--balance-zero-text, rgba(0,229,255,0.45))' : 'var(--balance-axis-text, rgba(148,163,184,0.3))'}
                     fontWeight={v === 0 ? '600' : '400'}>
                     {v > 0 ? `+${v}` : v}
                   </text>
