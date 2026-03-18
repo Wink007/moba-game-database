@@ -484,7 +484,11 @@
     "deleteConfirmYes": "Так, видалити",
     "deleteConfirmNo": "Скасувати",
     "xp": "Очки",
-    "nextLevel": "Наступний рівень"
+    "nextLevel": "Наступний рівень",
+    "follow": "Підписатись",
+    "unfollow": "Відписатись",
+    "followers": "Підписники",
+    "following": "Підписки"
   },
   "tierList": {
     "title": "Тір-ліст",

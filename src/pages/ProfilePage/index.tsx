@@ -59,6 +59,9 @@ interface ProfileData {
   }>;
   activity_title?: string;
   activity_score?: number;
+  followers_count?: number;
+  following_count?: number;
+  is_following?: boolean;
 }
 
 // Activity level system — MLBB ranks
@@ -103,6 +106,9 @@ export const ProfilePage: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
+  const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
+  const [followersCount, setFollowersCount] = useState<number>(0);
   const navigate = useNavigate();
   const logout = useAuthStore(s => s.logout);
 
@@ -197,6 +203,24 @@ export const ProfilePage: React.FC = () => {
     description: t('profile.seoDescription'),
     noindex: true,
   });
+
+  // Sync follow state from API response
+  React.useEffect(() => {
+    if (profile?.is_following !== undefined) setIsFollowing(profile.is_following ?? null);
+    if (profile?.followers_count !== undefined) setFollowersCount(profile.followers_count ?? 0);
+  }, [profile?.is_following, profile?.followers_count]);
+
+  const handleFollow = async () => {
+    if (!currentUser || followLoading) return;
+    setFollowLoading(true);
+    try {
+      const method = isFollowing ? 'DELETE' : 'POST';
+      await authFetch(`/users/${numericUserId}/follow`, { method });
+      setIsFollowing(v => !v);
+      setFollowersCount(v => v + (isFollowing ? -1 : 1));
+    } catch { /* ignore */ }
+    finally { setFollowLoading(false); }
+  };
 
   if (isLoading) return <Loader />;
   if (error || !profile) {
@@ -308,6 +332,17 @@ export const ProfilePage: React.FC = () => {
           )}
 
           {memberSince && <span className={styles.memberSince}>{t('profile.memberSince', { date: memberSince })}</span>}
+
+          {/* Follow button — only on other's profiles */}
+          {!isOwnProfile && currentUser && (
+            <button
+              className={`${styles.followBtn} ${isFollowing ? styles.followBtnActive : ''}`}
+              onClick={handleFollow}
+              disabled={followLoading}
+            >
+              {isFollowing ? t('profile.unfollow') : t('profile.follow')}
+            </button>
+          )}
         </div>
 
       </div>
@@ -323,8 +358,12 @@ export const ProfilePage: React.FC = () => {
           <span className={styles.statLabel}>{t('profile.favorites')}</span>
         </div>
         <div className={styles.stat}>
-          <span className={styles.statValue}>{main_heroes.length}</span>
-          <span className={styles.statLabel}>{t('profile.mains')}</span>
+          <span className={styles.statValue}>{followersCount}</span>
+          <span className={styles.statLabel}>{t('profile.followers')}</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statValue}>{profile.following_count ?? 0}</span>
+          <span className={styles.statLabel}>{t('profile.following')}</span>
         </div>
       </div>
 

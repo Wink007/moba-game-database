@@ -484,7 +484,11 @@
     "deleteConfirmYes": "Ya, hapus",
     "deleteConfirmNo": "Batal",
     "xp": "XP",
-    "nextLevel": "Level berikutnya"
+    "nextLevel": "Level berikutnya",
+    "follow": "Ikuti",
+    "unfollow": "Batal Ikuti",
+    "followers": "Pengikut",
+    "following": "Mengikuti"
   },
   "tierList": {
     "title": "Tier List",

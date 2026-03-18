@@ -484,7 +484,11 @@
     "deleteConfirmYes": "Yes, delete",
     "deleteConfirmNo": "Cancel",
     "xp": "XP",
-    "nextLevel": "Next level"
+    "nextLevel": "Next level",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followers": "Followers",
+    "following": "Following"
   },
   "tierList": {
     "title": "Tier List",

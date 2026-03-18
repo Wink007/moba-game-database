@@ -247,6 +247,35 @@
   }
 }
 
+.followBtn {
+  margin-top: 10px;
+  padding: 7px 28px;
+  border-radius: 99px;
+  border: 1.5px solid var(--pa, var(--clr-accent));
+  background: transparent;
+  color: var(--pa, var(--clr-accent));
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.02em;
+
+  &:hover {
+    background: color-mix(in srgb, var(--pa, var(--clr-accent)) 12%, transparent);
+  }
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.followBtnActive {
+  background: var(--pa, var(--clr-accent));
+  color: #fff;
+
+  &:hover {
+    background: color-mix(in srgb, var(--pa, var(--clr-accent)) 80%, #000);
+  }
+}
+
 .setNicknameBtn {
   align-self: center;
   background: none;
