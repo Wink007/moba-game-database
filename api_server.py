@@ -4552,6 +4552,58 @@ def get_users_list():
 
 # ===== PUBLIC PROFILE ENDPOINT =====
 
+@app.route('/api/users/<int:user_id>/follow', methods=['POST', 'DELETE'])
+@require_auth
+def follow_user(user_id):
+    """Follow or unfollow a user"""
+    current_uid = request.user_id
+    if current_uid == user_id:
+        return jsonify({'error': 'Cannot follow yourself'}), 400
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        # Ensure table exists
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS user_follows (
+                follower_id INTEGER NOT NULL,
+                following_id INTEGER NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (follower_id, following_id)
+            )
+        """)
+
+        if request.method == 'POST':
+            if db.DATABASE_TYPE == 'postgres':
+                cursor.execute(
+                    f"INSERT INTO user_follows (follower_id, following_id) VALUES ({ph}, {ph}) ON CONFLICT DO NOTHING",
+                    (current_uid, user_id)
+                )
+            else:
+                cursor.execute(
+                    f"INSERT OR IGNORE INTO user_follows (follower_id, following_id) VALUES ({ph}, {ph})",
+                    (current_uid, user_id)
+                )
+            conn.commit()
+            db.release_connection(conn)
+            return jsonify({'is_following': True})
+        else:
+            cursor.execute(
+                f"DELETE FROM user_follows WHERE follower_id = {ph} AND following_id = {ph}",
+                (current_uid, user_id)
+            )
+            conn.commit()
+            db.release_connection(conn)
+            return jsonify({'is_following': False})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/users/<int:user_id>/profile', methods=['GET'])
 def get_user_profile(user_id):
     """Get public profile: user info, main heroes, public builds, favorites count"""
@@ -4740,6 +4792,23 @@ def get_user_profile(user_id):
                 title_key = key
                 break
 
+        # Followers / following counts
+        cursor.execute(f"SELECT COUNT(*) FROM user_follows WHERE following_id = {ph}", (user_id,))
+        row = cursor.fetchone()
+        followers_count = row['count'] if isinstance(row, dict) else (row[0] if row else 0)
+
+        cursor.execute(f"SELECT COUNT(*) FROM user_follows WHERE follower_id = {ph}", (user_id,))
+        row = cursor.fetchone()
+        following_count = row['count'] if isinstance(row, dict) else (row[0] if row else 0)
+
+        is_following = False
+        if current_uid and current_uid != user_id:
+            cursor.execute(
+                f"SELECT 1 FROM user_follows WHERE follower_id = {ph} AND following_id = {ph}",
+                (current_uid, user_id)
+            )
+            is_following = cursor.fetchone() is not None
+
         db.release_connection(conn)
         return jsonify({
             'user': user_info,
@@ -4749,6 +4818,9 @@ def get_user_profile(user_id):
             'favorites': favorites,
             'activity_title': title_key,
             'activity_score': activity_score,
+            'followers_count': followers_count,
+            'following_count': following_count,
+            'is_following': is_following,
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
