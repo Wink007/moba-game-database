@@ -488,7 +488,8 @@
     "follow": "Follow",
     "unfollow": "Unfollow",
     "followers": "Followers",
-    "following": "Following"
+    "following": "Following",
+    "noUsers": "Nobody here yet"
   },
   "tierList": {
     "title": "Tier List",

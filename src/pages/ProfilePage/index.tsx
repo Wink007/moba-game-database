@@ -11,6 +11,7 @@ import { useItemsQuery } from '../../queries/useItemsQuery';
 import { useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { pushBackHandler, popBackHandler } from '../../utils/backHandlerStack';
 import { queryKeys } from '../../queries/keys';
 import { API_URL } from '../../config';
 import type { Item } from '../../types';
@@ -109,6 +110,25 @@ export const ProfilePage: React.FC = () => {
   const [followLoading, setFollowLoading] = useState(false);
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
   const [followersCount, setFollowersCount] = useState<number>(0);
+
+  // Follows modal
+  const [followsModal, setFollowsModal] = useState<'followers' | 'following' | null>(null);
+  const [followsUsers, setFollowsUsers] = useState<Array<{id: number; name: string; picture: string}>>([]);
+  const [followsLoading, setFollowsLoading] = useState(false);
+
+  const openFollowsModal = async (type: 'followers' | 'following') => {
+    setFollowsModal(type);
+    setFollowsUsers([]);
+    setFollowsLoading(true);
+    pushBackHandler(() => setFollowsModal(null));
+    try {
+      const res = await fetch(`${API_URL}/users/${numericUserId}/${type}`);
+      const data = await res.json();
+      setFollowsUsers(data);
+    } catch { /* ignore */ }
+    finally { setFollowsLoading(false); }
+  };
+
   const navigate = useNavigate();
   const logout = useAuthStore(s => s.logout);
 
@@ -357,15 +377,39 @@ export const ProfilePage: React.FC = () => {
           <span className={styles.statValue}>{favorites_count}</span>
           <span className={styles.statLabel}>{t('profile.favorites')}</span>
         </div>
-        <div className={styles.stat}>
+        <button className={`${styles.stat} ${styles.statBtn}`} onClick={() => openFollowsModal('followers')}>
           <span className={styles.statValue}>{followersCount}</span>
           <span className={styles.statLabel}>{t('profile.followers')}</span>
-        </div>
-        <div className={styles.stat}>
+        </button>
+        <button className={`${styles.stat} ${styles.statBtn}`} onClick={() => openFollowsModal('following')}>
           <span className={styles.statValue}>{profile.following_count ?? 0}</span>
           <span className={styles.statLabel}>{t('profile.following')}</span>
-        </div>
+        </button>
       </div>
+
+      {/* ── Follows Modal ── */}
+      {followsModal && (
+        <div className={styles.followsOverlay} onClick={() => { popBackHandler(() => setFollowsModal(null)); setFollowsModal(null); }}>
+          <div className={styles.followsModal} onClick={e => e.stopPropagation()}>
+            <div className={styles.followsModalHeader}>
+              <h3>{t(`profile.${followsModal}`)}</h3>
+              <button className={styles.followsModalClose} onClick={() => { popBackHandler(() => setFollowsModal(null)); setFollowsModal(null); }}>✕</button>
+            </div>
+            <div className={styles.followsModalBody}>
+              {followsLoading && <div className={styles.followsLoader}>{t('common.loading') || '...'}</div>}
+              {!followsLoading && followsUsers.length === 0 && (
+                <div className={styles.followsEmpty}>{t('profile.noUsers') || '—'}</div>
+              )}
+              {followsUsers.map(u => (
+                <Link key={u.id} to={`/profile/${u.id}`} className={styles.followsUserRow} onClick={() => { popBackHandler(() => setFollowsModal(null)); setFollowsModal(null); }}>
+                  <img src={u.picture} alt={u.name} className={styles.followsUserAvatar} referrerPolicy="no-referrer" />
+                  <span className={styles.followsUserName}>{u.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Activity Level ── */}
       {score > 0 && (

@@ -487,8 +487,9 @@
     "nextLevel": "Наступний рівень",
     "follow": "Підписатись",
     "unfollow": "Відписатись",
-    "followers": "Підписники",
-    "following": "Підписки"
+    "followers": "Фоловери",
+    "following": "Фоловінг",
+    "noUsers": "Поки нікого немає"
   },
   "tierList": {
     "title": "Тір-ліст",

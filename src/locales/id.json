@@ -488,7 +488,8 @@
     "follow": "Ikuti",
     "unfollow": "Batal Ikuti",
     "followers": "Pengikut",
-    "following": "Mengikuti"
+    "following": "Mengikuti",
+    "noUsers": "Belum ada siapa pun"
   },
   "tierList": {
     "title": "Tier List",
