@@ -4604,6 +4604,60 @@ def follow_user(user_id):
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/users/<int:user_id>/followers', methods=['GET'])
+def get_user_followers(user_id):
+    """List users who follow user_id"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        cursor.execute(
+            f"SELECT u.id, u.name, u.picture FROM users u "
+            f"INNER JOIN user_follows uf ON uf.follower_id = u.id "
+            f"WHERE uf.following_id = {ph} ORDER BY uf.created_at DESC LIMIT 200",
+            (user_id,)
+        )
+        rows = cursor.fetchall()
+        db.release_connection(conn)
+        result = [{'id': r['id'] if isinstance(r, dict) else r[0],
+                   'name': r['name'] if isinstance(r, dict) else r[1],
+                   'picture': r['picture'] if isinstance(r, dict) else r[2]} for r in rows]
+        return jsonify(result)
+    except Exception as e:
+        return jsonify([]), 200
+
+
+@app.route('/api/users/<int:user_id>/following', methods=['GET'])
+def get_user_following(user_id):
+    """List users that user_id follows"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        cursor.execute(
+            f"SELECT u.id, u.name, u.picture FROM users u "
+            f"INNER JOIN user_follows uf ON uf.following_id = u.id "
+            f"WHERE uf.follower_id = {ph} ORDER BY uf.created_at DESC LIMIT 200",
+            (user_id,)
+        )
+        rows = cursor.fetchall()
+        db.release_connection(conn)
+        result = [{'id': r['id'] if isinstance(r, dict) else r[0],
+                   'name': r['name'] if isinstance(r, dict) else r[1],
+                   'picture': r['picture'] if isinstance(r, dict) else r[2]} for r in rows]
+        return jsonify(result)
+    except Exception as e:
+        return jsonify([]), 200
+
+
 @app.route('/api/users/<int:user_id>/profile', methods=['GET'])
 def get_user_profile(user_id):
     """Get public profile: user info, main heroes, public builds, favorites count"""
