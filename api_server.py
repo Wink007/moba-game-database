@@ -4792,22 +4792,34 @@ def get_user_profile(user_id):
                 title_key = key
                 break
 
-        # Followers / following counts
-        cursor.execute(f"SELECT COUNT(*) FROM user_follows WHERE following_id = {ph}", (user_id,))
-        row = cursor.fetchone()
-        followers_count = row['count'] if isinstance(row, dict) else (row[0] if row else 0)
-
-        cursor.execute(f"SELECT COUNT(*) FROM user_follows WHERE follower_id = {ph}", (user_id,))
-        row = cursor.fetchone()
-        following_count = row['count'] if isinstance(row, dict) else (row[0] if row else 0)
-
+        # Followers / following counts (table may not exist yet on fresh deploy)
+        followers_count = 0
+        following_count = 0
         is_following = False
-        if current_uid and current_uid != user_id:
+        try:
             cursor.execute(
-                f"SELECT 1 FROM user_follows WHERE follower_id = {ph} AND following_id = {ph}",
-                (current_uid, user_id)
+                f"CREATE TABLE IF NOT EXISTS user_follows ("
+                f"follower_id INTEGER NOT NULL, following_id INTEGER NOT NULL, "
+                f"created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+                f"PRIMARY KEY (follower_id, following_id))"
             )
-            is_following = cursor.fetchone() is not None
+            cursor.execute(f"SELECT COUNT(*) FROM user_follows WHERE following_id = {ph}", (user_id,))
+            row = cursor.fetchone()
+            followers_count = row['count'] if isinstance(row, dict) else (row[0] if row else 0)
+
+            cursor.execute(f"SELECT COUNT(*) FROM user_follows WHERE follower_id = {ph}", (user_id,))
+            row = cursor.fetchone()
+            following_count = row['count'] if isinstance(row, dict) else (row[0] if row else 0)
+
+            if current_uid and current_uid != user_id:
+                cursor.execute(
+                    f"SELECT 1 FROM user_follows WHERE follower_id = {ph} AND following_id = {ph}",
+                    (current_uid, user_id)
+                )
+                is_following = cursor.fetchone() is not None
+            conn.commit()
+        except Exception:
+            pass
 
         db.release_connection(conn)
         return jsonify({
