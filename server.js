@@ -316,6 +316,31 @@ function buildHeroRanksContent(heroRanks, gameId) {
   return html;
 }
 
+// Build static HTML for a role/lane/specialty filtered heroes page
+function buildRolePageContent(heroes, gameId, filterType, filterValue) {
+  const year = new Date().getFullYear();
+  const label = filterValue.charAt(0).toUpperCase() + filterValue.slice(1);
+  const filterLabel = filterType === 'role' ? 'Role' : filterType === 'lane' ? 'Lane' : 'Specialty';
+  const sorted = [...heroes].sort((a, b) => (parseFloat(b.main_hero_win_rate) || 0) - (parseFloat(a.main_hero_win_rate) || 0));
+
+  let html = `<article>`;
+  html += `<h1>Best ${esc(label)} Heroes in Mobile Legends ${year}</h1>`;
+  html += `<p>${sorted.length} ${esc(label)} heroes ranked by win rate in Mobile Legends ${year}. Updated daily with Mythic rank data.</p>`;
+  html += `<ul>`;
+  sorted.forEach((h, i) => {
+    const wr = h.main_hero_win_rate ? ` — Win Rate ${parseFloat(h.main_hero_win_rate).toFixed(1)}%` : '';
+    const lane = Array.isArray(h.lane) ? h.lane.join('/') : (h.lane || '');
+    html += `<li><a href="/${gameId}/heroes/${heroToSlug(h.name)}">${esc(h.name)}</a>`;
+    if (wr) html += esc(wr);
+    if (lane) html += ` (${esc(lane)} lane)`;
+    html += `</li>`;
+  });
+  html += `</ul>`;
+  html += `<p>Browse all <a href="/${gameId}/heroes">Mobile Legends heroes</a> or check the <a href="/${gameId}/tier-list">tier list</a> for ranking details.</p>`;
+  html += `</article>`;
+  return html;
+}
+
 // Build static HTML for the heroes list page
 function buildHeroListContent(heroes, gameId) {
   let html = `<article>`;
@@ -615,6 +640,44 @@ app.get('/{*path}', async (req, res) => {
 
           html = injectSeoContent(html, buildHeroPageContent(hero, heroName, skills, heroes, gameId, heroSlug, counterData, compatData));
         }
+      }
+      return res.send(html);
+    }
+
+    // /:gameId/heroes?role=X  or  ?lane=X  or  ?specialty=X — role/lane/specialty landing pages
+    const heroesFilterMatch = url.match(/^\/(\d+)\/heroes$/) && (req.query.role || req.query.lane || req.query.specialty);
+    if (heroesFilterMatch) {
+      const [, hgid] = url.match(/^\/(\d+)\/heroes$/);
+      const filterType = req.query.role ? 'role' : req.query.lane ? 'lane' : 'specialty';
+      const filterValue = (req.query.role || req.query.lane || req.query.specialty).toLowerCase();
+      const label = filterValue.charAt(0).toUpperCase() + filterValue.slice(1);
+      const year = new Date().getFullYear();
+      const allHeroes = await cachedFetch(`${API_URL}/heroes?game_id=${hgid}&lang=en`);
+      const filtered = allHeroes
+        ? allHeroes.filter(h => {
+            const val = h[filterType === 'role' ? 'roles' : filterType] || [];
+            const arr = Array.isArray(val) ? val : [val];
+            return arr.some(v => v.toLowerCase() === filterValue);
+          })
+        : [];
+      const canonicalUrl = `https://mobawiki.com/${hgid}/heroes?${filterType}=${filterValue}`;
+      html = injectMeta(html, {
+        title: `Best ${label} Heroes ${year}`,
+        description: `Top ${label} heroes in Mobile Legends ${year} — ranked by win rate. Best MLBB ${label} picks for Mythic rank. Updated daily.`,
+        canonical: canonicalUrl,
+        lang,
+        jsonLd: [{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mobawiki.com/' },
+            { '@type': 'ListItem', position: 2, name: 'Heroes', item: `https://mobawiki.com/${hgid}/heroes` },
+            { '@type': 'ListItem', position: 3, name: `${label} Heroes`, item: canonicalUrl },
+          ],
+        }],
+      });
+      if (filtered.length) {
+        html = injectSeoContent(html, buildRolePageContent(filtered, hgid, filterType, filterValue));
       }
       return res.send(html);
     }

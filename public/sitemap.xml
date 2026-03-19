@@ -28,6 +28,42 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes?role=fighter</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes?role=mage</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes?role=marksman</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes?role=tank</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes?role=support</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes?role=assassin</loc>
+    <lastmod>2026-03-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/hero-ranks</loc>
     <lastmod>2026-03-18</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/hero-ranks"/>
