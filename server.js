@@ -381,7 +381,13 @@ function injectMeta(html, { title, description, image, canonical, jsonLd, lang, 
   return result;
 }
 
-function buildHeroFAQ(hero, heroName) {
+function buildHeroFAQ(hero, heroName, counterData, compatData, allHeroes) {
+  // Helper: resolve hero name by id
+  const nameById = (id) => {
+    const h = Array.isArray(allHeroes) ? allHeroes.find(h => h.id === id) : null;
+    return h ? h.name : null;
+  };
+
   const faq = [];
   const roles = Array.isArray(hero.roles) ? hero.roles.join('/') : hero.roles;
   const lanes = Array.isArray(hero.lane) ? hero.lane.join(' and ') : hero.lane;
@@ -423,6 +429,43 @@ function buildHeroFAQ(hero, heroName) {
       name: `What is ${heroName}'s specialty?`,
       acceptedAnswer: { '@type': 'Answer', text: `${heroName}'s specialty is ${specialty}.` },
     });
+  }
+
+  // Counter FAQ from real data
+  const heroCounter = counterData && counterData[hero.id];
+  if (heroCounter) {
+    const counters = (heroCounter.best_counters || []).slice(0, 3)
+      .map(c => nameById(c.heroid || c.hero_id)).filter(Boolean);
+    if (counters.length) {
+      faq.push({
+        '@type': 'Question',
+        name: `Who counters ${heroName} in Mobile Legends?`,
+        acceptedAnswer: { '@type': 'Answer', text: `The best counters for ${heroName} in Mobile Legends are ${counters.join(', ')}. These heroes have the highest win rate when facing ${heroName} in the current meta.` },
+      });
+    }
+    const countered = (heroCounter.most_countered_by || []).slice(0, 3)
+      .map(c => nameById(c.heroid || c.hero_id)).filter(Boolean);
+    if (countered.length) {
+      faq.push({
+        '@type': 'Question',
+        name: `Who does ${heroName} counter in Mobile Legends?`,
+        acceptedAnswer: { '@type': 'Answer', text: `${heroName} is strong against ${countered.join(', ')} in Mobile Legends.` },
+      });
+    }
+  }
+
+  // Synergy FAQ from real data
+  const heroCompat = compatData && compatData[hero.id];
+  if (heroCompat) {
+    const synergies = (heroCompat.compatible || []).slice(0, 3)
+      .map(c => nameById(c.heroid || c.hero_id)).filter(Boolean);
+    if (synergies.length) {
+      faq.push({
+        '@type': 'Question',
+        name: `Who works best with ${heroName} in Mobile Legends?`,
+        acceptedAnswer: { '@type': 'Answer', text: `${heroName} has the best synergy with ${synergies.join(', ')} in Mobile Legends team compositions.` },
+      });
+    }
   }
 
   return faq;
@@ -509,12 +552,37 @@ app.get('/{*path}', async (req, res) => {
           const isUk = lang === 'uk';
           const heroName = (isUk && hero.name_uk) ? hero.name_uk : hero.name;
           const shortDesc = (isUk && hero.short_description_uk) ? hero.short_description_uk : (hero.short_description || '');
-          const winRate = hero.main_hero_win_rate ? ` Win Rate ${parseFloat(hero.main_hero_win_rate).toFixed(1)}%.` : '';
           const heroImg = hero.image || hero.head || undefined;
           const heroUrl = `https://mobawiki.com${url}`;
+
+          // Fetch all enrichment data before building meta
+          const [skills, counterData, compatData] = await Promise.all([
+            cachedFetch(`${API_URL}/heroes/${hero.id}/skills`),
+            cachedFetch(`${API_URL}/heroes/counter-data?game_id=${gameId}&rank=all&days=7`),
+            cachedFetch(`${API_URL}/heroes/compatibility-data?game_id=${gameId}&rank=all&days=7`),
+          ]);
+
+          // Build dynamic description with real counter/synergy names
+          const heroCounter = counterData && counterData[hero.id];
+          const heroCompat = compatData && compatData[hero.id];
+          const nameById = (id) => { const h = heroes.find(h => h.id === id); return h ? h.name : null; };
+          const wr = hero.main_hero_win_rate ? parseFloat(hero.main_hero_win_rate).toFixed(1) : null;
+          const counterNames = heroCounter
+            ? (heroCounter.best_counters || []).slice(0, 3).map(c => nameById(c.heroid || c.hero_id)).filter(Boolean)
+            : [];
+          const synergyNames = heroCompat
+            ? (heroCompat.compatible || []).slice(0, 3).map(c => nameById(c.heroid || c.hero_id)).filter(Boolean)
+            : [];
+          const descParts = [`${heroName} guide MLBB 2026`];
+          if (wr) descParts.push(`Win Rate ${wr}%`);
+          if (counterNames.length) descParts.push(`Countered by: ${counterNames.join(', ')}`);
+          if (synergyNames.length) descParts.push(`Best with: ${synergyNames.join(', ')}`);
+          if (shortDesc) descParts.push(shortDesc);
+          const heroDescription = descParts.join('. ');
+
           html = injectMeta(html, {
             title: `${heroName} — Hero Guide`,
-            description: `${heroName} guide for Mobile Legends — skills, builds, counters, synergies and stats.${winRate} ${shortDesc}`,
+            description: heroDescription,
             image: heroImg,
             canonical: heroUrl,
             lang,
@@ -533,24 +601,18 @@ app.get('/{*path}', async (req, res) => {
                 '@context': 'https://schema.org',
                 '@type': 'WebPage',
                 name: `${heroName} — Hero Guide | MOBA Wiki`,
-                description: `${heroName} guide — skills, builds, counters and stats for Mobile Legends.`,
+                description: heroDescription,
                 url: heroUrl,
                 ...(heroImg ? { image: heroImg } : {}),
               },
               {
                 '@context': 'https://schema.org',
                 '@type': 'FAQPage',
-                mainEntity: buildHeroFAQ(hero, heroName),
+                mainEntity: buildHeroFAQ(hero, heroName, counterData, compatData, heroes),
               },
             ],
           });
 
-          // Inject static body content for Google first-wave crawl
-          const [skills, counterData, compatData] = await Promise.all([
-            cachedFetch(`${API_URL}/heroes/${hero.id}/skills`),
-            cachedFetch(`${API_URL}/heroes/counter-data?game_id=${gameId}&rank=all&days=7`),
-            cachedFetch(`${API_URL}/heroes/compatibility-data?game_id=${gameId}&rank=all&days=7`),
-          ]);
           html = injectSeoContent(html, buildHeroPageContent(hero, heroName, skills, heroes, gameId, heroSlug, counterData, compatData));
         }
       }
