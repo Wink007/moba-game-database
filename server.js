@@ -119,13 +119,19 @@ function injectSeoContent(html, content) {
 }
 
 // Build static HTML for a hero detail page
-function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlug) {
+function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlug, counterData, compatData) {
   const roles = Array.isArray(hero.roles) ? hero.roles.join(', ') : (hero.roles || '');
   const lane = Array.isArray(hero.lane) ? hero.lane.join(', ') : (hero.lane || '');
   const specialty = Array.isArray(hero.specialty) ? hero.specialty.join(', ') : (hero.specialty || '');
   const wr = hero.main_hero_win_rate ? parseFloat(hero.main_hero_win_rate).toFixed(1) : null;
   const br = hero.main_hero_ban_rate ? parseFloat(hero.main_hero_ban_rate).toFixed(1) : null;
   const desc = hero.full_description || hero.short_description || '';
+
+  // Helper: resolve hero name by id from allHeroes
+  const heroNameById = (id) => {
+    const h = Array.isArray(allHeroes) ? allHeroes.find(h => h.id === id) : null;
+    return h ? h.name : null;
+  };
 
   let html = `<article>`;
   html += `<h1>${esc(heroName)} Mobile Legends Hero Guide</h1>`;
@@ -157,6 +163,60 @@ function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlu
         const sType = s.skill_type === 'passive' ? ' (Passive)' : '';
         html += `<li><strong>${esc(sName)}${sType}</strong>`;
         if (sDesc) html += `: ${esc(sDesc)}`;
+        html += `</li>`;
+      });
+      html += `</ul></section>`;
+    }
+  }
+
+  // Counters section
+  const heroCounter = counterData && counterData[hero.id];
+  if (heroCounter) {
+    const bestCounters = (heroCounter.best_counters || []).slice(0, 5);
+    const mostCounteredBy = (heroCounter.most_countered_by || []).slice(0, 5);
+
+    if (bestCounters.length) {
+      html += `<section><h2>Best Counters for ${esc(heroName)}</h2>`;
+      html += `<p>These heroes have the highest win rate when playing against ${esc(heroName)} in Mobile Legends:</p><ul>`;
+      bestCounters.forEach(c => {
+        const cName = heroNameById(c.heroid || c.hero_id);
+        if (!cName) return;
+        const cWr = c.win_rate ? parseFloat(c.win_rate).toFixed(1) : null;
+        const slug = heroToSlug(cName);
+        html += `<li><a href="/${gameId}/heroes/${slug}">${esc(cName)}</a>`;
+        if (cWr) html += ` — ${cWr}% win rate vs ${esc(heroName)}`;
+        html += `</li>`;
+      });
+      html += `</ul></section>`;
+    }
+
+    if (mostCounteredBy.length) {
+      html += `<section><h2>Heroes ${esc(heroName)} Counters</h2>`;
+      html += `<p>${esc(heroName)} is strong against these heroes in Mobile Legends:</p><ul>`;
+      mostCounteredBy.forEach(c => {
+        const cName = heroNameById(c.heroid || c.hero_id);
+        if (!cName) return;
+        const slug = heroToSlug(cName);
+        html += `<li><a href="/${gameId}/heroes/${slug}">${esc(cName)}</a></li>`;
+      });
+      html += `</ul></section>`;
+    }
+  }
+
+  // Synergies section
+  const heroCompat = compatData && compatData[hero.id];
+  if (heroCompat) {
+    const compatible = (heroCompat.compatible || []).slice(0, 5);
+    if (compatible.length) {
+      html += `<section><h2>Best Team Synergies with ${esc(heroName)}</h2>`;
+      html += `<p>These heroes work best alongside ${esc(heroName)} in Mobile Legends team compositions:</p><ul>`;
+      compatible.forEach(c => {
+        const cName = heroNameById(c.heroid || c.hero_id);
+        if (!cName) return;
+        const cWr = c.win_rate ? parseFloat(c.win_rate).toFixed(1) : null;
+        const slug = heroToSlug(cName);
+        html += `<li><a href="/${gameId}/heroes/${slug}">${esc(cName)}</a>`;
+        if (cWr) html += ` — ${cWr}% combined win rate`;
         html += `</li>`;
       });
       html += `</ul></section>`;
@@ -486,8 +546,12 @@ app.get('/{*path}', async (req, res) => {
           });
 
           // Inject static body content for Google first-wave crawl
-          const skills = await cachedFetch(`${API_URL}/heroes/${hero.id}/skills`);
-          html = injectSeoContent(html, buildHeroPageContent(hero, heroName, skills, heroes, gameId, heroSlug));
+          const [skills, counterData, compatData] = await Promise.all([
+            cachedFetch(`${API_URL}/heroes/${hero.id}/skills`),
+            cachedFetch(`${API_URL}/heroes/counter-data?game_id=${gameId}&rank=all&days=7`),
+            cachedFetch(`${API_URL}/heroes/compatibility-data?game_id=${gameId}&rank=all&days=7`),
+          ]);
+          html = injectSeoContent(html, buildHeroPageContent(hero, heroName, skills, heroes, gameId, heroSlug, counterData, compatData));
         }
       }
       return res.send(html);

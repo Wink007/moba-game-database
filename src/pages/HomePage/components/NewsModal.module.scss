@@ -51,17 +51,18 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: none;
-  background: rgba(0, 0, 0, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.65);
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(8px);
-  transition: background 0.15s;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: background 0.15s, border-color 0.15s;
 }
-.close:hover { background: rgba(255, 255, 255, 0.15); }
+.close:hover { background: rgba(0, 0, 0, 0.85); border-color: rgba(255, 255, 255, 0.6); }
 
 /* ── Hero ── */
 .hero {
@@ -82,9 +83,10 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0.05) 0%,
-    rgba(0,0,0,0.15) 40%,
-    rgba(19,20,31,0.92) 85%,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.1) 30%,
+    rgba(0,0,0,0.55) 65%,
+    rgba(19,20,31,0.95) 88%,
     #13141f 100%
   );
 }
@@ -122,6 +124,7 @@
   color: #fff;
   margin: 0 0 0.75rem;
   letter-spacing: -0.02em;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.8), 0 2px 16px rgba(0,0,0,0.6);
 }
 
 /* ── Meta ── */
@@ -288,21 +291,23 @@
     box-shadow: 0 24px 60px rgba(60, 40, 10, 0.18);
   }
   .close {
-    background: rgba(90, 68, 40, 0.18);
-    color: #2e1f0f;
+    background: rgba(255, 255, 255, 0.82);
+    color: #1c1208;
+    border-color: rgba(60, 40, 10, 0.25);
+    box-shadow: 0 2px 8px rgba(60, 40, 10, 0.2);
   }
-  .close:hover { background: rgba(90, 68, 40, 0.30); }
+  .close:hover { background: rgba(255, 255, 255, 1); border-color: rgba(60, 40, 10, 0.5); }
   .heroGradient {
     background: linear-gradient(
       to bottom,
-      rgba(0,0,0,0.04) 0%,
-      rgba(0,0,0,0.12) 40%,
-      rgba(253,250,246,0.90) 80%,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.1) 30%,
+      rgba(253,250,246,0.88) 72%,
       #fdfaf6 100%
     );
   }
   .heroContent {
-    .title { color: #1c1208; text-shadow: none; }
+    .title { color: #1c1208; text-shadow: 0 1px 6px rgba(255,255,255,0.9), 0 2px 12px rgba(255,255,255,0.7); }
     .authorName { color: rgba(46, 31, 15, 0.65); }
     .dot { color: rgba(90, 68, 40, 0.35); }
     .date { color: rgba(90, 68, 40, 0.50); }
