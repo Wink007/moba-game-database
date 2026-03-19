@@ -11,7 +11,7 @@ import { useItemsQuery } from '../../queries/useItemsQuery';
 import { useHeroesQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
-import { pushBackHandler, popBackHandler } from '../../utils/backHandlerStack';
+import { useBackHandler } from '../../hooks/useBackHandler';
 import { queryKeys } from '../../queries/keys';
 import { API_URL } from '../../config';
 import type { Item } from '../../types';
@@ -116,11 +116,13 @@ export const ProfilePage: React.FC = () => {
   const [followsUsers, setFollowsUsers] = useState<Array<{id: number; name: string; picture: string}>>([]);
   const [followsLoading, setFollowsLoading] = useState(false);
 
+  const closeFollowsModal = useCallback(() => setFollowsModal(null), []);
+  useBackHandler(!!followsModal, closeFollowsModal);
+
   const openFollowsModal = async (type: 'followers' | 'following') => {
     setFollowsModal(type);
     setFollowsUsers([]);
     setFollowsLoading(true);
-    pushBackHandler(() => setFollowsModal(null));
     try {
       const res = await fetch(`${API_URL}/users/${numericUserId}/${type}`);
       const data = await res.json();
@@ -389,11 +391,11 @@ export const ProfilePage: React.FC = () => {
 
       {/* ── Follows Modal ── */}
       {followsModal && (
-        <div className={styles.followsOverlay} onClick={() => { popBackHandler(() => setFollowsModal(null)); setFollowsModal(null); }}>
+        <div className={styles.followsOverlay} onClick={() => setFollowsModal(null)}>
           <div className={styles.followsModal} onClick={e => e.stopPropagation()}>
             <div className={styles.followsModalHeader}>
               <h3>{t(`profile.${followsModal}`)}</h3>
-              <button className={styles.followsModalClose} onClick={() => { popBackHandler(() => setFollowsModal(null)); setFollowsModal(null); }}>✕</button>
+              <button className={styles.followsModalClose} onClick={() => setFollowsModal(null)}>✕</button>
             </div>
             <div className={styles.followsModalBody}>
               {followsLoading && <div className={styles.followsLoader}>{t('common.loading') || '...'}</div>}
@@ -401,7 +403,7 @@ export const ProfilePage: React.FC = () => {
                 <div className={styles.followsEmpty}>{t('profile.noUsers') || '—'}</div>
               )}
               {followsUsers.map(u => (
-                <Link key={u.id} to={`/profile/${u.id}`} className={styles.followsUserRow} onClick={() => { popBackHandler(() => setFollowsModal(null)); setFollowsModal(null); }}>
+                <Link key={u.id} to={`/profile/${u.id}`} className={styles.followsUserRow} onClick={() => setFollowsModal(null)}>
                   <img src={u.picture} alt={u.name} className={styles.followsUserAvatar} referrerPolicy="no-referrer" />
                   <span className={styles.followsUserName}>{u.name}</span>
                 </Link>

@@ -98,6 +98,182 @@ function truncateDesc(text, max = 155) {
   return text.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
 }
 
+// Escape HTML special characters to prevent XSS in server-injected content
+function esc(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Inject static SEO content before the React root div.
+// Content is visually hidden (screen-reader-style off-screen pattern) so users
+// only see the React-rendered UI. Google reads it and indexes it on first crawl
+// without needing to execute JS. Not cloaking — same data as what React renders.
+function injectSeoContent(html, content) {
+  const div = `<div id="seo-prerender" aria-hidden="true" style="position:absolute;overflow:hidden;clip:rect(0 0 0 0);height:1px;width:1px;white-space:nowrap">${content}</div>`;
+  return html.replace('<div id="root"></div>', `${div}<div id="root"></div>`);
+}
+
+// Build static HTML for a hero detail page
+function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlug) {
+  const roles = Array.isArray(hero.roles) ? hero.roles.join(', ') : (hero.roles || '');
+  const lane = Array.isArray(hero.lane) ? hero.lane.join(', ') : (hero.lane || '');
+  const specialty = Array.isArray(hero.specialty) ? hero.specialty.join(', ') : (hero.specialty || '');
+  const wr = hero.main_hero_win_rate ? parseFloat(hero.main_hero_win_rate).toFixed(1) : null;
+  const br = hero.main_hero_ban_rate ? parseFloat(hero.main_hero_ban_rate).toFixed(1) : null;
+  const desc = hero.full_description || hero.short_description || '';
+
+  let html = `<article>`;
+  html += `<h1>${esc(heroName)} Mobile Legends Hero Guide</h1>`;
+
+  const metaItems = [
+    roles     && `Role: ${esc(roles)}`,
+    lane      && `Lane: ${esc(lane)}`,
+    specialty && `Specialty: ${esc(specialty)}`,
+    hero.damage_type && `Damage Type: ${esc(hero.damage_type)}`,
+    wr        && `Win Rate: ${wr}%`,
+    br        && `Ban Rate: ${br}%`,
+  ].filter(Boolean);
+  if (metaItems.length) {
+    html += `<ul>${metaItems.map(m => `<li>${m}</li>`).join('')}</ul>`;
+  }
+
+  if (desc) html += `<p>${esc(desc)}</p>`;
+
+  // Skills section
+  if (Array.isArray(skills) && skills.length) {
+    const mainSkills = skills
+      .filter(s => !s.is_transformed)
+      .sort((a, b) => ((a.display_order ?? 99) - (b.display_order ?? 99)));
+    if (mainSkills.length) {
+      html += `<section><h2>${esc(heroName)} Skills</h2><ul>`;
+      mainSkills.forEach(s => {
+        const sName = s.skill_name || '';
+        const sDesc = s.skill_description || '';
+        const sType = s.skill_type === 'passive' ? ' (Passive)' : '';
+        html += `<li><strong>${esc(sName)}${sType}</strong>`;
+        if (sDesc) html += `: ${esc(sDesc)}`;
+        html += `</li>`;
+      });
+      html += `</ul></section>`;
+    }
+  }
+
+  // Internal links for Google to discover all hero pages
+  if (Array.isArray(allHeroes) && allHeroes.length) {
+    const others = allHeroes
+      .filter(h => heroToSlug(h.name) !== heroSlug)
+      .slice(0, 30);
+    if (others.length) {
+      html += `<nav><h2>Other Mobile Legends Heroes</h2><ul>`;
+      others.forEach(h => {
+        html += `<li><a href="/${gameId}/heroes/${heroToSlug(h.name)}">${esc(h.name)}</a></li>`;
+      });
+      html += `</ul></nav>`;
+    }
+  }
+
+  html += `</article>`;
+  return html;
+}
+
+// Assign tier based on win rate (mirrors TierListPage/constants.ts)
+function assignTier(winRate) {
+  if (winRate >= 53) return 'S';
+  if (winRate >= 51) return 'A';
+  if (winRate >= 49) return 'B';
+  if (winRate >= 47) return 'C';
+  return 'D';
+}
+
+// Build static HTML for the tier list page
+function buildTierListContent(heroRanks, gameId) {
+  const tierYear = new Date().getFullYear();
+  const groups = { S: [], A: [], B: [], C: [], D: [] };
+  heroRanks.forEach(h => {
+    const wr = typeof h.win_rate === 'number' ? h.win_rate * (h.win_rate <= 1 ? 100 : 1) : 0;
+    const tier = assignTier(wr);
+    groups[tier].push({ ...h, wr });
+  });
+
+  let html = `<article>`;
+  html += `<h1>Mobile Legends Tier List ${tierYear}</h1>`;
+  html += `<p>Best heroes ranked S to D based on win rate statistics. Updated daily for Mythic rank.</p>`;
+  html += `<ul><li>S Tier: Win Rate ≥ 53% — Dominant, must-pick or ban</li>`;
+  html += `<li>A Tier: Win Rate ≥ 51% — Strong, consistent performers</li>`;
+  html += `<li>B Tier: Win Rate ≥ 49% — Average, viable in most situations</li>`;
+  html += `<li>C Tier: Win Rate ≥ 47% — Situational</li>`;
+  html += `<li>D Tier: Below 47% — Weak in current meta</li></ul>`;
+
+  for (const tier of ['S', 'A', 'B', 'C', 'D']) {
+    const heroes = groups[tier];
+    if (!heroes.length) continue;
+    html += `<section><h2>${tier} Tier Mobile Legends Heroes</h2><ul>`;
+    heroes
+      .sort((a, b) => b.wr - a.wr)
+      .forEach(h => {
+        const roles = Array.isArray(h.roles) ? h.roles.join(', ') : '';
+        html += `<li><a href="/${gameId}/heroes/${heroToSlug(h.name)}">${esc(h.name)}</a>`;
+        if (roles)  html += ` — ${esc(roles)}`;
+        html += ` — Win Rate: ${h.wr.toFixed(2)}%`;
+        html += `</li>`;
+      });
+    html += `</ul></section>`;
+  }
+
+  html += `</article>`;
+  return html;
+}
+
+// Build static HTML for the hero ranks page
+function buildHeroRanksContent(heroRanks, gameId) {
+  const rankYear = new Date().getFullYear();
+  let html = `<article>`;
+  html += `<h1>Mobile Legends Hero Rankings ${rankYear}</h1>`;
+  html += `<p>Win rate, pick rate and ban rate for all ${heroRanks.length} Mobile Legends heroes. Updated daily with Mythic rank data.</p>`;
+  html += `<table><thead><tr><th>#</th><th>Hero</th><th>Win Rate</th><th>Pick Rate</th><th>Ban Rate</th></tr></thead><tbody>`;
+
+  heroRanks
+    .slice(0, 100)
+    .forEach((h, i) => {
+      const wr = typeof h.win_rate === 'number'     ? (h.win_rate <= 1 ? h.win_rate * 100 : h.win_rate)         : 0;
+      const pr = typeof h.appearance_rate === 'number' ? (h.appearance_rate <= 1 ? h.appearance_rate * 100 : h.appearance_rate) : 0;
+      const br = typeof h.ban_rate === 'number'     ? (h.ban_rate <= 1 ? h.ban_rate * 100 : h.ban_rate)         : 0;
+      html += `<tr>`;
+      html += `<td>${i + 1}</td>`;
+      html += `<td><a href="/${gameId}/heroes/${heroToSlug(h.name)}">${esc(h.name)}</a></td>`;
+      html += `<td>${wr.toFixed(2)}%</td>`;
+      html += `<td>${pr.toFixed(2)}%</td>`;
+      html += `<td>${br.toFixed(2)}%</td>`;
+      html += `</tr>`;
+    });
+
+  html += `</tbody></table></article>`;
+  return html;
+}
+
+// Build static HTML for the heroes list page
+function buildHeroListContent(heroes, gameId) {
+  let html = `<article>`;
+  html += `<h1>All Mobile Legends Heroes</h1>`;
+  html += `<p>Complete list of ${heroes.length} Mobile Legends heroes with roles, lanes and win rates.</p>`;
+  html += `<ul>`;
+  heroes.forEach(h => {
+    const roles = Array.isArray(h.roles) ? h.roles.join(', ') : (h.roles || '');
+    const wr = h.main_hero_win_rate ? ` — Win Rate ${parseFloat(h.main_hero_win_rate).toFixed(1)}%` : '';
+    html += `<li><a href="/${gameId}/heroes/${heroToSlug(h.name)}">${esc(h.name)}</a>`;
+    if (roles) html += ` (${esc(roles)})`;
+    if (wr) html += esc(wr);
+    html += `</li>`;
+  });
+  html += `</ul></article>`;
+  return html;
+}
+
 function injectMeta(html, { title, description, image, canonical, jsonLd, lang, removeImgDimensions }) {
   const fullTitle = title ? `${title} | MOBA Wiki` : 'Wiki for Mobile Legends (Unofficial)';
   const desc = truncateDesc(description || 'Unofficial fan-made guide for Mobile Legends. Heroes stats, builds, rankings, items and more. Not affiliated with Moonton.');
@@ -308,6 +484,10 @@ app.get('/{*path}', async (req, res) => {
               },
             ],
           });
+
+          // Inject static body content for Google first-wave crawl
+          const skills = await cachedFetch(`${API_URL}/heroes/${hero.id}/skills`);
+          html = injectSeoContent(html, buildHeroPageContent(hero, heroName, skills, heroes, gameId, heroSlug));
         }
       }
       return res.send(html);
@@ -350,6 +530,11 @@ app.get('/{*path}', async (req, res) => {
           itemListJsonLd,
         ] : undefined,
       });
+
+      // Inject static body content for Google first-wave crawl
+      if (heroesForList) {
+        html = injectSeoContent(html, buildHeroListContent(heroesForList, hgid));
+      }
       return res.send(html);
     }
 
@@ -392,6 +577,11 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/tier-list$/)) {
       const tierYear = new Date().getFullYear();
       const tierUrl = `https://mobawiki.com${url}`;
+      const [, tgid] = url.match(/^\/(\d+)\/tier-list$/);
+      const tierRankData = await cachedFetch(`${API_URL}/hero-ranks?game_id=${tgid}&days=1&rank=all&sort_field=win_rate&sort_order=desc&size=999`);
+      // API returns either an array directly or { data: [...] }
+      const tierHeroes = Array.isArray(tierRankData) ? tierRankData
+        : (Array.isArray(tierRankData?.data) ? tierRankData.data : null);
       html = injectMeta(html, {
         title: `Tier List ${tierYear}`,
         description: `Mobile Legends tier list ${tierYear} — best heroes ranked S/A/B/C by win rate, ban rate and current meta. Updated daily for Mythic rank.`,
@@ -437,6 +627,9 @@ app.get('/{*path}', async (req, res) => {
           },
         ],
       });
+      if (tierHeroes) {
+        html = injectSeoContent(html, buildTierListContent(tierHeroes, tgid));
+      }
       return res.send(html);
     }
 
@@ -490,6 +683,10 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/hero-ranks$/)) {
       const rankYear = new Date().getFullYear();
       const rankUrl = `https://mobawiki.com${url}`;
+      const [, rgid] = url.match(/^\/(\d+)\/hero-ranks$/);
+      const rankData = await cachedFetch(`${API_URL}/hero-ranks?game_id=${rgid}&days=1&rank=all&sort_field=win_rate&sort_order=desc&size=999`);
+      const rankHeroes = Array.isArray(rankData) ? rankData
+        : (Array.isArray(rankData?.data) ? rankData.data : null);
       html = injectMeta(html, {
         title: 'Hero Rankings',
         description: `Mobile Legends hero rankings ${rankYear} — win rate, pick rate and ban rate for all heroes. Real-time Mythic rank statistics updated daily.`,
@@ -535,6 +732,9 @@ app.get('/{*path}', async (req, res) => {
           },
         ],
       });
+      if (rankHeroes) {
+        html = injectSeoContent(html, buildHeroRanksContent(rankHeroes, rgid));
+      }
       return res.send(html);
     }
 
