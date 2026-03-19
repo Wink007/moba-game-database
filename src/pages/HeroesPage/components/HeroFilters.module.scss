@@ -4,16 +4,13 @@
 
 .titleSection {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1.25rem;
-  flex-wrap: wrap;
+}
 
-  // push viewToggle to the right
-  > *:nth-last-child(1) {
-    margin-left: auto;
-    align-self: center;
-  }
+.titleText {
+  flex: 1;
 }
 
 .title {

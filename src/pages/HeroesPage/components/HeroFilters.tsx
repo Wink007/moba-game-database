@@ -76,10 +76,12 @@ export const HeroFilters: React.FC<HeroFiltersProps> = React.memo(({
   return (
     <div className={styles.header}>
       <div className={styles.titleSection}>
-        <h1 className={styles.title}>{t('heroes.title')}</h1>
-        <p className={styles.subtitle}>
-          {t('heroes.browse')} • {t('heroes.showing', { displayed: displayedCount, total: totalCount })}
-        </p>
+        <div className={styles.titleText}>
+          <h1 className={styles.title}>{t('heroes.title')}</h1>
+          <p className={styles.subtitle}>
+            {t('heroes.browse')} • {t('heroes.showing', { displayed: displayedCount, total: totalCount })}
+          </p>
+        </div>
         <div className={styles.viewToggle} role="group" aria-label="View mode">
           <button
             className={`${styles.viewToggleBtn} ${viewMode === 'grid' ? styles.viewToggleBtnActive : ''}`}
