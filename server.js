@@ -729,12 +729,24 @@ app.get('/{*path}', async (req, res) => {
 
     // /:gameId/items
     if (url.match(/^\/\d+\/items/)) {
+      const [, igid] = url.match(/^\/(\d+)\/items/) || [];
+      const items = igid ? await cachedFetch(`${API_URL}/items?game_id=${igid}&lang=en`) : null;
       html = injectMeta(html, {
         title: 'Items',
         description: 'All Mobile Legends items for 2026 — stats, effects, tier list and best builds. Find the strongest items for every hero role.',
         canonical: `https://mobawiki.com${url}`,
         lang,
       });
+      if (Array.isArray(items) && items.length) {
+        let seoHtml = `<article><h1>All Mobile Legends Items ${new Date().getFullYear()}</h1>`;
+        seoHtml += `<p>Complete list of ${items.length} Mobile Legends items — stats, effects and best builds for every hero role.</p><ul>`;
+        items.forEach(it => {
+          const desc = it.description ? ` — ${esc(it.description.slice(0, 120))}` : '';
+          seoHtml += `<li><strong>${esc(it.name)}</strong>${desc}</li>`;
+        });
+        seoHtml += `</ul></article>`;
+        html = injectSeoContent(html, seoHtml);
+      }
       return res.send(html);
     }
 
@@ -929,23 +941,47 @@ app.get('/{*path}', async (req, res) => {
 
     // /:gameId/emblems
     if (url.match(/^\/\d+\/emblems$/)) {
+      const [, egid] = url.match(/^\/(\d+)\/emblems$/) || [];
+      const emblems = egid ? await cachedFetch(`${API_URL}/emblems?game_id=${egid}`) : null;
       html = injectMeta(html, {
         title: 'Emblems',
         description: 'All Mobile Legends emblems and talents — find the best emblem setup for your hero role. Complete MLBB emblem guide.',
         canonical: `https://mobawiki.com${url}`,
         lang,
       });
+      if (Array.isArray(emblems) && emblems.length) {
+        let seoHtml = `<article><h1>All Mobile Legends Emblems ${new Date().getFullYear()}</h1>`;
+        seoHtml += `<p>Complete guide to all ${emblems.length} Mobile Legends emblems and talent builds.</p><ul>`;
+        emblems.forEach(e => {
+          const desc = e.description ? ` — ${esc(e.description.slice(0, 100))}` : '';
+          seoHtml += `<li><strong>${esc(e.name)}</strong>${desc}</li>`;
+        });
+        seoHtml += `</ul></article>`;
+        html = injectSeoContent(html, seoHtml);
+      }
       return res.send(html);
     }
 
     // /:gameId/spells
     if (url.match(/^\/\d+\/spells$/)) {
+      const [, sgid] = url.match(/^\/(\d+)\/spells$/) || [];
+      const spells = sgid ? await cachedFetch(`${API_URL}/battle-spells?game_id=${sgid}`) : null;
       html = injectMeta(html, {
         title: 'Battle Spells',
         description: 'All Mobile Legends battle spells — cooldowns, effects and best picks for every hero role. MLBB spell guide.',
         canonical: `https://mobawiki.com${url}`,
         lang,
       });
+      if (Array.isArray(spells) && spells.length) {
+        let seoHtml = `<article><h1>All Mobile Legends Battle Spells ${new Date().getFullYear()}</h1>`;
+        seoHtml += `<p>Complete list of ${spells.length} Mobile Legends battle spells — cooldowns, effects and best usage tips.</p><ul>`;
+        spells.forEach(s => {
+          const desc = s.description ? ` — ${esc(s.description.slice(0, 120))}` : '';
+          seoHtml += `<li><strong>${esc(s.name)}</strong>${desc}</li>`;
+        });
+        seoHtml += `</ul></article>`;
+        html = injectSeoContent(html, seoHtml);
+      }
       return res.send(html);
     }
 

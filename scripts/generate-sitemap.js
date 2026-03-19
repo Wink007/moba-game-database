@@ -72,6 +72,15 @@ async function generate() {
     urls.push(loc(`${prefix}/counter-pick`, '0.8', 'weekly'));
     urls.push(loc(`${prefix}/tier-list`,  '0.8', 'daily', today));
 
+    // Role landing pages
+    for (const role of ['fighter', 'mage', 'marksman', 'tank', 'support', 'assassin']) {
+      urls.push(loc(`${prefix}/heroes?role=${role}`, '0.8', 'daily', today, false));
+    }
+    // Lane landing pages
+    for (const lane of ['Jungle', 'Exp+Lane', 'Gold+Lane', 'Mid+Lane', 'Roam']) {
+      urls.push(loc(`${prefix}/heroes?lane=${lane}`, '0.8', 'daily', today, false));
+    }
+
     // Hero detail pages (only for games that have heroes in our DB)
     try {
       console.log(`[sitemap] Fetching heroes for game ${gid} (${game.name})...`);
