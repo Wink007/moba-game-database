@@ -657,7 +657,7 @@ app.get('/{*path}', async (req, res) => {
         ? allHeroes.filter(h => {
             const val = h[filterType === 'role' ? 'roles' : filterType] || [];
             const arr = Array.isArray(val) ? val : [val];
-            return arr.some(v => v.toLowerCase() === filterValue);
+            return arr.some(v => String(v).toLowerCase() === filterValue.toLowerCase());
           })
         : [];
       const canonicalUrl = `https://mobawiki.com/${hgid}/heroes?${filterType}=${filterValue}`;
