@@ -1245,12 +1245,7 @@ def sync_moonton_counter_data():
     try:
         data = request.get_json() or {}
         game_id = data.get('game_id', 2)
-        auth_token = data.get('auth_token')
-        
-        if not auth_token:
-            return jsonify({
-                'error': 'Authorization token is required. Please provide auth_token in request body.'
-            }), 400
+        source_tokens = data.get('source_tokens', {})
         
         # Запускаємо скрипт в окремому потоці
         import threading
@@ -1260,9 +1255,18 @@ def sync_moonton_counter_data():
         def run_script():
             try:
                 print("[INFO] Starting update_moonton_stats_final.py...")
-                # Створюємо копію environment і додаємо токен
+                # Передаємо токени як env vars (override .env defaults if provided)
                 env = os.environ.copy()
-                env['MOONTON_AUTH_TOKEN'] = auth_token
+                token_map = {
+                    '2756567': 'MOONTON_TOKEN_1D',
+                    '2756568': 'MOONTON_TOKEN_3D',
+                    '2756569': 'MOONTON_TOKEN_7D',
+                    '2756565': 'MOONTON_TOKEN_15D',
+                    '2756570': 'MOONTON_TOKEN_30D',
+                }
+                for src_id, token in (source_tokens or {}).items():
+                    if token and src_id in token_map:
+                        env[token_map[src_id]] = token
                 
                 result = subprocess.run(
                     [sys.executable, 'update_moonton_stats_final.py'],
@@ -2943,18 +2947,19 @@ def update_hero_ranks_moonton():
     try:
         data = request.get_json() or {}
         game_id = data.get('game_id', 2)
-        auth_token = data.get('auth_token', '')
+        source_tokens = data.get('source_tokens', {})  # dict: source_id -> token
 
         import threading
 
         def run_moonton_update():
             try:
                 import update_hero_ranks_from_moonton as moonton
-                # Якщо переданий auth token — встановлюємо його
-                if auth_token:
-                    moonton.AUTH_TOKEN = auth_token
-                    moonton.HEADERS['authorization'] = auth_token
-                    print(f"[MOONTON] Using provided auth token: {auth_token[:20]}...")
+                # Якщо передані токени — оновлюємо SOURCE_TOKENS per source_id
+                if source_tokens:
+                    for src_id, token in source_tokens.items():
+                        if token:
+                            moonton.SOURCE_TOKENS[src_id] = token
+                    print(f"[MOONTON] Updated {len(source_tokens)} source tokens")
 
                 print("[MOONTON] Starting full update (30 combinations)...")
                 moonton.main()
@@ -3917,6 +3922,175 @@ def update_profile_settings():
         return jsonify({'error': str(e)}), 500
 
 
+# ===== MLBB ACCOUNT LINKING =====
+
+@app.route('/api/users/mlbb/send-code', methods=['POST'])
+@require_auth
+def mlbb_send_code():
+    """Send verification code to MLBB in-game mailbox"""
+    try:
+        data = request.get_json()
+        role_id = str(data.get('roleId', '')).strip()
+        zone_id = str(data.get('zoneId', '')).strip()
+        if not role_id or not zone_id:
+            return jsonify({'error': 'roleId and zoneId are required'}), 400
+
+        import urllib.request
+        import urllib.parse
+        payload = urllib.parse.urlencode({'roleId': role_id, 'zoneId': zone_id}).encode()
+        req = urllib.request.Request(
+            'https://sg-api.mobilelegends.com/base/sendVc',
+            data=payload,
+            headers={
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Origin': 'https://app.mlbbsupport.com',
+                'Referer': 'https://app.mlbbsupport.com/',
+                'X-Lang': 'en',
+                'User-Agent': 'Mozilla/5.0',
+            },
+            method='POST'
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            import json as _json
+            result = _json.loads(resp.read().decode())
+
+        if result.get('code') == 0:
+            return jsonify({'success': True})
+        else:
+            return jsonify({'error': result.get('msg', 'Failed to send code'), 'code': result.get('code')}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/users/mlbb/verify', methods=['POST'])
+@require_auth
+def mlbb_verify():
+    """Verify MLBB code and link account"""
+    try:
+        data = request.get_json()
+        role_id = str(data.get('roleId', '')).strip()
+        zone_id = str(data.get('zoneId', '')).strip()
+        vc = str(data.get('vc', '')).strip()
+        if not role_id or not zone_id or not vc:
+            return jsonify({'error': 'roleId, zoneId and vc are required'}), 400
+
+        import urllib.request
+        import urllib.parse
+        payload = urllib.parse.urlencode({
+            'roleId': role_id,
+            'zoneId': zone_id,
+            'vc': vc,
+            'referer': '2669606_2669607',
+            'type': 'web',
+        }).encode()
+        req = urllib.request.Request(
+            'https://sg-api.mobilelegends.com/base/login',
+            data=payload,
+            headers={
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Origin': 'https://app.mlbbsupport.com',
+                'Referer': 'https://app.mlbbsupport.com/',
+                'X-Lang': 'en',
+                'User-Agent': 'Mozilla/5.0',
+            },
+            method='POST'
+        )
+        import json as _json
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            result = _json.loads(resp.read().decode())
+
+        if result.get('code') != 0:
+            return jsonify({'error': result.get('msg', 'Invalid code'), 'code': result.get('code')}), 400
+
+        mlbb_token = result.get('data', {}).get('token') or result.get('data', '')
+        if not mlbb_token:
+            return jsonify({'error': 'No token in response'}), 400
+
+        # Fetch MLBB profile info
+        mlbb_nickname = None
+        mlbb_avatar = None
+        try:
+            info_req = urllib.request.Request(
+                'https://sg-api.mobilelegends.com/base/getBaseInfo',
+                headers={
+                    'Authorization': mlbb_token,
+                    'X-Token': mlbb_token,
+                    'Origin': 'https://app.mlbbsupport.com',
+                    'Referer': 'https://app.mlbbsupport.com/',
+                    'X-Lang': 'en',
+                    'User-Agent': 'Mozilla/5.0',
+                },
+                method='GET'
+            )
+            with urllib.request.urlopen(info_req, timeout=10) as info_resp:
+                info = _json.loads(info_resp.read().decode())
+            if info.get('code') == 0:
+                d = info.get('data', {})
+                mlbb_nickname = d.get('name') or d.get('nickName') or d.get('nickname')
+                mlbb_avatar = d.get('avatar') or d.get('head')
+        except Exception:
+            pass
+
+        # Save to DB
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        # Add columns if not exist (idempotent migration)
+        try:
+            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_role_id VARCHAR(32)")
+            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_zone_id VARCHAR(16)")
+            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_nickname VARCHAR(64)")
+            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_avatar TEXT")
+            conn.commit()
+        except Exception:
+            pass
+
+        cursor.execute(
+            f"UPDATE users SET mlbb_role_id={ph}, mlbb_zone_id={ph}, mlbb_nickname={ph}, mlbb_avatar={ph} WHERE id={ph}",
+            (role_id, zone_id, mlbb_nickname, mlbb_avatar, request.user_id)
+        )
+        conn.commit()
+        db.release_connection(conn)
+
+        return jsonify({
+            'success': True,
+            'mlbb_nickname': mlbb_nickname,
+            'mlbb_avatar': mlbb_avatar,
+            'mlbb_role_id': role_id,
+            'mlbb_zone_id': zone_id,
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/users/mlbb/unlink', methods=['DELETE'])
+@require_auth
+def mlbb_unlink():
+    """Unlink MLBB account"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        cursor.execute(
+            f"UPDATE users SET mlbb_role_id=NULL, mlbb_zone_id=NULL, mlbb_nickname=NULL, mlbb_avatar=NULL WHERE id={ph}",
+            (request.user_id,)
+        )
+        conn.commit()
+        db.release_connection(conn)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/users/account', methods=['DELETE'])
 @require_auth
 def delete_account():
@@ -4684,7 +4858,8 @@ def get_user_profile(user_id):
         cursor.execute(f"""
             SELECT u.id, u.name, u.picture, u.created_at, u.nickname,
                    u.banner_hero_id, u.accent_color,
-                   bh.image as banner_image, bh.painting as banner_painting, bh.name as banner_hero_name
+                   bh.image as banner_image, bh.painting as banner_painting, bh.name as banner_hero_name,
+                   u.mlbb_role_id, u.mlbb_zone_id, u.mlbb_nickname, u.mlbb_avatar
             FROM users u
             LEFT JOIN heroes bh ON bh.id = u.banner_hero_id
             WHERE u.id = {ph}
@@ -4696,9 +4871,14 @@ def get_user_profile(user_id):
         user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
             ['id', 'name', 'picture', 'created_at', 'nickname',
              'banner_hero_id', 'accent_color',
-             'banner_image', 'banner_painting', 'banner_hero_name'], user_row))
+             'banner_image', 'banner_painting', 'banner_hero_name',
+             'mlbb_role_id', 'mlbb_zone_id', 'mlbb_nickname', 'mlbb_avatar'], user_row))
         if user_info.get('created_at') and not isinstance(user_info['created_at'], str):
             user_info['created_at'] = str(user_info['created_at'])
+        # Hide mlbb_role_id / mlbb_zone_id from non-owners
+        if current_uid != user_id:
+            user_info.pop('mlbb_role_id', None)
+            user_info.pop('mlbb_zone_id', None)
 
         # Main heroes
         cursor.execute(f"""
