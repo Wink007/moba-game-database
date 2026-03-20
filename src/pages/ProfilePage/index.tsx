@@ -28,6 +28,10 @@ interface ProfileData {
     banner_image?: string | null;
     banner_painting?: string | null;
     banner_hero_name?: string | null;
+    mlbb_role_id?: string | null;
+    mlbb_zone_id?: string | null;
+    mlbb_nickname?: string | null;
+    mlbb_avatar?: string | null;
   };
   main_heroes: Array<{
     hero_id: number;
@@ -111,6 +115,28 @@ export const ProfilePage: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
   const [followersCount, setFollowersCount] = useState<number>(0);
 
+  // MLBB linking
+  const [showMlbbLink, setShowMlbbLink] = useState(false);
+  const [mlbbStep, setMlbbStep] = useState<'form' | 'code'>('form');
+  const [mlbbRoleId, setMlbbRoleId] = useState('');
+  const [mlbbZoneId, setMlbbZoneId] = useState('');
+  const [mlbbVc, setMlbbVc] = useState('');
+  const [mlbbLoading, setMlbbLoading] = useState(false);
+  const [mlbbError, setMlbbError] = useState('');
+  const [mlbbSuccess, setMlbbSuccess] = useState('');
+  const [mlbbTokenExpired, setMlbbTokenExpired] = useState(false);
+  const [mlbbSortKey, setMlbbSortKey] = useState<'total_games'|'win_rate'|'kda'|'mvp'|'avg_kills'|'avg_damage'>('total_games');
+  const [mlbbSortAsc, setMlbbSortAsc] = useState(false);
+  const [mlbbSeason, setMlbbSeason] = useState(0);
+  const [mlbbVisible, setMlbbVisible] = useState(10);
+  const [mlbbExpanded, setMlbbExpanded] = useState<Set<number>>(new Set());
+  const toggleMlbbRow = (heroId: number) => setMlbbExpanded(prev => {
+    const next = new Set(prev);
+    next.has(heroId) ? next.delete(heroId) : next.add(heroId);
+    return next;
+  });
+  const [profileTab, setProfileTab] = useState<'profile' | 'mlbb'>('profile');
+
   // Follows modal
   const [followsModal, setFollowsModal] = useState<'followers' | 'following' | null>(null);
   const [followsUsers, setFollowsUsers] = useState<Array<{id: number; name: string; picture: string}>>([]);
@@ -135,6 +161,8 @@ export const ProfilePage: React.FC = () => {
   const logout = useAuthStore(s => s.logout);
 
   const { data: heroes = [] } = useHeroesQuery(selectedGameId);
+
+
 
   useEscapeKey(() => { setShowBannerPicker(false); setShowCustomize(false); });
 
@@ -212,6 +240,38 @@ export const ProfilePage: React.FC = () => {
     enabled: !!numericUserId,
   });
 
+  // MLBB stats — only fetch when own profile AND account is linked (has role_id)
+  const { data: mlbbData, error: mlbbStatsError } = useQuery<{
+    stats: Array<{
+      hero_id: number; total_games: number; wins: number; win_rate: number;
+      mvp: number; kda: number; level: number;
+      avg_kills: number; avg_deaths: number; avg_assists: number;
+      max_kills: number; max_kda: number;
+      avg_damage: number; avg_taken: number;
+      penta_kills: number; quadra_kills: number; triple_kills: number; double_kills: number;
+    }>;
+    seasons: number[];
+  }>({
+    queryKey: ['mlbb-stats', numericUserId, mlbbSeason],
+    queryFn: () => authFetch(`/users/mlbb/stats?season=${mlbbSeason}`),
+    enabled: isOwnProfile && !!currentUser && !mlbbTokenExpired && !!(profile?.user?.mlbb_role_id || profile?.user?.mlbb_nickname),
+    select: (res: any) => ({ stats: res.stats ?? [], seasons: res.seasons ?? [] }),
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+  });
+  const mlbbStats = mlbbData?.stats ?? [];
+  const mlbbSeasons = mlbbData?.seasons ?? [];
+
+  // Detect expired MLBB token
+  React.useEffect(() => {
+    if (!mlbbStatsError) return;
+    const err = mlbbStatsError as any;
+    if (err?.code === 'token_expired' || err?.status === 401 || String(err?.message).includes('token expired')) {
+      setMlbbTokenExpired(true);
+      queryClient.invalidateQueries({ queryKey: queryKeys.profile.user(numericUserId) });
+    }
+  }, [mlbbStatsError, queryClient, numericUserId]);
+
   // Load items for MLBB (game_id = 2) — used to render item icons in builds
   const { data: items = [] } = useItemsQuery(2);
   const itemsMap = useMemo(() => {
@@ -242,6 +302,58 @@ export const ProfilePage: React.FC = () => {
       setFollowersCount(v => v + (isFollowing ? -1 : 1));
     } catch { /* ignore */ }
     finally { setFollowLoading(false); }
+  };
+
+  const handleMlbbSendCode = async () => {
+    setMlbbError('');
+    if (!mlbbRoleId.trim() || !mlbbZoneId.trim()) {
+      setMlbbError('Fill in both fields');
+      return;
+    }
+    setMlbbLoading(true);
+    try {
+      await authFetch('/users/mlbb/send-code', {
+        method: 'POST',
+        body: JSON.stringify({ roleId: mlbbRoleId.trim(), zoneId: mlbbZoneId.trim() }),
+      });
+      setMlbbStep('code');
+    } catch (err: any) {
+      setMlbbError(err?.message || 'Failed to send code');
+    } finally {
+      setMlbbLoading(false);
+    }
+  };
+
+  const handleMlbbVerify = async () => {
+    setMlbbError('');
+    if (!mlbbVc.trim()) { setMlbbError('Enter the code'); return; }
+    setMlbbLoading(true);
+    try {
+      const res = await authFetch('/users/mlbb/verify', {
+        method: 'POST',
+        body: JSON.stringify({ roleId: mlbbRoleId.trim(), zoneId: mlbbZoneId.trim(), vc: mlbbVc.trim() }),
+      });
+      setMlbbSuccess(res.mlbb_nickname || 'Linked!');
+      setShowMlbbLink(false);
+      setMlbbStep('form');
+      setMlbbVc('');
+      setMlbbTokenExpired(false);
+      queryClient.invalidateQueries({ queryKey: queryKeys.profile.user(numericUserId) });
+    } catch (err: any) {
+      setMlbbError(err?.message || 'Invalid code');
+    } finally {
+      setMlbbLoading(false);
+    }
+  };
+
+  const handleMlbbUnlink = async () => {
+    setMlbbLoading(true);
+    try {
+      await authFetch('/users/mlbb/unlink', { method: 'DELETE' });
+      setMlbbSuccess('');
+      queryClient.invalidateQueries({ queryKey: queryKeys.profile.user(numericUserId) });
+    } catch { /* ignore */ }
+    finally { setMlbbLoading(false); }
   };
 
   if (isLoading) return <Loader />;
@@ -469,7 +581,277 @@ export const ProfilePage: React.FC = () => {
         </div>
       )}
 
+      {/* ── Profile Tabs ── */}
+      {isOwnProfile && (
+        <div className={styles.profileTabs}>
+          <button
+            className={`${styles.profileTab} ${profileTab === 'profile' ? styles.profileTabActive : ''}`}
+            onClick={() => setProfileTab('profile')}
+          >
+            {t('profile.mlbbProfileTab')}
+          </button>
+          <button
+            className={`${styles.profileTab} ${profileTab === 'mlbb' ? styles.profileTabActive : ''}`}
+            onClick={() => setProfileTab('mlbb')}
+          >
+            {t('profile.mlbbStatsTab')}
+            {(user.mlbb_role_id || user.mlbb_nickname) && <span className={styles.profileTabBadge}>✓</span>}
+          </button>
+        </div>
+      )}
+
+      {/* ── MLBB Account ── */}
+      {isOwnProfile && profileTab === 'mlbb' && (
+        <div className={styles.mlbbSection}>
+          {(user.mlbb_role_id || user.mlbb_nickname) ? (
+            <>
+              <div className={styles.mlbbLinked}>
+                {user.mlbb_avatar && <img src={user.mlbb_avatar} alt="" className={styles.mlbbAvatar} />}
+                <div className={styles.mlbbLinkedInfo}>
+                  <span className={styles.mlbbLinkedLabel}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{color:'#f97316'}}><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    {t('profile.mlbbLinked')}
+                  </span>
+                  <span className={styles.mlbbLinkedName}>{user.mlbb_nickname || `ID: ${user.mlbb_role_id}`}</span>
+                </div>
+                <button className={styles.mlbbUnlinkBtn} onClick={handleMlbbUnlink} disabled={mlbbLoading}>
+                  {t('profile.mlbbUnlink')}
+                </button>
+              </div>
+              {mlbbTokenExpired ? (
+                <div className={styles.mlbbError} style={{marginTop: 8}}>
+                  {t('profile.mlbbSessionExpired')}
+                </div>
+              ) : (
+                <>
+                  {/* Season selector */}
+                  {mlbbSeasons.length > 0 && (
+                    <div className={styles.mlbbSeasons}>
+                      <button
+                        className={`${styles.mlbbSeasonBtn} ${mlbbSeason === 0 ? styles.mlbbSeasonActive : ''}`}
+                        onClick={() => { setMlbbSeason(0); setMlbbVisible(10); }}
+                      >
+                        {t('profile.mlbbAllTime')}
+                      </button>
+                      {mlbbSeasons.map(s => (
+                        <button
+                          key={s}
+                          className={`${styles.mlbbSeasonBtn} ${mlbbSeason === s ? styles.mlbbSeasonActive : ''}`}
+                          onClick={() => { setMlbbSeason(s); setMlbbVisible(10); }}
+                        >
+                          S{s}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {mlbbStats.length > 0 && (() => {
+                    const sorted = [...mlbbStats].sort((a, b) => {
+                      const v = (a[mlbbSortKey] ?? 0) as number;
+                      const w = (b[mlbbSortKey] ?? 0) as number;
+                      return mlbbSortAsc ? v - w : w - v;
+                    });
+                    return (
+                      <div className={styles.mlbbStats}>
+                        <div className={styles.mlbbStatsHeader}>
+                          <span className={styles.mlbbStatsTitle}>{t('profile.mlbbHeroStats')}</span>
+                          <span className={styles.mlbbStatsCount}>{mlbbStats.length} {t('profile.mlbbHeroes')}</span>
+                        </div>
+
+                        {/* Sort bar */}
+                        <div className={styles.mlbbSortBar}>
+                          {([
+                            ['total_games', t('profile.mlbbSortGames')],
+                            ['win_rate', t('profile.mlbbSortWR')],
+                            ['kda', t('profile.mlbbSortKDA')],
+                            ['avg_kills', t('profile.mlbbSortKills')],
+                            ['mvp', t('profile.mlbbSortMVP')],
+                          ] as [typeof mlbbSortKey, string][]).map(([key, label]) => (
+                            <button
+                              key={key}
+                              className={`${styles.mlbbSortBtn} ${mlbbSortKey === key ? styles.mlbbSortBtnActive : ''}`}
+                              onClick={() => { if (mlbbSortKey === key) setMlbbSortAsc(v => !v); else { setMlbbSortKey(key); setMlbbSortAsc(false); } }}
+                            >
+                              {label}{mlbbSortKey === key ? (mlbbSortAsc ? ' ↑' : ' ↓') : ''}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Hero cards */}
+                        <div className={styles.mlbbCardList}>
+                          {sorted.slice(0, mlbbVisible).map((stat) => {
+                            const hero = heroes.find((h: any) => h.hero_game_id === stat.hero_id);
+                            const wrColor = stat.win_rate >= 55 ? '#22c55e' : stat.win_rate >= 50 ? '#86efac' : stat.win_rate >= 45 ? '#fbbf24' : '#ef4444';
+                            const isExpanded = mlbbExpanded.has(stat.hero_id);
+                            return (
+                              <div key={stat.hero_id} className={`${styles.mlbbCard} ${isExpanded ? styles.mlbbCardOpen : ''}`}>
+
+                                {/* Collapsed row — always visible */}
+                                <div className={styles.mlbbCardRow} onClick={() => toggleMlbbRow(stat.hero_id)}>
+                                  <div className={styles.mlbbCardHero}>
+                                    {hero?.head
+                                      ? <img src={hero.head} alt={hero.name} className={styles.mlbbCardImg} />
+                                      : <div className={styles.mlbbCardImgPlaceholder} />}
+                                    <span className={styles.mlbbCardName}>{hero?.name ?? `#${stat.hero_id}`}</span>
+                                  </div>
+                                  <div className={styles.mlbbCardStats}>
+                                    <div className={styles.mlbbCardStat}>
+                                      <span className={styles.mlbbCardStatVal}>{stat.total_games}</span>
+                                      <span className={styles.mlbbCardStatLbl}>{t('profile.mlbbGames')}</span>
+                                    </div>
+                                    <div className={styles.mlbbCardStat}>
+                                      <span className={styles.mlbbCardStatVal} style={{color: wrColor}}>{stat.win_rate}%</span>
+                                      <span className={styles.mlbbCardStatLbl}>{t('profile.mlbbWinRate')}</span>
+                                    </div>
+                                    <div className={styles.mlbbCardStat}>
+                                      <span className={styles.mlbbCardStatVal}>{stat.kda.toFixed(2)}</span>
+                                      <span className={styles.mlbbCardStatLbl}>{t('profile.mlbbKDA')}</span>
+                                    </div>
+                                  </div>
+                                  <span className={`${styles.mlbbCardChevron} ${isExpanded ? styles.mlbbCardChevronOpen : ''}`}>›</span>
+                                </div>
+
+                                {/* Expanded detail */}
+                                {isExpanded && (
+                                  <div className={styles.mlbbCardDetail}>
+
+                                    {/* Avg K/D/A */}
+                                    <div className={styles.mlbbCardKda}>
+                                      <div className={styles.mlbbCardKdaItem}>
+                                        <span className={styles.mlbbCardKdaNum} style={{color:'#86efac'}}>{stat.avg_kills}</span>
+                                        <span className={styles.mlbbCardKdaLbl}>{t('profile.mlbbAvgKills')}</span>
+                                      </div>
+                                      <div className={styles.mlbbCardKdaSep}>/</div>
+                                      <div className={styles.mlbbCardKdaItem}>
+                                        <span className={styles.mlbbCardKdaNum} style={{color:'#f87171'}}>{stat.avg_deaths}</span>
+                                        <span className={styles.mlbbCardKdaLbl}>{t('profile.mlbbAvgDeaths')}</span>
+                                      </div>
+                                      <div className={styles.mlbbCardKdaSep}>/</div>
+                                      <div className={styles.mlbbCardKdaItem}>
+                                        <span className={styles.mlbbCardKdaNum} style={{color:'#93c5fd'}}>{stat.avg_assists}</span>
+                                        <span className={styles.mlbbCardKdaLbl}>{t('profile.mlbbAvgAssists')}</span>
+                                      </div>
+                                    </div>
+
+                                    {/* Stat grid */}
+                                    <div className={styles.mlbbCardGrid}>
+                                      <div className={styles.mlbbCardGridItem}>
+                                        <span className={styles.mlbbCardGridLbl}>{t('profile.mlbbDamageDealt')}</span>
+                                        <span className={styles.mlbbCardGridVal}>{stat.avg_damage > 0 ? (stat.avg_damage / 100).toFixed(1) + 'k' : '—'}</span>
+                                        <span className={styles.mlbbCardGridSub}>{t('profile.mlbbAvgPerGame')}</span>
+                                      </div>
+                                      <div className={styles.mlbbCardGridItem}>
+                                        <span className={styles.mlbbCardGridLbl}>{t('profile.mlbbDamageTaken')}</span>
+                                        <span className={styles.mlbbCardGridVal}>{stat.avg_taken > 0 ? (stat.avg_taken / 100).toFixed(1) + 'k' : '—'}</span>
+                                        <span className={styles.mlbbCardGridSub}>{t('profile.mlbbAvgPerGame')}</span>
+                                      </div>
+                                      <div className={styles.mlbbCardGridItem}>
+                                        <span className={styles.mlbbCardGridLbl}>{t('profile.mlbbBestKDA')}</span>
+                                        <span className={styles.mlbbCardGridVal}>{stat.max_kda.toFixed(2)}</span>
+                                        <span className={styles.mlbbCardGridSub}>{t('profile.mlbbPersonalRecord')}</span>
+                                      </div>
+                                      <div className={styles.mlbbCardGridItem}>
+                                        <span className={styles.mlbbCardGridLbl}>{t('profile.mlbbMostKills')}</span>
+                                        <span className={styles.mlbbCardGridVal}>{stat.max_kills}</span>
+                                        <span className={styles.mlbbCardGridSub}>{t('profile.mlbbPersonalRecord')}</span>
+                                      </div>
+                                      <div className={styles.mlbbCardGridItem}>
+                                        <span className={styles.mlbbCardGridLbl}>{t('profile.mlbbMVP')}</span>
+                                        <span className={styles.mlbbCardGridVal}>{stat.mvp}</span>
+                                        <span className={styles.mlbbCardGridSub}>{t('profile.mlbbMVPSub')}</span>
+                                      </div>
+                                    </div>
+
+                                    {/* Multikills */}
+                                    {(stat.penta_kills > 0 || stat.quadra_kills > 0 || stat.triple_kills > 0) && (
+                                      <div className={styles.mlbbCardMulti}>
+                                        {stat.penta_kills > 0 && <span className={styles.mlbbBadgePenta}>🔥 {t('profile.mlbbPentaKill')} ×{stat.penta_kills}</span>}
+                                        {stat.quadra_kills > 0 && <span className={styles.mlbbBadgePurple}>4× {t('profile.mlbbQuadraKill')} ×{stat.quadra_kills}</span>}
+                                        {stat.triple_kills > 0 && <span className={styles.mlbbBadgeBlue}>3× {t('profile.mlbbTripleKill')} ×{stat.triple_kills}</span>}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {mlbbVisible < sorted.length && (
+                          <button className={styles.mlbbLoadMore} onClick={() => setMlbbVisible(v => v + 10)}>
+                            {t('profile.mlbbShowMore', { count: Math.min(10, sorted.length - mlbbVisible) })}
+                            <span className={styles.mlbbLoadMoreCount}>{t('profile.mlbbRemaining', { count: sorted.length - mlbbVisible })}</span>
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })()}
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {mlbbSuccess && <div className={styles.mlbbSuccessMsg}>✓ {mlbbSuccess} {t('profile.mlbbLinkedSuccess')}</div>}
+              {!showMlbbLink ? (
+                <button className={styles.mlbbLinkBtn} onClick={() => { setShowMlbbLink(true); setMlbbError(''); setMlbbStep('form'); }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7H13V9H17C18.65 9 20 10.35 20 12C20 13.65 18.65 15 17 15H13V17H17C19.76 17 22 14.76 22 12C22 9.24 19.76 7 17 7ZM11 15H7C5.35 15 4 13.65 4 12C4 10.35 5.35 9 7 9H11V7H7C4.24 7 2 9.24 2 12C2 14.76 4.24 17 7 17H11V15ZM8 11H16V13H8V11Z"/></svg>
+                  {t('profile.mlbbLinkBtn')}
+                </button>
+              ) : (
+                <div className={styles.mlbbForm}>
+                  {mlbbStep === 'form' ? (
+                    <>
+                      <p className={styles.mlbbFormHint}>{t('profile.mlbbFormHintStep1')}</p>
+                      <div className={styles.mlbbFields}>
+                        <input
+                          className={styles.mlbbInput}
+                          placeholder={t('profile.mlbbUserIdPlaceholder')}
+                          value={mlbbRoleId}
+                          onChange={e => setMlbbRoleId(e.target.value)}
+                        />
+                        <input
+                          className={styles.mlbbInput}
+                          placeholder={t('profile.mlbbServerIdPlaceholder')}
+                          value={mlbbZoneId}
+                          onChange={e => setMlbbZoneId(e.target.value)}
+                        />
+                      </div>
+                      {mlbbError && <p className={styles.mlbbError}>{mlbbError}</p>}
+                      <div className={styles.mlbbFormActions}>
+                        <button className={styles.mlbbSubmitBtn} onClick={handleMlbbSendCode} disabled={mlbbLoading}>
+                          {mlbbLoading ? '...' : t('profile.mlbbSendCode')}
+                        </button>
+                        <button className={styles.mlbbCancelBtn} onClick={() => setShowMlbbLink(false)}>{t('profile.mlbbCancel')}</button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className={styles.mlbbFormHint}>{t('profile.mlbbFormHintStep2')}</p>
+                      <input
+                        className={styles.mlbbInput}
+                        placeholder={t('profile.mlbbCodePlaceholder')}
+                        value={mlbbVc}
+                        onChange={e => setMlbbVc(e.target.value)}
+                        maxLength={10}
+                      />
+                      {mlbbError && <p className={styles.mlbbError}>{mlbbError}</p>}
+                      <div className={styles.mlbbFormActions}>
+                        <button className={styles.mlbbSubmitBtn} onClick={handleMlbbVerify} disabled={mlbbLoading}>
+                          {mlbbLoading ? '...' : t('profile.mlbbVerify')}
+                        </button>
+                        <button className={styles.mlbbCancelBtn} onClick={() => setMlbbStep('form')}>{t('profile.mlbbBack')}</button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
       {/* ── Body ── */}
+      {(!isOwnProfile || profileTab === 'profile') && (
       <div className={styles.body}>
 
         {/* Main Hero Selector (own profile) */}
@@ -573,7 +955,8 @@ export const ProfilePage: React.FC = () => {
           </div>
         )}
 
-      </div>{/* /body */}
+      </div>
+      )}{/* /body */}
 
       {/* ── Delete account ── */}
       {isOwnProfile && (
