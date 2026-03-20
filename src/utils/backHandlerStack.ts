@@ -15,10 +15,12 @@ export function popBackHandler(handler: () => void): void {
   if (idx !== -1) stack.splice(idx, 1);
 }
 
-/** Повертає true і викликає верхній handler якщо стек непустий */
+/** Повертає true і викликає верхній handler якщо стек непустий.
+ * Попередньо видаляє handler зі стеку щоб уникнути застрягання
+ * якщо handler — no-op (state вже скинутий, React не рендерить, cleanup не запускається). */
 export function callTopBackHandler(): boolean {
   if (stack.length === 0) return false;
-  const handler = stack[stack.length - 1];
+  const handler = stack.pop()!;
   handler();
   return true;
 }

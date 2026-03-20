@@ -58,15 +58,17 @@ export const authFetch = async (endpoint: string, options: RequestInit = {}) => 
   
   const res = await fetch(`${API_URL}${endpoint}`, { ...options, headers });
   
-  if (res.status === 401) {
-    // Token expired — logout
-    useAuthStore.getState().logout();
-    throw new Error('Session expired');
-  }
-  
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || 'API Error');
+    if (res.status === 401 && !data.code) {
+      // Only logout on our own JWT expiry (not MLBB token expiry which has a code)
+      useAuthStore.getState().logout();
+      throw new Error('Session expired');
+    }
+    const err: any = new Error(data.error || 'API Error');
+    err.code = data.code;
+    err.status = res.status;
+    throw err;
   }
   
   return res.json();

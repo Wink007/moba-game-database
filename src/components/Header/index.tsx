@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useBackHandler } from '../../hooks/useBackHandler';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../../store/gameStore';
@@ -152,6 +152,7 @@ export const Header: React.FC = () => {
     return () => ro.disconnect();
   }, []);
 
+  const navigate = useNavigate();
   const closeSettings = useCallback(() => setSheetView('main'), []);
   const closeMenu = useCallback(() => { setIsMenuOpen(false); setSheetView('main'); }, []);
   const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
@@ -474,6 +475,17 @@ export const Header: React.FC = () => {
                       </button>
                     ))}
                   </div>
+                </div>
+                {/* MLBB Account */}
+                <div className={styles['settings-section']}>
+                  <div className={styles['settings-section-title']}>MLBB</div>
+                  <button
+                    className={styles['settings-mlbb-row']}
+                    onClick={() => { closeMenu(); navigate(user ? `/profile/${user.id}?tab=mlbb` : '/login'); }}
+                  >
+                    <span>{user ? t('profile.mlbbLinkBtn') : t('settings.loginToLink', 'Увійдіть щоб підключити акаунт')}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+                  </button>
                 </div>
                 <div className={styles['settings-divider']} />
                 {isNative && <a

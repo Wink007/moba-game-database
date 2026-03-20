@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { heroToSlug } from '../../utils/heroSlug';
@@ -135,7 +135,10 @@ export const ProfilePage: React.FC = () => {
     next.has(heroId) ? next.delete(heroId) : next.add(heroId);
     return next;
   });
-  const [profileTab, setProfileTab] = useState<'profile' | 'mlbb'>('profile');
+  const [searchParams] = useSearchParams();
+  const [profileTab, setProfileTab] = useState<'profile' | 'mlbb'>(
+    searchParams.get('tab') === 'mlbb' ? 'mlbb' : 'profile'
+  );
 
   // Follows modal
   const [followsModal, setFollowsModal] = useState<'followers' | 'following' | null>(null);
@@ -241,7 +244,7 @@ export const ProfilePage: React.FC = () => {
   });
 
   // MLBB stats — only fetch when own profile AND account is linked (has role_id)
-  const { data: mlbbData, error: mlbbStatsError } = useQuery<{
+  const { data: mlbbData, error: mlbbStatsError, isFetching: mlbbFetching } = useQuery<{
     stats: Array<{
       hero_id: number; total_games: number; wins: number; win_rate: number;
       mvp: number; kda: number; level: number;
@@ -624,27 +627,22 @@ export const ProfilePage: React.FC = () => {
                 </div>
               ) : (
                 <>
-                  {/* Season selector */}
-                  {mlbbSeasons.length > 0 && (
-                    <div className={styles.mlbbSeasons}>
-                      <button
-                        className={`${styles.mlbbSeasonBtn} ${mlbbSeason === 0 ? styles.mlbbSeasonActive : ''}`}
-                        onClick={() => { setMlbbSeason(0); setMlbbVisible(10); }}
-                      >
-                        {t('profile.mlbbAllTime')}
-                      </button>
-                      {mlbbSeasons.map(s => (
-                        <button
-                          key={s}
-                          className={`${styles.mlbbSeasonBtn} ${mlbbSeason === s ? styles.mlbbSeasonActive : ''}`}
-                          onClick={() => { setMlbbSeason(s); setMlbbVisible(10); }}
-                        >
-                          S{s}
-                        </button>
+                  {mlbbFetching ? (
+                    <div className={styles.mlbbSkeletonList}>
+                      {Array.from({length: 5}).map((_, i) => (
+                        <div key={i} className={styles.mlbbSkeletonCard}>
+                          <div className={styles.mlbbSkeletonAvatar} />
+                          <div className={styles.mlbbSkeletonLines}>
+                            <div className={styles.mlbbSkeletonLine} style={{width: '40%'}} />
+                            <div className={styles.mlbbSkeletonLine} style={{width: '70%', height: 8}} />
+                          </div>
+                          <div className={styles.mlbbSkeletonStats}>
+                            {[0,1,2].map(j => <div key={j} className={styles.mlbbSkeletonStat} />)}
+                          </div>
+                        </div>
                       ))}
                     </div>
-                  )}
-                  {mlbbStats.length > 0 && (() => {
+                  ) : mlbbStats.length > 0 && (() => {
                     const sorted = [...mlbbStats].sort((a, b) => {
                       const v = (a[mlbbSortKey] ?? 0) as number;
                       const w = (b[mlbbSortKey] ?? 0) as number;
@@ -653,27 +651,47 @@ export const ProfilePage: React.FC = () => {
                     return (
                       <div className={styles.mlbbStats}>
                         <div className={styles.mlbbStatsHeader}>
-                          <span className={styles.mlbbStatsTitle}>{t('profile.mlbbHeroStats')}</span>
-                          <span className={styles.mlbbStatsCount}>{mlbbStats.length} {t('profile.mlbbHeroes')}</span>
+                          <span className={styles.mlbbStatsTitle}>
+                            {t('profile.mlbbHeroStats')}
+                            <span className={styles.mlbbStatsCount}>{mlbbStats.length}</span>
+                          </span>
                         </div>
-
-                        {/* Sort bar */}
-                        <div className={styles.mlbbSortBar}>
-                          {([
-                            ['total_games', t('profile.mlbbSortGames')],
-                            ['win_rate', t('profile.mlbbSortWR')],
-                            ['kda', t('profile.mlbbSortKDA')],
-                            ['avg_kills', t('profile.mlbbSortKills')],
-                            ['mvp', t('profile.mlbbSortMVP')],
-                          ] as [typeof mlbbSortKey, string][]).map(([key, label]) => (
-                            <button
-                              key={key}
-                              className={`${styles.mlbbSortBtn} ${mlbbSortKey === key ? styles.mlbbSortBtnActive : ''}`}
-                              onClick={() => { if (mlbbSortKey === key) setMlbbSortAsc(v => !v); else { setMlbbSortKey(key); setMlbbSortAsc(false); } }}
+                        <div className={styles.mlbbControls}>
+                          {mlbbSeasons.length > 0 && (
+                            <div className={styles.mlbbSeasonSelect}>
+                              <select
+                                className={styles.mlbbSeasonDropdown}
+                                value={mlbbSeason}
+                                onChange={e => { setMlbbSeason(Number(e.target.value)); setMlbbVisible(10); }}
+                              >
+                                <option value={0}>{t('profile.mlbbAllTime')}</option>
+                                {mlbbSeasons.map(s => (
+                                  <option key={s} value={s}>S{s}</option>
+                                ))}
+                              </select>
+                              <svg className={styles.mlbbSeasonChevron} width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                            </div>
+                          )}
+                          <div className={styles.mlbbSeasonSelect}>
+                            <select
+                              className={styles.mlbbSeasonDropdown}
+                              value={mlbbSortKey}
+                              onChange={e => { setMlbbSortKey(e.target.value as typeof mlbbSortKey); setMlbbSortAsc(false); }}
                             >
-                              {label}{mlbbSortKey === key ? (mlbbSortAsc ? ' ↑' : ' ↓') : ''}
-                            </button>
-                          ))}
+                              <option value="total_games">{t('profile.mlbbSortGames')}</option>
+                              <option value="win_rate">{t('profile.mlbbSortWR')}</option>
+                              <option value="kda">{t('profile.mlbbSortKDA')}</option>
+                              <option value="avg_kills">{t('profile.mlbbSortKills')}</option>
+                              <option value="mvp">{t('profile.mlbbSortMVP')}</option>
+                            </select>
+                            <svg className={styles.mlbbSeasonChevron} width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                          </div>
+                          <button
+                            className={styles.mlbbSortDirBtn}
+                            onClick={() => setMlbbSortAsc(v => !v)}
+                          >
+                            {mlbbSortAsc ? '↑' : '↓'}
+                          </button>
                         </div>
 
                         {/* Hero cards */}
@@ -764,9 +782,9 @@ export const ProfilePage: React.FC = () => {
                                     {/* Multikills */}
                                     {(stat.penta_kills > 0 || stat.quadra_kills > 0 || stat.triple_kills > 0) && (
                                       <div className={styles.mlbbCardMulti}>
-                                        {stat.penta_kills > 0 && <span className={styles.mlbbBadgePenta}>🔥 {t('profile.mlbbPentaKill')} ×{stat.penta_kills}</span>}
-                                        {stat.quadra_kills > 0 && <span className={styles.mlbbBadgePurple}>4× {t('profile.mlbbQuadraKill')} ×{stat.quadra_kills}</span>}
-                                        {stat.triple_kills > 0 && <span className={styles.mlbbBadgeBlue}>3× {t('profile.mlbbTripleKill')} ×{stat.triple_kills}</span>}
+                                        {stat.penta_kills > 0 && <span className={styles.mlbbBadgePenta}><span>{t('profile.mlbbPentaKill')}</span><span>×{stat.penta_kills}</span></span>}
+                                        {stat.quadra_kills > 0 && <span className={styles.mlbbBadgePurple}><span>{t('profile.mlbbQuadraKill')}</span><span>×{stat.quadra_kills}</span></span>}
+                                        {stat.triple_kills > 0 && <span className={styles.mlbbBadgeBlue}><span>{t('profile.mlbbTripleKill')}</span><span>×{stat.triple_kills}</span></span>}
                                       </div>
                                     )}
                                   </div>
@@ -802,6 +820,7 @@ export const ProfilePage: React.FC = () => {
                   {mlbbStep === 'form' ? (
                     <>
                       <p className={styles.mlbbFormHint}>{t('profile.mlbbFormHintStep1')}</p>
+                      <img src="/login.png" alt="Where to find User ID and Server ID" className={styles.mlbbHintImg} />
                       <div className={styles.mlbbFields}>
                         <input
                           className={styles.mlbbInput}
@@ -856,6 +875,18 @@ export const ProfilePage: React.FC = () => {
 
         {/* Main Hero Selector (own profile) */}
         {isOwnProfile && <MainHeroSelector />}
+
+        {/* MLBB link promo — shown on own profile if not linked yet */}
+        {isOwnProfile && !user.mlbb_role_id && !user.mlbb_nickname && (
+          <div className={styles.mlbbPromo} onClick={() => setProfileTab('mlbb')}>
+            <img src="/mlbb-icon.png" alt="MLBB" className={styles.mlbbPromoIcon} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            <div className={styles.mlbbPromoText}>
+              <span className={styles.mlbbPromoTitle}>{t('profile.mlbbLinkBtn')}</span>
+              <span className={styles.mlbbPromoSub}>{t('profile.mlbbHeroStats')}</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{color:'rgba(255,255,255,0.3)',flexShrink:0}}><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        )}
 
         {/* Main heroes (other profiles) */}
         {!isOwnProfile && main_heroes.length > 0 && (

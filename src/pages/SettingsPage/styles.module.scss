@@ -117,6 +117,23 @@
 
 /* ─── About block ─────────────────────────────────────────── */
 
+.mlbbRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(249,115,22,0.07);
+  border: 1px solid rgba(249,115,22,0.2);
+  color: #f97316;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+
+  &:hover { background: rgba(249,115,22,0.13); }
+}
+
 .aboutBlock {
   display: flex;
   flex-direction: column;

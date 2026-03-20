@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuthStore } from '../../store/authStore';
 import { useThemeStore, Theme } from '../../store/themeStore';
 import { useFilterSettingsStore } from '../../store/filterSettingsStore';
 import { getDaysOptions, getRankOptions } from '../HeroRankPage/constants';
@@ -36,6 +37,7 @@ const SystemIcon = () => (
 export const SettingsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const currentUser = useAuthStore(s => s.user);
   const { theme, setTheme } = useThemeStore();
   const { defaultDays, defaultRank, setDefaultDays, setDefaultRank } = useFilterSettingsStore();
 
@@ -134,6 +136,22 @@ export const SettingsPage: React.FC = () => {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* MLBB Account */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>MLBB</h2>
+        {currentUser ? (
+          <Link to={`/profile/${currentUser.id}?tab=mlbb`} className={styles.mlbbRow}>
+            <span>{t('profile.mlbbLinkBtn')}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </Link>
+        ) : (
+          <Link to="/login" className={styles.mlbbRow}>
+            <span>{t('loginToLink', 'Увійдіть щоб підключити акаунт')}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+          </Link>
+        )}
       </section>
 
       {/* About */}
