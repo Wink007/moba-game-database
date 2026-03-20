@@ -4178,15 +4178,28 @@ def mlbb_stats():
         if result.get('code') != 0:
             return jsonify({'error': result.get('message', 'Failed to fetch stats'), 'code': 'api_error'}), 400
 
-        # Parse hero stats — prefer BattleType=2 (ranked, has full detail) over BattleType=0 (aggregate, zeros)
+        # Parse hero stats — F_mStatistic keys are "season_id:battle_type"
+        # season_id=0 means all-time aggregate; bt=2=ranked, bt=0=aggregate totals
+        try:
+            season_filter = int(request.args.get('season', 0))
+        except (ValueError, TypeError):
+            season_filter = 0
+
         records = result.get('data', {}).get('records', [])
-        # hero_id -> {bt=2 data, bt=0 data}
         hero_by_bt = {}
+        available_seasons = set()
         for record in records:
             stat_data = record.get('stHeroStatistic', {}).get('F_mStatistic', {})
             for key, battle_data in stat_data.items():
                 bt = battle_data.get('F_iBattleType', 0)
+                sid = battle_data.get('F_iSeasonId', 0)
                 heroes_map = battle_data.get('F_mHero', {})
+                # Collect seasons that have ranked game data
+                if sid > 0 and bt == 2 and any(h.get('F_iTotalCnt', 0) > 0 for h in heroes_map.values()):
+                    available_seasons.add(sid)
+                # Only process entries matching the requested season
+                if sid != season_filter:
+                    continue
                 for hero_id_str, hdata in heroes_map.items():
                     hero_id = int(hero_id_str)
                     total = hdata.get('F_iTotalCnt', 0)
@@ -4194,16 +4207,20 @@ def mlbb_stats():
                         continue
                     if hero_id not in hero_by_bt:
                         hero_by_bt[hero_id] = {}
-                    # Keep the entry with most total games per battle_type
                     existing = hero_by_bt[hero_id].get(bt)
                     if not existing or total > existing.get('F_iTotalCnt', 0):
                         hero_by_bt[hero_id][bt] = hdata
 
         hero_stats = {}
         for hero_id, bt_map in hero_by_bt.items():
-            # Use bt=2 for detailed stats, fall back to bt=0 for totals
-            detail = bt_map.get(2) or bt_map.get(1) or bt_map.get(4)
-            totals = bt_map.get(0) or detail
+            if season_filter == 0:
+                # All-time: bt=2 for detail, bt=0 for game totals
+                detail = bt_map.get(2) or bt_map.get(1) or bt_map.get(4)
+                totals = bt_map.get(0) or detail
+            else:
+                # Season-specific: bt=2 (ranked) preferred, bt=4 as fallback
+                detail = bt_map.get(2) or bt_map.get(4) or bt_map.get(1)
+                totals = detail
             if not totals:
                 continue
             total = totals.get('F_iTotalCnt', 0)
@@ -4245,7 +4262,8 @@ def mlbb_stats():
             }
 
         stats_list = sorted(hero_stats.values(), key=lambda x: x['total_games'], reverse=True)
-        return jsonify({'stats': stats_list})
+        seasons_list = sorted(available_seasons, reverse=True)
+        return jsonify({'stats': stats_list, 'seasons': seasons_list})
     except Exception as e:
         return jsonify({'error': str(e), 'code': 'server_error'}), 500
 
