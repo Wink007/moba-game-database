@@ -60,96 +60,106 @@ def dict_from_row(row):
 # Games
 def get_games():
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
+    try:
         if DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
             cursor = conn.cursor(cursor_factory=RealDictCursor)
         else:
-            cursor = conn.cursor()
-    cursor.execute("""
-        SELECT * FROM games
-        ORDER BY 
-            CASE WHEN id = 1 THEN 0 ELSE 1 END,
-            id
-    """)
-    games = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+            if DATABASE_TYPE == 'postgres':
+                from psycopg2.extras import RealDictCursor
+                cursor = conn.cursor(cursor_factory=RealDictCursor)
+            else:
+                cursor = conn.cursor()
+        cursor.execute("""
+            SELECT * FROM games
+            ORDER BY 
+                CASE WHEN id = 1 THEN 0 ELSE 1 END,
+                id
+        """)
+        games = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     return games
 
 def get_game(game_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            if DATABASE_TYPE == 'postgres':
+                from psycopg2.extras import RealDictCursor
+                cursor = conn.cursor(cursor_factory=RealDictCursor)
+            else:
+                cursor = conn.cursor()
+    
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM games WHERE id = {ph}", (game_id,))
+        game = cursor.fetchone()
+    finally:
+        release_connection(conn)
+    return dict_from_row(game) if game else None
+
+def add_game(name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None):
+    conn = get_connection()
+    try:
+        cursor = conn.cursor()
+        ph = get_placeholder()
+    
+        if DATABASE_TYPE == 'postgres':
+            cursor.execute(f"""
+                INSERT INTO games (name, description, release_date, genre, background_image, video_intro, subtitle, preview)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+                RETURNING id
+            """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview))
+            game_id = cursor.fetchone()[0]
+        else:
+            cursor.execute(f"""
+                INSERT INTO games (name, description, release_date, genre, background_image, video_intro, subtitle, preview)
+                VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+            """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview))
+            game_id = cursor.lastrowid
+    
+        conn.commit()
+    finally:
+        release_connection(conn)
+    return game_id
+
+def update_game(game_id, name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None, icon=None):
+    conn = get_connection()
+    try:
         if DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
             cursor = conn.cursor(cursor_factory=RealDictCursor)
         else:
             cursor = conn.cursor()
-    
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM games WHERE id = {ph}", (game_id,))
-    game = cursor.fetchone()
-    release_connection(conn)
-    return dict_from_row(game) if game else None
-
-def add_game(name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None):
-    conn = get_connection()
-    cursor = conn.cursor()
-    ph = get_placeholder()
-    
-    if DATABASE_TYPE == 'postgres':
+        ph = get_placeholder()
         cursor.execute(f"""
-            INSERT INTO games (name, description, release_date, genre, background_image, video_intro, subtitle, preview)
-            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-            RETURNING id
-        """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview))
-        game_id = cursor.fetchone()[0]
-    else:
-        cursor.execute(f"""
-            INSERT INTO games (name, description, release_date, genre, background_image, video_intro, subtitle, preview)
-            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-        """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview))
-        game_id = cursor.lastrowid
-    
-    conn.commit()
-    release_connection(conn)
-    return game_id
-
-def update_game(game_id, name, description, release_date, genre, background_image=None, video_intro=None, subtitle=None, preview=None, icon=None):
-    conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"""
-        UPDATE games 
-        SET name = {ph}, description = {ph}, release_date = {ph}, genre = {ph},
-            background_image = {ph}, video_intro = {ph}, subtitle = {ph}, preview = {ph}, icon = {ph}
-        WHERE id = {ph}
-    """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview, icon, game_id))
-    conn.commit()
-    release_connection(conn)
+            UPDATE games 
+            SET name = {ph}, description = {ph}, release_date = {ph}, genre = {ph},
+                background_image = {ph}, video_intro = {ph}, subtitle = {ph}, preview = {ph}, icon = {ph}
+            WHERE id = {ph}
+        """, (name, description, release_date, genre, background_image, video_intro, subtitle, preview, icon, game_id))
+        conn.commit()
+    finally:
+        release_connection(conn)
     return cursor.rowcount > 0
 
 def delete_game(game_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    # SQLite має CASCADE для зовнішніх ключів, але треба переконатися що воно увімкнено
-    cursor.execute(f"DELETE FROM games WHERE id = {ph}", (game_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        # SQLite має CASCADE для зовнішніх ключів, але треба переконатися що воно увімкнено
+        cursor.execute(f"DELETE FROM games WHERE id = {ph}", (game_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
     return cursor.rowcount > 0
 
 # Heroes — paginated list (lightweight, for grid view)
@@ -160,142 +170,144 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
     на наступних сторінках виключаються з результатів (вже показані).
     """
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
 
-    ph = get_placeholder()
-    conditions = []
-    params = []
+        ph = get_placeholder()
+        conditions = []
+        params = []
 
-    if game_id:
-        conditions.append(f"game_id = {ph}")
-        params.append(int(game_id))
+        if game_id:
+            conditions.append(f"game_id = {ph}")
+            params.append(int(game_id))
 
-    if role:
-        conditions.append(f"roles::jsonb @> {ph}::jsonb")
-        params.append(json.dumps(role))
+        if role:
+            conditions.append(f"roles::jsonb @> {ph}::jsonb")
+            params.append(json.dumps(role))
 
-    if lane:
-        conditions.append(f"lane::jsonb @> {ph}::jsonb")
-        params.append(json.dumps(lane))
+        if lane:
+            conditions.append(f"lane::jsonb @> {ph}::jsonb")
+            params.append(json.dumps(lane))
 
-    if search:
-        conditions.append(f"(name ILIKE {ph} OR COALESCE(name_uk, '') ILIKE {ph})")
-        params.append(f'%{search}%')
-        params.append(f'%{search}%')
+        if search:
+            conditions.append(f"(name ILIKE {ph} OR COALESCE(name_uk, '') ILIKE {ph})")
+            params.append(f'%{search}%')
+            params.append(f'%{search}%')
 
-    if complexity:
-        if complexity == 'Easy':
-            conditions.append("COALESCE((abilityshow->>3)::integer, 0) <= 33")
-        elif complexity == 'Medium':
-            conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 33 AND COALESCE((abilityshow->>3)::integer, 0) <= 66")
-        elif complexity == 'Hard':
-            conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 66")
+        if complexity:
+            if complexity == 'Easy':
+                conditions.append("COALESCE((abilityshow->>3)::integer, 0) <= 33")
+            elif complexity == 'Medium':
+                conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 33 AND COALESCE((abilityshow->>3)::integer, 0) <= 66")
+            elif complexity == 'Hard':
+                conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 66")
 
-    if specialty:
-        conditions.append(f"specialty::jsonb @> {ph}::jsonb")
-        params.append(json.dumps(specialty))
+        if specialty:
+            conditions.append(f"specialty::jsonb @> {ph}::jsonb")
+            params.append(json.dumps(specialty))
 
-    if damage_type:
-        conditions.append(f"damage_type = {ph}")
-        params.append(damage_type)
+        if damage_type:
+            conditions.append(f"damage_type = {ph}")
+            params.append(damage_type)
 
-    where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+        where_clause = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
-    # Sort
-    if sort == 'newest':
-        order = "ORDER BY id DESC"
-    else:
-        order = "ORDER BY name ASC"
+        # Sort
+        if sort == 'newest':
+            order = "ORDER BY id DESC"
+        else:
+            order = "ORDER BY name ASC"
 
-    select_fields = "id, game_id, name, name_uk, image, painting, head, roles, lane, abilityshow, specialty, damage_type"
-    fav_ids = [int(fid) for fid in (favorite_ids or []) if fid]
+        select_fields = "id, game_id, name, name_uk, image, painting, head, roles, lane, abilityshow, specialty, damage_type"
+        fav_ids = [int(fid) for fid in (favorite_ids or []) if fid]
 
-    if fav_ids and page == 1:
-        # Page 1: fetch favorites first, then fill remaining slots with non-favorites
-        # 1) Fetch favorite heroes (matching filters)
-        fav_placeholders = ', '.join([ph] * len(fav_ids))
-        fav_conditions = list(conditions) + [f"id IN ({fav_placeholders})"]
-        fav_where = "WHERE " + " AND ".join(fav_conditions)
-        fav_params = params + fav_ids
-        cursor.execute(f"SELECT {select_fields} FROM heroes {fav_where} {order}", fav_params)
-        fav_heroes = [dict(row) for row in cursor.fetchall()]
-        fav_count = len(fav_heroes)
+        if fav_ids and page == 1:
+            # Page 1: fetch favorites first, then fill remaining slots with non-favorites
+            # 1) Fetch favorite heroes (matching filters)
+            fav_placeholders = ', '.join([ph] * len(fav_ids))
+            fav_conditions = list(conditions) + [f"id IN ({fav_placeholders})"]
+            fav_where = "WHERE " + " AND ".join(fav_conditions)
+            fav_params = params + fav_ids
+            cursor.execute(f"SELECT {select_fields} FROM heroes {fav_where} {order}", fav_params)
+            fav_heroes = [dict(row) for row in cursor.fetchall()]
+            fav_count = len(fav_heroes)
 
-        # 2) Fetch non-favorite heroes for the remaining slots
-        non_fav_conditions = list(conditions) + [f"id NOT IN ({fav_placeholders})"]
-        non_fav_where = "WHERE " + " AND ".join(non_fav_conditions)
-        remaining_size = max(0, size - fav_count)
-        non_fav_params = params + fav_ids + [remaining_size, 0]
-        cursor.execute(
-            f"SELECT {select_fields} FROM heroes {non_fav_where} {order} LIMIT {ph} OFFSET {ph}",
-            non_fav_params
-        )
-        non_fav_heroes = [dict(row) for row in cursor.fetchall()]
+            # 2) Fetch non-favorite heroes for the remaining slots
+            non_fav_conditions = list(conditions) + [f"id NOT IN ({fav_placeholders})"]
+            non_fav_where = "WHERE " + " AND ".join(non_fav_conditions)
+            remaining_size = max(0, size - fav_count)
+            non_fav_params = params + fav_ids + [remaining_size, 0]
+            cursor.execute(
+                f"SELECT {select_fields} FROM heroes {non_fav_where} {order} LIMIT {ph} OFFSET {ph}",
+                non_fav_params
+            )
+            non_fav_heroes = [dict(row) for row in cursor.fetchall()]
 
-        heroes = fav_heroes + non_fav_heroes
+            heroes = fav_heroes + non_fav_heroes
 
-        # Total count (all heroes matching filters)
-        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
-        total = dict(cursor.fetchone())['cnt']
+            # Total count (all heroes matching filters)
+            cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
+            total = dict(cursor.fetchone())['cnt']
 
-        # has_more: are there more non-favorite heroes?
-        non_fav_count_params = params + fav_ids
-        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {non_fav_where}", non_fav_count_params)
-        non_fav_total = dict(cursor.fetchone())['cnt']
-        has_more = remaining_size < non_fav_total
+            # has_more: are there more non-favorite heroes?
+            non_fav_count_params = params + fav_ids
+            cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {non_fav_where}", non_fav_count_params)
+            non_fav_total = dict(cursor.fetchone())['cnt']
+            has_more = remaining_size < non_fav_total
 
-    elif fav_ids and page > 1:
-        # Pages 2+: exclude favorites, adjust offset
-        fav_placeholders = ', '.join([ph] * len(fav_ids))
-        non_fav_conditions = list(conditions) + [f"id NOT IN ({fav_placeholders})"]
-        non_fav_where = "WHERE " + " AND ".join(non_fav_conditions)
+        elif fav_ids and page > 1:
+            # Pages 2+: exclude favorites, adjust offset
+            fav_placeholders = ', '.join([ph] * len(fav_ids))
+            non_fav_conditions = list(conditions) + [f"id NOT IN ({fav_placeholders})"]
+            non_fav_where = "WHERE " + " AND ".join(non_fav_conditions)
 
-        # Count favorites that match filters (to know how many were on page 1)
-        fav_conditions = list(conditions) + [f"id IN ({fav_placeholders})"]
-        fav_where = "WHERE " + " AND ".join(fav_conditions)
-        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {fav_where}", params + fav_ids)
-        fav_count = dict(cursor.fetchone())['cnt']
+            # Count favorites that match filters (to know how many were on page 1)
+            fav_conditions = list(conditions) + [f"id IN ({fav_placeholders})"]
+            fav_where = "WHERE " + " AND ".join(fav_conditions)
+            cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {fav_where}", params + fav_ids)
+            fav_count = dict(cursor.fetchone())['cnt']
 
-        # Offset for non-fav: page 1 showed (size - fav_count) non-favs, page 2+ continues from there
-        first_page_non_fav = max(0, size - fav_count)
-        offset = first_page_non_fav + (page - 2) * size
+            # Offset for non-fav: page 1 showed (size - fav_count) non-favs, page 2+ continues from there
+            first_page_non_fav = max(0, size - fav_count)
+            offset = first_page_non_fav + (page - 2) * size
 
-        data_params = params + fav_ids + [size, offset]
-        cursor.execute(
-            f"SELECT {select_fields} FROM heroes {non_fav_where} {order} LIMIT {ph} OFFSET {ph}",
-            data_params
-        )
-        heroes = [dict(row) for row in cursor.fetchall()]
+            data_params = params + fav_ids + [size, offset]
+            cursor.execute(
+                f"SELECT {select_fields} FROM heroes {non_fav_where} {order} LIMIT {ph} OFFSET {ph}",
+                data_params
+            )
+            heroes = [dict(row) for row in cursor.fetchall()]
 
-        # Total
-        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
-        total = dict(cursor.fetchone())['cnt']
+            # Total
+            cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
+            total = dict(cursor.fetchone())['cnt']
 
-        # has_more
-        non_fav_count_params = params + fav_ids
-        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {non_fav_where}", non_fav_count_params)
-        non_fav_total = dict(cursor.fetchone())['cnt']
-        has_more = offset + size < non_fav_total
+            # has_more
+            non_fav_count_params = params + fav_ids
+            cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {non_fav_where}", non_fav_count_params)
+            non_fav_total = dict(cursor.fetchone())['cnt']
+            has_more = offset + size < non_fav_total
 
-    else:
-        # No favorites — standard pagination
-        cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
-        total = dict(cursor.fetchone())['cnt']
+        else:
+            # No favorites — standard pagination
+            cursor.execute(f"SELECT COUNT(*) AS cnt FROM heroes {where_clause}", params)
+            total = dict(cursor.fetchone())['cnt']
 
-        offset = (page - 1) * size
-        data_params = params + [size, offset]
-        cursor.execute(
-            f"SELECT {select_fields} FROM heroes {where_clause} {order} LIMIT {ph} OFFSET {ph}",
-            data_params
-        )
-        heroes = [dict(row) for row in cursor.fetchall()]
-        has_more = offset + size < total
+            offset = (page - 1) * size
+            data_params = params + [size, offset]
+            cursor.execute(
+                f"SELECT {select_fields} FROM heroes {where_clause} {order} LIMIT {ph} OFFSET {ph}",
+                data_params
+            )
+            heroes = [dict(row) for row in cursor.fetchall()]
+            has_more = offset + size < total
 
-    release_connection(conn)
+    finally:
+        release_connection(conn)
 
     # Parse JSON text fields
     for hero in heroes:
@@ -328,40 +340,42 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
 # Heroes — full list (legacy)
 def get_heroes(game_id=None, include_details=False, include_skills=True, include_relation=True, include_counter_data=True, include_compatibility_data=True):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    if game_id:
-        ph = get_placeholder()
-        cursor.execute(f"SELECT * FROM heroes WHERE game_id = {ph}", (game_id,))
-    else:
-        cursor.execute("SELECT * FROM heroes")
-    heroes = [dict_from_row(row) for row in cursor.fetchall()]
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        if game_id:
+            ph = get_placeholder()
+            cursor.execute(f"SELECT * FROM heroes WHERE game_id = {ph}", (game_id,))
+        else:
+            cursor.execute("SELECT * FROM heroes")
+        heroes = [dict_from_row(row) for row in cursor.fetchall()]
     
-    # hero_stats тепер вже в кожному hero як JSONB
-    # Не потрібно завантажувати окремо
-    stats_by_hero = {}  # Порожній для сумісності
-    skills_by_hero = {}
+        # hero_stats тепер вже в кожному hero як JSONB
+        # Не потрібно завантажувати окремо
+        stats_by_hero = {}  # Порожній для сумісності
+        skills_by_hero = {}
     
-    if heroes:
-        hero_ids = [h['id'] for h in heroes]
-        ph = get_placeholder()
-        placeholders = ','.join([ph] * len(hero_ids))
+        if heroes:
+            hero_ids = [h['id'] for h in heroes]
+            ph = get_placeholder()
+            placeholders = ','.join([ph] * len(hero_ids))
         
-        # Завантажуємо skills тільки якщо потрібно
-        if include_skills:
-            cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders}) ORDER BY COALESCE(display_order, 999), id", hero_ids)
-            all_skills = cursor.fetchall()
-            for skill in all_skills:
-                skill_dict = dict_from_row(skill)
-                hero_id = skill_dict['hero_id']
-                if hero_id not in skills_by_hero:
-                    skills_by_hero[hero_id] = []
-                skills_by_hero[hero_id].append(skill_dict)
+            # Завантажуємо skills тільки якщо потрібно
+            if include_skills:
+                cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders}) ORDER BY COALESCE(display_order, 999), id", hero_ids)
+                all_skills = cursor.fetchall()
+                for skill in all_skills:
+                    skill_dict = dict_from_row(skill)
+                    hero_id = skill_dict['hero_id']
+                    if hero_id not in skills_by_hero:
+                        skills_by_hero[hero_id] = []
+                    skills_by_hero[hero_id].append(skill_dict)
     
-    release_connection(conn)
+    finally:
+        release_connection(conn)
     
     # Мінімальна обробка для всіх героїв
     for hero in heroes:
@@ -523,15 +537,17 @@ def get_heroes(game_id=None, include_details=False, include_skills=True, include
 
 def get_hero(hero_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM heroes WHERE id = {ph}", (hero_id,))
-    hero = cursor.fetchone()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM heroes WHERE id = {ph}", (hero_id,))
+        hero = cursor.fetchone()
+    finally:
+        release_connection(conn)
     
     if hero:
         hero = dict(hero)
@@ -671,188 +687,204 @@ def get_hero(hero_id):
 
 def add_hero(game_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, created_at=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    lane_json = json.dumps(lane) if lane else None
-    roles_json = json.dumps(roles) if roles else None
-    specialty_json = json.dumps(specialty) if specialty else None
-    relation_json = json.dumps(relation, ensure_ascii=False) if relation else None
-    hero_stats_json = json.dumps(hero_stats) if hero_stats else None
+        lane_json = json.dumps(lane) if lane else None
+        roles_json = json.dumps(roles) if roles else None
+        specialty_json = json.dumps(specialty) if specialty else None
+        relation_json = json.dumps(relation, ensure_ascii=False) if relation else None
+        hero_stats_json = json.dumps(hero_stats) if hero_stats else None
     
-    # Convert hero_game_id to integer if it's a string
-    hero_game_id_int = int(hero_game_id) if hero_game_id else None
+        # Convert hero_game_id to integer if it's a string
+        hero_game_id_int = int(hero_game_id) if hero_game_id else None
     
-    ph = get_placeholder()
-    cursor.execute(f"""
-        INSERT INTO heroes (game_id, name, hero_game_id, image, short_description, full_description, lane, roles, use_energy, specialty, damage_type, relation, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """, (game_id, name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json))
-    hero_id = cursor.lastrowid
-    conn.commit()
-    release_connection(conn)
+        ph = get_placeholder()
+        cursor.execute(f"""
+            INSERT INTO heroes (game_id, name, hero_game_id, image, short_description, full_description, lane, roles, use_energy, specialty, damage_type, relation, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+        """, (game_id, name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json))
+        hero_id = cursor.lastrowid
+        conn.commit()
+    finally:
+        release_connection(conn)
     return hero_id
 
 def update_hero(hero_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, pro_builds=None, created_at=None, createdAt=None, head=None, painting=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None, counter_data=None, name_uk=None, short_description_uk=None, full_description_uk=None, compatibility_data=None, abilityshow=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    lane_json = json.dumps(lane) if lane else None
-    roles_json = json.dumps(roles) if roles else None
-    specialty_json = json.dumps(specialty) if specialty else None
-    relation_json = json.dumps(relation, ensure_ascii=False) if relation else None
-    pro_builds_json = json.dumps(pro_builds, ensure_ascii=False) if pro_builds else None
-    hero_stats_json = json.dumps(hero_stats) if hero_stats else None
-    counter_data_json = json.dumps(counter_data) if counter_data else None
-    compatibility_data_json = json.dumps(compatibility_data) if compatibility_data else None
-    abilityshow_json = json.dumps(abilityshow) if abilityshow is not None else None
+        lane_json = json.dumps(lane) if lane else None
+        roles_json = json.dumps(roles) if roles else None
+        specialty_json = json.dumps(specialty) if specialty else None
+        relation_json = json.dumps(relation, ensure_ascii=False) if relation else None
+        pro_builds_json = json.dumps(pro_builds, ensure_ascii=False) if pro_builds else None
+        hero_stats_json = json.dumps(hero_stats) if hero_stats else None
+        counter_data_json = json.dumps(counter_data) if counter_data else None
+        compatibility_data_json = json.dumps(compatibility_data) if compatibility_data else None
+        abilityshow_json = json.dumps(abilityshow) if abilityshow is not None else None
     
-    # Convert hero_game_id to integer if it's a string
-    hero_game_id_int = int(hero_game_id) if hero_game_id else None
+        # Convert hero_game_id to integer if it's a string
+        hero_game_id_int = int(hero_game_id) if hero_game_id else None
     
-    ph = get_placeholder()
-    cursor.execute(f"""
-        UPDATE heroes 
-        SET name = {ph}, hero_game_id = {ph}, image = {ph}, 
-            short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, painting = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}, hero_stats = {ph}, counter_data = {ph}, compatibility_data = {ph}, name_uk = {ph}, short_description_uk = {ph}, full_description_uk = {ph}, abilityshow = {ph}
-        WHERE id = {ph}
-    """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, createdAt, head, painting, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json, counter_data_json, compatibility_data_json, name_uk, short_description_uk, full_description_uk, abilityshow_json, hero_id))
-    conn.commit()
-    release_connection(conn)
+        ph = get_placeholder()
+        cursor.execute(f"""
+            UPDATE heroes 
+            SET name = {ph}, hero_game_id = {ph}, image = {ph}, 
+                short_description = {ph}, full_description = {ph}, lane = {ph}, roles = {ph}, use_energy = {ph}, specialty = {ph}, damage_type = {ph}, relation = {ph}, pro_builds = {ph}, createdAt = {ph}, head = {ph}, painting = {ph}, main_hero_ban_rate = {ph}, main_hero_appearance_rate = {ph}, main_hero_win_rate = {ph}, hero_stats = {ph}, counter_data = {ph}, compatibility_data = {ph}, name_uk = {ph}, short_description_uk = {ph}, full_description_uk = {ph}, abilityshow = {ph}
+            WHERE id = {ph}
+        """, (name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, createdAt, head, painting, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json, counter_data_json, compatibility_data_json, name_uk, short_description_uk, full_description_uk, abilityshow_json, hero_id))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def delete_hero(hero_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"DELETE FROM heroes WHERE id = {ph}", (hero_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"DELETE FROM heroes WHERE id = {ph}", (hero_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # Hero Stats
 def add_hero_stat(hero_id, stat_name, value):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"""
-        INSERT INTO hero_stats (hero_id, stat_name, value)
-        VALUES ({ph}, {ph}, {ph})
-    """, (hero_id, stat_name, value))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"""
+            INSERT INTO hero_stats (hero_id, stat_name, value)
+            VALUES ({ph}, {ph}, {ph})
+        """, (hero_id, stat_name, value))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def get_hero_stats(hero_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT stat_name, value FROM hero_stats WHERE hero_id = {ph}", (hero_id,))
-    stats = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT stat_name, value FROM hero_stats WHERE hero_id = {ph}", (hero_id,))
+        stats = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     return stats
 
 def delete_hero_stats(hero_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"DELETE FROM hero_stats WHERE hero_id = {ph}", (hero_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"DELETE FROM hero_stats WHERE hero_id = {ph}", (hero_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # Hero Skills
 def add_hero_skill(hero_id, skill_name, skill_description, effect, preview, skill_type, skill_parameters, level_scaling, effect_types=None, is_transformed=None, transformation_order=None, display_order=None, replaces_skill_id=None, skill_name_uk=None, skill_description_uk=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    parameters_json = json.dumps(skill_parameters) if skill_parameters else None
-    scaling_json = json.dumps(level_scaling) if level_scaling else None
-    effect_types_json = json.dumps(effect_types) if effect_types else None
-    effect_json = json.dumps(effect) if isinstance(effect, list) else effect
+        parameters_json = json.dumps(skill_parameters) if skill_parameters else None
+        scaling_json = json.dumps(level_scaling) if level_scaling else None
+        effect_types_json = json.dumps(effect_types) if effect_types else None
+        effect_json = json.dumps(effect) if isinstance(effect, list) else effect
     
-    ph = get_placeholder()
-    cursor.execute(f"""
-        INSERT INTO hero_skills (hero_id, skill_name, skill_description, effect, preview, image,
-                                skill_type, skill_parameters, level_scaling, effect_types, is_transformed, transformation_order, display_order, replaces_skill_id, skill_name_uk, skill_description_uk)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, effect_types_json, is_transformed or 0, transformation_order or 0, display_order or 0, replaces_skill_id, skill_name_uk, skill_description_uk))
-    conn.commit()
-    release_connection(conn)
+        ph = get_placeholder()
+        cursor.execute(f"""
+            INSERT INTO hero_skills (hero_id, skill_name, skill_description, effect, preview, image,
+                                    skill_type, skill_parameters, level_scaling, effect_types, is_transformed, transformation_order, display_order, replaces_skill_id, skill_name_uk, skill_description_uk)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+        """, (hero_id, skill_name, skill_description, effect_json, preview, preview, skill_type, parameters_json, scaling_json, effect_types_json, is_transformed or 0, transformation_order or 0, display_order or 0, replaces_skill_id, skill_name_uk, skill_description_uk))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def get_hero_skills(hero_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id = {ph} ORDER BY COALESCE(display_order, 999), id", (hero_id,))
-    skills = []
-    for row in cursor.fetchall():
-        skill = dict_from_row(row)
-        # Parse skill_parameters
-        if skill.get('skill_parameters'):
-            try:
-                skill['skill_parameters'] = json.loads(skill['skill_parameters'])
-            except (json.JSONDecodeError, TypeError):
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id = {ph} ORDER BY COALESCE(display_order, 999), id", (hero_id,))
+        skills = []
+        for row in cursor.fetchall():
+            skill = dict_from_row(row)
+            # Parse skill_parameters
+            if skill.get('skill_parameters'):
+                try:
+                    skill['skill_parameters'] = json.loads(skill['skill_parameters'])
+                except (json.JSONDecodeError, TypeError):
+                    skill['skill_parameters'] = {}
+            else:
                 skill['skill_parameters'] = {}
-        else:
-            skill['skill_parameters'] = {}
         
-        # Parse level_scaling
-        if skill.get('level_scaling'):
-            try:
-                skill['level_scaling'] = json.loads(skill['level_scaling'])
-            except (json.JSONDecodeError, TypeError):
+            # Parse level_scaling
+            if skill.get('level_scaling'):
+                try:
+                    skill['level_scaling'] = json.loads(skill['level_scaling'])
+                except (json.JSONDecodeError, TypeError):
+                    skill['level_scaling'] = []
+            else:
                 skill['level_scaling'] = []
-        else:
-            skill['level_scaling'] = []
         
-        # Parse effect_types
-        if skill.get('effect_types'):
-            try:
-                skill['effect_types'] = json.loads(skill['effect_types'])
-            except (json.JSONDecodeError, TypeError):
+            # Parse effect_types
+            if skill.get('effect_types'):
+                try:
+                    skill['effect_types'] = json.loads(skill['effect_types'])
+                except (json.JSONDecodeError, TypeError):
+                    skill['effect_types'] = []
+            else:
                 skill['effect_types'] = []
-        else:
-            skill['effect_types'] = []
         
-        # Parse effect
-        if skill.get('effect'):
-            try:
-                skill['effect'] = json.loads(skill['effect'])
-            except (json.JSONDecodeError, TypeError):
+            # Parse effect
+            if skill.get('effect'):
+                try:
+                    skill['effect'] = json.loads(skill['effect'])
+                except (json.JSONDecodeError, TypeError):
+                    skill['effect'] = {}
+            else:
                 skill['effect'] = {}
-        else:
-            skill['effect'] = {}
         
-        skills.append(skill)
-    release_connection(conn)
+            skills.append(skill)
+    finally:
+        release_connection(conn)
     return skills
 
 def update_hero_skill(skill_id, skill_name=None, skill_description=None, display_order=None, replaces_skill_id=None, is_transformed=None, transformation_order=None, skill_name_uk=None, skill_description_uk=None):
@@ -919,15 +951,17 @@ def update_hero_skill(skill_id, skill_name=None, skill_description=None, display
 
 def delete_hero_skills(hero_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"DELETE FROM hero_skills WHERE hero_id = {ph}", (hero_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"DELETE FROM hero_skills WHERE hero_id = {ph}", (hero_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # Hero Ranks
 def get_hero_ranks(game_id=2, days=None, rank=None):
@@ -939,37 +973,39 @@ def get_hero_ranks(game_id=2, days=None, rank=None):
         rank: Rank category - all, glory (optional, default: всі ранги)
     """
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    # Базовий SQL запит
-    sql = """
-        SELECT hr.*, h.name, h.painting, h.image, h.head, h.roles, h.hero_game_id
-        FROM hero_rank hr
-        JOIN heroes h ON hr.hero_id = h.id
-        WHERE h.game_id = %s
-    """
-    params = [game_id]
+        # Базовий SQL запит
+        sql = """
+            SELECT hr.*, h.name, h.painting, h.image, h.head, h.roles, h.hero_game_id
+            FROM hero_rank hr
+            JOIN heroes h ON hr.hero_id = h.id
+            WHERE h.game_id = %s
+        """
+        params = [game_id]
     
-    # Додаємо фільтр по days якщо вказано
-    if days is not None:
-        sql += " AND hr.days = %s"
-        params.append(days)
+        # Додаємо фільтр по days якщо вказано
+        if days is not None:
+            sql += " AND hr.days = %s"
+            params.append(days)
     
-    # Додаємо фільтр по rank якщо вказано
-    if rank is not None:
-        sql += " AND hr.rank = %s"
-        params.append(rank)
+        # Додаємо фільтр по rank якщо вказано
+        if rank is not None:
+            sql += " AND hr.rank = %s"
+            params.append(rank)
     
-    sql += " ORDER BY hr.win_rate DESC"
+        sql += " ORDER BY hr.win_rate DESC"
     
-    cursor.execute(sql, params)
+        cursor.execute(sql, params)
     
-    ranks = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+        ranks = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     
     # Parse synergy_heroes and roles JSON
     for rank_data in ranks:
@@ -999,22 +1035,24 @@ def get_hero_rank_by_hero_id(hero_id):
 def get_hero_rank(hero_id):
     """Отримує rank конкретного героя з win_rate та синергіями"""
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    ph = get_placeholder()
-    cursor.execute(f"""
-        SELECT hr.*, h.name as hero_name
-        FROM hero_rank hr
-        JOIN heroes h ON hr.hero_id = h.id
-        WHERE hr.hero_id = {ph}
-    """, (hero_id,))
+        ph = get_placeholder()
+        cursor.execute(f"""
+            SELECT hr.*, h.name as hero_name
+            FROM hero_rank hr
+            JOIN heroes h ON hr.hero_id = h.id
+            WHERE hr.hero_id = {ph}
+        """, (hero_id,))
     
-    rank = cursor.fetchone()
-    release_connection(conn)
+        rank = cursor.fetchone()
+    finally:
+        release_connection(conn)
     
     if rank:
         return dict_from_row(rank)
@@ -1023,50 +1061,56 @@ def get_hero_rank(hero_id):
 def update_hero_rank(hero_id, tier, percentage, position):
     """Оновлює або створює rank для героя"""
     conn = get_connection()
-    cursor = conn.cursor()
-    ph = get_placeholder()
+    try:
+        cursor = conn.cursor()
+        ph = get_placeholder()
     
-    # Перевіряємо чи існує запис
-    cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph}", (hero_id,))
-    existing = cursor.fetchone()
+        # Перевіряємо чи існує запис
+        cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph}", (hero_id,))
+        existing = cursor.fetchone()
     
-    if existing:
-        # Оновлюємо існуючий
-        cursor.execute(f"""
-            UPDATE hero_rank 
-            SET tier = {ph}, percentage = {ph}, position = {ph}, updated_at = CURRENT_TIMESTAMP
-            WHERE hero_id = {ph}
-        """, (tier, percentage, position, hero_id))
-    else:
-        # Створюємо новий
-        cursor.execute(f"""
-            INSERT INTO hero_rank (hero_id, tier, percentage, position)
-            VALUES ({ph}, {ph}, {ph}, {ph})
-        """, (hero_id, tier, percentage, position))
+        if existing:
+            # Оновлюємо існуючий
+            cursor.execute(f"""
+                UPDATE hero_rank 
+                SET tier = {ph}, percentage = {ph}, position = {ph}, updated_at = CURRENT_TIMESTAMP
+                WHERE hero_id = {ph}
+            """, (tier, percentage, position, hero_id))
+        else:
+            # Створюємо новий
+            cursor.execute(f"""
+                INSERT INTO hero_rank (hero_id, tier, percentage, position)
+                VALUES ({ph}, {ph}, {ph}, {ph})
+            """, (hero_id, tier, percentage, position))
     
-    conn.commit()
-    release_connection(conn)
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def delete_all_hero_ranks():
     """Видаляє всі ranks (для повного оновлення)"""
     conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM hero_rank")
-    conn.commit()
-    release_connection(conn)
+    try:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM hero_rank")
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 
 # Items
 def get_all_items():
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    cursor.execute("SELECT * FROM items")
-    items = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        cursor.execute("SELECT * FROM items")
+        items = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     
     for item in items:
         if item.get('stats'):
@@ -1075,15 +1119,17 @@ def get_all_items():
 
 def get_items_by_game(game_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM items WHERE game_id = {ph}", (game_id,))
-    items = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM items WHERE game_id = {ph}", (game_id,))
+        items = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     
     for item in items:
         if item.get('stats'):
@@ -1092,15 +1138,17 @@ def get_items_by_game(game_id):
 
 def get_item(item_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM items WHERE id = {ph}", (item_id,))
-    item = cursor.fetchone()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM items WHERE id = {ph}", (item_id,))
+        item = cursor.fetchone()
+    finally:
+        release_connection(conn)
     
     if item:
         item = dict(item)
@@ -1111,307 +1159,337 @@ def get_item(item_id):
 
 def add_item(game_id, name, description, item_type, rarity, cost, stats):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    stats_json = json.dumps(stats) if stats else None
+        stats_json = json.dumps(stats) if stats else None
     
-    ph = get_placeholder()
-    cursor.execute(f"""
-        INSERT INTO items (game_id, name, description, type, rarity, cost, stats)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """, (game_id, name, description, item_type, rarity, cost, stats_json))
-    item_id = cursor.lastrowid
-    conn.commit()
-    release_connection(conn)
+        ph = get_placeholder()
+        cursor.execute(f"""
+            INSERT INTO items (game_id, name, description, type, rarity, cost, stats)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+        """, (game_id, name, description, item_type, rarity, cost, stats_json))
+        item_id = cursor.lastrowid
+        conn.commit()
+    finally:
+        release_connection(conn)
     return item_id
 
 def update_item(item_id, name, description, item_type, rarity, cost, stats):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    stats_json = json.dumps(stats) if stats else None
+        stats_json = json.dumps(stats) if stats else None
     
-    cursor.execute("""
-        UPDATE items 
-        SET name = ?, description = ?, type = ?, rarity = ?, cost = ?, stats = ?
-        WHERE id = ?
-    """, (name, description, item_type, rarity, cost, stats_json, item_id))
-    conn.commit()
-    release_connection(conn)
+        cursor.execute("""
+            UPDATE items 
+            SET name = ?, description = ?, type = ?, rarity = ?, cost = ?, stats = ?
+            WHERE id = ?
+        """, (name, description, item_type, rarity, cost, stats_json, item_id))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def delete_item(item_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"DELETE FROM items WHERE id = {ph}", (item_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"DELETE FROM items WHERE id = {ph}", (item_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # Equipment
 def get_equipment_by_game(game_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM equipment WHERE game_id = {ph}", (game_id,))
-    equipment = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM equipment WHERE game_id = {ph}", (game_id,))
+        equipment = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     return equipment
 
 def get_equipment(equipment_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM equipment WHERE id = {ph}", (equipment_id,))
-    equipment = cursor.fetchone()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM equipment WHERE id = {ph}", (equipment_id,))
+        equipment = cursor.fetchone()
+    finally:
+        release_connection(conn)
     return dict(equipment) if equipment else None
 
 def add_equipment(game_id, name, category, price_total=0, **kwargs):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    # Базові поля
-    fields = ['game_id', 'name', 'category', 'price_total']
-    values = [game_id, name, category, price_total]
+        # Базові поля
+        fields = ['game_id', 'name', 'category', 'price_total']
+        values = [game_id, name, category, price_total]
     
-    # Додаємо додаткові поля якщо вони передані
-    optional_fields = ['description', 'icon_url', 'price_sell', 'physical_attack', 'magic_power',
-                      'hp', 'physical_defense', 'magic_defense', 'movement_speed', 'attack_speed',
-                      'cooldown_reduction', 'lifesteal', 'spell_vamp', 'penetration', 'stats_other',
-                      'passive_name', 'passive_type', 'passive_description', 'recipe', 'tips',
-                      'in_depth_info', 'countered_by', 'builds', 'tier', 'attributes', 'tags']
+        # Додаємо додаткові поля якщо вони передані
+        optional_fields = ['description', 'icon_url', 'price_sell', 'physical_attack', 'magic_power',
+                          'hp', 'physical_defense', 'magic_defense', 'movement_speed', 'attack_speed',
+                          'cooldown_reduction', 'lifesteal', 'spell_vamp', 'penetration', 'stats_other',
+                          'passive_name', 'passive_type', 'passive_description', 'recipe', 'tips',
+                          'in_depth_info', 'countered_by', 'builds', 'tier', 'attributes', 'tags']
     
-    for field in optional_fields:
-        if field in kwargs:
-            fields.append(field)
-            values.append(kwargs[field])
+        for field in optional_fields:
+            if field in kwargs:
+                fields.append(field)
+                values.append(kwargs[field])
     
-    placeholders = ', '.join(['?' for _ in values])
-    field_names = ', '.join(fields)
+        placeholders = ', '.join(['?' for _ in values])
+        field_names = ', '.join(fields)
     
-    cursor.execute(f"""
-        INSERT INTO equipment ({field_names})
-        VALUES ({placeholders})
-    """, values)
-    equipment_id = cursor.lastrowid
-    conn.commit()
-    release_connection(conn)
+        cursor.execute(f"""
+            INSERT INTO equipment ({field_names})
+            VALUES ({placeholders})
+        """, values)
+        equipment_id = cursor.lastrowid
+        conn.commit()
+    finally:
+        release_connection(conn)
     return equipment_id
 
 def update_equipment(equipment_id, **kwargs):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    # Дозволені поля для оновлення
-    allowed_fields = ['name', 'category', 'price_total', 'description', 'icon_url', 'price_sell',
-                     'physical_attack', 'magic_power', 'hp', 'physical_defense', 'magic_defense',
-                     'movement_speed', 'attack_speed', 'cooldown_reduction', 'lifesteal', 'spell_vamp',
-                     'penetration', 'stats_other', 'passive_name', 'passive_type', 'passive_description',
-                     'recipe', 'tips', 'in_depth_info', 'countered_by', 'builds', 'tier', 'attributes', 'tags',
-                     'mana_regen', 'crit_chance', 'attributes_json',
-                     'name_uk', 'description_uk', 'passive_name_uk', 'passive_description_uk',
-                     'active_name_uk', 'active_description_uk', 'name_en', 'description_en']
+        # Дозволені поля для оновлення
+        allowed_fields = ['name', 'category', 'price_total', 'description', 'icon_url', 'price_sell',
+                         'physical_attack', 'magic_power', 'hp', 'physical_defense', 'magic_defense',
+                         'movement_speed', 'attack_speed', 'cooldown_reduction', 'lifesteal', 'spell_vamp',
+                         'penetration', 'stats_other', 'passive_name', 'passive_type', 'passive_description',
+                         'recipe', 'tips', 'in_depth_info', 'countered_by', 'builds', 'tier', 'attributes', 'tags',
+                         'mana_regen', 'crit_chance', 'attributes_json',
+                         'name_uk', 'description_uk', 'passive_name_uk', 'passive_description_uk',
+                         'active_name_uk', 'active_description_uk', 'name_en', 'description_en']
     
-    updates = []
-    values = []
-    ph = get_placeholder()
+        updates = []
+        values = []
+        ph = get_placeholder()
     
-    for field in allowed_fields:
-        if field in kwargs:
-            updates.append(f"{field} = {ph}")
-            values.append(kwargs[field])
+        for field in allowed_fields:
+            if field in kwargs:
+                updates.append(f"{field} = {ph}")
+                values.append(kwargs[field])
     
-    if not updates:
-        return
+        if not updates:
+            return
     
-    values.append(equipment_id)
-    update_sql = ', '.join(updates)
+        values.append(equipment_id)
+        update_sql = ', '.join(updates)
     
-    cursor.execute(f"""
-        UPDATE equipment 
-        SET {update_sql}
-        WHERE id = {ph}
-    """, values)
-    conn.commit()
-    release_connection(conn)
+        cursor.execute(f"""
+            UPDATE equipment 
+            SET {update_sql}
+            WHERE id = {ph}
+        """, values)
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def delete_equipment(equipment_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"DELETE FROM equipment WHERE id = {ph}", (equipment_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"DELETE FROM equipment WHERE id = {ph}", (equipment_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # ============== EMBLEM TALENTS ==============
 
 def get_emblem_talents(game_id=None, tier=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    if game_id and tier:
-        ph = get_placeholder()
-        cursor.execute(f"SELECT * FROM emblem_talents WHERE game_id = {ph} AND tier = {ph}", (game_id, tier))
-    elif game_id:
-        ph = get_placeholder()
-        cursor.execute(f"SELECT * FROM emblem_talents WHERE game_id = {ph}", (game_id,))
-    elif tier:
-        ph = get_placeholder()
-        cursor.execute(f"SELECT * FROM emblem_talents WHERE tier = {ph}", (tier,))
-    else:
-        cursor.execute("SELECT * FROM emblem_talents")
+        if game_id and tier:
+            ph = get_placeholder()
+            cursor.execute(f"SELECT * FROM emblem_talents WHERE game_id = {ph} AND tier = {ph}", (game_id, tier))
+        elif game_id:
+            ph = get_placeholder()
+            cursor.execute(f"SELECT * FROM emblem_talents WHERE game_id = {ph}", (game_id,))
+        elif tier:
+            ph = get_placeholder()
+            cursor.execute(f"SELECT * FROM emblem_talents WHERE tier = {ph}", (tier,))
+        else:
+            cursor.execute("SELECT * FROM emblem_talents")
     
-    talents = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+        talents = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     return talents
 
 def get_emblem_talent(talent_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM emblem_talents WHERE id = {ph}", (talent_id,))
-    talent = cursor.fetchone()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM emblem_talents WHERE id = {ph}", (talent_id,))
+        talent = cursor.fetchone()
+    finally:
+        release_connection(conn)
     return dict(talent) if talent else None
 
 def add_emblem_talent(game_id, tier, name, effect, icon_url=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"""
-        INSERT INTO emblem_talents (game_id, tier, name, effect, icon_url)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
-    """, (game_id, tier, name, effect, icon_url))
-    talent_id = cursor.lastrowid
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"""
+            INSERT INTO emblem_talents (game_id, tier, name, effect, icon_url)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph})
+        """, (game_id, tier, name, effect, icon_url))
+        talent_id = cursor.lastrowid
+        conn.commit()
+    finally:
+        release_connection(conn)
     return talent_id
 
 def update_emblem_talent(talent_id, **kwargs):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    allowed_fields = ['tier', 'name', 'effect', 'icon_url']
-    updates = []
-    values = []
+        allowed_fields = ['tier', 'name', 'effect', 'icon_url']
+        updates = []
+        values = []
     
-    for field in allowed_fields:
-        if field in kwargs:
-            updates.append(f"{field} = ?")
-            values.append(kwargs[field])
+        for field in allowed_fields:
+            if field in kwargs:
+                updates.append(f"{field} = ?")
+                values.append(kwargs[field])
     
-    if not updates:
-        return
+        if not updates:
+            return
     
-    values.append(talent_id)
-    update_sql = ', '.join(updates)
+        values.append(talent_id)
+        update_sql = ', '.join(updates)
     
-    cursor.execute(f"""
-        UPDATE emblem_talents 
-        SET {update_sql}
-        WHERE id = ?
-    """, values)
-    conn.commit()
-    release_connection(conn)
+        cursor.execute(f"""
+            UPDATE emblem_talents 
+            SET {update_sql}
+            WHERE id = ?
+        """, values)
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def delete_emblem_talent(talent_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"DELETE FROM emblem_talents WHERE id = {ph}", (talent_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"DELETE FROM emblem_talents WHERE id = {ph}", (talent_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # ============== EMBLEMS ==============
 
 def get_emblems(game_id=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    if game_id:
-        ph = get_placeholder()
-        cursor.execute(f"SELECT * FROM emblems WHERE game_id = {ph}", (game_id,))
-    else:
-        cursor.execute("SELECT * FROM emblems")
-    emblems = [dict_from_row(row) for row in cursor.fetchall()]
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        if game_id:
+            ph = get_placeholder()
+            cursor.execute(f"SELECT * FROM emblems WHERE game_id = {ph}", (game_id,))
+        else:
+            cursor.execute("SELECT * FROM emblems")
+        emblems = [dict_from_row(row) for row in cursor.fetchall()]
     
-    # Парсимо JSON поля
-    for emblem in emblems:
-        if emblem.get('base_stats'):
-            try:
-                emblem['base_stats'] = json.loads(emblem['base_stats'])
-            except:
-                emblem['base_stats'] = {}
+        # Парсимо JSON поля
+        for emblem in emblems:
+            if emblem.get('base_stats'):
+                try:
+                    emblem['base_stats'] = json.loads(emblem['base_stats'])
+                except:
+                    emblem['base_stats'] = {}
     
-    release_connection(conn)
+    finally:
+        release_connection(conn)
     return emblems
 
 def get_emblem(emblem_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM emblems WHERE id = {ph}", (emblem_id,))
-    emblem = cursor.fetchone()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM emblems WHERE id = {ph}", (emblem_id,))
+        emblem = cursor.fetchone()
+    finally:
+        release_connection(conn)
     
     if emblem:
         emblem = dict(emblem)
@@ -1426,113 +1504,125 @@ def get_emblem(emblem_id):
 
 def update_emblem(emblem_id, **kwargs):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    allowed_fields = ['name', 'category', 'description', 'base_stats', 'icon_url']
-    updates = []
-    values = []
+        allowed_fields = ['name', 'category', 'description', 'base_stats', 'icon_url']
+        updates = []
+        values = []
     
-    for field in allowed_fields:
-        if field in kwargs:
-            value = kwargs[field]
-            # Якщо base_stats - конвертуємо в JSON
-            if field == 'base_stats' and isinstance(value, dict):
-                value = json.dumps(value)
-            updates.append(f"{field} = ?")
-            values.append(value)
+        for field in allowed_fields:
+            if field in kwargs:
+                value = kwargs[field]
+                # Якщо base_stats - конвертуємо в JSON
+                if field == 'base_stats' and isinstance(value, dict):
+                    value = json.dumps(value)
+                updates.append(f"{field} = ?")
+                values.append(value)
     
-    if not updates:
-        return
+        if not updates:
+            return
     
-    values.append(emblem_id)
-    update_sql = ', '.join(updates)
+        values.append(emblem_id)
+        update_sql = ', '.join(updates)
     
-    cursor.execute(f"""
-        UPDATE emblems 
-        SET {update_sql}
-        WHERE id = ?
-    """, values)
-    conn.commit()
-    release_connection(conn)
+        cursor.execute(f"""
+            UPDATE emblems 
+            SET {update_sql}
+            WHERE id = ?
+        """, values)
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # Battle Spells
 def get_battle_spells(game_id=None):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    if game_id:
-        ph = get_placeholder()
-        cursor.execute(f"SELECT * FROM battle_spells WHERE game_id = {ph}", (game_id,))
-    else:
-        cursor.execute("SELECT * FROM battle_spells")
-    spells = [dict_from_row(row) for row in cursor.fetchall()]
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        if game_id:
+            ph = get_placeholder()
+            cursor.execute(f"SELECT * FROM battle_spells WHERE game_id = {ph}", (game_id,))
+        else:
+            cursor.execute("SELECT * FROM battle_spells")
+        spells = [dict_from_row(row) for row in cursor.fetchall()]
+    finally:
+        release_connection(conn)
     return spells
 
 def get_battle_spell(spell_id):
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"SELECT * FROM battle_spells WHERE id = {ph}", (spell_id,))
-    spell = cursor.fetchone()
-    release_connection(conn)
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"SELECT * FROM battle_spells WHERE id = {ph}", (spell_id,))
+        spell = cursor.fetchone()
+    finally:
+        release_connection(conn)
     return dict(spell) if spell else None
 
 def add_battle_spell(game_id, name, overview=None, description=None, cooldown=None, unlocked_level=None, icon_url=None):
     conn = get_connection()
-    cursor = conn.cursor()
-    ph = get_placeholder()
+    try:
+        cursor = conn.cursor()
+        ph = get_placeholder()
     
-    query = f"""
-        INSERT INTO battle_spells (game_id, name, overview, description, cooldown, unlocked_level, icon_url)
-        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-    """
+        query = f"""
+            INSERT INTO battle_spells (game_id, name, overview, description, cooldown, unlocked_level, icon_url)
+            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+        """
     
-    cursor.execute(query, (game_id, name, overview, description, cooldown, unlocked_level, icon_url))
+        cursor.execute(query, (game_id, name, overview, description, cooldown, unlocked_level, icon_url))
     
-    if DATABASE_TYPE == 'postgres':
-        cursor.execute("SELECT lastval()")
-        spell_id = cursor.fetchone()[0]
-    else:
-        spell_id = cursor.lastrowid
+        if DATABASE_TYPE == 'postgres':
+            cursor.execute("SELECT lastval()")
+            spell_id = cursor.fetchone()[0]
+        else:
+            spell_id = cursor.lastrowid
     
-    conn.commit()
-    release_connection(conn)
+        conn.commit()
+    finally:
+        release_connection(conn)
     return spell_id
 
 def update_battle_spell(spell_id, name=None, overview=None, description=None, cooldown=None, unlocked_level=None, icon_url=None):
     conn = get_connection()
-    cursor = conn.cursor()
-    ph = get_placeholder()
+    try:
+        cursor = conn.cursor()
+        ph = get_placeholder()
     
-    query = f"""
-        UPDATE battle_spells 
-        SET name = {ph}, overview = {ph}, description = {ph}, cooldown = {ph}, unlocked_level = {ph}, icon_url = {ph}
-        WHERE id = {ph}
-    """
+        query = f"""
+            UPDATE battle_spells 
+            SET name = {ph}, overview = {ph}, description = {ph}, cooldown = {ph}, unlocked_level = {ph}, icon_url = {ph}
+            WHERE id = {ph}
+        """
     
-    cursor.execute(query, (name, overview, description, cooldown, unlocked_level, icon_url, spell_id))
-    conn.commit()
-    release_connection(conn)
+        cursor.execute(query, (name, overview, description, cooldown, unlocked_level, icon_url, spell_id))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 def delete_battle_spell(spell_id):
     conn = get_connection()
-    cursor = conn.cursor()
-    ph = get_placeholder()
-    cursor.execute(f"DELETE FROM battle_spells WHERE id = {ph}", (spell_id,))
-    conn.commit()
-    release_connection(conn)
+    try:
+        cursor = conn.cursor()
+        ph = get_placeholder()
+        cursor.execute(f"DELETE FROM battle_spells WHERE id = {ph}", (spell_id,))
+        conn.commit()
+    finally:
+        release_connection(conn)
 
 # Hero Rank legacy functions (main implementation is above around line 656)
 def get_hero_rank_by_hero_id(hero_id):
@@ -1542,22 +1632,24 @@ def get_hero_rank_by_hero_id(hero_id):
 def get_hero_rank(hero_id):
     """Отримує rank конкретного героя з win_rate та синергіями"""
     conn = get_connection()
-    if DATABASE_TYPE == 'postgres':
-        from psycopg2.extras import RealDictCursor
-        cursor = conn.cursor(cursor_factory=RealDictCursor)
-    else:
-        cursor = conn.cursor()
+    try:
+        if DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
     
-    ph = get_placeholder()
-    cursor.execute(f"""
-        SELECT hr.*, h.name, h.painting
-        FROM hero_rank hr
-        JOIN heroes h ON hr.hero_id = h.id
-        WHERE hr.hero_id = {ph}
-    """, (hero_id,))
+        ph = get_placeholder()
+        cursor.execute(f"""
+            SELECT hr.*, h.name, h.painting
+            FROM hero_rank hr
+            JOIN heroes h ON hr.hero_id = h.id
+            WHERE hr.hero_id = {ph}
+        """, (hero_id,))
     
-    rank = cursor.fetchone()
-    release_connection(conn)
+        rank = cursor.fetchone()
+    finally:
+        release_connection(conn)
     
     if rank:
         rank = dict_from_row(rank)
