@@ -4178,30 +4178,71 @@ def mlbb_stats():
         if result.get('code') != 0:
             return jsonify({'error': result.get('message', 'Failed to fetch stats'), 'code': 'api_error'}), 400
 
-        # Parse hero stats from nested structure
+        # Parse hero stats — prefer BattleType=2 (ranked, has full detail) over BattleType=0 (aggregate, zeros)
         records = result.get('data', {}).get('records', [])
-        hero_stats = {}
+        # hero_id -> {bt=2 data, bt=0 data}
+        hero_by_bt = {}
         for record in records:
             stat_data = record.get('stHeroStatistic', {}).get('F_mStatistic', {})
             for key, battle_data in stat_data.items():
+                bt = battle_data.get('F_iBattleType', 0)
                 heroes_map = battle_data.get('F_mHero', {})
                 for hero_id_str, hdata in heroes_map.items():
                     hero_id = int(hero_id_str)
                     total = hdata.get('F_iTotalCnt', 0)
                     if total == 0:
                         continue
-                    wins = hdata.get('F_iWinCnt', 0)
-                    existing = hero_stats.get(hero_id)
-                    if not existing or total > existing.get('total_games', 0):
-                        hero_stats[hero_id] = {
-                            'hero_id': hero_id,
-                            'total_games': total,
-                            'wins': wins,
-                            'win_rate': round(wins / total * 100, 1) if total > 0 else 0,
-                            'mvp': hdata.get('F_iMvpNum', 0),
-                            'level': hdata.get('F_iLevel', 0),
-                            'kda': round(hdata.get('F_iAveKda', 0) / 100, 2),
-                        }
+                    if hero_id not in hero_by_bt:
+                        hero_by_bt[hero_id] = {}
+                    # Keep the entry with most total games per battle_type
+                    existing = hero_by_bt[hero_id].get(bt)
+                    if not existing or total > existing.get('F_iTotalCnt', 0):
+                        hero_by_bt[hero_id][bt] = hdata
+
+        hero_stats = {}
+        for hero_id, bt_map in hero_by_bt.items():
+            # Use bt=2 for detailed stats, fall back to bt=0 for totals
+            detail = bt_map.get(2) or bt_map.get(1) or bt_map.get(4)
+            totals = bt_map.get(0) or detail
+            if not totals:
+                continue
+            total = totals.get('F_iTotalCnt', 0)
+            wins = totals.get('F_iWinCnt', 0)
+            if not detail:
+                detail = totals
+
+            kda_raw = detail.get('F_iAveKda', 0)
+            kills = detail.get('F_iTotalKillNum', 0)
+            deaths = detail.get('F_iTotalDeadNum', 0)
+            assists = detail.get('F_iTotalAssistNum', 0)
+            avg_kills = round(kills / total, 1) if total > 0 else 0
+            avg_deaths = round(deaths / total, 1) if total > 0 else 0
+            avg_assists = round(assists / total, 1) if total > 0 else 0
+
+            hero_stats[hero_id] = {
+                'hero_id': hero_id,
+                'total_games': total,
+                'wins': wins,
+                'win_rate': round(wins / total * 100, 1) if total > 0 else 0,
+                'mvp': detail.get('F_iMvpNum', 0),
+                'level': detail.get('F_iLevel', 0) or totals.get('F_iLevel', 0),
+                'kda': round(kda_raw / 100, 2),
+                'avg_kills': avg_kills,
+                'avg_deaths': avg_deaths,
+                'avg_assists': avg_assists,
+                'total_kills': kills,
+                'total_deaths': deaths,
+                'total_assists': assists,
+                'max_kills': detail.get('F_iMostKillNum', 0),
+                'max_assists': detail.get('F_iMostAssistNum', 0),
+                'max_kda': round(detail.get('F_iMaxKda', 0) / 100, 2),
+                'avg_damage': detail.get('F_iAveHurt', 0),
+                'avg_taken': detail.get('F_iAveBehurted', 0),
+                'penta_kills': detail.get('F_iKill5', 0),
+                'quadra_kills': detail.get('F_iKill4', 0),
+                'triple_kills': detail.get('F_iKill3', 0),
+                'double_kills': detail.get('F_iKill2', 0),
+            }
 
         stats_list = sorted(hero_stats.values(), key=lambda x: x['total_games'], reverse=True)
         return jsonify({'stats': stats_list})
