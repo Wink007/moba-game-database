@@ -14,8 +14,10 @@ function HeroRanksManager({ selectedGame }) {
   const [rank, setRank] = useState('all');
   const [sortField, setSortField] = useState('win_rate');
   
-  // Токен авторизації для Moonton API
-  const [authToken, setAuthToken] = useState('');
+  // Токени авторизації для Moonton API (по одному на кожен period/source_id)
+  const [tokens, setTokens] = useState({ t1d: '', t3d: '', t7d: '', t15d: '', t30d: '' });
+  const setToken = (key, val) => setTokens(prev => ({ ...prev, [key]: val }));
+  const hasAnyToken = Object.values(tokens).some(t => t.trim());
 
   const updateHeroRanks = async () => {
     if (!selectedGame) {
@@ -200,7 +202,13 @@ function HeroRanksManager({ selectedGame }) {
     try {
       const response = await axios.post(`${API_URL}/update-hero-ranks-moonton`, {
         game_id: selectedGame.id,
-        auth_token: authToken ? authToken.trim() : undefined
+        source_tokens: {
+          '2756567': tokens.t1d.trim() || undefined,
+          '2756568': tokens.t3d.trim() || undefined,
+          '2756569': tokens.t7d.trim() || undefined,
+          '2756565': tokens.t15d.trim() || undefined,
+          '2756570': tokens.t30d.trim() || undefined,
+        }
       });
 
       setLastUpdate(new Date().toLocaleString());
@@ -257,31 +265,43 @@ function HeroRanksManager({ selectedGame }) {
     <div style={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px', marginTop: '20px' }}>
       <h2 style={{ marginBottom: '20px' }}>🏆 Hero Ranks Manager</h2>
       
-      {/* Токен авторизації для Moonton API */}
+      {/* Токени авторизації для Moonton API */}
       <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#fff3cd', border: '1px solid #ffc107', borderRadius: '6px' }}>
-        <h3 style={{ marginTop: 0, color: '#856404' }}>🔐 Moonton API Authorization</h3>
-        <p style={{ margin: '10px 0', fontSize: '14px', color: '#856404' }}>
-          Для оновлення через офіційний Moonton API потрібен токен авторизації:<br/>
-          1. Відкрийте <a href="https://m.mobilelegends.com/en/rank" target="_blank" rel="noopener noreferrer" style={{ color: '#007bff' }}>https://m.mobilelegends.com/en/rank</a><br/>
-          2. Відкрийте DevTools (F12) → Network → Знайдіть запит "rank"<br/>
-          3. Request Headers → Authorization: скопіюйте значення<br/>
-          4. Вставте токен нижче (без "Bearer")
+        <h3 style={{ marginTop: 0, color: '#856404' }}>🔐 Moonton API Tokens</h3>
+        <p style={{ margin: '0 0 12px', fontSize: '13px', color: '#856404' }}>
+          1. Відкрийте{' '}
+          <a href="https://www.mobilelegends.com/en/rank" target="_blank" rel="noopener noreferrer" style={{ color: '#007bff' }}>mobilelegends.com/en/rank</a>{' '}
+          → DevTools (F12) → Network<br/>
+          2. Переключіть кожен часовий фільтр (1д / 3д / 7д / 15д / 30д)<br/>
+          3. Знайдіть запит до <b>api.gms.moontontech.com</b> → Headers → скопіюйте <b>authorization</b>
         </p>
-        <input
-          type="text"
-          value={authToken}
-          onChange={(e) => setAuthToken(e.target.value)}
-          placeholder="Вставте токен авторизації (напр: WS4idfyEnXVoAhjH1ZmQhPIwrak=)"
-          style={{
-            width: '100%',
-            padding: '10px',
-            borderRadius: '4px',
-            border: '1px solid #ddd',
-            fontSize: '14px',
-            fontFamily: 'monospace',
-            backgroundColor: authToken ? '#d4edda' : '#fff'
-          }}
-        />
+        {[
+          { key: 't1d',  label: '1 день  (source 2756567)' },
+          { key: 't3d',  label: '3 дні   (source 2756568)' },
+          { key: 't7d',  label: '7 днів  (source 2756569)' },
+          { key: 't15d', label: '15 днів (source 2756565)' },
+          { key: 't30d', label: '30 днів (source 2756570)' },
+        ].map(({ key, label }) => (
+          <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+            <span style={{ minWidth: '200px', fontSize: '13px', color: '#856404' }}>{label}:</span>
+            <input
+              type="text"
+              value={tokens[key]}
+              onChange={(e) => setToken(key, e.target.value)}
+              placeholder="вставте токен..."
+              style={{
+                flex: 1, padding: '6px 10px', borderRadius: '4px',
+                border: '1px solid #ddd', fontSize: '13px', fontFamily: 'monospace',
+                backgroundColor: tokens[key] ? '#d4edda' : '#fff'
+              }}
+            />
+          </div>
+        ))}
+        {!hasAnyToken && (
+          <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#856404' }}>
+            ⚠️ Без токенів буде 403. Вставте хоча б токени для потрібних вам періодів.
+          </p>
+        )}
       </div>
       
       <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#fff', borderRadius: '6px' }}>

@@ -20,7 +20,7 @@ def _load_env():
             if not line or line.startswith('#') or '=' not in line:
                 continue
             key, value = line.split('=', 1)
-            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+            os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
 _load_env()
 
@@ -29,22 +29,18 @@ import database as db
 # Moonton API configuration
 MOONTON_API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
 
-# Читаємо токен з environment variable (опціонально - API працює і без нього)
-AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN', '')
-
-HEADERS = {
+# Base headers (без authorization — додається per-request)
+BASE_HEADERS = {
     'accept': 'application/json, text/plain, */*',
+    'accept-language': 'en-US,en;q=0.9',
     'content-type': 'application/json;charset=UTF-8',
+    'origin': 'https://www.mobilelegends.com',
+    'referer': 'https://www.mobilelegends.com/',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
     'x-actid': '2669607',
     'x-appid': '2669606',
     'x-lang': 'en',
 }
-
-if AUTH_TOKEN:
-    HEADERS['authorization'] = AUTH_TOKEN
-    print(f"🔑 Using auth token: {AUTH_TOKEN[:20]}...")
-else:
-    print("ℹ️  No auth token provided, using public API access")
 
 # Source IDs для різних періодів
 SOURCE_IDS = {
@@ -54,6 +50,20 @@ SOURCE_IDS = {
     15: '2756565',  # 15 днів
     30: '2756570'   # 30 днів
 }
+
+# Токени прив'язані до source_id (оновлювати при 403)
+# Отримати: відкрити https://www.mobilelegends.com/en/rank -> DevTools -> Network
+# -> знайти запит до api.gms.moontontech.com -> скопіювати header 'authorization'
+SOURCE_TOKENS = {
+    '2756567': os.environ.get('MOONTON_TOKEN_1D',  'UoXPlAENpsE7NAfeDxk4SvbyDTc='),  # 1 день
+    '2756568': os.environ.get('MOONTON_TOKEN_3D',  'hLal4Mf1ZPiSBWebWJbzP8kbwMg='),  # 3 дні
+    '2756569': os.environ.get('MOONTON_TOKEN_7D',  'RLnaYujR1KSzSdOHKWPEpAdd2bk='),  # 7 днів
+    '2756565': os.environ.get('MOONTON_TOKEN_15D', '1y/XaDVERm870fNOkNMlpbdAI+w='),  # 15 днів
+    '2756570': os.environ.get('MOONTON_TOKEN_30D', 'uJirxzc5uYKgPBCwT9KkfsmI43s='),  # 30 днів
+}
+
+# Зворотна сумісність
+HEADERS = BASE_HEADERS  # legacy, використовується в старих місцях
 
 # Bigrank маппінг
 BIGRANK_MAP = {
@@ -109,7 +119,10 @@ def fetch_hero_stats(days, rank, match_type=0):
         }
         
         try:
-            response = requests.post(url, headers=HEADERS, json=payload, timeout=10)
+            source_id = SOURCE_IDS.get(days)
+            token = SOURCE_TOKENS.get(source_id, '')
+            headers = {**BASE_HEADERS, 'authorization': token} if token else BASE_HEADERS
+            response = requests.post(url, headers=headers, json=payload, timeout=10)
             response.raise_for_status()
             data = response.json()
             

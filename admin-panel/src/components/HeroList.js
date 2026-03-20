@@ -128,19 +128,7 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
   };
 
   const handleSyncMoontonData = async () => {
-    const authToken = prompt(
-      '🔑 Enter Moonton Authorization Token:\n\n' +
-      'Get it from: https://m.mobilelegends.com/en/rank\n' +
-      'Open DevTools → Network → rank → Headers → authorization\n\n' +
-      'Paste token here:'
-    );
-
-    if (!authToken || !authToken.trim()) {
-      alert('❌ Authorization token is required!');
-      return;
-    }
-
-    if (!window.confirm(`🔄 Sync Counter & Compatibility data for ALL ${heroes.length} heroes from Moonton?\n\nThis will:\n✓ Update counter_data (best counters, most countered by)\n✓ Update compatibility_data (compatible, not compatible teammates)\n✓ Update main_hero_win_rate for each hero\n\n⏱️ Estimated time: 5-7 minutes (rate limited to 1 request/sec)`)) {
+    if (!window.confirm(`🔄 Sync Counter & Compatibility data for ALL ${heroes.length} heroes from Moonton?\n\nThis will:\n✓ Update counter_data (best counters, most countered by)\n✓ Update compatibility_data (compatible, not compatible teammates)\n✓ Update main_hero_win_rate for each hero\n\n⏱️ Estimated time: 5-7 minutes (rate limited to 1 request/sec)\n\nTokens are loaded from server .env file.`)) {
       return;
     }
 
@@ -149,7 +137,6 @@ function HeroList({ heroes, heroSkills = {}, onEdit, onDelete }) {
     try {
       const payload = {
         game_id: heroes[0]?.game_id || 2,
-        auth_token: authToken.trim()
       };
 
       const response = await axios.post(`${API_URL}/heroes/sync-moonton-data`, payload);

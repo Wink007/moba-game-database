@@ -10,18 +10,9 @@ import time
 import sys
 import os
 
-AUTH_TOKEN = os.environ.get('MOONTON_AUTH_TOKEN')
-if not AUTH_TOKEN and len(sys.argv) > 1 and not sys.argv[1].startswith('--'):
-    AUTH_TOKEN = sys.argv[1]
-
-if not AUTH_TOKEN:
-    print("\nAuthorization token not provided!")
-    print("Usage: MOONTON_AUTH_TOKEN=<token> python3 update_moonton_stats_final.py")
-    sys.exit(1)
-
 API_BASE = "https://api.gms.moontontech.com/api/gms/source/2669606"
 
-# Different endpoints per day period (confirmed from DevTools)
+# Different endpoints per day period — each requires its OWN token (HMAC-SHA1 per source_id)
 DAYS_ENDPOINT_MAP = {
     1:  '2756567',   # confirmed
     3:  '2756568',   # confirmed
@@ -30,9 +21,13 @@ DAYS_ENDPOINT_MAP = {
     30: '2756570',   # confirmed
 }
 
-HEADERS = {
-    'authorization': AUTH_TOKEN,
+BASE_HEADERS = {
+    'accept': 'application/json, text/plain, */*',
+    'accept-language': 'en-US,en;q=0.9',
     'content-type': 'application/json;charset=UTF-8',
+    'origin': 'https://www.mobilelegends.com',
+    'referer': 'https://www.mobilelegends.com/',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
     'x-actid': '2669607',
     'x-appid': '2669606',
     'x-lang': 'en',
@@ -66,8 +61,17 @@ def _load_env():
             if not line or line.startswith('#') or '=' not in line:
                 continue
             key, value = line.split('=', 1)
-            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+            os.environ[key.strip()] = value.strip().strip('"').strip("'")
 _load_env()
+
+# Per-source-id tokens (each source_id has its own HMAC-SHA1 token)
+SOURCE_TOKENS = {
+    '2756567': os.environ.get('MOONTON_TOKEN_1D',  'UoXPlAENpsE7NAfeDxk4SvbyDTc='),  # 1 день
+    '2756568': os.environ.get('MOONTON_TOKEN_3D',  'hLal4Mf1ZPiSBWebWJbzP8kbwMg='),  # 3 дні
+    '2756569': os.environ.get('MOONTON_TOKEN_7D',  'RLnaYujR1KSzSdOHKWPEpAdd2bk='),  # 7 днів
+    '2756565': os.environ.get('MOONTON_TOKEN_15D', '1y/XaDVERm870fNOkNMlpbdAI+w='),  # 15 днів
+    '2756570': os.environ.get('MOONTON_TOKEN_30D', 'uJirxzc5uYKgPBCwT9KkfsmI43s='),  # 30 днів
+}
 
 import database as db
 
@@ -79,6 +83,8 @@ def fetch_all_heroes(endpoint, match_type, bigrank_str, fields=None):
     if fields is None:
         fields = FIELDS_COUNTER
     url = f"{API_BASE}/{endpoint}"
+    token = SOURCE_TOKENS.get(endpoint, '')
+    headers = {**BASE_HEADERS, 'authorization': token}
     result = {}
     page = 1
     while True:
@@ -96,7 +102,7 @@ def fetch_all_heroes(endpoint, match_type, bigrank_str, fields=None):
             "fields": fields,
         }
         try:
-            resp = requests.post(url, headers=HEADERS, json=payload, timeout=30)
+            resp = requests.post(url, headers=headers, json=payload, timeout=30)
             if resp.status_code in (401, 403):
                 raise AuthExpiredError(f"HTTP {resp.status_code} — token expired")
             resp.raise_for_status()
