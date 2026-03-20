@@ -4002,31 +4002,36 @@ def mlbb_verify():
         if result.get('code') != 0:
             return jsonify({'error': result.get('msg', 'Invalid code'), 'code': result.get('code')}), 400
 
-        mlbb_token = result.get('data', {}).get('token') or result.get('data', '')
+        # Extract token AND jwt from login response
+        # data.token = base64 session ID (for sg-api)
+        # data.jwt   = proper JWT (for api.gms.moontontech.com stats)
+        data_field = result.get('data', {})
+        mlbb_token = (data_field.get('jwt') or data_field.get('jwtToken') or
+                      data_field.get('token') or data_field or '')
         if not mlbb_token:
             return jsonify({'error': 'No token in response'}), 400
 
-        # Fetch MLBB profile info
+        # Fetch MLBB profile info using curl subprocess (bypasses TLS fingerprint CDN block)
         mlbb_nickname = None
         mlbb_avatar = None
         try:
-            info_body = _json.dumps({}).encode('utf-8')
-            info_req = urllib.request.Request(
+            import subprocess as _sub
+            import json as _json
+            sg_token = data_field.get('token') or mlbb_token
+            result_info = _sub.run([
+                'curl', '-s', '--max-time', '8',
                 'https://sg-api.mobilelegends.com/base/getBaseInfo',
-                data=info_body,
-                headers={
-                    'Authorization': mlbb_token,
-                    'X-Token': mlbb_token,
-                    'Content-Type': 'application/json',
-                    'Origin': 'https://app.mlbbsupport.com',
-                    'Referer': 'https://app.mlbbsupport.com/',
-                    'X-Lang': 'en',
-                    'User-Agent': 'Mozilla/5.0',
-                },
-                method='POST'
-            )
-            with urllib.request.urlopen(info_req, timeout=10) as info_resp:
-                info = _json.loads(info_resp.read().decode())
+                '-X', 'POST',
+                '-H', 'Content-Type: application/json',
+                '-H', f'Authorization: {sg_token}',
+                '-H', f'x-token: {sg_token}',
+                '-H', 'Origin: https://app.mlbbsupport.com',
+                '-H', 'Referer: https://app.mlbbsupport.com/',
+                '-H', 'X-Lang: en',
+                '-H', 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15',
+                '--data', '{}',
+            ], capture_output=True, text=True, timeout=10)
+            info = _json.loads(result_info.stdout)
             if info.get('code') == 0:
                 d = info.get('data', {})
                 mlbb_nickname = d.get('name') or d.get('nickName') or d.get('nickname')
@@ -4138,36 +4143,37 @@ def mlbb_stats():
             db.release_connection(conn)
             return jsonify({'error': 'MLBB account not linked', 'code': 'not_linked'}), 400
 
-        import urllib.request as _ureq
-        import urllib.error as _uerr
+        import subprocess as _sub
         import json as _json
 
-        req = _ureq.Request(
+        curl_result = _sub.run([
+            'curl', '-s', '--max-time', '15',
             'https://api.gms.moontontech.com/api/gms/source/2669606/2674710',
-            data=_json.dumps({"pageSize": 200, "pageIndex": 1, "filters": [], "sorts": [], "params": {}}).encode(),
-            headers={
-                'Content-Type': 'application/json',
-                'X-Token': mlbb_token,
-                'Origin': 'https://app.mlbbsupport.com',
-                'Referer': 'https://app.mlbbsupport.com/',
-                'X-Lang': 'en',
-                'User-Agent': 'Mozilla/5.0',
-            },
-            method='POST'
-        )
-        try:
-            with _ureq.urlopen(req, timeout=15) as resp:
-                result = _json.loads(resp.read().decode())
-        except _uerr.HTTPError as he:
-            if he.code in (401, 403):
-                # Token expired — clear it from DB
-                cursor.execute(f"UPDATE users SET mlbb_token=NULL WHERE id={ph}", (request.user_id,))
-                conn.commit()
-                db.release_connection(conn)
-                return jsonify({'error': 'MLBB token expired, please re-link your account', 'code': 'token_expired'}), 400
+            '-H', 'Content-Type: application/json',
+            '-H', f'x-token: {mlbb_token}',
+            '-H', 'Origin: https://app.mlbbsupport.com',
+            '-H', 'Referer: https://app.mlbbsupport.com/',
+            '-H', 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1',
+            '-H', 'Accept: application/json',
+            '--data', _json.dumps({"pageSize": 200, "pageIndex": 1, "filters": [], "sorts": [], "params": {}}),
+        ], capture_output=True, text=True, timeout=20)
+
+        if not curl_result.stdout.strip():
             db.release_connection(conn)
-            return jsonify({'error': f'Stats API error: {he.code}', 'code': 'api_error'}), 500
-        db.release_connection(conn)
+            return jsonify({'error': 'Empty response from stats API', 'code': 'api_error'}), 500
+
+        try:
+            result = _json.loads(curl_result.stdout)
+        except Exception:
+            db.release_connection(conn)
+            return jsonify({'error': 'Invalid response from stats API', 'code': 'api_error'}), 500
+
+        if result.get('code') == 401:
+            # JWT expired — clear token from DB
+            cursor.execute(f"UPDATE users SET mlbb_token=NULL WHERE id={ph}", (request.user_id,))
+            conn.commit()
+            db.release_connection(conn)
+            return jsonify({'error': 'MLBB token expired, please re-link your account', 'code': 'token_expired'}), 400
 
         if result.get('code') != 0:
             return jsonify({'error': result.get('message', 'Failed to fetch stats'), 'code': 'api_error'}), 400
@@ -5024,25 +5030,22 @@ def get_user_profile(user_id):
                     mlbb_token_stored = None
             if mlbb_token_stored and not user_info.get('mlbb_nickname'):
                 try:
-                    import urllib.request as _urllib_req
+                    import subprocess as _sub2
                     import json as _json2
-                    info_body2 = _json2.dumps({}).encode('utf-8')
-                    info_req2 = _urllib_req.Request(
+                    result_info2 = _sub2.run([
+                        'curl', '-s', '--max-time', '5',
                         'https://sg-api.mobilelegends.com/base/getBaseInfo',
-                        data=info_body2,
-                        headers={
-                            'Authorization': mlbb_token_stored,
-                            'X-Token': mlbb_token_stored,
-                            'Content-Type': 'application/json',
-                            'Origin': 'https://app.mlbbsupport.com',
-                            'Referer': 'https://app.mlbbsupport.com/',
-                            'X-Lang': 'en',
-                            'User-Agent': 'Mozilla/5.0',
-                        },
-                        method='POST'
-                    )
-                    with _urllib_req.urlopen(info_req2, timeout=5) as info_resp2:
-                        info2 = _json2.loads(info_resp2.read().decode())
+                        '-X', 'POST',
+                        '-H', 'Content-Type: application/json',
+                        '-H', f'Authorization: {mlbb_token_stored}',
+                        '-H', f'x-token: {mlbb_token_stored}',
+                        '-H', 'Origin: https://app.mlbbsupport.com',
+                        '-H', 'Referer: https://app.mlbbsupport.com/',
+                        '-H', 'X-Lang: en',
+                        '-H', 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 17_3 like Mac OS X) AppleWebKit/605.1.15',
+                        '--data', '{}',
+                    ], capture_output=True, text=True, timeout=7)
+                    info2 = _json2.loads(result_info2.stdout)
                     if info2.get('code') == 0:
                         d2 = info2.get('data', {})
                         new_nickname = d2.get('name') or d2.get('nickName') or d2.get('nickname')
