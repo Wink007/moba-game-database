@@ -30,7 +30,18 @@ def get_connection():
     if DATABASE_TYPE == 'postgres':
         pool = get_connection_pool()
         if pool:
-            return pool.getconn()
+            conn = pool.getconn()
+            # Перевіряємо що з'єднання живе (захист від stale connections)
+            try:
+                conn.cursor().execute('SELECT 1')
+            except Exception:
+                # З'єднання мертве — закриваємо і беремо нове з пулу
+                try:
+                    pool.putconn(conn, close=True)
+                except Exception:
+                    pass
+                conn = pool.getconn()
+            return conn
         else:
             # Fallback якщо pool не ініціалізувався
             import psycopg2
