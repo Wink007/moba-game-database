@@ -7933,5 +7933,147 @@
     ],
     "revamped_heroes": [],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1rnbim1/patch_notes_2162_adv_server/"
+  },
+  "2.1.64-adv": {
+    "version": "2.1.64-adv",
+    "release_date": "2026-03-12",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Aulus": {
+        "badge": "BUFF",
+        "description_en": "Optimized the skill casting experience and the visual effects of the Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Using Basic Attacks while channeling Skill 1 will no longer interrupt it, and the Control Immunity state can still be triggered.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cast Range: 4 <code→></code> 4.5",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Optimized the visual effects of the Ultimate.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Bane": {
+        "badge": "ADJUST",
+        "description_en": "We have revamped the art concept for the skill Ale so its new visual effects better fit Bane's background story. The skill has also been renamed to Sea Ink.<br>",
+        "description_uk": ""
+      },
+      "Harith": {
+        "badge": "BUFF",
+        "description_en": "We're repositioning Harith's scaling to make him a late-game ranged hero capable of dealing massive Magic Damage, while reducing his early laning damage to the level of other ranged heroes.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "HP Growth: 176 <code→></code> 155",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 165-290 (+60% Total Magic Power) <code→></code> 135-235 (+60%-100% Total Magic Power)<br>Explosion Damage: 495-870 (+180% Total Magic Power) <code→></code> 270-470 (+120%-200% Total Magic Power)",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Shield's Magic Bonus: 120% <code→></code> 80%<br>Enhanced Basic Attack Damage: 200-315 (+ 100% of Total Physical Attack) (+ 60% of Total Magic Power) <code→></code> 175-350 (+ 100% of Total Physical Attack) (+ 100% of Total Magic Power)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Melissa": {
+        "badge": "NERF",
+        "description_en": "Last week's buffs significantly enhanced Melissa's mobility and combat capability. This week, we've reverted some of her buffs.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Dash Distance: 3.5 <code→></code> 3.1",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Damage: 250-400 (+80% Total Physical Attack) <code→></code> 175-300 (+50% Total Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Terizla": {
+        "badge": "NERF",
+        "description_en": "To balance the strength gained from having no Mana cost, we've slightly increased Terizla's skill cooldowns, ensuring he remains strong yet balanced.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 8.5s <code→></code> 9.5-8.5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 9-4s <code→></code> 9-5s<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Starlium Scythe": {
+        "badge": "ADJUST",
+        "description_en": "Reverted the cooldown of the triggered skill and reduced its extra damage and slow effect.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Unique Passive - Crisis",
+            "description_en": "Cooldown: 5s <code→></code> 1.5s<br>Damage: 100 (+ 100% of Total Magic Power) <code→></code> 75 (+60% of Total Magic Power)<br>Slow Effect: 40% <code→></code> 15%<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "battlefield_adjustments": {},
+    "system_adjustments": [
+      {
+        "text_en": "<strong>B. Gameplay Test</strong><br/><p>We are relaunching the Treasure Hunt Coin gameplay test this week. To align with related events on the Advanced Server, matches in Classic and Ranked modes will drop extra Chests and Treasure Hunt Coins, which can be exchanged for event rewards.</p><p>Based on the previous test, we've adjusted the amount of Treasure Hunt Coins obtained from certain actions and reduced the frequency of text prompts to avoid cluttering the screen with too much information during gameplay.<br><strong>How to Obtain Treasure Hunt Coins</strong><br><code>a-</code> <strong>Team Rewards</strong>:</p><p><code>1-</code> Treasure Hunt Coin amount varies by action.</p><p><code>2-</code> Each time your team kills the Turtle.</p><p><code>3-</code> Each time your team kills the Lord (starting from the 2nd kill).</p><p><code>4-</code> Each time your team destroys a Turret.</p><p><code>5-</code> When your team picks up Treasure Hunt Coins dropped on the map.</p><p><code>6-</code> For every 10,000 Gold increase in your team's total Gold.<br><code>b-</code> <strong>Individual Rewards</strong>: Treasure Hunt Coin amount varies by action.</p><p><code>1-</code> Each time you kill an enemy hero.</p><p><code>2-</code> Each time you get an assist.</p><p><code>3-</code> Each time you trigger an in-match Highlight Notification.<br><code>c-</code> Winning the match grants 100% of the Treasure Hunt Coins, while losing grants only 50%.<br><strong>How to Obtain Chests</strong></p><p>When your team kills the Lord for the first time, all team members get 1 Chest, regardless of the match result.<br><strong>Match Drop Limits</strong></p><p>Up to 5 Chests per day, and up to 35 Chests during the event.</p><p>Up to 300 Treasure Hunt Coins per match, 1,000 per day (excluding Treasure Hunt Coins from Chests), and 7,000 during the event (excluding Treasure Hunt Coins from Chests).</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>C. Bug Fix</strong><br/><br>Optimized the logic of Valentina's Ultimate. When casting Alpha's and Gatotkaca's Ultimates, the transformation will now trigger upon skill cast rather than upon pressing the skill button.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iii. Mode Adjustments</strong><br/><br><ul><br><li><strong>Frozen Sea Showdown</strong></li><br></ul><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>1-</code> Removed the Ale buff icon and optimized the description.</p><p><code>2-</code> The kill count warning ticker is now always visible when the match is ending.</p><p><code>3-</code> Optimized the visual effects for Thunderbolt.</p><p><code>4-</code> Added a new Ultimate, Trick Hook: Swings the hook to sweep targets in a fan-shaped area to one side, then pulls the hit target back.</p><p><code>5-</code> Killing an enemy hero no longer resets the cooldown of Franco's Skill 2.</p><ul>\n<li><strong>Tide Siege</strong></li>\n</ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>1-</code> Added new bosses, Gatotkaca and Aurora, in the Endless Mode.</p><p><code>2-</code> Added some new Buffs.</p><p><code>3-</code> Added new creep types and adjusted the creep spawn logic accordingly.</p><p><code>4-</code> Added a new Attribute Buff - <strong>Precision</strong>: Increases Crit Chance.</p><p><code>5-</code> Adjusted the monster difficulty in some stages.</p><p><code>6-</code> Slightly increased Karrie's passive damage.</p><p><code>7-</code> Slightly reduced the Magic Power provided by Cecilion's Passive.</p><p><code>8-</code> Slightly increased the Physical Attack Bonus of Benedetta's skills.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1rruc0a/patch_notes_2164_adv_server/"
   }
 }
