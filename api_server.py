@@ -4046,13 +4046,14 @@ def mlbb_verify():
             cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_zone_id VARCHAR(16)")
             cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_nickname VARCHAR(64)")
             cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_avatar TEXT")
+            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_token TEXT")
             conn.commit()
         except Exception:
             pass
 
         cursor.execute(
-            f"UPDATE users SET mlbb_role_id={ph}, mlbb_zone_id={ph}, mlbb_nickname={ph}, mlbb_avatar={ph} WHERE id={ph}",
-            (role_id, zone_id, mlbb_nickname, mlbb_avatar, request.user_id)
+            f"UPDATE users SET mlbb_role_id={ph}, mlbb_zone_id={ph}, mlbb_nickname={ph}, mlbb_avatar={ph}, mlbb_token={ph} WHERE id={ph}",
+            (role_id, zone_id, mlbb_nickname, mlbb_avatar, mlbb_token, request.user_id)
         )
         conn.commit()
         db.release_connection(conn)
@@ -4081,12 +4082,83 @@ def mlbb_unlink():
         else:
             cursor = conn.cursor()
         cursor.execute(
-            f"UPDATE users SET mlbb_role_id=NULL, mlbb_zone_id=NULL, mlbb_nickname=NULL, mlbb_avatar=NULL WHERE id={ph}",
+            f"UPDATE users SET mlbb_role_id=NULL, mlbb_zone_id=NULL, mlbb_nickname=NULL, mlbb_avatar=NULL, mlbb_token=NULL WHERE id={ph}",
             (request.user_id,)
         )
         conn.commit()
         db.release_connection(conn)
         return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/users/mlbb/stats', methods=['GET'])
+@require_auth
+def mlbb_stats():
+    """Fetch hero stats from Moonton using stored mlbb_token"""
+    try:
+        conn = db.get_connection()
+        ph = db.get_placeholder()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+        cursor.execute(f"SELECT mlbb_token FROM users WHERE id={ph}", (request.user_id,))
+        row = cursor.fetchone()
+        db.release_connection(conn)
+        mlbb_token = row['mlbb_token'] if isinstance(row, dict) else (row[0] if row else None)
+        if not mlbb_token:
+            return jsonify({'error': 'MLBB account not linked'}), 400
+
+        import urllib.request
+        import json as _json
+        req = urllib.request.Request(
+            'https://api.gms.moontontech.com/api/gms/source/2669606/2674710',
+            data=_json.dumps({"pageSize": 200, "pageIndex": 1, "filters": [], "sorts": [], "params": {}}).encode(),
+            headers={
+                'Content-Type': 'application/json',
+                'X-Token': mlbb_token,
+                'Origin': 'https://app.mlbbsupport.com',
+                'Referer': 'https://app.mlbbsupport.com/',
+                'X-Lang': 'en',
+                'User-Agent': 'Mozilla/5.0',
+            },
+            method='POST'
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            result = _json.loads(resp.read().decode())
+
+        if result.get('code') != 0:
+            return jsonify({'error': result.get('message', 'Failed to fetch stats')}), 400
+
+        # Parse hero stats from nested structure
+        records = result.get('data', {}).get('records', [])
+        hero_stats = {}
+        for record in records:
+            stat_data = record.get('stHeroStatistic', {}).get('F_mStatistic', {})
+            for key, battle_data in stat_data.items():
+                heroes_map = battle_data.get('F_mHero', {})
+                for hero_id_str, hdata in heroes_map.items():
+                    hero_id = int(hero_id_str)
+                    total = hdata.get('F_iTotalCnt', 0)
+                    if total == 0:
+                        continue
+                    wins = hdata.get('F_iWinCnt', 0)
+                    existing = hero_stats.get(hero_id)
+                    if not existing or total > existing.get('total_games', 0):
+                        hero_stats[hero_id] = {
+                            'hero_id': hero_id,
+                            'total_games': total,
+                            'wins': wins,
+                            'win_rate': round(wins / total * 100, 1) if total > 0 else 0,
+                            'mvp': hdata.get('F_iMvpNum', 0),
+                            'level': hdata.get('F_iLevel', 0),
+                            'kda': round(hdata.get('F_iAveKda', 0) / 100, 2),
+                        }
+
+        stats_list = sorted(hero_stats.values(), key=lambda x: x['total_games'], reverse=True)
+        return jsonify({'stats': stats_list})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
