@@ -385,6 +385,14 @@ function injectMeta(html, { title, description, image, canonical, jsonLd, lang, 
     .replace(/(<meta property="og:url" content=")[^"]*(")/,  `$1${canon}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${canon}$2`);
 
+  // Replace hreflang links with per-page URLs
+  const baseUrl = canon.replace(/\?.*$/, '');
+  result = result
+    .replace(/(<link rel="alternate" hreflang="en" href=")[^"]*(")/,  `$1${baseUrl}$2`)
+    .replace(/(<link rel="alternate" hreflang="uk" href=")[^"]*(")/,  `$1${baseUrl}?lang=uk$2`)
+    .replace(/(<link rel="alternate" hreflang="id" href=")[^"]*(")/,  `$1${baseUrl}?lang=id$2`)
+    .replace(/(<link rel="alternate" hreflang="x-default" href=")[^"]*(")/,  `$1${baseUrl}$2`);
+
   // og:locale
   const ogLocale = lang === 'uk' ? 'uk_UA' : lang === 'id' ? 'id_ID' : 'en_US';
   const localeTag = `<meta property="og:locale" content="${ogLocale}"/>`;
