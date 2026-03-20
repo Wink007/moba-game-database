@@ -4927,24 +4927,46 @@ def get_user_profile(user_id):
             cursor = conn.cursor()
 
         # User info (with banner hero image)
-        cursor.execute(f"""
-            SELECT u.id, u.name, u.picture, u.created_at, u.nickname,
-                   u.banner_hero_id, u.accent_color,
-                   bh.image as banner_image, bh.painting as banner_painting, bh.name as banner_hero_name,
-                   u.mlbb_role_id, u.mlbb_zone_id, u.mlbb_nickname, u.mlbb_avatar
-            FROM users u
-            LEFT JOIN heroes bh ON bh.id = u.banner_hero_id
-            WHERE u.id = {ph}
-        """, (user_id,))
-        user_row = cursor.fetchone()
+        # Try with mlbb columns first; fall back without them if they don't exist yet
+        try:
+            cursor.execute(f"""
+                SELECT u.id, u.name, u.picture, u.created_at, u.nickname,
+                       u.banner_hero_id, u.accent_color,
+                       bh.image as banner_image, bh.painting as banner_painting, bh.name as banner_hero_name,
+                       u.mlbb_role_id, u.mlbb_zone_id, u.mlbb_nickname, u.mlbb_avatar
+                FROM users u
+                LEFT JOIN heroes bh ON bh.id = u.banner_hero_id
+                WHERE u.id = {ph}
+            """, (user_id,))
+            user_row = cursor.fetchone()
+            has_mlbb_cols = True
+        except Exception:
+            conn.rollback()
+            cursor.execute(f"""
+                SELECT u.id, u.name, u.picture, u.created_at, u.nickname,
+                       u.banner_hero_id, u.accent_color,
+                       bh.image as banner_image, bh.painting as banner_painting, bh.name as banner_hero_name
+                FROM users u
+                LEFT JOIN heroes bh ON bh.id = u.banner_hero_id
+                WHERE u.id = {ph}
+            """, (user_id,))
+            user_row = cursor.fetchone()
+            has_mlbb_cols = False
         if not user_row:
             db.release_connection(conn)
             return jsonify({'error': 'User not found'}), 404
-        user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
-            ['id', 'name', 'picture', 'created_at', 'nickname',
-             'banner_hero_id', 'accent_color',
-             'banner_image', 'banner_painting', 'banner_hero_name',
-             'mlbb_role_id', 'mlbb_zone_id', 'mlbb_nickname', 'mlbb_avatar'], user_row))
+        if has_mlbb_cols:
+            user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
+                ['id', 'name', 'picture', 'created_at', 'nickname',
+                 'banner_hero_id', 'accent_color',
+                 'banner_image', 'banner_painting', 'banner_hero_name',
+                 'mlbb_role_id', 'mlbb_zone_id', 'mlbb_nickname', 'mlbb_avatar'], user_row))
+        else:
+            user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
+                ['id', 'name', 'picture', 'created_at', 'nickname',
+                 'banner_hero_id', 'accent_color',
+                 'banner_image', 'banner_painting', 'banner_hero_name'], user_row))
+            user_info.update({'mlbb_role_id': None, 'mlbb_zone_id': None, 'mlbb_nickname': None, 'mlbb_avatar': None})
         if user_info.get('created_at') and not isinstance(user_info['created_at'], str):
             user_info['created_at'] = str(user_info['created_at'])
         # Hide mlbb_role_id / mlbb_zone_id from non-owners
