@@ -4031,6 +4031,27 @@ def mlbb_verify():
         except Exception:
             pass
 
+        # Run DDL migration in a separate autocommit connection
+        if db.DATABASE_TYPE == 'postgres':
+            ddl_conn = db.get_connection()
+            try:
+                ddl_conn.autocommit = True
+                ddl_cur = ddl_conn.cursor()
+                for col, coltype in [
+                    ('mlbb_role_id', 'VARCHAR(32)'),
+                    ('mlbb_zone_id', 'VARCHAR(16)'),
+                    ('mlbb_nickname', 'VARCHAR(64)'),
+                    ('mlbb_avatar', 'TEXT'),
+                    ('mlbb_token', 'TEXT'),
+                ]:
+                    try:
+                        ddl_cur.execute(f"ALTER TABLE users ADD COLUMN IF NOT EXISTS {col} {coltype}")
+                    except Exception:
+                        pass
+            finally:
+                ddl_conn.autocommit = False
+                db.release_connection(ddl_conn)
+
         # Save to DB
         conn = db.get_connection()
         ph = db.get_placeholder()
@@ -4039,17 +4060,19 @@ def mlbb_verify():
             cursor = conn.cursor(cursor_factory=RealDictCursor)
         else:
             cursor = conn.cursor()
-
-        # Add columns if not exist (idempotent migration)
-        try:
-            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_role_id VARCHAR(32)")
-            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_zone_id VARCHAR(16)")
-            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_nickname VARCHAR(64)")
-            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_avatar TEXT")
-            cursor.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS mlbb_token TEXT")
-            conn.commit()
-        except Exception:
-            pass
+            # SQLite: try ADD COLUMN (will fail silently if exists)
+            for col, coltype in [
+                ('mlbb_role_id', 'VARCHAR(32)'),
+                ('mlbb_zone_id', 'VARCHAR(16)'),
+                ('mlbb_nickname', 'VARCHAR(64)'),
+                ('mlbb_avatar', 'TEXT'),
+                ('mlbb_token', 'TEXT'),
+            ]:
+                try:
+                    cursor.execute(f"ALTER TABLE users ADD COLUMN {col} {coltype}")
+                    conn.commit()
+                except Exception:
+                    pass
 
         cursor.execute(
             f"UPDATE users SET mlbb_role_id={ph}, mlbb_zone_id={ph}, mlbb_nickname={ph}, mlbb_avatar={ph}, mlbb_token={ph} WHERE id={ph}",
