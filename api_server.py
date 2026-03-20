@@ -4010,17 +4010,20 @@ def mlbb_verify():
         mlbb_nickname = None
         mlbb_avatar = None
         try:
+            info_body = _json.dumps({}).encode('utf-8')
             info_req = urllib.request.Request(
                 'https://sg-api.mobilelegends.com/base/getBaseInfo',
+                data=info_body,
                 headers={
                     'Authorization': mlbb_token,
                     'X-Token': mlbb_token,
+                    'Content-Type': 'application/json',
                     'Origin': 'https://app.mlbbsupport.com',
                     'Referer': 'https://app.mlbbsupport.com/',
                     'X-Lang': 'en',
                     'User-Agent': 'Mozilla/5.0',
                 },
-                method='GET'
+                method='POST'
             )
             with urllib.request.urlopen(info_req, timeout=10) as info_resp:
                 info = _json.loads(info_resp.read().decode())
@@ -4992,6 +4995,55 @@ def get_user_profile(user_id):
             user_info.update({'mlbb_role_id': None, 'mlbb_zone_id': None, 'mlbb_nickname': None, 'mlbb_avatar': None})
         if user_info.get('created_at') and not isinstance(user_info['created_at'], str):
             user_info['created_at'] = str(user_info['created_at'])
+
+        # If own profile: token present but nickname missing → try to re-fetch from MLBB API
+        if current_uid == user_id and has_mlbb_cols:
+            mlbb_token_stored = user_info.get('mlbb_token') if 'mlbb_token' in (user_info or {}) else None
+            # Fetch mlbb_token from DB since it's not in user_info yet
+            if not mlbb_token_stored:
+                try:
+                    cursor.execute(f"SELECT mlbb_token FROM users WHERE id = {ph}", (user_id,))
+                    tok_row = cursor.fetchone()
+                    if tok_row:
+                        mlbb_token_stored = tok_row[0] if not hasattr(tok_row, 'keys') else tok_row.get('mlbb_token')
+                except Exception:
+                    mlbb_token_stored = None
+            if mlbb_token_stored and not user_info.get('mlbb_nickname'):
+                try:
+                    import urllib.request as _urllib_req
+                    import json as _json2
+                    info_body2 = _json2.dumps({}).encode('utf-8')
+                    info_req2 = _urllib_req.Request(
+                        'https://sg-api.mobilelegends.com/base/getBaseInfo',
+                        data=info_body2,
+                        headers={
+                            'Authorization': mlbb_token_stored,
+                            'X-Token': mlbb_token_stored,
+                            'Content-Type': 'application/json',
+                            'Origin': 'https://app.mlbbsupport.com',
+                            'Referer': 'https://app.mlbbsupport.com/',
+                            'X-Lang': 'en',
+                            'User-Agent': 'Mozilla/5.0',
+                        },
+                        method='POST'
+                    )
+                    with _urllib_req.urlopen(info_req2, timeout=5) as info_resp2:
+                        info2 = _json2.loads(info_resp2.read().decode())
+                    if info2.get('code') == 0:
+                        d2 = info2.get('data', {})
+                        new_nickname = d2.get('name') or d2.get('nickName') or d2.get('nickname')
+                        new_avatar = d2.get('avatar') or d2.get('head')
+                        if new_nickname:
+                            cursor.execute(
+                                f"UPDATE users SET mlbb_nickname={ph}, mlbb_avatar={ph} WHERE id={ph}",
+                                (new_nickname, new_avatar, user_id)
+                            )
+                            conn.commit()
+                            user_info['mlbb_nickname'] = new_nickname
+                            user_info['mlbb_avatar'] = new_avatar
+                except Exception:
+                    pass
+
         # Hide mlbb_role_id / mlbb_zone_id from non-owners
         if current_uid != user_id:
             user_info.pop('mlbb_role_id', None)
