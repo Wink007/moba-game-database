@@ -40,3 +40,4 @@ heroes_topics_progress.json
 # Keystore
 *.jks
 *.keystore
+android/app/google-services.json
