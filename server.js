@@ -385,14 +385,6 @@ function injectMeta(html, { title, description, image, canonical, jsonLd, lang, 
     .replace(/(<meta property="og:url" content=")[^"]*(")/,  `$1${canon}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${canon}$2`);
 
-  // Replace hreflang links with per-page URLs
-  const baseUrl = canon.replace(/\?.*$/, '');
-  result = result
-    .replace(/(<link rel="alternate" hreflang="en" href=")[^"]*(")/,  `$1${baseUrl}$2`)
-    .replace(/(<link rel="alternate" hreflang="uk" href=")[^"]*(")/,  `$1${baseUrl}?lang=uk$2`)
-    .replace(/(<link rel="alternate" hreflang="id" href=")[^"]*(")/,  `$1${baseUrl}?lang=id$2`)
-    .replace(/(<link rel="alternate" hreflang="x-default" href=")[^"]*(")/,  `$1${baseUrl}$2`);
-
   // og:locale
   const ogLocale = lang === 'uk' ? 'uk_UA' : lang === 'id' ? 'id_ID' : 'en_US';
   const localeTag = `<meta property="og:locale" content="${ogLocale}"/>`;
@@ -579,6 +571,14 @@ app.get('/{*path}', async (req, res) => {
     if (heroMatch) {
       const [, gameId, heroSlug] = heroMatch;
       const heroes = await cachedFetch(`${API_URL}/heroes?game_id=${gameId}&lang=en`);
+      // Redirect numeric ID to slug (e.g. /2/heroes/77 → /2/heroes/ruby)
+      if (heroes && /^\d+$/.test(heroSlug)) {
+        const heroById = heroes.find(h => String(h.id) === heroSlug || String(h.hero_game_id) === heroSlug);
+        if (heroById) {
+          return res.redirect(301, `/${gameId}/heroes/${heroToSlug(heroById.name)}`);
+        }
+        return res.status(404).send('Not found');
+      }
       if (heroes) {
         const hero = heroes.find(h => heroToSlug(h.name) === heroSlug);
         if (hero) {
@@ -739,6 +739,9 @@ app.get('/{*path}', async (req, res) => {
     if (url.match(/^\/\d+\/items/)) {
       const [, igid] = url.match(/^\/(\d+)\/items/) || [];
       const items = igid ? await cachedFetch(`${API_URL}/items?game_id=${igid}&lang=en`) : null;
+      if (!Array.isArray(items) || items.length === 0) {
+        return res.status(404).send('Not found');
+      }
       html = injectMeta(html, {
         title: 'Items',
         description: 'All Mobile Legends items for 2026 — stats, effects, tier list and best builds. Find the strongest items for every hero role.',

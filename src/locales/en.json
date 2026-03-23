@@ -493,6 +493,8 @@
     "mlbbLinked": "MLBB linked",
     "mlbbUnlink": "Unlink",
     "mlbbSessionExpired": "Your MLBB session has expired. Please unlink and re-link your account to see stats.",
+    "mlbbNoStats": "No stats found. Play a few games and try again.",
+    "mlbbStatsError": "Failed to load stats. Try again later.",
     "mlbbLinkBtn": "Link MLBB Account",
     "mlbbFormHintStep1": "Enter your MLBB User ID and Server ID. A verification code will be sent to your in-game mailbox.",
     "mlbbFormHintStep2": "Check your in-game mailbox and enter the 6-digit code below.",

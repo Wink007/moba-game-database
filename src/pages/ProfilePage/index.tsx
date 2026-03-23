@@ -269,7 +269,7 @@ export const ProfilePage: React.FC = () => {
   React.useEffect(() => {
     if (!mlbbStatsError) return;
     const err = mlbbStatsError as any;
-    if (err?.code === 'token_expired' || err?.status === 401 || String(err?.message).includes('token expired')) {
+    if (err?.code === 'token_expired' || err?.code === 'not_linked' || err?.status === 401 || String(err?.message).includes('token expired')) {
       setMlbbTokenExpired(true);
       queryClient.invalidateQueries({ queryKey: queryKeys.profile.user(numericUserId) });
     }
@@ -641,6 +641,14 @@ export const ProfilePage: React.FC = () => {
                           </div>
                         </div>
                       ))}
+                    </div>
+                  ) : mlbbStatsError && !mlbbTokenExpired ? (
+                    <div className={styles.mlbbError} style={{marginTop: 8}}>
+                      {(mlbbStatsError as any)?.message || t('profile.mlbbStatsError')}
+                    </div>
+                  ) : !mlbbFetching && mlbbStats.length === 0 && mlbbData !== undefined ? (
+                    <div className={styles.mlbbEmpty} style={{marginTop: 16, textAlign: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 13}}>
+                      {t('profile.mlbbNoStats')}
                     </div>
                   ) : mlbbStats.length > 0 && (() => {
                     const sorted = [...mlbbStats].sort((a, b) => {

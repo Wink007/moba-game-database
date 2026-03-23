@@ -25,25 +25,33 @@ export function useGoogleAuth(onSuccess?: () => void | Promise<void>) {
         grantOfflineAccess: false,
       });
       const googleUser = await GoogleAuth.signIn();
+      // On Android, accessToken is empty - use idToken instead
+      // When sending idToken, don't send user_info so backend uses id_token verification flow
+      const idToken = googleUser.authentication.idToken;
       const accessToken = googleUser.authentication.accessToken;
-
-      const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const userInfo = await userInfoRes.json();
 
       const res = await fetch(`${API_URL}/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ credential: accessToken, user_info: userInfo }),
+        body: JSON.stringify(
+          idToken
+            ? { credential: idToken }
+            : { credential: accessToken, user_info: {
+                sub: googleUser.id,
+                name: googleUser.name,
+                email: googleUser.email,
+                picture: googleUser.imageUrl,
+              }}
+        ),
       });
       if (!res.ok) throw new Error('Login failed');
 
       const data = await res.json();
       setAuth(data.user, data.token);
       onSuccess?.();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Native login error:', err);
+      alert('Login error: ' + (err?.message || JSON.stringify(err)));
     } finally {
       setLoading(false);
     }

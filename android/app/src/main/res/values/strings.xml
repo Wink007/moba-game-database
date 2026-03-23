@@ -4,4 +4,5 @@
     <string name="title_activity_main">MOBA Wiki</string>
     <string name="package_name">com.mobawiki.mlbb</string>
     <string name="custom_url_scheme">com.mobawiki.mlbb</string>
+    <string name="server_client_id">298925088925-a5l28snnss99vm5hskqnh644nopu85pl.apps.googleusercontent.com</string>
 </resources>
