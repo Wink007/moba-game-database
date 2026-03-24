@@ -5618,6 +5618,11 @@ def proxy_news():
         return jsonify({'error': str(e)}), 502
 
 
+@app.errorhandler(ConnectionError)
+def handle_pool_exhausted(e):
+    return jsonify({'error': 'connection pool exhausted', 'retry_after': 2}), 503
+
+
 if __name__ == '__main__':
     # Використовуємо PORT з environment або 8080 для локальної розробки
     app.run(host='0.0.0.0', port=PORT, debug=os.getenv('DATABASE_TYPE') != 'postgres')

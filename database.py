@@ -14,9 +14,12 @@ def get_connection_pool():
     global _connection_pool
     if DATABASE_TYPE == 'postgres' and _connection_pool is None:
         from psycopg2 import pool
-        _connection_pool = pool.SimpleConnectionPool(
-            minconn=2,
-            maxconn=20,
+        # ThreadedConnectionPool — thread-safe для gunicorn з кількома workers
+        # maxconn=5: Railway hobby план має ліміт ~25 з'єднань
+        # При gunicorn з 4 workers: 4 * 5 = 20 з'єднань макс.
+        _connection_pool = pool.ThreadedConnectionPool(
+            minconn=1,
+            maxconn=5,
             dsn=DATABASE_URL
         )
     return _connection_pool
@@ -30,19 +33,12 @@ def get_connection():
     if DATABASE_TYPE == 'postgres':
         pool = get_connection_pool()
         if pool:
-            conn = pool.getconn()
-            # Перевіряємо що з'єднання живе (захист від stale connections)
             try:
-                conn.cursor().execute('SELECT 1')
-                conn.rollback()  # закриваємо implicit транзакцію після перевірки
-            except Exception:
-                # З'єднання мертве — закриваємо і беремо нове з пулу
-                try:
-                    pool.putconn(conn, close=True)
-                except Exception:
-                    pass
-                conn = pool.getconn()
-            return conn
+                return pool.getconn()
+            except Exception as e:
+                if 'exhausted' in str(e).lower() or 'pool' in str(e).lower():
+                    raise ConnectionError('connection pool exhausted')
+                raise
         else:
             # Fallback якщо pool не ініціалізувався
             import psycopg2
