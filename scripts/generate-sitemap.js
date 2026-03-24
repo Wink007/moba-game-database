@@ -128,7 +128,8 @@ ${urls.join('\n')}
   // Strips heavy fields (hero_schema, skill_schema, background_image) — only
   // what VideoPreview + useGameStore need for LCP: id, name, preview,
   // video_intro, subtitle, icon.
-  const slim = games.map(g => ({
+  // Only include games that are fully supported in the app
+  const slim = games.filter(g => g.id === 2).map(g => ({
     id: g.id,
     name: g.name,
     preview: g.preview,
