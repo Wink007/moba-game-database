@@ -34,11 +34,24 @@ def get_connection():
         pool = get_connection_pool()
         if pool:
             try:
-                return pool.getconn()
+                conn = pool.getconn()
             except Exception as e:
                 if 'exhausted' in str(e).lower() or 'pool' in str(e).lower():
                     raise ConnectionError('connection pool exhausted')
                 raise
+            # Перевіряємо що з'єднання живе (захист від stale connections)
+            try:
+                cur = conn.cursor()
+                cur.execute('SELECT 1')
+                cur.close()
+                conn.rollback()  # закриваємо implicit транзакцію після перевірки
+            except Exception:
+                try:
+                    pool.putconn(conn, close=True)
+                except Exception:
+                    pass
+                conn = pool.getconn()
+            return conn
         else:
             # Fallback якщо pool не ініціалізувався
             import psycopg2
