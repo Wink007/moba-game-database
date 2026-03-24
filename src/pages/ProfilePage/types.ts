@@ -132,3 +132,74 @@ export interface MlbbSectionProps {
   userId: number;
   onProfileRefresh: () => void;
 }
+
+export interface ProfileBannerProps {
+  user: ProfileUser;
+  isOwnProfile: boolean;
+  onEditBanner: () => void;
+}
+
+export interface NicknameFormProps {
+  value: string;
+  error: string;
+  saving: boolean;
+  onChange: (value: string) => void;
+  onSave: () => void;
+  onCancel: () => void;
+}
+
+export interface ProfileHeaderProps {
+  user: ProfileUser;
+  mainHeroes: MainHero[];
+  isOwnProfile: boolean;
+  isFollowing: boolean | null;
+  followLoading: boolean;
+  currentUser: any;
+  activityTitle: string;
+  editingNickname: boolean;
+  nicknameInput: string;
+  nicknameError: string;
+  nicknameSaving: boolean;
+  onStartEditNickname: () => void;
+  onNicknameChange: (value: string) => void;
+  onSaveNickname: () => void;
+  onCancelEditNickname: () => void;
+  onFollow: () => void;
+}
+
+export interface ProfileStatsBarProps {
+  buildsCount: number;
+  favoritesCount: number;
+  followersCount: number;
+  followingCount: number;
+  onOpenFollowers: () => void;
+  onOpenFollowing: () => void;
+}
+
+export interface ProfileBodyProps {
+  isOwnProfile: boolean;
+  user: ProfileUser;
+  mainHeroes: MainHero[];
+  builds: ProfileBuild[];
+  favorites: FavoriteHero[];
+  favoritesCount: number;
+  itemsMap: Map<number, any>;
+  selectedGameId: number;
+  onOpenMlbb: () => void;
+}
+
+export interface ProfileActionsProps {
+  showCustomize: boolean;
+  user: ProfileUser;
+  saving: boolean;
+  onToggleCustomize: () => void;
+  onOpenBannerPicker: () => void;
+  onRemoveBanner: () => void;
+}
+
+export interface DangerZoneProps {
+  deleteConfirm: boolean;
+  deleting: boolean;
+  onSetDeleteConfirm: (v: boolean) => void;
+  onDeleteAccount: () => void;
+}
