@@ -1,6 +1,6 @@
 {
   "name": "moba-wiki",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "dependencies": {
     "@capacitor-community/admob": "^8.0.0",
