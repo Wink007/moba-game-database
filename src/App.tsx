@@ -47,7 +47,12 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: STALE_5_MIN,
-      retry: 2,
+      retry: (failureCount, error: any) => {
+        // Don't retry on 4xx/5xx server errors — only on network failures
+        const status = error?.status ?? error?.response?.status;
+        if (status && status >= 400) return false;
+        return failureCount < 2;
+      },
     },
   },
 });
