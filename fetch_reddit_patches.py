@@ -34,10 +34,20 @@ except Exception:
     _ssl_ctx.verify_mode = ssl.CERT_NONE
 
 
-def fetch_json(url: str) -> dict:
-    req = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
-    with urllib.request.urlopen(req, timeout=15, context=_ssl_ctx) as r:
-        return json.loads(r.read().decode('utf-8'))
+def fetch_json(url: str, retries: int = 4) -> dict:
+    for attempt in range(retries):
+        req = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
+        try:
+            with urllib.request.urlopen(req, timeout=15, context=_ssl_ctx) as r:
+                return json.loads(r.read().decode('utf-8'))
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                wait = int(e.headers.get('Retry-After', 10 * (2 ** attempt)))
+                print(f'    429 rate limited, waiting {wait}s (attempt {attempt + 1}/{retries})...')
+                time.sleep(wait)
+            else:
+                raise
+    raise RuntimeError(f'Failed to fetch {url} after {retries} retries (429)')
 
 
 # ─── Reddit search ────────────────────────────────────────────
@@ -654,6 +664,7 @@ def main():
         if dry_run:
             print(json.dumps(parsed, ensure_ascii=False, indent=2)[:2000])
             print('...')
+            time.sleep(2.0)  # rate limit even in dry-run
             continue
 
         # Fields preserved from existing (non-Reddit sources)

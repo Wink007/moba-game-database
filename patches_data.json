@@ -8075,5 +8075,418 @@
     ],
     "revamped_heroes": [],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1rruc0a/patch_notes_2164_adv_server/"
+  },
+  "2.1.66-adv": {
+    "version": "2.1.66-adv",
+    "release_date": "2026-03-20",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "New Hero: Fallen Scarlet - Hirara": {
+        "badge": "CHANGE",
+        "description_en": "Soul ablaze with crimson maples, she drifts toward the dark waters of the Meisen.<br>A geisha ninja from the Scarlet Shadow, she defies all odds to return, wielding the legendary Twin Fans: Ukifune. She dances across the battlefield with grace, reaping with her elegant yet lethal twin fan combos. Every strike is a tribute-the ultimate protection for the master she serves, Hanabi.<br><code>Hero Feature</code>: A geisha Assassin wielding Twin Fans: Ukifune, capable of combining them to unleash different combos.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Passive - Twin Fans: Ukifune",
+            "description_en": "[Twin Fans: Ukifune] consists of two weapons: [Kaerazu] and [Meisen-e]. Skill 1 and 2 represent the abilities of these two weapons respectively. The skills can be cast individually or combined by dragging.<br>Hirara has 4 stacks of [Crimson/Death] Energy. Casting a single skill costs 1 stack of Energy, while casting a combo skill costs 2 stacks.<br>Skills cast by [Kaerazu] and [Meisen-e] can apply [Crimson] and [Death] marks to enemies. Enemies hit by both marks simultaneously will be briefly immobilized.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 1 - Kaerazu",
+            "description_en": "Hirara wields Kaerazu, scattering maple leaves that deal damage to enemies in a fan-shaped area. After a short delay, the leaves ignite, dealing higher damage.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2 - Meisen-e",
+            "description_en": "Hirara wields Meisen-e and treads upon the meisen to dash once in the targeted direction and once in the joystick direction.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 1 &amp; 2 Combo - Infernal Torrent",
+            "description_en": "Hirara combines the power of Kaerazu and Meisen-e to summon crimson flames. She dashes in the joystick direction and deals AOE damage in a circular area, followed by another instance of higher damage after a short delay.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2 &amp; 1 Combo - Falling Maple",
+            "description_en": "Hirara combines the power of Meisen-e and Kaerazu to plunge into the meisen, becoming untargetable and immobile. After a short delay, she can dash twice in the joystick direction.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Ultimate - Forbidden Jutsu: Momijigari",
+            "description_en": "Hirara unleashes the power of the Twin Fans: Ukifune, donning a dress interwoven with crimson and death. This increases the maximum capacity of her Passive [Crimson/Death] Energy to 6, setting the stage for a spectacular slaughter.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Aulus": {
+        "badge": "NERF",
+        "description_en": "Slightly reduced enhanced Basic Attack damage and improved the control experience of Skill 2.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Enhanced Basic Attack's Max Damage to Creeps Based on Target's Max HP: 160 (+20* Hero Level) <code→></code> 100 (+25* Hero Level)<br>Enhanced Basic Attack's Total Physical Attack Bonus: 85% <code→></code> 75%",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "2nd Cast Time: 3s <code→></code> 4s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Brody": {
+        "badge": "BUFF",
+        "description_en": "Adjusted Brody's power curve by buffing his early and late game while slightly tuning down his mid-game strength. Also optimized Skill 1's mechanics to make its logic more intuitive.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 150-550 <code→></code> 200-500<br><code>Removed Effect</code>: Hitting a target increases subsequent damage.<br><code>New Effect</code>: This damage also benefits from the passive stack's damage increase.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 75-100 <code→></code> 80 at all levels",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base Damage: 300-540 <code→></code> 216-540<br>Damage per Stack: 136-232 (+72% Extra Physical Attack) (+4%-6% of target's lost HP) <code→></code> 94-232 (+72% Extra Physical Attack) (+4%-10% of target's lost HP)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Bruno": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 50-100 <code→></code> 60-85",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 60-35 <code→></code> 50 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Claude": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 0 <code→></code> 35-50",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 0 <code→></code> 90 at all levels (2nd switch does not consume Mana)",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 0 <code→></code> 100-140<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Clint": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 50 at all levels <code→></code> 50-75",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 65-115 <code→></code> 80 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hanabi": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 35-60 <code→></code> 100 at all levels",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 35-60 <code→></code> 60-85<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harith": {
+        "badge": "BUFF",
+        "description_en": "Reverted some nerfs made from the previous patch.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Explosion Damage: 270-470 (+120%-200% Total Magic Power) <code→></code> 325-575 (+150%-250% Total Magic Power)",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Shield's Magic Bonus: 80% <code→></code> 120%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ixia": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 75-100 <code→></code> 65-90",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 75-105 <code→></code> 100 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Karrie": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 40-65 <code→></code> 70 at all levels",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 70-90 <code→></code> 100-150<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Layla": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 25-50 <code→></code> 45-70",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 35-60 <code→></code> 70 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Melissa": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 60-10 <code→></code> 90 at all levels",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 130-150 <code→></code> 120 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Miya": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 50-75 <code→></code> 60-100",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 80-130 <code→></code> 90 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Moskov": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 25-50 <code→></code> 50-75",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 80-130 <code→></code> 90 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Natan": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 100-0 <code→></code> 100 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Obsidia": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 35-60 <code→></code> 40 at all levels",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 100-0 <code→></code> 100 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Odette": {
+        "badge": "BUFF",
+        "description_en": "<code>Experimental Adjustments</code>: Optimized Odette's mechanics. Odette can now cast skills and move slowly during her Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "<code>Skill Adjustments</code>: Removed the second cast. Now leaps to the target location upon the first cast.<br><code>New Effect</code>: Odette can move slowly during her Ultimate.<br><code>New Effect</code>: Odette can cast other skills during her Ultimate.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Wanwan": {
+        "badge": "BUFF",
+        "description_en": "Improved the hero's laning ability.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Swallow Dagger Damage: 60-120 (+ 65% Total Physical Attack) <code→></code> 120-220 (+40% Total Physical Attack)",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 100-75 <code→></code> 125 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Roaming Blessings": {
+        "badge": "BUFF",
+        "description_en": "To improve the flexibility of Roaming Blessings, all Roaming Blessings can now gain EXP and Gold by dealing damage, revealing vision, and sharing income from minions and creeps.<br>",
+        "description_uk": ""
+      }
+    },
+    "battlefield_adjustments": {
+      "Battlefield Effect Test": {
+        "badge": "CHANGE",
+        "description_en": "New battlefield effects are back! We have made some optimizations based on feedback from the last test and added a new effect.<br>The art performance for this gameplay is a test version and does not represent the final quality. We will make the relevant gameplay available at a later time after this week's patch update.<br>The Battlefield Effects tested in this patch are as follows:<br><code>1-</code> <strong>Nowhere to Hide</strong>: Pickable Crystals are available across the map. Upon picking one up, its energy circles around the hero for several seconds. If there are hidden enemy heroes within a large range, the energy will move to their location and grant vision of the area for several seconds.<br>Optimized Crystal locations, making it easier for roaming heroes to pick up.<br><code>2-</code> <strong>Fire Turtle</strong>: Defeating the Turtle no longer grants a shield. Instead, an allied Turtle will spawn on the enemy's weakest lane to help push it. Allied heroes near the allied Turtle will recover HP rapidly. Reduced allied Turtle's HP but increased its HP Regen, making fights around the Turtle more competitive for both sides.<br><code>3-</code> <strong>New Effect - Golden Turret</strong>: Greatly increased the Gold shared to the entire team when any Turret is destroyed. Inner Turret and Base Turret HP are also increased.<br>Increased the Gold granted by each Turret to every hero by 80.<br>Increased Inner Turret and Base Turret HP by 1000.<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>From The Designers</strong><br/><p>In this patch, we've adjusted mana costs for most Gold Lane Marksmen. Our goal is to make mana management more strategic in the early-to-mid game while ensuring they have sufficient resources in the later stages.</p><p>We'll also optimize the performance and control experience of some Marksmen on the Advanced Server.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iv. System Adjustment</strong><br/><ul>\n<li><strong>Auction House</strong></li>\n</ul><p>The Auction House on the Advanced Server is now open for testing again. Players can list, browse, and purchase items as usual.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>V. Mode Adjustments</strong><br/><br><ul><br><li><strong>Frozen Sea Showdown</strong></li><br></ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p>The official map is now available in the trial version.</p><p><code>1-</code> Fixed an issue where the warning indicator for Thunderbolt might not match its actual effect range.</p><p><code>2-</code> Added a warning indicator for Trick Hook, and reduced its overall range and angle by 20%.</p><ul>\n<li><strong>Tide Siege</strong></li>\n</ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>1-</code> Scene-related content has been replaced with official resources.</p><p><code>2-</code> Added new bosses: Alice and Thamuz.</p><p><code>3-</code> Added some new Buffs.</p><p><code>4-</code> <strong>Endless Mode</strong>: Added extra buff selections after successfully defending Wave 24 and 30.</p><p><code>5-</code> Adjusted the attributes and prices of all tier 2 boots to bring their value closer to that of other equipment.</p><p><code>6-</code> Slightly reduced the Gold provided by two creeps in the jungle.</p><p><code>7-</code> Adjusted the strength of monsters after Wave 18 to align with other changes.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1rz7j4i/patch_notes_2166_adv_s"
   }
 }
