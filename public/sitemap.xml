@@ -4,7 +4,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://mobawiki.com/</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/?lang=uk"/>
     <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/?lang=id"/>
@@ -19,7 +19,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes?lang=uk"/>
     <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes?lang=id"/>
@@ -29,7 +29,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/hero-ranks</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/hero-ranks"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/hero-ranks?lang=uk"/>
     <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/hero-ranks?lang=id"/>
@@ -66,7 +66,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/patches</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/patches"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/patches?lang=uk"/>
     <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/patches?lang=id"/>
@@ -85,7 +85,7 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/tier-list</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/tier-list"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/tier-list?lang=uk"/>
     <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/tier-list?lang=id"/>
@@ -95,79 +95,79 @@
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?role=fighter</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?role=mage</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?role=marksman</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?role=tank</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?role=support</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?role=assassin</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?lane=Jungle</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?lane=Exp+Lane</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?lane=Gold+Lane</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?lane=Mid+Lane</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/heroes?lane=Roam</loc>
-    <lastmod>2026-03-20</lastmod>
+    <lastmod>2026-03-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/popol-and-kupa</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/popol-and-kupa"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/popol-and-kupa?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/popol-and-kupa?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/popol-and-kupa"/>
+    <loc>https://mobawiki.com/2/heroes/brody</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/brody"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/brody?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/brody?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/brody"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_1acbb23b9a50f412104047a60eb18808.png</image:loc>
-      <image:title>Popol and Kupa</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_f18e45a9a4cb45897e1f614593ff4497.png</image:loc>
+      <image:title>Brody</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -199,27 +199,14 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/kimmy</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/kimmy"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/kimmy?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/kimmy?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/kimmy"/>
+    <loc>https://mobawiki.com/2/heroes/gatotkaca</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/gatotkaca"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/gatotkaca?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/gatotkaca?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/gatotkaca"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage_1_9_642/100_61295dfefd369004e5e4a7f4fc86647b.png</image:loc>
-      <image:title>Kimmy</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/odette</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/odette"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/odette?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/odette?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/odette"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage_1_9_47/100_d9251718a8894546ba04cfa9ca68dedc.png</image:loc>
-      <image:title>Odette</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_96f9dbbc096e0f0a28f9b9e587d06a9c.png</image:loc>
+      <image:title>Gatotkaca</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -238,45 +225,6 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/cecilion</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/cecilion"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/cecilion?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/cecilion?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/cecilion"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_045399c265021d47da6512e6de20b64f.png</image:loc>
-      <image:title>Cecilion</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/moskov</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/moskov"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/moskov?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/moskov?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/moskov"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_a60a866ab6752a7f66766e720da987ea.png</image:loc>
-      <image:title>Moskov</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/hanabi</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/hanabi"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/hanabi?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/hanabi?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/hanabi"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_8a9c1966feb34e85d7bdcc1ed01ffb5d.png</image:loc>
-      <image:title>Hanabi</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/argus</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/argus"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/argus?lang=uk"/>
@@ -285,6 +233,32 @@
     <image:image>
       <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_0bd96658e5b8ec578226ea1622bd7231.png</image:loc>
       <image:title>Argus</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/yve</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/yve"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/yve?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/yve?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/yve"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage_92/100_d9b0a1d92b1c4b3643d6332fd66aa8e6.png</image:loc>
+      <image:title>Yve</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/odette</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/odette"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/odette?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/odette?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/odette"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage_1_9_47/100_d9251718a8894546ba04cfa9ca68dedc.png</image:loc>
+      <image:title>Odette</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -303,66 +277,40 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/gatotkaca</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/gatotkaca"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/gatotkaca?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/gatotkaca?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/gatotkaca"/>
+    <loc>https://mobawiki.com/2/heroes/lolita</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/lolita"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/lolita?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/lolita?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/lolita"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_96f9dbbc096e0f0a28f9b9e587d06a9c.png</image:loc>
-      <image:title>Gatotkaca</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_474cea36a4bfdc7bf7d94530853a99b2.png</image:loc>
+      <image:title>Lolita</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/faramis</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/faramis"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/faramis?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/faramis?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/faramis"/>
+    <loc>https://mobawiki.com/2/heroes/kimmy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/kimmy"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/kimmy?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/kimmy?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/kimmy"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_04e575d648d7f7ac1174f4369595c3a2.png</image:loc>
-      <image:title>Faramis</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage_1_9_642/100_61295dfefd369004e5e4a7f4fc86647b.png</image:loc>
+      <image:title>Kimmy</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/angela</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/angela"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/angela?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/angela?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/angela"/>
+    <loc>https://mobawiki.com/2/heroes/moskov</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/moskov"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/moskov?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/moskov?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/moskov"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_c7e0183956b2c2fd6d3fa0b18fe46917.png</image:loc>
-      <image:title>Angela</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/hilda</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/hilda"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/hilda?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/hilda?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/hilda"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_acd700708dc515f5c63a08f8835a9941.png</image:loc>
-      <image:title>Hilda</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/guinevere</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/guinevere"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/guinevere?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/guinevere?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/guinevere"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_901bdd5d4432a2c0290dfc71df615a5a.png</image:loc>
-      <image:title>Guinevere</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_a60a866ab6752a7f66766e720da987ea.png</image:loc>
+      <image:title>Moskov</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -381,6 +329,19 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/hilda</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/hilda"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/hilda?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/hilda?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/hilda"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_acd700708dc515f5c63a08f8835a9941.png</image:loc>
+      <image:title>Hilda</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/pharsa</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/pharsa"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/pharsa?lang=uk"/>
@@ -389,6 +350,32 @@
     <image:image>
       <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_10151d43910e62f7aa9ce08df481a20f.png</image:loc>
       <image:title>Pharsa</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/angela</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/angela"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/angela?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/angela?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/angela"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_c7e0183956b2c2fd6d3fa0b18fe46917.png</image:loc>
+      <image:title>Angela</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/hanabi</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/hanabi"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/hanabi?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/hanabi?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/hanabi"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_8a9c1966feb34e85d7bdcc1ed01ffb5d.png</image:loc>
+      <image:title>Hanabi</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -407,19 +394,6 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/brody</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/brody"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/brody?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/brody?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/brody"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_f18e45a9a4cb45897e1f614593ff4497.png</image:loc>
-      <image:title>Brody</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/aurora</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/aurora"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/aurora?lang=uk"/>
@@ -433,14 +407,27 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/khufra</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/khufra"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/khufra?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/khufra?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/khufra"/>
+    <loc>https://mobawiki.com/2/heroes/vale</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/vale"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/vale?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/vale?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/vale"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_2fe99f4001211d18b3d2b95d0d3dc395.png</image:loc>
-      <image:title>Khufra</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_2a7a8d1531a1c4f8524880413535348d.png</image:loc>
+      <image:title>Vale</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/faramis</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/faramis"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/faramis?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/faramis?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/faramis"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_04e575d648d7f7ac1174f4369595c3a2.png</image:loc>
+      <image:title>Faramis</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -498,6 +485,19 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://mobawiki.com/2/heroes/khufra</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/khufra"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/khufra?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/khufra?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/khufra"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_2fe99f4001211d18b3d2b95d0d3dc395.png</image:loc>
+      <image:title>Khufra</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://mobawiki.com/2/heroes/edith</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/edith"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/edith?lang=uk"/>
@@ -506,19 +506,6 @@
     <image:image>
       <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_daab57918de01a6d5bb2ed6f45808a7e.png</image:loc>
       <image:title>Edith</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://mobawiki.com/2/heroes/lolita</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/lolita"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/lolita?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/lolita?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/lolita"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_474cea36a4bfdc7bf7d94530853a99b2.png</image:loc>
-      <image:title>Lolita</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -537,14 +524,40 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/yve</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/yve"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/yve?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/yve?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/yve"/>
+    <loc>https://mobawiki.com/2/heroes/guinevere</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/guinevere"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/guinevere?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/guinevere?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/guinevere"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage_92/100_d9b0a1d92b1c4b3643d6332fd66aa8e6.png</image:loc>
-      <image:title>Yve</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_901bdd5d4432a2c0290dfc71df615a5a.png</image:loc>
+      <image:title>Guinevere</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/cecilion</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/cecilion"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/cecilion?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/cecilion?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/cecilion"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_045399c265021d47da6512e6de20b64f.png</image:loc>
+      <image:title>Cecilion</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/novaria</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/novaria"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/novaria?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/novaria?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/novaria"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_57eeea6d5bd8d21229de8df79751db9f.png</image:loc>
+      <image:title>Novaria</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -576,14 +589,14 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/novaria</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/novaria"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/novaria?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/novaria?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/novaria"/>
+    <loc>https://mobawiki.com/2/heroes/popol-and-kupa</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/popol-and-kupa"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/popol-and-kupa?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/popol-and-kupa?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/popol-and-kupa"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_57eeea6d5bd8d21229de8df79751db9f.png</image:loc>
-      <image:title>Novaria</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_1acbb23b9a50f412104047a60eb18808.png</image:loc>
+      <image:title>Popol and Kupa</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -810,19 +823,6 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/nolan</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/nolan"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/nolan?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/nolan?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/nolan"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_9012ee9f73fbb4db4e1953e5fb5172e1.png</image:loc>
-      <image:title>Nolan</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/kagura</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/kagura"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/kagura?lang=uk"/>
@@ -836,14 +836,14 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/floryn</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/floryn"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/floryn?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/floryn?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/floryn"/>
+    <loc>https://mobawiki.com/2/heroes/nolan</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/nolan"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/nolan?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/nolan?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/nolan"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_5a57b91e4914cf071a3849e352e530a5.png</image:loc>
-      <image:title>Floryn</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_9012ee9f73fbb4db4e1953e5fb5172e1.png</image:loc>
+      <image:title>Nolan</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -870,6 +870,19 @@
     <image:image>
       <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_5f2a9eca0bafd4ed8dc39a93c771b3af.png</image:loc>
       <image:title>Belerick</image:title>
+    </image:image>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/heroes/floryn</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/floryn"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/floryn?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/floryn?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/floryn"/>
+    <image:image>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_5a57b91e4914cf071a3849e352e530a5.png</image:loc>
+      <image:title>Floryn</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1057,19 +1070,6 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/uranus</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/uranus"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/uranus?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/uranus?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/uranus"/>
-    <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_2e15a0a506aaecd9b3de40a8cc9f7ec7.png</image:loc>
-      <image:title>Uranus</image:title>
-    </image:image>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://mobawiki.com/2/heroes/hylos</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/hylos"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/hylos?lang=uk"/>
@@ -1083,14 +1083,14 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://mobawiki.com/2/heroes/vale</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/vale"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/vale?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/vale?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/vale"/>
+    <loc>https://mobawiki.com/2/heroes/uranus</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/heroes/uranus"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/heroes/uranus?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/heroes/uranus?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/heroes/uranus"/>
     <image:image>
-      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_2a7a8d1531a1c4f8524880413535348d.png</image:loc>
-      <image:title>Vale</image:title>
+      <image:loc>https://akmweb.youngjoygame.com/web/svnres/img/mlbb/homepage/100_2e15a0a506aaecd9b3de40a8cc9f7ec7.png</image:loc>
+      <image:title>Uranus</image:title>
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1874,6 +1874,16 @@
     </image:image>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://mobawiki.com/2/patches/2.1.64-adv</loc>
+    <lastmod>2026-03-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mobawiki.com/2/patches/2.1.64-adv"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://mobawiki.com/2/patches/2.1.64-adv?lang=uk"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://mobawiki.com/2/patches/2.1.64-adv?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mobawiki.com/2/patches/2.1.64-adv"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://mobawiki.com/2/patches/2.1.61</loc>
