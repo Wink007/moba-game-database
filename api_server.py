@@ -37,6 +37,7 @@ _load_env_file(_base_dir / '.env')
 _load_env_file(_base_dir / '.env.local')
 
 import database as db
+import cache as _cache
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {
@@ -221,7 +222,7 @@ def delete_game(game_id):
 
 # Heroes
 @app.route('/api/heroes', methods=['GET'])
-
+@_cache.cached('heroes', ttl=600)
 def get_heroes():
     game_id = request.args.get('game_id')
     page = request.args.get('page', type=int)
@@ -643,6 +644,7 @@ def get_my_tier_votes(game_id):
 # ─────────────────────────────────────────────────────────────────────────────
 
 @app.route('/api/heroes/relations', methods=['GET'])
+@_cache.cached('heroes:relations', ttl=600)
 def get_all_heroes_relations():
     """Relations для всіх героїв гри"""
     game_id = request.args.get('game_id')
@@ -703,6 +705,7 @@ def _extract_nested(parsed, days_str, rank):
     return parsed
 
 @app.route('/api/heroes/counter-data', methods=['GET'])
+@_cache.cached('heroes:counter-data', ttl=300)
 def get_all_heroes_counter_data():
     """Counter data. Supports ?rank=epic&days=7"""
     game_id = request.args.get('game_id')
@@ -740,6 +743,7 @@ def get_all_heroes_counter_data():
     return jsonify(counter_data_by_hero)
 
 @app.route('/api/heroes/compatibility-data', methods=['GET'])
+@_cache.cached('heroes:compatibility-data', ttl=600)
 def get_all_heroes_compatibility_data():
     """Compatibility data для всіх героїв гри"""
     game_id = request.args.get('game_id')
@@ -1348,6 +1352,7 @@ def create_hero():
                 skill.get('skill_description_uk')
             )
     
+    _cache.invalidate_prefix('heroes')
     return jsonify({'id': hero_id}), 201
 
 @app.route('/api/heroes/<int:hero_id>', methods=['PUT'])
@@ -1448,6 +1453,7 @@ def update_hero(hero_id):
                     skill.get('skill_description_uk')
                 )
         
+        _cache.invalidate_prefix('heroes')
         return jsonify({'success': True})
     except Exception as e:
         print(f"ERROR updating hero {hero_id}: {str(e)}")
@@ -1459,11 +1465,12 @@ def update_hero(hero_id):
 def delete_hero(hero_id):
     
     db.delete_hero(hero_id)
+    _cache.invalidate_prefix('heroes')
     return jsonify({'success': True})
 
 # Items
 @app.route('/api/items', methods=['GET'])
-
+@_cache.cached('items', ttl=600)
 def get_items():
     try:
         game_id = request.args.get('game_id')
@@ -1632,6 +1639,7 @@ def create_item():
         data.get('price_total', 0),
         **{k: v for k, v in data.items() if k not in ['game_id', 'name', 'category', 'price_total', 'attributes']}
     )
+    _cache.invalidate_prefix('items')
     return jsonify({'id': item_id}), 201
 
 @app.route('/api/items/<int:item_id>', methods=['PUT'])
@@ -1647,11 +1655,13 @@ def update_item(item_id):
     
     # Передаємо всі поля через **kwargs
     db.update_equipment(item_id, **{k: v for k, v in data.items() if k != 'attributes'})
+    _cache.invalidate_prefix('items')
     return jsonify({'success': True})
 
 @app.route('/api/items/<int:item_id>', methods=['DELETE'])
 def delete_item(item_id):
     db.delete_equipment(item_id)
+    _cache.invalidate_prefix('items')
     return jsonify({'success': True})
 
 @app.route('/api/items/fetch-from-fandom', methods=['POST'])
@@ -3309,6 +3319,7 @@ def update_all_heroes_skills():
 
 # Hero Ranks
 @app.route('/api/hero-ranks', methods=['GET'])
+@_cache.cached('hero-ranks', ttl=300)
 def get_hero_ranks_api():
     """Отримати рейтинги всіх героїв з підтримкою пагінації та фільтрації
     
