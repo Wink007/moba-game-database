@@ -11,14 +11,6 @@ import { Loader } from '../../components/Loader';
 import { FavoriteButton } from '../../components/FavoriteButton';
 import { TabsNavigation } from './components/TabsNavigation';
 import { SkillsSection } from './components/SkillsSection';
-import { InfoTab } from './components/InfoTab';
-import { AboutTab } from './components/AboutTab';
-import { CounterTab } from './components/CounterTab';
-import { SynergyTab } from './components/SynergyTab';
-import { HistoryTab } from './components/HistoryTab';
-import { BuildsTab } from './components/BuildsTab';
-import { StatsHistoryTab } from './components/StatsHistoryTab';
-import { CommentsSection } from './components/CommentsSection';
 import { useHeroSkills } from './hooks/useHeroSkills';
 import { useHeroTabs } from './hooks/useHeroTabs';
 import { useSEO } from '../../hooks/useSEO';
@@ -27,6 +19,15 @@ import { useAuthStore } from '../../store/authStore';
 import { LazyImage } from '../../components/LazyImage';
 import styles from './styles.module.scss';
 import type { Patch } from '../../types';
+
+const InfoTab         = React.lazy(() => import('./components/InfoTab').then(m => ({ default: m.InfoTab })));
+const AboutTab        = React.lazy(() => import('./components/AboutTab').then(m => ({ default: m.AboutTab })));
+const CounterTab      = React.lazy(() => import('./components/CounterTab').then(m => ({ default: m.CounterTab })));
+const SynergyTab      = React.lazy(() => import('./components/SynergyTab').then(m => ({ default: m.SynergyTab })));
+const HistoryTab      = React.lazy(() => import('./components/HistoryTab').then(m => ({ default: m.HistoryTab })));
+const BuildsTab       = React.lazy(() => import('./components/BuildsTab').then(m => ({ default: m.BuildsTab })));
+const StatsHistoryTab = React.lazy(() => import('./components/StatsHistoryTab').then(m => ({ default: m.StatsHistoryTab })));
+const CommentsSection = React.lazy(() => import('./components/CommentsSection').then(m => ({ default: m.CommentsSection })));
 
 function HeroDetailPage() {
   const { t, i18n } = useTranslation();
@@ -301,24 +302,26 @@ function HeroDetailPage() {
 
           {/* Tab Content */}
           <div className={styles.tabContent}>
-            {activeTab === 'info' && (
-              <InfoTab hero={hero} abilitiesLabel={abilitiesLabel} getRatingLevel={getRatingLevel} />
-            )}
-            {activeTab === 'about' && <AboutTab hero={hero} />}
-            {activeTab === 'counter' && (
-              <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} counterData={heroCounterData} isLoading={allHeroesLoading} />
-            )}
-            {activeTab === 'synergy' && (
-              <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} isLoading={allHeroesLoading} compatibilityData={heroCompatibilityData} />
-            )}
-            {activeTab === 'history' && <HistoryTab hero={hero} heroPatches={heroPatches} />}
-            {activeTab === 'stats' && <StatsHistoryTab hero={hero} />}
-            {activeTab === 'builds' && (
-              <BuildsTab hero={hero} buildsSubTab={buildsSubTab} setBuildsSubTab={setBuildsSubTab} />
-            )}
-            {activeTab === 'comments' && (
-              <CommentsSection heroId={hero.id} />
-            )}
+            <React.Suspense fallback={<div className={styles.tabLoader} />}>
+              {activeTab === 'info' && (
+                <InfoTab hero={hero} abilitiesLabel={abilitiesLabel} getRatingLevel={getRatingLevel} />
+              )}
+              {activeTab === 'about' && <AboutTab hero={hero} />}
+              {activeTab === 'counter' && (
+                <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} counterData={heroCounterData} isLoading={allHeroesLoading} />
+              )}
+              {activeTab === 'synergy' && (
+                <SynergyTab hero={hero} allHeroes={allHeroes} synergySubTab={synergySubTab} setSynergySubTab={setSynergySubTab} isLoading={allHeroesLoading} compatibilityData={heroCompatibilityData} />
+              )}
+              {activeTab === 'history' && <HistoryTab hero={hero} heroPatches={heroPatches} />}
+              {activeTab === 'stats' && <StatsHistoryTab hero={hero} />}
+              {activeTab === 'builds' && (
+                <BuildsTab hero={hero} buildsSubTab={buildsSubTab} setBuildsSubTab={setBuildsSubTab} />
+              )}
+              {activeTab === 'comments' && (
+                <CommentsSection heroId={hero.id} />
+              )}
+            </React.Suspense>
           </div>
         </div>
 

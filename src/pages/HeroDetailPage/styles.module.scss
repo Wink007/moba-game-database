@@ -1988,10 +1988,10 @@
   @media (max-width: 768px) {
     padding: 0 1rem;
   }
+}
 
-  @media (max-width: 480px) {
-    padding: 0 0.75rem;
-  }
+.tabLoader {
+  min-height: 200px;
 }
 
 .comingSoon {
