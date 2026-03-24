@@ -152,7 +152,7 @@ export const ProfilePage: React.FC = () => {
     if (profile?.followers_count !== undefined) setFollowersCount(profile.followers_count ?? 0);
   }, [profile?.is_following, profile?.followers_count]);
 
-  const handleFollow = async () => {
+  const handleFollow = useCallback(async () => {
     if (!currentUser || followLoading) return;
     setFollowLoading(true);
     try {
@@ -162,7 +162,7 @@ export const ProfilePage: React.FC = () => {
       setFollowersCount(v => v + (isFollowing ? -1 : 1));
     } catch { /* ignore */ }
     finally { setFollowLoading(false); }
-  };
+  }, [currentUser, followLoading, isFollowing, numericUserId]);
 
   if (isLoading) return <Loader />;
   if (error || !profile) {
@@ -501,6 +501,7 @@ export const ProfilePage: React.FC = () => {
                 <button className={styles.deleteConfirmYes} disabled={deleting} onClick={async () => {
                   setDeleting(true);
                   try { await authFetch('/users/account', { method: 'DELETE' }); logout(); navigate('/'); }
+                  catch { setDeleteConfirm(false); }
                   finally { setDeleting(false); }
                 }}>
                   {deleting ? '...' : t('profile.deleteConfirmYes')}

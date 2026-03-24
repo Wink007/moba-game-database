@@ -15,7 +15,7 @@ export const MlbbLinkForm: React.FC<MlbbLinkFormProps> = ({ onLinked, onClose })
 
   const handleSendCode = async () => {
     setError('');
-    if (!roleId.trim() || !zoneId.trim()) { setError('Fill in both fields'); return; }
+    if (!roleId.trim() || !zoneId.trim()) { setError(t('profile.mlbbFillBothFields')); return; }
     setLoading(true);
     try {
       await authFetch('/users/mlbb/send-code', {
@@ -24,7 +24,7 @@ export const MlbbLinkForm: React.FC<MlbbLinkFormProps> = ({ onLinked, onClose })
       });
       setStep('code');
     } catch (err: any) {
-      setError(err?.message || 'Failed to send code');
+      setError(err?.message || t('profile.mlbbSendCodeFailed'));
     } finally {
       setLoading(false);
     }
@@ -32,7 +32,7 @@ export const MlbbLinkForm: React.FC<MlbbLinkFormProps> = ({ onLinked, onClose })
 
   const handleVerify = async () => {
     setError('');
-    if (!vc.trim()) { setError('Enter the code'); return; }
+    if (!vc.trim()) { setError(t('profile.mlbbEnterCode')); return; }
     setLoading(true);
     try {
       const res = await authFetch('/users/mlbb/verify', {
@@ -41,7 +41,7 @@ export const MlbbLinkForm: React.FC<MlbbLinkFormProps> = ({ onLinked, onClose })
       });
       onLinked(res.mlbb_nickname || '');
     } catch (err: any) {
-      setError(err?.message || 'Invalid code');
+      setError(err?.message || t('profile.mlbbInvalidCode'));
     } finally {
       setLoading(false);
     }

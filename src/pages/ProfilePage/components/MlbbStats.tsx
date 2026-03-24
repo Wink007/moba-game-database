@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MlbbSortKey, MlbbStatsProps } from '../types';
 import { MlbbHeroCard } from './MlbbHeroCard';
@@ -17,11 +17,11 @@ export const MlbbStats: React.FC<MlbbStatsProps> = ({ stats, seasons, heroes, se
     return next;
   });
 
-  const sorted = [...stats].sort((a, b) => {
+  const sorted = useMemo(() => [...stats].sort((a, b) => {
     const v = (a[sortKey] ?? 0) as number;
     const w = (b[sortKey] ?? 0) as number;
     return sortAsc ? v - w : w - v;
-  });
+  }), [stats, sortKey, sortAsc]);
 
   return (
     <div className={styles.mlbbStats}>

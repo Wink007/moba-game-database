@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { BannerPickerModalProps } from '../types';
 import styles from '../styles.module.scss';
@@ -7,9 +7,10 @@ export const BannerPickerModal: React.FC<BannerPickerModalProps> = ({ heroes, cu
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
 
-  const filtered = search
-    ? heroes.filter((h: any) => h.name.toLowerCase().includes(search.toLowerCase()))
-    : heroes;
+  const filtered = useMemo(() =>
+    search ? heroes.filter((h: any) => h.name.toLowerCase().includes(search.toLowerCase())) : heroes,
+    [search, heroes]
+  );
 
   return (
     <div className={styles.pickerOverlay} onClick={onClose}>
