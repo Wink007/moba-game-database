@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from datetime import datetime
 from pathlib import Path
@@ -46,6 +46,22 @@ CORS(app, resources={r"/api/*": {
     "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     "max_age": 86400,
 }})
+
+def _get_db():
+    """Per-request DB connection. Auto-released at end of request via teardown."""
+    if 'db_conn' not in g:
+        g.db_conn = _get_db()
+    return g.db_conn
+
+@app.teardown_appcontext
+def _teardown_db(exc):
+    conn = g.pop('db_conn', None)
+    if conn is not None:
+        try:
+            if exc:
+                conn.rollback()
+        except Exception:
+            pass
 
 @app.route('/api/version')
 def get_api_version():
@@ -331,7 +347,7 @@ def create_hero_skill(hero_id):
         return jsonify({'error': 'skill_name is required'}), 400
     
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -351,7 +367,6 @@ def create_hero_skill(hero_id):
         
         conn.commit()
         cursor.close()
-        db.release_connection(conn)
         
         return jsonify({'success': True, 'message': 'Skill created successfully', 'id': skill_id}), 201
     except Exception as e:
@@ -361,7 +376,7 @@ def create_hero_skill(hero_id):
 def delete_hero_skill(hero_id, skill_id):
     """Видаляє навичку героя"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -370,7 +385,6 @@ def delete_hero_skill(hero_id, skill_id):
         conn.commit()
         deleted = cursor.rowcount > 0
         cursor.close()
-        db.release_connection(conn)
         
         if deleted:
             return jsonify({'success': True, 'message': 'Skill deleted successfully'})
@@ -391,7 +405,7 @@ def get_all_heroes_skills():
     hero_ids = [h['id'] for h in heroes]
     
     # Завантажуємо skills для всіх героїв
-    conn = db.get_connection()
+    conn = _get_db()
     if db.DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
         cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -402,7 +416,6 @@ def get_all_heroes_skills():
     placeholders = ','.join([ph] * len(hero_ids))
     cursor.execute(f"SELECT * FROM hero_skills WHERE hero_id IN ({placeholders}) ORDER BY hero_id, display_order", hero_ids)
     all_skills = cursor.fetchall()
-    db.release_connection(conn)
     
     # Групуємо по hero_id
     skills_by_hero = {}
@@ -427,7 +440,7 @@ def get_hero_comments(hero_id):
     offset = (page - 1) * size
     ph = db.get_placeholder()
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         cursor.execute(f"""
             SELECT c.id, c.hero_id, c.user_id, c.text, c.likes, c.created_at,
@@ -448,7 +461,6 @@ def get_hero_comments(hero_id):
 
         cursor.execute(f"SELECT COUNT(*) FROM hero_comments WHERE hero_id = {ph}", (hero_id,))
         total = cursor.fetchone()[0]
-        db.release_connection(conn)
         return jsonify({'comments': comments, 'total': total, 'page': page, 'size': size})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -466,7 +478,7 @@ def post_hero_comment(hero_id):
         return jsonify({'error': 'Comment too long (max 1000 chars)'}), 400
     ph = db.get_placeholder()
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         cursor.execute(f"""
             INSERT INTO hero_comments (hero_id, user_id, text)
@@ -482,7 +494,6 @@ def post_hero_comment(hero_id):
         author_picture = user_row[1] if not isinstance(user_row, dict) else user_row['picture']
 
         conn.commit()
-        db.release_connection(conn)
         return jsonify({
             'id': comment_id, 'hero_id': hero_id, 'user_id': request.user_id,
             'text': text, 'likes': 0,
@@ -499,20 +510,17 @@ def delete_hero_comment(comment_id):
     """Delete own comment (requires auth)"""
     ph = db.get_placeholder()
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         cursor.execute(f"SELECT user_id FROM hero_comments WHERE id = {ph}", (comment_id,))
         row = cursor.fetchone()
         if not row:
-            db.release_connection(conn)
             return jsonify({'error': 'Comment not found'}), 404
         owner_id = row[0] if not isinstance(row, dict) else row['user_id']
         if owner_id != request.user_id:
-            db.release_connection(conn)
             return jsonify({'error': 'Forbidden'}), 403
         cursor.execute(f"DELETE FROM hero_comments WHERE id = {ph}", (comment_id,))
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'ok': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -524,7 +532,7 @@ def like_hero_comment(comment_id):
     """Toggle like on a comment (requires auth)"""
     ph = db.get_placeholder()
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         # Check if already liked
         cursor.execute(f"SELECT id FROM comment_likes WHERE comment_id = {ph} AND user_id = {ph}", (comment_id, request.user_id))
@@ -541,7 +549,6 @@ def like_hero_comment(comment_id):
         row = cursor.fetchone()
         likes = row[0] if not isinstance(row, dict) else row['likes']
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'liked': liked, 'likes': likes})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -553,7 +560,7 @@ def get_community_tier_votes(game_id):
     """Get aggregated community tier votes for all heroes in a game"""
     ph = db.get_placeholder()
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         cursor.execute(f"""
             SELECT hero_id, tier, COUNT(*) as cnt
@@ -562,7 +569,6 @@ def get_community_tier_votes(game_id):
             GROUP BY hero_id, tier
         """, (game_id,))
         rows = cursor.fetchall()
-        db.release_connection(conn)
 
         from collections import defaultdict
         raw = defaultdict(lambda: {'S': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0})
@@ -597,7 +603,7 @@ def post_tier_vote(game_id):
         return jsonify({'error': 'Invalid hero_id or tier'}), 400
     ph = db.get_placeholder()
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         if db.DATABASE_TYPE == 'postgres':
             cursor.execute(f"""
@@ -612,7 +618,6 @@ def post_tier_vote(game_id):
                 VALUES ({ph}, {ph}, {ph}, {ph})
             """, (request.user_id, hero_id, game_id, tier))
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'ok': True, 'tier': tier})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -624,14 +629,13 @@ def get_my_tier_votes(game_id):
     """Get current user's tier votes for a game"""
     ph = db.get_placeholder()
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         cursor.execute(f"""
             SELECT hero_id, tier FROM tier_votes
             WHERE user_id = {ph} AND game_id = {ph}
         """, (request.user_id, game_id))
         rows = cursor.fetchall()
-        db.release_connection(conn)
         votes = {}
         for row in rows:
             hero_id = row[0] if not isinstance(row, dict) else row['hero_id']
@@ -652,7 +656,7 @@ def get_all_heroes_relations():
         return jsonify({'error': 'game_id required'}), 400
     
     # Отримуємо всіх героїв з relation
-    conn = db.get_connection()
+    conn = _get_db()
     if db.DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
         cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -662,7 +666,6 @@ def get_all_heroes_relations():
     ph = db.get_placeholder()
     cursor.execute(f"SELECT id, relation FROM heroes WHERE game_id = {ph} AND relation IS NOT NULL", (game_id,))
     heroes = cursor.fetchall()
-    db.release_connection(conn)
     
     # Групуємо по hero_id
     relations_by_hero = {}
@@ -718,7 +721,7 @@ def get_all_heroes_counter_data():
     if days_str not in VALID_DAYS:
         days_str = '1'
 
-    conn = db.get_connection()
+    conn = _get_db()
     if db.DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
         cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -727,7 +730,6 @@ def get_all_heroes_counter_data():
     ph = db.get_placeholder()
     cursor.execute(f"SELECT id, hero_game_id, counter_data FROM heroes WHERE game_id = {ph} AND counter_data IS NOT NULL", (game_id,))
     heroes = cursor.fetchall()
-    db.release_connection(conn)
 
     counter_data_by_hero = {}
     for hero in heroes:
@@ -751,7 +753,7 @@ def get_all_heroes_compatibility_data():
         return jsonify({'error': 'game_id required'}), 400
     
     # Отримуємо всіх героїв з compatibility_data
-    conn = db.get_connection()
+    conn = _get_db()
     if db.DATABASE_TYPE == 'postgres':
         from psycopg2.extras import RealDictCursor
         cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -761,7 +763,6 @@ def get_all_heroes_compatibility_data():
     ph = db.get_placeholder()
     cursor.execute(f"SELECT id, hero_game_id, compatibility_data FROM heroes WHERE game_id = {ph} AND compatibility_data IS NOT NULL", (game_id,))
     heroes = cursor.fetchall()
-    db.release_connection(conn)
     
     rank = request.args.get('rank', 'all')
     if rank not in VALID_RANKS:
@@ -845,7 +846,7 @@ def fetch_and_update_stats_direct():
             return jsonify({'error': 'Failed to fetch hero stats from Moonton GMS API'}), 500
         
         # Оновлюємо heroes таблицю
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -890,7 +891,6 @@ def fetch_and_update_stats_direct():
                 continue
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -994,7 +994,7 @@ def update_mlbb_heroes_stats():
         errors = 0
         top_banned = []
         
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -1041,7 +1041,6 @@ def update_mlbb_heroes_stats():
                 continue
         
         conn.commit()
-        db.release_connection(conn)
         
         # Сортуємо топ-банених
         top_banned.sort(key=lambda x: x['ban_rate'], reverse=True)
@@ -1127,7 +1126,7 @@ def update_all_skills_moonton():
         db_heroes = db.get_heroes(game_id, include_details=False, include_skills=False, include_relation=False)
         results['total'] = len(db_heroes)
         
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -1231,7 +1230,6 @@ def update_all_skills_moonton():
                 results['failed'] += 1
                 results['errors'].append(f"{hero_name}: {str(e)}")
         
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -1769,7 +1767,7 @@ def update_items_from_fandom():
                     }
                     
                     # Створюємо предмет
-                    conn = db.get_connection()
+                    conn = _get_db()
                     cursor = conn.cursor()
                     ph = db.get_placeholder()
                     
@@ -1790,7 +1788,6 @@ def update_items_from_fandom():
                     item = {'id': new_id, 'name': item_name, 'tier': tier}
                     name_to_item[item_name] = item
                     
-                    conn.close()
                     results['created'] += 1
                     print(f"✨ Створено новий предмет: {item_name} (ID: {new_id})")
                 
@@ -1885,7 +1882,7 @@ def fetch_item_translations():
         import time
         
         # Get all items for this game
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -1987,7 +1984,6 @@ def fetch_item_translations():
             # Pause to avoid overloading servers
             time.sleep(2)
         
-        db.release_connection(conn)
         
         return jsonify(results)
         
@@ -2004,7 +2000,7 @@ def get_translation_stats():
     try:
         game_id = request.args.get('game_id', 1, type=int)
         
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -2020,7 +2016,6 @@ def get_translation_stats():
         """, (game_id,))
         
         stats = cursor.fetchone()
-        db.release_connection(conn)
         
         if db.DATABASE_TYPE == 'postgres':
             return jsonify({
@@ -2475,7 +2470,7 @@ def battle_spell_api(spell_id):
 def fix_recipe_ids():
     """Fix recipe IDs in items - match by name instead of old IDs"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
             cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -2546,7 +2541,6 @@ def fix_recipe_ids():
                 errors.append(f"{item_name}: {str(e)}")
         
         conn.commit()
-        conn.close()
         
         return jsonify({
             'updated': updated_count, 
@@ -2561,7 +2555,7 @@ def fix_recipe_ids():
 def fix_items_json():
     """Виправляє невалідні JSON в recipe та attributes_json"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         
         game_id = request.json.get('game_id', 2) if request.json else 2
@@ -2605,7 +2599,6 @@ def fix_items_json():
                 fixed += 1
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -2625,7 +2618,7 @@ def create_indexes():
         if db.DATABASE_TYPE != 'postgres':
             return jsonify({'error': 'Індекси підтримуються тільки для PostgreSQL'}), 400
         
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         
         indexes = [
@@ -2643,7 +2636,6 @@ def create_indexes():
             created.append(idx_name)
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -2659,7 +2651,7 @@ def create_indexes():
 def fix_replaces():
     """Оновлює replaces_skill_id для всіх трансформованих героїв"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -2779,7 +2771,6 @@ def fix_replaces():
                     total += 1
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({'success': True, 'updated': total})
     except Exception as e:
@@ -2804,11 +2795,10 @@ def cache_stats():
 @app.route('/api/debug/relation/<int:hero_id>', methods=['GET'])
 def debug_relation(hero_id):
     """Перевіряє RAW значення relation з бази"""
-    conn = db.get_connection()
+    conn = _get_db()
     cursor = conn.cursor()
     cursor.execute("SELECT name, relation FROM heroes WHERE id = %s", (hero_id,))
     result = cursor.fetchone()
-    db.release_connection(conn)
     if result:
         return jsonify({'name': result[0], 'relation_raw': result[1], 'relation_length': len(result[1]) if result[1] else 0})
     return jsonify({'error': 'Hero not found'}), 404
@@ -2817,7 +2807,7 @@ def debug_relation(hero_id):
 def add_indexes():
     """Додає індекси для оптимізації запитів"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         
         indexes = [
@@ -2844,7 +2834,6 @@ def add_indexes():
                 errors.append(str(e))
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'status': 'success',
@@ -2868,7 +2857,7 @@ def update_hero_stats():
         offset = data.get('offset', 0)  # Зсув для батч-оновлення
         
         # Отримуємо героїв
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         
         if limit:
@@ -2938,7 +2927,6 @@ def update_hero_stats():
                 skipped += 1
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'status': 'success',
@@ -3061,7 +3049,7 @@ def update_hero_relation_endpoint(hero_name):
         # Зберігаємо оригінальну структуру з mlbb-stats (assist/strong/weak)
         
         # Оновлюємо в БД
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         
@@ -3072,7 +3060,6 @@ def update_hero_relation_endpoint(hero_name):
         )
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -3087,7 +3074,7 @@ def update_hero_relation_endpoint(hero_name):
 def migrate_games_fields():
     """Тимчасовий endpoint для додавання полів до таблиці games"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         
         fields_to_add = [
@@ -3112,7 +3099,6 @@ def migrate_games_fields():
                     results.append(f"❌ {field_name}: {str(e)}")
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -3247,7 +3233,7 @@ def update_all_heroes_skills():
                 # If skill sets are different, only update descriptions/icons for matching skills
                 # and add truly new skills (DO NOT delete existing skills to preserve all metadata)
                 if ext_skill_names != db_skill_names:
-                    conn = db.get_connection()
+                    conn = _get_db()
                     cursor = conn.cursor()
                     ph = db.get_placeholder()
                     
@@ -3273,7 +3259,6 @@ def update_all_heroes_skills():
                             ''', (hero_id, skill_name, skill_desc, skill_icon, skill_icon, i))
                     
                     conn.commit()
-                    db.release_connection(conn)
                     results['updated'] += 1
                 else:
                     # Skills match, just update descriptions
@@ -3464,7 +3449,7 @@ def update_heroes_counter_data_api():
             # Синхронне оновлення для одного героя
             import fetch_hero_counter_compatibility as fhcc
             
-            conn = db.get_connection()
+            conn = _get_db()
             if db.DATABASE_TYPE == 'postgres':
                 from psycopg2.extras import RealDictCursor
                 cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -3474,7 +3459,6 @@ def update_heroes_counter_data_api():
             ph = db.get_placeholder()
             cursor.execute(f"SELECT id, name, hero_game_id, counter_data, compatibility_data FROM heroes WHERE id = {ph}", (hero_id,))
             hero = cursor.fetchone()
-            db.release_connection(conn)
             
             if not hero:
                 return jsonify({'error': 'Hero not found'}), 404
@@ -3542,7 +3526,7 @@ def background_counter_data_update(game_id):
         print(f"Starting background counter data update for game_id={game_id}")
         
         # Отримуємо всіх героїв гри
-        conn = db.get_connection()
+        conn = _get_db()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
             cursor = conn.cursor(cursor_factory=RealDictCursor)
@@ -3552,7 +3536,6 @@ def background_counter_data_update(game_id):
         ph = db.get_placeholder()
         cursor.execute(f"SELECT id, name, hero_game_id, counter_data, compatibility_data FROM heroes WHERE game_id = {ph} ORDER BY id", (game_id,))
         heroes = cursor.fetchall()
-        db.release_connection(conn)
         
         updated = 0
         skipped = 0
@@ -3608,7 +3591,7 @@ def background_counter_data_update(game_id):
 def migrate_hero_ranks_constraint():
     """Додає унікальний constraint для (hero_id, days, rank)"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         
         # Видаляємо старий UNIQUE constraint
@@ -3639,7 +3622,6 @@ def migrate_hero_ranks_constraint():
         """)
         
         conn.commit()
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -3654,7 +3636,7 @@ def migrate_hero_ranks_constraint():
 def migrate_equipment_fields():
     """Додає відсутні поля до таблиці equipment"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         
         fields_to_add = [
@@ -3677,7 +3659,6 @@ def migrate_equipment_fields():
                     results.append(f"❌ Error adding {field_name}: {e}")
                     conn.rollback()
         
-        db.release_connection(conn)
         
         return jsonify({
             'success': True,
@@ -3720,7 +3701,7 @@ def google_login():
         picture = google_user.get('picture', '')
 
         # Find or create user
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -3754,7 +3735,6 @@ def google_login():
             user_id = result['id'] if isinstance(result, dict) else result[0]
 
         conn.commit()
-        db.release_connection(conn)
 
         # Create JWT
         token = create_jwt(user_id, email)
@@ -3784,7 +3764,7 @@ def google_login():
 def get_current_user():
     """Get current user info from JWT"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -3794,7 +3774,6 @@ def get_current_user():
 
         cursor.execute(f"SELECT id, email, name, picture, nickname, banner_hero_id, accent_color FROM users WHERE id = {ph}", (request.user_id,))
         user = cursor.fetchone()
-        db.release_connection(conn)
 
         if not user:
             return jsonify({'error': 'User not found'}), 404
@@ -3831,7 +3810,7 @@ def update_nickname():
                 return jsonify({'error': 'Nickname can only contain letters, numbers, and underscores'}), 400
 
             # Check uniqueness
-            conn = db.get_connection()
+            conn = _get_db()
             ph = db.get_placeholder()
             if db.DATABASE_TYPE == 'postgres':
                 from psycopg2.extras import RealDictCursor
@@ -3843,16 +3822,14 @@ def update_nickname():
                            (nickname, request.user_id))
             existing = cursor.fetchone()
             if existing:
-                db.release_connection(conn)
                 return jsonify({'error': 'Nickname already taken'}), 409
 
             cursor.execute(f"UPDATE users SET nickname = {ph} WHERE id = {ph}", (nickname, request.user_id))
             conn.commit()
-            db.release_connection(conn)
             return jsonify({'nickname': nickname})
 
         # Clear nickname
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -3861,7 +3838,6 @@ def update_nickname():
             cursor = conn.cursor()
         cursor.execute(f"UPDATE users SET nickname = NULL WHERE id = {ph}", (request.user_id,))
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'nickname': None})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -3875,7 +3851,7 @@ def update_profile_settings():
     """Update profile customization: banner_hero_id and/or accent_color"""
     try:
         data = request.get_json()
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -3893,7 +3869,6 @@ def update_profile_settings():
                 # Verify hero exists
                 cursor.execute(f"SELECT id FROM heroes WHERE id = {ph}", (hero_id,))
                 if not cursor.fetchone():
-                    db.release_connection(conn)
                     return jsonify({'error': 'Hero not found'}), 404
             updates.append(f"banner_hero_id = {ph}")
             params.append(hero_id)
@@ -3903,13 +3878,11 @@ def update_profile_settings():
             color = data['accent_color']
             valid_colors = [None, 'fighter', 'mage', 'tank', 'assassin', 'marksman', 'support', 'purple', 'red', 'green', 'gold', 'blue', 'cyan']
             if color not in valid_colors:
-                db.release_connection(conn)
                 return jsonify({'error': f'Invalid color. Valid: {[c for c in valid_colors if c]}'}), 400
             updates.append(f"accent_color = {ph}")
             params.append(color)
 
         if not updates:
-            db.release_connection(conn)
             return jsonify({'error': 'No valid fields to update'}), 400
 
         params.append(request.user_id)
@@ -3927,7 +3900,6 @@ def update_profile_settings():
         row = cursor.fetchone()
         result = dict(row) if hasattr(row, 'keys') else dict(zip(
             ['banner_hero_id', 'accent_color', 'banner_image', 'banner_painting', 'banner_hero_name'], row))
-        db.release_connection(conn)
         return jsonify(result)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4072,7 +4044,7 @@ def mlbb_verify():
                 db.release_connection(ddl_conn)
 
         # Save to DB
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4098,7 +4070,6 @@ def mlbb_verify():
             (role_id, zone_id, mlbb_nickname, mlbb_avatar, mlbb_token, request.user_id)
         )
         conn.commit()
-        db.release_connection(conn)
 
         return jsonify({
             'success': True,
@@ -4116,7 +4087,7 @@ def mlbb_verify():
 def mlbb_unlink():
     """Unlink MLBB account"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4128,7 +4099,6 @@ def mlbb_unlink():
             (request.user_id,)
         )
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4139,7 +4109,7 @@ def mlbb_unlink():
 def mlbb_stats():
     """Fetch hero stats from Moonton using stored mlbb_token"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4151,7 +4121,6 @@ def mlbb_stats():
         mlbb_token = row['mlbb_token'] if isinstance(row, dict) else (row[0] if row else None)
 
         if not mlbb_token:
-            db.release_connection(conn)
             return jsonify({'error': 'MLBB account not linked', 'code': 'not_linked'}), 400
 
         import subprocess as _sub
@@ -4170,20 +4139,17 @@ def mlbb_stats():
         ], capture_output=True, text=True, timeout=20)
 
         if not curl_result.stdout.strip():
-            db.release_connection(conn)
             return jsonify({'error': 'Empty response from stats API', 'code': 'api_error'}), 500
 
         try:
             result = _json.loads(curl_result.stdout)
         except Exception:
-            db.release_connection(conn)
             return jsonify({'error': 'Invalid response from stats API', 'code': 'api_error'}), 500
 
         if result.get('code') == 401:
             # JWT expired — clear token from DB
             cursor.execute(f"UPDATE users SET mlbb_token=NULL WHERE id={ph}", (request.user_id,))
             conn.commit()
-            db.release_connection(conn)
             return jsonify({'error': 'MLBB token expired, please re-link your account', 'code': 'token_expired'}), 400
 
         if result.get('code') != 0:
@@ -4284,7 +4250,7 @@ def mlbb_stats():
 def delete_account():
     """Permanently delete the authenticated user's account and all associated data"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
         user_id = request.user_id
@@ -4293,7 +4259,6 @@ def delete_account():
         cursor.execute(f"DELETE FROM users WHERE id = {ph}", (user_id,))
 
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'message': 'Account deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4306,7 +4271,7 @@ def delete_account():
 def get_favorites():
     """Get user's favorite heroes"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4327,7 +4292,6 @@ def get_favorites():
             'name': row[3], 'image': row[4], 'head': row[5], 'hero_game_id': row[6]
         } for row in cursor.fetchall()]
 
-        db.release_connection(conn)
         return jsonify(favorites)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4338,7 +4302,7 @@ def get_favorites():
 def add_favorite(hero_id):
     """Add hero to favorites"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
 
@@ -4348,7 +4312,6 @@ def add_favorite(hero_id):
         """, (request.user_id, hero_id))
 
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'success': True}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4359,7 +4322,7 @@ def add_favorite(hero_id):
 def remove_favorite(hero_id):
     """Remove hero from favorites"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
 
@@ -4367,7 +4330,6 @@ def remove_favorite(hero_id):
                        (request.user_id, hero_id))
 
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4381,7 +4343,7 @@ def get_user_builds():
     """Get user's builds"""
     try:
         hero_id = request.args.get('hero_id')
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4425,7 +4387,6 @@ def get_user_builds():
                     build[k] = str(build[k])
             builds.append(build)
 
-        db.release_connection(conn)
         return jsonify(builds)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4449,7 +4410,7 @@ def create_build():
         if not hero_id:
             return jsonify({'error': 'hero_id is required'}), 400
 
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4467,7 +4428,6 @@ def create_build():
         build_id = result['id'] if isinstance(result, dict) else result[0]
 
         conn.commit()
-        db.release_connection(conn)
 
         return jsonify({'id': build_id, 'success': True}), 201
     except Exception as e:
@@ -4480,7 +4440,7 @@ def update_build(build_id):
     """Update a build"""
     try:
         data = request.get_json()
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
 
@@ -4488,11 +4448,9 @@ def update_build(build_id):
         cursor.execute(f"SELECT user_id FROM user_builds WHERE id = {ph}", (build_id,))
         build = cursor.fetchone()
         if not build:
-            db.release_connection(conn)
             return jsonify({'error': 'Build not found'}), 404
         owner_id = build['user_id'] if isinstance(build, dict) else build[0]
         if owner_id != request.user_id:
-            db.release_connection(conn)
             return jsonify({'error': 'Not authorized'}), 403
 
         # Build SET clause dynamically
@@ -4515,7 +4473,6 @@ def update_build(build_id):
             cursor.execute(f"UPDATE user_builds SET {', '.join(fields)} WHERE id = {ph}", values)
 
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4526,7 +4483,7 @@ def update_build(build_id):
 def delete_build(build_id):
     """Delete a build"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
 
@@ -4534,7 +4491,6 @@ def delete_build(build_id):
                        (build_id, request.user_id))
 
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4545,7 +4501,7 @@ def delete_build(build_id):
 def get_hero_public_builds(hero_id):
     """Get public builds for a hero (excludes current user's own builds)"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4621,7 +4577,6 @@ def get_hero_public_builds(hero_id):
                 build['created_at'] = str(build['created_at'])
             builds.append(build)
 
-        db.release_connection(conn)
         return jsonify(builds)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4639,7 +4594,7 @@ def vote_build(build_id):
         if vote not in (1, -1):
             return jsonify({'error': 'vote must be 1 or -1'}), 400
 
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
 
@@ -4647,11 +4602,9 @@ def vote_build(build_id):
         cursor.execute(f"SELECT user_id FROM user_builds WHERE id = {ph}", (build_id,))
         build = cursor.fetchone()
         if not build:
-            db.release_connection(conn)
             return jsonify({'error': 'Build not found'}), 404
         owner_id = build['user_id'] if isinstance(build, dict) else build[0]
         if owner_id == request.user_id:
-            db.release_connection(conn)
             return jsonify({'error': 'Cannot vote on your own build'}), 400
 
         # Upsert vote
@@ -4681,7 +4634,6 @@ def vote_build(build_id):
         upvotes = row['upvotes'] if isinstance(row, dict) else row[0]
         downvotes = row['downvotes'] if isinstance(row, dict) else row[1]
 
-        db.release_connection(conn)
         return jsonify({'success': True, 'upvotes': upvotes, 'downvotes': downvotes, 'user_vote': vote})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4692,7 +4644,7 @@ def vote_build(build_id):
 def remove_vote(build_id):
     """Remove own vote from a build"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
         cursor.execute(f"DELETE FROM build_votes WHERE user_id = {ph} AND build_id = {ph}",
@@ -4710,7 +4662,6 @@ def remove_vote(build_id):
         upvotes = row['upvotes'] if isinstance(row, dict) else row[0]
         downvotes = row['downvotes'] if isinstance(row, dict) else row[1]
 
-        db.release_connection(conn)
         return jsonify({'success': True, 'upvotes': upvotes, 'downvotes': downvotes, 'user_vote': 0})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4723,7 +4674,7 @@ def remove_vote(build_id):
 def get_main_heroes():
     """Get current user's main heroes (1-3)"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4745,7 +4696,6 @@ def get_main_heroes():
                 ['hero_id', 'position', 'name', 'head', 'image', 'hero_game_id'], row))
             mains.append(hero)
 
-        db.release_connection(conn)
         return jsonify(mains)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4769,7 +4719,7 @@ def set_main_heroes():
                 unique_ids.append(hid)
         hero_ids = unique_ids
 
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         cursor = conn.cursor()
 
@@ -4784,7 +4734,6 @@ def set_main_heroes():
             """, (request.user_id, hero_id, idx + 1))
 
         conn.commit()
-        db.release_connection(conn)
         return jsonify({'success': True, 'count': len(hero_ids)})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4800,7 +4749,7 @@ def get_users_list():
         limit = min(int(request.args.get('limit', 20)), 50)
         offset = (page - 1) * limit
 
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4900,7 +4849,6 @@ def get_users_list():
             for u in users:
                 u['main_heroes'] = heroes_map.get(u['id'], [])
 
-        db.release_connection(conn)
         return jsonify({
             'users': users,
             'total': total_count,
@@ -4922,7 +4870,7 @@ def follow_user(user_id):
     if current_uid == user_id:
         return jsonify({'error': 'Cannot follow yourself'}), 400
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4952,7 +4900,6 @@ def follow_user(user_id):
                     (current_uid, user_id)
                 )
             conn.commit()
-            db.release_connection(conn)
             return jsonify({'is_following': True})
         else:
             cursor.execute(
@@ -4960,7 +4907,6 @@ def follow_user(user_id):
                 (current_uid, user_id)
             )
             conn.commit()
-            db.release_connection(conn)
             return jsonify({'is_following': False})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -4970,7 +4916,7 @@ def follow_user(user_id):
 def get_user_followers(user_id):
     """List users who follow user_id"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -4984,7 +4930,6 @@ def get_user_followers(user_id):
             (user_id,)
         )
         rows = cursor.fetchall()
-        db.release_connection(conn)
         result = [{'id': r['id'] if isinstance(r, dict) else r[0],
                    'name': r['name'] if isinstance(r, dict) else r[1],
                    'picture': r['picture'] if isinstance(r, dict) else r[2]} for r in rows]
@@ -4997,7 +4942,7 @@ def get_user_followers(user_id):
 def get_user_following(user_id):
     """List users that user_id follows"""
     try:
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -5011,7 +4956,6 @@ def get_user_following(user_id):
             (user_id,)
         )
         rows = cursor.fetchall()
-        db.release_connection(conn)
         result = [{'id': r['id'] if isinstance(r, dict) else r[0],
                    'name': r['name'] if isinstance(r, dict) else r[1],
                    'picture': r['picture'] if isinstance(r, dict) else r[2]} for r in rows]
@@ -5034,7 +4978,7 @@ def get_user_profile(user_id):
             except Exception:
                 pass
 
-        conn = db.get_connection()
+        conn = _get_db()
         ph = db.get_placeholder()
         if db.DATABASE_TYPE == 'postgres':
             from psycopg2.extras import RealDictCursor
@@ -5069,7 +5013,6 @@ def get_user_profile(user_id):
             user_row = cursor.fetchone()
             has_mlbb_cols = False
         if not user_row:
-            db.release_connection(conn)
             return jsonify({'error': 'User not found'}), 404
         if has_mlbb_cols:
             user_info = dict(user_row) if hasattr(user_row, 'keys') else dict(zip(
@@ -5311,7 +5254,6 @@ def get_user_profile(user_id):
         except Exception:
             pass
 
-        db.release_connection(conn)
         return jsonify({
             'user': user_info,
             'main_heroes': mains,
@@ -5400,7 +5342,7 @@ def scheduled_update_hero_stats():
             print("❌ CRON: Failed to fetch hero stats")
             return
 
-        conn = db.get_connection()
+        conn = _get_db()
         cursor = conn.cursor()
         ph = db.get_placeholder()
         updated = 0
@@ -5427,7 +5369,6 @@ def scheduled_update_hero_stats():
                 continue
 
         conn.commit()
-        db.release_connection(conn)
         print(f"✅ CRON: Updated {updated}/{len(all_heroes)} heroes (Ban/Pick/Win rates)")
 
     except Exception as e:
