@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 
 export const RemoveAdsModal: React.FC = () => {
   const { t } = useTranslation();
-  const { isPaidNoAds, adFreeUntil, removeAdsModalOpen, closeRemoveAdsModal, setAdFreeFor } = useAdStore();
+  const { adFreeUntil, removeAdsModalOpen, closeRemoveAdsModal, setAdFreeFor } = useAdStore();
   const minutesLeft = useAdStore(selectAdFreeMinutesLeft);
   const [watchLoading, setWatchLoading] = useState(false);
   const [watchResult, setWatchResult] = useState<'success' | 'failed' | null>(null);
@@ -18,7 +18,6 @@ export const RemoveAdsModal: React.FC = () => {
 
   const handleWatchAd = async () => {
     if (!Capacitor.isNativePlatform()) {
-      // На веб — вмикаємо одразу (для тесту)
       setAdFreeFor(AD_FREE_MINUTES);
       setWatchResult('success');
       return;
@@ -33,12 +32,6 @@ export const RemoveAdsModal: React.FC = () => {
     } else {
       setWatchResult('failed');
     }
-  };
-
-  const handleBuy = () => {
-    // TODO: інтегрувати Google Play Billing після реєстрації в Play Console
-    // Після успішної оплати: useAdStore.getState().setPaidNoAds(true)
-    alert('Оплата через Play Store буде доступна після публікації в Google Play.');
   };
 
   const adFreeUntilDate = adFreeUntil ? new Date(adFreeUntil) : null;
@@ -62,9 +55,6 @@ export const RemoveAdsModal: React.FC = () => {
             )}
           </div>
         )}
-        {isPaidNoAds && (
-          <div className={styles.activeBanner}>⭐ {t('removeAds.paidActive')}</div>
-        )}
 
         <div className={styles.options}>
           <div className={styles.option}>
@@ -81,23 +71,6 @@ export const RemoveAdsModal: React.FC = () => {
               disabled={watchLoading || !!minutesLeft}
             >
               {watchLoading ? <span className={styles.spinner} /> : minutesLeft ? `${minutesLeft} ${t('removeAds.min')}` : t('removeAds.watch')}
-            </button>
-          </div>
-
-          <div className={styles.divider}><span>{t('removeAds.or')}</span></div>
-
-          <div className={styles.option}>
-            <div className={styles.optionIcon}>⭐</div>
-            <div className={styles.optionInfo}>
-              <div className={styles.optionTitle}>{t('removeAds.buyTitle')}</div>
-              <div className={styles.optionDesc}>{t('removeAds.buyDesc')}</div>
-            </div>
-            <button
-              className={`${styles.btn} ${styles.btnBuy}`}
-              onClick={handleBuy}
-              disabled={isPaidNoAds}
-            >
-              {isPaidNoAds ? '✓' : t('removeAds.buy')}
             </button>
           </div>
         </div>
