@@ -50,7 +50,7 @@ CORS(app, resources={r"/api/*": {
 def _get_db():
     """Per-request DB connection. Auto-released at end of request via teardown."""
     if 'db_conn' not in g:
-        g.db_conn = _get_db()
+        g.db_conn = db.get_connection()
     return g.db_conn
 
 @app.teardown_appcontext
@@ -62,6 +62,7 @@ def _teardown_db(exc):
                 conn.rollback()
         except Exception:
             pass
+        db.release_connection(conn)
 
 @app.route('/api/version')
 def get_api_version():
