@@ -15,11 +15,11 @@ def get_connection_pool():
     if DATABASE_TYPE == 'postgres' and _connection_pool is None:
         from psycopg2 import pool
         # ThreadedConnectionPool — thread-safe для gunicorn з кількома workers
-        # maxconn=5: Railway hobby план має ліміт ~25 з'єднань
-        # При gunicorn з 4 workers: 4 * 5 = 20 з'єднань макс.
+        # maxconn=15: Railway hobby план має ліміт ~25 з'єднань
+        # При gunicorn з 4 workers: до 15 з'єднань на worker
         _connection_pool = pool.ThreadedConnectionPool(
-            minconn=1,
-            maxconn=5,
+            minconn=2,
+            maxconn=15,
             dsn=DATABASE_URL
         )
     return _connection_pool
