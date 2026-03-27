@@ -11,6 +11,7 @@ export interface HeroesFilterParams {
   complexity?: string;
   specialty?: string;
   damage_type?: string;
+  attr?: string;
   sort?: string;
   favorite_ids?: number[];
 }
@@ -30,6 +31,7 @@ export const heroesApi = {
     if (params.complexity) qs.append('complexity', params.complexity);
     if (params.specialty) qs.append('specialty', params.specialty);
     if (params.damage_type) qs.append('damage_type', params.damage_type);
+    if (params.attr) qs.append('attr', params.attr);
     if (params.sort) qs.append('sort', params.sort);
     if (params.favorite_ids && params.favorite_ids.length > 0) qs.append('favorite_ids', params.favorite_ids.join(','));
     return fetcherRaw(`/heroes?${qs.toString()}`);

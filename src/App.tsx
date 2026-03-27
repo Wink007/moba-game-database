@@ -29,6 +29,8 @@ let _splashDone = !Capacitor.isNativePlatform();
 const HomePage = React.lazy(() => import(/* webpackPreload: true */ './pages/HomePage').then(m => ({ default: m.HomePage })));
 const HeroesPage = React.lazy(() => import('./pages/HeroesPage'));
 const HeroDetailPage = React.lazy(() => import('./pages/HeroDetailPage'));
+const Dota2HeroesPage = React.lazy(() => import('./pages/Dota2HeroesPage'));
+const Dota2HeroDetailPage = React.lazy(() => import('./pages/Dota2HeroDetailPage'));
 const ItemsPage = React.lazy(() => import('./pages/ItemsPage'));
 const EmblemsPage = React.lazy(() => import('./pages/EmblemsPage'));
 const SpellsPage = React.lazy(() => import('./pages/SpellsPage'));
@@ -107,6 +109,10 @@ function App() {
               <Routes>
                 <Route path="/" element={<RouteErrorBoundary><HomePage /></RouteErrorBoundary>} />
                 <Route path="/legal" element={<RouteErrorBoundary><LegalPage /></RouteErrorBoundary>} />
+                {/* Dota 2 — separate pages (game_id=8) */}
+                <Route path="/8/heroes" element={<RouteErrorBoundary><Dota2HeroesPage /></RouteErrorBoundary>} />
+                <Route path="/8/heroes/:heroSlug" element={<RouteErrorBoundary><Dota2HeroDetailPage /></RouteErrorBoundary>} />
+                {/* Generic MOBA routes */}
                 <Route path="/:gameId/heroes" element={<RouteErrorBoundary><HeroesPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/heroes/:heroSlug" element={<RouteErrorBoundary><HeroDetailPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/hero-ranks" element={<RouteErrorBoundary><HeroRankPage /></RouteErrorBoundary>} />

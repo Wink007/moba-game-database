@@ -4,3 +4,4 @@ export * from './heroRank';
 export * from './item';
 export * from './patch';
 export * from './spell';
+export * from './dota2';
