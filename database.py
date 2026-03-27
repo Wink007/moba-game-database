@@ -93,6 +93,7 @@ def get_games():
                 cursor = conn.cursor()
         cursor.execute("""
             SELECT * FROM games
+            WHERE is_visible = true
             ORDER BY 
                 CASE WHEN id = 1 THEN 0 ELSE 1 END,
                 id
