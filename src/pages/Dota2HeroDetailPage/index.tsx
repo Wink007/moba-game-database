@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useHeroQuery, useHeroesQuery } from '../../queries/useHeroesQuery';
@@ -13,8 +13,6 @@ import { TalentsSection } from './components/TalentsSection';
 import type { Dota2Hero, Dota2TalentsEntry } from '../../types/dota2';
 import { DOTA2_GAME_ID } from '../Dota2HeroesPage/constants';
 import styles from './styles.module.scss';
-
-type Tab = 'skills' | 'stats' | 'about';
 
 function Dota2HeroDetailPage() {
   const { t } = useTranslation();
@@ -35,13 +33,9 @@ function Dota2HeroDetailPage() {
     }
   }, [isLegacyId, hero, navigate]);
 
-  const [activeTab, setActiveTab] = useState<Tab>('skills');
-
   useSEO({
     title: hero ? `${hero.name} — Dota 2 Hero Guide` : 'Dota 2 Hero',
-    description: hero
-      ? `${hero.name} Dota 2 guide — skills, stats and abilities.`
-      : undefined,
+    description: hero ? `${hero.name} Dota 2 guide — skills, stats and abilities.` : undefined,
     image: hero?.image,
   });
 
@@ -53,12 +47,6 @@ function Dota2HeroDetailPage() {
   const abilityshow = (hero.abilityshow ?? []) as any[];
   const abilities = abilityshow.filter((ab) => !ab.is_talents);
   const talentsEntry = abilityshow.find((ab) => ab.is_talents) as Dota2TalentsEntry | undefined;
-
-  const TABS: { key: Tab; label: string }[] = [
-    { key: 'skills', label: 'Skills' },
-    { key: 'stats', label: 'Stats' },
-    ...(hero.full_description ? [{ key: 'about' as Tab, label: 'About' }] : []),
-  ];
 
   return (
     <div className={styles.container}>
@@ -93,41 +81,42 @@ function Dota2HeroDetailPage() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className={styles.tabs}>
-        {TABS.map(({ key, label }) => (
-          <button
-            key={key}
-            className={`${styles.tab} ${activeTab === key ? styles.tabActive : ''}`}
-            onClick={() => setActiveTab(key)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab content */}
-      {activeTab === 'skills' && (
-        <>
-          <AbilitiesSection abilities={abilities} />
-          {talentsEntry && (
-            <div style={{ marginTop: 32 }}>
-              <h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, color: 'rgba(255,255,255,0.7)' }}>
-                Talents
-              </h2>
-              <TalentsSection talents={talentsEntry} />
-            </div>
+      {/* Two-column layout: abilities left, stats right */}
+      <div className={styles.pageLayout}>
+        {/* Left column: Abilities + Talents + Lore */}
+        <div className={styles.mainCol}>
+          {abilities.length > 0 && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Abilities</h2>
+              <AbilitiesSection abilities={abilities} />
+            </section>
           )}
-        </>
-      )}
 
-      {activeTab === 'stats' && hero.hero_stats && (
-        <HeroStats hero={hero} />
-      )}
+          {talentsEntry && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Talents</h2>
+              <TalentsSection talents={talentsEntry} />
+            </section>
+          )}
 
-      {activeTab === 'about' && hero.full_description && (
-        <p className={styles.bioText}>{hero.full_description}</p>
-      )}
+          {hero.full_description && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Lore</h2>
+              <p className={styles.bioText}>{hero.full_description}</p>
+            </section>
+          )}
+        </div>
+
+        {/* Right column: Stats (sticky) */}
+        {hero.hero_stats && (
+          <div className={styles.sideCol}>
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Stats</h2>
+              <HeroStats hero={hero} />
+            </section>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
