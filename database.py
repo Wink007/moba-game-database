@@ -185,7 +185,7 @@ def delete_game(game_id):
     return cursor.rowcount > 0
 
 # Heroes — paginated list (lightweight, for grid view)
-def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, search=None, complexity=None, sort='name', favorite_ids=None, specialty=None, damage_type=None):
+def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, search=None, complexity=None, sort='name', favorite_ids=None, specialty=None, damage_type=None, attr=None):
     """Повертає пагіновану відповідь з мінімальним набором полів для списку героїв.
     
     favorite_ids — список ID героїв-фаворитів. На сторінці 1 вони виводяться першими,
@@ -221,12 +221,24 @@ def get_heroes_paginated(game_id=None, page=1, size=24, role=None, lane=None, se
             params.append(f'%{search}%')
 
         if complexity:
-            if complexity == 'Easy':
-                conditions.append("COALESCE((abilityshow->>3)::integer, 0) <= 33")
-            elif complexity == 'Medium':
-                conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 33 AND COALESCE((abilityshow->>3)::integer, 0) <= 66")
-            elif complexity == 'Hard':
-                conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 66")
+            is_dota = game_id and int(game_id) == 8
+            if is_dota:
+                complexity_map = {'Easy': 1, 'Medium': 2, 'Hard': 3}
+                cval = complexity_map.get(complexity)
+                if cval is not None:
+                    conditions.append(f"(hero_stats->>'complexity')::int = {ph}")
+                    params.append(cval)
+            else:
+                if complexity == 'Easy':
+                    conditions.append("COALESCE((abilityshow->>3)::integer, 0) <= 33")
+                elif complexity == 'Medium':
+                    conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 33 AND COALESCE((abilityshow->>3)::integer, 0) <= 66")
+                elif complexity == 'Hard':
+                    conditions.append("COALESCE((abilityshow->>3)::integer, 0) > 66")
+
+        if attr:
+            conditions.append(f"hero_stats->>'primary_attr' = {ph}")
+            params.append(attr)
 
         if specialty:
             conditions.append(f"specialty::jsonb @> {ph}::jsonb")

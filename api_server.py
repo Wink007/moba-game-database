@@ -254,6 +254,7 @@ def get_heroes():
         sort = request.args.get('sort', 'name')
         specialty = request.args.get('specialty')
         damage_type = request.args.get('damage_type')
+        attr = request.args.get('attr')
         favorite_ids_raw = request.args.get('favorite_ids', '')
         favorite_ids = [int(x) for x in favorite_ids_raw.split(',') if x.strip().isdigit()] if favorite_ids_raw else []
         result = db.get_heroes_paginated(
@@ -268,6 +269,7 @@ def get_heroes():
             favorite_ids=favorite_ids,
             specialty=specialty,
             damage_type=damage_type,
+            attr=attr,
         )
         return jsonify(result)
 
