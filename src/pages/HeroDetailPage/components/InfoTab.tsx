@@ -4,12 +4,21 @@ import { InfoTabProps } from './interface';
 import styles from '../styles.module.scss';
 import { CollapsibleSection } from './CollapsibleSection';
 import { LaneMap } from './LaneMap';
+import { MetaOverview } from './MetaOverview';
 
-export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabel, getRatingLevel }) => {
+export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabel, getRatingLevel, allHeroes = [], counterData, compatibilityData }) => {
   const { t } = useTranslation();
 
   return (
     <div className={styles.contentSection}>
+      {/* Meta Overview */}
+      <MetaOverview
+        hero={hero}
+        allHeroes={allHeroes}
+        counterData={counterData}
+        compatibilityData={compatibilityData}
+      />
+
       {/* Performance Ratings */}
       {(hero.main_hero_appearance_rate || hero.main_hero_ban_rate || hero.main_hero_win_rate) && (
         <div className={styles.performanceRatings}>

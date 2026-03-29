@@ -181,7 +181,20 @@
     "noBuildsData": "No builds available for this hero",
     "noCounterData": "No counter data available for this hero yet.",
     "noSynergyData": "No synergy data available for this hero yet.",
-    "noSkillsData": "Skill data for this hero is not available yet."
+    "noSkillsData": "Skill data for this hero is not available yet.",
+    "metaOverview": "Meta Overview",
+    "metaTier": "Tier",
+    "metaWinRate": "Win Rate {{wr}}% — {{context}}",
+    "metaBanRate": "Ban Rate {{br}}% — {{context}}",
+    "metaCounteredBy": "Countered by",
+    "metaBestWith": "Best with",
+    "metaContextS": "dominant pick in current Mythic meta",
+    "metaContextA": "consistently strong ranked pick",
+    "metaContextB": "viable in the right composition",
+    "metaContextC": "situational, needs specific matchups",
+    "metaContextD": "underperforming in current meta",
+    "metaBanHigh": "frequently banned in draft",
+    "metaBanMid": "moderate ban pressure"
   },
   "items": {
     "title": "Items",

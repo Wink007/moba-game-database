@@ -304,7 +304,7 @@ function HeroDetailPage() {
           <div className={styles.tabContent}>
             <React.Suspense fallback={<div className={styles.tabLoader} />}>
               {activeTab === 'info' && (
-                <InfoTab hero={hero} abilitiesLabel={abilitiesLabel} getRatingLevel={getRatingLevel} />
+                <InfoTab hero={hero} abilitiesLabel={abilitiesLabel} getRatingLevel={getRatingLevel} allHeroes={allHeroes} counterData={heroCounterData} compatibilityData={heroCompatibilityData} />
               )}
               {activeTab === 'about' && <AboutTab hero={hero} />}
               {activeTab === 'counter' && (

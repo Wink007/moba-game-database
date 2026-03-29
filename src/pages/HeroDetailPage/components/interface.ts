@@ -22,6 +22,9 @@ export interface InfoTabProps {
   hero: Hero;
   abilitiesLabel: string[];
   getRatingLevel: (rate: number) => { level: string; color: string };
+  allHeroes?: Hero[];
+  counterData?: CounterData | null;
+  compatibilityData?: CompatibilityData | null;
 }
 
 export interface AboutTabProps {

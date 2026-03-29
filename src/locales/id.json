@@ -181,7 +181,20 @@
     "noBuildsData": "Tidak ada build untuk hero ini",
     "noCounterData": "Belum ada data counter untuk hero ini.",
     "noSynergyData": "Belum ada data sinergi untuk hero ini.",
-    "noSkillsData": "Data skill untuk hero ini belum tersedia."
+    "noSkillsData": "Data skill untuk hero ini belum tersedia.",
+    "metaOverview": "Gambaran Meta",
+    "metaTier": "Tier",
+    "metaWinRate": "Win Rate {{wr}}% — {{context}}",
+    "metaBanRate": "Ban Rate {{br}}% — {{context}}",
+    "metaCounteredBy": "Dikounter oleh",
+    "metaBestWith": "Terbaik dengan",
+    "metaContextS": "pilihan dominan di meta Mythic saat ini",
+    "metaContextA": "pilihan rank yang konsisten kuat",
+    "metaContextB": "viable di komposisi yang tepat",
+    "metaContextC": "situasional, butuh matchup tertentu",
+    "metaContextD": "lemah di meta saat ini",
+    "metaBanHigh": "sering di-ban saat draft",
+    "metaBanMid": "tekanan ban sedang"
   },
   "items": {
     "title": "Item",
