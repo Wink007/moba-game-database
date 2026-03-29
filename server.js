@@ -119,7 +119,7 @@ function injectSeoContent(html, content) {
 }
 
 // Build static HTML for a hero detail page
-function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlug, counterData, compatData) {
+function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlug, counterData, compatData, allItems) {
   const roles = Array.isArray(hero.roles) ? hero.roles.join(', ') : (hero.roles || '');
   const lane = Array.isArray(hero.lane) ? hero.lane.join(', ') : (hero.lane || '');
   const specialty = Array.isArray(hero.specialty) ? hero.specialty.join(', ') : (hero.specialty || '');
@@ -149,6 +149,92 @@ function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlu
   }
 
   if (desc) html += `<p>${esc(desc)}</p>`;
+
+  // Meta commentary — unique auto-generated analysis based on real stats
+  if (wr) {
+    const wrNum = parseFloat(wr);
+    const brNum = br ? parseFloat(br) : 0;
+    const heroCounter = counterData && counterData[hero.id];
+    const heroCompat = compatData && compatData[hero.id];
+
+    // Tier assessment
+    let tierLabel, tierContext;
+    if (wrNum >= 53) {
+      tierLabel = 'S-tier';
+      tierContext = `making ${esc(heroName)} one of the strongest picks in the current Mythic meta`;
+    } else if (wrNum >= 51) {
+      tierLabel = 'A-tier';
+      tierContext = `a consistently strong and reliable pick for ranked play`;
+    } else if (wrNum >= 49) {
+      tierLabel = 'B-tier';
+      tierContext = `a viable pick that performs well in the right team composition`;
+    } else if (wrNum >= 47) {
+      tierLabel = 'C-tier';
+      tierContext = `a situational pick that requires specific matchups to perform well`;
+    } else {
+      tierLabel = 'D-tier';
+      tierContext = `currently underperforming in the meta and better options exist in the same role`;
+    }
+
+    html += `<section><h2>${esc(heroName)} Meta Analysis</h2>`;
+    html += `<p>Based on current Mythic rank data, ${esc(heroName)} holds a <strong>${wr}% win rate</strong>, ${tierContext}. `;
+    html += `This places ${esc(heroName)} in the <strong>${tierLabel}</strong> category for the current patch.</p>`;
+
+    // Ban rate commentary
+    if (brNum >= 20) {
+      html += `<p>With a <strong>${br}% ban rate</strong>, ${esc(heroName)} is frequently targeted in draft phase, `;
+      html += `which reflects the hero's high impact and threat level in competitive play.</p>`;
+    } else if (brNum >= 5) {
+      html += `<p>${esc(heroName)} sees a <strong>${br}% ban rate</strong>, indicating moderate threat perception among players at high rank.</p>`;
+    }
+
+    // Lane/role context
+    if (lane && roles) {
+      html += `<p>${esc(heroName)} is typically played as a <strong>${esc(roles)}</strong> in the <strong>${esc(lane)}</strong> lane. `;
+      if (hero.damage_type) {
+        html += `This hero deals <strong>${esc(hero.damage_type)}</strong> damage`;
+        if (hero.specialty) {
+          const spec = Array.isArray(hero.specialty) ? hero.specialty.join('/') : hero.specialty;
+          html += ` and specializes in <strong>${esc(spec)}</strong>`;
+        }
+        html += `.`;
+      }
+      html += `</p>`;
+    }
+
+    // Counter matchup summary
+    if (heroCounter) {
+      const topCounters = (heroCounter.best_counters || []).slice(0, 3)
+        .map(c => heroNameById(c.heroid || c.hero_id)).filter(Boolean);
+      const topCountered = (heroCounter.most_countered_by || []).slice(0, 3)
+        .map(c => heroNameById(c.heroid || c.hero_id)).filter(Boolean);
+
+      if (topCounters.length) {
+        html += `<p><strong>How to beat ${esc(heroName)}:</strong> The most effective counters in the current patch are `;
+        html += topCounters.map(n => esc(n)).join(', ');
+        html += `. These heroes have statistically superior win rates in direct matchups against ${esc(heroName)}.</p>`;
+      }
+      if (topCountered.length) {
+        html += `<p><strong>Who ${esc(heroName)} counters:</strong> ${esc(heroName)} has favorable matchups against `;
+        html += topCountered.map(n => esc(n)).join(', ');
+        html += `, consistently winning these lanes in the current meta.</p>`;
+      }
+    }
+
+    // Synergy summary
+    if (heroCompat) {
+      const topSynergies = (heroCompat.compatible || []).slice(0, 3)
+        .map(c => heroNameById(c.heroid || c.hero_id)).filter(Boolean);
+      if (topSynergies.length) {
+        html += `<p><strong>Best team compositions with ${esc(heroName)}:</strong> `;
+        html += `${esc(heroName)} achieves the highest combined win rate when paired with `;
+        html += topSynergies.map(n => esc(n)).join(', ');
+        html += `. Consider these heroes when drafting a team around ${esc(heroName)}.</p>`;
+      }
+    }
+
+    html += `</section>`;
+  }
 
   // Skills section
   if (Array.isArray(skills) && skills.length) {
@@ -221,6 +307,25 @@ function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlu
       });
       html += `</ul></section>`;
     }
+  }
+
+  // Pro builds section
+  const proBuilds = Array.isArray(hero.pro_builds) ? hero.pro_builds : [];
+  if (proBuilds.length && Array.isArray(allItems) && allItems.length) {
+    const itemsById = new Map();
+    allItems.forEach(it => { if (it && it.id) itemsById.set(it.id, it.name || ''); });
+    html += `<section><h2>Recommended Builds for ${esc(heroName)}</h2>`;
+    html += `<p>Top item builds for ${esc(heroName)} in Mobile Legends based on win rate and pro player usage:</p>`;
+    proBuilds.slice(0, 5).forEach((build, idx) => {
+      const coreNames = (build.core_items || []).map(id => itemsById.get(id)).filter(Boolean);
+      const optNames  = (build.optional_items || []).map(id => itemsById.get(id)).filter(Boolean);
+      if (!coreNames.length) return;
+      html += `<div><strong>Build ${idx + 1}</strong>: `;
+      html += coreNames.map(n => esc(n)).join(' → ');
+      if (optNames.length) html += ` | Optional: ${optNames.map(n => esc(n)).join(', ')}`;
+      html += `</div>`;
+    });
+    html += `</section>`;
   }
 
   // Internal links for Google to discover all hero pages
@@ -589,10 +694,11 @@ app.get('/{*path}', async (req, res) => {
           const heroUrl = `https://mobawiki.com${url}`;
 
           // Fetch all enrichment data before building meta
-          const [skills, counterData, compatData] = await Promise.all([
+          const [skills, counterData, compatData, allItems] = await Promise.all([
             cachedFetch(`${API_URL}/heroes/${hero.id}/skills`),
             cachedFetch(`${API_URL}/heroes/counter-data?game_id=${gameId}&rank=all&days=7`),
             cachedFetch(`${API_URL}/heroes/compatibility-data?game_id=${gameId}&rank=all&days=7`),
+            cachedFetch(`${API_URL}/items?game_id=${gameId}&lang=en`),
           ]);
 
           // Build dynamic description with real counter/synergy names
@@ -646,7 +752,7 @@ app.get('/{*path}', async (req, res) => {
             ],
           });
 
-          html = injectSeoContent(html, buildHeroPageContent(hero, heroName, skills, heroes, gameId, heroSlug, counterData, compatData));
+          html = injectSeoContent(html, buildHeroPageContent(hero, heroName, skills, heroes, gameId, heroSlug, counterData, compatData, allItems));
         }
       }
       return res.send(html);
