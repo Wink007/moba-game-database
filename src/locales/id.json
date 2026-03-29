@@ -18,7 +18,8 @@
     "disclaimer": "PENAFIAN: Ini adalah aplikasi panduan fan tidak resmi. Tidak berafiliasi, didukung, atau disetujui oleh Moonton. Semua konten game, gambar, dan merek dagang adalah milik pemiliknya masing-masing.",
     "privacyPolicy": "Kebijakan Privasi",
     "termsOfService": "Syarat Layanan",
-    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd."
+    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd.",
+    "about": "Tentang"
   },
   "search": {
     "placeholder": "Cari hero, item...",
@@ -705,5 +706,32 @@
     "viewAll": "Lihat semua",
     "error": "Gagal memuat berita",
     "source": "Baca di bo3.gg"
+  },
+  "about": {
+    "title": "Tentang MOBA Wiki",
+    "subtitle": "Referensi gratis berbasis komunitas untuk pemain Mobile Legends: Bang Bang.",
+    "whatTitle": "Apa itu MOBA Wiki?",
+    "whatP1": "MOBA Wiki adalah situs database dan panduan independen yang berfokus pada Mobile Legends: Bang Bang. Tujuan kami adalah memberikan setiap pemain — dari pemula hingga veteran — informasi yang cepat, akurat tentang hero, item, skill, dan meta.",
+    "whatP2": "Kami membangun situs ini karena frustrasi dengan informasi yang tersebar: patch notes di satu situs, tier list di tempat lain, build hero di server Discord acak. MOBA Wiki menyatukan semuanya dalam satu tempat, diperbarui secara rutin, dan sepenuhnya gratis.",
+    "featuresTitle": "Apa yang Bisa Kamu Temukan",
+    "f1Title": "Database Hero",
+    "f1Desc": "Halaman detail untuk setiap hero — stat dasar, deskripsi skill dengan nilai per level, build yang direkomendasikan, lore, dan peran. Data bersumber dari API resmi game.",
+    "f2Title": "Tier List & Win Rate",
+    "f2Desc": "Peringkat hero berdasarkan data match nyata, dibagi per tier rank. Tier list kami diperbarui secara rutin mengikuti meta terkini.",
+    "f3Title": "Panduan Counter Pick",
+    "f3Desc": "Temukan hero terbaik untuk mengcounter musuh. Pahami kelemahan hero lawan dan buat pilihan draft yang lebih cerdas.",
+    "f4Title": "Database Item",
+    "f4Desc": "Database item lengkap dengan stat, efek, dan jalur build — bisa dicari dan difilter berdasarkan tipe dan stat.",
+    "f5Title": "Riwayat Patch Notes",
+    "f5Desc": "Semua perubahan balance dalam satu arsip yang bisa dicari. Pantau buff, nerf, dan perubahan item dari waktu ke waktu.",
+    "f6Title": "Multibahasa",
+    "f6Desc": "Tersedia dalam Bahasa Indonesia, Inggris, dan Ukraina — dengan bahasa lain yang sedang direncanakan.",
+    "whoTitle": "Siapa yang Membuatnya?",
+    "whoP1": "MOBA Wiki adalah proyek independen yang dibuat oleh satu developer yang juga merupakan pemain Mobile Legends. Tidak berafiliasi dengan Moonton Technology Co., Ltd.",
+    "whoP2": "Situs ini didanai secara mandiri dan didukung oleh sedikit pendapatan iklan. Jika kamu menyukai situs ini, berbagi dengan teman adalah dukungan terbaik.",
+    "dataTitle": "Sumber Data",
+    "dataP": "Stat hero dan item bersumber dari API resmi Moonton. Semua konten game, nama karakter, gambar, dan merek dagang tetap menjadi milik pemiliknya masing-masing.",
+    "contactTitle": "Kontak & Masukan",
+    "contactP": "Menemukan kesalahan? Punya saran? Ingin berkontribusi? Kami senang mendengar dari kamu."
   }
 }

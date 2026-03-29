@@ -18,7 +18,8 @@
     "disclaimer": "DISCLAIMER: This is an unofficial fan-made guide app. Not affiliated with, endorsed, or approved by Moonton. All game content, images, and trademarks are property of their respective owners.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
-    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd."
+    "trademarks": "Mobile Legends © Moonton Technology Co., Ltd.",
+    "about": "About"
   },
   "search": {
     "placeholder": "Search heroes, items...",
@@ -705,5 +706,32 @@
     "viewAll": "View all",
     "error": "Could not load news",
     "source": "View on bo3.gg"
+  },
+  "about": {
+    "title": "About MOBA Wiki",
+    "subtitle": "A free, community-driven reference for Mobile Legends: Bang Bang players.",
+    "whatTitle": "What is MOBA Wiki?",
+    "whatP1": "MOBA Wiki is an independent, fan-made database and guide site focused on Mobile Legends: Bang Bang. Our goal is to give every player — from beginners to veterans — fast, accurate, and well-organized information about heroes, items, abilities, and the ever-changing meta.",
+    "whatP2": "We built this site because we were frustrated with scattered information: patch notes on one site, tier lists on another, hero builds in random Discord servers. MOBA Wiki brings everything together in one place, updated regularly, and completely free.",
+    "featuresTitle": "What You'll Find Here",
+    "f1Title": "Hero Database",
+    "f1Desc": "Detailed pages for every hero — base stats, ability descriptions with level-by-level values, recommended builds, lore, and roles. Data is sourced from official game APIs and kept up to date after every patch.",
+    "f2Title": "Tier Lists & Win Rates",
+    "f2Desc": "Hero rankings based on real match data, broken down by rank tier. Our tier list updates regularly to reflect the current meta — not someone's personal opinion.",
+    "f3Title": "Counter Pick Guide",
+    "f3Desc": "Find the best heroes to counter any matchup. Understand which heroes struggle against whom and make smarter picks.",
+    "f4Title": "Item Database",
+    "f4Desc": "Full item database with stats, effects, and build paths — searchable and filterable by type, stat, and use case.",
+    "f5Title": "Patch Notes History",
+    "f5Desc": "Every balance change in one searchable archive. Track hero buffs, nerfs, and item changes over time.",
+    "f6Title": "Multilingual",
+    "f6Desc": "Available in English, Ukrainian, and Indonesian — with more languages planned. Everyone should access game info in their own language.",
+    "whoTitle": "Who Built This?",
+    "whoP1": "MOBA Wiki is an independent project built by a passionate Mobile Legends player who wanted a better reference tool. It is not affiliated with, endorsed by, or sponsored by Moonton Technology Co., Ltd.",
+    "whoP2": "The site is self-funded and kept alive by volunteer effort and a small amount of ad revenue. If you enjoy the site, sharing it with friends is the best help.",
+    "dataTitle": "Data Sources",
+    "dataP": "Hero and item stats are sourced from official game APIs provided by Moonton. All game content, character names, images, and trademarks remain the property of their respective owners.",
+    "contactTitle": "Contact & Feedback",
+    "contactP": "Found an error? Have a suggestion? Want to contribute? We'd love to hear from you."
   }
 }

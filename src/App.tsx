@@ -42,6 +42,7 @@ const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage').then(m => (
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
 const PlayersPage = React.lazy(() => import('./pages/PlayersPage').then(m => ({ default: m.PlayersPage })));
+const AboutPage = React.lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -107,6 +108,8 @@ function App() {
               <Routes>
                 <Route path="/" element={<RouteErrorBoundary><HomePage /></RouteErrorBoundary>} />
                 <Route path="/legal" element={<RouteErrorBoundary><LegalPage /></RouteErrorBoundary>} />
+                <Route path="/privacy" element={<RouteErrorBoundary><LegalPage /></RouteErrorBoundary>} />
+                <Route path="/about" element={<RouteErrorBoundary><AboutPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/heroes" element={<RouteErrorBoundary><HeroesPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/heroes/:heroSlug" element={<RouteErrorBoundary><HeroDetailPage /></RouteErrorBoundary>} />
                 <Route path="/:gameId/hero-ranks" element={<RouteErrorBoundary><HeroRankPage /></RouteErrorBoundary>} />

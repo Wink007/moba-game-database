@@ -24,6 +24,10 @@ export const Footer = () => {
                             <strong>DISCLAIMER:</strong> {t('footer.disclaimer')}
                         </p>
                         <div className={styles.legalLinks}>
+                            <Link to="/about" className={styles.link}>
+                                {t('footer.about', 'About')}
+                            </Link>
+                            <span className={styles.separator}>•</span>
                             <Link to="/legal?tab=privacy" className={styles.link}>
                                 {t('footer.privacyPolicy')}
                             </Link>
