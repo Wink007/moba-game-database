@@ -57,6 +57,7 @@ async function generate() {
   // Static pages
   urls.push(loc(`${BASE_URL}/`, '1.0', 'daily', today));
   urls.push(loc(`${BASE_URL}/legal`, '0.3', 'monthly', null, false));
+  urls.push(loc(`${BASE_URL}/about`, '0.4', 'monthly', null, false));
 
   for (const game of games.filter(g => g.id === 2)) {
     const gid = game.id;
