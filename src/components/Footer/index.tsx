@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Capacitor } from '@capacitor/core';
 import styles from './styles.module.scss';
+
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.mobawiki.mlbb';
+const isWeb = !Capacitor.isNativePlatform();
 
 export const Footer = () => {
     const { t } = useTranslation();
@@ -10,6 +14,25 @@ export const Footer = () => {
         <footer className={styles.footer}>
             <div className={styles.container}>
                 <div className={styles.content}>
+                    {isWeb && (
+                        <div className={styles.appBadge}>
+                            <a
+                                href={PLAY_STORE_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.playBadgeLink}
+                                aria-label="Get it on Google Play"
+                            >
+                                <img
+                                    src="/google-play-badge.png"
+                                    alt="Get it on Google Play"
+                                    className={styles.playBadgeImg}
+                                    width={180}
+                                    height={53}
+                                />
+                            </a>
+                        </div>
+                    )}
                     <div className={styles.main}>
                         <p className={styles.copyright}>
                             © {currentYear} {t('footer.copyright')}
