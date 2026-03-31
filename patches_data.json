@@ -8488,5 +8488,447 @@
     ],
     "revamped_heroes": [],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1rz7j4i/patch_notes_2166_adv_s"
+  },
+  "2.1.68-adv": {
+    "version": "2.1.68-adv",
+    "release_date": "2026-03-26",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Beatrix": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 257 <code→></code> 245<br>Base HP: 2280 <code→></code> 2320<br>HP Growth: 170 <code→></code> 160<br>Base Physical Defense: 20 <code→></code> 17",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "<code>New Effect</code>: Beatrix gains extra Spell Vamp equal to 100% of her Lifesteal.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Brody": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Movement Speed: 253 <code→></code> 250<br>Base HP: 2290 <code→></code> 2260<br>HP Growth: 165 <code→></code> 160<br>Base Physical Defense: 20 <code→></code> 16<br>Physical Attack Growth: 12 <code→></code> 14<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Bruno": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 240 <code→></code> 245<br>Base HP: 2270 <code→></code> 2320<br>HP Growth: 160 <code→></code> 150",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 50 at all levels <code→></code> 60 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Claude": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2250 <code→></code> 2380<br>HP Growth: 133 <code→></code> 130<br>Base Physical Defense: 14 <code→></code> 18<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Clint": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 240 <code→></code> 245<br>Base HP: 2285 <code→></code> 2260<br>HP Growth: 145 <code→></code> 160<br>Base Physical Defense: 20 <code→></code> 16<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Dyrroth": {
+        "badge": "BUFF",
+        "description_en": "<code>Experience optimization</code>: To save Dyrroth the trouble of intentionally accumulating Rage in mid-and-late-game.<br>To improve Dyrroth's power curve during the laning phase, we've adjusted his main skill to Skill 1.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "<code>New Effect</code>: Recovers 2%-5% Rage per second (scales with level).",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 5s <code→></code> 6-4s<br>Base Damage: 200-450 <code→></code> 240-520",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 8-4s <code→></code> 6s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hanabi": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "HP Growth: 128 <code→></code> 130",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 100 at all levels <code→></code> 75-100",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 60-85 <code→></code> 50-75<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hanzo": {
+        "badge": "BUFF",
+        "description_en": "As a single-target burst jungling Assassin, we've enhanced his early-to-mid game damage, while slightly weakening other aspects to keep him balanced.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2594 <code→></code> 2440<br>Attack Speed Growth: 2% <code→></code> 1%",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1 (Hanekage)",
+            "description_en": "Removed damage to units around the locked target.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2 (Hanekage)",
+            "description_en": "Initial Base Damage When Knocking Enemies Airborne: 135-210 <code→></code> 405-630<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harith": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Base HP: 2280 <code→></code> 2320<br>Base Physical Defense: 19 <code→></code> 17<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Irithel": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2300 <code→></code> 2260<br>HP Growth: 160 <code→></code> 140<br>Physical Defense Growth: 17 <code→></code> 16",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 10s at all levels <code→></code> 10-7s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ixia": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 240 <code→></code> 250<br>Base HP: 2320 <code→></code> 2260<br>HP Growth: 170 <code→></code> 155<br>Base Physical Defense: 17 <code→></code> 16",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 50-250 <code→></code> 100-250<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Karrie": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2278 <code→></code> 2320<br>HP Growth: 165 <code→></code> 160<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Layla": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 240 <code→></code> 250<br>Base HP: 2250 <code→></code> 2320<br>HP Growth: 152 <code→></code> 150<br>Base Physical Defense: 15 <code→></code> 17<br>Physical Attack Growth: 10 <code→></code> 9",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 45-70 <code→></code> 35-60<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Lesley": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 240 <code→></code> 245<br>Base HP: 2280 <code→></code> 2260<br>Base Physical Defense: 14 <code→></code> 15<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Marcel": {
+        "badge": "BUFF",
+        "description_en": "We've optimized Marcel's Ultimate to reduce negative effects on his allies.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "<code>Effect Optimization</code>: Slightly reduced the foreswing time.<br><code>New Effect</code>: Allies with the Platinum Snap's shield will not be affected by Golden Hour.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Melissa": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2288 <code→></code> 2320<br>HP Growth: 160 <code→></code> 155<br>Base Physical Defense: 18 <code→></code> 17<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Miya": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 240 <code→></code> 250<br>Base HP: 2225 <code→></code> 2320<br>HP Growth: 153 <code→></code> 150<br>Attack Speed Growth: 2.5 <code→></code> 2",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 60-100 <code→></code> 60-85<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Moskov": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2255 <code→></code> 2380<br>HP Growth: 143 <code→></code> 140<br>Base Physical Defense: 16 <code→></code> 18<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Natan": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Base HP: 2285 <code→></code> 2320<br>HP Growth: 160 <code→></code> 150<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Popol and Kupa": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Base HP: 2300 <code→></code> 2260<br>Base Physical Defense: 17 <code→></code> 16",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 80-110 <code→></code> 50-80",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 3",
+            "description_en": "Mana Cost: 60-30 <code→></code> 50 at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Rafaela": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "The Resurrection skill can no longer be tapped when unavailable.<br>Death info of other players is now displayed around the button when the Resurrection skill is available.<br>Optimized the display of the pop-up when the Resurrection skill is tapped.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Wanwan": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Movement Speed: 245 <code→></code> 240<br>Base HP: 2300 <code→></code> 2320<br>Base Physical Defense: 15 <code→></code> 17<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Dominance Ice": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Unique Passive - Fortress Shield",
+            "description_en": "Effect Range: 3.5 <code→></code> 5",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Unique Passive - Lifebane",
+            "description_en": "Effect Range: 3.5 <code→></code> 5<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Roaming Blessings": {
+        "badge": "NERF",
+        "description_en": "After allowing all Roaming Blessings to gain EXP and Gold by dealing damage, revealing vision, and sharing income from minions and creeps last week, the speed of acquiring Gold and EXP for roamers increased massively. We are reverting some of these adjustments.<br>",
+        "description_uk": ""
+      }
+    },
+    "battlefield_adjustments": {},
+    "system_adjustments": [
+      {
+        "text_en": "<strong>From The Designers</strong><br/><br>In this patch, we've adjusted the durability attributes of most Gold Lane Marksmen based on their early-game laning strength, as well as their mid-to-late game range and self-protection capabilities. Heroes with strong early-game laning capabilities now have lower base durability. Heroes with strong late-game range and self-protection capabilities now have lower durability growth. The opposite is also true for heroes that are weaker in these aspects.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iii. System Adjustments</strong><br/><ul>\n<li><strong>Auction House</strong></li>\n</ul><p>The Auction House is now reopened for testing on the Advanced Server. Players can list, browse, and purchase items.</p><ul>\n<li><strong>Surprise Flip</strong></li>\n</ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>New Rewards</strong><br/>Surprise Flip now grants Resplendent Dragonshard and other tradable items, which can be sold in the Auction House.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iv. Mode Adjustments</strong><br/><br><ul><br><li><strong>Brawl</strong></li><br></ul><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/>Based on recent Brawl hero win and pick rates, we've made the following balance adjustments.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Hero Balance Adjustments</strong><br/><p><strong>[Argus] <code>(↓)</code></strong>: New: DMG -4%</p><p><strong>[Chip] <code>(↑)</code></strong>: New: DMG +4%</p><p><strong>[Estes] <code>(↓)</code></strong>: Healing Effect -30% <code→></code> -40%</p><p><strong>[Fanny] <code>(↑)</code></strong>: DMG Taken -16% <code→></code> -24%</p><p><strong>[Franco] <code>(↑)</code></strong>: New: DMG +8%</p><p><strong>[Freya] <code>(↓)</code></strong>: DMG Taken -14% <code→></code> -8%</p><p><strong>[Gatotkaca] <code>(↑)</code></strong>: DMG Taken +14% <code→></code> +10%</p><p><strong>[Gloo] <code>(↓)</code></strong>: DMG Taken -16% <code→></code> -10%</p><p><strong>[Granger] <code>(↑)</code></strong>: New: DMG Taken -4%</p><p><strong>[Hanabi] <code>(↓)</code></strong>: DMG Taken +10% <code→></code> +16%</p><p><strong>[Hanzo] <code>(↑)</code></strong>: DMG +16% <code→></code> +20%, DMG Taken -12% <code→></code> -14%</p><p><strong>[Kadita] <code>(↓)</code></strong>: DMG +12% <code→></code> +8%</p><p><strong>[Kalea] <code>(↑)</code></strong>: DMG +6% (New), DMG Taken -6% <code→></code> -8%</p><p><strong>[Lancelot] <code>(↑)</code></strong>: New: DMG Taken -4%</p><p><strong>[Leomord] <code>(↓)</code></strong>: DMG Taken -10% <code→></code> -4%</p><p><strong>[Natan] <code>(↓)</code></strong>: DMG -8% <code→></code> -10%; New: DMG Taken +8%</p><p><strong>[Sun] <code>(↓)</code></strong>: DMG Taken -10% <code→></code> -6%</p><p><strong>[Uranus] <code>(↓)</code></strong>: New: Healing Effect -8%</p><p><strong>[Wanwan] <code>(↑)</code></strong>: DMG +4% <code→></code> +8%</p><p><strong>[Zhuxin] <code>(↑)</code></strong>: DMG Taken -12% <code→></code> -16%</p><ul>\n<li><strong>Frozen Sea Showdown</strong></li>\n</ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>1-</code> Fixed an issue where the Crab was too close to the riverbank.</p><p><code>2-</code> Fixed an issue where the hook speed was too fast and difficult to dodge at higher levels.</p><p><code>3-</code> Adjusted the location of Cyclone Eye, reducing its trigger area and jump distance to prevent players from triggering it by mistake.</p><ul>\n<li><strong>Tide Siege</strong></li>\n</ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>1-</code> Removed the [Healing Potion] and [Time Journey] buffs.</p><p><code>2-</code> Adjusted Boss Saber's swords' spawn order and quantity.</p><p><code>3-</code> Boss Bane gained an extra skill: Crab Claw Cannon.</p><p><code>4-</code> Removed Boss Mighty Guardian.</p><p><code>5-</code> We've adjusted the attribute growth of Bosses after Wave 18 and slightly balanced the strength among different Bosses.</p><p><code>6-</code> Decreased HP of elite monsters after Wave 18, while greatly increasing their damage.</p><p><code>7-</code> Adjusted Karrie and Alpha's skill scaling to make True Damage a larger portion of their total damage, allowing them to rely less on penetration attributes.</p><p><code>8-</code> Reduced the percentage penetration provided by Malefic Roar and Divine Glaive.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1s4dbbj/patch_notes_2168_adv_server/"
   }
 }
