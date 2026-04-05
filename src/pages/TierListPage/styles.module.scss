@@ -391,6 +391,25 @@
   color: var(--clr-text-3);
 }
 
+.voteHint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(74, 222, 128, 0.06);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  border-radius: 8px;
+  padding: 9px 14px;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  color: var(--clr-text-4);
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+    color: #4ade80;
+  }
+}
+
 .loginHintDismiss {
   background: none;
   border: none;

@@ -47,7 +47,7 @@ export const TierListPage: React.FC = () => {
   const [lane, setLane] = useState('all');
   const [openPickerId, setOpenPickerId] = useState<number | null>(null);
   const [showLoginHint, setShowLoginHint] = useState(false);
-  const [showUnranked, setShowUnranked] = useState(false);
+  const [showUnranked, setShowUnranked] = useState(true);
 
   const year = new Date().getFullYear();
   useSEO({
@@ -250,6 +250,14 @@ export const TierListPage: React.FC = () => {
         <div className={styles.loginHint}>
           <span>{t('tierList.loginToVote')}</span>
           <button className={styles.loginHintDismiss} onClick={() => setShowLoginHint(false)}>✕</button>
+        </div>
+      )}
+
+      {/* Vote hint — shown to logged-in users in community mode */}
+      {mode === 'community' && user && (
+        <div className={styles.voteHint}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          <span>{t('tierList.voteHint')}</span>
         </div>
       )}
 

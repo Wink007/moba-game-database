@@ -93,6 +93,22 @@
     }
 }
 
+.telegramLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    color: #29b6f6;
+    opacity: 0.8;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+}
+
 .trademarks {
     margin: 0;
     font-size: 0.65rem;

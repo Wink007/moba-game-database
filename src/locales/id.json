@@ -599,7 +599,8 @@
     "noVotes": "belum ada suara",
     "unranked": "Belum Diranking",
     "placeTo": "Tempatkan hero di tier:",
-    "loginToVote": "Masuk untuk memilih di tier list komunitas"
+    "loginToVote": "Masuk untuk memilih di tier list komunitas",
+    "voteHint": "Ketuk + pada hero mana saja untuk memilih tier mereka. Suaramu membantu membuat tier list komunitas!"
   },
   "statsHistory": {
     "title": "Riwayat Statistik",

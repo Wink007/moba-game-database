@@ -599,7 +599,8 @@
     "noVotes": "no votes",
     "unranked": "Unranked",
     "placeTo": "Place hero in tier:",
-    "loginToVote": "Sign in to vote in the community tier list"
+    "loginToVote": "Sign in to vote in the community tier list",
+    "voteHint": "Tap + on any hero to vote for their tier. Your vote helps build the community tier list!"
   },
   "statsHistory": {
     "title": "Stats History",

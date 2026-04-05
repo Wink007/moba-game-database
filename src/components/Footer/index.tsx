@@ -58,6 +58,16 @@ export const Footer = () => {
                             <Link to="/legal?tab=terms" className={styles.link}>
                                 {t('footer.termsOfService')}
                             </Link>
+                            <span className={styles.separator}>•</span>
+                            <a
+                                href="https://t.me/vikno_ua"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.telegramLink}
+                            >
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.5l-2.945-.918c-.64-.203-.654-.64.136-.954l11.49-4.43c.532-.194.998.131.833.954l.21-.931z"/></svg>
+                                vikno_ua
+                            </a>
                         </div>
                         <p className={styles.trademarks}>
                             {t('footer.trademarks')}
