@@ -62,6 +62,7 @@ export const HomePage = () => {
   return (
     <div className={styles.homePageWrapper}>
       <NewHeroStrip gameId={selectedGameId} />
+      <RecentActivityWidget />
       <VideoPreview game={defaultGame ?? cachedGame}>
         <HeroRankSection gameId={selectedGameId} />
       </VideoPreview>
@@ -69,7 +70,6 @@ export const HomePage = () => {
         <MatchesWidget />
         <MetaReport />
         <NewsWidget />
-        <RecentActivityWidget />
         <LastHeroesInfo />
       </div>
     </div>
