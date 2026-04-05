@@ -8930,5 +8930,231 @@
     ],
     "revamped_heroes": [],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1s4dbbj/patch_notes_2168_adv_server/"
+  },
+  "2.1.70-adv": {
+    "version": "2.1.70-adv",
+    "release_date": "2026-04-02",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Aulus": {
+        "badge": "NERF",
+        "description_en": "Slightly reduced the Ultimate's strength.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base Damage of First 4 Strikes: 200-360 (+ 80% Total Physical Attack) <code→></code> 150-270 (+ 60% Total Physical Attack)<br>Base Damage of the Last Slash: 400-720 (+160% Total Physical Attack) <code→></code> 450-810 (+180% Total Physical Attack)<br>Damage Reduction: 40% at all levels <code→></code> 20%-40%",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Beatrix": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased the hero's early-game power.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2320 <code→></code> 2380<br>Base Physical Defense: 17 <code→></code> 18<br>Base Physical Attack: 110 <code→></code> 115",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Claude": {
+        "badge": "NERF",
+        "description_en": "Claude's burst damage at Lv. 4 was too high compared to other Marksman heroes. As a result, we've adjusted his damage potential.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base Damage: 140-190 <code→></code> 130-190",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Dyrroth": {
+        "badge": "BUFF",
+        "description_en": "To ensure Dyrroth remains impactful in mid-to-late game teamfights, we've balanced his scaling curve.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Circle Strike Damage: 160% Total Physical Attack <code→></code> 150%-180% Total Physical Attack (scales with level)<br>Regen Effect: 20 + 8% of Max HP <code→></code> 7%-10% of Max HP (scales with level)",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harith": {
+        "badge": "BUFF",
+        "description_en": "Reverted the previous adjustments to Harith on the Advanced Server. We will slightly adjust his power curve while maintaining his strong early-to-mid game performance, and also give him the possibility to be played as a Jungler.<br>The following are the adjustments made based on the Official Server.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2280 <code→></code> 2260<br>HP Growth: 155 <code→></code> 160<br>Base Physical Defense: 19 <code→></code> 17<br>Physical Defense Growth: 4 <code→></code> 4.5",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 165-290 <code→></code> 150-300<br>Explosion Damage: 495-870 <code→></code> 450-900<br><code>New Effect</code>: This skill deals 60% extra damage to creeps.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Enhanced Basic Attack's Magic Power Bonus: 60% <code→></code> 70%",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Slow Effect: 50% initial slow and 15% continuous slow <code→></code> 40% continuous slow",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "ADJUST",
+        "description_en": "Optimized the control experience of each skill and reduced the hero's damage potential.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Cast Range: 3.5 <code→></code> 4<br>Fan Angle: 100° <code→></code> 75°<br>Base Damage: 250-400 <code→></code> 225-360",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "<code>Casting Optimization</code>: Tapping the skill button casts it in the joystick's direction. You no longer need to drag the skill button to aim.<br>Single Dash Distance: 3 <code→></code> 3.5<br>Dashing Speed: 10 <code→></code> 11<br>Base Damage: 250-400 <code→></code> 225-360",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Falling Maple: Skill 1 Merged into Skill 2",
+            "description_en": "Dash Distance: 2.5 <code→></code> 3<br>Slightly reduced the foreswing and backswing time.<br>Base Damage: 375-600 <code→></code> 340-540",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Infernal Torrent: Skill 2 Merged into Skill 1",
+            "description_en": "Base Damage: 375-600 <code→></code> 340-540<br>Dash Damage: 250-400 <code→></code> 225-360",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Movement Speed Boost: 80% Movement Speed Boost that decays over 1s <code→></code> 120% Movement Speed Boost that decays over 1.5s",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Irithel": {
+        "badge": "BUFF",
+        "description_en": "We have optimized the art quality of Irithel. Since her animations and visual effects of skins are also being optimized at the same time, her related skins will temporarily be unavailable.<br>Last week, we reduced Irithel's late-game durability due to her high mobility as a late-game Marksman. This week, we're compensating her with increased late-game damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Physical Attack Growth: 8.5 <code→></code> 10",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Lesley": {
+        "badge": "CHANGE",
+        "description_en": "As hero adjustments involve updates to visual effects, corresponding skins are still being optimized. The following hero's skin is temporarily unavailable: Lesley \"Angelic Agent\".",
+        "description_uk": ""
+      },
+      "Sora": {
+        "badge": "NERF",
+        "description_en": "Although slightly weak in the laning phase, Sora gains extremely strong solo kill potential once he reaches Lv. 4, even without using True Art.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Windstride - Thunder Rush",
+            "description_en": "Base Damage on Hit: 140-200 (+55% Total Physical Attack) <code→></code> 120-180 (+45% Total Physical Attack)<br>Extra Damage: 140-200 (+8% Total HP) <code→></code> 120-180 (+6% Total HP)",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: Thunder: 24s-16s <code→></code> 32s-24s<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {
+      "Control Optimizations": {
+        "badge": "CHANGE",
+        "description_en": "<code>1-</code> Added the Avatar Quick Cast feature in the skill settings. Under [Lock-on Targeting], you can now drag directional skills directly to a hero's avatar for a quick cast.<br><code>2-</code> Optimized targeting logic in [Lock-on Targeting] mode: Within 3s of losing a hero lock, if no new targets are acquired, the previous lock will be restored.<br><code>3-</code> Optimized the locking status display in [Lock-on Targeting] mode: Casting a skill on a locked enemy hero will no longer change the current hero lock status.<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>Auction House</strong><br/><br>Added a Diamond expenditure limit for purchases (Bid and Buyout Prices).<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Lane Matchmaking Adjustments</strong><br/><br>Adjusted the Protection Point feature for high-demand lanes in lane matchmaking. Previously, you could earn Protection Points for selecting high-demand lanes once per day. Now: Use Flex Pro for matchmaking to receive Protection Points if the match is lost. You can get Flex Pro protection up to 5 times per day.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Highlights Notification Optimizations</strong><br/><p><code>Added a secondary notification area</code>: Displays all your own highlights notifications, visible only to you.</p><p><code>New highlight types</code>: Added more highlight types based on the current ones to cover more excellent in-match behaviors. Specific trigger rules will be announced in future patches. Stay tuned!</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>In-Match Like and Feedback Optimizations</strong><br/><p><code>1-</code> Added Like targets to the in-match Like button.</p><p><code>2-</code> Revamped the like received notification to display the avatars of the liker and the liked.</p><p><code>3-</code> <strong>Highlight Co-op Likes</strong>: You can now Like teammates who assisted in your Highlights in matches.</p><p><code>4-</code> The teammates you liked can also like you back.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Battle Achievement Interface Revamp</strong><br/><p>The new Battle Achievement interface will display your teammates' match data and honors, and allow you to give them a Like.</p><p>If you want to view your personal achievement details, you can tap your personal honor badge to go to the corresponding interface.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Post-Game Like Feature Optimization</strong><br/><br>Post-match Likes are now more prominent. Even if you've already left the Results screen, you'll still receive real-time notifications for Likes from your teammates.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Brawl</strong>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p><code>1-</code> Equipment can still be purchased for a short time after leaving the spawn area, but this will end early upon entering combat.</p><p><code>2-</code> Added a new interaction skill. Use it to play Recall animations and visual effects to interact with the opponent. This skill provides no actual effects.</p><p><code>3-</code> The barrel can still be picked up by others after being picked up and has an infinite duration. It will enter cooldown after use and can be picked up again once the cooldown is over.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Frozen Sea Showdown</strong>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p><code>1-</code> Scene performance optimized. Fixed an issue where the Crab always moved along one side. Now, the Crab will move toward the other side after crossing half of the river.</p><p><code>2-</code> <code>New Crab Skill - Star Shatter</code>: Fires an [Astral Sphere] in the target direction, exploding upon hitting an enemy hero to deal 15% of their Max HP as damage and stunning them for 0.6s. The damage increases with the [Astral Sphere]'s travel distance, up to 6 times the original damage.</p><p><code>3-</code> <code>The Hunt</code>: Movement Speed Boost During Conceal: 15% Conceal. 70%. Becomes untargetable during</p><p><code>4-</code> Crab skills and Chest skills are no longer lost upon death.</p><p><code>5-</code> The damage penalty during hook displacement now ends immediately after the hook effect ends.</p><p><code>6-</code> Franco's Passive Movement Speed Boost: 30% <code→></code> 15%. Franco's Base Movement Speed is increased by 10%.</p><p><code>7-</code> Removed the obstacle on the round platform around the Chest.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Tide Siege</strong>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p><code>1-</code> Balanced the strength between different Bosses and added a damage cap for Bosses against creeps.</p><p><code>2-</code> The Turtle now has a chance to appear among the Elite creeps after Wave 18.</p><p><code>3-</code> Balanced the late-game strength of different heroes.</p><p><code>4-</code> [Mythical Honor] Damage boost is adjusted to Adaptive Attack. Revamped [Retribution Instinct] and slightly reduced [Walking Spring].</p><p><code>5-</code> Removed the hero Eudora.</p><p><code>6-</code> Added an extra skill to Boss Alice to better synergize with her Ultimate.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1sbamux/patch_notes_2170_adv_server/"
   }
 }
