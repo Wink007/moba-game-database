@@ -588,6 +588,7 @@ def get_activity_feed():
             events.append({
                 'type': 'new_user',
                 'created_at': r['created_at'].isoformat() if not isinstance(r['created_at'], str) else r['created_at'],
+                'user_id': r.get('id'),
                 'user_name': r.get('nickname') or r.get('name') or 'User',
                 'user_picture': r.get('picture'),
             })
@@ -596,7 +597,7 @@ def get_activity_feed():
         cursor.execute("""
             SELECT c.id, c.text, c.created_at,
                    u.name as user_name, u.picture as user_picture, u.nickname as user_nickname,
-                   h.name as hero_name, h.head as hero_head, h.game_id
+                   h.name as hero_name, h.head as hero_head, h.game_id, u.id as user_id
             FROM hero_comments c
             JOIN users u ON u.id = c.user_id
             JOIN heroes h ON h.id = c.hero_id
@@ -604,7 +605,7 @@ def get_activity_feed():
             LIMIT 15
         """)
         cols = ['id', 'text', 'created_at', 'user_name', 'user_picture', 'user_nickname',
-                'hero_name', 'hero_head', 'game_id']
+                'hero_name', 'hero_head', 'game_id', 'user_id']
         for row in cursor.fetchall():
             r = dict(row) if hasattr(row, 'keys') else dict(zip(cols, row))
             if not r.get('created_at'):
@@ -614,6 +615,7 @@ def get_activity_feed():
             events.append({
                 'type': 'new_comment',
                 'created_at': r['created_at'].isoformat() if not isinstance(r['created_at'], str) else r['created_at'],
+                'user_id': r.get('user_id'),
                 'user_name': r.get('user_nickname') or r.get('user_name') or 'User',
                 'user_picture': r.get('user_picture'),
                 'hero_name': hero_name,
@@ -627,7 +629,7 @@ def get_activity_feed():
         cursor.execute("""
             SELECT b.id, b.name, b.created_at,
                    u.name as user_name, u.picture as user_picture, u.nickname as user_nickname,
-                   h.name as hero_name, h.head as hero_head, h.game_id
+                   h.name as hero_name, h.head as hero_head, h.game_id, u.id as user_id
             FROM user_builds b
             JOIN users u ON u.id = b.user_id
             JOIN heroes h ON h.id = b.hero_id
@@ -636,7 +638,7 @@ def get_activity_feed():
             LIMIT 15
         """)
         cols = ['id', 'name', 'created_at', 'user_name', 'user_picture', 'user_nickname',
-                'hero_name', 'hero_head', 'game_id']
+                'hero_name', 'hero_head', 'game_id', 'user_id']
         for row in cursor.fetchall():
             r = dict(row) if hasattr(row, 'keys') else dict(zip(cols, row))
             if not r.get('created_at'):
@@ -645,6 +647,7 @@ def get_activity_feed():
             events.append({
                 'type': 'new_build',
                 'created_at': r['created_at'].isoformat() if not isinstance(r['created_at'], str) else r['created_at'],
+                'user_id': r.get('user_id'),
                 'user_name': r.get('user_nickname') or r.get('user_name') or 'User',
                 'user_picture': r.get('user_picture'),
                 'hero_name': hero_name,
