@@ -1,115 +1,126 @@
-.widget {
-  background: var(--clr-overlay-80);
-  border: 1px solid var(--clr-border-2);
-  border-radius: 16px;
-  overflow: hidden;
-  backdrop-filter: blur(12px);
-}
-
-.header {
+.ticker {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 18px 12px;
+  height: 36px;
+  background: var(--clr-overlay-80);
+  border-top: 1px solid var(--clr-border-2);
   border-bottom: 1px solid var(--clr-border-2);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.tickerLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px 0 14px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--clr-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+  border-right: 1px solid var(--clr-border-2);
+  flex-shrink: 0;
+  height: 100%;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #4ade80;
-  box-shadow: 0 0 6px #4ade80;
+  box-shadow: 0 0 5px #4ade80;
+  flex-shrink: 0;
   animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 6px #4ade80; }
-  50%       { opacity: 0.6; box-shadow: 0 0 12px #4ade80; }
+  0%, 100% { opacity: 1; box-shadow: 0 0 5px #4ade80; }
+  50%       { opacity: 0.5; box-shadow: 0 0 10px #4ade80; }
 }
 
-.title {
-  margin: 0;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--clr-text-2);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.list {
-  display: flex;
-  flex-direction: column;
-}
-
-.row {
+.tickerTrack {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 18px;
-  border-bottom: 1px solid var(--clr-border-1);
-  transition: background 0.15s ease;
+}
 
-  &:last-child {
-    border-bottom: none;
-  }
+.tickerScroll {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: scroll calc(var(--item-count, 10) * 4s) linear infinite;
 
   &:hover {
-    background: var(--clr-accent-05);
+    animation-play-state: paused;
   }
 }
 
-.avatar {
-  width: 36px;
-  height: 36px;
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.tickerItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 4px;
+  font-size: 0.8rem;
+  color: var(--clr-text-3);
+}
+
+.tickerAvatar {
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 1.5px solid var(--clr-border-3);
 }
 
-.avatarFallback {
-  width: 36px;
-  height: 36px;
+.tickerProfileLink {
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.tickerAvatarFallback {
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--clr-accent-15);
   color: var(--clr-accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.65rem;
   font-weight: 700;
   flex-shrink: 0;
-  border: 1.5px solid var(--clr-border-3);
 }
 
-.rowContent {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.rowText {
-  font-size: 0.82rem;
-  color: var(--clr-text-3);
-  line-height: 1.4;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.userName {
+.tickerUser {
   font-weight: 700;
   color: var(--clr-text-1);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
-.action {
+.tickerAction {
   color: var(--clr-text-4);
 }
 
-.heroLink {
+.tickerHero {
   color: var(--clr-accent);
   font-weight: 600;
   text-decoration: none;
@@ -119,30 +130,13 @@
   }
 }
 
-.buildName {
+.tickerBuild {
   color: var(--clr-text-2);
   font-style: italic;
 }
 
-.commentPreview {
-  font-size: 0.75rem;
-  color: var(--clr-text-5);
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.time {
-  font-size: 0.72rem;
-  color: var(--clr-text-5);
-}
-
-.heroThumb {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  object-fit: cover;
-  flex-shrink: 0;
-  opacity: 0.85;
+.tickerSep {
+  color: var(--clr-accent-30);
+  margin-left: 8px;
+  font-size: 0.7rem;
 }
