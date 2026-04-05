@@ -556,6 +556,109 @@ def like_hero_comment(comment_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+# ─── Activity Feed ────────────────────────────────────────────────────────────
+
+@app.route('/api/activity', methods=['GET'])
+def get_activity_feed():
+    """Return recent activity: new users, new comments, new builds (public)"""
+    limit = min(30, int(request.args.get('limit', 20)))
+    ph = db.get_placeholder()
+    try:
+        conn = _get_db()
+        if db.DATABASE_TYPE == 'postgres':
+            from psycopg2.extras import RealDictCursor
+            cursor = conn.cursor(cursor_factory=RealDictCursor)
+        else:
+            cursor = conn.cursor()
+
+        events = []
+
+        # Recent new users
+        cursor.execute("""
+            SELECT id, name, picture, nickname, created_at
+            FROM users
+            ORDER BY created_at DESC
+            LIMIT 15
+        """)
+        for row in cursor.fetchall():
+            r = dict(row) if hasattr(row, 'keys') else dict(zip(['id', 'name', 'picture', 'nickname', 'created_at'], row))
+            if not r.get('created_at'):
+                continue
+            events.append({
+                'type': 'new_user',
+                'created_at': r['created_at'].isoformat() if not isinstance(r['created_at'], str) else r['created_at'],
+                'user_name': r.get('nickname') or r.get('name') or 'User',
+                'user_picture': r.get('picture'),
+            })
+
+        # Recent comments
+        cursor.execute("""
+            SELECT c.id, c.text, c.created_at,
+                   u.name as user_name, u.picture as user_picture, u.nickname as user_nickname,
+                   h.name as hero_name, h.head as hero_head, h.slug as hero_slug, h.game_id
+            FROM hero_comments c
+            JOIN users u ON u.id = c.user_id
+            JOIN heroes h ON h.id = c.hero_id
+            ORDER BY c.created_at DESC
+            LIMIT 15
+        """)
+        cols = ['id', 'text', 'created_at', 'user_name', 'user_picture', 'user_nickname',
+                'hero_name', 'hero_head', 'hero_slug', 'game_id']
+        for row in cursor.fetchall():
+            r = dict(row) if hasattr(row, 'keys') else dict(zip(cols, row))
+            if not r.get('created_at'):
+                continue
+            text = r.get('text', '')
+            events.append({
+                'type': 'new_comment',
+                'created_at': r['created_at'].isoformat() if not isinstance(r['created_at'], str) else r['created_at'],
+                'user_name': r.get('user_nickname') or r.get('user_name') or 'User',
+                'user_picture': r.get('user_picture'),
+                'hero_name': r.get('hero_name'),
+                'hero_head': r.get('hero_head'),
+                'hero_slug': r.get('hero_slug'),
+                'game_id': r.get('game_id'),
+                'text': text[:80] + ('…' if len(text) > 80 else ''),
+            })
+
+        # Recent public builds
+        cursor.execute("""
+            SELECT b.id, b.name, b.created_at,
+                   u.name as user_name, u.picture as user_picture, u.nickname as user_nickname,
+                   h.name as hero_name, h.head as hero_head, h.slug as hero_slug, h.game_id
+            FROM user_builds b
+            JOIN users u ON u.id = b.user_id
+            JOIN heroes h ON h.id = b.hero_id
+            WHERE b.is_public = TRUE
+            ORDER BY b.created_at DESC
+            LIMIT 15
+        """)
+        cols = ['id', 'name', 'created_at', 'user_name', 'user_picture', 'user_nickname',
+                'hero_name', 'hero_head', 'hero_slug', 'game_id']
+        for row in cursor.fetchall():
+            r = dict(row) if hasattr(row, 'keys') else dict(zip(cols, row))
+            if not r.get('created_at'):
+                continue
+            events.append({
+                'type': 'new_build',
+                'created_at': r['created_at'].isoformat() if not isinstance(r['created_at'], str) else r['created_at'],
+                'user_name': r.get('user_nickname') or r.get('user_name') or 'User',
+                'user_picture': r.get('user_picture'),
+                'hero_name': r.get('hero_name'),
+                'hero_head': r.get('hero_head'),
+                'hero_slug': r.get('hero_slug'),
+                'game_id': r.get('game_id'),
+                'build_name': r.get('name'),
+            })
+
+        # Merge & sort by date desc
+        events.sort(key=lambda e: e['created_at'], reverse=True)
+        return jsonify(events[:limit])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 # ─── Tier Votes ───────────────────────────────────────────────────────────────
 
 @app.route('/api/<int:game_id>/tier-votes', methods=['GET'])
