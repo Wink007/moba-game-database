@@ -9,6 +9,7 @@ import { VideoPreview } from './components/VideoPreview';
 import { HeroRankSection } from './components/HeroRankSection';
 import { NewHeroStrip } from './components/NewHeroStrip';
 import { MatchesWidget } from './components/MatchesWidget';
+import { RecentActivityWidget } from './components/RecentActivityWidget';
 import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
@@ -68,6 +69,7 @@ export const HomePage = () => {
         <MatchesWidget />
         <MetaReport />
         <NewsWidget />
+        <RecentActivityWidget />
         <LastHeroesInfo />
       </div>
     </div>

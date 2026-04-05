@@ -366,6 +366,17 @@
       "banRate": "Ban Rate"
     }
   },
+  "activity": {
+    "title": "Live Activity",
+    "joined": "joined the wiki",
+    "commented": "commented on",
+    "createdBuild": "created a build",
+    "forHero": "for",
+    "justNow": "just now",
+    "minutesAgo": "{{n}}m ago",
+    "hoursAgo": "{{n}}h ago",
+    "daysAgo": "{{n}}d ago"
+  },
   "legal": {
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",

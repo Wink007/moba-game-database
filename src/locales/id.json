@@ -366,6 +366,17 @@
       "banRate": "Ban Rate"
     }
   },
+  "activity": {
+    "title": "Aktivitas Terkini",
+    "joined": "bergabung ke wiki",
+    "commented": "berkomentar di",
+    "createdBuild": "membuat build",
+    "forHero": "untuk",
+    "justNow": "baru saja",
+    "minutesAgo": "{{n}}m lalu",
+    "hoursAgo": "{{n}}j lalu",
+    "daysAgo": "{{n}}h lalu"
+  },
   "legal": {
     "privacyPolicy": "Kebijakan Privasi",
     "termsOfService": "Syarat Layanan",

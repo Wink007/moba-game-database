@@ -366,6 +366,17 @@
       "banRate": "Бани"
     }
   },
+  "activity": {
+    "title": "Активність",
+    "joined": "приєднався до вікі",
+    "commented": "прокоментував",
+    "createdBuild": "створив білд",
+    "forHero": "для",
+    "justNow": "щойно",
+    "minutesAgo": "{{n}}хв тому",
+    "hoursAgo": "{{n}}г тому",
+    "daysAgo": "{{n}}д тому"
+  },
   "legal": {
     "privacyPolicy": "Політика конфіденційності",
     "termsOfService": "Умови використання",
