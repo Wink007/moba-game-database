@@ -98,7 +98,7 @@ export const RecentActivityWidget: React.FC = () => {
 
   const { data: events, isLoading } = useQuery<ActivityEvent[]>({
     queryKey: ['activity-feed'],
-    queryFn: () => fetcher('/api/activity?limit=15'),
+    queryFn: () => fetcher('/activity?limit=15'),
     staleTime: 60_000,
     refetchInterval: 90_000,
   });
