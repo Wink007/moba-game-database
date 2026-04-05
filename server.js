@@ -504,7 +504,7 @@ function injectMeta(html, { title, description, image, canonical, jsonLd, lang, 
     .replace(/(<meta name="twitter:image" content=")[^"]*(")/,  `$1${img}$2`);
 
   if (jsonLd) {
-    const script = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
+    const script = `<script id="__ld-json__" type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
     result = result.replace('</head>', `${script}</head>`);
   }
 
