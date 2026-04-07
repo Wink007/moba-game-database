@@ -15,10 +15,18 @@ import styles from './styles.module.scss';
 
 export const HomePage = () => {
   const { t } = useTranslation();
-  useSEO({
-    description: 'MOBA Wiki — unofficial fan guide for Mobile Legends. Hero stats, tier list, counter picks, item builds, patch notes and ranked statistics. Updated daily.',
-    // no title → uses full site name as title (best for home page)
-    jsonLd: {
+  const { data: games, isError } = useGamesQuery();
+  const { selectedGameId, cachedVideoIntro, cachedPreview, cachedSubtitle, setCachedGame } = useGameStore();
+  const defaultGame = games?.find(g => g.id === selectedGameId);
+
+  const videoThumbnailUrl = defaultGame?.video_intro?.includes('cloudinary.com')
+    ? defaultGame.video_intro
+        .replace('/video/upload/', '/video/upload/so_0,w_1280,q_auto/')
+        .replace(/\.\w+$/, '.jpg')
+    : undefined;
+
+  const jsonLdSchemas: object[] = [
+    {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'MOBA Wiki',
@@ -33,10 +41,26 @@ export const HomePage = () => {
         'query-input': 'required name=search_term_string',
       },
     },
+    ...(videoThumbnailUrl && defaultGame?.video_intro ? [{
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: 'Mobile Legends: Bang Bang — Gameplay Preview',
+      description: 'Gameplay preview video for Mobile Legends: Bang Bang on MOBA Wiki.',
+      thumbnailUrl: videoThumbnailUrl,
+      contentUrl: defaultGame.video_intro,
+      uploadDate: '2024-01-01',
+      publisher: {
+        '@type': 'Organization',
+        name: 'MOBA Wiki',
+        url: 'https://mobawiki.com',
+      },
+    }] : []),
+  ];
+
+  useSEO({
+    description: 'MOBA Wiki — unofficial fan guide for Mobile Legends. Hero stats, tier list, counter picks, item builds, patch notes and ranked statistics. Updated daily.',
+    jsonLd: jsonLdSchemas,
   });
-  const { data: games, isError } = useGamesQuery();
-  const { selectedGameId, cachedVideoIntro, cachedPreview, cachedSubtitle, setCachedGame } = useGameStore();
-  const defaultGame = games?.find(g => g.id === selectedGameId);
 
   // Cache game data for next visit (LCP optimization)
   useEffect(() => {
