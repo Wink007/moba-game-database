@@ -110,16 +110,35 @@ def build_abilities_show(h: dict) -> list[dict]:
             "is_innate": ab.get("ability_is_innate", False),
             "shard_desc": ab.get("shard_loc", ""),
             "scepter_desc": ab.get("scepter_loc", ""),
+            "notes": [n for n in ab.get("notes_loc", []) if n],
+            "damages": ab.get("damages", []),
+            "max_level": ab.get("max_level", 4),
+            "special_values": [
+                {
+                    "label": sv.get("heading_loc", ""),
+                    "values": sv.get("values_float") or sv.get("values_int") or [],
+                    "is_percentage": sv.get("is_percentage", False),
+                }
+                for sv in ab.get("special_values", [])
+                if sv.get("heading_loc", "").strip() and (sv.get("values_float") or sv.get("values_int"))
+            ],
         })
     # append talents as a special entry
     talents = h.get("talents", [])
+    TALENT_LEVELS = [10, 10, 15, 15, 20, 20, 25, 25]
     if talents:
         abilities.append({
             "name": "Talents",
             "internal_name": "_talents",
             "icon": f"{CDN}/talents/talents.png",
             "is_talents": True,
-            "items": [{"name": t.get("name_loc", ""), "level": t.get("level")} for t in talents],
+            "items": [
+                {
+                    "name": t.get("name_loc", ""),
+                    "level": TALENT_LEVELS[i] if i < len(TALENT_LEVELS) else 10,
+                }
+                for i, t in enumerate(talents)
+            ],
         })
     return abilities
 
