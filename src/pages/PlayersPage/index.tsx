@@ -77,30 +77,26 @@ export const PlayersPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>{t('players.pageTitle')}</h1>
-      {data?.total != null && (
-        <p className={styles.count}>{t('players.totalCount', { count: data.total })}</p>
-      )}
-
-      <div className={styles.headerRow}>
-        <span className={styles.rowNum}>#</span>
-        <span />
-        <span>{t('players.colPlayer')}</span>
-        <span className={styles.headerCell} style={{ textAlign: 'right' }}>{t('players.colHeroes')}</span>
-        <button className={`${styles.headerCell} ${styles.sortBtn}`} onClick={() => setSortAsc(v => !v)}>
+      <div className={styles.pageHeader}>
+        <div>
+          <h1 className={styles.title}>{t('players.pageTitle')}</h1>
+          {data?.total != null && (
+            <p className={styles.count}>{t('players.totalCount', { count: data.total })}</p>
+          )}
+        </div>
+        <button className={styles.sortBtn} onClick={() => setSortAsc(v => !v)}>
           {t('players.colDate')} {sortAsc ? '↑' : '↓'}
         </button>
       </div>
 
-      <div className={styles.table}>
-
+      <div className={styles.grid}>
         {users.map((user, idx) => (
           <Link
             key={user.id}
             to={`/profile/${user.id}`}
-            className={styles.row}
+            className={styles.card}
           >
-            <span className={styles.rowNum}>{(page - 1) * 20 + idx + 1}</span>
+            <span className={styles.cardNum}>{(page - 1) * 20 + idx + 1}</span>
             <img
               src={user.picture}
               alt={user.nickname || user.name}
@@ -112,21 +108,23 @@ export const PlayersPage: React.FC = () => {
               {user.activity_title && (
                 <span className={styles.activityTitle}>{t(`profile.${user.activity_title}`)}</span>
               )}
+              {user.created_at && (
+                <span className={styles.joined}>{formatDate(user.created_at)}</span>
+              )}
             </div>
-            <div className={styles.heroes}>
-              {user.main_heroes.map(h => (
-                <img
-                  key={h.hero_id}
-                  src={h.head || h.image || ''}
-                  alt={h.name}
-                  className={styles.heroIcon}
-                  title={h.name}
-                  loading="lazy"
-                />
-              ))}
-            </div>
-            {user.created_at && (
-              <span className={styles.joined}>{formatDate(user.created_at)}</span>
+            {user.main_heroes.length > 0 && (
+              <div className={styles.heroes}>
+                {user.main_heroes.slice(0, 3).map(h => (
+                  <img
+                    key={h.hero_id}
+                    src={h.head || h.image || ''}
+                    alt={h.name}
+                    className={styles.heroIcon}
+                    title={h.name}
+                    loading="lazy"
+                  />
+                ))}
+              </div>
             )}
           </Link>
         ))}

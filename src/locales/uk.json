@@ -601,7 +601,22 @@
     "mlbbQuadraKill": "Maniac",
     "mlbbTripleKill": "Triple Kill",
     "mlbbProfileTab": "Профіль",
-    "mlbbStatsTab": "Статистика MLBB"
+    "mlbbStatsTab": "Статистика MLBB",
+    "title_loading_screen": "Любитель екрану завантаження",
+    "title_fresh_meat": "Свіже м'ясо",
+    "title_curious_cat": "Цікавий кіт",
+    "title_button_masher": "Кнопкодав",
+    "title_casual_enjoyer": "Казуал",
+    "title_tryhard": "Трайхард",
+    "title_hero_collector": "Колекціонер героїв",
+    "title_soloq_survivor": "Виживший у Solo Q",
+    "title_wiki_addict": "Вікі-залежний",
+    "title_build_maniac": "Білд-маніяк",
+    "title_meta_slave": "Мета-раб",
+    "title_touch_grass": "Торкнись трави",
+    "title_lord_of_dawn": "Лорд Світанку",
+    "title_no_life": "Без особистого життя",
+    "title_living_legend": "Жива легенда"
   },
   "tierList": {
     "title": "Тір-ліст",

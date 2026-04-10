@@ -601,7 +601,22 @@
     "mlbbQuadraKill": "Maniac",
     "mlbbTripleKill": "Triple Kill",
     "mlbbProfileTab": "Profil",
-    "mlbbStatsTab": "Statistik MLBB"
+    "mlbbStatsTab": "Statistik MLBB",
+    "title_loading_screen": "Penikmat Layar Loading",
+    "title_fresh_meat": "Daging Segar",
+    "title_curious_cat": "Kucing Penasaran",
+    "title_button_masher": "Penghancur Tombol",
+    "title_casual_enjoyer": "Pemain Kasual",
+    "title_tryhard": "Tryhard",
+    "title_hero_collector": "Kolektor Hero",
+    "title_soloq_survivor": "Pejuang Solo Q",
+    "title_wiki_addict": "Pecandu Wiki",
+    "title_build_maniac": "Maniak Build",
+    "title_meta_slave": "Budak Meta",
+    "title_touch_grass": "Keluar Sebentar",
+    "title_lord_of_dawn": "Lord of Dawn",
+    "title_no_life": "Tanpa Kehidupan",
+    "title_living_legend": "Legenda Hidup"
   },
   "tierList": {
     "title": "Tier List",
