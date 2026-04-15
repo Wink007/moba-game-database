@@ -363,6 +363,10 @@ export const TierListPage: React.FC = () => {
                           const myTier = myVotes[String(hero.id)] as TierKey | undefined;
                           const tierColor = TIERS.find(t => t.key === myTier)?.color;
                           const isOpen = openPickerId === hero.id;
+                          const breakdown = voteInfo?.breakdown;
+                          const breakdownEntries = breakdown
+                            ? (Object.entries(breakdown) as [TierKey, number][]).filter(([, v]) => v > 0)
+                            : [];
                           return (
                             <div key={hero.id} className={styles.communityCard} data-vote-wrap="">
                               <Link to={`/${selectedGameId}/heroes/${heroToSlug(hero.name)}`} className={styles.communityCardLink}>
@@ -371,8 +375,14 @@ export const TierListPage: React.FC = () => {
                                 </div>
                                 <div className={styles.heroInfo}>
                                   <span className={styles.heroName}>{hero.name}</span>
-                                  {voteInfo?.total > 0 && (
-                                    <span className={styles.communityVoteCount}>{voteInfo.total} {t('tierList.votes')}</span>
+                                  {breakdownEntries.length > 0 && (
+                                    <span className={styles.voteBreakdown}>
+                                      {breakdownEntries.map(([tier, count]) => (
+                                        <span key={tier} className={styles.voteBreakdownItem} style={{ '--tc': TIERS.find(t2 => t2.key === tier)?.color } as React.CSSProperties}>
+                                          {tier}-{count}
+                                        </span>
+                                      ))}
+                                    </span>
                                   )}
                                 </div>
                               </Link>
@@ -384,7 +394,14 @@ export const TierListPage: React.FC = () => {
                                 aria-haspopup="listbox"
                                 aria-expanded={isOpen}
                               >
-                                <span className={styles.castVoteBtnText}>{myTier ? myTier : '+'}</span>
+                                {myTier ? (
+                                  <span className={styles.castVoteBtnVoted}>
+                                    <span className={styles.castVoteBtnText}>{myTier}</span>
+                                    <span className={styles.castVoteBtnMyLabel}>{t('tierList.myVote')}</span>
+                                  </span>
+                                ) : (
+                                  <span className={styles.castVoteBtnText}>+</span>
+                                )}
                               </button>
                               {isOpen && (
                                 <div className={styles.votePicker} role="listbox" aria-label={t('tierList.placeTo')}>
@@ -438,7 +455,7 @@ export const TierListPage: React.FC = () => {
                             </div>
                             <div className={styles.heroInfo}>
                               <span className={styles.heroName}>{hero.name}</span>
-                              <span className={styles.communityVoteCount} style={{ opacity: 0.4 }}>{t('tierList.noVotes')}</span>
+                              {!myTier && <span className={styles.communityVoteCount} style={{ opacity: 0.4 }}>{t('tierList.noVotes')}</span>}
                             </div>
                           </Link>
                           <button
@@ -449,7 +466,14 @@ export const TierListPage: React.FC = () => {
                             aria-haspopup="listbox"
                             aria-expanded={isOpen}
                           >
-                            <span className={styles.castVoteBtnText}>{myTier ? myTier : '+'}</span>
+                            {myTier ? (
+                              <span className={styles.castVoteBtnVoted}>
+                                <span className={styles.castVoteBtnText}>{myTier}</span>
+                                <span className={styles.castVoteBtnMyLabel}>{t('tierList.myVote')}</span>
+                              </span>
+                            ) : (
+                              <span className={styles.castVoteBtnText}>+</span>
+                            )}
                           </button>
                           {isOpen && (
                             <div className={styles.votePicker} role="listbox" aria-label={t('tierList.placeTo')}>
