@@ -652,7 +652,18 @@
     "unranked": "Unranked",
     "placeTo": "Place hero in tier:",
     "loginToVote": "Sign in to vote in the community tier list",
-    "voteHint": "Tap + on any hero to vote for their tier. Your vote helps build the community tier list!"
+    "voteHint": "Tap + on any hero to vote for their tier. Your vote helps build the community tier list!",
+    "intro": "The MOBA Wiki tier list ranks all Mobile Legends heroes based on Mythic-rank win rate data and community votes. Use it to find the strongest picks for the current patch, identify which heroes are worth learning, and avoid wasting time on weak ones.",
+    "tierGuideTitle": "How to Read the Tier List",
+    "faqTitle": "Tier List FAQ",
+    "faq1Q": "How often is this tier list updated?",
+    "faq1A": "The Statistics tab refreshes daily using Mythic-rank match data. The Community tab updates in real time as players vote.",
+    "faq2Q": "What is the difference between Stats and Community tier lists?",
+    "faq2A": "The Stats tier list is based purely on win rate numbers from Mythic-rank games. The Community tier list reflects what experienced players think about each hero's strength — it accounts for skill ceiling, fun factor, and lane flexibility that raw stats don't capture.",
+    "faq3Q": "Should I only play S tier heroes?",
+    "faq3A": "Not necessarily. S tier heroes are strongest in the current meta, but A and B tier heroes can be just as effective in skilled hands. The best hero is always one you know how to play well.",
+    "faq4Q": "Why is my favourite hero in a low tier?",
+    "faq4A": "Tier placement is based on current patch performance. Heroes shift tiers with every balance update. A hero in C tier today might become S tier after the next patch."
   },
   "statsHistory": {
     "title": "Stats History",

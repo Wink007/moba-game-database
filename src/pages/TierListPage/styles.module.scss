@@ -7,6 +7,105 @@
   @media (max-width: 600px) { padding: 1.25rem 1rem 4rem; }
 }
 
+// ─── Intro text ──────────────────────────────────────────────
+.introText {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--clr-text-3);
+  margin: 0 0 1.25rem;
+}
+
+// ─── Tier guide ──────────────────────────────────────────────
+.tierGuide {
+  margin-bottom: 1.5rem;
+  padding: 0.875rem 1rem;
+  background: var(--clr-white-03);
+  border: 1px solid var(--clr-white-06);
+  border-radius: 10px;
+}
+
+.tierGuideTitle {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--clr-text-5);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+}
+
+.tierGuideList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.tierGuideItem {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--clr-text-4);
+
+  strong {
+    font-size: 0.85rem;
+    font-weight: 800;
+    min-width: 14px;
+  }
+}
+
+// ─── FAQ ─────────────────────────────────────────────────────
+.faq {
+  margin-top: 2.5rem;
+}
+
+.faqTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--clr-text-2);
+  margin: 0 0 1rem;
+}
+
+.faqItem {
+  border-bottom: 1px solid var(--clr-white-06);
+
+  &:last-child { border-bottom: none; }
+
+  &[open] .faqQ { color: var(--clr-accent); }
+}
+
+.faqQ {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--clr-text-2);
+  padding: 0.75rem 0;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &::-webkit-details-marker { display: none; }
+
+  &::after {
+    content: '+';
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--clr-text-5);
+    flex-shrink: 0;
+  }
+
+  details[open] &::after { content: '−'; }
+}
+
+.faqA {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--clr-text-4);
+  padding: 0 0 0.875rem;
+  margin: 0;
+}
+
 // ─── Header ─────────────────────────────────────────────────
 .pageHeader {
   display: flex;

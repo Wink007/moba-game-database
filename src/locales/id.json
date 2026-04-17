@@ -652,7 +652,18 @@
     "unranked": "Belum Diranking",
     "placeTo": "Tempatkan hero di tier:",
     "loginToVote": "Masuk untuk memilih di tier list komunitas",
-    "voteHint": "Ketuk + pada hero mana saja untuk memilih tier mereka. Suaramu membantu membuat tier list komunitas!"
+    "voteHint": "Ketuk + pada hero mana saja untuk memilih tier mereka. Suaramu membantu membuat tier list komunitas!",
+    "intro": "Tier list MOBA Wiki meranking semua hero Mobile Legends berdasarkan data win rate rank Mythic dan suara komunitas. Gunakan untuk menemukan hero terkuat di patch saat ini, memilih hero yang layak dipelajari, dan menghindari membuang waktu pada hero yang lemah.",
+    "tierGuideTitle": "Cara Membaca Tier List",
+    "faqTitle": "FAQ Tier List",
+    "faq1Q": "Seberapa sering tier list ini diperbarui?",
+    "faq1A": "Tab Statistik diperbarui setiap hari menggunakan data pertandingan rank Mythic. Tab Komunitas diperbarui secara real time saat pemain memberikan suara.",
+    "faq2Q": "Apa perbedaan antara Statistik dan Komunitas?",
+    "faq2A": "Tier list Statistik murni berdasarkan angka win rate dari pertandingan Mythic. Tier list Komunitas mencerminkan pendapat pemain berpengalaman — mereka mempertimbangkan skill ceiling, fleksibilitas lane, dan gaya bermain yang tidak tercermin dalam statistik mentah.",
+    "faq3Q": "Haruskah saya hanya bermain hero tier S?",
+    "faq3A": "Tidak harus. Hero tier S memang terkuat di meta saat ini, tapi hero tier A dan B bisa sama efektifnya di tangan yang terampil. Hero terbaik selalu yang kamu kuasai dengan baik.",
+    "faq4Q": "Kenapa hero favorit saya ada di tier rendah?",
+    "faq4A": "Penempatan tier bergantung pada performa patch saat ini. Hero berpindah tier setiap ada pembaruan balance. Hero di tier C hari ini bisa menjadi tier S setelah patch berikutnya."
   },
   "statsHistory": {
     "title": "Riwayat Statistik",

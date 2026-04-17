@@ -253,6 +253,22 @@ export const TierListPage: React.FC = () => {
         </div>
       )}
 
+      {/* Intro */}
+      <p className={styles.introText}>{t('tierList.intro')}</p>
+
+      {/* Tier guide */}
+      <div className={styles.tierGuide}>
+        <span className={styles.tierGuideTitle}>{t('tierList.tierGuideTitle')}</span>
+        <div className={styles.tierGuideList}>
+          {TIERS.map(({ key, color }) => (
+            <span key={key} className={styles.tierGuideItem}>
+              <strong style={{ color }}>{key}</strong>
+              <span>{t(`tierList.tier_${key}_desc`)}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* Vote hint — shown to logged-in users in community mode */}
       {mode === 'community' && user && (
         <div className={styles.voteHint}>
@@ -505,6 +521,17 @@ export const TierListPage: React.FC = () => {
           )}
         </div>
       )}
+
+      {/* FAQ */}
+      <section className={styles.faq}>
+        <h2 className={styles.faqTitle}>{t('tierList.faqTitle')}</h2>
+        {(['1','2','3','4'] as const).map(n => (
+          <details key={n} className={styles.faqItem}>
+            <summary className={styles.faqQ}>{t(`tierList.faq${n}Q`)}</summary>
+            <p className={styles.faqA}>{t(`tierList.faq${n}A`)}</p>
+          </details>
+        ))}
+      </section>
     </div>
   );
 };
