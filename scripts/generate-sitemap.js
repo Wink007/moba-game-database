@@ -32,8 +32,8 @@ function loc(url, priority = '0.7', changefreq = 'weekly', lastmod = null, hrefl
   const lastmodTag = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : '';
   const hreflangTags = hreflang ? `
     <xhtml:link rel="alternate" hreflang="en" href="${url}"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="${url}?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="id" href="${url}?lang=id"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="${url}"/>
+    <xhtml:link rel="alternate" hreflang="id" href="${url}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${url}"/>` : '';
   const imageTag = imageUrl ? `\n    <image:image>\n      <image:loc>${imageUrl}</image:loc>${imageTitle ? `\n      <image:title>${imageTitle}</image:title>` : ''}\n    </image:image>` : '';
   return `  <url>\n    <loc>${url}</loc>${lastmodTag}${hreflangTags}${imageTag}\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
