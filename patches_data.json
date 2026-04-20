@@ -9156,5 +9156,319 @@
     ],
     "revamped_heroes": [],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1sbamux/patch_notes_2170_adv_server/"
+  },
+  "2.1.74-adv": {
+    "version": "2.1.74-adv",
+    "release_date": "2026-04-17",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Hanzo": {
+        "badge": "BUFF",
+        "description_en": "As a single-target burst jungling Assassin, we've enhanced his early-to-mid game damage and improved his ability to contest the Turtle and Lord, while slightly weakening other aspects to keep him balanced.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2594 <code→></code> 2440<br>Attack Speed Growth: 2% <code→></code> 1%",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1 (Hanekage)",
+            "description_en": "<code>New Effect</code>: This skill can be used on the Turtle or Lord.<br>Removed damage to units around the locked target.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2 (Hanekage)",
+            "description_en": "Initial Base Damage When Knocking Enemies Airborne: 135-210 <code→></code> 405-630",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: 24-16s <code→></code> 18-12s<br><code>New Effect</code>: If Hanekage is killed, the Ultimate's cooldown is doubled.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "NERF",
+        "description_en": "Reduced the hero's damage in the early to mid game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "<code>New Effect</code>: Deals 50% less damage to minions.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 225-360 <code→></code> 190-330",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Base Damage: 225-360 <code→></code> 190-330",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Falling Maple: Enhanced Skill 1 with the Power of Skill 2",
+            "description_en": "Base Damage: 340-540 <code→></code> 285-495",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Infernal Torrent: Enhanced Skill 2 with the Power of Skill 1",
+            "description_en": "Base Damage: 340-540 <code→></code> 285-495<br>Dash Damage: 225-360 <code→></code> 190-330<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Marcel": {
+        "badge": "ADJUST",
+        "description_en": "We have adjusted Marcel to make his skills better combo with other heroes.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "<code>Effect Adjustment</code>: Units frozen by Golden Hour can now be targeted.<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Rapid Boots": {
+        "badge": "ADJUST",
+        "description_en": "In the current fast-paced meta, combats occur more frequently, leaving less time to be out of combat. Therefore, we've removed the out-of-combat Movement Speed boost and increased the base Movement Speed.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Movement Speed: 65 <code→></code> 55",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Unique Passive - Side Effect",
+            "description_en": "",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Roaming Blessing - Dire Hit": {
+        "badge": "CHANGE",
+        "description_en": "Gains Forces while moving, gradually increasing Movement Speed (up to 20 stacks). Upon reaching 10 stacks, the next Basic Attack consumes all stacks, dealing extra damage based on the number of stacks.<br>",
+        "description_uk": ""
+      }
+    },
+    "battlefield_adjustments": {
+      "`Update Content`": {
+        "badge": "CHANGE",
+        "description_en": "<p>New battlefield effects are back! We have made some optimizations to certain effects based on the feedback and data from the last test.</p><p>The visuals for these battlefield effects are test versions and do not represent the final quality. We will make the relevant battlefield effects available at a later time after this week's patch update.</p><p>The battlefield effects tested in this patch are as follows:<br><code>a.</code> <strong>[Nowhere to Hide]:</strong></p><p>Pickable Crystals are available across the map. Upon picking one up, its energy circles around the hero for several seconds. If there are hidden enemy heroes within a large range, the energy will move to their location and grant vision of the area for several seconds.</p><p>For this test, we have significantly increased Crystal spawn points to gather more data. Note that in the official version, we may reduce these spots and re-adjust cooldowns based on performance.</p><p>Significantly increased the number of Crystal spots.</p><p>Accordingly, the cooldown for each spot has been increased to 90s.</p><p>Reduced the pick-up time for a smoother collection process.<br><code>b.</code> <strong>[Fire Turtle]:</strong></p><p>Defeating the Turtle no longer grants a shield. Instead, an allied Turtle will spawn on the lane to help push it. Allied heroes near the allied Turtle will recover HP rapidly.</p><p>Reduced allied Turtle's HP in the early game and increased it in the late game (It becomes stronger than the previous patch after about 4 minutes).</p><p>The allied Turtle will spawn on the lane with the strongest enemy Turret (with a higher chance to spawn in different lanes to help push down enemy outer Turrets).</p>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>C. Jungle Related Adjustments</strong><br/><p>To alleviate Jungler heroes' weakness when invaded by multiple enemies in the early game, we've made some optimizations and provided more possible jungle routes.</p><ul>\n<li><strong>[Retribution] <code>(↑)</code></strong></li>\n</ul><p>Basic Retribution Damage: 520 (+ 80* Hero Level) <code→></code> 750 (+ 150* Hero Level)</p><p>Advanced Retribution Damage: 780 (+ 120* Hero Level) <code→></code> 750 (+150* Hero Level)<br><ul><br><li><strong>[Creeps] <code>(~)</code></strong></li><br></ul></p><p>Reduced the base EXP of Thunder Fenrir and Molten Fiend, and increased the base EXP of other creeps, while keeping the total EXP needed to reach Lv. 4 by killing 5 creeps unchanged.</p><p>Killing the Horned Lizard, Fire Beetle, and Lava Golem will immediately level you up to Lv. 2, and their first respawn time has been moved up to 25s.</p><p>Increased the base HP of the Horned Lizard, Fire Beetle, Lava Golem, and Thunder Fenrir, and reduced the base HP of the Molten Fiend.</p><p>Slightly increased the late-game Gold rewards provided by the Horned Lizard, Fire Beetle, Lava Golem, Thunder Fenrir, and Molten Fiend.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>D. Control Optimizations</strong><br/><p>Added the Avatar Quick Cast feature in the skill settings. Under [Lock-on Targeting], you can now drag directional skills directly to a hero's avatar for a quick cast.</p><p>Optimized targeting logic in [Lock-on Targeting] mode: Within 3s of losing a hero lock, if no new targets are acquired, the previous lock will be restored.</p><p>Optimized the locking status display in [Lock-on Targeting] mode: Casting a skill on a locked enemy hero will no longer change the current hero lock status.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p>We've optimized some Highlights Notifications and added new ones.</p><p>We've also included some Highlights Notifications in the Match Score calculation. Highlights triggered in a match will be displayed on the Match Result screen with new highlight icons. Tap the highlight icons on the Match Result screen to view the list of Highlights included in the Match Score and their trigger requirements.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p>We've adjusted the score requirements for different medals, making it slightly easier to get Gold and Silver Medals. Meanwhile, we've introduced the Supreme Medal for players with exceptional match scores.</p><p>The Star-raising Points and Protection Points granted by the new Medal have also been adjusted.</p><p>We've also upgraded the visual quality of the existing medals.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p>Based on the existing Style Plate, we've added more scenes to display your Season Achievements.</p><p>When your Season Achievement reaches a certain level, you can send and show it to your teammates in the lobby, hero pick phase, and other screens.</p><p>Added more reward previews and displays to the <code>[Season Achievements]</code> - <code>[Unlock Rewards]</code> screen.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/>The barrel can only be picked up by one player and lasts for 9s once picked up.<br>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1sp1sty/patch_notes_2174_adv_server/"
+  },
+  "2.1.72-adv": {
+    "version": "2.1.72-adv",
+    "release_date": "2026-04-10",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Cici": {
+        "badge": "ADJUST",
+        "description_en": "Fixed several issues and made adjustments to improve overall balance.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 60-85 <code→></code> 65-90<br>Fixed an issue where the damage of Skill 1 during the Ultimate, as well as its damage against creeps and minions, was higher than described.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hanzo": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily reverted the related adjustments.<br>",
+        "description_uk": ""
+      },
+      "Harith": {
+        "badge": "NERF",
+        "description_en": "After the buff last week, Harith's single-hit damage against creeps in the mid to late game became too high. To preserve his jungle clearing speed in the early to mid game, we have added a cap to his damage against creeps.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Added a 1500 max damage limit against creeps.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily disabled for a week. The hero will be available again next week.<br>",
+        "description_uk": ""
+      },
+      "Marcel": {
+        "badge": "NERF",
+        "description_en": "To balance the improved experience Marcel provides to his allies, we've slightly reduced his strength.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Frozen Moment's Duration: 0.5s <code→></code> 0.4s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Odette": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily reverted the related adjustments.<br>",
+        "description_uk": ""
+      },
+      "Xavier": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily reverted the related adjustments.<br>",
+        "description_uk": ""
+      }
+    },
+    "equipment_adjustments": {
+      "Starlium Scythe": {
+        "badge": "BUFF",
+        "description_en": "Optimized the build path, allowing heroes like Harith to gain cooldown reduction from this equipment faster, while slightly increasing its early to mid game damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Unique Passive - Crisis",
+            "description_en": "Base Damage: 75 <code→></code> 90",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Build Path",
+            "description_en": "Azure Blade + Mystic Container + Magic Wand <code→></code> Azure Blade + Book of Sages + Magic Wand<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Roaming Blessings": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily reverted the related adjustments.<br>",
+        "description_uk": ""
+      }
+    },
+    "battlefield_adjustments": {},
+    "system_adjustments": [
+      {
+        "text_en": "<strong>Badang</strong><br/>Lane: Exp Lane/Roaming <code→></code> Roaming/Exp Lane<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Gloo</strong><br/>Lane: Exp Lane/Roaming <code→></code> Roaming/Exp Lane<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Harith</strong><br/>Lane: Gold Lane/Mid Lane <code→></code> Gold Lane/Jungling<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>C. Tidal Gold Rush Gameplay</strong><br/><br>We will be testing Tidal Gold Rush again for about a week. During this time, matches in Classic, Ranked, and MLBB Rising Open modes will drop extra Chests and Treasure Hunt Coins, which can be exchanged for event rewards.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>How to Obtain Treasure Hunt Coins</strong><br/><code>1.</code> <strong>Team Rewards</strong>: Treasure Hunt Coin amount varies by action<br><code>a.</code> Each time your team kills the Turtle.<br><code>b.</code> Each time your team kills the Lord (starting from the 2nd kill).<br><code>c.</code> Each time your team destroys a Turret.<br><code>d.</code> When your team picks up Treasure Hunt Coins dropped on the map.<br><code>e.</code> For every 5,000 Gold increase in your team's total Gold.<br><code>2.</code> <strong>Individual Rewards</strong>: Treasure Hunt Coin amount varies by action<br><code>a.</code>Each time you kill an enemy hero.<br><code>b.</code>Each time you get an assist.<br><code>c.</code>Each time you trigger an in-match Highlight Notification.<br><code>3.</code> Winning the match grants 100% of the Treasure Hunt Coins, while losing grants only 50%<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>How to Obtain Chests</strong><br/>When your team kills the Lord for the first time, all team members get 1 Chest, regardless of the match result.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Match Drop Limits</strong><br/><p><code>1.</code> Up to 3 Chests per day.</p><p><code>2.</code> Up to 300 Treasure Hunt Coins per match, and up to 600 Treasure Hunt Coins per day (excluding those obtained from Chests).</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>D. Art Asset Adjustments</strong><br/><br>Adjusted the visual display for Bane \"Castle Master\", Bane \"Warlord\", Bane \"Underworld Outlaw\", Bane \"Soul Defiler\", Bane \"Lord of Scalding Seas\", Bane \"Lord of Night's Gloom\", Bane \"Lord of Nether Fire\", Roger \"Dr Beast\", Balmond \"Bioroid\", Chou \"Dragon Boy\", Yi Sun-shin \"Apocalypse Agent\", Akai \"Monk\", Akai \"Kung Fu Monk\", Akai \"Stream Recluse\", Karina \"Black Pearl\", Grock \"V.Ε.Ν.Ο.Μ. Monitor Lizard\", and Baxia \"Ba-rista\".<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>E. Text Adjustments</strong><br/><p><code>1.</code> Adjusted the descriptions of some texts.</p><p><code>2.</code> Temporarily removed some voice lines. They will be adjusted and brought back in future patches.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iii. System Adjustments</strong><br/><br><ul><br><li><strong>Auction House</strong></li><br></ul><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Feature Overview</strong><br/><p><code>1.</code> Participate in events like Bang Bang Card for a chance to get tradable items.</p><p><code>2.</code> Only tradable items can be listed in the Auction House.</p><p><code>3.</code> Supports both bid and buyout trading methods.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Unlock Requirements</strong><br/><p><code>1.</code> Account must be created ≥ 3 days ago.</p><p><code>2.</code> Character Level ≥ Lv. 16.</p><p><code>3.</code> Highest Rank Reached ≥ Elite.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Feature Entrance</strong><br/>Go to the Shop and tap [Auction] in the upper-left corner.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iv. Mode Adjustments</strong><br/><br><ul><br><li><strong>Brawl</strong></li><br></ul><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p>Temporarily reverted the features that allow buying equipment after leaving the base, picking up barrels, and using interaction skills. Please stay tuned for future announcements regarding their availability.</p><p>Unlocked heroes Yi Sun-shin and Popol and Kupa.</p><ul>\n<li><strong>Tide Siege</strong></li>\n</ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Update Content</strong><br/><p><code>1.</code> Slightly reduced the attributes of monsters in wave 5.</p><p><code>2.</code> Added a healing reduction effect to the basic attacks and skills of most bosses.</p><p><code>3.</code> Slightly increased the movement speed of boss Bane and boss Alice.</p><p><code>4.</code> Adjusted the skill cooldowns and damage bonuses of Benedetta, Gord, Alpha, Karrie, Kimmy, and Balmond (mostly buffs).</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1sib0dg/patch_notes_2172_adv_server/"
   }
 }
