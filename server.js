@@ -110,15 +110,57 @@ function esc(str) {
 }
 
 // Inject static SEO content before the React root div.
-// Content is visually hidden (screen-reader-style off-screen pattern) so users
-// only see the React-rendered UI. Google reads it and indexes it on first crawl
-// without needing to execute JS. Not cloaking — same data as what React renders.
+// Content is visible in the raw HTML so crawlers index it on the first pass.
+// An inline script hides it immediately so users only see the React-rendered UI.
+// Same data as React renders — no cloaking.
 function injectSeoContent(html, content) {
-  const div = `<div id="seo-prerender" aria-hidden="true" style="position:absolute;overflow:hidden;clip:rect(0 0 0 0);height:1px;width:1px;white-space:nowrap">${content}</div>`;
+  const hideScript = `<script>try{document.getElementById('seo-prerender').style.display='none';}catch(e){}<\/script>`;
+  const div = `<div id="seo-prerender">${content}</div>${hideScript}`;
   return html.replace('<div id="root"></div>', `${div}<div id="root"></div>`);
 }
 
-// Build static HTML for a hero detail page
+// Build static HTML for the home page (first-pass crawler indexing)
+function buildHomeContent(heroCount) {
+  const year = new Date().getFullYear();
+  const count = heroCount || '120+';
+  let html = `<article>`;
+  html += `<h1>MOBA Wiki — Mobile Legends: Bang Bang Unofficial Guide</h1>`;
+  html += `<p>MOBA Wiki is a free, fan-made reference database for Mobile Legends: Bang Bang players at every skill level. Whether you are a newcomer learning the basics or a Mythic-rank veteran looking for a competitive edge, MOBA Wiki has the data you need — hero guides, tier lists, counter picks, item builds and ranked statistics, all updated daily.</p>`;
+
+  html += `<section><h2>What You'll Find on MOBA Wiki</h2><ul>`;
+  html += `<li><strong>Hero Database</strong> — Detailed guides for all ${count} Mobile Legends heroes with base stats, skill descriptions, recommended builds, roles and lanes.</li>`;
+  html += `<li><strong>Tier List ${year}</strong> — Heroes ranked S through D by win rate, updated daily from real Mythic rank match data. Pure statistics, no personal opinions.</li>`;
+  html += `<li><strong>Counter Pick Tool</strong> — Find the best hero to counter any matchup. Know who your enemies are weak against before the game starts.</li>`;
+  html += `<li><strong>Win Rate Statistics</strong> — Pick rate, ban rate and win rate for every hero, updated every 24 hours with the latest Mythic rank data.</li>`;
+  html += `<li><strong>Item Database</strong> — Full stats and effects for every item in the game, searchable and filterable by type, stat and use case.</li>`;
+  html += `<li><strong>Patch Notes Archive</strong> — Every balance change in Mobile Legends history in one searchable archive. Track every hero buff, nerf and item change over time.</li>`;
+  html += `</ul></section>`;
+
+  html += `<section><h2>Why Use MOBA Wiki?</h2>`;
+  html += `<p>Mobile Legends: Bang Bang is one of the most popular mobile MOBAs worldwide, with over 100 million registered players. Keeping up with the meta, new hero releases and constant balance patches can be overwhelming. MOBA Wiki was built by a passionate player who wanted a single, reliable source of truth — bringing hero stats, tier lists, counter data and patch notes together in one place, completely free.</p>`;
+  html += `<p>All win rate and ranking statistics are derived exclusively from Mythic rank matches — the highest and most competitive tier in Mobile Legends. This ensures that tier lists and hero rankings reflect the true competitive meta, not casual play averages.</p>`;
+  html += `</section>`;
+
+  html += `<section><h2>About Mobile Legends: Bang Bang</h2>`;
+  html += `<p>Mobile Legends: Bang Bang (MLBB) is a multiplayer online battle arena (MOBA) game developed and published by Moonton Technology. In each 5v5 match, two teams compete to destroy the enemy base. Players choose from a roster of unique heroes across six roles: Tank, Fighter, Assassin, Mage, Marksman and Support. Each hero has a distinctive set of abilities that define their playstyle, strengths and role in team fights.</p>`;
+  html += `<p>The game features a ranked ladder from Warrior to Mythic Glory, with Mythic being the most competitive tier. Balance patches arrive roughly every two weeks, regularly shifting the meta with hero buffs, nerfs and new additions — making up-to-date statistics essential for ranked play.</p>`;
+  html += `</section>`;
+
+  html += `<nav><h2>Explore MOBA Wiki</h2><ul>`;
+  html += `<li><a href="/2/tier-list">Mobile Legends Tier List ${year}</a></li>`;
+  html += `<li><a href="/2/heroes">All MLBB Heroes</a></li>`;
+  html += `<li><a href="/2/hero-ranks">Hero Win Rate Rankings</a></li>`;
+  html += `<li><a href="/2/counter-pick">Counter Pick Guide</a></li>`;
+  html += `<li><a href="/2/items">Items Database</a></li>`;
+  html += `<li><a href="/2/patches">Patch Notes</a></li>`;
+  html += `<li><a href="/about">About MOBA Wiki</a></li>`;
+  html += `</ul></nav>`;
+
+  html += `<p><small>MOBA Wiki is an independent fan project and is not affiliated with or endorsed by Moonton Technology Co., Ltd. All game content, character names, images and trademarks remain the property of their respective owners.</small></p>`;
+  html += `</article>`;
+  return html;
+}
+
 function buildHeroPageContent(hero, heroName, skills, allHeroes, gameId, heroSlug, counterData, compatData, allItems) {
   const roles = Array.isArray(hero.roles) ? hero.roles.join(', ') : (hero.roles || '');
   const lane = Array.isArray(hero.lane) ? hero.lane.join(', ') : (hero.lane || '');
@@ -668,6 +710,8 @@ app.get('/{*path}', async (req, res) => {
           },
         ],
       });
+      const homeHeroes = await cachedFetch(`${API_URL}/heroes?game_id=2&lang=en`);
+      html = injectSeoContent(html, buildHomeContent(homeHeroes ? homeHeroes.length : null));
       return res.send(html);
     }
 

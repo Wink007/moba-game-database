@@ -10,6 +10,7 @@ import { HeroRankSection } from './components/HeroRankSection';
 import { NewHeroStrip } from './components/NewHeroStrip';
 import { MatchesWidget } from './components/MatchesWidget';
 import { RecentActivityWidget } from './components/RecentActivityWidget';
+import { WikiIntroSection } from './components/WikiIntroSection';
 import { useSEO } from '../../hooks/useSEO';
 import styles from './styles.module.scss';
 
@@ -96,6 +97,7 @@ export const HomePage = () => {
         <NewsWidget />
         <LastHeroesInfo />
       </div>
+      <WikiIntroSection />
     </div>
   );
 };

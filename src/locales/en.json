@@ -400,6 +400,21 @@
       "winRate": "Win Rate",
       "pickRate": "Pick Rate",
       "banRate": "Ban Rate"
+    },
+    "intro": {
+      "title": "Your Complete Mobile Legends: Bang Bang Reference",
+      "p1": "MOBA Wiki is a free, fan-made database for Mobile Legends: Bang Bang players at every level — from beginners to Mythic-rank veterans. Find hero guides, tier lists, counter picks, item builds and ranked statistics, all updated daily.",
+      "featuresTitle": "What You'll Find Here",
+      "f1": "Hero Database — guides for all 120+ heroes with stats, skills, builds and lore",
+      "f2": "Tier List — heroes ranked S to D by win rate, refreshed daily from Mythic rank data",
+      "f3": "Counter Pick — instantly see who counters your enemies and who synergizes with your team",
+      "f4": "Win Rate Statistics — pick, ban and win rates for every hero, updated every 24 hours",
+      "f5": "Item Database — full stats and effects for every item, searchable by type and stat",
+      "f6": "Patch Notes Archive — every balance change in MLBB history, searchable and filterable",
+      "aboutTitle": "About Mobile Legends: Bang Bang",
+      "p2": "Mobile Legends: Bang Bang is a 5v5 multiplayer online battle arena (MOBA) developed by Moonton Technology. Two teams compete to destroy the enemy base, choosing heroes from roles including Tank, Fighter, Assassin, Mage, Marksman and Support. The game has an active competitive scene and a ranked ladder that peaks at Mythic Glory.",
+      "p3": "MOBA Wiki tracks Mythic rank data to show the true competitive meta — not casual play averages. All statistics update daily as new match data becomes available.",
+      "disclaimer": "MOBA Wiki is an independent fan project and is not affiliated with or endorsed by Moonton Technology Co., Ltd."
     }
   },
   "activity": {

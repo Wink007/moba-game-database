@@ -396,6 +396,21 @@
       "abilityEffects": "Efek Skill",
       "difficulty": "Kesulitan"
     },
+    "intro": {
+      "title": "Referensi Lengkap Mobile Legends: Bang Bang",
+      "p1": "MOBA Wiki adalah database gratis buatan penggemar untuk pemain Mobile Legends: Bang Bang di semua level. Temukan panduan hero, tier list, counter pick, build item, dan statistik ranked — diperbarui setiap hari.",
+      "featuresTitle": "Apa yang Ada di Sini",
+      "f1": "Database Hero — panduan untuk 120+ hero dengan statistik, skill, dan build",
+      "f2": "Tier List — hero diranking S sampai D berdasarkan win rate data Mythic rank",
+      "f3": "Counter Pick — temukan counter terbaik dan sinergi tim",
+      "f4": "Statistik Win Rate — pick rate, ban rate, dan win rate untuk setiap hero",
+      "f5": "Database Item — statistik dan efek setiap item, bisa dicari",
+      "f6": "Arsip Patch Notes — semua perubahan balance MLBB sepanjang sejarah",
+      "aboutTitle": "Tentang Mobile Legends: Bang Bang",
+      "p2": "Mobile Legends: Bang Bang adalah MOBA 5v5 yang dikembangkan oleh Moonton Technology. Dua tim bersaing untuk menghancurkan base musuh, dengan hero dari peran Tank, Fighter, Assassin, Mage, Marksman, dan Support.",
+      "p3": "MOBA Wiki melacak data Mythic rank untuk menampilkan meta kompetitif yang sesungguhnya.",
+      "disclaimer": "MOBA Wiki adalah proyek penggemar independen dan tidak berafiliasi dengan Moonton Technology."
+    },
     "stats": {
       "winRate": "Win Rate",
       "pickRate": "Pick Rate",
