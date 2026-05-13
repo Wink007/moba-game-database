@@ -3,4 +3,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
+User-agent: Google-adstxt
+Disallow:
+
 Sitemap: https://mobawiki.com/sitemap.xml
