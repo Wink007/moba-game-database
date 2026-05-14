@@ -41,7 +41,9 @@ export const useSEO = ({ title, description, image, noindex, jsonLd }: SEOProps 
     const fullTitle = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
     const desc = description || BASE_DESCRIPTION;
     const img = image || DEFAULT_IMAGE;
-    const url = window.location.href;
+    // Strip query params (?lang=, etc.) from canonical URL and og:url
+    const pathname = window.location.pathname;
+    const canonicalUrl = `${BASE_URL}${pathname}`;
 
     document.title = fullTitle;
 
@@ -55,7 +57,7 @@ export const useSEO = ({ title, description, image, noindex, jsonLd }: SEOProps 
     setMetaTag('og:title', fullTitle);
     setMetaTag('og:description', desc);
     setMetaTag('og:image', img);
-    setMetaTag('og:url', url);
+    setMetaTag('og:url', canonicalUrl);
     setMetaTag('og:type', 'website');
     setMetaTag('og:site_name', 'MOBA Wiki');
 
@@ -66,8 +68,6 @@ export const useSEO = ({ title, description, image, noindex, jsonLd }: SEOProps 
     setNameMeta('twitter:image', img);
 
     // Canonical + hreflang per route
-    const pathname = window.location.pathname;
-    const canonicalUrl = `${BASE_URL}${pathname}`;
 
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {

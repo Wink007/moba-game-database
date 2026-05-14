@@ -151,12 +151,15 @@ export const PatchesPage: React.FC = () => {
   const { gameId, patchVersion } = useParams<{ gameId: string; patchVersion?: string }>();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const validGameIds = ((window as any).__GAMES_DATA__ as Array<{ id: number }> | undefined)?.map(g => g.id) ?? [2];
+  const isInvalidGameId = !validGameIds.includes(Number(gameId));
 
   useSEO({
     title: patchVersion ? `${t('patches.version')} ${patchVersion}` : t('patches.title'),
     description: patchVersion
       ? `Patch ${patchVersion} — hero adjustments, item changes and balance updates for Mobile Legends.`
       : t('patches.seoDescription'),
+    noindex: isInvalidGameId,
   });
 
   const {

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { Loader } from '../../components/Loader';
 import { useInfiniteHeroesQuery } from '../../queries/useHeroesQuery';
 import { useGameStore } from '../../store/gameStore';
@@ -16,10 +17,14 @@ const HEROES_PER_PAGE = 24;
 
 function HeroesPage() {
   const { t } = useTranslation();
+  const { gameId: gameIdParam } = useParams<{ gameId: string }>();
   const { selectedGameId } = useGameStore();
+  const validGameIds = ((window as any).__GAMES_DATA__ as Array<{ id: number }> | undefined)?.map(g => g.id) ?? [2];
+  const isInvalidGameId = !validGameIds.includes(Number(gameIdParam));
   useSEO({
     title: 'Heroes',
     description: 'Browse all Mobile Legends heroes — filter by role, lane, and specialty. Stats, skills, builds and counters for every hero.',
+    noindex: isInvalidGameId,
     jsonLd: [
       {
         '@context': 'https://schema.org',

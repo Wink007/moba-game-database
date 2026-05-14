@@ -101,6 +101,7 @@ function HeroDetailPage() {
     title: hero ? `${hero.name} — Hero Guide` : 'Hero',
     description: hero ? `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.` : undefined,
     image: getOptimizedImageUrl(hero?.image || hero?.painting, 1200),
+    noindex: isLegacyId,
     jsonLd: hero ? [
       {
         '@context': 'https://schema.org',
