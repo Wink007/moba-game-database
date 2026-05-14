@@ -221,6 +221,26 @@ const PrivacyPolicy = () => (
       <p>All Mobile Legends game content, images, character names, and trademarks are property of Moonton Technology Co., Ltd.</p>
     </section>
 
+    <section id="delete-account">
+      <h3>Account &amp; Data Deletion</h3>
+      <p>You can permanently delete your account and all associated data directly in the app:</p>
+      <ol>
+        <li>Open the <strong>MOBA Wiki — MLBB Guide</strong> app</li>
+        <li>Sign in with your Google account</li>
+        <li>Tap your profile icon (top right) to open your <strong>Profile page</strong> — or visit <strong>mobawiki.com/profile/[your-id]</strong> on the web</li>
+        <li>Scroll down and tap <strong>"Delete Account"</strong></li>
+        <li>Confirm the deletion in the dialog</li>
+      </ol>
+      <p><strong>What gets deleted:</strong></p>
+      <ul>
+        <li>Your account (name, email, profile picture)</li>
+        <li>All hero builds you created</li>
+        <li>Your favorites list</li>
+        <li>All other data associated with your account</li>
+      </ul>
+      <p>Deletion is permanent and cannot be undone. If you have trouble deleting your account, contact us at <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a> and we will delete it manually within 30 days.</p>
+    </section>
+
     <section>
       <h3>Changes to This Policy</h3>
       <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated date. Continued use after changes constitutes acceptance.</p>
