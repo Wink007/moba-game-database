@@ -15,9 +15,9 @@ import {
 const IS_TESTING = false;
 
 export const AD_UNITS = {
-  banner:      'ca-app-pub-9322014090918199/7923239236',
-  rewarded:    'ca-app-pub-9322014090918199/6610157563',
-  interstitial:'ca-app-pub-9322014090918199/4084774414',
+  banner:      'ca-app-pub-7397554602421221/8695244242',
+  rewarded:    'ca-app-pub-7397554602421221/4120135024',
+  interstitial:'ca-app-pub-7397554602421221/8084036004',
 };
 
 let _initialized = false;

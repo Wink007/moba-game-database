@@ -5,12 +5,17 @@ import styles from '../styles.module.scss';
 import { CollapsibleSection } from './CollapsibleSection';
 import { LaneMap } from './LaneMap';
 import { MetaOverview } from './MetaOverview';
+import { getHeroShortDescription } from '../../../utils/translation';
 
 export const InfoTab: React.FC<InfoTabProps> = React.memo(({ hero, abilitiesLabel, getRatingLevel, allHeroes = [], counterData, compatibilityData }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const shortDesc = getHeroShortDescription(hero, i18n.language);
 
   return (
     <div className={styles.contentSection}>
+      {shortDesc && (
+        <p className={styles.heroShortDescription}>{shortDesc}</p>
+      )}
       {/* Meta Overview */}
       <MetaOverview
         hero={hero}

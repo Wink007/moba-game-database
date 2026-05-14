@@ -99,7 +99,7 @@ function HeroDetailPage() {
   
   useSEO({
     title: hero ? `${hero.name} — Hero Guide` : 'Hero',
-    description: hero ? `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.` : undefined,
+    description: hero ? (getHeroShortDescription(hero, i18n.language) || `${hero.name} guide — skills, builds, counters and stats for Mobile Legends.`) : undefined,
     image: getOptimizedImageUrl(hero?.image || hero?.painting, 1200),
     noindex: isLegacyId,
     jsonLd: hero ? [

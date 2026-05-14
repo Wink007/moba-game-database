@@ -17,7 +17,7 @@ const config: CapacitorConfig = {
       androidSplashResourceName: 'splash',
     },
     AdMob: {
-      appId: 'ca-app-pub-9322014090918199~5496386441',
+      appId: 'ca-app-pub-7397554602421221~8196928094',
     },
     GoogleAuth: {
       scopes: ['profile', 'email'],

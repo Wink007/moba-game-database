@@ -18,9 +18,12 @@ function ItemsPage() {
   const { t } = useTranslation();
   const { gameId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const validGameIds = ((window as any).__GAMES_DATA__ as Array<{ id: number }> | undefined)?.map(g => g.id) ?? [2];
+  const isInvalidGameId = !validGameIds.includes(Number(gameId));
   useSEO({
     title: 'Items',
     description: 'All Mobile Legends items — stats, passives and best builds for every hero role. Find the strongest MLBB items for the current meta.',
+    noindex: isInvalidGameId,
     jsonLd: [
       {
         '@context': 'https://schema.org',
