@@ -307,7 +307,7 @@ function HeroDetailPage() {
               {activeTab === 'info' && (
                 <InfoTab hero={hero} abilitiesLabel={abilitiesLabel} getRatingLevel={getRatingLevel} allHeroes={allHeroes} counterData={heroCounterData} compatibilityData={heroCompatibilityData} />
               )}
-              {activeTab === 'about' && <AboutTab hero={hero} />}
+              <div style={{ display: activeTab === 'about' ? undefined : 'none' }}><AboutTab hero={hero} /></div>
               {activeTab === 'counter' && (
                 <CounterTab hero={hero} allHeroes={allHeroes} counterSubTab={counterSubTab} setCounterSubTab={setCounterSubTab} counterData={heroCounterData} isLoading={allHeroesLoading} />
               )}
