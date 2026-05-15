@@ -9470,5 +9470,1452 @@
     ],
     "revamped_heroes": [],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1sib0dg/patch_notes_2172_adv_server/"
+  },
+  "2.1.82-adv": {
+    "version": "2.1.82-adv",
+    "release_date": "2026-05-14",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Argus": {
+        "badge": "ADJUST",
+        "description_en": "To ensure a smoother performance throughout the match, we've partially reverted Argus's stats.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "Demonic Slash Base Damage: 65 <code→></code> 80<br>Demonic Slash Basic Regen: 80 <code→></code> 100<br>Demonic Slash ignores: 40% of the target's Physical Defense <code→></code> 30% of the target's Physical Defense<br><code>New Effect</code>: Demonic Slash can also ignore buildings' Physical Defense.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Balmond": {
+        "badge": "NERF",
+        "description_en": "Reverted some buffs made from the previous patch.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Total HP Damage Bonus: 1.5% <code→></code> 1.4%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Freya": {
+        "badge": "NERF",
+        "description_en": "Slightly reduced the duration and effect of Freya's role as a \"Marksman\", and reverted the previous nerf to her HP Regen.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Range: 3.5 <code→></code> 3.3",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Enhanced Basic Attack Range: 3.5 <code→></code> 3.3<br>Ultimate Duration: 12s <code→></code> 10s<br>Base HP Regen per Basic Attack: 10-80 <code→></code> 40-80<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Gloo": {
+        "badge": "NERF",
+        "description_en": "Gloo has been sitting high on the win rate and ban rate leaderboards for too long. We've decided to make some adjustments to free him from the ban list.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Explosion Base Damage: 300-450 <code→></code> 250-400",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Attached Regen: 25%-30% Total HP <code→></code> 20%-30% Total HP<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hanzo": {
+        "badge": "BUFF",
+        "description_en": "Optimized the control experience of Skill 2's dash in Hanekage form.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2 (Hanekage)",
+            "description_en": "Can now choose the landing area within a certain range.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "BUFF",
+        "description_en": "Reverted some nerfs made from the previous patch.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Crimson Maple Damage: 150-241 (+50%-78% Extra Physical Attack) <code→></code> 160-265 (+53%-88% Extra Physical Attack)<br>Cooldown: 6s <code→></code> 5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 9-5.5s <code→></code> 8.5-5s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Paquito": {
+        "badge": "NERF",
+        "description_en": "Balanced his late-game strength.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Extra Damage against Minions: 10%-40% <code→></code> 10%-30%<br>Damage Reduction: 10%-40% <code→></code> 10%-30%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ruby": {
+        "badge": "ADJUST",
+        "description_en": "Reverted some of the previous adjustments and adjusted her early-to-late game power curve.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "Spell Vamp Ratio: 50% <code→></code> 60%. For every 1% HP lost, her Spell Vamp Ratio increases by 1%, up to 125% <code→></code> 150%.<br><code>New Effect</code>: Basic Attacks can no longer trigger Lifesteal.<br>Scythe Damage: 240-490 (+140% Total Physical Attack) <code→></code> 280-480 (+120% Total Physical Attack)<br>Shockwave Damage: 120-245 (+ 70% Total Physical Attack) <code→></code> 140-240 (+ 60% Total Physical Attack)<br>Optimized the skill indicator to show the two damage areas more clearly.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Yin": {
+        "badge": "ADJUST",
+        "description_en": "Last week's adjustments significantly increased Yin's strength. However, we've noticed some players felt that removing the auto-aim and reducing the slow effect of his enhanced Skill 1 made his skills harder to hit. Therefore, we've further optimized him based on last week's adjustments.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1 (Lieh Form)",
+            "description_en": "Slow Effect: Reverted the previous nerf so it is now the same as on the Official Server.<br>Damage: 130-180 (+110% Extra Physical Attack) <code→></code> 120-170 (+ 100% Extra Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Great Dragon Spear": {
+        "badge": "BUFF",
+        "description_en": "Few heroes worked well with Great Dragon Spear's attributes and passive effect, so we've adjusted its passive to give Crit heroes more tools to deal extra damage to Tanks.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Price",
+            "description_en": "2140 <code→></code> 2390",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Crit Chance: 20% <code→></code> 25%",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Unique Passive - Supreme Warrior",
+            "description_en": "",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Unique Passive - Sunder",
+            "description_en": "Basic Attack critical hits deal extra True Damage to the target.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Roaming Blessings": {
+        "badge": "BUFF",
+        "description_en": "To improve the flexibility of Roaming Blessings, all Roaming Blessings can now gain EXP and Gold by dealing damage, revealing vision, and sharing income from minions and creeps.<br>",
+        "description_uk": ""
+      }
+    },
+    "battlefield_adjustments": {
+      "B. New Battlefield Effects": {
+        "badge": "CHANGE",
+        "description_en": "<p><strong><code>[Battlefield Effect Test]</code></strong></p><p>New battlefield effects are back! We have made some optimizations based on feedback from the last test and added a new effect.</p><p>The art performance for this gameplay is a test version and does not represent the final quality.</p><p>We will make the relevant gameplay available at a later time after this week's patch update.</p><p>The Battlefield Effects tested in this patch are as follows:</p><ul>\n<li><strong>Nowhere to Hide</strong>: Pickable Crystals are available across the map. Upon picking one up, its energy circles around the hero for several seconds. If there are hidden enemy heroes within a large range, the energy will move to their location and grant vision of the area for several seconds.</li>\n</ul><p>Optimized Crystal locations, making it easier for roaming heroes to pick up.</p><ul>\n<li><strong>Fire Turtle</strong>: Defeating the Turtle no longer grants a shield. Instead, an allied Turtle will spawn on the enemy's weakest lane to help push it. Allied heroes near the allied Turtle will recover HP rapidly. Reduced allied Turtle's HP but increased its HP Regen, making fights around the Turtle more competitive for both sides.</li>\n</ul><p><code>New Effect - Golden Turret</code>: Greatly increased the Gold shared to the entire team when any Turret is destroyed. Inner Turret and Base Turret HP are also increased.</p><p>Increased the Gold granted by each Turret to every hero by 80.</p><p>Increased Inner Turret and Base Turret HP by 1000.</p>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>C. Other Adjustments</strong><br/><p><strong><code>[Control Optimizations]</code></strong></p><p>We've optimized the skill buffering mechanic: when your hero is controlled, quickly releasing the skill will stop it from being buffered, preventing accidental casts when the control effect ends.</p><p>The detailed rules are as follows:</p><p>If you release a skill within 0.3s after a control effect is applied to your hero, the skill will not be buffered.</p><p>If you release it after 0.3s, the skill will be buffered and cast automatically when the control effect ends.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>A. Namecard Feature</strong><br/><p><strong><code>[New Feature]</code></strong></p><p>The brand-new Namecard feature is now live, featuring a larger display area and more content to show off! We look forward to seeing your personalized Namecard!</p><p>A larger display area allows you to show off your favorite heroes.</p><p>More display content provides various ways to show off your progression.</p><p>Added in-match and non-match achievements. Whenever you accomplish something impressive inside or outside of a match, it will be automatically displayed on your Namecard. You can go to the edit screen to equip them and check the details.</p><p>This update marks the debut of the brand-new Namecard feature. We look forward to your feedback and suggestions. Our goal is to provide a faster way for everyone to show off themselves and connect with others in the game!</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>B. Season Achievements</strong><br/><p><strong><code>[Update Content]</code></strong></p><p>Temporarily removed the feature where the lane icon changes color after sending the Season Achievement level.</p><p>Also removed the feature where the lane icon changes color on the Lane Selection and Recent Matches screens in the lobby.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>C. Honor Badge</strong><br/><p><strong><code>[Update Content]</code></strong></p><p>We've adjusted the minimum Season Achievement level required to equip it on the Honor Badge screen to Lv.4. Go try it out!</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>D. Auction House</strong><br/><br>The Auction House on the Advanced Server is now open for testing again. Players can list, browse, and purchase items as usual.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>A. Brawl</strong><br/><strong><code>[Update Content]</code></strong><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Yi Sun-shin</strong><br/><p>Fixed an issue regarding Yi Sun-shin and re-enabled the hero.</p><ul>\n<li><strong>[Faramis] <code>(↓)</code></strong></li>\n</ul>\n<strong>[Passive] <code>(↓)</code></strong><p>Respawn Time Reduction Per Soul Fragment: 3% <code→></code> 2%<br><strong>[Skill 2] <code>(↑)</code></strong></p><p>Damage Decay Optimization: After hitting the same target more than 3 times with a single skill cast, subsequent damage decays to 50% <code→></code> 60%.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>B. Chaos Clash</strong><br/><strong><code>[New Buffs]</code></strong><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Super Winter Crown</strong><br/>Upgrade your Winter Crown. You can move while using it. Gains 2,000 Gold.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Vampire</strong><br/>Upon entering battle, drains a certain amount of HP from all nearby enemy heroes every 6s.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Fast Mage</strong><br/>Moving a certain distance reduces all skill cooldowns by 1s.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Crit Charge</strong><br/>Casting skills and hitting enemies with attacks grants Charges. Each Charge increases Crit Chance.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Tough Recovery</strong><br/>Gains extra Healing Effect based on your Hybrid Defense.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Alchemy</strong><br/>After casting the Ultimate, gains extra Gold for dealing damage, taking damage, healing, or moving a certain distance within a period of time.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Medical Airplane</strong><br/>After moving a certain distance, applies a small shield to an ally.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Magic Web</strong><br/>Links you and allied heroes, dealing damage to enemies along the links' paths.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Overload Recovery</strong><br/><p>Your excess healing is converted into a shield.</p><p>Mana Cost: 100-0 <code→></code> 100 at all levels</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>C. Frozen Sea Showdown</strong><br/><p><strong><code>[Update Content]</code></strong></p><p>The official map is now available in the trial version.</p><p>Fixed an issue where the warning indicator for Thunderbolt might not match its actual effect range.</p><p>Added a warning indicator for Trick Hook, and reduced its overall range and angle by 20%.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>D. Tide Siege</strong><br/><p><strong><code>[Update Content]</code></strong></p><p>Scene-related content has been replaced with official resources.</p><p>Added new bosses: Alice and Thamuz.</p><p>Added some new Buffs.</p><p><strong>Endless Mode</strong>: Added extra buff selections after successfully defending Wave 24 and 30.</p><p>Adjusted the attributes and prices of all tier 2 boots to bring their value closer to that of other equipment.</p><p>Slightly reduced the Gold provided by two creeps in the jungle.</p><p>Adjusted the strength of monsters after Wave 18 to align with other changes.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1td6xl3/patch_notes_2182_adv_server/"
+  },
+  "2.1.67": {
+    "version": "2.1.67",
+    "release_date": "2026-05-13",
+    "game_id": 1,
+    "is_adv_server": false,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Aulus": {
+        "badge": "BUFF",
+        "description_en": "Reduced the time Aulus needs to reach max Fighting Spirit stacks, while reducing his combat capability at max stacks for balance.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Max Stacks: 6 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Removed the Control Immunity effect during the wider slash.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Belerick": {
+        "badge": "BUFF",
+        "description_en": "Compared to similar skills, Belerick's Skill 1 has a long delay. We've slightly reduced its delay to improve the hit rate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2460 <code→></code> 2600<br>Base Physical Defense: 15 <code→></code> 20",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Taunt Delay: 1s <code→></code> 0.8s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Chou": {
+        "badge": "BUFF",
+        "description_en": "We've optimized the responsiveness of weaving Basic Attacks between skills, enhanced the late-game strength of his Ultimate, and slightly reduced the second-phase knockback distance to ensure Chou can immediately follow up with an enhanced Basic Attack.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Basic Attack Range: 1.4 <code→></code> 1.6",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Removed the backswing. A Basic Attack can now be used immediately after the skill.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: 34s at all levels <code→></code> 36-30s<br>Base Damage: 400-500 <code→></code> 400-600<br>Chase Damage: 480-580 <code→></code> 480-680<br>Second-Phase Knockback Distance: 1.5 <code→></code> 1.15<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harley": {
+        "badge": "NERF",
+        "description_en": "Reduced the hero's mid-game burst damage to lower his snowball potential.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage per Card: 130-210 <code→></code> 120-180<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Paquito": {
+        "badge": "BUFF",
+        "description_en": "As an agile boxer, Paquito is meant to excel at kiting in lane and engaging teamfights in the late game. Therefore, we've increased his skill ceiling and lane-pushing capabilities.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "<code>Removed Effect</code>: Each Basic Attack only deals 85% Total Physical Attack.<br><code>New Effect</code>: Paquito's enhanced skills deal 10%-30% extra damage (scales with level) to minions.<br>Enhanced Skill Movement Speed Boost: 60% extra Movement Speed that decays over 1.8s <code→></code> 60% extra Movement Speed that decays over 1.2s<br><code>New Effect</code>: Using an enhanced skill grants 10%-30% Damage Reduction (scales with level) for 1.2s.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "<code>Adjustment</code>: Hitting a hero or creep grants a shield <code→></code> Hitting an enemy grants a shield<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {},
+    "system_adjustments": [
+      {
+        "text_en": "<strong>From The Designers</strong><br/><br>We have adjusted some heroes based on the data from the New Patch. We also aim to increase the survivability of a few roaming Tanks and will make further adjustments to more Roamers in future patches.<br>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1tcttke/patch_notes_2167_additional_balance_adjustments/"
+  },
+  "2.1.80-adv": {
+    "version": "2.1.80-adv",
+    "release_date": "2026-05-09",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Akai": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2560 <code→></code> 2660<br>HP Growth: 243 <code→></code> 240<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Argus": {
+        "badge": "NERF",
+        "description_en": "Reduced Argus's regen and damage in the early to mid game, while adding benefits when actively casting his Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Demonic Slash Base Damage: 100 <code→></code> 65<br>Demonic Slash Basic Regen: 150 <code→></code> 80",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "<code>Effect Adjustment</code>: The slow effect in the second cast is moved to the first cast.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Attack Speed Increase: 50%-100% <code→></code> 30%-80%<br>Base Damage: 120-240 <code→></code> 60-180",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "<code>New Effect</code>: Actively casting the skill immediately reduces the Ultimate's cooldown by 30%.<br><code>Effect Adjustment</code>: Only damage dealt to heroes during the Ultimate is converted into HP.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Atlas": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2710 <code→></code> 2800<br>HP Growth: 243 <code→></code> 280<br>Base Physical Defense: 21 <code→></code> 25<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Aulus": {
+        "badge": "BUFF",
+        "description_en": "Reduced the time Aulus needs to reach max Fighting Spirit stacks, while reducing his combat capability at max stacks for balance.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Max Stacks: 6 <code→></code> 4",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Removed the Control Immunity effect during the wider slash.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Balmond": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Damage: 25-50 (+1.3% Total HP) (+20% Total Physical Attack) <code→></code> 30-55 (+1.5% Total HP) (+20% Total Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Belerick": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2460 <code→></code> 2600<br>Base Physical Defense: 15 <code→></code> 20<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Chip": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2481 <code→></code> 2600<br>HP Growth: 207 <code→></code> 225<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Diggie": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2347 <code→></code> 2320<br>HP Growth: 135 <code→></code> 140<br>Base Physical Defense: 20 <code→></code> 15<br>Physical Defense Growth: 3 <code→></code> 4<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Estes": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2221 <code→></code> 2260<br>HP Growth: 123 <code→></code> 135<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Gatotkaca": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2520 <code→></code> 2600<br>Base Physical Defense: 10 <code→></code> 15<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Grock": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2819 <code→></code> 2700<br>Physical Defense Growth: 5 <code→></code> 6<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harley": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage per Card: 130-190 <code→></code> 120-180<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hilda": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Base HP: 2680 <code→></code> 2600<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "NERF",
+        "description_en": "Optimized her control experience, increased her early-game cooldowns, and reduced her late-game damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "Damage to Minions: 50% <code→></code> (30+3*Hero Level)%",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Crimson Maple Damage: 150-300 (+100% Extra Physical Attack) <code→></code> 150-241 (+50%-78% Extra Physical Attack)<br>Cooldown: 4s <code→></code> 6s",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 7.5-4.5s <code→></code> 9-5.5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1-2 Combo",
+            "description_en": "Increased dash speed and reduced damage delay, while slightly reducing skill range.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1-2 Combo",
+            "description_en": "Reduced the skill range.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hylos": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2600 <code→></code> 2700<br>HP Growth: 310 <code→></code> 300<br>Base Physical Defense: 17 <code→></code> 22<br>Magic Defense Growth: 2.5 <code→></code> 4<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Johnson": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Base Physical Defense: 27 <code→></code> 30<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Khaleed": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attribute",
+            "description_en": "Base HP: 2600 <code→></code> 2550<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Marcel": {
+        "badge": "ADJUST",
+        "description_en": "We want more heroes to work better with Marcel in battle.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "<code>New Effect</code>: Heroes affected by the Ultimate can be targeted.<br><code>New Effect</code>: Damage of the frozen projectiles is reduced by 50% after a delay.<br>Area Duration: 3s <code→></code> 2s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ruby": {
+        "badge": "NERF",
+        "description_en": "Reverted some buffs from the previous patch.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Spell Vamp Ratio: 75% <code→></code> 50%. For every 1% HP lost, her Spell Vamp Ratio increases by 1%, up to 150% <code→></code> 125%.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Total Physical Attack Bonus: 300% <code→></code> 200%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Tigreal": {
+        "badge": "ADJUST",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2581 <code→></code> 2700<br>HP Growth: 307 <code→></code> 290<br>Base Physical Defense: 20 <code→></code> 25<br>Physical Defense Growth: 8 <code→></code> 7<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Yin": {
+        "badge": "BUFF",
+        "description_en": "We're optimizing Yin's Ultimate experience by enhancing interaction within his domain and shifting Lieh's combat style to feel more like a fighter.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Control effects (except Suppress) no longer interrupt the casting of his Ultimate, but Lieh will remain controlled after entering the domain.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1 (Lieh Form)",
+            "description_en": "<code>Removed Effect</code>: The first half of the attacks will automatically lock onto nearby enemies.<br>Cooldown: 20-14s <code→></code> 1.5s. The cooldown now starts after the skill ends.<br>Slow Effect: 75% <code→></code> 40%<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {
+      "Skill Wheel Aiming Optimizations": {
+        "badge": "CHANGE",
+        "description_en": "Added <code>[Skill Wheel Size]</code> to <code>[Skill Settings]</code>, allowing you to adjust the skill wheel size and improve aiming.<br>Added <code>[Skill Wheel Deadzone]</code> to <code>[Skill Settings]</code>, allowing you to adjust the deadzone size of the skill joystick. Releasing inside the deadzone triggers Auto-cast. Releasing outside triggers Manual Cast.<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>From The Designers</strong><br/><br>Increased the base survival attributes of certain roaming Tank heroes.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iii. System Adjustment</strong><br/><ul>\n<li><strong>A. [Highlights Notification]</strong></li>\n</ul><p>Adjusted the display time of the secondary notification area when Highlights Notifications are played consecutively.</p><ul>\n<li><strong>B. [Protection Point and Star-raising Point]</strong></li>\n</ul><p>We've added exclusive Protection Point and Star-raising Point rewards for Supreme medals. To balance this change, we've adjusted the Star-raising Points and Protection Points for other medals.</p><ul>\n<li><strong>C. [Season Achievements]</strong></li>\n</ul><p>Added the feature to share your Season Achievement level and for players to Like shared achievements in MLBB Rising Open and Classic mode.</p><p>Moved the Season Achievement share button to the chat bar.</p><ul>\n<li><strong>D. [Battle Achievement Interface]</strong></li>\n</ul><p>Adjusted the display of the new Battle Achievement interface. It is currently only shown in Ranked, Classic, and MLBB Rising Open.</p><ul>\n<li><strong>E. [Result Screen]</strong></li>\n</ul><p>Optimized the text descriptions and display mechanics for the highlight icons on the 10-player result screen.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iv. Mode Adjustment</strong><br/><br><ul><br><li><strong>Brawl</strong></li><br></ul><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Map Visual Update`</strong><br/>The all-new Necrokeep map is here! After the update, the original scene will be replaced with the all-new Necrokeep theme. We hope you enjoy the new map!",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Other Adjustments`</strong><br/><p><code>1.</code> Adjusted the purchase time after leaving the Base.</p><p><code>2.</code> Added a wind current at the Base, allowing players to quickly reach the battlefield. Its cooldown will reset upon resurrection.</p><p><code>3.</code> The barrel can still be picked up by others after being picked up, and its duration is adjusted to 30s. It will enter a 60s cooldown after being picked up, and can be picked up again once the cooldown is over.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1t8e2pg/patch_notes_2180_adv_server/"
+  },
+  "2.1.78-adv": {
+    "version": "2.1.78-adv",
+    "release_date": "2026-04-29",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Angela": {
+        "badge": "BUFF",
+        "description_en": "Optimized the Mana Cost of her skills.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 60-110 <code→></code> 60-85",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 90-140 <code→></code> 90-115<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Argus": {
+        "badge": "BUFF",
+        "description_en": "We've adjusted Argus' attributes from being Assassin-leaning to more of a Fighter, and enhanced his combat capability in the early-to-mid game for smoother power scaling. We've also given his Ultimate a more powerful effect.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base Attack: 111 <code→></code> 120<br>Base HP: 2450 <code→></code> 2600<br>Attack Growth: 6 <code→></code> 8<br>Attack Speed Growth: 1% <code→></code> 2%<br>Extra Attack Speed Bonus: 100% <code→></code> 80%",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "<code>New Effect</code>: Demonic Slash has a longer attack range than normal Basic Attacks and allows Argus to dash a short distance.<br>Attribute Adjustment: Malice Energy's cap is adjusted to 200.<br>Demonic Slash Damage: 180 (+ 80% Total Physical Attack) <code→></code> 100 (+50% Total Physical Attack)<br>Energy Regen per Basic Attack: 10 <code→></code> 25<br>Extra Energy Regen on Crit: 10 <code→></code> 25",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 12s <code→></code> 12-10s<br><code>New Effect</code>: The wide slash slows enemies by 40% for 2s.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 10-8s <code→></code> 8-6s<br><code>Removed Effect</code>: No longer leaves a Cursed Trail.<br><code>New Effect</code>: If hitting an enemy hero, he gains 50-100% Attack Speed (scales with skill level) for the next 3s, during which Demonic Slash only costs half Malice Energy.<br><code>New Effect</code>: The damage of this attack can Crit.",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "<code>Removed Effect</code>: Hitting an enemy hero enhances Warmonger.<br><code>New Effect</code>: The skill will be cast automatically if Argus takes fatal damage when the skill is not on cooldown.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Diggie": {
+        "badge": "ADJUST",
+        "description_en": "Adjusted the Mana Cost of his skills.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 70-120 <code→></code> 70-95",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 90 at all levels <code→></code> 90-115<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Estes": {
+        "badge": "BUFF",
+        "description_en": "Adjusted the hero's early-to-late game power curve and optimized skill mana costs.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Hybrid Defense Increase: 15-30 <code→></code> 15 at all levels (+10% Magic Power)<br>Mana Cost: 60-120 <code→></code> 60-85",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 80-130 <code→></code> 80-105",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 150-350 <code→></code> 140-200<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Floryn": {
+        "badge": "BUFF",
+        "description_en": "Optimized the Mana Cost of her skills.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Mana Cost: 90-140 <code→></code> 75-100",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 100-150 <code→></code> 90-115<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "ADJUST",
+        "description_en": "Revamped and optimized the mechanics of some skills.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "<code>[Crimson/Death]</code> Energy Cap: 4 <code→></code> 2. Casting a basic skill no longer costs energy, while casting a combo skill costs 1 stack of energy.<br>Removed the immobilize effect.<br><code>[Crimson/Death]</code> energy recovery time is the same as Skill 1's cooldown.",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1 &amp; 2",
+            "description_en": "Swapped their positions and adjusted their cooldowns and damage.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 1-2 Combo",
+            "description_en": "Dashes in the joystick's direction and spins to deal damage and immobilize enemies.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2-1 Combo",
+            "description_en": "Hirara becomes untargetable and unable to move. After a short delay, she deals massive damage and can then dash in the joystick direction.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Ultimate",
+            "description_en": "Hirara only has two skills. Upgrading Skill 2 increases damage, while upgrading Skill 1 reduces cooldown.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Lolita": {
+        "badge": "ADJUST",
+        "description_en": "Reverted last week's adjustments.<br>",
+        "description_uk": ""
+      },
+      "Masha": {
+        "badge": "BUFF",
+        "description_en": "Improved Masha's early to mid game combat and lane-clearing ability.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Base HP: 1000 <code→></code> 1400",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Damage Bonus: 50% Total Physical Attack <code→></code> 70% Total Physical Attack",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Base Damage: 75-150 <code→></code> 120-240<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Mathilda": {
+        "badge": "BUFF",
+        "description_en": "Boosted the hero's mid-to-late game damage and optimized skill mana costs.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Magic Bonus: 80% <code→></code> 125%",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Impact Damage of Dash: 320-400 <code→></code> 320-480<br>Base Damage per Wisp: 40 at all levels <code→></code> 40-60<br>Shield's Magic Bonus: 160% <code→></code> 180%<br>Mana Cost: 150-210 <code→></code> 120-160<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Rafaela": {
+        "badge": "BUFF",
+        "description_en": "Reduced the cooldown of the respawn skill in the early game, boosted early-game damage, and optimized skill mana costs.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Base Cooldown: 40s <code→></code> 10s<br>Cooldown Increase Multiplier (based on target's respawn time): 500% <code→></code> 600%",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 225-400 <code→></code> 350-600",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 80-120 <code→></code> 75-100",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Mana Cost: 150-200 <code→></code> 120-160<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ruby": {
+        "badge": "BUFF",
+        "description_en": "As a Fighter, Ruby's damage threat to enemies is too low. We want to increase her damage capability while reducing her Lifesteal to balance it. However, her Lifesteal capability when at low HP will remain intact to preserve her core identity.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "Ruby no longer starts with the Spell Vamp.<br>Spell Vamp Ratio: 125% <code→></code> 75%. Increases Lifesteal ratio by 1% for every 1% HP lost, up to 150%.<br>Removed the effect where Basic Attacks cannot trigger Lifesteal.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Scythe Damage: 90 (+70%-130% Total Physical Attack) <code→></code> 240-490 (+140% Total Physical Attack)<br>Shockwave Damage: 90 (+70%-130% Total Physical Attack) <code→></code> 120-245 (+70% Total Physical Attack)",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Damage: 200-480 (+200% Total Physical Attack) <code→></code> 600-1200 (+300% Total Physical Attack)<br>Cooldown: 26-20s <code→></code> 40-30s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harith": {
+        "badge": "CHANGE",
+        "description_en": "Added a visual effect indicator on the Skill 2 button after using the Ultimate.<br>",
+        "description_uk": ""
+      },
+      "Ixia": {
+        "badge": "CHANGE",
+        "description_en": "Added a visual effect indicator on the Enhanced Basic Attack button after using the Ultimate.<br>",
+        "description_uk": ""
+      },
+      "Pharsa": {
+        "badge": "CHANGE",
+        "description_en": "Added a visual effect indicator on the Ultimate button after using the Ultimate.<br>",
+        "description_uk": ""
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {
+      "Nowhere to Hide": {
+        "badge": "CHANGE",
+        "description_en": "Adjusted the locations of Mid Lane Pickable Crystals and removed the ones behind the Lord's location for further testing and data collection.<br>",
+        "description_uk": ""
+      },
+      "Fire Turtle": {
+        "badge": "CHANGE",
+        "description_en": "Enhanced the allied Turtle's attributes to make it a greater threat when pushing alone.<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>B. Control Optimizations</strong><br/><br>We've optimized the skill caching logic. <strong>The enhanced Basic Attacks of the following heroes will now be cached and no longer be interrupted by skills</strong>: Saber, Alucard, Karina, Bane, Clint, Zilong, Lolita, Natalia, Chou, Estes, Hilda, Lapu-Lapu, Gatotkaca, Grock, Argus, Odette, Hylos, Lesley, Gusion, Kaja, Selena, Aldous, Belerick, Thamuz, Harith, Badang, Khufra, Guinevere, Ling, Dyrroth, Masha, Yu Zhong, Khaleed, Mathilda, Phoveus, Aulus, Aamon, Edith, Yin, Julian, Fredrinn, Nolan, Chip, Lukas, and Kalea.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Iii. System Adjustments</strong><br/><br><ul><br><li><strong>Highlights Notification</strong></li><br></ul>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p>This week, we've released exclusive Highlights Notifications for some roaming heroes. Discover each hero's unique Highlights Notification on the battlefield!</p><p>We will also continue to monitor the data of the notification area and the new Highlights Notifications, and make adjustments accordingly.</p><p>More exclusive Highlights Notifications for other heroes will be released in the future. Stay tuned!</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1t01182/patch_notes_2178_adv_server/"
+  },
+  "2.1.76-adv": {
+    "version": "2.1.76-adv",
+    "release_date": "2026-04-23",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Hero: Wild-oats Fist - Masha": {
+        "badge": "CHANGE",
+        "description_en": "<code>Hero Feature</code>: A Berserker who enters the Feral state by breaking the enemy's wound.<br>Masha's core gameplay has been revamped. We want her to thrive as a high-skill ceiling Berserker capable of sustained combat, rather than an Assassin limited to split-pushing or burst damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Passive - Primal Pact",
+            "description_en": "Masha has 3 HP bars and dies only when the last one is depleted. Masha gains Fury when dealing damage to heroes or creeps. Fury converts to HP when out of combat. Masha leaves a Wound on the enemy when dealing damage to them. Attacking from the direction of the Wound will break it, dealing extra damage and recovering HP. After breaking 3 Wounds consecutively, Masha enters the Feral state, gaining massive Resilience, Attack Speed, and Movement Speed. Each attack counts as breaking a Wound.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 1 - Feral Swipe",
+            "description_en": "Masha releases energy forward, dealing Physical Damage to enemies in its path and slowing enemy heroes.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2 - Claw Strike",
+            "description_en": "Masha dashes in the target direction and enhances her next Basic Attack, launching a shockwave at nearby enemies.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 3 - Savage Maul",
+            "description_en": "Masha charges toward the target hero, dealing Physical Damage and stunning them, while knocking back nearby enemies.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Atlas": {
+        "badge": "BUFF",
+        "description_en": "Increased Atlas's early-to-mid-game damage frequency.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 7-4.5s <code→></code> 4.5s at all levels<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Balmond": {
+        "badge": "BUFF",
+        "description_en": "Moved Skill 1's physical defense reduction effect to Skill 2 to make it easier to trigger.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "HP Regen Upon a Kill: 20% Max HP <code→></code> HP Regen Upon a Kill or Assist: 10% Max HP",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "<code>Removed Effect</code>: Reduces the target's Physical Defense.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "<code>New Effect</code>: Each hit reduces the target's Physical Defense by 5% (up to 8 stacks).<br><code>Removed Effect</code>: Hitting the same target increases subsequent damage from this skill.<br>Movement Speed Boost: 15% that decays over time <code→></code> 15% that no longer decays<br>Damage Bonus: 25% Total Physical Attack + 2% Extra HP (Physical Attack bonus can Crit) <code→></code> 20% Total Physical Attack + 1.3% Max HP (cannot Crit)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Belerick": {
+        "badge": "BUFF",
+        "description_en": "Compared to similar skills, Belerick's Skill 1 has a long delay. We've slightly reduced its delay to improve the hit rate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Taunt Delay: 1s <code→></code> 0.8s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Carmilla": {
+        "badge": "BUFF",
+        "description_en": "Greatly increased Carmilla's threat when closing in on enemies in the early game and optimized the growth curve of her Passive.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 65-130 <code→></code> 100-150",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Stolen Hybrid Defense: 7-11 <code→></code> 6-13<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Chou": {
+        "badge": "BUFF",
+        "description_en": "We've optimized the responsiveness of weaving Basic Attacks between skills, enhanced the late-game strength of his Ultimate, and slightly reduced the second-phase knockback distance to ensure Chou can immediately follow up with an enhanced Basic Attack.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Basic Attack Range: 1.4 <code→></code> 1.6",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Removed the backswing. A Basic Attack can now be used immediately after the skill.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: 34s at all levels <code→></code> 36-30s<br>Base Damage: 400-500 <code→></code> 400-600<br>Chase Damage: 480-580 <code→></code> 480-680<br>Second-Phase Knockback Distance: 1.5 <code→></code> 1.15<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Freya": {
+        "badge": "NERF",
+        "description_en": "Reduced the hero's HP Regen in the early-to-mid-game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Base HP Regen per Basic Attack: 40-80 <code→></code> 10-80<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harley": {
+        "badge": "NERF",
+        "description_en": "Reduced the hero's mid-game burst damage to lower his snowball potential.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage per Card: 130-210 <code→></code> 130-190<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hilda": {
+        "badge": "NERF",
+        "description_en": "Reduced the hero's early to mid game burst capability, and increased her durability to improve overall balance.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Base Physical Attack: 123 <code→></code> 103<br>Physical Attack Growth: 6.85 <code→></code> 8",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Shield: 10%-20% of Max HP <code→></code> 10%-30% of Max HP",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Damage: 220-420 (+ 100% of Total Physical Attack) <code→></code> 200-400 (+ 90% of Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Khaleed": {
+        "badge": "ADJUST",
+        "description_en": "Reduced the hero's early to mid game burst capability, and increased his durability to improve overall balance.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Damage: 200-400 (+140% of Total Physical Attack) <code→></code> 175-400 (+120% of Total Physical Attack)<br>Damage on Minions: 50%-75% <code→></code> 60%-85%",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 22-17s <code→></code> 18-13s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Khufra": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased Khufra's early-to-mid-game damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "The enhanced Basic Attack deals 100 extra Base Damage. <br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Lolita": {
+        "badge": "BUFF",
+        "description_en": "Increased Lolita's offensive potential.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 10-8s <code→></code> 7-5.5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Reflected Projectile Damage: 100% <code→></code> 50%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Marcel": {
+        "badge": "ADJUST",
+        "description_en": "We aim to reduce the negative experience of facing Marcel's excessive crowd control, while giving him more chances to showcase his individual skills.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base Physical Defense: 25 <code→></code> 30<br>Base Magic Defense: 15 <code→></code> 20<br>Base HP: 2740 <code→></code> 2950<br>Physical Defense Growth: 2 <code→></code> 1.4<br>Magic Defense Growth: 1 <code→></code> 0.5<br>HP Growth: 200 <code→></code> 160",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "<code>Removed Effect</code>: Basic Attack cannot Crit.<br><code>Removed Effect</code>: Cannot benefit from extra Attack Speed <code→></code> Can partially benefit from extra Attack Speed.<br><code>Removed Effect</code>: Basic Attacks reduce Platinum Snap's cooldown by 1s per target.<br><code>New Effect</code>: Marcel gains 300% HP Regen when out of combat.",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "Removed the immobilize effect.<br>Slow Effect: 20% <code→></code> 60%<br>Base Damage: 370-520 <code→></code> 450-700<br>Damage Bonus: (50% Total Physical Attack) (+ 100% Total Magic Defense) (+ 100% Total Physical Defense) <code→></code> (50% Total Physical Attack) (+ 120% Total Magic Defense) (+ 120% Total Physical Defense)",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "Reverted last week's changes to the Ultimate.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Minotaur": {
+        "badge": "BUFF",
+        "description_en": "Increased Minotaur's damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 280-355 <code→></code> 325-500<br>Enhanced Basic Attack Damage: 3% Total HP <code→></code> 25 (+5% Total HP)<br>Bonus Damage in Enraged State: 3% Total HP <code→></code> 25 (+5% Total HP).<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Paquito": {
+        "badge": "BUFF",
+        "description_en": "As an agile boxer, Paquito is meant to excel at kiting in lane and engaging teamfights in the late game. Therefore, we've increased his skill ceiling and lane-pushing capabilities.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "<code>Removed Effect</code>: Each Basic Attack only deals 85% Total Physical Attack.<br><code>New Effect</code>: Paquito's enhanced skills deal 10%-40% extra damage (scales with level) to minions.<br>Enhanced Skill Movement Speed Boost: 60% extra Movement Speed that decays over 1.8s <code→></code> 60% extra Movement Speed that decays over 1.2s<br><code>New Effect</code>: Using an enhanced skill grants 10%-40% Damage Reduction (scales with level) for 1.2s.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "<code>Adjustment</code>: Hitting a hero or creep grants a shield <code→></code> Hitting an enemy grants a shield<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Saber": {
+        "badge": "BUFF",
+        "description_en": "Saber relied too much on one-shot combos. Therefore, we've made adjustments to increase his sustained damage capabilities before and after casting his Ultimate.<br>We have also adjusted Saber's base attributes and damage bonuses to allow him to build Fighter equipment.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2440 <code→></code> 2500<br>HP Growth: 180 <code→></code> 195<br>Physical Defense Growth: 4.1 <code→></code> 4.5",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 1",
+            "description_en": "Orbiting Sword Damage: 75-105 (+ 30% Extra Physical Attack) <code→></code> 75-125 (+25% Extra Physical Attack)<br>Extra Damage: 210-260 (+60% Extra Physical Attack) <code→></code> 200-300 (+50% Extra Physical Attack)<br>Mana Cost: 80-105 <code→></code> 60-85<br>Orbiting sword attack reduces Skill 2 cooldown by 1s <code→></code> Reduces Skill 1 cooldown by 0.5s and Skill 2 cooldown by 1s<br>Cooldown: 9s <code→></code> 10s<br>Duration: 5s <code→></code> 4s",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 70-45 <code→></code> 40-60",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Ultimate",
+            "description_en": "First Two Strikes: 120-180 (+ 100% Extra Physical Attack) <code→></code> 120-220 (+ 80% Extra Physical Attack)<br>The Third Strike: 240-360 (+200% Extra Physical Attack) <code→></code> 240-440 (+ 160% Extra Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Roaming Blessings": {
+        "badge": "NERF",
+        "description_en": "We acknowledge that damage-oriented Roamers can generate Gold for the team by harassing enemies. However, we do not encourage the playstyle of boosting themselves by taking gold from minions and creeps killed by their allies. Therefore, we have extended the duration during which heroes with Roaming Blessings receive reduced Gold from minions and creeps when alone.<br>Duration of Reduced Gold from Minions and Creeps When Alone: 5 min <code→></code> 8 min<br>",
+        "description_uk": ""
+      },
+      "Roaming Blessing - Dire Hit": {
+        "badge": "ADJUST",
+        "description_en": "Trigger Condition of Extra Damage: Basic Attack <code→></code> Basic Attack or Skill<br>",
+        "description_uk": ""
+      }
+    },
+    "battlefield_adjustments": {
+      "`Nowhere to Hide`": {
+        "badge": "CHANGE",
+        "description_en": "Adjusted the locations of some Pickable Crystals for further testing and data collection.<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>From The Designers</strong><br/><br>In this patch, we've toned down certain Roamers with excessive early-to-mid game damage, and boosted the damage of several Tank heroes whose damage was too low.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`UI Optimizations for Resplendent Skins in the Hero Selection Screen`</strong><br/>Optimized the UI for Resplendent Skins in the Hero Selection Screen. During the Pick & Ban phase, once a player confirms a Resplendent Skin, all players in the match will immediately see its visual effects. Different dragonshard colors correspond to exclusive visual effects.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Brawl</strong><br/><strong>Update Content</strong>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Hero Pool Updates`</strong><br/>New Hero Added to the Brawl Random Hero Pool: Faramis.",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Faramis</strong><br/><p>Faramis is too dominant in Brawl's compact terrain. While adding him to the random hero pool, we've adjusted his wave-clearing ability for better balance.<br><strong>[Skill 2] <code>(↓)</code></strong></p><p><code>New Decay Mechanic</code>: After hitting the same target more than 3 times with a single skill cast, subsequent damage decays to 50%.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [
+      "Hero: Wild-oats Fist - Masha"
+    ],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1suk29s/patch_notes_2176_adv_server/"
   }
 }

@@ -20,7 +20,12 @@ def get_connection_pool():
         _connection_pool = pool.ThreadedConnectionPool(
             minconn=2,
             maxconn=15,
-            dsn=DATABASE_URL
+            dsn=DATABASE_URL,
+            keepalives=1,
+            keepalives_idle=30,
+            keepalives_interval=10,
+            keepalives_count=5,
+            connect_timeout=10
         )
     return _connection_pool
 
