@@ -10917,5 +10917,309 @@
       "Hero: Wild-oats Fist - Masha"
     ],
     "reddit_permalink": "/r/MobileLegendsGame/comments/1suk29s/patch_notes_2176_adv_server/"
+  },
+  "2.1.84-adv": {
+    "version": "2.1.84-adv",
+    "release_date": "2026-05-22",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Argus": {
+        "badge": "ADJUST",
+        "description_en": "We aim to give experienced Argus players advantages in a more practical way.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "<code>Removed Effect</code>: Actively casting the Ultimate reduces its cooldown by 30%.<br>Cooldown: 60s-50s <code→></code> 42s-35s<br>Eternal Evil Auto-Trigger Duration: 4s <code→></code> 3s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Balmond": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Total Physical Attack Bonus for Damage: 20% <code→></code> 25%",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Edith": {
+        "badge": "BUFF",
+        "description_en": "Slightly increased the hero's mid to late game mobility.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 10s at all levels <code→></code> 10-8s",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Eudora": {
+        "badge": "BUFF",
+        "description_en": "We've adjusted Eudora's Skill 1 to make triggering lightning chains easier.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Superconductor Duration: 3s <code→></code> 5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown Reduction from Delayed Damage: 1.5s <code→></code> half of the skill's cooldown",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Damage to Minions: (30 + 3* Hero Level)% <code→></code> (30 + 4* Hero Level)%",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 8.5s-5s <code→></code> 7.8s-5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Crimson Maple Damage: 160-265 (+53%-88% Extra Physical Attack) <code→></code> 165-270 (+55%-90% Extra Physical Attack)",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Masha": {
+        "badge": "BUFF",
+        "description_en": "<code>Experimental Adjustments</code>: We want to make it easier for Masha to enter the Feral state while maintaining the thrill of her gameplay.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Passive",
+            "description_en": "<code>Feral Adjustments</code>: The Wound is now larger. Breaking a Wound triggers the Feral state for 3s and transforms the next 3 Basic Attacks into large-area claw strikes. The number of claw strikes can be stacked up to 6 times.",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "<code>New Effect</code>: Resets Skill 2 each time an HP bar is depleted.<br>Damage: 120-240 (+120% Total Physical Attack) <code→></code> 240-440 (+60% Total Physical Attack)",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Odette": {
+        "badge": "ADJUST",
+        "description_en": "We have adjusted Odette's Ultimate to prevent it from being accidentally \"interrupted\" or disabled when immobilized.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Movement Speed Reduction: 30% <code→></code> 40%",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "<code>Removed Effect</code>: Leaps to the target location on cast.<br>Movement Slowed: 90% <code→></code> 20%",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ruby": {
+        "badge": "ADJUST",
+        "description_en": "Reverted some of her damage back to Spell Vamp.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Base Spell Vamp Ratio: 60% <code→></code> 75%",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Scythe Damage: 280-480 (+120% Total Physical Attack) <code→></code> 280-480 (+100% Total Physical Attack)<br>Shockwave Damage: 140-240 (+60% Total Physical Attack) <code→></code> 140-240 (+50% Total Physical Attack)",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Zhuxin": {
+        "badge": "NERF",
+        "description_en": "We've noticed that Zhuxin is incredibly powerful in both high-rank Ranked matches and in the professional matches. We're increasing the cost of her Skill 2 to balance her overall performance.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Mana Regen from Each Crimson Butterfly: 3% <code→></code> 4%",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Mana Cost: 45 <code→></code> 75<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {
+      "Berserker's Fury": {
+        "badge": "BUFF",
+        "description_en": "Maintained the damage dealt to back-row heroes while increasing the damage dealt to front-row heroes.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Attributes",
+            "description_en": "Physical Attack: 65 <code→></code> 60<br>Crit Damage: 40% <code→></code> 30%",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Unique Passive - Doom",
+            "description_en": "When Basic Attacks Crit, they deal extra True Damage equal to 12% of the damage before reduction.",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Great Dragon Spear": {
+        "badge": "ADJUST",
+        "description_en": "Retained the unique mechanics of Great Dragon Spear while reverting the equipment back to the Official Server version. The new Passive is moved to Berserker's Fury.<br>",
+        "description_uk": ""
+      },
+      "Roaming Blessing - Conceal": {
+        "badge": "BUFF",
+        "description_en": "Cooldown: 80s <code→></code> 60s",
+        "description_uk": ""
+      },
+      "Roaming Blessing - Dire Hit": {
+        "badge": "BUFF",
+        "description_en": "Movement Distance for 1 Stack of Force: 2 <code→></code> 1<br>",
+        "description_uk": ""
+      }
+    },
+    "battlefield_adjustments": {
+      "`Update Content`": {
+        "badge": "CHANGE",
+        "description_en": "<p>New battlefield effects are back! We have made some optimizations and upgraded the visual effects based on feedback from the last test.</p><p>We will make the relevant effects available shortly after this week's patch update. Due to testing requirements, this gameplay test will only be available to selected players this week.</p><p>The battlefield effects tested in this patch are as follows:</p><p><code>1.</code> <strong>Nowhere to Hide</strong>: Pickable wisps are available across the map. Upon picking one up, the wisp circles around the hero for several seconds. If there are hidden enemy heroes within a large range, the wisp will move to their location and grant vision of the area for several seconds.</p><p>Based on everyone's feedback and to ensure the best experience across all 5 lanes, we have decided to keep 5 spots, but their positions have been slightly adjusted.</p><p><code>2.</code> <strong>Fire Turtle renamed to Healing Turtle</strong>: Defeating the Turtle no longer grants a shield. Instead, an allied Turtle will spawn on the enemy's strongest lane to help push it. Allied heroes near the allied Turtle will recover HP rapidly.</p><p><code>3.</code> <strong>Golden Turret</strong>: Greatly increased the Gold shared to the entire team when any Turret is destroyed. Inner Turret and Base Turret HP are also increased.</p>",
+        "description_uk": ""
+      },
+      "Alpha": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": ""
+      },
+      "Dyrroth": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": ""
+      },
+      "Edith": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": ""
+      },
+      "Melissa": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": ""
+      },
+      "Vale": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>I. Advanced Server Matchmaking Test</strong><br/><p>A matchmaking test is currently underway on Advanced Server (Servers 57061-57095).</p><p>During the test, some social features for all players in the 57 servers may be affected, including but not limited to:</p><p><code>1.</code> Profile access</p><p><code>2.</code> Gifting (Skins, Battle Points, Items, and Live gifts)</p><p><code>3.</code> Social interactions (Super Likes, Pokes, and Team/Squad invitations)</p><p>This feature test is expected to end on 05/25. Thank you for your support and understanding!</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Ii. Localization Adjustments</strong><br/><p><strong>Thai</strong></p><p><code>1.</code>Skin Name Optimizations:</p><p>Optimized the names of select skins for 132 heroes.</p><p><code>2.</code>Skill Names:</p><p>Optimized the names of select skills for 66 heroes.</p><p><code>3.</code>Skill Descriptions:</p><p>Optimized the descriptions of select skills for 23 heroes.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/>Added the Main Hero Namecard. You can now show off stats for your best heroes!<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/>We have optimized the Public Chat channel by removing content unrelated to the Advanced Server.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/>We've optimized the transparency of like notifications to reduce visual obstruction during matches. We also improved the feedback for consecutive likes and extended the duration of like notifications. Liking an ally's assist highlights and receiving a like back now triggers a new fist-bump notification.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>D. Offline Mode Experience Optimization</strong><br/><p><strong>Offline Mode Supports:</strong></p><p><code>1.</code> Owned heroes will gain Hero Mastery and have their Ranked matches unlocked (up to 2 matches).</p><p><code>2.</code> Offline Mode now supports random maps.</p><p><code>3.</code> Offline Mode now supports quick restarts after matches (tap Play Again to enter the hero selection phase directly).</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p><code>[Hero Balance Adjustments]</code></p><p>Based on recent Brawl hero win and pick rates, we've made the following balance adjustments.</p><ul>\n<li><strong>[Aulus] <code>(↓)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt -4%, Removed: Damage Taken -8%</p><ul>\n<li><strong>[Alice] <code>(↓)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt -6%</p><ul>\n<li><strong>[Franco] <code>(↑)</code></strong></li>\n</ul><p><code>Removed</code>: Damage Dealt +8%. Damage Taken: -24% <code→></code> -20%.</p><p><code>New</code>: Reduces Skill 1 and Ultimate cooldown in Brawl.</p><ul>\n<li><strong>[Gloo] <code>(↓)</code></strong></li>\n</ul><p>Damage Taken: -10% <code→></code> -2%</p><ul>\n<li><strong>[Granger] <code>(↑)</code></strong></li>\n</ul><p>Damage Taken: -4% <code→></code> -8%</p><ul>\n<li><strong>[Lapu-Lapu] <code>(↓)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt -6%</p><ul>\n<li><strong>[Leomord] <code>(↓)</code></strong></li>\n</ul><p>Damage Taken: -4% <code→></code> +2%</p><ul>\n<li><strong>[Sun] <code>(↓)</code></strong></li>\n</ul><p>Damage Taken: -6% <code→></code> +2%</p><ul>\n<li><strong>[X.Borg] <code>(↑)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt +4%</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Mechanics Balance Adjustments`</strong><br/><p>To optimize the mid-to-late game pacing in Brawl and improve minions' pushing ability against Magic heroes, we've adjusted the attributes of enhanced minions after 12 minutes.</p><ul>\n<li><strong>[Enhanced Melee Minion] <code>(↑)</code></strong></li>\n</ul><p>Base Magic Defense: 30 <code→></code> 40</p><ul>\n<li><strong>[Enhanced Siege Minion] <code>(↑)</code></strong></li>\n</ul><p>Base Magic Defense: 30 <code→></code> 50; Magic Defense Growth: 5 <code→></code> 6</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`New Mode Available`</strong><br/>To provide a better entertainment experience for you, we plan to launch the new mode [Chaos Brawl] on 05/23.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Chaos Brawl - Mode Introduction`</strong><br/><p>Welcome to Chaos Brawl! This is a fast-paced 5vs5 brawl. Upon reaching Lv. 4, 6, 9, and 12, players can choose a suitable Chaos Fragment (global buffs such as Attack Speed boost, Cooldown Reduction, etc.) to enhance themselves! Join the continuous battles with the help of Chaos Fragments, and secure the winner with the power of chaos!</p><p>For balance, damage adjustments in Chaos Brawl are only 30% of those in normal Brawl.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Update Content`</strong><br/><p>Brand-new gameplay is here! Every round, a random hero is summoned to the battlefield to shake things up.</p><p><code>Hero Lineup for the Gameplay:</code></p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Estes - Moonlight Immersion</strong><br/>Estes periodically heals the hero with the lowest HP on the battlefield.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Helcurt - Darkness Falls</strong><br/>Helcurt periodically obscures all heroes' vision. Unknown threats lurk in the dark.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Hylos - Quadra Pathway</strong><br/>Hylos periodically creates a speed pathway in one of the map's four corners to control the pace of the battlefield.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Element Eye Mechanics Adjustment`</strong><br/>The delivery method of Element Eye has been fully optimized. It is now delivered in 4 stages during each match round, bringing a better-layered pace and richer strategic space.<br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Revamped Interface`</strong><br/>The brand-new interface design is now live. We've optimized numerous interactions and visual effects to provide a smoother experience.<br>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1tjs14w/patch_notes_2184_adv_server/"
   }
 }
