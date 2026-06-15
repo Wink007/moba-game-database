@@ -10933,7 +10933,7 @@
           {
             "badge": "ADJUST",
             "skill_name": "Ultimate",
-            "description_en": "<code>Removed Effect</code>: Actively casting the Ultimate reduces its cooldown by 30%.<br>Cooldown: 60s-50s <code→></code> 42s-35s<br>Eternal Evil Auto-Trigger Duration: 4s <code→></code> 3s<br>",
+            "description_en": "<code>Removed Effect</code>: Actively casting the Ultimate reduces its cooldown by 30%.<br>Cooldown: 60s-50s → 42s-35s<br>Eternal Evil Auto-Trigger Duration: 4s → 3s<br>",
             "description_uk": ""
           }
         ]
@@ -10946,7 +10946,7 @@
           {
             "badge": "BUFF",
             "skill_name": "Skill 2",
-            "description_en": "Total Physical Attack Bonus for Damage: 20% <code→></code> 25%",
+            "description_en": "Total Physical Attack Bonus for Damage: 20% → 25%",
             "description_uk": ""
           }
         ]
@@ -10959,7 +10959,7 @@
           {
             "badge": "BUFF",
             "skill_name": "Skill 2",
-            "description_en": "Cooldown: 10s at all levels <code→></code> 10-8s",
+            "description_en": "Cooldown: 10s at all levels → 10-8s",
             "description_uk": ""
           }
         ]
@@ -10972,13 +10972,13 @@
           {
             "badge": "BUFF",
             "skill_name": "Passive",
-            "description_en": "Superconductor Duration: 3s <code→></code> 5s",
+            "description_en": "Superconductor Duration: 3s → 5s",
             "description_uk": ""
           },
           {
             "badge": "BUFF",
             "skill_name": "Skill 1",
-            "description_en": "Cooldown Reduction from Delayed Damage: 1.5s <code→></code> half of the skill's cooldown",
+            "description_en": "Cooldown Reduction from Delayed Damage: 1.5s → half of the skill's cooldown",
             "description_uk": ""
           }
         ]
@@ -10991,19 +10991,19 @@
           {
             "badge": "BUFF",
             "skill_name": "Passive",
-            "description_en": "Damage to Minions: (30 + 3* Hero Level)% <code→></code> (30 + 4* Hero Level)%",
+            "description_en": "Damage to Minions: (30 + 3* Hero Level)% → (30 + 4* Hero Level)%",
             "description_uk": ""
           },
           {
             "badge": "BUFF",
             "skill_name": "Skill 1",
-            "description_en": "Cooldown: 8.5s-5s <code→></code> 7.8s-5s",
+            "description_en": "Cooldown: 8.5s-5s → 7.8s-5s",
             "description_uk": ""
           },
           {
             "badge": "BUFF",
             "skill_name": "Skill 2",
-            "description_en": "Crimson Maple Damage: 160-265 (+53%-88% Extra Physical Attack) <code→></code> 165-270 (+55%-90% Extra Physical Attack)",
+            "description_en": "Crimson Maple Damage: 160-265 (+53%-88% Extra Physical Attack) → 165-270 (+55%-90% Extra Physical Attack)",
             "description_uk": ""
           }
         ]
@@ -11022,7 +11022,7 @@
           {
             "badge": "BUFF",
             "skill_name": "Skill 2",
-            "description_en": "<code>New Effect</code>: Resets Skill 2 each time an HP bar is depleted.<br>Damage: 120-240 (+120% Total Physical Attack) <code→></code> 240-440 (+60% Total Physical Attack)",
+            "description_en": "<code>New Effect</code>: Resets Skill 2 each time an HP bar is depleted.<br>Damage: 120-240 (+120% Total Physical Attack) → 240-440 (+60% Total Physical Attack)",
             "description_uk": ""
           }
         ]
@@ -11035,13 +11035,13 @@
           {
             "badge": "BUFF",
             "skill_name": "Skill 1",
-            "description_en": "Movement Speed Reduction: 30% <code→></code> 40%",
+            "description_en": "Movement Speed Reduction: 30% → 40%",
             "description_uk": ""
           },
           {
             "badge": "ADJUST",
             "skill_name": "Ultimate",
-            "description_en": "<code>Removed Effect</code>: Leaps to the target location on cast.<br>Movement Slowed: 90% <code→></code> 20%",
+            "description_en": "<code>Removed Effect</code>: Leaps to the target location on cast.<br>Movement Slowed: 90% → 20%",
             "description_uk": ""
           }
         ]
@@ -11054,13 +11054,13 @@
           {
             "badge": "BUFF",
             "skill_name": "Passive",
-            "description_en": "Base Spell Vamp Ratio: 60% <code→></code> 75%",
+            "description_en": "Base Spell Vamp Ratio: 60% → 75%",
             "description_uk": ""
           },
           {
             "badge": "NERF",
             "skill_name": "Skill 1",
-            "description_en": "Scythe Damage: 280-480 (+120% Total Physical Attack) <code→></code> 280-480 (+100% Total Physical Attack)<br>Shockwave Damage: 140-240 (+60% Total Physical Attack) <code→></code> 140-240 (+50% Total Physical Attack)",
+            "description_en": "Scythe Damage: 280-480 (+120% Total Physical Attack) → 280-480 (+100% Total Physical Attack)<br>Shockwave Damage: 140-240 (+60% Total Physical Attack) → 140-240 (+50% Total Physical Attack)",
             "description_uk": ""
           }
         ]
@@ -11073,13 +11073,13 @@
           {
             "badge": "BUFF",
             "skill_name": "Passive",
-            "description_en": "Mana Regen from Each Crimson Butterfly: 3% <code→></code> 4%",
+            "description_en": "Mana Regen from Each Crimson Butterfly: 3% → 4%",
             "description_uk": ""
           },
           {
             "badge": "NERF",
             "skill_name": "Skill 2",
-            "description_en": "Mana Cost: 45 <code→></code> 75<br>",
+            "description_en": "Mana Cost: 45 → 75<br>",
             "description_uk": ""
           }
         ]
@@ -11094,7 +11094,7 @@
           {
             "badge": "NERF",
             "skill_name": "Attributes",
-            "description_en": "Physical Attack: 65 <code→></code> 60<br>Crit Damage: 40% <code→></code> 30%",
+            "description_en": "Physical Attack: 65 → 60<br>Crit Damage: 40% → 30%",
             "description_uk": ""
           },
           {
@@ -11107,17 +11107,17 @@
       },
       "Great Dragon Spear": {
         "badge": "ADJUST",
-        "description_en": "Retained the unique mechanics of Great Dragon Spear while reverting the equipment back to the Official Server version. The new Passive is moved to Berserker's Fury.<br>",
+        "description_en": "Retained the unique mechanics of Great Dragon Spear while reverting the equipment back to the Official Server version. The new Passive is moved to Berserker's Fury.",
         "description_uk": ""
       },
       "Roaming Blessing - Conceal": {
         "badge": "BUFF",
-        "description_en": "Cooldown: 80s <code→></code> 60s",
+        "description_en": "Cooldown: 80s → 60s",
         "description_uk": ""
       },
       "Roaming Blessing - Dire Hit": {
         "badge": "BUFF",
-        "description_en": "Movement Distance for 1 Stack of Force: 2 <code→></code> 1<br>",
+        "description_en": "Movement Distance for 1 Stack of Force: 2 → 1<br>",
         "description_uk": ""
       }
     },
@@ -11179,11 +11179,15 @@
         "text_uk": ""
       },
       {
-        "text_en": "<strong>`Update Content`</strong><br/><p><code>[Hero Balance Adjustments]</code></p><p>Based on recent Brawl hero win and pick rates, we've made the following balance adjustments.</p><ul>\n<li><strong>[Aulus] <code>(↓)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt -4%, Removed: Damage Taken -8%</p><ul>\n<li><strong>[Alice] <code>(↓)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt -6%</p><ul>\n<li><strong>[Franco] <code>(↑)</code></strong></li>\n</ul><p><code>Removed</code>: Damage Dealt +8%. Damage Taken: -24% <code→></code> -20%.</p><p><code>New</code>: Reduces Skill 1 and Ultimate cooldown in Brawl.</p><ul>\n<li><strong>[Gloo] <code>(↓)</code></strong></li>\n</ul><p>Damage Taken: -10% <code→></code> -2%</p><ul>\n<li><strong>[Granger] <code>(↑)</code></strong></li>\n</ul><p>Damage Taken: -4% <code→></code> -8%</p><ul>\n<li><strong>[Lapu-Lapu] <code>(↓)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt -6%</p><ul>\n<li><strong>[Leomord] <code>(↓)</code></strong></li>\n</ul><p>Damage Taken: -4% <code→></code> +2%</p><ul>\n<li><strong>[Sun] <code>(↓)</code></strong></li>\n</ul><p>Damage Taken: -6% <code→></code> +2%</p><ul>\n<li><strong>[X.Borg] <code>(↑)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt +4%</p>",
+        "text_en": "<strong>`Update Content`</strong><br/><p><code>[Hero Balance Adjustments]</code></p><p>Based on recent Brawl hero win and pick rates, we've made the following balance adjustments.</p><ul>\n<li><strong>[Aulus] <code>(↓)</code></strong></li>\n</ul><p><code>New</code>: Damage Dealt -4%, Removed: Damage Taken -8%<br><ul><br><li><strong>[Alice] <code>(↓)</code></strong></li><br></ul></p><p><code>New</code>: Damage Dealt -6%<br><ul><br><li><strong>[Franco] <code>(↑)</code></strong></li><br></ul></p><p><code>Removed</code>: Damage Dealt +8%. Damage Taken: -24% → -20%.</p><p><code>New</code>: Reduces Skill 1 and Ultimate cooldown in Brawl.<br><ul><br><li><strong>[Gloo] <code>(↓)</code></strong></li><br></ul></p><p>Damage Taken: -10% → -2%<br><ul><br><li><strong>[Granger] <code>(↑)</code></strong></li><br></ul></p><p>Damage Taken: -4% → -8%<br><ul><br><li><strong>[Lapu-Lapu] <code>(↓)</code></strong></li><br></ul></p>",
         "text_uk": ""
       },
       {
-        "text_en": "<strong>`Mechanics Balance Adjustments`</strong><br/><p>To optimize the mid-to-late game pacing in Brawl and improve minions' pushing ability against Magic heroes, we've adjusted the attributes of enhanced minions after 12 minutes.</p><ul>\n<li><strong>[Enhanced Melee Minion] <code>(↑)</code></strong></li>\n</ul><p>Base Magic Defense: 30 <code→></code> 40</p><ul>\n<li><strong>[Enhanced Siege Minion] <code>(↑)</code></strong></li>\n</ul><p>Base Magic Defense: 30 <code→></code> 50; Magic Defense Growth: 5 <code→></code> 6</p>",
+        "text_en": "<strong>New#: Damage Dealt -6%</strong><br/><ul>\n<li><strong>[Leomord] <code>(↓)</code></strong></li>\n</ul><p>Damage Taken: -4% → +2%<br><ul><br><li><strong>[Sun] <code>(↓)</code></strong></li><br></ul></p><p>Damage Taken: -6% → +2%<br><ul><br><li><strong>[X.Borg] <code>(↑)</code></strong></li><br></ul></p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Mechanics Balance Adjustments`</strong><br/><p>To optimize the mid-to-late game pacing in Brawl and improve minions' pushing ability against Magic heroes, we've adjusted the attributes of enhanced minions after 12 minutes.</p><ul>\n<li><strong>[Enhanced Melee Minion] <code>(↑)</code></strong></li>\n</ul><p>Base Magic Defense: 30 → 40<br><ul><br><li><strong>[Enhanced Siege Minion] <code>(↑)</code></strong></li><br></ul></p><p>Base Magic Defense: 30 → 50; Magic Defense Growth: 5 → 6</p>",
         "text_uk": ""
       },
       {
@@ -11220,6 +11224,734 @@
       }
     ],
     "revamped_heroes": [],
-    "reddit_permalink": "/r/MobileLegendsGame/comments/1tjs14w/patch_notes_2184_adv_server/"
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1tjrzpd/patch_notes_2184_adv_ser_er/"
+  },
+  "2.1.90-adv": {
+    "version": "2.1.90-adv",
+    "release_date": "2026-06-12",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Hero: The Protector - Bruno": {
+        "badge": "CHANGE",
+        "description_en": "As the 10th Anniversary approaches, we are giving Bruno a comprehensive visual revamp.<br>The new model, hero portrait, and other visual assets will be available on the Advanced Server once they are fully completed. Stay tuned!<br>In this Advanced Server update, we've adjusted his core skills. While preserving his original characteristics, we've improved his controls and carried out a comprehensive round of balance tuning.<br>The new Bruno will be a more agile and intimidating striker.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Volley Shot",
+            "description_en": "We believe the original [Volley Shot] placed too much burden on players. In the current environment, players might fail to pick up the [Powerball] even after planning their movement and positioning correctly. Therefore, we've optimized it to better reward players who make the right decisions on the battlefield.<br>We've also improved the control experience of this skill:<br><code>1.</code> The landing distance of [Powerball] now scales with Bruno's Movement Speed.<br><code>2.</code> The Movement Speed boost is now granted when kicking the [Powerball] instead of upon dealing damage, making the skill easier to control and master.<br><code>3.</code> The Movement Speed boost now decays over time. This prevents situations where it is harder to pick up the ball due to high Movement Speed at the destination.<br><code>4.</code> The landing position of [Powerball] will no longer cross walls.<br><code>5.</code> <strong>[Powerball]</strong> can now be cast even when affected by certain control effects.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Flying Tackle",
+            "description_en": "We believe the original [Flying Tackle] might lead players into relatively dangerous positions. Therefore, we've redesigned the skill to focus more on assisting players with pursuit or escape.<br><code>1.</code> Adjusted Flying Tackle's default cast direction to the joystick's direction.<br><code>2.</code> Removed the effects that draw the <strong>[Powerball]</strong>, deal damage, and stun enemies. Now, he automatically gains a <strong>[Powerball]</strong> after the dash ends.",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Worldie",
+            "description_en": "We believe the original [Worldie] had too many effects, making it difficult to understand and use correctly. Therefore, we've redesigned the skill to focus on initiating team fights from a distance and rapidly gaining [Mecha Legs] stacks.<br><code>1.</code> It now applies a brief stun and a massive decaying slow effect on the first target hit, and no longer reduces Physical Defense.<br><code>2.</code> Optimized the knockback effect on the first target hit. The target will now be knocked back to Bruno's maximum attack range.<br><code>3.</code> <strong>[Powerball]</strong> now prioritizes enemy heroes when bouncing between enemy units.<br><code>4.</code> Increased the cast range.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Aulus": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Enhanced Basic Attack Base Damage: 160 <code→></code> 135<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Kaja": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2500 <code→></code> 2600",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "<code>Removed Effect</code>: Exits the [Soaring] state when failing to hit an allied hero, enemy hero, or creep.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Odette": {
+        "badge": "NERF",
+        "description_en": "We've slightly reduced Odette's Ultimate benefits.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Self Movement Slowed: 20% <code→></code> 40%<br><code>Removed Effect</code>: Increased the bounce speed and frequency of Passive's sound wave during the Ultimate.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Masha": {
+        "badge": "NERF",
+        "description_en": "Masha was overperforming on the Advanced Server, so we've adjusted her early-to-mid game combat capabilities.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "<code>Extra Attributes from Feral</code>: Adjusted to (15% + 1% * hero level) for Movement Speed, Attack Speed, and Resilience.",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Damage Bonus: 60% Total Physical Attack <code→></code> 100% Extra Physical Attack",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Ultimate",
+            "description_en": "Damage Bonus: 150% Total Physical Attack <code→></code> 180% Extra Physical Attack<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {},
+    "system_adjustments": [
+      {
+        "text_en": "<strong>Iii. Mode Adjustments</strong><br/><ul>\n<li><strong>Chaos Brawl Mode</strong></li>\n</ul><p>We've adjusted the EXP and Gold gained from kills and increased the Bounty for ending kill streaks to minimize one-sided matches.</p><ul>\n<li><strong>Chaos Clash Mode</strong></li>\n</ul><p>Thank you for your support! In this test patch, we've adjusted several buffs in Chaos Clash. The details are as follows:<br><strong><code>[Rarity Reduced: Legend (Orange) </code→><code> Epic (Purple)]</code></strong></p><p>The overall strength of the following buffs has been toned down, and their rarity is reduced from Legend (Orange) to Epic (Purple):</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Heavy Bomb</strong><br/>When dealing damage, immobilizes enemies within a certain range after a short delay for 1s. Cooldown: 8s.",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Transcendence I</strong><br/>Refunds half the cooldown after casting Skill 1.",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Transcendence II</strong><br/>Refunds half the cooldown after casting Skill 2.",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Molina Smooch</strong><br/>After moving 35 units, turns nearby enemies into animals for 2s (Units required to trigger: 40 <code→></code> 35)",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Life Exchange</strong><br/>After taking damage equal to 10% Max HP, drops an Energon Cube. Pick it up to recover 5% Max HP.",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Endless Rage</strong><br/>Increases Energy/Rage regen by 100%.",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Midas Touch</strong><br/><p>Dealing damage deals an extra 50 True Damage and grants an extra 100 Gold. It triggers once every 10s per enemy hero.<br><strong><code>[Rarity Upgraded]</code></strong></p><p>The following buffs have shown increased potential, and their rarity has been upgraded accordingly:</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Acceleration</strong><br/><code>Epic (Purple)</code> <code→></code> <code>Legend (Orange)</code>: Hitting enemies with Basic Attacks or skills increases Movement Speed by 4%. This effect can stack infinitely each round and triggers once every 0.3s.",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>New Money</strong><br/><code>Premium (Blue)</code> <code→></code> <code>Epic (Purple)</code>: Gains 2,000 Gold",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Attribute Master</strong><br/><code>Epic (Purple)</code> <code→></code> <code>Legend (Orange)</code>: Attribute Potion's price reduction increased from 20% to 40% (effect enhanced).<br><strong><code>[Stat Adjustments]</code></strong>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Lethal Wound</strong><br/><code>(Was \"Toxic Blessing\") Adjustment</code>: Removed Healing Effect reduction and shifted to Healing Reduction. Healing Reduction Effect: 25% <code→></code> 30%",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Dawning Light</strong><br/>Distance required to trigger: 30 <code→></code> 20 units (triggers more frequently)",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Supreme Thunder Power</strong><br/>Thunder stacks gained per trigger: 2 <code→></code> 3 (buff description updated accordingly)",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Countergrowth: Towering Spines</strong><br/>Trigger Cooldown adjusted to 0.5s",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Countergrowth: Spiked Retaliation</strong><br/>Trigger Cooldown adjusted to 0.5s",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Countergrowth: Bulwark Thorns</strong><br/>Trigger Cooldown adjusted to 0.5s<br><strong><code>[Description Fixes]</code></strong>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Mana Surge</strong><br/><p>Fixed buff description (actual effects remain unchanged): Reduce Mana and Energy costs by 90%.</p><p>Normal skills' cooldowns refresh 2 times faster.</p><p>All the above adjustments are now live on the Advanced Server. Give them a try and share your feedback!</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [
+      "Hero: The Protector - Bruno"
+    ],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1u46wez/patch_notes_2190_adv_server/"
+  },
+  "2.1.88-adv": {
+    "version": "2.1.88-adv",
+    "release_date": "2026-06-05",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Argus": {
+        "badge": "ADJUST",
+        "description_en": "Improved Argus's turret pushing ability, but slightly reduced his late-game Attack Speed.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "<code>New Effect</code>: Argus gains Malice Energy when attacking Turrets.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Attack Speed Increase: 30%-80% <code→></code> 30%-55%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Aulus": {
+        "badge": "BUFF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Enhanced Basic Attack Base Damage: 120 <code→></code> 160<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Balmond": {
+        "badge": "NERF",
+        "description_en": "Slightly reverted previous buffs to this hero.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Total HP Damage Bonus: 1.4% <code→></code> 1.3%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Carmilla": {
+        "badge": "NERF",
+        "description_en": "Slightly reduced the previous buff to Skill 1, but it remains a clear improvement over the official server version.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 100-150 <code→></code> 85-135<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Claude": {
+        "badge": "NERF",
+        "description_en": "Compared to other Marksmen, Claude hits his power spike a bit too early. To address this, we've adjusted the damage composition of his Ultimate, reducing its early-to-mid game damage while keeping its late-game damage unchanged. Additionally, we've reverted the previous nerf to Skill 2's cooldown.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 14-11.5s <code→></code> 13-10.5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Damage: 120-180 (+ 10% Total Physical Attack) <code→></code> 40-60 (+40% Total Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Freya": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Ultimate",
+            "description_en": "Cooldown: 34-26s <code→></code> 44-28s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Harley": {
+        "badge": "NERF",
+        "description_en": "Slightly reduced Skill 2's mobility.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 8-6s <code→></code> 9-7s<br>Skill Cost: 75-0 <code→></code> 75-100<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hilda": {
+        "badge": "BUFF",
+        "description_en": "Slightly reverted previous nerfs to this hero.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base Physical Attack: 103 <code→></code> 123<br>Physical Attack Growth: 8 <code→></code> 6.85<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Kaja": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily reverted the adjustments to Kaja.<br>",
+        "description_uk": ""
+      },
+      "Kalea": {
+        "badge": "NERF",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 13-11s <code→></code> 16-13s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Khaleed": {
+        "badge": "BUFF",
+        "description_en": "Slightly reverted previous nerfs to this hero.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attribute",
+            "description_en": "Base HP: 2550 <code→></code> 2600",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "Skill 1",
+            "description_en": "Physical Bonus per Hit: 120% Total Physical Attack <code→></code> 130% Total Physical Attack<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ling": {
+        "badge": "NERF",
+        "description_en": "Reverted some buffs made in the previous patch.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 2s at all levels <code→></code> 2.5-2s<br>Energy Cost: 30 <code→></code> 35<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Marcel": {
+        "badge": "ADJUST",
+        "description_en": "Removed Marcel's out-of-combat Regen, but significantly increased his Basic Regen and balanced his early-game damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Attributes",
+            "description_en": "Base HP Regen: 12.4 per second <code→></code> 22.4 per second",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Removed Effect: Gains 300% HP Regen when out of combat.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Base Damage: 450-700 <code→></code> 350-700<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Masha": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily reverted the adjustments to Masha.<br>",
+        "description_uk": ""
+      },
+      "Odette": {
+        "badge": "CHANGE",
+        "description_en": "Temporarily reverted the adjustments to Odette.<br>",
+        "description_uk": ""
+      },
+      "Paquito": {
+        "badge": "NERF",
+        "description_en": "We're happy to see Paquito back in action, but he's currently a bit too strong. We've slightly reduced his early-to-mid game combat and lane-clearing power, but he remains a strong pick.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "NERF",
+            "skill_name": "Passive",
+            "description_en": "Enhanced Skill's Extra Damage to Minions: (10 + 1.3*Hero Level)% <code→></code> (2*Hero Level)%<br>Damage Reduction After Casting Enhanced Skill: (10 + 1.3*Hero Level)% <code→></code> (2*Hero Level)%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Phoveus": {
+        "badge": "NERF",
+        "description_en": "Slightly reduced the hero's laning ability in the early game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "ADJUST",
+            "skill_name": "Attributes",
+            "description_en": "Base HP: 2650 <code→></code> 2550<br>Base Physical Attack: 132 <code→></code> 120<br>Base Physical Defense: 25 <code→></code> 20<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {
+      "Layla Skill Description Optimization": {
+        "badge": "CHANGE",
+        "description_en": "Optimized the descriptions of Layla's Skill 2 and Passive to better match the actual effects and make them easier to understand.<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>Iii. System Adjustments</strong><br/><ul>\n<li><strong>Season Achievements</strong></li>\n</ul><p>After last week's Season Achievement update, we noticed that progress in some lane tracks was advancing too fast. We have revised the tasks and requirements for each lane. During the testing phase, Season Achievement points and levels may change. Thank you for your understanding.</p>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1txq20w/patch_notes_2188_adv_server/"
+  },
+  "2.1.86-adv": {
+    "version": "2.1.86-adv",
+    "release_date": "2026-05-29",
+    "game_id": 1,
+    "is_adv_server": true,
+    "reddit_source": true,
+    "hero_adjustments": {
+      "Aulus": {
+        "badge": "CHANGE",
+        "description_en": "Adjusted Aulus's damage composition, making him more threatening to low-HP targets while improving his pursuit capabilities.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Passive",
+            "description_en": "<code>Enhanced Basic Attack Damage</code>: 75% Total Physical Attack + (4 + (0.4* hero Level))% target's Max HP <code→></code> (120 + 20 * hero Level) (+75% Total Physical Attack)",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2",
+            "description_en": "Dash Distance: 2.8 <code→></code> 3.2<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Aurora": {
+        "badge": "CHANGE",
+        "description_en": "Slightly reduced the skill cooldown in the early-to-mid game.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 6-4s <code→></code> 5-4s",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 12-8s <code→></code> 10-8s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Cici": {
+        "badge": "CHANGE",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Passive",
+            "description_en": "<code>Stack Removal</code>: 1 stack reduced every 0.3s <code→></code> 1 stack reduced every 0.5s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Claude": {
+        "badge": "CHANGE",
+        "description_en": "Slightly reduced the hero's mobility.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 13-10.5s <code→></code> 14-11.5s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Hirara": {
+        "badge": "ADJUST",
+        "description_en": "Optimized the hero's skill casting experience and reverted some buffs from last week. Adjusted the damage composition of the combo skills.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "BUFF",
+            "skill_name": "Passive",
+            "description_en": "Removed the delay on the hero's Passive energy recovery.",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "Skill 1",
+            "description_en": "Cooldown: 7.8-5s <code→></code> 8.5-5s",
+            "description_uk": ""
+          },
+          {
+            "badge": "ADJUST",
+            "skill_name": "Skill 2",
+            "description_en": "Reduced the skill's foreswing time.<br>Damage: 165-270 (+55%-90% Extra Physical Attack) <code→></code> 150-255 (+50%-85% Extra Physical Attack)",
+            "description_uk": ""
+          },
+          {
+            "badge": "BUFF",
+            "skill_name": "1st + 2nd Combo Skill",
+            "description_en": "Damage: 1 times Crimson Maple Damage <code→></code> 2.5 times Crimson Maple Damage",
+            "description_uk": ""
+          },
+          {
+            "badge": "NERF",
+            "skill_name": "2nd + 1st Combo Skill",
+            "description_en": "Damage: 4 times Crimson Maple Damage <code→></code> 3.5 times Crimson Maple Damage<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Kaja": {
+        "badge": "CHANGE",
+        "description_en": "Optimized the control experience of Revamped Kaja's Skill 2 (Soaring State).",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 17-14s <code→></code> 15-12s<br>Reduced the turn speed limit after soaring.<br>Optimized the control experience of Skill 2 and reduced the foreswing and backswing.<br>Cooldown after Soaring: 4s at all levels <code→></code> 4-3s<br>Flight Duration Increase on Hit: 2.6-3.6s <code→></code> 2.6s at all levels<br><code>New Effect</code>: Hitting an ally also increases flight duration (no other effects).",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Ultimate",
+            "description_en": "Increased the speed at which the lasso follows Kaja's movement.<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Kalea": {
+        "badge": "CHANGE",
+        "description_en": "Adjusted the hero's damage curve by reducing early-game damage and increasing late-game damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Passive",
+            "description_en": "Base Damage of the Second Basic Attack: 200 <code→></code> 140 (+ 8*Hero Level)<br>Base Damage of the Third Enhanced Basic Attack: 100 <code→></code> 70 (+ 4*Hero Level)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Leomord": {
+        "badge": "CHANGE",
+        "description_en": "Slightly reduced the hero's early-game farming speed and mid-to-late-game durability during the Ultimate.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 1",
+            "description_en": "Damage Increase Against Creeps: 60% <code→></code> 40%",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Ultimate",
+            "description_en": "Hybrid Defense Boost: 30-110 <code→></code> 30-90<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ling": {
+        "badge": "CHANGE",
+        "description_en": "Slightly improved the hero's early-game jungling clear speed and damage.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Attribute",
+            "description_en": "Basic Attack Speed: 1.02 <code→></code> 1.15",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 2.5s <code→></code> 2s<br>Energy Cost: 35 <code→></code> 30<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Masha": {
+        "badge": "CHANGE",
+        "description_en": "Fixed an issue where Masha would recover more HP than expected in certain situations. We also fixed an issue where her Skill 2 could Crit and adjusted her damage composition.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Passive",
+            "description_en": "Feral Regen: 15% of Max HP <code→></code> 10% of Max HP<br>Extra Damage: 2-8 (+ 1% Extra Physical Attack)% of target's Max HP as Physical Damage <code→></code> 1-4 (+3% Extra Physical Attack)% of target's Max HP as Physical Damage",
+            "description_uk": ""
+          },
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2",
+            "description_en": "Cooldown: 8-5s <code→></code> 9-7s<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Odette": {
+        "badge": "CHANGE",
+        "description_en": "With the double bonus of Skill 1's slow effect and Skill 2's immobilize effect, Odette's movement speed during her Ultimate was a bit too fast, so we have reduced it. We have also optimized the interval between the two casts of her Ultimate to prevent accidental interruption.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Ultimate",
+            "description_en": "Slow Effect during Ultimate: 20% <code→></code> 40%<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Ruby": {
+        "badge": "CHANGE",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 1",
+            "description_en": "Scythe Damage: 280-480 (+100% Total Physical Attack) <code→></code> 280-480 (+110% Total Physical Attack)<br>Shockwave Damage: 140-240 (+50% Total Physical Attack) <code→></code> 140-240 (+ 55% Total Physical Attack)<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Suyou": {
+        "badge": "CHANGE",
+        "description_en": "Reduced the hero's early-to-mid-game damage output.",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Skill 2",
+            "description_en": "Base Damage (Tap): 300-492 <code→></code> 280-440<br>Base Damage of the First 2 Strikes (Hold): 250-410 <code→></code> 225-365<br>Base Damage of the Final Strike (Hold): 400-656 <code→></code> 360-584<br>",
+            "description_uk": ""
+          }
+        ]
+      },
+      "Zhuxin": {
+        "badge": "CHANGE",
+        "description_en": "",
+        "description_uk": "",
+        "adjustments": [
+          {
+            "badge": "CHANGE",
+            "skill_name": "Passive",
+            "description_en": "Mana Regen from Each Crimson Butterfly: 4% <code→></code> 5%<br>",
+            "description_uk": ""
+          }
+        ]
+      }
+    },
+    "equipment_adjustments": {},
+    "battlefield_adjustments": {
+      "Cecilion": {
+        "badge": "CHANGE",
+        "description_en": "",
+        "description_uk": ""
+      },
+      "Vale": {
+        "badge": "CHANGE",
+        "description_en": "Removed the adjustments to Vale.<br>",
+        "description_uk": ""
+      }
+    },
+    "system_adjustments": [
+      {
+        "text_en": "<strong>A. Highlights Notification</strong><br/><p><strong><code>[Update Content]</code></strong></p><p>We've optimized the visual effects for the secondary notification area and for teammates giving each other Likes.</p><p>Additionally, the main and secondary notification areas will no longer display the same highlights.</p><p>Added new hero-exclusive highlights and brand-new highlights notification voice-overs.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>B. Season Achievements</strong><br/><p><strong><code>[Update Content]</code></strong></p><p>In the new season, you can carry over the highest-level Style Plate for each lane from the previous season.</p><p>We've added more Season Achievement tasks and optimized the completion requirements for some existing tasks.</p><p>You can view the highlight icons and trigger requirements for completing tasks on the Achievement Details screen.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>C. [Other Adjustments]</strong><br/><p><strong><code>[Hero Difficulty Rating Update]</code></strong></p><p>To provide more accurate hero roles and in-match difficulty references, we've re-evaluated and updated the difficulty ratings for most heroes on the Official Server. The new ratings will better reflect the current match environment.</p><p>The specific changes have been synced to each hero's details screen. Please feel free to check them out.<br><strong><code>[Supreme Medal]</code></strong></p><p>We've optimized the art presentation of the Supreme Medal and Supreme MVP, and reverted the previous art quality optimization for existing Medals.<br><strong><code>[Beta Feature Testing]</code></strong></p><p>We will be conducting a beta feature test for some players on certain servers this week. Some Highlight-related system features will be temporarily unavailable for affected players. Thank you for your understanding.</p><p>IV. Mode Adjustments</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>Chaos Clash</strong><br/><strong><code>[Update Content]</code></strong><br>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Random Event`</strong><br/><p><strong>[Chip]</strong>: Creates 4 portals on the battlefield at the start of the match. They continuously shrink toward the inner [Playzone] as the match progresses, forcing players to decide whether to use this mobility advantage.</p><p>Adjusted the frequency of Estes' healing effect by reducing its trigger probability in combat rounds.</p>",
+        "text_uk": ""
+      },
+      {
+        "text_en": "<strong>`Buff Adjustments`</strong><br/><strong>[Super Sky Piercer]</strong> & <strong>[Super Thunder Belt]</strong>: Grants an extra 2,000 Gold when acquiring the buff.<br>",
+        "text_uk": ""
+      }
+    ],
+    "revamped_heroes": [],
+    "reddit_permalink": "/r/MobileLegendsGame/comments/1tr2089/patch_notes_2186_adv_server/"
   }
 }

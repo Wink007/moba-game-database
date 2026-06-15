@@ -15,15 +15,19 @@ import ssl
 import time
 import urllib.request
 import urllib.parse
+import urllib.error
 import os
 from datetime import datetime
 
 REDDIT_AUTHOR = 'Tigreal'
 SUBREDDIT = 'MobileLegendsGame'
 PATCHES_FILE = os.path.join(os.path.dirname(__file__), 'patches_data.json')
-USER_AGENT = 'MLBBWikiBot/1.0 (patch notes collector)'
+USER_AGENT = 'python:com.mobawiki.patchbot:1.0'
 
-# ─── HTTP helpers ─────────────────────────────────────────────
+# Arctic Shift — public Reddit archive, no API key needed.
+ARCTIC_SHIFT_API = 'https://arctic-shift.photon-reddit.com/api'
+
+# ─── SSL context ──────────────────────────────────────────────
 
 _ssl_ctx = ssl.create_default_context()
 try:
@@ -36,9 +40,12 @@ except Exception:
 
 def fetch_json(url: str, retries: int = 4) -> dict:
     for attempt in range(retries):
-        req = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
+        req = urllib.request.Request(url, headers={
+            'User-Agent': USER_AGENT,
+            'Accept': 'application/json',
+        })
         try:
-            with urllib.request.urlopen(req, timeout=15, context=_ssl_ctx) as r:
+            with urllib.request.urlopen(req, timeout=20, context=_ssl_ctx) as r:
                 return json.loads(r.read().decode('utf-8'))
         except urllib.error.HTTPError as e:
             if e.code == 429:
@@ -47,24 +54,22 @@ def fetch_json(url: str, retries: int = 4) -> dict:
                 time.sleep(wait)
             else:
                 raise
-    raise RuntimeError(f'Failed to fetch {url} after {retries} retries (429)')
+    raise RuntimeError(f'Failed to fetch {url} after {retries} retries')
 
 
-# ─── Reddit search ────────────────────────────────────────────
+# ─── Arctic Shift search ──────────────────────────────────────
 
-def search_patch_posts(limit: int = 25) -> list[dict]:
-    """Search r/MobileLegendsGame for Tigreal's patch note posts."""
+def search_patch_posts(limit: int = 50) -> list[dict]:
+    """Search r/MobileLegendsGame for Tigreal's patch note posts via Arctic Shift."""
     url = (
-        f'https://www.reddit.com/r/{SUBREDDIT}/search.json'
-        f'?q=author:{REDDIT_AUTHOR}+patch+notes&sort=new&restrict_sr=1&limit={limit}'
+        f'{ARCTIC_SHIFT_API}/posts/search'
+        f'?subreddit={SUBREDDIT}&author={REDDIT_AUTHOR}&limit={limit}&sort=desc'
     )
     data = fetch_json(url)
-    posts = data.get('data', {}).get('children', [])
+    posts = data.get('data') or []
     results = []
-    for p in posts:
-        d = p.get('data', {})
+    for d in posts:
         title = d.get('title', '')
-        # Only actual patch note posts
         if 'patch' in title.lower() and 'note' in title.lower():
             results.append({
                 'title': title,
@@ -72,16 +77,24 @@ def search_patch_posts(limit: int = 25) -> list[dict]:
                 'permalink': d.get('permalink', ''),
                 'created_utc': d.get('created_utc', 0),
                 'id': d.get('id', ''),
+                'selftext': (d.get('selftext') or '').replace('\r\n', '\n').replace('\r', '\n'),
             })
     return results
 
 
 def fetch_post_text(permalink: str) -> str | None:
-    url = f'https://www.reddit.com{permalink.rstrip("/")}/.json'
+    """Fetch selftext for a specific post by permalink via Arctic Shift."""
+    # Extract post ID from permalink: /r/sub/comments/{id}/title/
+    m = re.search(r'/comments/([a-z0-9]+)/', permalink)
+    if not m:
+        return None
+    post_id = m.group(1)
+    url = f'{ARCTIC_SHIFT_API}/posts/search?ids={post_id}&limit=1'
     data = fetch_json(url)
-    post = data[0]['data']['children'][0]['data']
-    text = post.get('selftext', '') or ''
-    # Normalize line endings (Reddit API may return CRLF)
+    posts = data.get('data') or []
+    if not posts:
+        return None
+    text = posts[0].get('selftext', '') or ''
     return text.replace('\r\n', '\n').replace('\r', '\n')
 
 
@@ -605,17 +618,26 @@ def main():
     posts_to_process = []
 
     if specific_url:
-        # Extract permalink from full URL
+        # Extract post ID from full Reddit URL and fetch via Arctic Shift
         parsed_url = urllib.parse.urlparse(specific_url)
         permalink = parsed_url.path.rstrip('/')
-        # Ensure it ends properly for .json fetch
-        url = f'https://www.reddit.com{permalink.rstrip("/")}/.json'
+        m = re.search(r'/comments/([a-z0-9]+)/', permalink)
+        if not m:
+            print(f'ERROR: could not extract post ID from URL: {specific_url}')
+            sys.exit(1)
+        post_id = m.group(1)
+        url = f'{ARCTIC_SHIFT_API}/posts/search?ids={post_id}&limit=1'
         data = fetch_json(url)
-        post_data = data[0]['data']['children'][0]['data']
+        posts_raw = data.get('data') or []
+        if not posts_raw:
+            print(f'ERROR: post {post_id} not found in Arctic Shift.')
+            sys.exit(1)
+        pd = posts_raw[0]
         posts_to_process = [{
-            'title': post_data['title'],
-            'permalink': permalink,
-            'created_utc': post_data.get('created_utc', 0),
+            'title': pd.get('title', ''),
+            'permalink': pd.get('permalink', permalink),
+            'created_utc': pd.get('created_utc', 0),
+            'selftext': (pd.get('selftext') or '').replace('\r\n', '\n').replace('\r', '\n'),
         }]
     else:
         print(f'Searching r/{SUBREDDIT} for patch notes by u/{REDDIT_AUTHOR}...')
@@ -638,7 +660,7 @@ def main():
 
         print(f'  FETCH {title}...')
         try:
-            text = fetch_post_text(post['permalink'])
+            text = post.get('selftext') or fetch_post_text(post['permalink'])
             if not text:
                 print(f'    WARNING: empty post text, skipping.')
                 continue
