@@ -672,6 +672,13 @@ app.get('/{*path}', async (req, res) => {
   }
 
   try {
+    // Redirect any non-canonical gameId to /2/... (prevents duplicate-content indexing)
+    const wrongGameId = url.match(/^\/(\d+)\//);
+    if (wrongGameId && wrongGameId[1] !== '2') {
+      const qs = Object.keys(req.query).length ? '?' + new URLSearchParams(req.query).toString() : '';
+      return res.redirect(301, url.replace(/^\/\d+\//, '/2/') + qs);
+    }
+
     // noindex для приватних сторінок
     if (url.match(/^\/(players|profile|favorites)(\/.+)?$/)) {
       html = html.replace(
