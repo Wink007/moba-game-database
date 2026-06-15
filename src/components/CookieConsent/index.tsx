@@ -6,6 +6,7 @@ import styles from './styles.module.scss';
 
 const STORAGE_KEY = 'cookie_consent';
 const GA_ID = 'G-WR8L7MDVQL';
+const ADSENSE_CLIENT = 'ca-pub-7397554602421221';
 
 const initAnalytics = () => {
   if ((window as any).gaInitialized) return;
@@ -23,6 +24,17 @@ const initAnalytics = () => {
   gtag('config', GA_ID);
 };
 
+const initAdSense = () => {
+  if ((window as any).adSenseInitialized) return;
+  (window as any).adSenseInitialized = true;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`;
+  script.crossOrigin = 'anonymous';
+  document.head.appendChild(script);
+};
+
 export const CookieConsent: React.FC = () => {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -34,6 +46,7 @@ export const CookieConsent: React.FC = () => {
       setVisible(true);
     } else if (saved === 'accepted') {
       initAnalytics();
+      initAdSense();
     }
   }, []);
 
@@ -41,6 +54,7 @@ export const CookieConsent: React.FC = () => {
     localStorage.setItem(STORAGE_KEY, 'accepted');
     setVisible(false);
     initAnalytics();
+    initAdSense();
   };
 
   const handleDecline = () => {

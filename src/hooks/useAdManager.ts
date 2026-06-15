@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { useAdStore, selectAdsEnabled } from '../store/adStore';
-import { initAdMob, showBanner, hideBanner, clearBannerHeightVar } from '../services/adMobService';
+import { requestConsentAndInit, showBanner, hideBanner, clearBannerHeightVar } from '../services/adMobService';
 
 /**
  * Ініціалізує AdMob і управляє видимістю банера.
@@ -20,7 +20,7 @@ export function useAdManager() {
     initializedRef.current = true;
 
     (async () => {
-      await initAdMob();
+      await requestConsentAndInit();
       if (selectAdsEnabled(useAdStore.getState())) {
         await showBanner();
       }

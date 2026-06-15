@@ -9,6 +9,7 @@ import {
   RewardAdPluginEvents,
   InterstitialAdPluginEvents,
   AdMobError,
+  AdmobConsentStatus,
 } from '@capacitor-community/admob';
 
 // ─── Ad Unit IDs ─────────────────────────────────────────────────────────────
@@ -41,6 +42,33 @@ export async function initAdMob(): Promise<void> {
     _initialized = true;
   } catch (e) {
     console.warn('[AdMob] init error:', e);
+  }
+}
+
+// ─── UMP Consent + Init ───────────────────────────────────────────────────────
+// Runs UMP consent flow for EEA/regulated users before initializing AdMob.
+// For non-EEA users consent is NOT_REQUIRED and ads start immediately.
+// If user declines personalized ads, Google shows non-personalized ads instead
+// (canRequestAds stays true) — revenue is reduced but not zero.
+export async function requestConsentAndInit(): Promise<void> {
+  if (!Capacitor.isNativePlatform() || _initialized) return;
+  try {
+    let consentInfo = await AdMob.requestConsentInfo();
+
+    if (
+      consentInfo.status === AdmobConsentStatus.REQUIRED &&
+      consentInfo.isConsentFormAvailable
+    ) {
+      consentInfo = await AdMob.showConsentForm();
+    }
+
+    if (consentInfo.canRequestAds) {
+      await initAdMob();
+    }
+  } catch (e) {
+    console.warn('[AdMob] consent flow error:', e);
+    // Fall back to normal init so non-EEA users are unaffected by network errors
+    await initAdMob();
   }
 }
 

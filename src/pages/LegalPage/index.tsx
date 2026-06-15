@@ -63,7 +63,7 @@ export const LegalPage = () => {
 const PrivacyPolicy = () => (
   <div className={styles.document}>
     <h2>Privacy Policy</h2>
-    <p className={styles.lastUpdated}>Last Updated: March 2, 2026</p>
+    <p className={styles.lastUpdated}>Last Updated: June 15, 2026</p>
 
     <section>
       <h3>Introduction</h3>
@@ -146,6 +146,21 @@ const PrivacyPolicy = () => (
         <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a> or via our{' '}
         <a href="https://github.com/Wink007/moba-game-database" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
         We will respond within 30 days.
+      </p>
+    </section>
+
+    <section>
+      <h3>California Privacy Rights (CCPA)</h3>
+      <p>If you are a California resident, the California Consumer Privacy Act (CCPA) grants you additional rights:</p>
+      <ul>
+        <li><strong>Right to know</strong> — request disclosure of the categories and specific pieces of personal information we collect about you</li>
+        <li><strong>Right to delete</strong> — request deletion of your personal information (subject to certain exceptions)</li>
+        <li><strong>Right to opt out of sale</strong> — we do <strong>not</strong> sell your personal information to third parties</li>
+        <li><strong>Right to non-discrimination</strong> — we will not discriminate against you for exercising any of your CCPA rights</li>
+      </ul>
+      <p>
+        To exercise your California privacy rights, contact us at{' '}
+        <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a>. We will respond within 45 days as required by law.
       </p>
     </section>
 
@@ -261,7 +276,7 @@ const PrivacyPolicy = () => (
 const TermsOfService = () => (
   <div className={styles.document}>
     <h2>Terms of Service</h2>
-    <p className={styles.lastUpdated}>Last Updated: March 2, 2026</p>
+    <p className={styles.lastUpdated}>Last Updated: June 15, 2026</p>
 
     <section>
       <h3>1. Acceptance of Terms</h3>
@@ -296,8 +311,9 @@ const TermsOfService = () => (
       <h4>Intellectual Property</h4>
       <ul>
         <li>All Mobile Legends game content, images, characters, and trademarks are property of <strong>Moonton Technology Co., Ltd.</strong></li>
-        <li>Game assets are used under Fair Use for informational and educational purposes</li>
+        <li>Game assets are used solely for commentary, criticism, and informational reference purposes, with full attribution to their respective owners</li>
         <li>We do not claim ownership of any game content</li>
+        <li>If you are a rights holder and believe any content infringes your rights, contact us at <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a> for prompt removal</li>
       </ul>
 
       <h4>Data Accuracy</h4>
@@ -316,7 +332,7 @@ const TermsOfService = () => (
         <li>You are responsible for all activity under your account</li>
         <li>We store your display name, email, and profile picture from Google</li>
         <li>Your builds and favorites are associated with your account</li>
-        <li>You may request account deletion at any time via GitHub</li>
+        <li>You may permanently delete your account and all associated data directly in the app — open your Profile page and tap &quot;Delete Account&quot;</li>
         <li>We may suspend or delete accounts that violate these terms</li>
       </ul>
     </section>
@@ -387,7 +403,7 @@ const TermsOfService = () => (
 
     <section>
       <h3>11. Governing Law</h3>
-      <p>These terms are governed by international Fair Use principles and intellectual property law.</p>
+      <p>These terms are governed by applicable international intellectual property law and the laws of the jurisdiction in which the operator resides. Users in the European Union are also protected by EU consumer rights and GDPR regulations.</p>
     </section>
 
     <section>
@@ -418,7 +434,7 @@ const TermsOfService = () => (
 const CookiePolicy = () => (
   <div className={styles.document}>
     <h2>Cookie Policy</h2>
-    <p className={styles.lastUpdated}>Last Updated: March 2, 2026</p>
+    <p className={styles.lastUpdated}>Last Updated: June 15, 2026</p>
 
     <section>
       <h3>What Are Cookies?</h3>
@@ -460,7 +476,19 @@ const CookiePolicy = () => (
       </ul>
 
       <h4>3. Analytics Cookies</h4>
-      <p>Currently not in use. We do not run any analytics tracking tools at this time.</p>
+      <p>Used to understand how visitors use the site. Only set if you accept cookies.</p>
+      <ul>
+        <li>
+          <strong>Google Analytics 4</strong> (GA4) — tracks page views and user interactions
+          to help us improve the site. Cookie names: <code>_ga</code>, <code>_ga_*</code>.
+        </li>
+        <li>
+          Provider: Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+        </li>
+        <li>
+          More info: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>
+        </li>
+      </ul>
     </section>
 
     <section>

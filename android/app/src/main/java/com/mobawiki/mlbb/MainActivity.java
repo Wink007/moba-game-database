@@ -1,9 +1,11 @@
 package com.mobawiki.mlbb;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.getcapacitor.BridgeActivity;
 
@@ -14,6 +16,11 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
         // Enable edge-to-edge (required for targetSdkVersion 35 / Android 15)
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        // Set dark status bar icons (light content on dark background)
+        WindowInsetsControllerCompat insetsController =
+            new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        insetsController.setAppearanceLightStatusBars(false);
 
         // Wrap the REAL Capacitor WebView (created by Bridge, not from XML)
         WebView webView = getBridge().getWebView();

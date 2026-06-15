@@ -911,6 +911,56 @@ app.get('/{*path}', async (req, res) => {
       return res.send(html);
     }
 
+    // /about
+    if (url === '/about') {
+      html = injectMeta(html, {
+        title: 'About MOBA Wiki',
+        description: 'MOBA Wiki is a free, unofficial fan-made guide for Mobile Legends: Bang Bang. Learn about our mission, features and data sources.',
+        canonical: 'https://mobawiki.com/about',
+        lang,
+      });
+      const year = new Date().getFullYear();
+      let seoHtml = `<article>`;
+      seoHtml += `<h1>About MOBA Wiki — Unofficial Mobile Legends Guide</h1>`;
+      seoHtml += `<p>MOBA Wiki is a free, fan-made reference database for Mobile Legends: Bang Bang. We provide hero guides, tier lists, counter picks, item builds and ranked statistics — all updated daily from Mythic rank data.</p>`;
+      seoHtml += `<section><h2>What We Offer</h2><ul>`;
+      seoHtml += `<li><strong>Hero Database</strong> — Full stats, skills, builds and guides for every MLBB hero.</li>`;
+      seoHtml += `<li><strong>Tier List ${year}</strong> — Daily updated hero rankings based on Mythic rank win rates.</li>`;
+      seoHtml += `<li><strong>Counter Pick Tool</strong> — Find the best counters and synergies for any hero.</li>`;
+      seoHtml += `<li><strong>Item Database</strong> — Complete stats and effects for every item in the game.</li>`;
+      seoHtml += `<li><strong>Patch Notes Archive</strong> — Every balance change in Mobile Legends history.</li>`;
+      seoHtml += `</ul></section>`;
+      seoHtml += `<section><h2>About This Project</h2>`;
+      seoHtml += `<p>MOBA Wiki is an independent fan project built and maintained by passionate Mobile Legends players. We are not affiliated with or endorsed by Moonton Technology Co., Ltd. All game content, character names, images and trademarks are property of their respective owners.</p>`;
+      seoHtml += `<p>Our statistics are sourced from the official game data and updated every 24 hours so you always have access to the latest competitive meta.</p>`;
+      seoHtml += `</section></article>`;
+      html = injectSeoContent(html, seoHtml);
+      return res.send(html);
+    }
+
+    // /legal
+    if (url === '/legal' || url === '/privacy') {
+      html = injectMeta(html, {
+        title: 'Legal Information — Privacy Policy & Terms',
+        description: 'Privacy policy, terms of service and cookie policy for MOBA Wiki — unofficial Mobile Legends fan guide.',
+        canonical: 'https://mobawiki.com/legal',
+        lang,
+      });
+      let seoHtml = `<article>`;
+      seoHtml += `<h1>Legal Information</h1>`;
+      seoHtml += `<section><h2>Privacy Policy</h2>`;
+      seoHtml += `<p>MOBA Wiki collects minimal data — only what is necessary to provide account features (sign-in with Google) and display advertising. We do not sell personal data. Users in the EEA have full GDPR rights including access, deletion and portability. Contact: <a href="mailto:privacy@mobawiki.com">privacy@mobawiki.com</a>.</p>`;
+      seoHtml += `</section>`;
+      seoHtml += `<section><h2>Terms of Service</h2>`;
+      seoHtml += `<p>MOBA Wiki is an unofficial, fan-made application not affiliated with, endorsed by, or sponsored by Moonton Technology Co., Ltd. All Mobile Legends game content, images, character names and trademarks are property of Moonton Technology Co., Ltd. Game assets are used for commentary, criticism and informational reference purposes.</p>`;
+      seoHtml += `</section>`;
+      seoHtml += `<section><h2>Disclaimer</h2>`;
+      seoHtml += `<p>Mobile Legends © Moonton Technology Co., Ltd. MOBA Wiki is an independent project with no affiliation to Moonton.</p>`;
+      seoHtml += `</section></article>`;
+      html = injectSeoContent(html, seoHtml);
+      return res.send(html);
+    }
+
     // /:gameId/patches/:version
     const patchVersionMatch = url.match(/^\/(\d+)\/patches\/([^/]+)$/);
     if (patchVersionMatch) {
@@ -926,12 +976,32 @@ app.get('/{*path}', async (req, res) => {
 
     // /:gameId/patches
     if (url.match(/^\/\d+\/patches$/)) {
+      const [, pgid] = url.match(/^\/(\d+)\/patches$/) || [];
+      const patches = pgid ? await cachedFetch(`${API_URL}/patches?game_id=${pgid}&limit=20`) : null;
       html = injectMeta(html, {
         title: 'Patch Notes',
         description: 'Mobile Legends patch notes history — all hero buffs, nerfs and item changes. Track every MLBB update since release.',
         canonical: `https://mobawiki.com${url}`,
         lang,
       });
+      const patchList = Array.isArray(patches) ? patches : (Array.isArray(patches?.data) ? patches.data : null);
+      if (patchList && patchList.length) {
+        let seoHtml = `<article><h1>Mobile Legends Patch Notes History ${new Date().getFullYear()}</h1>`;
+        seoHtml += `<p>Complete archive of all Mobile Legends: Bang Bang patch notes — every hero buff, nerf, item change and new content update.</p><ul>`;
+        patchList.slice(0, 20).forEach(p => {
+          const title = p.version || p.title || p.name || '';
+          const date = p.date || p.release_date || '';
+          const desc = p.description ? ` — ${esc(p.description.slice(0, 100))}` : '';
+          seoHtml += `<li><strong>Patch ${esc(title)}</strong>${date ? ` (${esc(date)})` : ''}${desc}</li>`;
+        });
+        seoHtml += `</ul></article>`;
+        html = injectSeoContent(html, seoHtml);
+      } else {
+        let seoHtml = `<article><h1>Mobile Legends Patch Notes History ${new Date().getFullYear()}</h1>`;
+        seoHtml += `<p>Complete archive of all Mobile Legends: Bang Bang patch notes — every hero buff, nerf, item change and new content update since the game launched.</p>`;
+        seoHtml += `<p>MOBA Wiki tracks every balance change so you can understand how the meta evolved over time and which heroes were buffed or nerfed in each patch.</p></article>`;
+        html = injectSeoContent(html, seoHtml);
+      }
       return res.send(html);
     }
 
@@ -1038,6 +1108,21 @@ app.get('/{*path}', async (req, res) => {
           },
         ],
       });
+      const [, cpgid] = url.match(/^\/(\d+)\/counter-pick$/) || [];
+      const cpHeroes = cpgid ? await cachedFetch(`${API_URL}/heroes?game_id=${cpgid}&lang=en`) : null;
+      if (Array.isArray(cpHeroes) && cpHeroes.length) {
+        let seoHtml = `<article><h1>Mobile Legends Counter Pick Guide ${new Date().getFullYear()}</h1>`;
+        seoHtml += `<p>Find the best hero counters and team synergies for every Mobile Legends hero. Our counter pick tool uses real Mythic rank data to show you which heroes win and lose matchups.</p>`;
+        seoHtml += `<section><h2>How to Use the Counter Pick Tool</h2>`;
+        seoHtml += `<p>Select any hero to see their top counters — heroes that consistently beat them — and their best synergies — heroes that pair well with them. Counter scores are calculated from thousands of Mythic rank games.</p></section>`;
+        seoHtml += `<section><h2>All Heroes</h2><ul>`;
+        cpHeroes.slice(0, 30).forEach(h => {
+          const role = h.role ? ` (${esc(h.role)})` : '';
+          seoHtml += `<li><a href="/${cpgid}/heroes/${heroToSlug(h.name)}">${esc(h.name)}</a>${role}</li>`;
+        });
+        seoHtml += `</ul></section></article>`;
+        html = injectSeoContent(html, seoHtml);
+      }
       return res.send(html);
     }
 

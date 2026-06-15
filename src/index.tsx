@@ -11,9 +11,9 @@ import { callTopBackHandler } from './utils/backHandlerStack';
 
 // На нативних платформах — статус бар не накладається на контент
 if (Capacitor.isNativePlatform()) {
-  StatusBar.setOverlaysWebView({ overlay: false });
+  // Android 15+ edge-to-edge: overlay must be true, color set via WindowInsets in MainActivity
+  StatusBar.setOverlaysWebView({ overlay: true });
   StatusBar.setStyle({ style: Style.Dark });
-  StatusBar.setBackgroundColor({ color: '#0f172a' });
 
   // Android back button:
   // 1. Якщо відкритий overlay/меню — закрити його
