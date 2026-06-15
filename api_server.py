@@ -5486,24 +5486,50 @@ def scheduled_update_hero_stats():
         print(f"❌ CRON: hero stats update error: {e}")
 
 
+def scheduled_update_counter_compatibility():
+    """Оновлює counter_data та compatibility_data для всіх героїв через update_moonton_stats_final.py"""
+    print(f"\n{'='*60}")
+    print(f"⏰ [{datetime.utcnow().isoformat()}] CRON: Starting scheduled counter/compatibility update...")
+    print(f"{'='*60}")
+    try:
+        import subprocess
+        script_path = _base_dir / 'update_moonton_stats_final.py'
+        result = subprocess.run(
+            ['python3', str(script_path)],
+            capture_output=True, text=True, timeout=600,
+            cwd=str(_base_dir),
+            env={**os.environ}
+        )
+        print(result.stdout[-2000:] if len(result.stdout) > 2000 else result.stdout)
+        if result.returncode != 0:
+            print(f"❌ CRON: counter/compatibility update failed (exit {result.returncode})")
+            if result.stderr:
+                print(f"STDERR: {result.stderr[-500:]}")
+        else:
+            print(f"✅ CRON: counter/compatibility update completed successfully")
+    except Exception as e:
+        print(f"❌ CRON: counter/compatibility update error: {e}")
+
+
 def run_scheduled_updates():
-    """Запускає обидва оновлення послідовно"""
-    scheduled_update_hero_stats()     # ~15 секунд — оновлює heroes таблицю
-    scheduled_update_hero_ranks()     # ~5 хвилин — оновлює hero_rank (30 комбінацій)
+    """Запускає всі три оновлення послідовно (18:00 Київ = 15:00 UTC)"""
+    scheduled_update_hero_stats()              # ~15 сек  — Ban/Pick/Win rates в heroes
+    scheduled_update_hero_ranks()              # ~15 хв   — hero_rank (30 комбінацій)
+    scheduled_update_counter_compatibility()   # ~7 хв    — counter_data + compatibility_data
 
 
 @app.route('/api/admin/scheduler/status', methods=['GET'])
 def scheduler_status():
-    """Показує статус (Railway Cron Job: 0 18 * * *)"""
+    """Показує статус (Railway Cron Job: 0 15 * * * UTC = 18:00 Київ)"""
     return jsonify({
         'enabled': True,
         'type': 'railway_cron',
-        'schedule': '0 18 * * * (UTC)',
-        'jobs': [{
-            'id': 'daily_hero_update',
-            'name': 'Daily hero stats & ranks update',
-            'next_run': 'managed by Railway Cron'
-        }]
+        'schedule': '0 15 * * * (UTC) = 18:00 Kyiv',
+        'jobs': [
+            {'id': 'hero_stats',          'name': 'Ban/Pick/Win rates update (~15 sec)'},
+            {'id': 'hero_ranks',          'name': 'Hero ranks 30 combinations (~15 min)'},
+            {'id': 'counter_compat',      'name': 'Counter & compatibility data (~7 min)'},
+        ]
     })
 
 
@@ -5518,7 +5544,8 @@ def scheduler_run_now():
         return jsonify({'error': str(e)}), 500
 
 
-# Scheduler is managed by Railway Cron Job (0 18 * * *) which calls /api/admin/scheduler/run-now
+# Scheduler is managed by Railway Cron Job (0 15 * * * UTC = 18:00 Kyiv)
+# which calls POST /api/admin/scheduler/run-now
 # APScheduler removed — unreliable on Railway (lost state on dyno restart)
 
 
