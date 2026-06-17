@@ -73,7 +73,20 @@ def release_connection(conn):
     if DATABASE_TYPE == 'postgres':
         pool = get_connection_pool()
         if pool:
-            pool.putconn(conn)
+            # Якщо з'єднання мертве — закриваємо його замість повернення в пул
+            broken = getattr(conn, 'closed', False)
+            if not broken:
+                try:
+                    conn.rollback()
+                except Exception:
+                    broken = True
+            try:
+                pool.putconn(conn, close=bool(broken))
+            except Exception:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
         else:
             conn.close()
     else:

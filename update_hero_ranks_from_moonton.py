@@ -122,7 +122,7 @@ def fetch_hero_stats(days, rank, match_type=0):
             source_id = SOURCE_IDS.get(days)
             token = SOURCE_TOKENS.get(source_id, '')
             headers = {**BASE_HEADERS, 'authorization': token} if token else BASE_HEADERS
-            response = requests.post(url, headers=headers, json=payload, timeout=10)
+            response = requests.post(url, headers=headers, json=payload, timeout=30)
             response.raise_for_status()
             data = response.json()
             
@@ -145,44 +145,50 @@ def fetch_hero_stats(days, rank, match_type=0):
     
     return all_heroes
 
-def batch_update_hero_ranks(records, days, rank, heroes_cache):
-    """Оновлює всі записи hero_rank для одної комбінації за одне з'єднання."""
+def batch_update_hero_ranks(records, days, rank, heroes_cache, retries=2):
+    """Оновлює всі записи hero_rank для однієї комбінації. Reconnects on DB drop."""
     ph = db.get_placeholder()
-    conn = db.get_connection()
-    cursor = conn.cursor()
-    updated = 0
-    skipped = 0
-    try:
-        for hero_game_id, ban_rate, pick_rate, win_rate, synergy_data in records:
-            hero_id = heroes_cache.get(str(hero_game_id))
-            if not hero_id:
-                skipped += 1
-                continue
-            synergy_json = json.dumps(synergy_data) if synergy_data else None
-            cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph} AND days = {ph} AND rank = {ph}",
-                           (hero_id, days, rank))
-            existing = cursor.fetchone()
-            if existing:
-                existing_id = existing[0] if not isinstance(existing, dict) else existing['id']
-                cursor.execute(f"""
-                    UPDATE hero_rank
-                    SET ban_rate = {ph}, appearance_rate = {ph}, win_rate = {ph},
-                        synergy_heroes = {ph}, updated_at = CURRENT_TIMESTAMP
-                    WHERE id = {ph}
-                """, (ban_rate, pick_rate, win_rate, synergy_json, existing_id))
+    for attempt in range(retries + 1):
+        conn = db.get_connection()
+        cursor = conn.cursor()
+        updated = 0
+        skipped = 0
+        try:
+            for hero_game_id, ban_rate, pick_rate, win_rate, synergy_data in records:
+                hero_id = heroes_cache.get(str(hero_game_id))
+                if not hero_id:
+                    skipped += 1
+                    continue
+                synergy_json = json.dumps(synergy_data) if synergy_data else None
+                cursor.execute(f"SELECT id FROM hero_rank WHERE hero_id = {ph} AND days = {ph} AND rank = {ph}",
+                               (hero_id, days, rank))
+                existing = cursor.fetchone()
+                if existing:
+                    existing_id = existing[0] if not isinstance(existing, dict) else existing['id']
+                    cursor.execute(f"""
+                        UPDATE hero_rank
+                        SET ban_rate = {ph}, appearance_rate = {ph}, win_rate = {ph},
+                            synergy_heroes = {ph}, updated_at = CURRENT_TIMESTAMP
+                        WHERE id = {ph}
+                    """, (ban_rate, pick_rate, win_rate, synergy_json, existing_id))
+                else:
+                    cursor.execute(f"""
+                        INSERT INTO hero_rank (hero_id, days, rank, ban_rate, appearance_rate, win_rate, synergy_heroes)
+                        VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
+                    """, (hero_id, days, rank, ban_rate, pick_rate, win_rate, synergy_json))
+                updated += 1
+            conn.commit()
+            db.release_connection(conn)
+            return updated, skipped
+        except Exception as e:
+            db.release_connection(conn)
+            if attempt < retries:
+                print(f"    ❌ DB error (attempt {attempt+1}/{retries+1}), retrying: {e}")
+                time.sleep(2)
             else:
-                cursor.execute(f"""
-                    INSERT INTO hero_rank (hero_id, days, rank, ban_rate, appearance_rate, win_rate, synergy_heroes)
-                    VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-                """, (hero_id, days, rank, ban_rate, pick_rate, win_rate, synergy_json))
-            updated += 1
-        conn.commit()
-    except Exception as e:
-        print(f"    ❌ DB error: {e}")
-        conn.rollback()
-    finally:
-        db.release_connection(conn)
-    return updated, skipped
+                print(f"    ❌ DB error: {e}")
+                return 0, len(records)
+    return 0, len(records)
 
 def main():
     print("=" * 80)
