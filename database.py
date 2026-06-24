@@ -737,7 +737,7 @@ def get_hero(hero_id):
         return hero
     return None
 
-def add_hero(game_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, created_at=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None):
+def add_hero(game_id, name, hero_game_id, image, short_description, full_description, lane=None, roles=None, use_energy=False, specialty=None, damage_type=None, relation=None, created_at=None, head=None, main_hero_ban_rate=None, main_hero_appearance_rate=None, main_hero_win_rate=None, hero_stats=None, pro_builds=None, painting=None, name_uk=None, short_description_uk=None, full_description_uk=None, counter_data=None, compatibility_data=None, abilityshow=None):
     conn = get_connection()
     try:
         if DATABASE_TYPE == 'postgres':
@@ -745,22 +745,40 @@ def add_hero(game_id, name, hero_game_id, image, short_description, full_descrip
             cursor = conn.cursor(cursor_factory=RealDictCursor)
         else:
             cursor = conn.cursor()
-    
+
         lane_json = json.dumps(lane) if lane else None
         roles_json = json.dumps(roles) if roles else None
         specialty_json = json.dumps(specialty) if specialty else None
         relation_json = json.dumps(relation, ensure_ascii=False) if relation else None
+        pro_builds_json = json.dumps(pro_builds, ensure_ascii=False) if pro_builds else None
         hero_stats_json = json.dumps(hero_stats) if hero_stats else None
-    
+        counter_data_json = json.dumps(counter_data) if counter_data else None
+        compatibility_data_json = json.dumps(compatibility_data) if compatibility_data else None
+        abilityshow_json = json.dumps(abilityshow) if abilityshow is not None else None
+
         # Convert hero_game_id to integer if it's a string
         hero_game_id_int = int(hero_game_id) if hero_game_id else None
-    
+
         ph = get_placeholder()
-        cursor.execute(f"""
-            INSERT INTO heroes (game_id, name, hero_game_id, image, short_description, full_description, lane, roles, use_energy, specialty, damage_type, relation, createdAt, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats)
-            VALUES ({ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph}, {ph})
-        """, (game_id, name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, created_at, head, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json))
-        hero_id = cursor.lastrowid
+        columns = "game_id, name, hero_game_id, image, short_description, full_description, lane, roles, use_energy, specialty, damage_type, relation, pro_builds, createdAt, head, painting, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats, counter_data, compatibility_data, name_uk, short_description_uk, full_description_uk, abilityshow"
+        values = (game_id, name, hero_game_id_int, image, short_description, full_description, lane_json, roles_json, 1 if use_energy else 0, specialty_json, damage_type, relation_json, pro_builds_json, created_at, head, painting, main_hero_ban_rate, main_hero_appearance_rate, main_hero_win_rate, hero_stats_json, counter_data_json, compatibility_data_json, name_uk, short_description_uk, full_description_uk, abilityshow_json)
+        placeholders = ", ".join([ph] * len(values))
+
+        if DATABASE_TYPE == 'postgres':
+            cursor.execute(f"""
+                INSERT INTO heroes ({columns})
+                VALUES ({placeholders})
+                RETURNING id
+            """, values)
+            row = cursor.fetchone()
+            # RealDictCursor returns a dict, plain cursor returns a tuple
+            hero_id = row['id'] if isinstance(row, dict) else row[0]
+        else:
+            cursor.execute(f"""
+                INSERT INTO heroes ({columns})
+                VALUES ({placeholders})
+            """, values)
+            hero_id = cursor.lastrowid
         conn.commit()
     finally:
         release_connection(conn)

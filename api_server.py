@@ -1412,57 +1412,88 @@ def sync_moonton_counter_data():
 
 @app.route('/api/heroes', methods=['POST'])
 def create_hero():
-    
-    data = request.json
-    
-    # Create hero
-    hero_id = db.add_hero(
-        data['game_id'],
-        data['name'],
-        data.get('hero_game_id', ''),
-        data.get('image', ''),
-        data.get('short_description', ''),
-        data.get('full_description', ''),
-        data.get('lane', ''),
-        data.get('roles', []),
-        data.get('use_energy', False),
-        data.get('specialty', []),
-        data.get('damage_type', ''),
-        data.get('relation', None),
-        data.get('createdAt', None),
-        data.get('head', None),
-        data.get('main_hero_ban_rate', None),
-        data.get('main_hero_appearance_rate', None),
-        data.get('main_hero_win_rate', None),
-        data.get('hero_stats', None)
-    )
-    
-    # Note: hero_stats is now a JSONB field in heroes table, no need for separate inserts
-    # It should be passed in data as an object like: {"hp": 2285, "mana": 500, ...}
-    
-    # Add skills
-    if 'skills' in data:
-        for skill in data['skills']:
-            add_hero_skill(
-                hero_id, 
-                skill['skill_name'], 
-                skill.get('skill_description', ''), 
-                skill.get('effect', []), 
-                skill.get('preview', ''), 
-                skill.get('skill_type', 'active'),
-                skill.get('skill_parameters', {}),
-                skill.get('level_scaling', []),
-                skill.get('effect_types', []),
-                skill.get('is_transformed', 0),
-                skill.get('transformation_order', 0),
-                skill.get('display_order', 0),
-                skill.get('replaces_skill_id'),
-                skill.get('skill_name_uk'),
-                skill.get('skill_description_uk')
-            )
-    
-    _cache.invalidate_prefix('heroes')
-    return jsonify({'id': hero_id}), 201
+    try:
+        data = request.json
+
+        # Sanitize createdAt - ensure it's an integer or None (mirror update_hero)
+        created_at_value = data.get('createdAt', None)
+        if created_at_value is not None:
+            if isinstance(created_at_value, (list, dict)):
+                created_at_value = None
+            elif isinstance(created_at_value, str):
+                try:
+                    created_at_value = int(created_at_value)
+                except ValueError:
+                    created_at_value = None
+
+        # Create hero
+        hero_id = db.add_hero(
+            data['game_id'],
+            data['name'],
+            data.get('hero_game_id', ''),
+            data.get('image', ''),
+            data.get('short_description', ''),
+            data.get('full_description', ''),
+            data.get('lane', ''),
+            data.get('roles', []),
+            data.get('use_energy', False),
+            data.get('specialty', []),
+            data.get('damage_type', ''),
+            data.get('relation', None),
+            created_at_value,
+            data.get('head', None),
+            data.get('main_hero_ban_rate', None),
+            data.get('main_hero_appearance_rate', None),
+            data.get('main_hero_win_rate', None),
+            data.get('hero_stats', None),
+            data.get('pro_builds', None),
+            data.get('painting', None),
+            data.get('name_uk', None),
+            data.get('short_description_uk', None),
+            data.get('full_description_uk', None),
+            data.get('counter_data', None),
+            data.get('compatibility_data', None),
+            data.get('abilityshow', None)
+        )
+
+        # Note: hero_stats is now a JSONB field in heroes table, no need for separate inserts
+        # It should be passed in data as an object like: {"hp": 2285, "mana": 500, ...}
+
+        # Add skills
+        if 'skills' in data and data['skills'] is not None:
+            for skill in data['skills']:
+                # Ensure effect is a string (might be dict/list from React)
+                effect = skill.get('effect', '')
+                if isinstance(effect, (dict, list)):
+                    effect = json.dumps(effect)
+                else:
+                    effect = str(effect) if effect else ''
+
+                db.add_hero_skill(
+                    hero_id,
+                    str(skill.get('skill_name', '')),
+                    str(skill.get('skill_description', '')),
+                    effect,
+                    str(skill.get('image') or skill.get('preview', '')),
+                    str(skill.get('skill_type', 'active')),
+                    skill.get('skill_parameters', {}),
+                    skill.get('level_scaling', []),
+                    skill.get('effect_types', []),
+                    skill.get('is_transformed', 0),
+                    skill.get('transformation_order', 0),
+                    skill.get('display_order', 0),
+                    skill.get('replaces_skill_id'),
+                    skill.get('skill_name_uk'),
+                    skill.get('skill_description_uk')
+                )
+
+        _cache.invalidate_prefix('heroes')
+        return jsonify({'id': hero_id}), 201
+    except Exception as e:
+        print(f"ERROR creating hero: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/heroes/<int:hero_id>', methods=['PUT'])
 def update_hero(hero_id):
